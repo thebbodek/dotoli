@@ -1,20 +1,27 @@
 {
   "name": "dotoli",
-  "private": true,
   "scripts": {
     "build": "turbo build",
-    "build:hooks": "turbo run build --filter=hooks",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \\\"**/*.{ts,tsx,md}\\\""
+    "format": "prettier --write \\\"**/*.{ts,tsx,md}\\\"",
+    "hooks": "turbo --filter=@bbodek/hooks",
+    "storybook": "pnpm --filter=storybook",
+    "storybook:build": "pnpm --filter=storybook build"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "^2.2.3",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "@dotoli/prettier-config": "workspace:*"
   },
   "packageManager": "pnpm@8.15.6",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "prettier": "@dotoli/prettier-config"
 }

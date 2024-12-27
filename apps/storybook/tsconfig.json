@@ -1,0 +1,16 @@
+{
+  "extends": "@dotoli/typescript-config/react-library.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@hooks/*": [
+        "../hooks/src/*"
+      ],
+      "~/*": [
+        "./public/*"
+      ]
+    }
+  }
+}

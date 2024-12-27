@@ -1,31 +1,31 @@
 {
-  "name": "hooks",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@bbodek/hooks",
+  "version": "0.0.9",
   "type": "module",
   "files": [
     "dist"
   ],
   "main": "dist/dotoli-hooks.cjs.js",
   "module": "dist/dotoli-hooks.es.js",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/dotoli-hooks.cjs.js",
-      "import": "./dist/dotoli-hooks.es.js"
+      "import": "./dist/dotoli-hooks.es.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build && tsc --project tsconfig.build.json && tsc-alias -p && node tsconfig.build.json",
+    "build": "vite build && tsc --project tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "lint": "eslint .",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --fix",
     "preview": "vite preview",
     "prettier": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html}\""
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@dotoli/eslint-config": "workspace:*",
@@ -33,8 +33,8 @@
     "@dotoli/typescript-config": "workspace:*",
     "@eslint/js": "^9.13.0",
     "@types/node": "^22.9.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
     "@typescript-eslint/parser": "^7.1.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^9.13.0",
@@ -47,7 +47,8 @@
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.11.0",
     "vite": "^5.4.10",
-    "vite-tsconfig-paths": "^5.1.1"
+    "vite-tsconfig-paths": "^5.1.1",
+    "tsc-alias": "1.8.8"
   },
   "prettier": "@dotoli/prettier-config"
 }
