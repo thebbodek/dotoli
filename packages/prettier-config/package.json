@@ -1,13 +1,15 @@
 {
   "name": "@dotoli/prettier-config",
   "version": "0.0.0",
-  "private": true,
-  "main": "index.js",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    ".": "./index.js"
+  },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11"
   }
 }
