@@ -1,31 +1,10 @@
 {
-  "files": [],
+  "extends": "@dotoli/typescript-config",
   "compilerOptions": {
-    "target": "es5",
-    "allowJs": true,
-    "noEmit": false,
-    "allowImportingTsExtensions": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "emitDeclarationOnly": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "incremental": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
 }
