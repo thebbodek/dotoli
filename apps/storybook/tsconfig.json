@@ -1,16 +1,12 @@
 {
-  "extends": "@dotoli/typescript-config/react-library.json",
+  "extends": "@dotoli/typescript-config",
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@hooks/*": [
-        "../hooks/src/*"
-      ],
-      "~/*": [
-        "./public/*"
-      ]
+      "@/*": ["./src/*"],
+      "@hooks/*": ["../hooks/src/*"],
+      "~/*": ["./public/*"]
     }
-  }
+  },
+  "exclude": ["node_modules", "storybook-static", "**/*.js", "**/*.config.js"]
 }
