@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
-import { Props, UseFormErrors, UseFormReturnType } from './types';
+import { Props, UseFormErrors, UseFormReturnType } from '@/useForm/types';
 
 const useForm = <T extends object>({
   initialValues,

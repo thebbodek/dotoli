@@ -18,6 +18,12 @@ export default {
     typescript({
       tsconfig: './tsconfig.build.json',
       useTsconfigDeclarationDir: true,
+      clean: true,
+      tsconfigOverride: {
+        compilerOptions: {
+          emitDeclarationOnly: false,
+        },
+      },
     }),
     terser({
       compress: {
@@ -29,5 +35,5 @@ export default {
       },
     }),
   ],
-  external: ['react', 'react-dom'],
+  external: ['react', 'react-dom', 'next'],
 };
