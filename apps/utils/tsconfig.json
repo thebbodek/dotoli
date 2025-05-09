@@ -1,0 +1,10 @@
+{
+  "extends": "@dotoli/typescript-config",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
