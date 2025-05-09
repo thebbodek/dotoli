@@ -8,8 +8,12 @@
     "hooks": "pnpm --filter=@bbodek/hooks",
     "hooks:build": "turbo --filter=@bbodek/hooks build",
     "hooks:publish": "pnpm hooks build && cd apps/hooks && npm publish",
-    "storybook": "pnpm --filter=storybook",
-    "storybook:build": "pnpm storybook build"
+    "sb": "pnpm --filter=storybook",
+    "storybook": "pnpm sb dev",
+    "storybook:build": "pnpm sb build",
+    "utils": "pnpm --filter=@bbodek/utils",
+    "utils:build": "turbo --filter=@bbodek/utils build",
+    "utils:publish": "pnpm utils build && cd apps/utils && npm publish"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
