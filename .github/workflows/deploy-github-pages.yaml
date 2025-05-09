@@ -3,7 +3,7 @@ name: Build and Publish Storybook to GitHub Pages
 on:
   push:
     branches:
-      - 'DOTOLI-11'
+      - 'main'
 
 permissions:
   contents: read
@@ -24,7 +24,7 @@ jobs:
           node-version: '20.x'
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
-          install_command: pnpm storybook install --no-frozen-lockfile
+          install_command: pnpm sb install --no-frozen-lockfile
           build_command: pnpm build
           path: apps/storybook/storybook-static
           checkout: true
