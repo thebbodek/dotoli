@@ -4,8 +4,10 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \\\"**/*.{ts,tsx,css}\\\"",
-    "hooks": "turbo --filter=@bbodek/hooks",
+    "format": "prettier --write \"**/*.{ts,tsx,css}\"",
+    "hooks": "pnpm --filter=@bbodek/hooks",
+    "hooks:build": "turbo --filter=@bbodek/hooks build",
+    "hooks:publish": "pnpm hooks build && cd apps/hooks && npm publish",
     "storybook": "pnpm --filter=storybook",
     "storybook:build": "pnpm --filter=storybook build"
   },
