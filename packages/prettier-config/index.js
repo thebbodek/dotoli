@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
   semi: true,
   useTabs: false,
   tabWidth: 2,
@@ -8,3 +8,5 @@ module.exports = {
   plugins: ['prettier-plugin-tailwindcss'],
   tailwindFunctions: ['clsx'],
 };
+
+export default config;

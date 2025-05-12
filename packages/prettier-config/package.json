@@ -2,6 +2,7 @@
   "name": "@dotoli/prettier-config",
   "version": "0.0.0",
   "license": "MIT",
+  "type": "module",
   "publishConfig": {
     "access": "public"
   },
