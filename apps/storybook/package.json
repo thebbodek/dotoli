@@ -7,15 +7,16 @@
     "build": "storybook build"
   },
   "dependencies": {
+    "@bbodek/internal-ui": "workspace:*",
+    "@bbodek/hooks": "workspace:*",
     "next": "^15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@bbodek/hooks": "workspace:*",
+    "@chromatic-com/storybook": "^3",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
-    "@chromatic-com/storybook": "^3",
     "@eslint/eslintrc": "^3",
     "@storybook/addon-essentials": "^8.6.12",
     "@storybook/addon-onboarding": "^8.6.12",
