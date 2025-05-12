@@ -2,6 +2,7 @@
   "name": "@bbodek/utils",
   "version": "0.0.1",
   "license": "MIT",
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
@@ -30,14 +31,11 @@
   "devDependencies": {
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
-    "@eslint/eslintrc": "^3",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.1",
     "rollup": "^4.40.2",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-typescript2": "^0.36.0",
