@@ -1,6 +1,0 @@
-{
-  "extends": [
-    "@dotoli/eslint-config",
-    "plugin:storybook/recommended"
-  ]
-}

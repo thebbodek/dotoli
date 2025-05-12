@@ -1,1 +1,1 @@
-export { default as isServer } from './isServer';
+export * from './isServer';
