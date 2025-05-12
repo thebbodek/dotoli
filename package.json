@@ -13,7 +13,10 @@
     "storybook:build": "pnpm sb build",
     "utils": "pnpm --filter=@bbodek/utils",
     "utils:build": "turbo --filter=@bbodek/utils build",
-    "utils:publish": "pnpm utils build && cd apps/utils && npm publish"
+    "utils:publish": "pnpm utils build && cd apps/utils && npm publish",
+    "internal": "pnpm --filter=@bbodek/internal-ui",
+    "internal:build": "turbo --filter=@bbodek/internal-ui build",
+    "internal:publish": "pnpm internal build && cd apps/internal-ui && npm publish"
   },
   "devDependencies": {
     "prettier": "^3.5.3",
