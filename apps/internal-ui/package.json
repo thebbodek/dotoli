@@ -13,8 +13,8 @@
       "import": "./dist/index.es.js",
       "types": "./dist/index.d.ts"
     },
-    "./globals.css": "./src/styles/globals.css",
-    "./tailwind.config.js": "./tailwind.config.js"
+    "./styles": "./src/styles/globals.css",
+    "./tailwind-config": "./tailwind.config.js"
   },
   "scripts": {
     "dev": "next dev",
@@ -30,7 +30,8 @@
   "peerDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "tailwindcss": "^4"
   },
   "devDependencies": {
     "@dotoli/eslint-config": "workspace:*",

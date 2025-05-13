@@ -7,24 +7,24 @@
     "format": "prettier --write \"**/*.{ts,tsx,css}\"",
     "hooks": "pnpm --filter=@bbodek/hooks",
     "hooks:build": "turbo --filter=@bbodek/hooks build",
-    "hooks:publish": "pnpm hooks build && cd apps/hooks && npm publish",
+    "hooks:pub": "pnpm hooks build && cd apps/hooks && npm version patch && npm publish",
     "sb": "pnpm --filter=storybook",
-    "storybook": "pnpm sb dev",
-    "storybook:build": "pnpm sb build",
-    "utils": "pnpm --filter=@bbodek/utils",
-    "utils:build": "turbo --filter=@bbodek/utils build",
-    "utils:publish": "pnpm utils build && cd apps/utils && npm publish",
-    "internal": "pnpm --filter=@bbodek/internal-ui",
-    "internal:build": "turbo --filter=@bbodek/internal-ui build",
-    "internal:publish": "pnpm internal build && cd apps/internal-ui && npm publish"
+    "sb:dev": "pnpm sb dev",
+    "sb:build": "pnpm sb build",
+    "ut": "pnpm --filter=@bbodek/utils",
+    "ut:build": "turbo --filter=@bbodek/utils build",
+    "ut:pub": "pnpm utils build && cd apps/utils && npm version patch && npm publish",
+    "in": "pnpm --filter=@bbodek/internal-ui",
+    "in:build": "turbo --filter=@bbodek/internal-ui build",
+    "in:pub": "pnpm internal build && cd apps/internal-ui && npm version patch && npm publish"
   },
   "devDependencies": {
+    "@dotoli/prettier-config": "workspace:*",
     "prettier": "^3.5.3",
     "turbo": "^2.5.3",
-    "typescript": "^5.8.3",
-    "@dotoli/prettier-config": "workspace:*"
+    "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@8.15.6",
+  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": ">=18"
   },
