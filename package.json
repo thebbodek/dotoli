@@ -5,6 +5,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,css}\"",
+    "clean": "find ./ -type d -name '.turbo' -o -name 'dist' -o -name 'storybook-static' -o -name 'node_modules' | xargs rm -rf && find ./ -type f -name '*.tsbuildinfo' | xargs rm -f",
     "hooks": "pnpm --filter=@bbodek/hooks",
     "hooks:build": "turbo --filter=@bbodek/hooks build",
     "hooks:pub": "pnpm hooks build && cd apps/hooks && npm version patch && npm publish",

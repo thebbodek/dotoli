@@ -22,8 +22,8 @@ Edit your `globals.css` file:
 ```css
 @import 'tailwindcss';
 /* Add Here */
-@import '@bbodek/internal-ui/globals.css';
-@config '@bbodek/internal-ui/tailwind.config.js';
+@import '@bbodek/internal-ui/styles';
+@config '@bbodek/internal-ui/tailwind-config';
 ```
 
 ## Example
