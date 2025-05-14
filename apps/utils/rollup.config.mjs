@@ -9,7 +9,6 @@ export default {
     dir: 'dist',
     format: 'es',
     sourcemap: true,
-    preserveModules: true,
     entryFileNames: '[name].es.js',
   },
   plugins: [
