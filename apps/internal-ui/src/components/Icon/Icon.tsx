@@ -3,10 +3,14 @@ import clsx from 'clsx';
 
 import { IconProps } from '@/components/Icon/types';
 
-const Icon = ({ iconKey, weight, className, ...props }: IconProps) => {
+const Icon = ({
+  iconKey,
+  weight = IconStyle.BOLD,
+  className,
+  ...props
+}: IconProps) => {
   const iconName = `ph-${iconKey}`;
-  const iconWeight =
-    !weight || weight === IconStyle.REGULAR ? 'ph' : `ph-${weight}`;
+  const iconWeight = weight === IconStyle.REGULAR ? 'ph' : `ph-${weight}`;
 
   return (
     <span
