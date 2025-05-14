@@ -2,6 +2,7 @@ import image from '@rollup/plugin-image';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import postcss from 'rollup-plugin-postcss';
 import typescript from 'rollup-plugin-typescript2';
 
 export default {
@@ -13,6 +14,11 @@ export default {
     entryFileNames: '[name].es.js',
   },
   plugins: [
+    postcss({
+      extract: true,
+      minimize: true,
+      modules: false,
+    }),
     peerDepsExternal(),
     resolve(),
     image(),
