@@ -4,4 +4,6 @@
 @import '@phosphor-icons/web/light';
 @import '@phosphor-icons/web/regular';
 @import '@phosphor-icons/web/thin';
+@import 'pretendard/dist/web/variable/pretendardvariable.css';
+@import './base.css';
 @import './theme.css';
