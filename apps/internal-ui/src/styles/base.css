@@ -1,0 +1,51 @@
+@layer base {
+  html {
+    font-family: 'Pretendard Variable', 'Pretendard', system-ui, sans-serif;
+  }
+
+  input[type='number'] {
+    margin: 0;
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /**
+    * @description: use default placeholder color from v3
+    * @see: https://tailwindcss.com/docs/upgrade-guide#new-default-placeholder-color
+    * */
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  /**
+    * @description: use default button cursor from v3
+    * @see: https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor
+    * */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
+  details > summary {
+    list-style: none;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /**
+    * @description: use default margin value of dialog element from v3
+    * @see: https://tailwindcss.com/docs/upgrade-guide#dialog-margins-removed
+    * */
+  dialog {
+    margin: auto;
+  }
+}
