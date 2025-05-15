@@ -50,6 +50,7 @@ export default defineConfig([
       sourceType: 'module',
     },
     rules: {
+      'prefer-template': 'error',
       'no-console': 'warn',
       'prefer-arrow-functions/prefer-arrow-functions': [
         'error',
