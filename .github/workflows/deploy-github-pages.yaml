@@ -25,6 +25,6 @@ jobs:
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
           install_command: pnpm sb install --no-frozen-lockfile
-          build_command: pnpm build
+          build_command: pnpm build && pnpm sb:build
           path: apps/storybook/storybook-static
           checkout: true
