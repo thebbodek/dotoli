@@ -1,4 +1,4 @@
-import { Typographies } from '@/variants/typographies/types';
+import { TypographyVariants } from '@/variants/typography/types';
 
 export const TYPOGRAPHY_VARIANTS = {
   DISPLAY_34_B: 'display-34-b',
@@ -26,7 +26,7 @@ export const typographyVariants = Object.values(TYPOGRAPHY_VARIANTS);
 
 export const TYPOGRAPHY_PREFIX = 'text-';
 
-export const TYPOGRAPHY_STYLES_MAPPER: Record<Typographies, string> = {
+export const TYPOGRAPHY_STYLES_MAPPER: Record<TypographyVariants, string> = {
   [TYPOGRAPHY_VARIANTS.DISPLAY_34_B]: `${TYPOGRAPHY_PREFIX}${TYPOGRAPHY_VARIANTS.DISPLAY_34_B}`,
   [TYPOGRAPHY_VARIANTS.DISPLAY_34_M]: `${TYPOGRAPHY_PREFIX}${TYPOGRAPHY_VARIANTS.DISPLAY_34_M}`,
   [TYPOGRAPHY_VARIANTS.DISPLAY_30_B]: `${TYPOGRAPHY_PREFIX}${TYPOGRAPHY_VARIANTS.DISPLAY_30_B}`,

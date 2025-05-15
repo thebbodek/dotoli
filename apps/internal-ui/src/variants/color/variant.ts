@@ -1,4 +1,4 @@
-import { Colors, ColorTypes } from '@/variants/colors/types';
+import { ColorTypes, ColorVariants } from '@/variants/color/types';
 
 export const COLOR_VARIANTS = {
   BLACK: 'black',
@@ -70,7 +70,10 @@ export const COLOR_TYPE_PREFIXES: Record<ColorTypes, string> = {
   [COLOR_TYPES.PLACEHOLDER]: 'placeholder-',
 } as const;
 
-export const COLOR_STYLES_MAPPER: Record<ColorTypes, Record<Colors, string>> = {
+export const COLOR_STYLES_MAPPER: Record<
+  ColorTypes,
+  Record<ColorVariants, string>
+> = {
   [COLOR_TYPES.TEXT]: {
     [COLOR_VARIANTS.BLACK]: `${COLOR_TYPE_PREFIXES.TEXT}${COLOR_VARIANTS.BLACK}`,
     [COLOR_VARIANTS.WHITE]: `${COLOR_TYPE_PREFIXES.TEXT}${COLOR_VARIANTS.WHITE}`,
