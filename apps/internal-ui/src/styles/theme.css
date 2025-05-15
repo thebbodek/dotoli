@@ -146,4 +146,8 @@
   --shadow-20: 0px 8px 20px 0px rgba(16, 24, 40, 0.2);
   --shadow-24: 0px 10px 24px 0px rgba(16, 24, 40, 0.3);
   --shadow-30: 0px 12px 30px 0px rgba(16, 24, 40, 0.36);
+
+  --breakpoint-sm: 22.5rem;
+  --breakpoint-md: 51.25rem;
+  --breakpoint-lg: 73.75rem;
 }
