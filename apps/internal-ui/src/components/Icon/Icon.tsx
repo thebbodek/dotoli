@@ -1,3 +1,5 @@
+'use client';
+
 import { IconStyle } from '@phosphor-icons/core';
 import clsx from 'clsx';
 
@@ -7,7 +9,7 @@ const Icon = ({
   iconKey,
   weight = IconStyle.BOLD,
   className,
-  ...props
+  title,
 }: IconProps) => {
   const iconName = `ph-${iconKey}`;
   const iconWeight = weight === IconStyle.REGULAR ? 'ph' : `ph-${weight}`;
@@ -20,7 +22,7 @@ const Icon = ({
         iconWeight,
         className,
       )}
-      {...props}
+      title={title}
     />
   );
 };
