@@ -22,6 +22,7 @@ const Typography = <
   className,
   children,
   title,
+  id,
 }: PropsWithChildren<TypographyProps<T>>) => {
   const Component = as || TYPOGRAPHY_ELEMENTS.SPAN;
 
@@ -32,6 +33,7 @@ const Typography = <
         COLOR_STYLES_MAPPER.TEXT[color],
         className,
       )}
+      id={id}
       title={title}
     >
       {children}

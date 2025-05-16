@@ -10,7 +10,7 @@ export type TypographyElementType = Extract<ElementType, TypographyElements>;
 
 export interface TypographyProps<
   T extends TypographyElementType = typeof TYPOGRAPHY_ELEMENTS.SPAN,
-> extends Pick<HTMLAttributes<T>, 'className' | 'title'>,
+> extends Pick<HTMLAttributes<T>, 'className' | 'title' | 'id'>,
     RefAttributes<HTMLElement> {
   as?: T;
   variant?: TypographyVariants;

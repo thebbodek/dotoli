@@ -16,6 +16,11 @@ const meta: Meta<typeof Typography> = {
       description: 'typography content',
       type: 'string',
     },
+    id: {
+      control: 'text',
+      description: 'typography id',
+      type: 'string',
+    },
     color: {
       control: 'select',
       options: colorVariants,

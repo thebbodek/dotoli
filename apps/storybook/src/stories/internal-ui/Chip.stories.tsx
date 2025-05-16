@@ -15,6 +15,11 @@ const meta: Meta<typeof Chip> = {
       description: 'Chip disabled',
       control: 'boolean',
       type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
     },
     ariaLabel: {
       description: 'Chip a11y label',
