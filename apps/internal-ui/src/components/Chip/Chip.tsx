@@ -7,7 +7,7 @@ import { ChipProps } from './types';
 const Chip = ({
   label,
   onClick,
-  disabled,
+  disabled = false,
   className,
   ariaLabel,
 }: ChipProps) => {
