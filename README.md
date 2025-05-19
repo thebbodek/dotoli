@@ -1,6 +1,6 @@
 # dotoli &middot; [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/thebbodek/dotoli/blob/main/LICENSE)
 
-dotoli is a monorepo for managing shared configurations, utilities, hooks, and UI components used across the BBODEK frontend.
+A monorepo for managing shared configurations, utilities, hooks, and UI components used across the BBODEK frontend.
 
 ## Packages
 
