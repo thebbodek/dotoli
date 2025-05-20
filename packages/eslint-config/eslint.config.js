@@ -121,6 +121,7 @@ export default defineConfig([
             'accepts',
             'contains',
           ],
+          filter: { ignore: ['disabled', 'checked'] },
         },
         {
           selector: 'function',
