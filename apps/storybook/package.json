@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "storybook build"
+    "build": "storybook build",
+    "next:dev": "next dev"
   },
   "dependencies": {
     "@bbodek/hooks": "workspace:*",
@@ -19,7 +20,6 @@
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
     "@storybook/blocks": "^8.6.12",
     "@storybook/experimental-addon-test": "^8.6.12",
     "@storybook/experimental-nextjs-vite": "^8.6.12",
