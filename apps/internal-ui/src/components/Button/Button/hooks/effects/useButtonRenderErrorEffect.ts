@@ -5,13 +5,16 @@ import {
   BUTTON_STYLES_MAPPER,
   BUTTON_VARIANTS,
 } from '@/components/Button/Button/constants';
-import { UseButtonRenderErrorEffectProps } from '@/components/Button/Button/types';
+import {
+  ButtonElementType,
+  UseButtonRenderErrorEffectProps,
+} from '@/components/Button/Button/types';
 
-const useButtonRenderErrorEffect = ({
+const useButtonRenderErrorEffect = <T extends ButtonElementType>({
   variant,
   color,
   size,
-}: UseButtonRenderErrorEffectProps) => {
+}: UseButtonRenderErrorEffectProps<T>) => {
   const variantStyle = BUTTON_STYLES_MAPPER[color][variant];
   const isFilledVariant = variant === BUTTON_VARIANTS.FILLED;
   const isXSmallSize = size === BUTTON_SIZES.X_SMALL;

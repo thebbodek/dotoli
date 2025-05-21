@@ -20,7 +20,7 @@ import {
   ButtonStyles,
 } from '@/components/Button/Button/types';
 
-const Button = <T extends ButtonElementType = typeof BUTTON_ELEMENTS.BUTTON>({
+const Button = <T extends ButtonElementType>({
   label,
   as: Element = BUTTON_ELEMENTS.BUTTON as T,
   variant = BUTTON_VARIANTS.FILLED,

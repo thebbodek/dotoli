@@ -33,9 +33,8 @@ export type ButtonStatus = (typeof BUTTON_STATUS)[keyof typeof BUTTON_STATUS];
 
 export type ButtonStyles = Record<ButtonStatus, string>;
 
-export interface ButtonDefaultProps<
-  T extends ButtonElementType = typeof BUTTON_ELEMENTS.BUTTON,
-> extends Pick<HTMLAttributes<T>, 'className' | 'title'>,
+export interface ButtonDefaultProps<T extends ButtonElementType>
+  extends Pick<HTMLAttributes<T>, 'className' | 'title'>,
     ComponentPropsRef<T> {
   as?: T;
   label: string;
@@ -48,13 +47,15 @@ export interface ButtonDefaultProps<
   onClick?: MouseEventHandler<HTMLElement>;
 }
 
-export type ButtonProps<
-  T extends ButtonElementType = typeof BUTTON_ELEMENTS.BUTTON,
-> = ButtonDefaultProps<T> &
-  (T extends typeof BUTTON_ELEMENTS.BUTTON
-    ? Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type'>
-    : Omit<LinkProps, keyof ButtonDefaultProps<T> | 'onClick'> &
-        Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target'>);
+export type ButtonProps<T extends ButtonElementType> =
+  T extends typeof BUTTON_ELEMENTS.BUTTON
+    ? ButtonDefaultProps<T> &
+        Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> &
+        ComponentPropsRef<HTMLButtonElement>
+    : ButtonDefaultProps<T> &
+        Omit<LinkProps, keyof ButtonDefaultProps<T> | 'onClick'> &
+        Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target'> &
+        ComponentPropsRef<HTMLAnchorElement>;
 
-export interface UseButtonRenderErrorEffectProps
-  extends Required<Pick<ButtonDefaultProps, 'variant' | 'color' | 'size'>> {}
+export interface UseButtonRenderErrorEffectProps<T extends ButtonElementType>
+  extends Required<Pick<ButtonDefaultProps<T>, 'variant' | 'color' | 'size'>> {}
