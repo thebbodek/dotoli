@@ -1,0 +1,15 @@
+@utility flex-v-stack {
+  @apply flex flex-col;
+}
+
+@utility flex-h-stack {
+  @apply flex flex-row;
+}
+
+@utility flex-v-stack-center {
+  @apply flex-v-stack items-center justify-center;
+}
+
+@utility flex-h-stack-center {
+  @apply flex-h-stack items-center justify-center;
+}
