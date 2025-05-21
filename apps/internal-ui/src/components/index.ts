@@ -2,6 +2,7 @@ export * from './Badge';
 export * from './Button';
 export * from './Checkbox';
 export * from './Chip';
+export * from './Flex';
 export * from './Icon';
 export * from './Portal';
 export * from './Radio';
