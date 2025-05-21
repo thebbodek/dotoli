@@ -7,4 +7,5 @@ export * from './Portal';
 export * from './Radio';
 export * from './shared';
 export * from './Tooltip';
+export * from './Toggle';
 export * from './Typography';
