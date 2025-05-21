@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 
 import {
-  CHECKBOX_ICON_SIZE_STYLES_MAPPER,
-  CHECKBOX_STYLES_MAPPER,
+  CHECKBOX_ICON_SIZE_STYLES,
+  CHECKBOX_STYLES,
 } from '@/components/Checkbox/constants';
 import { CheckboxIconProps } from '@/components/Checkbox/types';
 import { Icon } from '@/components/Icon';
@@ -12,8 +12,8 @@ const CheckboxIcon = ({ size }: CheckboxIconProps) => {
     <div
       className={clsx(
         'rounded-4 flex items-center justify-center overflow-hidden border-[0.125rem]',
-        CHECKBOX_ICON_SIZE_STYLES_MAPPER[size],
-        ...Object.values(CHECKBOX_STYLES_MAPPER).map(({ icon }) => icon),
+        CHECKBOX_ICON_SIZE_STYLES[size],
+        ...Object.values(CHECKBOX_STYLES).map(({ icon }) => icon),
       )}
       aria-hidden
     >

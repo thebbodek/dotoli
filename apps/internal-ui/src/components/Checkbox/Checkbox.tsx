@@ -21,16 +21,16 @@ const Checkbox = ({
     <label
       className={clsx(
         className,
-        'group',
+        'cursor-pointer',
         label && 'flex items-center gap-x-2',
-        !disabled ? 'cursor-pointer' : 'cursor-not-allowed',
+        'has-[.checkbox:disabled]:cursor-not-allowed',
       )}
       htmlFor={id}
     >
       <input
         aria-labelledby={labelId}
         checked={checked}
-        className='hidden'
+        className='checkbox peer hidden'
         disabled={disabled}
         id={id}
         type='checkbox'
