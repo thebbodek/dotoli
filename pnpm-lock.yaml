@@ -81,6 +81,12 @@ importers:
 
   apps/internal-ui:
     dependencies:
+      '@bbodek/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@bbodek/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@phosphor-icons/core':
         specifier: ^2.1.1
         version: 2.1.1
