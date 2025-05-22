@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@bbodek/hooks": "workspace:*",
+    "@bbodek/utils": "workspace:*",
     "@bbodek/internal-ui": "workspace:*",
     "@phosphor-icons/core": "^2.1.1",
     "next": "^15.3.2",
