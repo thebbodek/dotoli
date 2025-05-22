@@ -1,3 +1,4 @@
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { Radio, RADIO_SIZES, RadioProps } from '@bbodek/internal-ui';
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
@@ -10,39 +11,58 @@ const meta: Meta<typeof Radio> = {
       description: 'Radio size',
       control: 'select',
       options: Object.values(RADIO_SIZES),
-      type: 'string',
       table: {
         defaultValue: {
           summary: RADIO_SIZES.SM,
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(RADIO_SIZES),
+          }),
         },
       },
     },
     label: {
       description: 'Radio label',
       control: 'text',
-      type: 'string',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
     },
     checked: {
       description: 'Radio checked',
-      type: 'boolean',
       control: 'boolean',
+      type: {
+        name: 'boolean',
+        required: true,
+      },
       table: {
-        defaultValue: {
-          summary: 'false',
+        type: {
+          summary: 'true | false',
         },
       },
     },
     disabled: {
       description: 'Radio disabled',
-      type: 'boolean',
       control: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
         },
+        type: {
+          summary: 'true | false',
+        },
       },
     },
-    onChange: { action: 'changed' },
+    onChange: {
+      action: 'changed',
+      type: {
+        name: 'function',
+        required: true,
+      },
+    },
   },
   args: {
     size: RADIO_SIZES.SM,

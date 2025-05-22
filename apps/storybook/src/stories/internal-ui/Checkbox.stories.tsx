@@ -1,3 +1,4 @@
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { Checkbox, CHECKBOX_SIZES, CheckboxProps } from '@bbodek/internal-ui';
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
@@ -10,39 +11,58 @@ const meta: Meta<typeof Checkbox> = {
       description: 'Checkbox size',
       control: 'select',
       options: Object.values(CHECKBOX_SIZES),
-      type: 'string',
       table: {
         defaultValue: {
           summary: CHECKBOX_SIZES.SM,
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(CHECKBOX_SIZES),
+          }),
         },
       },
     },
     label: {
       description: 'Checkbox label',
       control: 'text',
-      type: 'string',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
     },
     checked: {
       description: 'Checkbox checked',
-      type: 'boolean',
       control: 'boolean',
+      type: {
+        name: 'boolean',
+        required: true,
+      },
       table: {
-        defaultValue: {
-          summary: 'false',
+        type: {
+          summary: 'true | false',
         },
       },
     },
     disabled: {
       description: 'Checkbox disabled',
-      type: 'boolean',
       control: 'boolean',
-      able: {
+      table: {
         defaultValue: {
           summary: 'false',
         },
+        type: {
+          summary: 'true | false',
+        },
       },
     },
-    onChange: { action: 'changed' },
+    onChange: {
+      action: 'changed',
+      type: {
+        name: 'function',
+        required: true,
+      },
+    },
   },
   args: {
     size: CHECKBOX_SIZES.SM,

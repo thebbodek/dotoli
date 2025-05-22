@@ -1,3 +1,4 @@
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import {
   COLOR_VARIANTS,
   Typography,
@@ -15,11 +16,19 @@ const meta: Meta<typeof Typography> = {
     children: {
       control: 'text',
       description: 'Typography Content',
+      type: {
+        required: true,
+        name: 'string',
+      },
     },
     id: {
       control: 'text',
-      description: 'typography id',
-      type: 'string',
+      description: 'Typography ID',
+      table: {
+        type: {
+          summary: 'string',
+        },
+      },
     },
     color: {
       control: 'select',
