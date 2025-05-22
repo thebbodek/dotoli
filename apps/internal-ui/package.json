@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.8",
+    "@bbodek/utils": "workspace:*",
+    "@bbodek/hooks": "workspace:*",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
     "clsx": "^2.1.1",
