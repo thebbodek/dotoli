@@ -29,9 +29,9 @@ const Typography = <
   return (
     <Component
       className={clsx(
+        className,
         TYPOGRAPHY_STYLES_MAPPER[variant],
         COLOR_STYLES_MAPPER.TEXT[color],
-        className,
       )}
       id={id}
       title={title}
