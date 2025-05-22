@@ -13,44 +13,56 @@ const meta: Meta<typeof Typography> = {
   argTypes: {
     children: {
       control: 'text',
-      description: 'typography content',
-      type: 'string',
+      description: 'Typography Content',
+      type: {
+        required: true,
+        name: 'string',
+      },
     },
     id: {
       control: 'text',
-      description: 'typography id',
+      description: 'Typography ID',
       type: 'string',
     },
     color: {
       control: 'select',
       options: colorVariants,
-      description: 'typography color',
+      description: 'Typography Color',
       type: 'string',
       table: {
         defaultValue: {
           summary: 'black',
+        },
+        type: {
+          summary: `'${Object.values(colorVariants).join("' | '")}'`,
         },
       },
     },
     variant: {
       control: 'select',
       options: typographyVariants,
-      description: 'typography variant',
+      description: 'Typography Variant',
       type: 'string',
       table: {
         defaultValue: {
           summary: 'body-16-r',
+        },
+        type: {
+          summary: `'${Object.values(typographyVariants).join("' | '")}'`,
         },
       },
     },
     as: {
       control: 'select',
       options: Object.values(TYPOGRAPHY_ELEMENTS),
-      description: 'typography element',
+      description: 'Typography Element',
       type: 'string',
       table: {
         defaultValue: {
           summary: 'span',
+        },
+        type: {
+          summary: `'${Object.values(TYPOGRAPHY_ELEMENTS).join("' | '")}'`,
         },
       },
     },
