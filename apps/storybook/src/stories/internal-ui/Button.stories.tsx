@@ -1,5 +1,6 @@
 import {
   Button,
+  BUTTON_ICON_POSITIONS,
   BUTTON_SIZES,
   BUTTON_STYLES,
   BUTTON_THEMES,
@@ -9,21 +10,51 @@ import {
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { generateArgTypeSummary } from '@/utils/generateArgType';
 import { default as IconMeta } from './Icon.stories';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
+
+const BUTTON_TYPES = {
+  BUTTON: 'button',
+  SUBMIT: 'submit',
+  RESET: 'reset',
+} as const;
 
 const meta: Meta<typeof Button> = {
   title: 'core/internal-ui/Button/Button',
   component: Button,
   argTypes: {
+    label: {
+      description: 'Button Label',
+      control: 'text',
+      type: {
+        required: true,
+        name: 'string',
+      },
+    },
+    type: {
+      description: 'Button Type',
+      control: 'select',
+      options: Object.values(BUTTON_TYPES),
+      table: {
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_TYPES),
+          }),
+        },
+        defaultValue: { summary: BUTTON_TYPES.BUTTON },
+      },
+    },
     variant: {
       description: 'Button Variant',
       options: Object.values(BUTTON_VARIANTS),
       control: 'select',
       table: {
         type: {
-          summary: `'${Object.values(BUTTON_VARIANTS).join(`' | '`)}'`,
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_VARIANTS),
+          }),
         },
         defaultValue: { summary: BUTTON_VARIANTS.FILLED },
       },
@@ -34,7 +65,9 @@ const meta: Meta<typeof Button> = {
       options: Object.values(BUTTON_THEMES),
       table: {
         type: {
-          summary: `'${Object.values(BUTTON_THEMES).join(`' | '`)}'`,
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_THEMES),
+          }),
         },
         defaultValue: { summary: BUTTON_THEMES.PRIMARY },
       },
@@ -45,7 +78,9 @@ const meta: Meta<typeof Button> = {
       options: Object.values(BUTTON_SIZES),
       table: {
         type: {
-          summary: `'${Object.values(BUTTON_SIZES).join(`' | '`)}'`,
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_SIZES),
+          }),
         },
         defaultValue: { summary: BUTTON_SIZES.LG },
       },
@@ -57,8 +92,23 @@ const meta: Meta<typeof Button> = {
         defaultValue: { summary: 'false' },
       },
     },
-    leftIconKey: iconKeyArgType,
-    rightIconKey: iconKeyArgType,
+    iconKey: {
+      ...iconKeyArgType,
+      type: { required: false, name: 'string' },
+    },
+    iconPosition: {
+      description: 'Button Icon Position',
+      control: 'select',
+      options: Object.values(BUTTON_ICON_POSITIONS),
+      table: {
+        defaultValue: { summary: BUTTON_ICON_POSITIONS.LEFT },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_ICON_POSITIONS),
+          }),
+        },
+      },
+    },
     onClick: { action: 'clicked' },
   },
 };

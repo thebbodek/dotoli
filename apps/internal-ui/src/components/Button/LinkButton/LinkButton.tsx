@@ -4,7 +4,7 @@ import { MouseEvent } from 'react';
 
 import { LinkButtonProps } from '@/components/Button/LinkButton/types';
 import ButtonIcon from '@/components/Button/shared/ButtonIcon';
-import useButtonRenderErrorEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
+import useButtonPropsValidationEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
 import { generateButtonStyle } from '@/components/Button/shared/utils/generateButtonStyle';
 
 const LinkButton = ({
@@ -15,10 +15,9 @@ const LinkButton = ({
   onClick,
   ...props
 }: LinkButtonProps) => {
-  const { variant, theme, size, disabled, leftIconKey, rightIconKey, ...rest } =
-    props;
+  const { variant, theme, size, disabled, iconKey, ...rest } = props;
 
-  useButtonRenderErrorEffect({ variant, theme, size });
+  useButtonPropsValidationEffect({ variant, theme, size });
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (disabled) {
@@ -40,9 +39,8 @@ const LinkButton = ({
       tabIndex={disabled ? -1 : 0}
       {...rest}
     >
-      {leftIconKey && <ButtonIcon iconKey={leftIconKey} />}
+      {iconKey && <ButtonIcon iconKey={iconKey} />}
       {label}
-      {rightIconKey && <ButtonIcon iconKey={rightIconKey} />}
     </Link>
   );
 };

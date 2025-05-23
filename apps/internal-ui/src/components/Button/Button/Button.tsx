@@ -2,7 +2,7 @@ import clsx from 'clsx';
 
 import { ButtonProps } from '@/components/Button/Button/types';
 import ButtonIcon from '@/components/Button/shared/ButtonIcon';
-import useButtonRenderErrorEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
+import useButtonPropsValidationEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
 import { generateButtonStyle } from '@/components/Button/shared/utils/generateButtonStyle';
 
 const Button = ({
@@ -13,9 +13,9 @@ const Button = ({
   onClick,
   ...props
 }: ButtonProps) => {
-  const { variant, theme, size, disabled, leftIconKey, rightIconKey } = props;
+  const { variant, theme, size, disabled, iconKey } = props;
 
-  useButtonRenderErrorEffect({ variant, theme, size });
+  useButtonPropsValidationEffect({ variant, theme, size });
 
   return (
     <button
@@ -25,9 +25,8 @@ const Button = ({
       type={type}
       onClick={onClick}
     >
-      {leftIconKey && <ButtonIcon iconKey={leftIconKey} />}
+      {iconKey && <ButtonIcon iconKey={iconKey} />}
       {label}
-      {rightIconKey && <ButtonIcon iconKey={rightIconKey} />}
     </button>
   );
 };

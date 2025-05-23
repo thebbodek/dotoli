@@ -1,31 +1,32 @@
-import { ICON_BUTTON_COLORS, IconButton } from '@bbodek/internal-ui';
+import { ICON_BUTTON_THEMES, IconButton } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { generateArgTypeSummary } from '@/utils/generateArgType';
+import { default as ButtonMeta } from './Button.stories';
 import { default as IconMeta } from './Icon.stories';
 
+const { disabled, onClick, type } = ButtonMeta.argTypes ?? {};
 const { iconKey } = IconMeta.argTypes ?? {};
 
 const meta: Meta<typeof IconButton> = {
   title: 'core/internal-ui/Button/IconButton',
   component: IconButton,
   argTypes: {
-    color: {
-      description: 'Icon Button Color',
+    theme: {
+      description: 'Icon Button Theme',
       control: 'select',
-      options: Object.values(ICON_BUTTON_COLORS),
+      options: Object.values(ICON_BUTTON_THEMES),
       table: {
-        defaultValue: { summary: ICON_BUTTON_COLORS.GRAY },
+        defaultValue: { summary: ICON_BUTTON_THEMES.GRAY },
+        type: {
+          summary: generateArgTypeSummary(Object.values(ICON_BUTTON_THEMES)),
+        },
       },
     },
     iconKey,
-    disabled: {
-      description: 'Icon Button Disabled',
-      control: 'boolean',
-      table: {
-        defaultValue: { summary: 'false' },
-      },
-    },
-    onClick: { action: 'clicked' },
+    type,
+    disabled,
+    onClick,
   },
 };
 
@@ -35,7 +36,7 @@ type Story = StoryObj<typeof IconButton>;
 
 export const Default: Story = {
   args: {
-    color: ICON_BUTTON_COLORS.GRAY,
+    theme: ICON_BUTTON_THEMES.GRAY,
     disabled: false,
     iconKey: 'plus',
   },

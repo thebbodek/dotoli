@@ -1,8 +1,8 @@
 import {
+  ButtonSize,
+  ButtonState,
   ButtonTheme,
   ButtonVariant,
-  ButtonState,
-  ButtonSize,
 } from '@/components/Button/shared/types';
 
 export const BUTTON_VARIANTS = {
@@ -31,6 +31,11 @@ export const BUTTON_STATE = {
   DISABLED: 'disabled',
 } as const;
 
+export const BUTTON_ICON_POSITIONS = {
+  LEFT: 'left',
+  RIGHT: 'right',
+} as const;
+
 export const BUTTON_STYLES: Record<
   ButtonTheme,
   Partial<Record<ButtonVariant, Record<ButtonState, string>>>
@@ -46,7 +51,7 @@ export const BUTTON_STYLES: Record<
       [BUTTON_STATE.DEFAULT]: 'border-primary-05 bg-white text-primary-06',
       [BUTTON_STATE.HOVER]: 'hover:bg-primary-01',
       [BUTTON_STATE.PRESSED]: 'active:bg-primary-01',
-      [BUTTON_STATE.DISABLED]: 'border-gray-03 text-gray-05 bg-white',
+      [BUTTON_STATE.DISABLED]: 'border-gray-02 text-gray-05 bg-white',
     },
     [BUTTON_VARIANTS.TONAL]: {
       [BUTTON_STATE.DEFAULT]: 'bg-primary-02 text-primary-06',

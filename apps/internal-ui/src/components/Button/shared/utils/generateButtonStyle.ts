@@ -1,15 +1,16 @@
 import {
-  BUTTON_VARIANTS,
-  BUTTON_THEMES,
-  BUTTON_SIZES,
-  BUTTON_STYLES,
-  BUTTON_STATE,
+  BUTTON_ICON_POSITIONS,
   BUTTON_SIZE_STYLES,
+  BUTTON_SIZES,
+  BUTTON_STATE,
+  BUTTON_STYLES,
+  BUTTON_THEMES,
+  BUTTON_VARIANTS,
 } from '@/components/Button/shared/constants';
 import {
-  GenerateButtonStyleProps,
-  ButtonStyles,
   ButtonState,
+  ButtonStyles,
+  GenerateButtonStyleProps,
 } from '@/components/Button/shared/types';
 
 export const generateButtonStyle = ({
@@ -17,23 +18,23 @@ export const generateButtonStyle = ({
   theme = BUTTON_THEMES.PRIMARY,
   size = BUTTON_SIZES.LG,
   disabled = false,
-  leftIconKey,
-  rightIconKey,
+  iconKey,
+  iconPosition = BUTTON_ICON_POSITIONS.LEFT,
 }: GenerateButtonStyleProps) => {
   const styles = (BUTTON_STYLES[theme][variant] ?? {}) as ButtonStyles;
-  const hasIcon = leftIconKey || rightIconKey;
   const filteredStyles = Object.keys(styles).filter(
     (state) => (state === BUTTON_STATE.DISABLED) === disabled,
   );
 
   return [
     'flex items-center justify-center transition-colors',
-    ...filteredStyles.map((state) => styles[state as ButtonState]),
+    !!iconKey && BUTTON_SIZE_STYLES[size].GAP,
+    iconPosition === BUTTON_ICON_POSITIONS.RIGHT && 'flex-row-reverse',
     BUTTON_SIZE_STYLES[size].DEFAULT,
-    hasIcon && BUTTON_SIZE_STYLES[size].GAP,
     variant !== BUTTON_VARIANTS.TEXT &&
       `${BUTTON_SIZE_STYLES[size].PADDING} ${BUTTON_SIZE_STYLES[size].ROUNDED}`,
     variant === BUTTON_VARIANTS.OUTLINED && 'border',
     disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+    ...filteredStyles.map((state) => styles[state as ButtonState]),
   ];
 };

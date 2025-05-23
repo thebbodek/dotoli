@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes } from 'react';
 
-import { ButtonDefaultProps } from '@/components/Button/shared/types';
+import { ButtonPrimitiveProps } from '@/components/Button/shared/types';
 import { ComponentPropsRef } from '@/components/shared';
 
 export interface ButtonProps
-  extends ButtonDefaultProps,
+  extends ButtonPrimitiveProps,
     Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
       'type' | 'className' | 'onClick'

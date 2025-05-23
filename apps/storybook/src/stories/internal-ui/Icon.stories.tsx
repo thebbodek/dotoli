@@ -2,6 +2,8 @@ import { Icon } from '@bbodek/internal-ui';
 import { icons, IconStyle } from '@phosphor-icons/core';
 import { Meta } from '@storybook/react';
 
+import { generateArgTypeSummary } from '@/utils/generateArgType';
+
 const meta: Meta<typeof Icon> = {
   title: 'core/internal-ui/Icon',
   component: Icon,
@@ -12,8 +14,14 @@ const meta: Meta<typeof Icon> = {
       description: '@phosphor-icons/web icon name',
       table: {
         type: {
-          summary: `'${Object.values(icons.map((icon) => icon.name)).join(`' | '`)}'`,
+          summary: generateArgTypeSummary({
+            options: icons.map((icon) => icon.name),
+          }),
         },
+      },
+      type: {
+        required: true,
+        name: 'string',
       },
     },
     weight: {
@@ -24,6 +32,11 @@ const meta: Meta<typeof Icon> = {
       table: {
         defaultValue: {
           summary: IconStyle.BOLD,
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(IconStyle),
+          }),
         },
       },
     },

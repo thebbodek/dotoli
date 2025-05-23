@@ -8,8 +8,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { default as ButtonMeta } from './Button.stories';
 
-const { theme, variant, size, disabled, leftIconKey, rightIconKey, onClick } =
-  ButtonMeta.argTypes ?? {};
+const {
+  label,
+  theme,
+  variant,
+  size,
+  disabled,
+  iconKey,
+  iconPosition,
+  onClick,
+} = ButtonMeta.argTypes ?? {};
 
 const meta: Meta<typeof LinkButton> = {
   title: 'core/internal-ui/Button/LinkButton',
@@ -23,12 +31,13 @@ const meta: Meta<typeof LinkButton> = {
         name: 'string',
       },
     },
+    label,
     theme,
     variant,
     size,
     disabled,
-    leftIconKey,
-    rightIconKey,
+    iconKey,
+    iconPosition,
     onClick,
   },
 };
@@ -45,6 +54,6 @@ export const Link: Story = {
     label: '뽀득 바로가기',
     size: BUTTON_SIZES.LG,
     disabled: false,
-    leftIconKey: 'arrow-square-out',
+    iconKey: 'arrow-square-out',
   },
 };

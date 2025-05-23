@@ -1,4 +1,5 @@
 import {
+  BUTTON_ICON_POSITIONS,
   BUTTON_SIZES,
   BUTTON_STATE,
   BUTTON_THEMES,
@@ -15,27 +16,30 @@ export type ButtonSize = (typeof BUTTON_SIZES)[keyof typeof BUTTON_SIZES];
 
 export type ButtonState = (typeof BUTTON_STATE)[keyof typeof BUTTON_STATE];
 
+export type ButtonIconPosition =
+  (typeof BUTTON_ICON_POSITIONS)[keyof typeof BUTTON_ICON_POSITIONS];
+
 export type ButtonStyles = Record<ButtonState, string>;
 
-export interface ButtonDefaultProps {
+export interface ButtonPrimitiveProps {
   label: string;
   variant?: ButtonVariant;
   theme?: ButtonTheme;
   size?: ButtonSize;
-  leftIconKey?: IconProps['iconKey'];
-  rightIconKey?: IconProps['iconKey'];
+  iconKey?: IconProps['iconKey'];
+  iconPosition?: ButtonIconPosition;
   disabled?: boolean;
 }
 
 export interface UseButtonRenderErrorEffectProps
-  extends Pick<ButtonDefaultProps, 'variant' | 'theme' | 'size'> {}
+  extends Pick<ButtonPrimitiveProps, 'variant' | 'theme' | 'size'> {}
 
 export interface GenerateButtonStyleProps
   extends Pick<
-    ButtonDefaultProps,
-    'variant' | 'theme' | 'size' | 'disabled' | 'leftIconKey' | 'rightIconKey'
+    ButtonPrimitiveProps,
+    'variant' | 'theme' | 'size' | 'disabled' | 'iconKey' | 'iconPosition'
   > {}
 
 export interface ButtonIconProps
   extends Pick<IconProps, 'iconKey'>,
-    Pick<ButtonDefaultProps, 'size'> {}
+    Pick<ButtonPrimitiveProps, 'size'> {}

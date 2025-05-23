@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes } from 'react';
 
-import { ICON_BUTTON_COLORS } from '@/components/Button/IconButton/constants';
+import { ICON_BUTTON_THEMES } from '@/components/Button/IconButton/constants';
 import { IconProps } from '@/components/Icon';
 
-export type IconButtonColor =
-  (typeof ICON_BUTTON_COLORS)[keyof typeof ICON_BUTTON_COLORS];
+export type IconButtonTheme =
+  (typeof ICON_BUTTON_THEMES)[keyof typeof ICON_BUTTON_THEMES];
 
 export interface IconButtonProps
   extends Pick<
@@ -12,6 +12,6 @@ export interface IconButtonProps
       'className' | 'onClick' | 'disabled' | 'type'
     >,
     Pick<IconProps, 'iconKey'> {
-  color?: IconButtonColor;
+  theme?: IconButtonTheme;
   arialLabel?: string;
 }
