@@ -10,6 +10,7 @@ import { IconButtonProps } from './types';
 
 const IconButton = ({
   iconKey,
+  type = 'button',
   color = ICON_BUTTON_COLORS.GRAY,
   arialLabel,
   className,
@@ -25,6 +26,7 @@ const IconButton = ({
 
   return (
     <button
+      type={type}
       className={clsx(
         'rounded-6 text-gray-06 text-body-16-b active:text-primary-05 disabled:text-gray-04 flex h-8 w-8 items-center justify-center transition-colors',
         ICON_BUTTON_COLORS_STYLES_MAPPER[color],
@@ -33,7 +35,6 @@ const IconButton = ({
       )}
       aria-label={arialLabel}
       disabled={disabled}
-      type='button'
       onClick={handleClick}
       {...props}
     >

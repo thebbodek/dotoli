@@ -1,43 +1,42 @@
 import {
   Button,
-  BUTTON_COLORS,
-  BUTTON_ELEMENTS,
   BUTTON_SIZES,
-  BUTTON_STYLES_MAPPER,
+  BUTTON_STYLES,
+  BUTTON_THEMES,
   BUTTON_VARIANTS,
-  ButtonColors,
-  ButtonVariants,
-  Icon,
+  ButtonTheme,
+  ButtonVariant,
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
+
+import { default as IconMeta } from './Icon.stories';
+
+const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 
 const meta: Meta<typeof Button> = {
   title: 'core/internal-ui/Button/Button',
   component: Button,
   argTypes: {
-    as: {
-      description: 'Button Element',
-      control: 'select',
-      type: 'string',
-      options: Object.values(BUTTON_ELEMENTS),
-      table: {
-        defaultValue: { summary: BUTTON_ELEMENTS.BUTTON },
-      },
-    },
     variant: {
       description: 'Button Variant',
-      control: 'select',
       options: Object.values(BUTTON_VARIANTS),
+      control: 'select',
       table: {
+        type: {
+          summary: `'${Object.values(BUTTON_VARIANTS).join(`' | '`)}'`,
+        },
         defaultValue: { summary: BUTTON_VARIANTS.FILLED },
       },
     },
-    color: {
-      description: 'Button Color',
+    theme: {
+      description: 'Button Theme',
       control: 'select',
-      options: Object.values(BUTTON_COLORS),
+      options: Object.values(BUTTON_THEMES),
       table: {
-        defaultValue: { summary: BUTTON_COLORS.PRIMARY },
+        type: {
+          summary: `'${Object.values(BUTTON_THEMES).join(`' | '`)}'`,
+        },
+        defaultValue: { summary: BUTTON_THEMES.PRIMARY },
       },
     },
     size: {
@@ -45,7 +44,10 @@ const meta: Meta<typeof Button> = {
       control: 'select',
       options: Object.values(BUTTON_SIZES),
       table: {
-        defaultValue: { summary: BUTTON_SIZES.LARGE },
+        type: {
+          summary: `'${Object.values(BUTTON_SIZES).join(`' | '`)}'`,
+        },
+        defaultValue: { summary: BUTTON_SIZES.LG },
       },
     },
     disabled: {
@@ -55,6 +57,8 @@ const meta: Meta<typeof Button> = {
         defaultValue: { summary: 'false' },
       },
     },
+    leftIconKey: iconKeyArgType,
+    rightIconKey: iconKeyArgType,
     onClick: { action: 'clicked' },
   },
 };
@@ -66,85 +70,67 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     label: 'Button',
-    as: BUTTON_ELEMENTS.BUTTON,
     variant: BUTTON_VARIANTS.FILLED,
-    size: BUTTON_SIZES.LARGE,
-    color: BUTTON_COLORS.PRIMARY,
+    size: BUTTON_SIZES.LG,
+    theme: BUTTON_THEMES.PRIMARY,
     disabled: false,
     onClick: () => alert('clicked'),
-  },
-};
-
-export const Link: Story = {
-  args: {
-    as: BUTTON_ELEMENTS.LINK,
-    color: BUTTON_COLORS.PRIMARY,
-    variant: BUTTON_VARIANTS.OUTLINED,
-    href: 'https://www.bbodek.com',
-    target: '_blank',
-    label: '뽀득 바로가기',
-    disabled: false,
-    leftIcon: <Icon iconKey='arrow-square-out' />,
   },
 };
 
 export const Variant: Story = {
   args: {
-    color: 'primary',
-    variant: 'filled',
     label: 'Button',
+    theme: BUTTON_THEMES.PRIMARY,
+    variant: BUTTON_VARIANTS.FILLED,
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: (args) => {
-    return (
-      <ul className='flex flex-col gap-y-4'>
-        {Object.entries(BUTTON_STYLES_MAPPER).map(([color, variants]) => (
-          <li key={color}>
-            <ul className='flex items-center justify-end gap-x-4'>
-              {Object.keys(variants).map((variant) => (
-                <li key={variant} className='flex w-32 justify-center'>
-                  <Button
-                    {...args}
-                    color={color as ButtonColors}
-                    variant={variant as ButtonVariants}
-                  />
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    );
-  },
+  render: (args) => (
+    <ul className='flex flex-col gap-y-4'>
+      {Object.entries(BUTTON_STYLES).map(([theme, variants]) => (
+        <li key={theme}>
+          <ul className='flex items-center justify-end gap-x-4'>
+            {Object.keys(variants).map((variant) => (
+              <li key={variant} className='flex w-32 justify-center'>
+                <Button
+                  {...args}
+                  theme={theme as ButtonTheme}
+                  variant={variant as ButtonVariant}
+                />
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  ),
 };
 
 export const Size: Story = {
   args: {
-    color: 'primary',
-    variant: 'tonal',
     label: 'Button',
+    theme: BUTTON_THEMES.PRIMARY,
+    variant: BUTTON_VARIANTS.FILLED,
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: (args) => {
-    return (
-      <ul className='flex gap-x-4'>
-        {Object.values(BUTTON_VARIANTS).map((variant) => (
-          <li key={variant} className='flex w-32 justify-center gap-y-4'>
-            <ul className='flex flex-col gap-2'>
-              {Object.values(BUTTON_SIZES).map((size) =>
-                variant === BUTTON_VARIANTS.FILLED &&
-                size === BUTTON_SIZES.X_SMALL ? null : (
-                  <li key={size}>
-                    <Button {...args} variant={variant} size={size} />
-                  </li>
-                ),
-              )}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    );
-  },
+  render: (args) => (
+    <ul className='flex gap-x-4'>
+      {Object.values(BUTTON_VARIANTS).map((variant) => (
+        <li key={variant} className='flex w-32 justify-center gap-y-4'>
+          <ul className='flex flex-col gap-2'>
+            {Object.values(BUTTON_SIZES).map((size) =>
+              variant === BUTTON_VARIANTS.FILLED &&
+              size === BUTTON_SIZES.XS ? null : (
+                <li key={size}>
+                  <Button {...args} variant={variant} size={size} />
+                </li>
+              ),
+            )}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  ),
 };

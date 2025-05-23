@@ -10,7 +10,11 @@ const meta: Meta<typeof Icon> = {
       control: 'select',
       options: icons.map((icon) => icon.name),
       description: '@phosphor-icons/web icon name',
-      type: 'string',
+      table: {
+        type: {
+          summary: `'${Object.values(icons.map((icon) => icon.name)).join(`' | '`)}'`,
+        },
+      },
     },
     weight: {
       control: 'select',
@@ -19,7 +23,7 @@ const meta: Meta<typeof Icon> = {
       type: 'string',
       table: {
         defaultValue: {
-          summary: IconStyle.REGULAR,
+          summary: IconStyle.BOLD,
         },
       },
     },
