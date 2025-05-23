@@ -4,4 +4,5 @@ export * from './Chip';
 export * from './Icon';
 export * from './Radio';
 export * from './shared';
+export * from './Toggle';
 export * from './Typography';
