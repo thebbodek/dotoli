@@ -15,6 +15,9 @@ const meta: Meta<typeof Radio> = {
         defaultValue: {
           summary: RADIO_SIZES.SM,
         },
+        type: {
+          summary: `'${Object.values(RADIO_SIZES).join("' | '")}'`,
+        },
       },
     },
     label: {

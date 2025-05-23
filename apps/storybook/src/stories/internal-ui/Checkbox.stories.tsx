@@ -15,6 +15,9 @@ const meta: Meta<typeof Checkbox> = {
         defaultValue: {
           summary: CHECKBOX_SIZES.SM,
         },
+        type: {
+          summary: `'${Object.values(CHECKBOX_SIZES).join("' | '")}'`,
+        },
       },
     },
     label: {
