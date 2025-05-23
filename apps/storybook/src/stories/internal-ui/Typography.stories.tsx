@@ -1,11 +1,12 @@
 import {
-  colorVariants,
+  COLOR_VARIANTS,
   Typography,
   TYPOGRAPHY_ELEMENTS,
-  TypographyProps,
-  typographyVariants,
+  TYPOGRAPHY_VARIANTS,
 } from '@bbodek/internal-ui';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const meta: Meta<typeof Typography> = {
   title: 'core/internal-ui/Typography',
@@ -13,8 +14,7 @@ const meta: Meta<typeof Typography> = {
   argTypes: {
     children: {
       control: 'text',
-      description: 'typography content',
-      type: 'string',
+      description: 'Typography Content',
     },
     id: {
       control: 'text',
@@ -23,48 +23,61 @@ const meta: Meta<typeof Typography> = {
     },
     color: {
       control: 'select',
-      options: colorVariants,
-      description: 'typography color',
-      type: 'string',
+      options: Object.values(COLOR_VARIANTS),
+      description: 'Typography Color',
       table: {
         defaultValue: {
           summary: 'black',
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(COLOR_VARIANTS),
+          }),
         },
       },
     },
     variant: {
       control: 'select',
-      options: typographyVariants,
-      description: 'typography variant',
-      type: 'string',
+      options: Object.values(TYPOGRAPHY_VARIANTS),
+      description: 'Typography Variant',
       table: {
         defaultValue: {
           summary: 'body-16-r',
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(TYPOGRAPHY_VARIANTS),
+          }),
         },
       },
     },
     as: {
       control: 'select',
       options: Object.values(TYPOGRAPHY_ELEMENTS),
-      description: 'typography element',
-      type: 'string',
+      description: 'Typography Element',
       table: {
         defaultValue: {
           summary: 'span',
         },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(TYPOGRAPHY_ELEMENTS),
+          }),
+        },
       },
     },
   },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Typography>;
+
+export const Default: Story = {
   args: {
     children: 'Typography',
     color: 'black',
     variant: 'body-16-r',
     as: 'span',
   },
-};
-
-export default meta;
-
-export const Default = (props: TypographyProps) => {
-  return <Typography {...props} />;
 };

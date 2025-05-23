@@ -22,8 +22,6 @@ export const TYPOGRAPHY_VARIANTS = {
   BODY_12_M: 'body-12-m',
 } as const;
 
-export const typographyVariants = Object.values(TYPOGRAPHY_VARIANTS);
-
 export const TYPOGRAPHY_PREFIX = 'text-';
 
 export const TYPOGRAPHY_STYLES_MAPPER: Record<TypographyVariants, string> = {
