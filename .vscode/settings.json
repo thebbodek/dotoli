@@ -1,0 +1,3 @@
+{
+  "tailwindCSS.experimental.configFile": "apps/storybook/src/styles/globals.css"
+}

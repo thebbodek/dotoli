@@ -52,8 +52,6 @@ export const COLOR_VARIANTS = {
   GREEN_09: 'green-09',
 } as const;
 
-export const colorVariants = Object.values(COLOR_VARIANTS);
-
 export const COLOR_TYPES = {
   TEXT: 'TEXT',
   BACKGROUND: 'BACKGROUND',
