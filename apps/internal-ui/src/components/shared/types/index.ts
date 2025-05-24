@@ -1,5 +1,5 @@
-import { Ref } from 'react';
+import { RefObject } from 'react';
 
 export interface ComponentPropsRef<T> {
-  ref?: Ref<T>;
+  ref?: RefObject<T | null>;
 }
