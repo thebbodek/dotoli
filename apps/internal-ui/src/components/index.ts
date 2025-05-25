@@ -5,4 +5,5 @@ export * from './Icon';
 export * from './Portal';
 export * from './Radio';
 export * from './shared';
+export * from './Tooltip';
 export * from './Typography';

@@ -1,3 +1,4 @@
 @source inline("{hover:,focus:,active:,}{bg,text,fill,placeholder,border}-{gray,red,yellow,green}-{01,02,03,04,05,06,07,08,09,}");
 @source inline("{hover:,focus:,active:,}{bg,text,fill,placeholder,border}-primary-{01,02,03,04,05,06,07,08,09,10,11,}");
+@source inline("{hover:,focus:,active:,}{bg,fill}-tooltip");
 @source inline("{hover:,focus:,active:,}{text-{display,headline,body,}-{34,30,24,20,18,16,14,12}-{b,m,r}}");
