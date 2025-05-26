@@ -1,4 +1,10 @@
-import { Dispatch, HTMLAttributes, ReactElement, SetStateAction } from 'react';
+import {
+  DependencyList,
+  Dispatch,
+  HTMLAttributes,
+  ReactElement,
+  SetStateAction,
+} from 'react';
 
 import { ComponentPropsRef } from '@/components/shared';
 
@@ -81,6 +87,7 @@ export interface UsePopoverPositionEffectProps
     PopoverRefProps,
     Pick<UsePopoverReturn, 'isOpen'> {
   setStyle: Dispatch<SetStateAction<PopoverStyle>>;
+  depth?: DependencyList;
 }
 
 export interface UsePopoverPositionProps

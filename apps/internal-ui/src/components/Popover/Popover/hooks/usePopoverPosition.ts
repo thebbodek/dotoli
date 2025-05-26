@@ -12,6 +12,7 @@ const usePopoverPosition = ({
   triggerRef,
   popoverRef,
   isOpen,
+  depth,
 }: UsePopoverPositionProps) => {
   const [style, setStyle] = useState<PopoverStyle>({
     position: 'fixed',
@@ -32,6 +33,7 @@ const usePopoverPosition = ({
     isOpen,
     offset,
     applyMaxWidth,
+    depth,
   });
 
   return { style };
