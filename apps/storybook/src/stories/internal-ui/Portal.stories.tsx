@@ -1,4 +1,4 @@
-import { Button, Portal } from '@bbodek/internal-ui';
+import { Button, Portal, PORTAL_DEFAULT_TARGET } from '@bbodek/internal-ui';
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
@@ -9,10 +9,12 @@ const meta: Meta<typeof Portal> = {
     target: {
       description: 'Portal target',
       control: 'text',
-      type: 'string',
       table: {
         defaultValue: {
-          summary: 'portal',
+          summary: PORTAL_DEFAULT_TARGET,
+        },
+        type: {
+          summary: 'string',
         },
       },
     },
