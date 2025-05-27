@@ -10,6 +10,7 @@ const usePopoverPositionEffect = ({
   setStyle,
   offset,
   applyMaxWidth,
+  depth,
 }: UsePopoverPositionEffectProps) => {
   useEffect(() => {
     const trigger = triggerRef.current;
@@ -46,7 +47,15 @@ const usePopoverPositionEffect = ({
     }
 
     return () => observer.disconnect();
-  }, [triggerRef, popoverRef, isOpen, offset, applyMaxWidth, setStyle]);
+  }, [
+    triggerRef,
+    popoverRef,
+    isOpen,
+    offset,
+    applyMaxWidth,
+    setStyle,
+    ...(depth || []),
+  ]);
 };
 
 export default usePopoverPositionEffect;
