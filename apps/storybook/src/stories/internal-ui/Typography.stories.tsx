@@ -7,8 +7,6 @@ import {
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-
 const meta: Meta<typeof Typography> = {
   title: 'core/internal-ui/Typography',
   component: Typography,
