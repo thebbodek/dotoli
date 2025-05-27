@@ -21,7 +21,7 @@ export const INPUT_STATE = {
 
 export const INPUT_ELEMENT_STYLES: Record<InputVariants, string> = {
   [INPUT_ELEMENTS.INPUT]: 'py-2 text-body-16-r',
-  [INPUT_ELEMENTS.TEXTAREA]: 'py-3 text-body-16-r',
+  [INPUT_ELEMENTS.TEXTAREA]: 'py-3 text-body-16-r h-[10.625rem] relative',
   [INPUT_VARIANTS.SEARCH]: 'h-8 text-body-14-r',
 };
 
