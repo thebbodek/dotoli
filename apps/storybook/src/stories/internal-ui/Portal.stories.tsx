@@ -32,16 +32,14 @@ export const Default = {
     };
 
     return (
-      <div className='flex flex-col gap-4'>
+      <div className='flex flex-col items-center gap-4'>
         <Button label='Open Portal' onClick={onToggle} />
-        <div className='bg-red-03'>
-          <div id='portal' />
-        </div>
         {isOpen && (
-          <div className='bg-green-03'>
-            <div>
-              <Portal>Portal</Portal>Original Portal Position
-            </div>
+          <div className='rounded-8 shadow-8 p-2'>
+            <Portal>
+              <div className='rounded-8 shadow-8 p-2'>Portal</div>
+            </Portal>
+            Original Portal Position
           </div>
         )}
       </div>
