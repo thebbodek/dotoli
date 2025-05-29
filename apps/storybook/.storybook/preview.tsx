@@ -1,4 +1,4 @@
-import { DocsContainer } from '@storybook/blocks';
+import { DocsContainer, Unstyled } from '@storybook/blocks';
 import type { Preview } from '@storybook/react';
 import { fn } from '@storybook/test';
 import React from 'react';
@@ -18,7 +18,9 @@ const preview: Preview = {
     docs: {
       container: ({ children, context }) => (
         <DocsContainer context={context}>
-          <div id='portal' />
+          <Unstyled>
+            <div id='portal' />
+          </Unstyled>
           {children}
         </DocsContainer>
       ),
