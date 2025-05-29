@@ -17,18 +17,18 @@ const preview: Preview = {
     },
     docs: {
       container: ({ children, context }) => (
-        <DocsContainer context={context}>
+        <>
+          <DocsContainer context={context}>{children}</DocsContainer>
           <div id='portal' />
-          {children}
-        </DocsContainer>
+        </>
       ),
     },
   },
   decorators: [
-    (Story) => {
+    (Story, { viewMode }) => {
       return (
         <>
-          <div id='portal' />
+          {viewMode !== 'docs' && <div id='portal' />}
           <Story />
         </>
       );

@@ -49,6 +49,7 @@
   --color-green-08: #045545;
   --color-green-09: #10392b;
   --color-tooltip: rgba(19, 25, 35, 0.8);
+  --color-dimmed: rgba(12, 19, 33, 0.4);
 
   --text-display-34-b: 2.125rem;
   --text-display-34-b--line-height: 1.36;
@@ -151,4 +152,25 @@
   --breakpoint-sm: 22.5rem;
   --breakpoint-md: 51.25rem;
   --breakpoint-lg: 73.75rem;
+
+  --animate-fade-in: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
+  --animate-popup: popup 0.2s cubic-bezier(0, 0, 0.5, 1);
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes popup {
+    0% {
+      transform: translateY(1rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
