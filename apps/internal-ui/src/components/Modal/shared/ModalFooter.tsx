@@ -1,20 +1,20 @@
 import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
-import { ModalButtonsProps } from '@/components/Modal/Modal/types';
+import { ModalFooterProps } from '@/components/Modal/shared/types';
 
-const ModalButtons = ({
+const ModalFooter = ({
   onConfirm,
   onCancel,
-  submitButtonLabel,
+  confirmButtonLabel,
   cancelButtonLabel,
   className,
-}: ModalButtonsProps) => {
+}: ModalFooterProps) => {
   return (
-    <div className={clsx(className, 'flex-h-stack')}>
+    <footer className={clsx(className, 'flex-h-stack')}>
       {onCancel && (
         <Button
-          label={cancelButtonLabel}
+          label={cancelButtonLabel || '닫기'}
           variant='outlined'
           size='md'
           theme='gray'
@@ -23,13 +23,13 @@ const ModalButtons = ({
         />
       )}
       <Button
-        label={submitButtonLabel}
+        label={confirmButtonLabel || '확인'}
         size='md'
         className='flex-1'
         onClick={onConfirm}
       />
-    </div>
+    </footer>
   );
 };
 
-export default ModalButtons;
+export default ModalFooter;

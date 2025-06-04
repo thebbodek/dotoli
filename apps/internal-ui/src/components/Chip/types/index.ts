@@ -1,6 +1,6 @@
 import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 
-import { ComponentPropsRef } from '@/components/shared';
+import { ComponentPropsRef } from '@/components/shared/types';
 
 export interface ChipProps
   extends Pick<

@@ -1,16 +1,34 @@
-import { Button, ConfirmModal } from '@bbodek/internal-ui';
+import {
+  Button,
+  COLOR_VARIANTS,
+  ConfirmModal,
+  ConfirmModalProps,
+} from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { default as ModalBaseMeta } from '@/stories/internal-ui/ModalBase.stories';
+import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const { isOpen } = ModalBaseMeta.argTypes ?? {};
+const { iconKey } = IconMeta.argTypes ?? {};
 
-const meta: Meta<typeof ConfirmModal> = {
+type IconOptions = Required<ConfirmModalProps>['iconOptions'];
+
+interface ConfirmModalArgs extends Omit<ConfirmModalProps, 'iconOptions'> {
+  iconKey?: IconOptions['iconKey'];
+  iconColor?: IconOptions['color'];
+  iconBackgroundColor?: IconOptions['backgroundColor'];
+}
+
+const meta: Meta<ConfirmModalArgs> = {
   title: 'core/internal-ui/Modal/ConfirmModal',
   component: ConfirmModal,
   argTypes: {
-    isOpen,
+    isOpen: {
+      control: 'boolean',
+      description: 'is open modal',
+      type: 'boolean',
+    },
     title: {
       control: 'text',
       description: 'modal title',
@@ -36,6 +54,69 @@ const meta: Meta<typeof ConfirmModal> = {
         },
       },
     },
+    iconKey: {
+      ...iconKey,
+      table: {
+        ...iconKey?.table,
+        defaultValue: {
+          summary: 'exclamation-mark',
+        },
+      },
+      type: {
+        required: false,
+        name: 'string',
+      },
+    },
+    iconColor: {
+      control: 'select',
+      options: Object.values(COLOR_VARIANTS),
+      description: 'icon color',
+      table: {
+        defaultValue: {
+          summary: COLOR_VARIANTS.PRIMARY_04,
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(COLOR_VARIANTS),
+          }),
+        },
+      },
+    },
+    iconBackgroundColor: {
+      control: 'select',
+      options: Object.values(COLOR_VARIANTS),
+      description: 'icon background color',
+      table: {
+        defaultValue: {
+          summary: COLOR_VARIANTS.PRIMARY_01,
+        },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(COLOR_VARIANTS),
+          }),
+        },
+      },
+    },
+    confirmButtonLabel: {
+      control: 'text',
+      description: 'confirm button label',
+      type: 'string',
+      table: {
+        defaultValue: {
+          summary: `'확인' (with cancel button: '네')`,
+        },
+      },
+    },
+    cancelButtonLabel: {
+      control: 'text',
+      description: 'cancel button label',
+      type: 'string',
+      table: {
+        defaultValue: {
+          summary: `'아니요'`,
+        },
+      },
+    },
     onConfirm: {
       description: 'on confirm',
       type: {
@@ -52,7 +133,7 @@ const meta: Meta<typeof ConfirmModal> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ConfirmModal>;
+type Story = StoryObj<ConfirmModalArgs>;
 
 export const Default: Story = {
   args: {
@@ -60,16 +141,23 @@ export const Default: Story = {
     title: '승인신청이 완료되었습니다',
     description: '승인이 완료되면 슬랙으로 알려드립니다',
   },
-  render: (args) => {
+  render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const iconOptions = {
+      color: iconColor,
+      backgroundColor: iconBackgroundColor,
+      iconKey,
+    };
 
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...args}
+          {...rest}
           isOpen={isOpen}
           onConfirm={() => setIsOpen(false)}
+          iconOptions={iconOptions}
         />
       </>
     );
@@ -87,17 +175,24 @@ export const WithClose: Story = {
     ),
     description: '선택한 정보가 모두 삭제됩니다',
   },
-  render: (args) => {
+  render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const iconOptions = {
+      color: iconColor,
+      backgroundColor: iconBackgroundColor,
+      iconKey,
+    };
 
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...args}
+          {...rest}
           isOpen={isOpen}
           onConfirm={() => setIsOpen(false)}
           onCancel={() => setIsOpen(false)}
+          iconOptions={iconOptions}
         />
       </>
     );
@@ -115,17 +210,24 @@ export const WithIcon: Story = {
     ),
     description: '선택한 정보가 모두 삭제됩니다',
   },
-  render: (args) => {
+  render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const iconOptions = {
+      color: iconColor,
+      backgroundColor: iconBackgroundColor,
+      iconKey,
+    };
 
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...args}
+          {...rest}
           isOpen={isOpen}
           onConfirm={() => setIsOpen(false)}
           onCancel={() => setIsOpen(false)}
+          iconOptions={iconOptions}
         />
       </>
     );

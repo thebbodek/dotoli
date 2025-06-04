@@ -6,15 +6,15 @@ import {
   isValidElement,
 } from 'react';
 
-import {
-  MODAL_CONTENT_POSITION,
-  MODAL_CONTENT_SIZE,
-  MODAL_VARIANTS,
-} from '@/components/Modal/ModalBase/constants';
-import { ModalBaseProps } from '@/components/Modal/ModalBase/types';
 import { Portal } from '@/components/Portal';
+import {
+  OVERLAY_CONTENT_POSITION,
+  OVERLAY_CONTENT_SIZE,
+  OVERLAY_VARIANTS,
+} from '@/components/shared/constants';
+import { OverlayProps } from '@/components/shared/types';
 
-const ModalBase = ({
+const Overlay = ({
   target,
   variant,
   isOpen,
@@ -22,7 +22,7 @@ const ModalBase = ({
   children,
   ref,
   ...props
-}: PropsWithChildren<ModalBaseProps>) => {
+}: PropsWithChildren<OverlayProps>) => {
   const { className, ...rest } = props;
 
   if (!isOpen || !children) return null;
@@ -39,10 +39,10 @@ const ModalBase = ({
         ref={ref}
         className={clsx(
           className,
-          'open:animate-fade-in left-0 top-0 h-full w-full overflow-hidden',
-          variant === MODAL_VARIANTS['MODAL'] && 'safe-area-bottom',
-          MODAL_CONTENT_POSITION[variant],
-          dimmed && 'bg-[#0C132166] bg-opacity-40',
+          'open:animate-fade-in left-0 top-0 z-50 h-full w-full overflow-hidden',
+          variant === OVERLAY_VARIANTS['MODAL'] && 'safe-area-bottom',
+          OVERLAY_CONTENT_POSITION[variant],
+          dimmed && 'bg-dimmed',
         )}
         open={isOpen}
         {...rest}
@@ -50,7 +50,7 @@ const ModalBase = ({
         {cloneElement(_children, {
           className: clsx(
             _children.props.className,
-            MODAL_CONTENT_SIZE[variant],
+            OVERLAY_CONTENT_SIZE[variant],
           ),
         })}
       </dialog>
@@ -58,4 +58,4 @@ const ModalBase = ({
   );
 };
 
-export default ModalBase;
+export default Overlay;

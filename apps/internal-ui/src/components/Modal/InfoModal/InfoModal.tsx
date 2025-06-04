@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
 import { InfoModalProps } from '@/components/Modal/InfoModal/types';
-import { Modal } from '@/components/Modal/Modal';
+import { Modal } from '@/components/Modal/shared';
 
 const InfoModal = ({
   ref,
@@ -11,20 +11,23 @@ const InfoModal = ({
   children,
   onConfirm,
   onCancel,
-  submitButtonLabel = '확인 완료',
+  confirmButtonLabel = '확인 완료',
+  cancelButtonLabel,
 }: PropsWithChildren<InfoModalProps>) => {
   return (
-    <Modal isOpen={isOpen} ref={ref} className='pt-5'>
-      <div className='flex-v-stack gap-y-5'>
-        <Modal.Title title={title} className='px-1' />
+    <Modal isOpen={isOpen} ref={ref}>
+      <header className='py-5'>
+        <Modal.Title title={title} />
+      </header>
+      <div className='flex-v-stack mb-5 gap-y-5'>
         {children}
         <Modal.Description description={description} />
       </div>
-      <Modal.Buttons
+      <Modal.Footer
         onConfirm={onConfirm}
         onCancel={onCancel}
-        submitButtonLabel={submitButtonLabel}
-        cancelButtonLabel='닫기'
+        confirmButtonLabel={confirmButtonLabel}
+        cancelButtonLabel={cancelButtonLabel}
         className='gap-x-2'
       />
     </Modal>

@@ -1,10 +1,3 @@
-import {
-  ModalButtonsProps,
-  ModalPrimitiveProps,
-} from '@/components/Modal/Modal';
+import { ModalPrimitiveProps } from '@/components/Modal/shared';
 
-export interface InfoModalProps
-  extends ModalPrimitiveProps,
-    Partial<
-      Pick<ModalButtonsProps, 'submitButtonLabel' | 'cancelButtonLabel'>
-    > {}
+export interface InfoModalProps extends ModalPrimitiveProps {}

@@ -13,3 +13,35 @@
 @utility flex-h-stack-center {
   @apply flex-h-stack items-center justify-center;
 }
+
+@utility safe-area-top {
+  padding-top: calc(constant(safe-area-inset-top));
+  padding-top: calc(env(afe-area-inset-top));
+}
+
+@utility safe-area-bottom {
+  padding-bottom: calc(constant(safe-area-inset-bottom));
+  padding-bottom: calc(env(safe-area-inset-bottom));
+}
+
+@utility safe-area-y {
+  @apply safe-area-top safe-area-bottom;
+}
+
+@utility safe-area-left {
+  padding-left: calc(constant(safe-area-inset-left) + 1rem);
+  padding-left: calc(env(safe-area-inset-left) + 1rem);
+}
+
+@utility safe-area-right {
+  padding-right: calc(constant(safe-area-inset-right) + 1rem);
+  padding-right: calc(env(safe-area-inset-right) + 1rem);
+}
+
+@utility safe-area-x {
+  @apply safe-area-right safe-area-left;
+}
+
+@utility safe-area {
+  @apply safe-area-top safe-area-right safe-area-bottom safe-area-left;
+}

@@ -1,14 +1,9 @@
-import { ModalTitleProps } from '@/components/Modal/Modal/types';
+import { ModalTitleProps } from '@/components/Modal/shared/types';
 import { Typography } from '@/components/Typography';
 
 const ModalTitle = ({ title, className }: ModalTitleProps) => {
   return (
-    <Typography
-      as='strong'
-      variant='headline-20-b'
-      color='gray-08'
-      className={className}
-    >
+    <Typography as='strong' variant='headline-20-b' className={className}>
       {title}
     </Typography>
   );

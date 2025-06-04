@@ -7,7 +7,6 @@ export * from './Icon';
 export * from './Modal';
 export * from './Portal';
 export * from './Radio';
-export * from './shared';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';

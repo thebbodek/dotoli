@@ -4,8 +4,15 @@ import { useState } from 'react';
 
 import { default as ConfirmModalMeta } from '@/stories/internal-ui/ConfirmModal.stories';
 
-const { isOpen, title, description, onCancel, onConfirm } =
-  ConfirmModalMeta.argTypes ?? {};
+const {
+  isOpen,
+  title,
+  description,
+  onCancel,
+  onConfirm,
+  confirmButtonLabel,
+  cancelButtonLabel,
+} = ConfirmModalMeta.argTypes ?? {};
 
 const meta: Meta<typeof InfoModal> = {
   title: 'core/internal-ui/Modal/InfoModal',
@@ -16,6 +23,22 @@ const meta: Meta<typeof InfoModal> = {
     description,
     onCancel,
     onConfirm,
+    confirmButtonLabel: {
+      ...confirmButtonLabel,
+      table: {
+        defaultValue: {
+          summary: '확인 완료',
+        },
+      },
+    },
+    cancelButtonLabel: {
+      ...cancelButtonLabel,
+      table: {
+        defaultValue: {
+          summary: '닫기',
+        },
+      },
+    },
   },
 };
 
@@ -58,7 +81,7 @@ export const Default: Story = {
 };
 
 export const WithClose: Story = {
-  args: defaultArgs,
+  args: { ...defaultArgs, confirmButtonLabel: '바로가기' },
   render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
 

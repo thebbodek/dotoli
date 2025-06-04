@@ -1,4 +1,4 @@
-import { ModalDescriptionProps } from '@/components/Modal/Modal/types';
+import { ModalDescriptionProps } from '@/components/Modal/shared/types';
 import { Typography } from '@/components/Typography';
 
 const ModalDescription = ({
