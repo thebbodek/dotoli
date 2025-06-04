@@ -92,10 +92,9 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
       trigger={render()}
       isOpen={isFocused}
       offset={INPUT_POPOVER_OFFSET}
-      applyMaxWidth={false}
-      useAutoFocus={false}
       onPopoverClose={() => setIsFocused(false)}
-      useClickOutsideEvent={true}
+      useAutoFocus={false}
+      applyMaxWidth
     >
       <div>{popover}</div>
     </Popover>

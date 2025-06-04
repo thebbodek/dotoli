@@ -46,7 +46,7 @@ export const Default: Story = {
             {...args}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className='w-[300px]'
+            rootClassName='w-[300px]'
           />
         </div>
       </>
@@ -69,7 +69,7 @@ export const WithRule: Story = {
           {...args}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='w-[300px]'
+          rootClassName='w-[300px]'
           error={error}
           feedback={error ? '특수문자는 작성할 수 없어요' : ''}
           rules={{

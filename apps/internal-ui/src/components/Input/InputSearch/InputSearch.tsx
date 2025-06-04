@@ -47,7 +47,6 @@ const InputSearch = ({
       badge={badge}
       required={required}
       className={rootClassName}
-      isFocused={isFocused}
       onSubmit={isDisabled ? undefined : handleSubmit}
     >
       <Input

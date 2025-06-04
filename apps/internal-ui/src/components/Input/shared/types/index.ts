@@ -41,13 +41,12 @@ export interface InputBaseProps
   error?: boolean;
   badge?: ReactNode;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-  isFocused: boolean;
 }
 
 export interface InputDefaultProps<
   T extends InputElementType,
   P extends InputElement<T>,
-> extends Pick<InputBaseProps, 'id' | 'required' | 'value' | 'isFocused'>,
+> extends Pick<InputBaseProps, 'id' | 'required' | 'value'>,
     ComponentPropsRef<P>,
     Pick<
       InputHTMLAttributes<HTMLInputElement>,
@@ -64,6 +63,7 @@ export interface InputDefaultProps<
   popover?: ReactNode;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onReset?: () => void;
+  isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<boolean>>;
 }
 

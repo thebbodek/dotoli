@@ -96,7 +96,7 @@ export const Default: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
+        rootClassName='w-[300px]'
       />
     );
   },
@@ -117,7 +117,7 @@ export const WithLabel: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
+        rootClassName='w-[300px]'
       />
     );
   },
@@ -138,7 +138,7 @@ export const WithBadge: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
+        rootClassName='w-[300px]'
       />
     );
   },
@@ -167,7 +167,7 @@ export const WithFeedback: Story = {
         onChange={(e) => setValue(e.target.value)}
         feedback={error ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}
         error={error}
-        className='w-[300px]'
+        rootClassName='w-[300px]'
       />
     );
   },
@@ -190,7 +190,7 @@ export const WithRebCallback: Story = {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         regCallback={replaceNumeric}
-        className='w-[300px]'
+        rootClassName='w-[300px]'
         feedback={'숫자만 입력해주세요'}
       />
     );
