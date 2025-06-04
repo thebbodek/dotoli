@@ -34,7 +34,6 @@ const InputField = ({
       error={error}
       badge={badge}
       required={required}
-      isFocused={isFocused}
       className={rootClassName}
     >
       <Input
