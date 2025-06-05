@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
 
-import { InfoModalProps } from '@/components/Modal/InfoModal/types';
-import { Modal } from '@/components/Modal/shared';
+import { InfoBottomSheetProps } from '@/components/BottomSheet/InfoBottomSheet/types';
+import BottomSheet from '@/components/BottomSheet/shared/BottomSheet';
 import OverlayDescription from '@/components/shared/components/Overlay/OverlayDescription';
 import OverlayFooter from '@/components/shared/components/Overlay/OverlayFooter';
 import OverlayTitle from '@/components/shared/components/Overlay/OverlayTitle';
 
-const InfoModal = ({
+const InfoBottomSheet = ({
   ref,
   isOpen,
   title,
@@ -16,15 +16,17 @@ const InfoModal = ({
   onCancel,
   confirmButtonLabel = '확인 완료',
   cancelButtonLabel,
-}: PropsWithChildren<InfoModalProps>) => {
+}: PropsWithChildren<InfoBottomSheetProps>) => {
   return (
-    <Modal isOpen={isOpen} ref={ref}>
-      <header className='py-5'>
-        <OverlayTitle title={title} />
-      </header>
-      <div className='flex-v-stack mb-5 gap-y-5'>
-        {children}
-        <OverlayDescription description={description} />
+    <BottomSheet isOpen={isOpen} ref={ref}>
+      <div className='gap-y-3'>
+        <header>
+          <OverlayTitle title={title} />
+        </header>
+        <div className='flex-v-stack gap-y-3'>
+          {children}
+          <OverlayDescription description={description} />
+        </div>
       </div>
       <OverlayFooter
         onConfirm={onConfirm}
@@ -33,8 +35,8 @@ const InfoModal = ({
         cancelButtonLabel={cancelButtonLabel}
         isFull
       />
-    </Modal>
+    </BottomSheet>
   );
 };
 
-export default InfoModal;
+export default InfoBottomSheet;

@@ -1,12 +1,9 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
-import ModalDescription from '@/components/Modal/shared/ModalDescription';
-import ModalFooter from '@/components/Modal/shared/ModalFooter';
-import ModalTitle from '@/components/Modal/shared/ModalTitle';
 import { ModalProps } from '@/components/Modal/shared/types';
-import { OVERLAY_VARIANTS } from '@/components/shared/constants';
-import Overlay from '@/components/shared/Overlay';
+import Overlay from '@/components/shared/components/Overlay/Overlay';
+import { OVERLAY_VARIANTS } from '@/components/shared/components/Overlay/constants';
 
 const Modal = ({
   isOpen,
@@ -29,8 +26,3 @@ const Modal = ({
 };
 
 export default Modal;
-
-Modal.displayName = 'Modal';
-Modal.Title = ModalTitle;
-Modal.Description = ModalDescription;
-Modal.Footer = ModalFooter;

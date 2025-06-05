@@ -1,4 +1,4 @@
-import { OverlayVariant } from '@/components/shared/types';
+import { OverlayVariant } from '@/components/shared/components/Overlay/types';
 
 export const OVERLAY_VARIANTS = {
   MODAL: 'modal',

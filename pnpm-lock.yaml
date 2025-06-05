@@ -109,6 +109,9 @@ importers:
         specifier: ^4
         version: 4.1.6
     devDependencies:
+      '@bbodek/hooks':
+        specifier: workspace:*
+        version: link:../hooks
       '@dotoli/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
