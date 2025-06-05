@@ -10,6 +10,7 @@
     "noEmit": false,
     "esModuleInterop": true,
     "emitDeclarationOnly": true,
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./src/*"]
     }

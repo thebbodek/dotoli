@@ -1,6 +1,6 @@
 import { useClickOutside } from '@bbodek/hooks';
 import { executeFunction } from '@bbodek/utils';
-import { cloneElement, isValidElement, useRef } from 'react';
+import { cloneElement, isValidElement, PropsWithChildren, useRef } from 'react';
 
 import { POPOVER_PLACEMENTS } from '@/components/Popover/Popover/constants';
 import {
@@ -24,7 +24,7 @@ const Popover = <T extends HTMLElement>({
   isOpen,
   onPopoverClose,
   threshold = 2,
-}: PopoverProps) => {
+}: PropsWithChildren<PopoverProps>) => {
   const triggerRef = useRef<T>(null);
   const { triggerProps, popoverProps } = usePopover({
     trigger,
