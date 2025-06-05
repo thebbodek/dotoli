@@ -14,12 +14,7 @@ const Icon = ({
 
   return (
     <span
-      className={clsx(
-        'flex items-center justify-center',
-        iconName,
-        iconWeight,
-        className,
-      )}
+      className={clsx('flex-h-stack-center', iconName, iconWeight, className)}
       title={title}
     />
   );
