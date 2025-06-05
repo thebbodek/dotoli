@@ -2,7 +2,6 @@ import { PropsWithChildren, useId } from 'react';
 
 import { SelectBase } from '@/components/Select/shared';
 import { SingleSelectListProvider } from '@/components/Select/Single/shared/context';
-import SingleSelectBaseList from '@/components/Select/Single/shared/SingleSelectBaseList';
 import SingleSelectTrigger from '@/components/Select/Single/shared/SingleSelectBaseTrigger';
 import {
   SelectValue,
@@ -53,7 +52,7 @@ const SingleSelectBase = <T extends SelectValue>({
           close={close}
         >
           <SelectBase.PopoverWrapper className={popoverWrapperClassName}>
-            <SingleSelectBaseList>{children}</SingleSelectBaseList>
+            {children}
           </SelectBase.PopoverWrapper>
         </SingleSelectListProvider>
       )}
