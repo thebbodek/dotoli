@@ -30,7 +30,7 @@ export const RADIO_STYLES = {
     label: 'text-black',
   },
   [RADIO_STATE.SELECTED]: {
-    icon: 'peer-checked:before:bg-primary-06 peer-checked:border-primary-06',
+    icon: 'peer-checked:before:bg-primary-05 peer-checked:border-primary-05',
     label: 'peer-checked:text-black',
   },
   [RADIO_STATE.DISABLED]: {

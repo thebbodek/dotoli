@@ -31,7 +31,7 @@ export const CHECKBOX_STYLES = {
     label: 'text-black',
   },
   [CHECKBOX_STATE.SELECTED]: {
-    icon: 'peer-checked:border-primary-06 peer-checked:bg-primary-06',
+    icon: 'peer-checked:border-primary-05 peer-checked:bg-primary-05',
     label: 'peer-checked:text-black',
   },
   [CHECKBOX_STATE.DISABLED]: {

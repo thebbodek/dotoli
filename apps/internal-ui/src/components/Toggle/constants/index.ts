@@ -37,7 +37,7 @@ export const TOGGLE_STYLES = {
     label: 'text-black',
   },
   [TOGGLE_STATE.SELECTED]: {
-    icon: 'peer-checked:bg-primary-06 peer-checked:before:translate-x-1/2',
+    icon: 'peer-checked:bg-primary-05 peer-checked:before:translate-x-1/2',
     label: '',
   },
   [TOGGLE_STATE.DISABLED]: {
