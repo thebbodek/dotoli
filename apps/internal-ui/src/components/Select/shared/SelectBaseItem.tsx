@@ -8,6 +8,7 @@ const SelectBaseItem = ({
   selected,
   children,
   onClick,
+  label,
 }: PropsWithChildren<SelectBaseItemProps>) => {
   const handleClick = (e: MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
@@ -20,9 +21,10 @@ const SelectBaseItem = ({
       role='option'
       className={clsx(
         className,
-        'rounded-8 hover:bg-primary-01 h-[2.5rem] cursor-pointer overflow-hidden text-black',
+        'rounded-8 hover:bg-primary-01 shrink-0 cursor-pointer overflow-hidden text-black',
       )}
       aria-selected={selected}
+      title={label}
       onClick={handleClick}
     >
       {children}

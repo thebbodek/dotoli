@@ -51,6 +51,7 @@ export interface SelectBaseItemProps
   extends Pick<HTMLAttributes<HTMLLIElement>, 'className'> {
   selected: boolean;
   onClick: () => void;
+  label: Required<HTMLAttributes<HTMLLIElement>['title']>;
 }
 
 export interface SelectTriggerProviderProps extends SelectTriggerContextValue {}

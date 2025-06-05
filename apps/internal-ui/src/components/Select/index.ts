@@ -5,3 +5,4 @@ export type {
   SelectBaseProps,
   SelectLabelContextValue,
 } from './shared';
+export * from './Single';
