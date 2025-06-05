@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useId, useState } from 'react';
 
 import { Popover } from '@/components/Popover';
-import { SELECT_TYPE } from '@/components/Select/shared';
+import { SELECT_TYPE } from '@/components/Select/shared/constants';
 import { SelectLabelProvider } from '@/components/Select/shared/context/SelectLabelContext';
 import { SelectTriggerProvider } from '@/components/Select/shared/context/SelectTriggerContext';
 import SelectFeedback from '@/components/Select/shared/SelectBaseFeedback';
