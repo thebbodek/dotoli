@@ -132,9 +132,6 @@ export interface PopoverProps
   trigger: ReactElement<
     HTMLAttributes<HTMLElement> & ComponentPropsRef<HTMLElement>
   >;
-  children: ReactElement<
-    HTMLAttributes<HTMLElement> & ComponentPropsRef<HTMLElement>
-  >;
   isOpen: boolean;
   useAutoFocus?: boolean;
   onPopoverClose?: () => void;
