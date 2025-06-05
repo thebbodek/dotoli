@@ -157,6 +157,7 @@
   --container-lg: var(--breakpoint-lg);
 
   --animate-fade-in: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
+  --animate-fade-in-select: fade-in 0.3s ease;
   --animate-popup: popup 0.2s cubic-bezier(0, 0, 0.5, 1);
   --animate-bottom-sheet: bottom-sheet 0.2s cubic-bezier(0, 0, 0.5, 1);
 
