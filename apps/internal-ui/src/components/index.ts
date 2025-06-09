@@ -4,6 +4,7 @@ export * from './Checkbox';
 export * from './Chip';
 export * from './Flex';
 export * from './Icon';
+export * from './Input';
 export * from './Popover';
 export * from './Modal';
 export * from './Portal';

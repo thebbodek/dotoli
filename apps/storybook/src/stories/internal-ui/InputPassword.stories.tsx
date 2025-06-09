@@ -1,0 +1,89 @@
+import { InputPassword } from '@bbodek/internal-ui';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+
+import { default as InputFieldMeta } from './InputField.stories';
+
+const { label, feedback, error, required, readOnly, disabled, placeholder } =
+  InputFieldMeta.argTypes ?? {};
+
+const meta: Meta<typeof InputPassword> = {
+  title: 'core/internal-ui/Input/InputPassword',
+  component: InputPassword,
+  argTypes: {
+    label,
+    feedback,
+    error,
+    required,
+    readOnly,
+    disabled,
+    placeholder,
+    rules: {
+      control: {
+        type: 'object',
+      },
+      description: 'Input Password Rules',
+    },
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<typeof InputPassword>;
+
+export const Default: Story = {
+  args: {
+    placeholder: 'placeholder',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <>
+        <div id='portal' />
+        <div className='popover-root'>
+          <InputPassword
+            {...args}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            rootClassName='w-[300px]'
+          />
+        </div>
+      </>
+    );
+  },
+};
+
+export const WithRule: Story = {
+  args: {
+    placeholder: 'placeholder',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    const error = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+
+    return (
+      <>
+        <div id='portal' />
+        <InputPassword
+          {...args}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          rootClassName='w-[300px]'
+          error={error}
+          feedback={error ? '특수문자는 작성할 수 없어요' : ''}
+          rules={{
+            length: {
+              message: '8자 이상 입력해주세요',
+              regex: /^.{8,}$/,
+            },
+            number: {
+              message: '숫자를 포함해주세요',
+              regex: /[0-9]/,
+            },
+          }}
+        />
+      </>
+    );
+  },
+};
