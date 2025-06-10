@@ -36,6 +36,7 @@ export const Default: Story = {
     useIcon: false,
     title: '승인신청이 완료되었습니다',
     confirmButtonLabel: '확인',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -73,6 +74,7 @@ export const WithClose: Story = {
     ),
     confirmButtonLabel: '네',
     cancelButtonLabel: '아니요',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -111,6 +113,7 @@ export const WithIcon: Story = {
     ),
     confirmButtonLabel: '네',
     cancelButtonLabel: '아니요',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);

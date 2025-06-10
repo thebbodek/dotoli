@@ -2,18 +2,15 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
 import ModalFooter from '@/components/Modal/shared/ModalFooter';
-import {
-  Overlay,
-  OVERLAY_VARIANTS,
-  OverlayBasePrimitiveProps,
-} from '@/components/shared';
+import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
+import { ModalProps } from '@/components/Modal/shared/types';
 
 const Modal = ({
   isOpen,
   ref,
   children,
   className,
-}: PropsWithChildren<OverlayBasePrimitiveProps>) => {
+}: PropsWithChildren<ModalProps>) => {
   return (
     <Overlay ref={ref} variant={OVERLAY_VARIANTS.MODAL} isOpen={isOpen} dimmed>
       <div

@@ -18,6 +18,8 @@ const ConfirmModal = ({
   onCancel,
   confirmButtonLabel,
   cancelButtonLabel,
+  possibleConfirm,
+  isPending,
   className,
 }: ConfirmModalProps) => {
   return (
@@ -33,6 +35,8 @@ const ConfirmModal = ({
         onCancel={onCancel}
         confirmButtonLabel={confirmButtonLabel}
         cancelButtonLabel={cancelButtonLabel}
+        possibleConfirm={possibleConfirm}
+        isPending={isPending}
       />
     </Modal>
   );

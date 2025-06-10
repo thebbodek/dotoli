@@ -16,6 +16,8 @@ const ConfirmBottomSheet = ({
   onCancel,
   confirmButtonLabel,
   cancelButtonLabel,
+  possibleConfirm,
+  isPending,
   className,
 }: ConfirmBottomSheetProps) => {
   return (
@@ -33,6 +35,8 @@ const ConfirmBottomSheet = ({
         onCancel={onCancel}
         confirmButtonLabel={confirmButtonLabel}
         cancelButtonLabel={cancelButtonLabel}
+        possibleConfirm={possibleConfirm}
+        isPending={isPending}
       />
     </BottomSheet>
   );

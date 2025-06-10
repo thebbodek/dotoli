@@ -13,6 +13,7 @@ const InputSearch = ({
   required = false,
   rootClassName,
   value,
+  name,
   autoComplete = 'off',
   disabled = false,
   readOnly = false,
@@ -26,6 +27,7 @@ const InputSearch = ({
   const [isFocused, setIsFocused] = useState(false);
   const { inputValue, handleChange, handleReset } = useInputChange({
     value,
+    name,
     onChange,
     regCallback,
   });
@@ -53,6 +55,7 @@ const InputSearch = ({
         id={id}
         variant={INPUT_VARIANTS.SEARCH}
         value={inputValue}
+        name={name}
         onChange={handleChange}
         autoComplete={autoComplete}
         required={required}

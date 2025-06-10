@@ -41,5 +41,5 @@ export interface GenerateButtonStyleProps
   > {}
 
 export interface ButtonIconProps
-  extends Pick<IconProps, 'iconKey'>,
+  extends Pick<IconProps, 'iconKey' | 'className'>,
     Pick<ButtonPrimitiveProps, 'size'> {}
