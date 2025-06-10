@@ -6,11 +6,12 @@ import {
   ReactNode,
 } from 'react';
 
+import { ButtonProps } from '@/components/Button';
 import { PortalProps } from '@/components/Portal';
+import { OVERLAY_VARIANTS } from '@/components/shared/components/Overlay/constants';
 import { ComponentPropsRef } from '@/components/shared/types';
 import { TYPOGRAPHY_ELEMENTS, TypographyProps } from '@/components/Typography';
 import { TypographyVariants } from '@/variants';
-import { OVERLAY_VARIANTS } from '@/components/shared/components/Overlay/constants';
 
 export type OverlayVariant =
   (typeof OVERLAY_VARIANTS)[keyof typeof OVERLAY_VARIANTS];
@@ -43,14 +44,28 @@ export interface OverlayDescriptionProps
   description: ReactNode;
 }
 
-export interface OverlayFooterProps
-  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
+export interface OverlayFooterPrimitiveProps {
   onConfirm: () => void;
   onCancel?: () => void;
   confirmButtonLabel: string;
   cancelButtonLabel?: string;
+}
+
+export interface OverlayFooterStateProps
+  extends Pick<ButtonProps, 'isPending'> {
+  possibleConfirm?: boolean;
+}
+
+export interface OverlayFooterStyleProps
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
+  buttonSize?: ButtonProps['size'];
   isFull?: boolean;
 }
+
+export interface OverlayFooterProps
+  extends OverlayFooterPrimitiveProps,
+    OverlayFooterStateProps,
+    OverlayFooterStyleProps {}
 
 export interface OverlayBasePrimitiveProps
   extends Pick<OverlayProps, 'isOpen' | 'ref' | 'className'> {}
@@ -59,8 +74,8 @@ export interface OverlayPrimitiveProps
   extends PropsWithChildren,
     Omit<OverlayBasePrimitiveProps, 'className'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
-    Pick<
-      OverlayFooterProps,
-      'onConfirm' | 'onCancel' | 'confirmButtonLabel' | 'cancelButtonLabel'
-    >,
+    OverlayFooterPrimitiveProps,
     Pick<OverlayTitleProps, 'title'> {}
+
+export interface OverlayDividerProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}

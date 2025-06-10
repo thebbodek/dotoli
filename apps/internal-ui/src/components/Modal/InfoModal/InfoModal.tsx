@@ -24,6 +24,7 @@ const InfoModal = ({
         onCancel={onCancel}
         confirmButtonLabel={confirmButtonLabel}
         cancelButtonLabel={cancelButtonLabel}
+        possibleConfirm
       />
     </Modal>
   );

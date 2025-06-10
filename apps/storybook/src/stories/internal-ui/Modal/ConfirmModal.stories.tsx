@@ -119,6 +119,26 @@ const meta: Meta<ConfirmModalArgs> = {
       description: 'on cancel',
       type: 'function',
     },
+    possibleConfirm: {
+      control: 'boolean',
+      description: 'possible confirm',
+      type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    isPending: {
+      control: 'boolean',
+      description: 'data fetching is pending',
+      type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
   },
 };
 
@@ -131,6 +151,7 @@ export const Default: Story = {
     useIcon: false,
     title: '승인신청이 완료되었습니다',
     confirmButtonLabel: '확인',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -168,6 +189,7 @@ export const WithClose: Story = {
     ),
     confirmButtonLabel: '네',
     cancelButtonLabel: '아니요',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -206,6 +228,7 @@ export const WithIcon: Story = {
     ),
     confirmButtonLabel: '네',
     cancelButtonLabel: '아니요',
+    possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
     const [isOpen, setIsOpen] = useState(false);

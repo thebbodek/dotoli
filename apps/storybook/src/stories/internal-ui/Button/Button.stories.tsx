@@ -92,6 +92,13 @@ const meta: Meta<typeof Button> = {
         defaultValue: { summary: 'false' },
       },
     },
+    isPending: {
+      description: 'Button Pending',
+      control: 'boolean',
+      table: {
+        defaultValue: { summary: 'false' },
+      },
+    },
     iconKey: {
       ...iconKeyArgType,
       type: { required: false, name: 'string' },

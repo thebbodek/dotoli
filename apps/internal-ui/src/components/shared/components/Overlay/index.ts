@@ -1,3 +1,4 @@
+export { default as OverlayDivider } from '../DialogOverlay/DialogOverlayFormDivider';
 export * from './constants';
 export * from './hooks';
 export { default as Overlay } from './Overlay';

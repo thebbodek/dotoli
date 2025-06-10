@@ -13,6 +13,7 @@ const InputField = ({
   required,
   rootClassName,
   value,
+  name,
   onChange,
   regCallback,
   ...rest
@@ -21,6 +22,7 @@ const InputField = ({
   const [isFocused, setIsFocused] = useState(false);
   const { inputValue, handleChange, handleReset } = useInputChange({
     value,
+    name,
     onChange,
     regCallback,
   });
@@ -39,6 +41,7 @@ const InputField = ({
       <Input
         id={id}
         value={inputValue}
+        name={name}
         isFocused={isFocused}
         setIsFocused={setIsFocused}
         onChange={handleChange}
