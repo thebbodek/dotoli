@@ -47,15 +47,16 @@ export interface InputDefaultProps<
   T extends InputElementType,
   P extends InputElement<T>,
 > extends Pick<InputBaseProps, 'id' | 'required' | 'value'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     ComponentPropsRef<P>,
     Pick<
       InputHTMLAttributes<HTMLInputElement>,
-      | 'className'
       | 'placeholder'
       | 'disabled'
       | 'readOnly'
       | 'name'
       | 'autoComplete'
+      | 'maxLength'
     > {
   as?: T;
   variant?: InputVariants;
@@ -65,6 +66,7 @@ export interface InputDefaultProps<
   onReset?: () => void;
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<boolean>>;
+  inputClassName?: HTMLAttributes<P>['className'];
 }
 
 export type InputProps<

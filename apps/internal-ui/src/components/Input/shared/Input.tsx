@@ -34,6 +34,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
   required = false,
   disabled = false,
   readOnly = false,
+  inputClassName,
   ...props
 }: InputProps<T, P>) => {
   const isDisabled = disabled || readOnly;
@@ -48,8 +49,10 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     disabled: disabled || readOnly,
     onFocus: popover ? () => setIsFocused(true) : undefined,
     onBlur: popover ? () => setIsFocused(false) : undefined,
-    className:
-      'input text-inherit focus:outline-none placeholder-gray-04 flex-1 disabled:cursor-not-allowed',
+    className: clsx(
+      inputClassName,
+      'input placeholder-gray-04 flex-1 text-inherit focus:outline-none disabled:cursor-not-allowed',
+    ),
     ...props,
   };
 
