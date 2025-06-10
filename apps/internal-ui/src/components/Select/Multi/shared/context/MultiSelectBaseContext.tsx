@@ -3,6 +3,7 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -30,15 +31,9 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
   onChange,
   options,
 }: PropsWithChildren<MultiSelectBaseProviderProps<T>>) => {
-  const _value = value.map((v) => v.value);
-  const initialInternalOptions = options.map((option) => ({
-    ...option,
-    key: getOptionKey({ value: option.value, label: option.label }),
-    isSelected: defaultIsAllSelected ?? _value.includes(option.value),
-  }));
   const [internalOptions, setInternalOptions] = useState<
     MultiSelectBaseContextValue<T>['internalOptions']
-  >(initialInternalOptions);
+  >([]);
   const [currentSearchValue, setCurrentSearchValue] = useState<string | null>(
     null,
   );
@@ -102,6 +97,21 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
         })),
     );
   };
+
+  useEffect(() => {
+    const _value = value.map((v) => v.value);
+    const initialInternalOptions = options.map((option) => {
+      const isSelected = defaultIsAllSelected || _value.includes(option.value);
+
+      return {
+        ...option,
+        key: getOptionKey({ value: option.value, label: option.label }),
+        isSelected,
+      };
+    });
+
+    setInternalOptions(initialInternalOptions);
+  }, [value, options, defaultIsAllSelected]);
 
   const contextValue = {
     onRemove,
