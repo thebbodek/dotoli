@@ -19,7 +19,7 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
     const value = regCallback ? regCallback(e.target.value) : e.target.value;
 
     e.target.value = value;
-    setInputValue(value);
+    setInputValue(e.target.value);
     onChange?.(e);
   };
 

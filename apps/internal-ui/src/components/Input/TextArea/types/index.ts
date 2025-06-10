@@ -1,19 +1,17 @@
-import { HTMLInputTypeAttribute } from 'react';
-
-import { INPUT_ELEMENTS } from '@/components/Input/shared/constants';
+import { INPUT_ELEMENTS } from '@/components/Input/shared';
 import {
   InputBaseProps,
   InputProps,
   UseInputChangeProps,
 } from '@/components/Input/shared/types';
 
-export interface InputFieldProps
+export interface TextAreaProps
   extends Pick<
       InputBaseProps,
       'label' | 'feedback' | 'error' | 'required' | 'badge'
     >,
     Pick<
-      InputProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
+      InputProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
       | 'id'
       | 'required'
       | 'value'
@@ -28,9 +26,9 @@ export interface InputFieldProps
       | 'inputClassName'
     >,
     Pick<
-      UseInputChangeProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
+      UseInputChangeProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
       'regCallback'
     > {
-  type?: Extract<HTMLInputTypeAttribute, 'text' | 'email' | 'number'>;
   rootClassName?: InputBaseProps['className'];
+  maxLength?: number;
 }
