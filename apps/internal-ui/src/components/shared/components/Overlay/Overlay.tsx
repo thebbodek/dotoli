@@ -11,8 +11,9 @@ import {
   OVERLAY_CONTENT_POSITION,
   OVERLAY_CONTENT_SIZE,
   OVERLAY_VARIANTS,
-} from '@/components/shared/constants';
-import { OverlayProps } from '@/components/shared/types';
+} from '@/components/shared/components/Overlay/constants';
+import useBodyScrollLockEffect from '@/components/shared/components/Overlay/hooks/effects/useBodyScrollLockEffect';
+import { OverlayProps } from '@/components/shared/components/Overlay/types';
 
 const Overlay = ({
   target,
@@ -21,9 +22,13 @@ const Overlay = ({
   dimmed = false,
   children,
   ref,
+  onClose,
+  useClickOutsideEvent,
   ...props
 }: PropsWithChildren<OverlayProps>) => {
   const { className, ...rest } = props;
+
+  useBodyScrollLockEffect({ isLocked: isOpen });
 
   if (!isOpen || !children) return null;
 
@@ -39,7 +44,7 @@ const Overlay = ({
         ref={ref}
         className={clsx(
           className,
-          'open:animate-fade-in left-0 top-0 z-50 h-full w-full overflow-hidden',
+          'open:animate-fade-in left-0 top-0 z-[10000] h-full w-full overflow-hidden',
           variant === OVERLAY_VARIANTS['MODAL'] && 'safe-area-bottom',
           OVERLAY_CONTENT_POSITION[variant],
           dimmed && 'bg-dimmed',

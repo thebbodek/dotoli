@@ -10,8 +10,8 @@ import {
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { default as IconMeta } from './Icon.stories';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 

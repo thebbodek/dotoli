@@ -1,10 +1,10 @@
-import { ModalDescriptionProps } from '@/components/Modal/shared/types';
+import { OverlayDescriptionProps } from '@/components/shared/components/Overlay/types';
 import { Typography } from '@/components/Typography';
 
-const ModalDescription = ({
+const OverlayDescription = ({
   description,
   className,
-}: ModalDescriptionProps) => {
+}: OverlayDescriptionProps) => {
   return (
     <Typography
       as='p'
@@ -17,4 +17,4 @@ const ModalDescription = ({
   );
 };
 
-export default ModalDescription;
+export default OverlayDescription;

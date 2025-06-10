@@ -1,7 +1,7 @@
+import { InputSearch } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { InputSearch } from '@bbodek/internal-ui';
 import { default as InputFieldMeta } from './InputField.stories';
 
 const { label, feedback, error, required, readOnly, disabled, placeholder } =

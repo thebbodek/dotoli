@@ -152,9 +152,13 @@
   --breakpoint-sm: 22.5rem;
   --breakpoint-md: 51.25rem;
   --breakpoint-lg: 73.75rem;
+  --container-sm: var(--breakpoint-sm);
+  --container-md: var(--breakpoint-md);
+  --container-lg: var(--breakpoint-lg);
 
   --animate-fade-in: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
   --animate-popup: popup 0.2s cubic-bezier(0, 0, 0.5, 1);
+  --animate-bottom-sheet: bottom-sheet 0.2s cubic-bezier(0, 0, 0.5, 1);
 
   @keyframes fade-in {
     0% {
@@ -168,6 +172,15 @@
   @keyframes popup {
     0% {
       transform: translateY(1rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bottom-sheet {
+    0% {
+      transform: translateY(100%);
     }
     100% {
       transform: translateY(0);

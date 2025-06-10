@@ -1,9 +1,9 @@
 import { ICON_BUTTON_THEMES, IconButton } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as ButtonMeta } from './Button.stories';
-import { default as IconMeta } from './Icon.stories';
 
 const { disabled, onClick, type } = ButtonMeta.argTypes ?? {};
 const { iconKey } = IconMeta.argTypes ?? {};
