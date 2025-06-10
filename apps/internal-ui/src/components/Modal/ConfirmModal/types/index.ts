@@ -1,12 +1,3 @@
-import { IconProps } from '@/components/Icon';
-import { ModalPrimitiveProps } from '@/components/Modal/shared';
-import { ColorVariants } from '@/variants';
+import { ConfirmOverlayProps } from '@/components/shared/components/ConfirmOverlay/types';
 
-export interface ConfirmModalProps extends ModalPrimitiveProps {
-  useIcon?: boolean;
-  iconOptions?: {
-    color?: ColorVariants;
-    backgroundColor?: ColorVariants;
-    iconKey?: IconProps['iconKey'];
-  };
-}
+export interface ConfirmModalProps extends ConfirmOverlayProps {}

@@ -1,37 +1,35 @@
-import { PropsWithChildren } from 'react';
-
 import { InfoModalProps } from '@/components/Modal/InfoModal/types';
 import { Modal } from '@/components/Modal/shared';
+import { OverlayDescription, OverlayTitle } from '@/components/shared';
 
 const InfoModal = ({
   ref,
   isOpen,
   title,
-  description,
   children,
   onConfirm,
   onCancel,
-  confirmButtonLabel = '확인 완료',
-  cancelButtonLabel,
-}: PropsWithChildren<InfoModalProps>) => {
+  confirmButtonLabel,
+  cancelButtonLabel = '닫기',
+  className,
+}: InfoModalProps) => {
   return (
-    <Modal isOpen={isOpen} ref={ref}>
+    <Modal isOpen={isOpen} ref={ref} className={className}>
       <header className='py-5'>
-        <Modal.Title title={title} />
+        <OverlayTitle title={title} />
       </header>
-      <div className='flex-v-stack mb-5 gap-y-5'>
-        {children}
-        <Modal.Description description={description} />
-      </div>
+      <div className='flex-v-stack gap-y-5'>{children}</div>
       <Modal.Footer
         onConfirm={onConfirm}
         onCancel={onCancel}
         confirmButtonLabel={confirmButtonLabel}
         cancelButtonLabel={cancelButtonLabel}
-        className='gap-x-2'
       />
     </Modal>
   );
 };
 
 export default InfoModal;
+
+InfoModal.displayName = 'InfoModal';
+InfoModal.Description = OverlayDescription;

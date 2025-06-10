@@ -1,7 +1,8 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { Icon, InputField } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const textFieldTypes = ['text', 'email', 'number'];
 

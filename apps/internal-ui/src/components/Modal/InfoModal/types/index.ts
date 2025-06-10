@@ -1,3 +1,3 @@
-import { ModalPrimitiveProps } from '@/components/Modal/shared';
+import { OverlayPrimitiveProps } from '@/components/shared';
 
-export interface InfoModalProps extends ModalPrimitiveProps {}
+export interface InfoModalProps extends OverlayPrimitiveProps {}
