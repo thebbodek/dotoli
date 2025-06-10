@@ -13,7 +13,6 @@ const items = [
   '뽀득 대학원',
   '뽀득 연구소',
   '뽀득 연구원',
-  '뽀득 연구원',
 ];
 
 const meta: Meta<typeof SearchSelect> = {
