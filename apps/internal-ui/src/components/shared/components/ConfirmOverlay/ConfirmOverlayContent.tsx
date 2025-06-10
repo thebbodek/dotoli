@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 
 import { Icon } from '@/components/Icon';
-import { ConfirmOverlayContentProps, OverlayTitle } from '@/components/shared';
+import { OverlayTitle } from '@/components/shared/components/Overlay';
 import { COLOR_STYLES_MAPPER, COLOR_VARIANTS } from '@/variants';
+import { ConfirmOverlayContentProps } from './types';
 
 const ConfirmOverlayContent = ({
   useIcon = false,

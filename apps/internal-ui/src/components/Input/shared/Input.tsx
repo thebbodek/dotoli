@@ -51,7 +51,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     onBlur: popover ? () => setIsFocused(false) : undefined,
     className: clsx(
       inputClassName,
-      'input placeholder-gray-04 flex-1 text-inherit focus:outline-none disabled:cursor-not-allowed',
+      'input placeholder-gray-04 w-full text-inherit focus:outline-none disabled:cursor-not-allowed',
     ),
     ...props,
   };

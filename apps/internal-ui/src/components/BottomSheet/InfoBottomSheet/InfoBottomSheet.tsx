@@ -26,6 +26,7 @@ const InfoBottomSheet = ({
         onCancel={onCancel}
         confirmButtonLabel={confirmButtonLabel}
         cancelButtonLabel={cancelButtonLabel}
+        possibleConfirm
       />
     </BottomSheet>
   );

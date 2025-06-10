@@ -14,6 +14,7 @@ const InputPassword = ({
   required = false,
   rootClassName,
   value,
+  name,
   rules,
   autoComplete = 'off',
   disabled = false,
@@ -28,6 +29,7 @@ const InputPassword = ({
   const [visible, setVisible] = useState(false);
   const { inputValue, handleChange } = useInputChange({
     value,
+    name,
     onChange,
     regCallback,
   });
@@ -51,6 +53,7 @@ const InputPassword = ({
         id={id}
         type={visible ? 'text' : 'password'}
         value={inputValue}
+        name={name}
         onChange={handleChange}
         autoComplete={autoComplete}
         required={required}
