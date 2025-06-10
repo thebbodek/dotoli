@@ -98,7 +98,6 @@ const meta: Meta<typeof Select> = {
   args: {
     label: 'Select Label',
     placeholder: 'Placeholder',
-    className: 'w-[15rem]',
   },
 };
 
@@ -132,12 +131,11 @@ export const WithBadge: Story = {
   args: {
     badge: <Icon iconKey='info' weight='fill' />,
   },
-  render: ({ badge, placeholder, className }) => {
+  render: ({ badge, placeholder }) => {
     const [value, setValue] = useState<string | null>(null);
 
     return (
       <Select
-        className={className}
         label='Select Label'
         value={value}
         badge={badge}
@@ -165,12 +163,11 @@ export const Error: Story = {
     isError: true,
     feedback: '에러가 발생했어요.',
   },
-  render: ({ isError, feedback, placeholder, className }) => {
+  render: ({ isError, feedback, placeholder }) => {
     const [value, setValue] = useState<string | null>(null);
 
     return (
       <Select
-        className={className}
         label='Select Label'
         value={value}
         isError={isError}
@@ -197,12 +194,11 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
-  render: ({ disabled, placeholder, className }) => {
+  render: ({ disabled, placeholder }) => {
     const [value, setValue] = useState<string | null>(null);
 
     return (
       <Select
-        className={className}
         label='Select Label'
         value={value}
         disabled={disabled}
@@ -228,12 +224,11 @@ export const Required: Story = {
   args: {
     required: true,
   },
-  render: ({ required, placeholder, className }) => {
+  render: ({ required, placeholder }) => {
     const [value, setValue] = useState<string | null>(null);
 
     return (
       <Select
-        className={className}
         label='Select Label'
         value={value}
         required={required}
