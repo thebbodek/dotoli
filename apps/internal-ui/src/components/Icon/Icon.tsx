@@ -8,6 +8,7 @@ const Icon = ({
   weight = IconStyle.BOLD,
   className,
   title,
+  'aria-hidden': ariaHidden,
 }: IconProps) => {
   const iconName = `ph-${iconKey}`;
   const iconWeight = weight === IconStyle.REGULAR ? 'ph' : `ph-${weight}`;
@@ -21,6 +22,7 @@ const Icon = ({
         className,
       )}
       title={title}
+      aria-hidden={ariaHidden}
     />
   );
 };
