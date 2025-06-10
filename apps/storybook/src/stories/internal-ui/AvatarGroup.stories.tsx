@@ -71,13 +71,13 @@ export const Default: Story = {
             iconKey='minus'
             arialLabel='minus'
             onClick={() => setLength(length - 1)}
-            className='bg-white'
+            rootClassName='bg-white'
           />
           <IconButton
             iconKey='plus'
             arialLabel='plus'
             onClick={() => setLength(length + 1)}
-            className='bg-white'
+            rootClassName='bg-white'
           />
         </Flex>
       </Flex>

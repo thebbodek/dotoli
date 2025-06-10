@@ -275,7 +275,7 @@ export const Default: Story = {
                         {...defaultProps}
                         placeholder='입력해주세요'
                         value={user.goodsCode}
-                        error={error}
+                        isError={error}
                         feedback={
                           error ? '! 대문자만 입력 가능합니다' : undefined
                         }
