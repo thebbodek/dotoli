@@ -20,14 +20,15 @@ const Chip = ({
     <button
       className={clsx(
         className,
-        'text-in-body-14-r text-in-primary-06 bg-in-primary-02 rounded-in-full flex h-[1.5rem] items-center gap-x-1 px-3',
+        'text-in-body-14-r text-in-primary-06 bg-in-primary-02 rounded-in-full flex h-[1.5rem] items-center gap-x-1 overflow-hidden px-3',
       )}
       aria-label={ariaLabel ?? `${label} 제거`}
       disabled={disabled}
       type='button'
       onClick={handleClick}
+      title={label}
     >
-      {label}
+      <span className='truncate'>{label}</span>
       <Icon className='text-[0.75rem]' iconKey='x' aria-hidden />
     </button>
   );

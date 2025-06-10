@@ -14,7 +14,7 @@ const SingleSelectBaseItem = <T extends SelectValue>({
   children,
 }: PropsWithChildren<SingleSelectBaseItemProps<T>>) => {
   const { value: currentValue, onSelect, close } = useSingleSelectListContext();
-  const selected = value === currentValue;
+  const isSelected = value === currentValue;
 
   const onClick = () => {
     onSelect({ value });
@@ -24,11 +24,11 @@ const SingleSelectBaseItem = <T extends SelectValue>({
   return (
     <SelectBaseItem
       className={clsx(
-        'text-in-body-16-r hover:bg-in-primary-01 text-in-black h-[2.5rem] truncate px-4 py-2',
-        selected && 'bg-in-primary-01',
+        'text-in-body-16-r text-in-black hover:bg-in-primary-01 h-[2.5rem] truncate px-4 py-2',
+        isSelected && 'bg-in-primary-01',
       )}
       onClick={onClick}
-      selected={selected}
+      isSelected={isSelected}
       label={label}
     >
       {children}

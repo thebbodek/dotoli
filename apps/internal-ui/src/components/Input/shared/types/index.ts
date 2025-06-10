@@ -3,6 +3,7 @@ import {
   ChangeEvent,
   Dispatch,
   ElementType,
+  FormEvent,
   HTMLAttributes,
   InputHTMLAttributes,
   ReactNode,
@@ -39,7 +40,7 @@ export interface InputBaseProps
   label?: string;
   badge?: ReactNode;
   feedback?: string;
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 export interface InputDefaultProps<

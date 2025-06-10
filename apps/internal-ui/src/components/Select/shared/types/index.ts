@@ -6,13 +6,17 @@ import { ComponentPropsRef } from '@/components/shared/types';
 
 export type SelectType = (typeof SELECT_TYPE)[keyof typeof SELECT_TYPE];
 
+export interface SelectBaseChildrenProps {
+  close: () => void;
+}
+
 export interface SelectBaseProps
   extends Pick<SelectLabelContextValue, 'required'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<PopoverProps, 'trigger'>,
     Pick<SelectTriggerContextValue, 'isError' | 'placeholder'> {
   label: ReactNode;
-  children: ((props: { close: () => void }) => ReactNode) | ReactNode;
+  children: ((props: SelectBaseChildrenProps) => ReactNode) | ReactNode;
   popoverOption?: Omit<PopoverProps, 'trigger' | 'isOpen' | 'offset'>;
   feedback?: string;
   disabled?: boolean;
@@ -49,7 +53,7 @@ export interface SelectBaseAriaAttributes
 
 export interface SelectBaseItemProps
   extends Pick<HTMLAttributes<HTMLLIElement>, 'className'> {
-  selected: boolean;
+  isSelected: boolean;
   onClick: () => void;
   label: Required<HTMLAttributes<HTMLLIElement>['title']>;
 }
