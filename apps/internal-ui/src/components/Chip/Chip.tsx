@@ -20,7 +20,9 @@ const Chip = ({
     <button
       className={clsx(
         className,
-        'text-in-body-14-r text-in-primary-06 bg-in-primary-02 rounded-in-full flex h-[1.5rem] items-center gap-x-1 overflow-hidden px-3',
+        'text-in-body-14-r text-in-primary-06 bg-in-primary-02 rounded-in-full flex h-[1.5rem] items-center overflow-hidden px-3',
+        !disabled && 'gap-x-1',
+        disabled && 'cursor-not-allowed',
       )}
       aria-label={ariaLabel ?? `${label} 제거`}
       disabled={disabled}
@@ -29,7 +31,7 @@ const Chip = ({
       title={label}
     >
       <span className='truncate'>{label}</span>
-      <Icon className='text-[0.75rem]' iconKey='x' aria-hidden />
+      {!disabled && <Icon className='text-[0.75rem]' iconKey='x' aria-hidden />}
     </button>
   );
 };

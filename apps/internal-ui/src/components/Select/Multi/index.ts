@@ -1,3 +1,4 @@
+export * from './MultiSearchSelect';
 export type {
   MultiSelectBaseListItemProps,
   MultiSelectBaseResultPanelProps,
