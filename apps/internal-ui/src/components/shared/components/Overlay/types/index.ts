@@ -36,7 +36,7 @@ export interface OverlayTitleProps
     'className'
   > {
   title: ReactNode;
-  variant?: Extract<TypographyVariants, 'headline-20-b' | 'headline-16-b'>;
+  variant?: Extract<TypographyVariants, 'headline-20-b' | 'body-16-b'>;
 }
 
 export interface OverlayDescriptionProps
