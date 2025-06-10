@@ -1,6 +1,12 @@
 import clsx from 'clsx';
+import { MouseEvent } from 'react';
 
-import { Button, ButtonProps } from '@/components/Button';
+import {
+  Button,
+  BUTTON_ICON_POSITIONS,
+  BUTTON_SIZES,
+  ButtonProps,
+} from '@/components/Button';
 import { OverlayFooterProps } from '@/components/shared/components/Overlay/types';
 
 const OverlayFooter = ({
@@ -8,12 +14,23 @@ const OverlayFooter = ({
   onCancel,
   confirmButtonLabel,
   cancelButtonLabel,
+  possibleConfirm = false,
+  isPending = false,
   isFull = false,
+  buttonSize = BUTTON_SIZES.MD,
   className,
 }: OverlayFooterProps) => {
   const buttonDefaultProps: Omit<ButtonProps, 'label'> = {
-    size: 'md',
+    size: buttonSize,
     className: clsx(isFull && 'flex-1'),
+  };
+
+  const handleConfirm = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (possibleConfirm && !isPending) {
+      onConfirm();
+    }
   };
 
   return (
@@ -30,13 +47,17 @@ const OverlayFooter = ({
           label={cancelButtonLabel || '취소'}
           variant='outlined'
           theme='gray'
-          onClick={onCancel}
+          onClick={() => !isPending && onCancel?.()}
+          disabled={isPending}
         />
       )}
       <Button
         {...buttonDefaultProps}
         label={confirmButtonLabel}
-        onClick={onConfirm}
+        onClick={handleConfirm}
+        disabled={!possibleConfirm}
+        isPending={isPending}
+        iconPosition={isPending ? BUTTON_ICON_POSITIONS.LEFT : undefined}
       />
     </footer>
   );

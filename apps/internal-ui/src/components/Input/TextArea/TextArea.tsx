@@ -16,6 +16,7 @@ const TextArea = ({
   required = false,
   rootClassName,
   value,
+  name,
   onChange,
   regCallback,
   className,
@@ -28,6 +29,7 @@ const TextArea = ({
   const [isFocused, setIsFocused] = useState(false);
   const { inputValue, handleChange } = useInputChange({
     value,
+    name,
     onChange,
     regCallback,
   });
@@ -57,6 +59,7 @@ const TextArea = ({
         as={INPUT_ELEMENTS.TEXTAREA}
         variant={INPUT_VARIANTS.TEXTAREA}
         value={inputValue}
+        name={name}
         onChange={onChangeTextArea}
         required={required}
         readOnly={readOnly}
@@ -64,7 +67,7 @@ const TextArea = ({
         isFocused={isFocused}
         setIsFocused={setIsFocused}
         className={clsx(className, 'flex-col')}
-        inputClassName='resize-none h-full w-full'
+        inputClassName='resize-none h-full'
         addonEnd={
           maxLength && (
             <Typography

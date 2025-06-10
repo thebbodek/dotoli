@@ -11,21 +11,41 @@ const Button = ({
   className,
   ref,
   onClick,
+  isPending = false,
+  disabled = false,
   ...props
 }: ButtonProps) => {
-  const { variant, theme, size, disabled, iconKey } = props;
+  const { variant, theme, size } = props;
+  const iconKey = isPending ? 'circle-notch' : props.iconKey;
+  const isDisabled = disabled || isPending;
 
   useButtonPropsValidationEffect({ variant, theme, size });
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    if (isDisabled) return;
+
+    onClick?.(e);
+  };
+
   return (
     <button
-      className={clsx(generateButtonStyle(props), className)}
-      disabled={disabled}
+      className={clsx(
+        generateButtonStyle({ ...props, iconKey, disabled: isDisabled }),
+        className,
+      )}
+      disabled={isDisabled}
       ref={ref}
       type={type}
-      onClick={onClick}
+      onClick={handleClick}
     >
-      {iconKey && <ButtonIcon iconKey={iconKey} />}
+      {iconKey && (
+        <ButtonIcon
+          iconKey={iconKey}
+          className={clsx(isPending && 'animate-spin')}
+        />
+      )}
       {label}
     </button>
   );

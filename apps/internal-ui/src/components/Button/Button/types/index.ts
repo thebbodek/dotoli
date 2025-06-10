@@ -9,4 +9,6 @@ export interface ButtonProps
       ButtonHTMLAttributes<HTMLButtonElement>,
       'type' | 'className' | 'onClick'
     >,
-    ComponentPropsRef<HTMLButtonElement> {}
+    ComponentPropsRef<HTMLButtonElement> {
+  isPending?: boolean;
+}

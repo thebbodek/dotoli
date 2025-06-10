@@ -1,11 +1,14 @@
 import { IconProps } from '@/components/Icon';
 import {
-  OverlayPrimitiveProps,
   OverlayDescriptionProps,
+  OverlayFooterStateProps,
+  OverlayPrimitiveProps,
 } from '@/components/shared/components/Overlay';
 import { ColorVariants } from '@/variants';
 
-export interface ConfirmOverlayProps extends OverlayPrimitiveProps {
+export interface ConfirmOverlayProps
+  extends OverlayPrimitiveProps,
+    OverlayFooterStateProps {
   useIcon?: boolean;
   iconOptions?: {
     color?: ColorVariants;

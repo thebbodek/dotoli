@@ -6,6 +6,8 @@ const ModalFooter = ({
   onCancel,
   confirmButtonLabel,
   cancelButtonLabel,
+  isPending,
+  possibleConfirm,
 }: ModalFooterProps) => {
   return (
     <OverlayFooter
@@ -13,6 +15,8 @@ const ModalFooter = ({
       onCancel={onCancel}
       confirmButtonLabel={confirmButtonLabel}
       cancelButtonLabel={cancelButtonLabel}
+      isPending={isPending}
+      possibleConfirm={possibleConfirm}
       className='mt-6'
       isFull
     />
