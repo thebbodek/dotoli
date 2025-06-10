@@ -3,6 +3,7 @@ import {
   Button,
   BUTTON_THEMES,
   BUTTON_VARIANTS,
+  ICON_BUTTON_THEMES,
   IconButton,
   Popover,
   POPOVER_PLACEMENTS,
@@ -184,7 +185,7 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
           Popover Content {index}
           <IconButton
             arialLabel={'닫기'}
-            theme={BUTTON_THEMES.GRAY}
+            theme={ICON_BUTTON_THEMES.HOVER_GRAY}
             iconKey={'x'}
             onClick={close}
           />

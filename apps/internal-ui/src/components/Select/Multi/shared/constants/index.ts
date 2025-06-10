@@ -1,0 +1,1 @@
+export const MULTI_SEARCH_SELECT_MAX_COUNT = 2;

@@ -25,7 +25,7 @@
   "dependencies": {
     "next": "^15.3.1",
     "@bbodek/hooks": "^0.0.13",
-    "@bbodek/utils": "^0.0.2",
+    "@bbodek/utils": "^0.0.3",
     "@floating-ui/react": "^0.27.8",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
