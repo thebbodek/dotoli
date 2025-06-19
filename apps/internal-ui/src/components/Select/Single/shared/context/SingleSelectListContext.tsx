@@ -20,14 +20,16 @@ export const SingleSelectListProvider = <T extends SelectValue>({
   onSelect,
   children,
 }: PropsWithChildren<SingleSelectListProviderProps<T>>) => {
-  const contextValue = { id, labelId, close, value, onSelect };
+  const contextValue = {
+    id,
+    labelId,
+    close,
+    value,
+    onSelect,
+  } as SingleSelectListContextValue<SelectValue>;
 
   return (
-    <SingleSelectListContext.Provider
-      value={
-        contextValue as unknown as SingleSelectListContextValue<SelectValue>
-      }
-    >
+    <SingleSelectListContext.Provider value={contextValue}>
       {children}
     </SingleSelectListContext.Provider>
   );

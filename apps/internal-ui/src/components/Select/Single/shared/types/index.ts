@@ -29,7 +29,7 @@ export interface SingleSelectBaseProps<T extends SelectValue>
 }
 
 export interface SingleSelectBaseTriggerProps {
-  displayValue: string | number | null;
+  displayValue: SelectValue;
 }
 
 export interface SingleSelectListProviderProps<T extends SelectValue>

@@ -1,10 +1,9 @@
-import clsx from 'clsx';
-
 import {
   SelectBaseTriggerWrapper,
   useSelectTriggerContext,
 } from '@/components/Select/shared';
 import { SingleSelectBaseTriggerProps } from '@/components/Select/Single/shared/types';
+import { Typography } from '@/components/Typography';
 
 const SingleSelectBaseTrigger = ({
   displayValue,
@@ -13,16 +12,12 @@ const SingleSelectBaseTrigger = ({
 
   return (
     <SelectBaseTriggerWrapper>
-      <button
-        type='button'
-        className={clsx(
-          'text-body-16-r truncate text-black',
-          (!displayValue || disabled) && 'text-gray-04',
-        )}
-        disabled={disabled}
+      <Typography
+        variant='body-16-r'
+        color={!!displayValue && !disabled ? 'black' : 'gray-04'}
       >
         {displayValue || placeholder}
-      </button>
+      </Typography>
     </SelectBaseTriggerWrapper>
   );
 };

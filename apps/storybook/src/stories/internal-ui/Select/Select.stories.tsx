@@ -2,6 +2,7 @@ import {
   Icon,
   Select,
   SelectProps,
+  SelectValue,
   SingleSelectOnSelectParams,
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
@@ -33,7 +34,7 @@ const meta: Meta<typeof Select> = {
       type: {
         name: 'other',
         value: 'ReactNode',
-        required: true,
+        required: false,
       },
     },
     placeholder: {
@@ -60,35 +61,27 @@ const meta: Meta<typeof Select> = {
     disabled: {
       control: 'boolean',
       description: 'Select disabled',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
         },
       },
     },
     required: {
       control: 'boolean',
       description: 'Select required',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
         },
       },
     },
     feedback: {
       control: 'text',
       description: 'Select feedback',
-      table: {
-        type: {
-          summary: 'string',
-        },
-      },
+      type: 'string',
     },
     value: {
       control: 'text',
@@ -197,7 +190,7 @@ export const Error: Story = {
     isError: true,
     feedback: '에러가 발생했어요.',
   },
-  render: ({ isError, feedback }) => {
+  render: ({ isError, feedback }: SelectProps<SelectValue>) => {
     const [value, setValue] = useState<string>('');
 
     const onSelect = ({ value }: SingleSelectOnSelectParams<string>) => {
@@ -228,7 +221,7 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
-  render: ({ disabled }) => {
+  render: ({ disabled }: SelectProps<SelectValue>) => {
     const [value, setValue] = useState<string>('');
 
     const onSelect = ({ value }: SingleSelectOnSelectParams<string>) => {
@@ -258,7 +251,7 @@ export const Required: Story = {
   args: {
     required: true,
   },
-  render: ({ required }) => {
+  render: ({ required }: SelectProps<SelectValue>) => {
     const [value, setValue] = useState<string>('');
 
     const onSelect = ({ value }: SingleSelectOnSelectParams<string>) => {
