@@ -3,7 +3,7 @@ import { Typography } from '@/components/Typography';
 
 const SelectBaseListEmpty = () => {
   return (
-    <li role='option' className='flex-v-stack-center flex-1'>
+    <li className='flex-v-stack-center flex-1'>
       <Icon
         iconKey='empty'
         className='text-gray-04 bg-gray-01 mb-[0.375rem] h-[1.875rem] w-[1.875rem] rounded-full text-[1rem]'

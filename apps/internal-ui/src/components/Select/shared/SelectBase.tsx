@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { HTMLAttributes, useId, useState } from 'react';
+import { useId, useState } from 'react';
 
 import { Popover } from '@/components/Popover';
 import { SELECT_TYPE } from '@/components/Select/shared';
@@ -9,7 +9,10 @@ import SelectFeedback from '@/components/Select/shared/SelectBaseFeedback';
 import SelectBaseItem from '@/components/Select/shared/SelectBaseItem';
 import SelectLabel from '@/components/Select/shared/SelectBaseLabel';
 import SelectPopoverWrapper from '@/components/Select/shared/SelectBasePopoverWrapper';
-import { SelectBaseProps } from '@/components/Select/shared/types';
+import {
+  SelectBaseAriaAttributes,
+  SelectBaseProps,
+} from '@/components/Select/shared/types';
 
 const SelectBase = ({
   required = false,
@@ -64,17 +67,7 @@ const SelectBase = ({
       'aria-controls': controls,
       'aria-labelledby': labelId,
       'aria-describedby': _isError ? feedbackId : undefined,
-    } as Pick<
-      HTMLAttributes<HTMLDivElement>,
-      | 'aria-haspopup'
-      | 'aria-expanded'
-      | 'aria-controls'
-      | 'aria-labelledby'
-      | 'aria-describedby'
-      | 'aria-multiselectable'
-      | 'role'
-      | 'aria-autocomplete'
-    >;
+    } as SelectBaseAriaAttributes;
 
     if (type === SELECT_TYPE.SELECT) {
       attributes['role'] = 'listbox';

@@ -34,6 +34,19 @@ export interface SelectBaseFeedbackProps
 export interface SelectBasePopoverWrapperProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
 
+export interface SelectBaseAriaAttributes
+  extends Pick<
+    HTMLAttributes<HTMLDivElement>,
+    | 'aria-haspopup'
+    | 'aria-expanded'
+    | 'aria-controls'
+    | 'aria-labelledby'
+    | 'aria-describedby'
+    | 'role'
+    | 'aria-multiselectable'
+    | 'aria-autocomplete'
+  > {}
+
 export interface SelectBaseItemProps {
   selected: boolean;
   onClick: () => void;

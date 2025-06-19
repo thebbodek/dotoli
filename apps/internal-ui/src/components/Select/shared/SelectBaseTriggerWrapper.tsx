@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PropsWithChildren } from 'react';
+import { MouseEvent, PropsWithChildren } from 'react';
 
 import { Icon } from '@/components/Icon';
 import { useSelectTriggerContext } from '@/components/Select/shared/context/SelectTriggerContext';
@@ -12,7 +12,7 @@ const SelectBaseTriggerWrapper = ({
   const { ref, isOpen, onToggle, disabled, isError } =
     useSelectTriggerContext();
 
-  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const onClick = (e: MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     onToggle();
