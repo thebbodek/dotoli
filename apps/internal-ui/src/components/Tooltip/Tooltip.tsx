@@ -13,7 +13,9 @@ import clsx from 'clsx';
 import { PropsWithChildren, useState } from 'react';
 
 import { TOOLTIP_GAP } from '@/components/Tooltip/constants';
+import { useTooltipOpenEffect } from '@/components/Tooltip/hooks/effects/useUpdateIsOpenEffect';
 import { TooltipProps } from '@/components/Tooltip/types';
+import { COLOR_STYLES_MAPPER, COLOR_VARIANTS } from '@/variants';
 
 const Tooltip = ({
   content,
@@ -21,9 +23,14 @@ const Tooltip = ({
   placement,
   rootClassName,
   className,
+  color = COLOR_VARIANTS.WHITE,
   hidden = false,
+  isKeepFloating = false,
+  id,
+  ariaLive,
+  role,
 }: PropsWithChildren<TooltipProps>) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(!hidden && isKeepFloating);
 
   const {
     refs: { setFloating, setReference },
@@ -35,17 +42,23 @@ const Tooltip = ({
     middleware: [offset(TOOLTIP_GAP), flip(), shift()],
     whileElementsMounted: autoUpdate,
     onOpenChange: (open: boolean) => {
-      if (hidden) return;
+      if (hidden || isKeepFloating) return;
 
       setIsOpen(open);
     },
   });
 
   const hover = useHover(context, {
-    enabled: !hidden,
+    enabled: !hidden && !isKeepFloating,
     handleClose: safePolygon({ blockPointerEvents: true }),
   });
   const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+
+  useTooltipOpenEffect({
+    hidden,
+    isKeepFloating,
+    setIsOpen,
+  });
 
   return (
     <>
@@ -59,11 +72,15 @@ const Tooltip = ({
       {isOpen && (
         <FloatingPortal>
           <div
+            id={id}
+            aria-live={ariaLive}
+            role={role}
             ref={setFloating}
             style={floatingStyles}
             {...getFloatingProps()}
             className={clsx(
-              'text-body-12-m rounded-4 bg-tooltip z-[10000] animate-[fade-in_.1s_ease-in-out_1] break-keep px-2.5 py-1 text-white',
+              'text-body-12-m rounded-4 bg-tooltip z-[10000] animate-[fade-in_.1s_ease-in-out_1] break-keep px-2.5 py-1',
+              COLOR_STYLES_MAPPER.TEXT[color],
               className,
             )}
           >

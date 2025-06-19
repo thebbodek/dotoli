@@ -35,7 +35,7 @@ const IconButton = ({
       disabled={disabled}
       onClick={handleClick}
     >
-      <Icon iconKey={iconKey} />
+      <Icon iconKey={iconKey} aria-hidden />
     </button>
   );
 };

@@ -13,5 +13,5 @@ export interface IconButtonProps
     >,
     Pick<IconProps, 'iconKey'> {
   theme?: IconButtonTheme;
-  arialLabel?: string;
+  arialLabel: Required<ButtonHTMLAttributes<HTMLButtonElement>>['aria-label'];
 }
