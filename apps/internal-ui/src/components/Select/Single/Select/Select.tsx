@@ -3,7 +3,10 @@ import { PropsWithChildren } from 'react';
 import { SELECT_TYPE } from '@/components/Select/shared';
 import SelectItem from '@/components/Select/Single/Select/SelectItem';
 import { SelectProps } from '@/components/Select/Single/Select/types';
-import { SingleSelectBase } from '@/components/Select/Single/shared';
+import {
+  SingleSelectBase,
+  SingleSelectBaseList,
+} from '@/components/Select/Single/shared';
 import { SelectValue } from '@/components/Select/Single/shared/types';
 
 const Select = <T extends SelectValue>({
@@ -38,7 +41,7 @@ const Select = <T extends SelectValue>({
       placeholder={placeholder}
       popoverWrapperClassName={'h-[14.875rem] p-1'}
     >
-      {children}
+      <SingleSelectBaseList>{children}</SingleSelectBaseList>
     </SingleSelectBase>
   );
 };
