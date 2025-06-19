@@ -8,12 +8,15 @@ import {
 import ToggleIcon from '@/components/Toggle/ToggleIcon';
 import ToggleLabel from '@/components/Toggle/ToggleLabel';
 import { ToggleProps } from '@/components/Toggle/types';
+import { COLOR_VARIANTS } from '@/variants';
 
 const Toggle = ({
   size = TOGGLE_SIZES.SM,
   checked,
   disabled = false,
   label,
+  labelColor = COLOR_VARIANTS.BLACK,
+  labelClassName,
   className,
   onChange,
 }: ToggleProps) => {
@@ -40,7 +43,15 @@ const Toggle = ({
         onChange={onChange}
       />
       <ToggleIcon size={size} />
-      {label && <ToggleLabel label={label} labelId={labelId} size={size} />}
+      {label && (
+        <ToggleLabel
+          label={label}
+          labelId={labelId}
+          size={size}
+          color={labelColor}
+          className={labelClassName}
+        />
+      )}
     </label>
   );
 };

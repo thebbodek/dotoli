@@ -8,5 +8,5 @@ export const ICON_BUTTON_THEMES = {
 export const ICON_BUTTON_COLORS_STYLES: Record<IconButtonTheme, string> = {
   [ICON_BUTTON_THEMES.GRAY]:
     'hover:bg-primary-01 active:bg-primary-01 disabled:bg-transparent',
-  [ICON_BUTTON_THEMES.WHITE]: '',
+  [ICON_BUTTON_THEMES.WHITE]: 'hover:bg-white',
 };
