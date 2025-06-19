@@ -67,7 +67,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <IconButton iconKey='pencil' />
+      <IconButton iconKey='pencil' arialLabel={'수정'} />
     </Tooltip>
   ),
 };

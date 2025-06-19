@@ -1,7 +1,7 @@
 import { useForm } from '@bbodek/hooks';
 import { useState } from 'react';
 
-import { FormContentFields } from '@/stories/internal-ui/Dialog/shared/types';
+import { FormContentFields } from '@/stories/internal-ui/shared/types';
 
 export interface UseFormContentProps {
   close: () => void;
