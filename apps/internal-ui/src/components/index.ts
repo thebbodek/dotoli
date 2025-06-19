@@ -1,3 +1,5 @@
+export * from './Avatar';
+export * from './AvatarGroup';
 export * from './Badge';
 export * from './BottomSheet';
 export * from './Button';
@@ -10,6 +12,7 @@ export * from './Icon';
 export * from './InfoPopover';
 export * from './Input';
 export * from './Modal';
+export * from './Persona';
 export * from './Popover';
 export * from './Portal';
 export * from './Radio';
