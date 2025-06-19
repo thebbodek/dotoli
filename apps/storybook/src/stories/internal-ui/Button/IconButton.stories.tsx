@@ -5,7 +5,7 @@ import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as ButtonMeta } from './Button.stories';
 
-const { disabled, onClick, type } = ButtonMeta.argTypes ?? {};
+const { disabled, onClick, type, isPending } = ButtonMeta.argTypes ?? {};
 const { iconKey } = IconMeta.argTypes ?? {};
 
 const meta: Meta<typeof IconButton> = {
@@ -28,6 +28,7 @@ const meta: Meta<typeof IconButton> = {
     iconKey,
     type,
     disabled,
+    isPending,
     onClick,
   },
 };
@@ -40,6 +41,7 @@ export const Default: Story = {
   args: {
     theme: ICON_BUTTON_THEMES.GRAY,
     disabled: false,
-    iconKey: 'plus',
+    iconKey: 'pencil',
+    arialLabel: '수정',
   },
 };

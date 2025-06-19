@@ -1,7 +1,9 @@
 import clsx from 'clsx';
+import { MouseEvent } from 'react';
 
 import { ButtonProps } from '@/components/Button/Button/types';
 import ButtonIcon from '@/components/Button/shared/ButtonIcon';
+import { BUTTON_PENDING_ICON_KEY } from '@/components/Button/shared/constants';
 import useButtonPropsValidationEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
 import { generateButtonStyle } from '@/components/Button/shared/utils/generateButtonStyle';
 
@@ -16,12 +18,12 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const { variant, theme, size } = props;
-  const iconKey = isPending ? 'circle-notch' : props.iconKey;
+  const iconKey = isPending ? BUTTON_PENDING_ICON_KEY : props.iconKey;
   const isDisabled = disabled || isPending;
 
   useButtonPropsValidationEffect({ variant, theme, size });
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (isDisabled) return;
@@ -43,6 +45,7 @@ const Button = ({
       {iconKey && (
         <ButtonIcon
           iconKey={iconKey}
+          size={size}
           className={clsx(isPending && 'animate-spin')}
         />
       )}

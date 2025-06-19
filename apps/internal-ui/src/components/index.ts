@@ -5,6 +5,7 @@ export * from './Checkbox';
 export * from './Chip';
 export * from './Dialog';
 export * from './Flex';
+export * from './FullScreenDialog';
 export * from './Icon';
 export * from './InfoPopover';
 export * from './Input';

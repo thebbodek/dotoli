@@ -183,6 +183,7 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
         >
           Popover Content {index}
           <IconButton
+            arialLabel={'닫기'}
             theme={BUTTON_THEMES.GRAY}
             iconKey={'x'}
             onClick={close}

@@ -5,6 +5,8 @@ import {
   ButtonVariant,
 } from '@/components/Button/shared/types';
 
+export const BUTTON_PENDING_ICON_KEY = 'circle-notch';
+
 export const BUTTON_VARIANTS = {
   FILLED: 'filled',
   OUTLINED: 'outlined',
