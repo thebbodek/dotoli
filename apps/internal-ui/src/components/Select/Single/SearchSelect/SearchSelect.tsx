@@ -4,7 +4,10 @@ import { InputSearch } from '@/components/Input';
 import { SELECT_TYPE, SelectBaseListEmpty } from '@/components/Select/shared';
 import SearchSelectItem from '@/components/Select/Single/SearchSelect/SearchSelectItem';
 import { SearchSelectProps } from '@/components/Select/Single/SearchSelect/types';
-import { SingleSelectBase } from '@/components/Select/Single/shared';
+import {
+  SingleSelectBase,
+  SingleSelectBaseList,
+} from '@/components/Select/Single/shared';
 import { SelectValue } from '@/components/Select/Single/shared/types';
 
 const SearchSelect = <T extends SelectValue>({
@@ -44,12 +47,12 @@ const SearchSelect = <T extends SelectValue>({
       onSelect={onSelect}
       displayValue={displayValue}
       placeholder={placeholder}
-      popoverWrapperClassName={
-        'flex-v-stack h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
-      }
+      popoverWrapperClassName='flex-v-stack h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
     >
       <InputSearch {...restInputOption} placeholder={inputPlaceholder} />
-      {hasChildren ? children : <SelectBaseListEmpty />}
+      <SingleSelectBaseList>
+        {hasChildren ? children : <SelectBaseListEmpty />}
+      </SingleSelectBaseList>
     </SingleSelectBase>
   );
 };

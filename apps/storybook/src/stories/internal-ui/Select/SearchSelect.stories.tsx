@@ -52,7 +52,7 @@ const meta: Meta<typeof SearchSelect> = {
       type: {
         name: 'other',
         value: 'ReactNode',
-        required: true,
+        required: false,
       },
     },
     placeholder: {
