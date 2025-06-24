@@ -1,29 +1,25 @@
-import { AVATAR_SIZES } from '@/components/Avatar';
+import { Avatar, AVATAR_SIZES } from '@/components/Avatar';
 import { Flex } from '@/components/Flex';
-import {
-  PERSONA_PROFILE_COLORS,
-  PERSONA_SIZE_FLEX_PROPS,
-} from '@/components/Persona/constants';
-import PersonaAvatar from '@/components/Persona/PersonaAvatar';
+import { PERSONA_SIZE_FLEX_PROPS } from '@/components/Persona/constants';
 import PersonaProfile from '@/components/Persona/PersonaProfile';
-import { PersonaProps } from './types';
+import { PersonaProps } from '@/components/Persona/types';
 
 const Persona = ({
+  size = AVATAR_SIZES.SM,
+  type,
   name,
   description,
   src,
-  color = PERSONA_PROFILE_COLORS.BLACK,
-  size = AVATAR_SIZES.SM,
-  type,
+  profileTheme,
 }: PersonaProps) => {
   return (
-    <Flex align={{ items: 'center' }} {...PERSONA_SIZE_FLEX_PROPS[size].root}>
-      <PersonaAvatar src={src} name={name} type={type} size={size} />
+    <Flex {...PERSONA_SIZE_FLEX_PROPS[size].root} align={{ items: 'center' }}>
+      <Avatar src={src} alt={name} type={type} size={size} />
       <PersonaProfile
         name={name}
         description={description}
         size={size}
-        color={color}
+        profileTheme={profileTheme}
       />
     </Flex>
   );

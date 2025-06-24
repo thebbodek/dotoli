@@ -1,26 +1,15 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { AvatarImageProps } from '@/components/Avatar/types';
-import { Icon } from '@/components/Icon';
+import AvatarIcon from '@/components/Avatar/AvatarIcon';
 import { AVATAR_SIZE_IMAGE_PROPS } from '@/components/Avatar/constants';
+import { AvatarImageProps } from '@/components/Avatar/types';
 
-const AvatarImage = ({
-  src,
-  alt,
-  size,
-  fallbackIconKey = 'user',
-}: AvatarImageProps) => {
+const AvatarImage = ({ src, alt, size, type }: AvatarImageProps) => {
   const [isError, setIsError] = useState(false);
 
-  if (isError) {
-    return (
-      <Icon
-        iconKey={fallbackIconKey}
-        weight='fill'
-        className='text-[0.875rem]'
-      />
-    );
+  if (!src || isError) {
+    return <AvatarIcon type={type} size={size} />;
   }
 
   return (

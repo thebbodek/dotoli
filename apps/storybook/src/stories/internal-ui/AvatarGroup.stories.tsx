@@ -1,4 +1,9 @@
-import { AvatarGroup, Flex, IconButton } from '@bbodek/internal-ui';
+import {
+  AvatarGroup,
+  AvatarGroupItem,
+  Flex,
+  IconButton,
+} from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -10,7 +15,7 @@ const meta: Meta<typeof AvatarGroup> = {
   globals: AvatarMeta.globals,
   argTypes: {
     items: {
-      description: 'Array of avatar objects (each with name, src, and type)',
+      description: 'Array of avatar objects (each with name, src, type)',
       type: {
         required: true,
         name: 'array',
@@ -18,8 +23,8 @@ const meta: Meta<typeof AvatarGroup> = {
           name: 'object',
           value: {
             name: { name: 'string', required: true },
+            type: { name: 'string', required: true },
             src: { name: 'string', required: false },
-            type: { name: 'string', required: false },
           },
         },
       },
@@ -41,9 +46,10 @@ export default meta;
 
 type Story = StoryObj<typeof AvatarGroup>;
 
-const generateItems = (length: number) =>
+const generateItems = (length: number): AvatarGroupItem[] =>
   Array.from({ length }, (_, index) => `뽀득${index + 1}`).map((name) => ({
     name,
+    type: 'single',
   }));
 
 export const Default: Story = {
@@ -63,11 +69,13 @@ export const Default: Story = {
         <Flex gap={1}>
           <IconButton
             iconKey='minus'
+            arialLabel='minus'
             onClick={() => setLength(length - 1)}
             className='bg-white'
           />
           <IconButton
             iconKey='plus'
+            arialLabel='plus'
             onClick={() => setLength(length + 1)}
             className='bg-white'
           />

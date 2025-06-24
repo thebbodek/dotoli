@@ -1,22 +1,9 @@
 import { AVATAR_SIZES } from '@/components/Avatar';
-import { IconProps } from '@/components/Icon';
-import { PersonaProfileColor, PersonaType } from '@/components/Persona/types';
-import { TypographyProps } from '@/components/Typography';
 
-export const PERSONA_TYPES = {
-  SINGLE: 'single',
-  GROUP: 'group',
+export const PERSONA_PROFILE_THEMES = {
+  DARK: 'dark',
+  LIGHT: 'light',
 } as const;
-
-export const PERSONA_PROFILE_COLORS = {
-  BLACK: 'black',
-  WHITE: 'white',
-} as const;
-
-export const PERSONA_ICON_KEYS: Record<PersonaType, IconProps['iconKey']> = {
-  [PERSONA_TYPES.SINGLE]: 'user',
-  [PERSONA_TYPES.GROUP]: 'users-three',
-};
 
 export const PERSONA_SIZE_FLEX_PROPS = {
   [AVATAR_SIZES.SM]: {
@@ -29,10 +16,13 @@ export const PERSONA_SIZE_FLEX_PROPS = {
   },
 } as const;
 
-export const PERSONA_PROFILE_NAME_COLOR_STYLES: Record<
-  PersonaProfileColor,
-  TypographyProps<'strong'>['color']
-> = {
-  [PERSONA_PROFILE_COLORS.BLACK]: 'black',
-  [PERSONA_PROFILE_COLORS.WHITE]: 'white',
-};
+export const PERSONA_PROFILE_THEME_TYPOGRAPHY_PROPS = {
+  [PERSONA_PROFILE_THEMES.DARK]: {
+    name: { color: 'white' },
+    description: { color: 'gray-05' },
+  },
+  [PERSONA_PROFILE_THEMES.LIGHT]: {
+    name: { color: 'black' },
+    description: { color: 'gray-05' },
+  },
+} as const;

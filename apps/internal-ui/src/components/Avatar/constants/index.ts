@@ -1,14 +1,11 @@
-import {
-  AvatarSize,
-  AvatarTheme,
-  AvatarVariant,
-} from '@/components/Avatar/types';
 import { ImageProps } from 'next/image';
 
-export const AVATAR_VARIANTS = {
-  ICON: 'icon',
-  IMAGE: 'image',
-  TEXT: 'text',
+import { AvatarSize, AvatarTheme, AvatarType } from '@/components/Avatar/types';
+import { IconProps } from '@/components/Icon';
+
+export const AVATAR_TYPES = {
+  SINGLE: 'single',
+  GROUP: 'group',
 } as const;
 
 export const AVATAR_SIZES = {
@@ -40,13 +37,23 @@ export const AVATAR_SIZE_IMAGE_PROPS: Record<
   },
 };
 
+export const AVATAR_ICON_KEYS: Record<AvatarType, IconProps['iconKey']> = {
+  [AVATAR_TYPES.SINGLE]: 'user',
+  [AVATAR_TYPES.GROUP]: 'users-three',
+};
+
+export const AVATAR_ICON_STYLES = {
+  [AVATAR_TYPES.SINGLE]: {
+    [AVATAR_SIZES.SM]: 'text-[0.875rem]',
+    [AVATAR_SIZES.MD]: 'text-[1.125rem]',
+  },
+  [AVATAR_TYPES.GROUP]: {
+    [AVATAR_SIZES.SM]: 'text-[1rem]',
+    [AVATAR_SIZES.MD]: 'text-[1.25rem]',
+  },
+} as const;
+
 export const AVATAR_THEME_STYLES: Record<AvatarTheme, string> = {
   [AVATAR_THEMES.PRIMARY]: 'text-primary-04 bg-primary-02',
   [AVATAR_THEMES.GRAY]: 'bg-gray-02 text-gray-06',
-};
-
-export const AVATAR_VARIANT_STYLES: Record<AvatarVariant, string> = {
-  [AVATAR_VARIANTS.ICON]: 'text-[0.875rem]',
-  [AVATAR_VARIANTS.IMAGE]: 'relative ',
-  [AVATAR_VARIANTS.TEXT]: 'text-body-12-m',
 };

@@ -1,6 +1,7 @@
 import { Flex } from '@/components/Flex';
 import {
-  PERSONA_PROFILE_NAME_COLOR_STYLES,
+  PERSONA_PROFILE_THEME_TYPOGRAPHY_PROPS,
+  PERSONA_PROFILE_THEMES,
   PERSONA_SIZE_FLEX_PROPS,
 } from '@/components/Persona/constants';
 import { PersonaProfileProps } from '@/components/Persona/types';
@@ -10,19 +11,17 @@ const PersonaProfile = ({
   name,
   description,
   size,
-  color,
+  profileTheme = PERSONA_PROFILE_THEMES.LIGHT,
 }: PersonaProfileProps) => {
+  const typographyProps = PERSONA_PROFILE_THEME_TYPOGRAPHY_PROPS[profileTheme];
+
   return (
     <Flex {...PERSONA_SIZE_FLEX_PROPS[size].profile}>
-      <Typography
-        as='strong'
-        variant='body-14-m'
-        color={PERSONA_PROFILE_NAME_COLOR_STYLES[color]}
-      >
+      <Typography {...typographyProps.name} as='strong' variant='body-14-m'>
         {name}
       </Typography>
       {description && (
-        <Typography variant='body-12-m' color='gray-05'>
+        <Typography {...typographyProps.description} variant='body-12-m'>
           {description}
         </Typography>
       )}

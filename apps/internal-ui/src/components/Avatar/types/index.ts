@@ -1,58 +1,28 @@
-import { ReactNode } from 'react';
+import { HTMLAttributes } from 'react';
 
-import {
-  AVATAR_SIZES,
-  AVATAR_THEMES,
-  AVATAR_VARIANTS,
-} from '@/components/Avatar';
-import { IconProps } from '@/components/Icon/types';
+import { AVATAR_SIZES, AVATAR_THEMES, AVATAR_TYPES } from '@/components/Avatar';
 
-export type AvatarVariant =
-  (typeof AVATAR_VARIANTS)[keyof typeof AVATAR_VARIANTS];
+export type AvatarType = (typeof AVATAR_TYPES)[keyof typeof AVATAR_TYPES];
 
 export type AvatarSize = (typeof AVATAR_SIZES)[keyof typeof AVATAR_SIZES];
 
 export type AvatarTheme = (typeof AVATAR_THEMES)[keyof typeof AVATAR_THEMES];
 
-export interface AvatarAllProps {
-  variant: AvatarVariant;
-  size?: AvatarSize;
-  src: string;
-  alt: string;
-  fallbackIconKey: IconProps['iconKey'];
-  iconKey: IconProps['iconKey'];
-  text: ReactNode;
-  theme?: AvatarTheme;
+export interface AvatarBaseProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  size: AvatarSize;
+  theme: AvatarTheme;
 }
 
-export interface AvatarPrimitiveProps<T extends AvatarVariant>
-  extends Pick<AvatarAllProps, 'size'> {
-  variant: T;
-}
-
-export interface ImageAvatarProps {
-  src: string;
+export interface AvatarProps extends Partial<Pick<AvatarBaseProps, 'size'>> {
+  type: AvatarType;
+  src?: string;
   alt?: string;
-  fallbackIconKey?: IconProps['iconKey'];
 }
-
-export interface IconAvatarProps {
-  iconKey: IconProps['iconKey'];
-  theme?: AvatarTheme;
-}
-
-export interface TextAvatarProps {
-  text: ReactNode;
-  theme?: AvatarTheme;
-}
-
-export type AvatarProps<T extends AvatarVariant> = AvatarPrimitiveProps<T> &
-  (T extends typeof AVATAR_VARIANTS.ICON
-    ? IconAvatarProps
-    : T extends typeof AVATAR_VARIANTS.IMAGE
-      ? ImageAvatarProps
-      : TextAvatarProps);
 
 export interface AvatarImageProps
-  extends ImageAvatarProps,
-    Required<Pick<AvatarAllProps, 'size'>> {}
+  extends Pick<AvatarBaseProps, 'size'>,
+    Pick<AvatarProps, 'alt' | 'src' | 'type'> {}
+
+export interface AvatarIconProps
+  extends Required<Pick<AvatarProps, 'type' | 'size'>> {}

@@ -1,26 +1,16 @@
-import { AvatarAllProps, ImageAvatarProps } from '@/components/Avatar';
-import {
-  PERSONA_PROFILE_COLORS,
-  PERSONA_TYPES,
-} from '@/components/Persona/constants';
+import { AvatarProps } from '@/components/Avatar';
+import { PERSONA_PROFILE_THEMES } from '@/components/Persona/constants';
 
-export type PersonaType = (typeof PERSONA_TYPES)[keyof typeof PERSONA_TYPES];
-
-export type PersonaProfileColor =
-  (typeof PERSONA_PROFILE_COLORS)[keyof typeof PERSONA_PROFILE_COLORS];
+export type PersonaProfileTheme =
+  (typeof PERSONA_PROFILE_THEMES)[keyof typeof PERSONA_PROFILE_THEMES];
 
 export interface PersonaProps
-  extends Pick<AvatarAllProps, 'size'>,
-    Partial<Pick<ImageAvatarProps, 'src'>> {
+  extends Pick<AvatarProps, 'size' | 'src' | 'type'> {
   name: string;
   description?: string;
-  color?: PersonaProfileColor;
-  type?: PersonaType;
+  profileTheme?: PersonaProfileTheme;
 }
 
-export interface PersonaAvatarProps
-  extends Pick<PersonaProps, 'name' | 'type' | 'src' | 'size'> {}
-
 export interface PersonaProfileProps
-  extends Required<Pick<PersonaProps, 'color' | 'size'>>,
-    Pick<PersonaProps, 'name' | 'description'> {}
+  extends Required<Pick<PersonaProps, 'size'>>,
+    Pick<PersonaProps, 'name' | 'description' | 'profileTheme'> {}

@@ -1,7 +1,7 @@
 import { Avatar } from '@/components/Avatar';
+import AvatarBase from '@/components/Avatar/AvatarBase';
 import { AVATAR_GROUP_DEFAULT_ITEM_LIMIT } from '@/components/AvatarGroup/constants';
 import { AvatarGroupProps } from '@/components/AvatarGroup/types';
-import PersonaAvatar from '@/components/Persona/PersonaAvatar';
 import { Tooltip } from '@/components/Tooltip';
 
 const AvatarGroup = ({
@@ -16,21 +16,18 @@ const AvatarGroup = ({
 
   return (
     <Tooltip
-      rootClassName='flex-h-stack items-center -space-x-[0.687rem]'
       content={tooltipContent}
-      placement='bottom'
+      rootClassName='flex-h-stack items-center -space-x-[0.687rem]'
       className={tooltipClassName}
+      placement='bottom'
     >
       {visibleItems.map((item) => (
-        <PersonaAvatar key={item.name} {...item} />
+        <Avatar key={item.name} {...item} />
       ))}
       {isOverflow && (
-        <Avatar
-          variant='text'
-          text={`+${overflowCount}`}
-          size='sm'
-          theme='gray'
-        />
+        <AvatarBase size='sm' theme='gray' className='text-body-12-m'>
+          {`+${overflowCount}`}
+        </AvatarBase>
       )}
     </Tooltip>
   );
