@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { MouseEvent } from 'react';
 
 import { Icon } from '@/components/Icon';
@@ -9,6 +10,7 @@ const InputIconButton = ({
   weight = 'fill',
   disabled = false,
   ariaLabel,
+  className,
   onClick,
 }: InputIconButtonProps) => {
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -21,7 +23,7 @@ const InputIconButton = ({
     <button
       type={type}
       aria-label={ariaLabel}
-      className={'shrink-0'}
+      className={clsx(className, 'shrink-0')}
       onClick={handleClick}
       disabled={disabled}
     >

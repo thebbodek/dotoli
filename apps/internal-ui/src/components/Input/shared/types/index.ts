@@ -10,20 +10,12 @@ import {
 } from 'react';
 
 import { IconProps } from '@/components/Icon';
-import {
-  INPUT_ELEMENTS,
-  INPUT_STATE,
-  INPUT_VARIANTS,
-} from '@/components/Input/shared/constants';
+import { INPUT_ELEMENTS } from '@/components/Input/shared/constants';
+import { InputTriggerWrapperProps } from '@/components/shared/components/InputTriggerWrapper';
 import { ComponentPropsRef } from '@/components/shared/types';
 
 export type InputElements =
   (typeof INPUT_ELEMENTS)[keyof typeof INPUT_ELEMENTS];
-
-export type InputVariants =
-  (typeof INPUT_VARIANTS)[keyof typeof INPUT_VARIANTS];
-
-export type InputState = (typeof INPUT_STATE)[keyof typeof INPUT_STATE];
 
 export type InputElementType = Extract<ElementType, InputElements>;
 
@@ -32,14 +24,21 @@ export type InputElement<T extends InputElementType> =
     ? HTMLInputElement
     : HTMLTextAreaElement;
 
+export interface InputContextProps {
+  feedbackId?: string;
+  isError?: boolean;
+}
+
+export interface InputProviderProps extends InputContextProps {}
+
 export interface InputBaseProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
+    Pick<InputContextProps, 'isError'>,
     Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'required'> {
   value?: string;
   label?: string;
-  feedback?: string;
-  error?: boolean;
   badge?: ReactNode;
+  feedback?: string;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
@@ -47,6 +46,7 @@ export interface InputDefaultProps<
   T extends InputElementType,
   P extends InputElement<T>,
 > extends Pick<InputBaseProps, 'id' | 'required' | 'value'>,
+    Pick<InputTriggerWrapperProps, 'variant'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     ComponentPropsRef<P>,
     Pick<
@@ -59,7 +59,6 @@ export interface InputDefaultProps<
       | 'maxLength'
     > {
   as?: T;
-  variant?: InputVariants;
   addonEnd?: ReactNode;
   popover?: ReactNode;
   onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -87,8 +86,8 @@ export interface UseInputChangeProps<
 export interface InputIconButtonProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
-      'disabled' | 'onClick' | 'type'
+      'disabled' | 'onClick' | 'type' | 'className'
     >,
     Pick<IconProps, 'iconKey' | 'weight'> {
-  ariaLabel?: string;
+  ariaLabel: ButtonHTMLAttributes<HTMLButtonElement>['aria-label'];
 }
