@@ -17,6 +17,9 @@ export const BUTTON_VARIANTS = {
 export const BUTTON_THEMES = {
   PRIMARY: 'primary',
   GRAY: 'gray',
+  RED: 'red',
+  GREEN: 'green',
+  YELLOW: 'yellow',
 } as const;
 
 export const BUTTON_SIZES = {
@@ -85,6 +88,84 @@ export const BUTTON_STYLES: Record<
       [BUTTON_STATE.DEFAULT]: 'text-gray-07',
       [BUTTON_STATE.HOVER]: 'hover:text-black',
       [BUTTON_STATE.PRESSED]: 'active:text-black',
+      [BUTTON_STATE.DISABLED]: 'text-gray-04',
+    },
+  },
+  [BUTTON_THEMES.RED]: {
+    [BUTTON_VARIANTS.FILLED]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-red-05 text-white',
+      [BUTTON_STATE.HOVER]: 'hover:bg-red-06',
+      [BUTTON_STATE.PRESSED]: 'active:bg-red-06',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-02 text-gray-05',
+    },
+    [BUTTON_VARIANTS.OUTLINED]: {
+      [BUTTON_STATE.DEFAULT]: 'border-red-05 bg-white text-red-06',
+      [BUTTON_STATE.HOVER]: 'hover:bg-red-01',
+      [BUTTON_STATE.PRESSED]: 'active:bg-red-01',
+      [BUTTON_STATE.DISABLED]: 'border-gray-02 text-gray-05 bg-white',
+    },
+    [BUTTON_VARIANTS.TONAL]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-red-02 text-red-06',
+      [BUTTON_STATE.HOVER]: 'hover:bg-red-03',
+      [BUTTON_STATE.PRESSED]: 'active:bg-red-03',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-01 text-gray-04',
+    },
+    [BUTTON_VARIANTS.TEXT]: {
+      [BUTTON_STATE.DEFAULT]: 'text-red-06',
+      [BUTTON_STATE.HOVER]: 'hover:text-red-07',
+      [BUTTON_STATE.PRESSED]: 'active:text-red-07',
+      [BUTTON_STATE.DISABLED]: 'text-gray-04',
+    },
+  },
+  [BUTTON_THEMES.GREEN]: {
+    [BUTTON_VARIANTS.FILLED]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-green-05 text-white',
+      [BUTTON_STATE.HOVER]: 'hover:bg-green-06',
+      [BUTTON_STATE.PRESSED]: 'active:bg-green-06',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-02 text-gray-05',
+    },
+    [BUTTON_VARIANTS.OUTLINED]: {
+      [BUTTON_STATE.DEFAULT]: 'border-green-05 bg-white text-green-06',
+      [BUTTON_STATE.HOVER]: 'hover:bg-green-01',
+      [BUTTON_STATE.PRESSED]: 'active:bg-green-01',
+      [BUTTON_STATE.DISABLED]: 'border-gray-02 text-gray-05 bg-white',
+    },
+    [BUTTON_VARIANTS.TONAL]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-green-02 text-green-06',
+      [BUTTON_STATE.HOVER]: 'hover:bg-green-03',
+      [BUTTON_STATE.PRESSED]: 'active:bg-green-03',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-01 text-gray-04',
+    },
+    [BUTTON_VARIANTS.TEXT]: {
+      [BUTTON_STATE.DEFAULT]: 'text-green-06',
+      [BUTTON_STATE.HOVER]: 'hover:text-green-07',
+      [BUTTON_STATE.PRESSED]: 'active:text-green-07',
+      [BUTTON_STATE.DISABLED]: 'text-gray-04',
+    },
+  },
+  [BUTTON_THEMES.YELLOW]: {
+    [BUTTON_VARIANTS.FILLED]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-yellow-04 text-yellow-09',
+      [BUTTON_STATE.HOVER]: 'hover:bg-yellow-05',
+      [BUTTON_STATE.PRESSED]: 'active:bg-yellow-05',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-02 text-gray-05',
+    },
+    [BUTTON_VARIANTS.OUTLINED]: {
+      [BUTTON_STATE.DEFAULT]: 'border-yellow-04 bg-white text-yellow-07',
+      [BUTTON_STATE.HOVER]: 'hover:bg-yellow-01',
+      [BUTTON_STATE.PRESSED]: 'active:bg-yellow-01',
+      [BUTTON_STATE.DISABLED]: 'border-gray-02 text-gray-05 bg-white',
+    },
+    [BUTTON_VARIANTS.TONAL]: {
+      [BUTTON_STATE.DEFAULT]: 'bg-yellow-02 text-yellow-07',
+      [BUTTON_STATE.HOVER]: 'hover:bg-yellow-03',
+      [BUTTON_STATE.PRESSED]: 'active:bg-yellow-03',
+      [BUTTON_STATE.DISABLED]: 'bg-gray-01 text-gray-04',
+    },
+    [BUTTON_VARIANTS.TEXT]: {
+      [BUTTON_STATE.DEFAULT]: 'text-yellow-07',
+      [BUTTON_STATE.HOVER]: 'hover:text-yellow-08',
+      [BUTTON_STATE.PRESSED]: 'active:text-yellow-08',
       [BUTTON_STATE.DISABLED]: 'text-gray-04',
     },
   },
