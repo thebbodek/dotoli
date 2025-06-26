@@ -17,13 +17,25 @@ const meta: Meta<typeof IconButton> = {
       control: 'select',
       options: Object.values(ICON_BUTTON_THEMES),
       table: {
-        defaultValue: { summary: ICON_BUTTON_THEMES.GRAY },
+        defaultValue: { summary: ICON_BUTTON_THEMES.HOVER_GRAY },
         type: {
           summary: generateArgTypeSummary({
             options: Object.values(ICON_BUTTON_THEMES),
           }),
         },
       },
+    },
+    arialLabel: {
+      description: 'Icon Button Aria Label',
+      control: 'text',
+      type: {
+        required: true,
+        name: 'string',
+      },
+    },
+    tooltipContent: {
+      description: 'Icon Button Tooltip Content',
+      control: 'text',
     },
     iconKey,
     type,
@@ -39,7 +51,7 @@ type Story = StoryObj<typeof IconButton>;
 
 export const Default: Story = {
   args: {
-    theme: ICON_BUTTON_THEMES.GRAY,
+    theme: ICON_BUTTON_THEMES.HOVER_GRAY,
     disabled: false,
     iconKey: 'pencil',
     arialLabel: '수정',
