@@ -16,6 +16,7 @@ const OverlayFooter = ({
   cancelButtonLabel,
   possibleConfirm = false,
   isPending = false,
+  isLoading = false,
   isFull = false,
   buttonSize = BUTTON_SIZES.MD,
   className,
@@ -55,9 +56,9 @@ const OverlayFooter = ({
         {...buttonDefaultProps}
         label={confirmButtonLabel}
         onClick={handleConfirm}
-        disabled={!possibleConfirm}
+        disabled={!possibleConfirm || isPending || isLoading}
         isPending={isPending}
-        iconPosition={isPending ? BUTTON_ICON_POSITIONS.LEFT : undefined}
+        iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
       />
     </footer>
   );

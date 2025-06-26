@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { default as FormFullScreenDialogMeta } from './FormFullScreenDialog.stories';
 
-const { isOpen, title } = FormFullScreenDialogMeta.argTypes ?? {};
+const { isOpen, title, isLoading } = FormFullScreenDialogMeta.argTypes ?? {};
 
 const meta: Meta<typeof InfoFullScreenDialog> = {
   title: 'core/internal-ui/FullScreenDialog/InfoFullScreenDialog',
@@ -12,6 +12,7 @@ const meta: Meta<typeof InfoFullScreenDialog> = {
   argTypes: {
     isOpen,
     title,
+    isLoading,
     onClose: {
       description: 'on close',
       type: 'function',
@@ -37,7 +38,7 @@ export const Default: Story = {
           onClose={() => setIsOpen(false)}
           className='min-w-sm'
         >
-          <div className='bg-gray-01 rounded-8 h-[25.625rem] w-full' />
+          <div className='bg-gray-02 rounded-8 h-[25.625rem] w-full' />
         </InfoFullScreenDialog>
       </>
     );

@@ -8,7 +8,10 @@ import {
 
 import { ButtonProps } from '@/components/Button';
 import { PortalProps } from '@/components/Portal';
-import { OVERLAY_VARIANTS } from '@/components/shared/components/Overlay/constants';
+import {
+  OVERLAY_CONTENT_WRAPPER_ELEMENTS,
+  OVERLAY_VARIANTS,
+} from '@/components/shared/components/Overlay/constants';
 import { ComponentPropsRef } from '@/components/shared/types';
 import { TYPOGRAPHY_ELEMENTS, TypographyProps } from '@/components/Typography';
 import { TypographyVariants } from '@/variants';
@@ -29,6 +32,9 @@ export interface OverlayProps
 export interface UseBodyScrollLockEffectProps {
   isLocked: boolean;
 }
+
+export interface OverlayHeaderProps
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {}
 
 export interface OverlayTitleProps
   extends Pick<
@@ -52,7 +58,8 @@ export interface OverlayFooterPrimitiveProps {
 }
 
 export interface OverlayFooterStateProps
-  extends Pick<ButtonProps, 'isPending'> {
+  extends Pick<ButtonProps, 'isPending'>,
+    Pick<OverlayContentWrapperProps, 'isLoading'> {
   possibleConfirm?: boolean;
 }
 
@@ -75,7 +82,18 @@ export interface OverlayPrimitiveProps
     Omit<OverlayBasePrimitiveProps, 'className'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     OverlayFooterPrimitiveProps,
-    Pick<OverlayTitleProps, 'title'> {}
+    Pick<OverlayTitleProps, 'title'> {
+  isLoading?: boolean;
+}
 
 export interface OverlayDividerProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+
+export type OverlayContentWrapperElements =
+  (typeof OVERLAY_CONTENT_WRAPPER_ELEMENTS)[keyof typeof OVERLAY_CONTENT_WRAPPER_ELEMENTS];
+
+export interface OverlayContentWrapperProps
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
+  as?: OverlayContentWrapperElements;
+  isLoading?: boolean;
+}

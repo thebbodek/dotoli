@@ -1,9 +1,6 @@
-import { DialogOverlayProps } from '@/components/shared';
+import { InfoDialogOverlayPrimitiveProps } from '@/components/shared';
 
 export interface InfoFullScreenDialogProps
-  extends Omit<
-    DialogOverlayProps,
-    'confirmButtonLabel' | 'onConfirm' | 'onCancel' | 'cancelButtonLabel'
-  > {
+  extends InfoDialogOverlayPrimitiveProps {
   onClose: () => void;
 }

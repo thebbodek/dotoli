@@ -4,8 +4,7 @@ import { PropsWithChildren } from 'react';
 import BottomSheetContentWrapper from '@/components/BottomSheet/shared/BottomSheetContentWrapper';
 import BottomSheetFooter from '@/components/BottomSheet/shared/BottomSheetFooter';
 import { BottomSheetProps } from '@/components/BottomSheet/shared/types';
-import { OVERLAY_VARIANTS } from '@/components/shared/components/Overlay/constants';
-import Overlay from '@/components/shared/components/Overlay/Overlay';
+import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
 
 const BottomSheet = ({
   ref,

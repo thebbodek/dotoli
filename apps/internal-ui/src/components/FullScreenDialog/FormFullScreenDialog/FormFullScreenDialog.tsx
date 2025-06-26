@@ -1,7 +1,7 @@
 import { FormFullScreenDialogProps } from '@/components/FullScreenDialog/FormFullScreenDialog/types';
 import FullScreenDialog from '@/components/FullScreenDialog/shared/FullScreenDialog';
 import {
-  DIALOG_OVERLAY_CONTENT_WRAPPER_ELEMENTS,
+  OVERLAY_CONTENT_WRAPPER_ELEMENTS,
   OverlayFooter,
 } from '@/components/shared';
 
@@ -17,6 +17,7 @@ const FormFullScreenDialog = ({
   cancelButtonLabel,
   possibleConfirm,
   isPending,
+  isLoading,
 }: FormFullScreenDialogProps) => {
   return (
     <FullScreenDialog isOpen={isOpen} ref={ref} className={className}>
@@ -26,7 +27,8 @@ const FormFullScreenDialog = ({
         isPending={isPending}
       />
       <FullScreenDialog.ContentWrapper
-        as={DIALOG_OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
+        as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
+        isLoading={isLoading}
         className='gap-y-8'
       >
         {children}
@@ -38,6 +40,7 @@ const FormFullScreenDialog = ({
         cancelButtonLabel={cancelButtonLabel}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
+        isLoading={isLoading}
         className='border-t-gray-02 border-t px-5 py-3'
         isFull
       />

@@ -1,5 +1,5 @@
 import { IconButton } from '@/components/Button';
-import { OverlayTitle } from '@/components/shared';
+import { OverlayHeader, OverlayTitle } from '@/components/shared';
 import { FullScreenDialogHeaderProps } from './types';
 
 const FullScreenDialogHeader = ({
@@ -8,7 +8,7 @@ const FullScreenDialogHeader = ({
   isPending,
 }: FullScreenDialogHeaderProps) => {
   return (
-    <header className='border-gray-02 flex-h-stack items-center border-b px-5 py-3'>
+    <OverlayHeader className='flex-h-stack items-center px-5 py-3'>
       <IconButton
         iconKey='x'
         arialLabel={'닫기'}
@@ -17,7 +17,7 @@ const FullScreenDialogHeader = ({
         disabled={isPending}
       />
       <OverlayTitle variant={'body-16-b'} title={title} />
-    </header>
+    </OverlayHeader>
   );
 };
 
