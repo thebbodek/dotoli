@@ -1,7 +1,6 @@
-import { HTMLAttributes } from 'react';
-
 import {
   OverlayBasePrimitiveProps,
+  OverlayContentWrapperProps,
   OverlayFooterPrimitiveProps,
   OverlayFooterStateProps,
 } from '@/components/shared';
@@ -9,7 +8,7 @@ import {
 export interface BottomSheetProps extends OverlayBasePrimitiveProps {}
 
 export interface BottomSheetContentWrapperProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+  extends Pick<OverlayContentWrapperProps, 'isLoading' | 'className'> {}
 
 export interface BottomSheetFooterProps
   extends OverlayFooterPrimitiveProps,

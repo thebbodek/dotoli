@@ -14,3 +14,8 @@ export const OVERLAY_CONTENT_SIZE: Record<OverlayVariant, string> = {
   [OVERLAY_VARIANTS.MODAL]: 'h-auto',
   [OVERLAY_VARIANTS.BOTTOM_SHEET]: 'h-auto',
 } as const;
+
+export const OVERLAY_CONTENT_WRAPPER_ELEMENTS = {
+  FORM: 'form',
+  DIV: 'div',
+} as const;

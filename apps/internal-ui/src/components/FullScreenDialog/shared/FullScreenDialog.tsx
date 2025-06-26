@@ -3,12 +3,8 @@ import { PropsWithChildren } from 'react';
 
 import FullScreenDialogContentWrapper from '@/components/FullScreenDialog/shared/FullScreenDialogContentWrapper';
 import FullScreenDialogHeader from '@/components/FullScreenDialog/shared/FullScreenDialogHeader';
-import {
-  Overlay,
-  OVERLAY_VARIANTS,
-  OverlayDivider,
-} from '@/components/shared/components/Overlay';
 import { FullScreenDialogProps } from '@/components/FullScreenDialog/shared/types';
+import { Overlay, OVERLAY_VARIANTS, OverlayDivider } from '@/components/shared';
 
 const FullScreenDialog = ({
   isOpen,

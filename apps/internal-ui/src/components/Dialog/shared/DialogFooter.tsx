@@ -8,6 +8,7 @@ const DialogFooter = ({
   confirmButtonLabel,
   cancelButtonLabel,
   isPending,
+  isLoading,
   possibleConfirm,
 }: DialogFooterProps) => {
   return (
@@ -17,6 +18,7 @@ const DialogFooter = ({
       confirmButtonLabel={confirmButtonLabel}
       cancelButtonLabel={cancelButtonLabel}
       isPending={isPending}
+      isLoading={isLoading}
       possibleConfirm={possibleConfirm}
       buttonSize={BUTTON_SIZES.LG}
       className='border-gray-02 border-t px-[1.875rem] py-[1.125rem]'

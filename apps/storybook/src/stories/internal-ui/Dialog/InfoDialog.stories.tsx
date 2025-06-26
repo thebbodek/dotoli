@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { default as FormDialogMeta } from '@/stories/internal-ui/Dialog/FormDialog.stories';
 
-const { isOpen, title, confirmButtonLabel, onConfirm } =
+const { isOpen, title, confirmButtonLabel, onConfirm, isLoading } =
   FormDialogMeta.argTypes ?? {};
 
 const meta: Meta<typeof InfoDialog> = {
@@ -26,6 +26,7 @@ const meta: Meta<typeof InfoDialog> = {
       },
     },
     onConfirm,
+    isLoading,
   },
 };
 
@@ -47,7 +48,7 @@ export const Default: Story = {
           onConfirm={() => setIsOpen(false)}
           confirmButtonLabel='닫기'
         >
-          <div className='bg-gray-01 rounded-8 h-[25.625rem] w-[48.75rem]' />
+          <div className='bg-gray-02 rounded-8 h-[25.625rem] w-[48.75rem]' />
         </InfoDialog>
       </>
     );

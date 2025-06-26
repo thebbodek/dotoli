@@ -1,8 +1,9 @@
-import { DialogOverlayProps } from '@/components/shared/components/DialogOverlay';
+import {
+  DialogOverlayProps,
+  InfoDialogOverlayPrimitiveProps,
+} from '@/components/shared/components/DialogOverlay';
 
 export interface InfoDialogProps
-  extends Omit<
-      DialogOverlayProps,
-      'onCancel' | 'cancelButtonLabel' | 'confirmButtonLabel'
-    >,
+  extends InfoDialogOverlayPrimitiveProps,
+    Pick<DialogOverlayProps, 'onConfirm'>,
     Partial<Pick<DialogOverlayProps, 'confirmButtonLabel'>> {}

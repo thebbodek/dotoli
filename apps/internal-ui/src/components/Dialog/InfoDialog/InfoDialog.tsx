@@ -9,6 +9,7 @@ const InfoDialog = ({
   title,
   className,
   onConfirm,
+  isLoading,
   confirmButtonLabel = '닫기',
 }: InfoDialogProps) => {
   return (
@@ -16,7 +17,9 @@ const InfoDialog = ({
       <Dialog.Header>
         <OverlayTitle title={title} />
       </Dialog.Header>
-      <Dialog.ContentWrapper>{children}</Dialog.ContentWrapper>
+      <Dialog.ContentWrapper isLoading={isLoading}>
+        {children}
+      </Dialog.ContentWrapper>
       <Dialog.Footer
         onConfirm={onConfirm}
         confirmButtonLabel={confirmButtonLabel}

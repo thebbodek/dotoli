@@ -1,10 +1,10 @@
 import { PropsWithChildren } from 'react';
 
+import { OverlayHeader } from '@/components/shared';
+
 const DialogHeader = ({ children }: PropsWithChildren) => {
   return (
-    <header className='border-b-gray-02 border-b px-[1.875rem] py-5'>
-      {children}
-    </header>
+    <OverlayHeader className='px-[1.875rem] py-5'>{children}</OverlayHeader>
   );
 };
 
