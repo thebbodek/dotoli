@@ -18,6 +18,7 @@ const {
   onConfirm,
   possibleConfirm,
   isPending,
+  isLoading,
 } = ConfirmModalMeta.argTypes ?? {};
 
 const meta: Meta<typeof FormDialog> = {
@@ -38,6 +39,7 @@ const meta: Meta<typeof FormDialog> = {
     onConfirm,
     possibleConfirm,
     isPending,
+    isLoading,
   },
 };
 
@@ -67,7 +69,6 @@ const Dialog = ({
       confirmButtonLabel={args.confirmButtonLabel ?? '작성 완료'}
       cancelButtonLabel={args.cancelButtonLabel ?? '작성 취소'}
       className='w-[31.125rem]'
-      innerClassName='max-h-[28rem] overflow-y-auto'
     >
       <FormContent values={values} handleChange={handleChange} />
     </FormDialog>

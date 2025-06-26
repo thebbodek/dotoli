@@ -139,6 +139,16 @@ const meta: Meta<ConfirmModalArgs> = {
         },
       },
     },
+    isLoading: {
+      control: 'boolean',
+      description: 'is loading',
+      type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
   },
 };
 

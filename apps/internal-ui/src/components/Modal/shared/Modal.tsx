@@ -2,8 +2,9 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
 import ModalFooter from '@/components/Modal/shared/ModalFooter';
-import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
 import { ModalProps } from '@/components/Modal/shared/types';
+import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
+import ModalContentWrapper from '@/components/Modal/shared/ModalContentWrapper';
 
 const Modal = ({
   isOpen,
@@ -28,4 +29,5 @@ const Modal = ({
 export default Modal;
 
 Modal.displayName = 'Modal';
+Modal.ContentWrapper = ModalContentWrapper;
 Modal.Footer = ModalFooter;

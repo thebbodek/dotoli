@@ -11,11 +11,15 @@ const InfoBottomSheet = ({
   onCancel,
   confirmButtonLabel,
   cancelButtonLabel = '닫기',
+  isLoading,
   className,
 }: InfoBottomSheetProps) => {
   return (
     <BottomSheet isOpen={isOpen} ref={ref} className={className}>
-      <BottomSheet.ContentWrapper className='flex-v-stack gap-y-3'>
+      <BottomSheet.ContentWrapper
+        isLoading={isLoading}
+        className='flex-v-stack gap-y-3'
+      >
         <header>
           <OverlayTitle title={title} />
         </header>

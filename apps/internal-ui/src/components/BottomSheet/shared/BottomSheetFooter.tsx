@@ -7,6 +7,7 @@ const BottomSheetFooter = ({
   confirmButtonLabel,
   cancelButtonLabel,
   isPending,
+  isLoading,
   possibleConfirm,
 }: BottomSheetFooterProps) => {
   return (
@@ -16,8 +17,9 @@ const BottomSheetFooter = ({
       confirmButtonLabel={confirmButtonLabel}
       cancelButtonLabel={cancelButtonLabel}
       isPending={isPending}
+      isLoading={isLoading}
       possibleConfirm={possibleConfirm}
-      className='px-5 pb-5 pt-3'
+      className='px-5 pb-5'
       isFull
     />
   );

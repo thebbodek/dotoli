@@ -22,6 +22,7 @@ const {
   onConfirm,
   possibleConfirm,
   isPending,
+  isLoading,
 } = ConfirmModalMeta.argTypes ?? {};
 
 const meta: Meta<typeof FormFullScreenDialog> = {
@@ -42,6 +43,7 @@ const meta: Meta<typeof FormFullScreenDialog> = {
     onConfirm,
     possibleConfirm,
     isPending,
+    isLoading,
   },
 };
 

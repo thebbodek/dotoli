@@ -1,7 +1,9 @@
 import { FormDialogProps } from '@/components/Dialog/FormDialog/types';
 import Dialog from '@/components/Dialog/shared/Dialog';
-import { DIALOG_OVERLAY_CONTENT_WRAPPER_ELEMENTS } from '@/components/shared';
-import OverlayTitle from '@/components/shared/components/Overlay/OverlayTitle';
+import {
+  OVERLAY_CONTENT_WRAPPER_ELEMENTS,
+  OverlayTitle,
+} from '@/components/shared';
 
 const FormDialog = ({
   children,
@@ -15,6 +17,7 @@ const FormDialog = ({
   cancelButtonLabel,
   possibleConfirm,
   isPending,
+  isLoading,
 }: FormDialogProps) => {
   return (
     <Dialog isOpen={isOpen} ref={ref} className={className}>
@@ -22,7 +25,8 @@ const FormDialog = ({
         <OverlayTitle title={title} />
       </Dialog.Header>
       <Dialog.ContentWrapper
-        as={DIALOG_OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
+        as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
+        isLoading={isLoading}
         className='gap-y-6'
       >
         {children}
@@ -34,6 +38,7 @@ const FormDialog = ({
         cancelButtonLabel={cancelButtonLabel}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
+        isLoading={isLoading}
       />
     </Dialog>
   );

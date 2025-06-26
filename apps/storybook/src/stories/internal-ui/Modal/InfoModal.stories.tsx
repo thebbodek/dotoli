@@ -11,6 +11,7 @@ const {
   onConfirm,
   confirmButtonLabel,
   cancelButtonLabel,
+  isLoading,
 } = ConfirmModalMeta.argTypes ?? {};
 
 const meta: Meta<typeof InfoModal> = {
@@ -22,6 +23,7 @@ const meta: Meta<typeof InfoModal> = {
     onCancel,
     onConfirm,
     confirmButtonLabel,
+    isLoading,
     cancelButtonLabel: {
       ...cancelButtonLabel,
       table: {
@@ -42,7 +44,7 @@ const defaultArgs = {
   confirmButtonLabel: '확인 완료',
 };
 
-const Box = () => <div className='bg-gray-01 rounded-8 h-[11.687rem] w-full' />;
+const Box = () => <div className='bg-gray-02 rounded-8 h-[11.687rem] w-full' />;
 
 export const Default: Story = {
   args: defaultArgs,
@@ -53,16 +55,18 @@ export const Default: Story = {
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <InfoModal {...args} isOpen={isOpen} onConfirm={() => setIsOpen(false)}>
-          <InfoModal.Description
-            description={
-              <>
-                설명글이 세 줄 이상 들어가나요? <br />
-                이 타입의 모달을 사용하여 줄글로 설명을 적어보세요 <br />
-                사용자에게 안내 메세지를 전달하세요
-              </>
-            }
-          />
-          <Box />
+          <div className='flex-v-stack gap-y-5'>
+            <InfoModal.Description
+              description={
+                <>
+                  설명글이 세 줄 이상 들어가나요? <br />
+                  이 타입의 모달을 사용하여 줄글로 설명을 적어보세요 <br />
+                  사용자에게 안내 메세지를 전달하세요
+                </>
+              }
+            />
+            <Box />
+          </div>
         </InfoModal>
       </>
     );
@@ -83,16 +87,18 @@ export const WithClose: Story = {
           onConfirm={() => setIsOpen(false)}
           onCancel={() => setIsOpen(false)}
         >
-          <InfoModal.Description
-            description={
-              <>
-                설명글이 세 줄 이상 들어가나요? <br />
-                이 타입의 모달을 사용하여 줄글로 설명을 적어보세요 <br />
-                사용자에게 안내 메세지를 전달하세요
-              </>
-            }
-          />
-          <Box />
+          <div className='flex-v-stack gap-y-5'>
+            <InfoModal.Description
+              description={
+                <>
+                  설명글이 세 줄 이상 들어가나요? <br />
+                  이 타입의 모달을 사용하여 줄글로 설명을 적어보세요 <br />
+                  사용자에게 안내 메세지를 전달하세요
+                </>
+              }
+            />
+            <Box />
+          </div>
         </InfoModal>
       </>
     );

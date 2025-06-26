@@ -1,4 +1,4 @@
-import { DialogOverlayContentWrapperProps } from '@/components/shared';
+import { OverlayContentWrapperProps } from '@/components/shared';
 import {
   OverlayBasePrimitiveProps,
   OverlayFooterPrimitiveProps,
@@ -7,8 +7,7 @@ import {
 
 export interface DialogProps extends OverlayBasePrimitiveProps {}
 
-export interface DialogContentWrapperProps
-  extends DialogOverlayContentWrapperProps {}
+export interface DialogContentWrapperProps extends OverlayContentWrapperProps {}
 
 export interface DialogFooterProps
   extends OverlayFooterPrimitiveProps,

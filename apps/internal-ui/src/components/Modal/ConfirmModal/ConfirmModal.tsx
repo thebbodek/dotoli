@@ -20,16 +20,19 @@ const ConfirmModal = ({
   cancelButtonLabel,
   possibleConfirm,
   isPending,
+  isLoading,
   className,
 }: ConfirmModalProps) => {
   return (
     <Modal isOpen={isOpen} ref={ref} className={clsx(className, 'pt-10')}>
-      <ConfirmOverlayContent
-        title={title}
-        iconOptions={iconOptions}
-        useIcon={useIcon}
-      />
-      {children}
+      <Modal.ContentWrapper isLoading={isLoading}>
+        <ConfirmOverlayContent
+          title={title}
+          iconOptions={iconOptions}
+          useIcon={useIcon}
+        />
+        {children}
+      </Modal.ContentWrapper>
       <Modal.Footer
         onConfirm={onConfirm}
         onCancel={onCancel}
@@ -37,6 +40,7 @@ const ConfirmModal = ({
         cancelButtonLabel={cancelButtonLabel}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
+        isLoading={isLoading}
       />
     </Modal>
   );

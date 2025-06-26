@@ -7,6 +7,7 @@ const ModalFooter = ({
   confirmButtonLabel,
   cancelButtonLabel,
   isPending,
+  isLoading,
   possibleConfirm,
 }: ModalFooterProps) => {
   return (
@@ -16,8 +17,8 @@ const ModalFooter = ({
       confirmButtonLabel={confirmButtonLabel}
       cancelButtonLabel={cancelButtonLabel}
       isPending={isPending}
+      isLoading={isLoading}
       possibleConfirm={possibleConfirm}
-      className='mt-6'
       isFull
     />
   );

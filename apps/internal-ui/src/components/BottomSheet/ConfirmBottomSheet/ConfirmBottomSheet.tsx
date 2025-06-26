@@ -18,11 +18,12 @@ const ConfirmBottomSheet = ({
   cancelButtonLabel,
   possibleConfirm,
   isPending,
+  isLoading,
   className,
 }: ConfirmBottomSheetProps) => {
   return (
     <BottomSheet isOpen={isOpen} ref={ref} className={className}>
-      <BottomSheet.ContentWrapper>
+      <BottomSheet.ContentWrapper isLoading={isLoading}>
         <ConfirmOverlayContent
           title={title}
           iconOptions={iconOptions}
@@ -37,6 +38,7 @@ const ConfirmBottomSheet = ({
         cancelButtonLabel={cancelButtonLabel}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
+        isLoading={isLoading}
       />
     </BottomSheet>
   );

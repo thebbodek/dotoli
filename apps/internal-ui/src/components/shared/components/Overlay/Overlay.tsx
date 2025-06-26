@@ -13,6 +13,7 @@ import {
   OVERLAY_VARIANTS,
 } from '@/components/shared/components/Overlay/constants';
 import useBodyScrollLockEffect from '@/components/shared/components/Overlay/hooks/effects/useBodyScrollLockEffect';
+import OverlayLoading from '@/components/shared/components/Overlay/OverlayLoading';
 import { OverlayProps } from '@/components/shared/components/Overlay/types';
 
 const Overlay = ({
@@ -64,3 +65,6 @@ const Overlay = ({
 };
 
 export default Overlay;
+
+Overlay.displayName = 'Overlay';
+Overlay.Loading = OverlayLoading;
