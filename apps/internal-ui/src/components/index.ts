@@ -18,6 +18,7 @@ export * from './Portal';
 export * from './Radio';
 export * from './Table';
 export * from './Select';
+export * from './Sort';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';

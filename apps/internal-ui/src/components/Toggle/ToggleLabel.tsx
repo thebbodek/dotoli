@@ -24,6 +24,7 @@ const ToggleLabel = ({
         ...Object.values(TOGGLE_STYLES).map(({ label }) => label),
       )}
       id={labelId}
+      color='black'
       variant={TOGGLE_LABEL_SIZE_VARIANTS[size]}
     >
       {label}
