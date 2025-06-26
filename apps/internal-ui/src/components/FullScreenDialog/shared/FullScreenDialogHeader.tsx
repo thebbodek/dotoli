@@ -13,7 +13,7 @@ const FullScreenDialogHeader = ({
         iconKey='x'
         arialLabel={'닫기'}
         onClick={onCancel}
-        theme='white'
+        theme='hover-white'
         disabled={isPending}
       />
       <OverlayTitle variant={'body-16-b'} title={title} />

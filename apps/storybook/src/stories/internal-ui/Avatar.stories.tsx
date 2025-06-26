@@ -69,14 +69,16 @@ export const AvatarOnImageError: Story = {
   args: {
     alt: '강준영',
     src: 'https://404.png',
+    type: AVATAR_TYPES.SINGLE,
+    size: AVATAR_SIZES.SM,
   },
 };
 
 export const AvatarSizes: Story = {
-  render: (args) => (
+  render: ({ type, ...args }) => (
     <div className='flex-h-stack items-end gap-x-2'>
-      <Avatar {...args} size={AVATAR_SIZES.SM} />
-      <Avatar {...args} size={AVATAR_SIZES.MD} />
+      <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.SM} />
+      <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.MD} />
     </div>
   ),
 };
