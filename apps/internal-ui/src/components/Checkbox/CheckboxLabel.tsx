@@ -14,6 +14,7 @@ const CheckboxLabel = ({ size, label, labelId }: CheckboxLabelProps) => {
         ...Object.values(CHECKBOX_STYLES).map(({ label }) => label),
       )}
       id={labelId}
+      color='black'
       variant={CHECKBOX_LABEL_SIZE_VARIANTS[size]}
     >
       {label}

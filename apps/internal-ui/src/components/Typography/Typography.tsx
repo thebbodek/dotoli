@@ -8,7 +8,6 @@ import {
 } from '@/components/Typography/types';
 import {
   COLOR_STYLES_MAPPER,
-  COLOR_VARIANTS,
   TYPOGRAPHY_STYLES_MAPPER,
   TYPOGRAPHY_VARIANTS,
 } from '@/variants';
@@ -18,7 +17,7 @@ const Typography = <
 >({
   as,
   variant = TYPOGRAPHY_VARIANTS.BODY_16_R,
-  color = COLOR_VARIANTS.BLACK,
+  color,
   className,
   children,
   title,
@@ -31,7 +30,7 @@ const Typography = <
       className={clsx(
         className,
         TYPOGRAPHY_STYLES_MAPPER[variant],
-        COLOR_STYLES_MAPPER.TEXT[color],
+        color && COLOR_STYLES_MAPPER.TEXT[color],
       )}
       id={id}
       title={title}
