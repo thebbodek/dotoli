@@ -32,6 +32,7 @@ const usePopover = ({ trigger, isOpen }: UsePopoverProps): UsePopoverReturn => {
       id: popoverId,
       style,
       tabIndex: -1,
+      className: 'focus-within:outline-none',
     };
   };
 
