@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/internal-ui",
-  "version": "0.0.13",
+  "version": "0.0.16",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.8",
-    "@bbodek/utils": "workspace:*",
-    "@bbodek/hooks": "workspace:*",
+    "@bbodek/utils": "^0.0.2",
+    "@bbodek/hooks": "^0.0.13",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
     "clsx": "^2.1.1",

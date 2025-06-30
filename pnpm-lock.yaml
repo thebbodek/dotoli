@@ -82,11 +82,11 @@ importers:
   apps/internal-ui:
     dependencies:
       '@bbodek/hooks':
-        specifier: workspace:*
-        version: link:../hooks
+        specifier: ^0.0.13
+        version: 0.0.13(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@bbodek/utils':
-        specifier: workspace:*
-        version: link:../utils
+        specifier: ^0.0.2
+        version: 0.0.2(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@floating-ui/react':
         specifier: ^0.27.8
         version: 0.27.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -926,6 +926,20 @@ packages:
   '@babel/types@7.27.1':
     resolution: {integrity: sha512-+EzkxvLNfiUeKMgy/3luqfsCWFRXLb7U6wNQTk60tovuckwB15B191tJWvpp4HjiQWdJkCxO3Wbvc6jlk3Xb2Q==}
     engines: {node: '>=6.9.0'}
+
+  '@bbodek/hooks@0.0.13':
+    resolution: {integrity: sha512-GPlXSR3s9t/iDrk/2SX3ogtmPXbCH7bDIJUOC2iTe71tg2h0TSI4/O7RM5vu4DlojfoL5VZ6EmxhncWy//Wk7Q==}
+    peerDependencies:
+      next: ^15.3.1
+      react: ^19.1.0
+      react-dom: ^19.1.0
+
+  '@bbodek/utils@0.0.2':
+    resolution: {integrity: sha512-UOORhNJqy22ik7tLr5R7IgrRCAmoADf/USXIBdFp+7UDDxWF6EJyDGdcBi0zRRPwGh4GA9/xy0XkoktbBkGECg==}
+    peerDependencies:
+      next: ^15.3.1
+      react: ^19.1.0
+      react-dom: ^19.1.0
 
   '@bcoe/v8-coverage@1.0.2':
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
@@ -6693,6 +6707,18 @@ snapshots:
     dependencies:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
+
+  '@bbodek/hooks@0.0.13(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  '@bbodek/utils@0.0.2(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@bcoe/v8-coverage@1.0.2': {}
 

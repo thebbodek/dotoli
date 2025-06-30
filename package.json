@@ -9,17 +9,17 @@
     "reset": "pnpm clean && pnpm install && pnpm build",
     "hooks": "pnpm --filter=@bbodek/hooks",
     "hooks:build": "turbo --filter=@bbodek/hooks build",
-    "hooks:pub": "pnpm hooks:build && cd apps/hooks && npm version patch && npm publish",
+    "hooks:pub": "pnpm hooks:build && cd apps/hooks && (npm version patch || true) && npm publish",
     "sb": "pnpm --filter=storybook",
     "sb:dev": "pnpm sb dev",
     "sb:build": "turbo --filter=storybook build",
     "ut": "pnpm --filter=@bbodek/utils",
     "ut:build": "turbo --filter=@bbodek/utils build",
-    "ut:pub": "pnpm ut:build && cd apps/utils && npm version patch && npm publish",
+    "ut:pub": "pnpm ut:build && cd apps/utils && (npm version patch || true) && npm publish",
     "in": "pnpm --filter=@bbodek/internal-ui",
     "in:dev": "turbo --filter=@bbodek/internal-ui dev",
     "in:build": "turbo --filter=@bbodek/internal-ui build",
-    "in:pub": "pnpm in:build && cd apps/internal-ui && npm version patch && npm publish"
+    "in:pub": "pnpm in:build && cd apps/internal-ui && (npm version patch || true) && npm publish"
   },
   "devDependencies": {
     "@dotoli/prettier-config": "workspace:*",
