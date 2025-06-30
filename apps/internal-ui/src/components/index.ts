@@ -16,6 +16,7 @@ export * from './Persona';
 export * from './Popover';
 export * from './Portal';
 export * from './Radio';
+export * from './Table';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';

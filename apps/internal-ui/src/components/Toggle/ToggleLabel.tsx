@@ -6,11 +6,20 @@ import {
 } from '@/components/Toggle/constants';
 import { ToggleLabelProps } from '@/components/Toggle/types';
 import { Typography } from '@/components/Typography';
+import { COLOR_VARIANTS } from '@/variants';
 
-const ToggleLabel = ({ label, labelId, size }: ToggleLabelProps) => {
+const ToggleLabel = ({
+  label,
+  labelId,
+  size,
+  color = COLOR_VARIANTS.BLACK,
+  className,
+}: ToggleLabelProps) => {
   return (
     <Typography
+      color={color}
       className={clsx(
+        className,
         'transition-[color]',
         ...Object.values(TOGGLE_STYLES).map(({ label }) => label),
       )}

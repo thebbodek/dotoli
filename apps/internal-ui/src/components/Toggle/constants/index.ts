@@ -34,7 +34,7 @@ export const TOGGLE_LABEL_SIZE_VARIANTS: Record<
 export const TOGGLE_STYLES = {
   [TOGGLE_STATE.DEFAULT]: {
     icon: 'bg-gray-03 before:bg-white before:-translate-x-1/2',
-    label: 'text-black',
+    label: '',
   },
   [TOGGLE_STATE.SELECTED]: {
     icon: 'peer-checked:bg-primary-05 peer-checked:before:translate-x-1/2',
