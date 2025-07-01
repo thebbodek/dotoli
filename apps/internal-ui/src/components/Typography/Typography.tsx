@@ -23,6 +23,8 @@ const Typography = <
   children,
   title,
   id,
+  ariaLive,
+  role,
 }: PropsWithChildren<TypographyProps<T>>) => {
   const Component = as || TYPOGRAPHY_ELEMENTS.SPAN;
 
@@ -35,6 +37,8 @@ const Typography = <
       )}
       id={id}
       title={title}
+      role={role}
+      aria-live={ariaLive}
     >
       {children}
     </Component>

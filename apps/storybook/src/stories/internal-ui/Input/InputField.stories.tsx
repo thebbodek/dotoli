@@ -20,9 +20,9 @@ const meta: Meta<typeof InputField> = {
       description: 'Input Field feedback',
       type: 'string',
     },
-    error: {
+    isError: {
       control: 'boolean',
-      description: 'Input Field error',
+      description: 'is error',
       type: 'boolean',
       table: {
         defaultValue: {
@@ -97,7 +97,6 @@ export const Default: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        rootClassName='w-[300px]'
       />
     );
   },
@@ -118,7 +117,6 @@ export const WithLabel: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        rootClassName='w-[300px]'
       />
     );
   },
@@ -139,7 +137,6 @@ export const WithBadge: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        rootClassName='w-[300px]'
       />
     );
   },
@@ -151,7 +148,7 @@ export const WithFeedback: Story = {
     type: 'text',
     placeholder: 'placeholder',
     required: false,
-    error: false,
+    isError: false,
     readOnly: false,
     disabled: false,
     feedback: '소문자로 입력해주세요',
@@ -159,16 +156,18 @@ export const WithFeedback: Story = {
   render(args) {
     const [value, setValue] = useState('');
     const regex = /^[a-z]+$/;
-    const error = value.length > 0 && !regex.test(value);
+    const isError = value.length > 0 && !regex.test(value);
 
     return (
       <InputField
         {...args}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
-        feedback={error ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}
-        error={error}
-        rootClassName='w-[300px]'
+        onChange={(e) => {
+          console.log(e.target.value);
+          setValue(e.target.value);
+        }}
+        feedback={isError ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}
+        isError={isError}
       />
     );
   },
@@ -191,7 +190,6 @@ export const WithRegexCallback: Story = {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         regCallback={replaceNumeric}
-        rootClassName='w-[300px]'
         feedback={'숫자만 입력해주세요'}
       />
     );

@@ -28,8 +28,8 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   const handleReset = () => {
     const eventTargetValue = '';
     const event = {
-      target: { value, name },
-      currentTarget: { value, name },
+      target: { value: eventTargetValue, name },
+      currentTarget: { value: eventTargetValue, name },
     } as unknown as ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
     setInputValue(eventTargetValue);

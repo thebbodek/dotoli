@@ -8,7 +8,7 @@ import {
 export interface TextAreaProps
   extends Pick<
       InputBaseProps,
-      'label' | 'feedback' | 'error' | 'required' | 'badge'
+      'label' | 'feedback' | 'isError' | 'required' | 'badge'
     >,
     Pick<
       InputProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,

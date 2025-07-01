@@ -11,7 +11,7 @@ const TableInputCell = ({
   value,
   name,
   type = 'text',
-  error = false,
+  isError = false,
   feedback,
   onChange,
   regCallback,
@@ -28,14 +28,14 @@ const TableInputCell = ({
 
   return (
     <TableCell
-      className={clsx(className, 'has-[input]:p-0', error && 'error group')}
+      className={clsx(className, 'has-[input]:p-0', isError && 'error group')}
     >
       <Tooltip
         id={feedbackId}
         role='alert'
         ariaLive='assertive'
         content={feedback}
-        hidden={!error}
+        hidden={!isError}
         placement={'bottom-start'}
         color={'red-03'}
         rootClassName='h-full'
@@ -45,7 +45,7 @@ const TableInputCell = ({
           type={type}
           value={inputValue}
           onChange={handleChange}
-          aria-invalid={error}
+          aria-invalid={isError}
           aria-errormessage={feedbackId}
           className={clsx(
             'h-full w-full py-2.5 pl-4',

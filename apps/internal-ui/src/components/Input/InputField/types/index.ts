@@ -10,7 +10,7 @@ import {
 export interface InputFieldProps
   extends Pick<
       InputBaseProps,
-      'label' | 'feedback' | 'error' | 'required' | 'badge'
+      'label' | 'feedback' | 'isError' | 'required' | 'badge'
     >,
     Pick<
       InputProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
