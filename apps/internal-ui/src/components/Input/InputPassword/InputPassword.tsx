@@ -10,7 +10,7 @@ const InputPassword = ({
   label,
   feedback,
   badge,
-  error = false,
+  isError = false,
   required = false,
   rootClassName,
   value,
@@ -44,7 +44,7 @@ const InputPassword = ({
       value={inputValue}
       label={label}
       feedback={feedback}
-      error={error}
+      isError={isError}
       badge={badge}
       required={required}
       className={rootClassName}
@@ -59,7 +59,7 @@ const InputPassword = ({
         required={required}
         readOnly={readOnly}
         disabled={disabled}
-        isFocused={isFocused && !error && hasRuleError}
+        isFocused={isFocused && !isError && hasRuleError}
         setIsFocused={setIsFocused}
         popover={
           rules && <InputPasswordRules rules={rules} value={inputValue} />
@@ -67,7 +67,7 @@ const InputPassword = ({
         addonEnd={
           <InputIconButton
             onClick={() => setVisible((v) => !v)}
-            aria-label={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
+            ariaLabel={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
             disabled={isDisabled}
             iconKey={visible ? 'eye' : 'eye-slash'}
           />

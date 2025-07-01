@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { default as InputFieldMeta } from './InputField.stories';
 
-const { label, feedback, error, required, readOnly, disabled, placeholder } =
+const { label, feedback, isError, required, readOnly, disabled, placeholder } =
   InputFieldMeta.argTypes ?? {};
 
 const meta: Meta<typeof InputPassword> = {
@@ -13,7 +13,7 @@ const meta: Meta<typeof InputPassword> = {
   argTypes: {
     label,
     feedback,
-    error,
+    isError,
     required,
     readOnly,
     disabled,
@@ -60,7 +60,7 @@ export const WithRule: Story = {
   },
   render: (args) => {
     const [value, setValue] = useState('');
-    const error = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+    const isError = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
 
     return (
       <>
@@ -70,8 +70,8 @@ export const WithRule: Story = {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           rootClassName='w-[300px]'
-          error={error}
-          feedback={error ? '특수문자는 작성할 수 없어요' : ''}
+          isError={isError}
+          feedback={isError ? '특수문자는 작성할 수 없어요' : ''}
           rules={{
             length: {
               message: '8자 이상 입력해주세요',

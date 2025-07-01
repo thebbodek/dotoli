@@ -1,5 +1,3 @@
-import { INPUT_STATE } from '@/components/Input';
-
 export const TABLE_ROW_GROUP_COMMON_STYLE = 'w-full min-w-fit';
 
 export const TABLE_ROW_VARIANTS = {
@@ -31,12 +29,19 @@ export const TABLE_CELL_STYLES = {
   [TABLE_CELL_ROLES.ROW_HEADER]: `${TABLE_CELL_ROLE_COMMON_STYLES.body} ${TABLE_CELL_ROLE_COMMON_STYLES.head} border-gray-03`,
 } as const;
 
+export const TABLE_CELL_INPUT_STATE = {
+  DEFAULT: 'DEFAULT',
+  FOCUS: 'FOCUS',
+  ERROR: 'ERROR',
+  DISABLED: 'DISABLED',
+} as const;
+
 export const TABLE_CELL_INPUT_STYLES = {
-  [INPUT_STATE.DEFAULT]:
+  [TABLE_CELL_INPUT_STATE.DEFAULT]:
     'text-body-14-r border border-transparent text-black placeholder-gray-04',
-  [INPUT_STATE.FOCUS]: 'focus:outline-none focus:border-primary-05',
-  [INPUT_STATE.ERROR]:
+  [TABLE_CELL_INPUT_STATE.FOCUS]: 'focus:outline-none focus:border-primary-05',
+  [TABLE_CELL_INPUT_STATE.ERROR]:
     'group-[.error]:text-red-04 group-[.error]:border-red-04 group-[.error]:focus:border-red-04',
-  [INPUT_STATE.DISABLED]:
+  [TABLE_CELL_INPUT_STATE.DISABLED]:
     'disabled:text-gray-05 disabled:border-gray-01 disabled:bg-gray-01 disabled:cursor-not-allowed disabled:placeholder-gray-05',
 } as const;

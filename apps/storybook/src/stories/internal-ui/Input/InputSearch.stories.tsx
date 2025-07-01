@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { default as InputFieldMeta } from './InputField.stories';
 
-const { label, feedback, error, required, readOnly, disabled, placeholder } =
+const { label, feedback, isError, required, readOnly, disabled, placeholder } =
   InputFieldMeta.argTypes ?? {};
 
 const meta: Meta<typeof InputSearch> = {
@@ -13,7 +13,7 @@ const meta: Meta<typeof InputSearch> = {
   argTypes: {
     label,
     feedback,
-    error,
+    isError,
     required,
     readOnly,
     disabled,

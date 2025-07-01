@@ -1,62 +1,48 @@
 import clsx from 'clsx';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useId } from 'react';
 
-import { Icon } from '@/components/Icon';
 import { InputBaseProps } from '@/components/Input/shared/types';
-import { Typography } from '@/components/Typography';
+import { InputFeedback, InputLabel } from '@/components/shared';
+import { InputProvider } from '@/components/Input/shared/context/InputContext';
 
 const InputBase = ({
   id,
   value,
   label,
   feedback,
-  error = false,
+  isError = false,
   required = false,
   badge,
   children,
   className,
   onSubmit,
 }: PropsWithChildren<InputBaseProps>) => {
+  const feedbackId = useId();
   const isEmpty = !value || value.replaceAll(' ', '').length <= 0;
-  const isValidInput = !isEmpty && !error;
-  const rootClassName = clsx(
-    className,
-    'flex-v-stack group',
-    error && 'group-error',
-  );
+  const isValidInput = !isEmpty && !isError;
 
   const render = (
     <>
       {label && (
-        <label
-          htmlFor={id}
-          className={clsx(
-            'text-body-14-m text-gray-07 mb-0.5',
-            badge && 'flex items-center gap-x-0.5',
-            required && 'before:text-primary-06 before:content-["*"]',
-          )}
-        >
+        <InputLabel htmlFor={id} badge={badge} required={required}>
           {label}
-          {badge && badge}
-        </label>
+        </InputLabel>
       )}
-      {children}
+      <InputProvider
+        feedbackId={feedback ? feedbackId : undefined}
+        isError={isError}
+      >
+        {children}
+      </InputProvider>
       {feedback && (
-        <Typography
-          variant='body-12-m'
-          color='primary-05'
+        <InputFeedback
+          id={feedbackId}
+          feedback={feedback}
+          theme={isError ? 'error' : 'info'}
           className={clsx(
-            'text-body-14-m text-primary-05 group-[.group-error]:text-red-04 mt-1.5 items-baseline gap-x-0.5 break-all',
             isValidInput ? 'hidden group-has-[.input:focus]:flex' : 'flex',
           )}
-        >
-          <Icon
-            iconKey='info'
-            weight='fill'
-            className='translate-y-[0.083em]'
-          />
-          {feedback}
-        </Typography>
+        />
       )}
     </>
   );
@@ -64,7 +50,7 @@ const InputBase = ({
   if (onSubmit) {
     return (
       <form
-        className={rootClassName}
+        className={className}
         onSubmit={(e) => {
           e.preventDefault();
           e.currentTarget.reset();
@@ -77,7 +63,7 @@ const InputBase = ({
     );
   }
 
-  return <div className={rootClassName}>{render}</div>;
+  return <div className={className}>{render}</div>;
 };
 
 export default InputBase;

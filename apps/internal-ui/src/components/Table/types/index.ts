@@ -50,7 +50,7 @@ export interface TableInputCellProps
       InputFieldProps,
       | 'value'
       | 'onChange'
-      | 'error'
+      | 'isError'
       | 'feedback'
       | 'disabled'
       | 'readOnly'

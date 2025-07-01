@@ -1,15 +1,16 @@
-import { useId, useState } from 'react';
+import { FormEvent, useId, useState } from 'react';
 
 import { InputSearchProps } from '@/components/Input/InputSearch/types';
-import { Input, INPUT_VARIANTS, InputBase } from '@/components/Input/shared';
+import { Input, InputBase } from '@/components/Input/shared';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import InputIconButton from '@/components/Input/shared/InputIconButton';
+import { INPUT_TRIGGER_VARIANTS } from '@/components/shared';
 
 const InputSearch = ({
   label,
   feedback,
   badge,
-  error = false,
+  isError = false,
   required = false,
   rootClassName,
   value,
@@ -32,11 +33,11 @@ const InputSearch = ({
     regCallback,
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (!onSubmit) return;
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (isDisabled) return;
 
     handleReset();
-    onSubmit(e);
+    onSubmit!(e);
   };
 
   return (
@@ -45,15 +46,15 @@ const InputSearch = ({
       value={inputValue}
       label={label}
       feedback={feedback}
-      error={error}
+      isError={isError}
       badge={badge}
       required={required}
       className={rootClassName}
-      onSubmit={isDisabled ? undefined : handleSubmit}
+      onSubmit={onSubmit ? handleSubmit : undefined}
     >
       <Input
         id={id}
-        variant={INPUT_VARIANTS.SEARCH}
+        variant={INPUT_TRIGGER_VARIANTS.SEARCH}
         value={inputValue}
         name={name}
         onChange={handleChange}
@@ -67,7 +68,7 @@ const InputSearch = ({
         addonEnd={
           <InputIconButton
             type='submit'
-            aria-label='검색'
+            ariaLabel='검색'
             iconKey={'magnifying-glass'}
             weight='bold'
             disabled={isDisabled}

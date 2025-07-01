@@ -1,18 +1,19 @@
 import clsx from 'clsx';
 import { ChangeEvent, useId, useState } from 'react';
 
-import { INPUT_ELEMENTS, INPUT_VARIANTS } from '@/components/Input/shared';
+import { INPUT_ELEMENTS } from '@/components/Input/shared';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import Input from '@/components/Input/shared/Input';
 import InputBase from '@/components/Input/shared/InputBase';
 import { TextAreaProps } from '@/components/Input/TextArea/types';
+import { INPUT_TRIGGER_VARIANTS } from '@/components/shared';
 import { Typography } from '@/components/Typography';
 
 const TextArea = ({
   label,
   feedback,
   badge,
-  error = false,
+  isError = false,
   required = false,
   rootClassName,
   value,
@@ -49,7 +50,7 @@ const TextArea = ({
       id={id}
       label={label}
       feedback={feedback}
-      error={error}
+      isError={isError}
       badge={badge}
       required={required}
       className={rootClassName}
@@ -57,7 +58,7 @@ const TextArea = ({
       <Input
         id={id}
         as={INPUT_ELEMENTS.TEXTAREA}
-        variant={INPUT_VARIANTS.TEXTAREA}
+        variant={INPUT_TRIGGER_VARIANTS.TEXTAREA}
         value={inputValue}
         name={name}
         onChange={onChangeTextArea}

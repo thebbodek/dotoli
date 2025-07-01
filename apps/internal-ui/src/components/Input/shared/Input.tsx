@@ -3,18 +3,17 @@ import dynamic from 'next/dynamic';
 import { InputHTMLAttributes, Ref } from 'react';
 
 import {
-  INPUT_ELEMENT_STYLES,
   INPUT_ELEMENTS,
   INPUT_POPOVER_OFFSET,
-  INPUT_STYLES,
-  INPUT_VARIANTS,
 } from '@/components/Input/shared/constants';
+import { useInputContext } from '@/components/Input/shared/context/InputContext';
 import InputIconButton from '@/components/Input/shared/InputIconButton';
 import {
   InputElement,
   InputElementType,
   InputProps,
 } from '@/components/Input/shared/types';
+import { InputTriggerWrapper } from '@/components/shared';
 
 const Popover = dynamic(() => import('@/components/Popover/Popover/Popover'), {
   ssr: false,
@@ -22,7 +21,7 @@ const Popover = dynamic(() => import('@/components/Popover/Popover/Popover'), {
 
 const Input = <T extends InputElementType, P extends InputElement<T>>({
   as = INPUT_ELEMENTS.INPUT as T,
-  variant = INPUT_VARIANTS.INPUT,
+  variant,
   value,
   addonEnd,
   popover,
@@ -37,26 +36,28 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
   inputClassName,
   ...props
 }: InputProps<T, P>) => {
+  const { feedbackId, isError } = useInputContext();
   const isDisabled = disabled || readOnly;
   const isInput = as === INPUT_ELEMENTS.INPUT;
-  const useReset = !!onReset;
-  const canReset = value && !isDisabled;
+  const canReset = !!onReset && value && !isDisabled;
 
   const _props = {
     value,
     readOnly,
     required,
-    disabled: disabled || readOnly,
+    disabled: isDisabled,
     onFocus: popover ? () => setIsFocused(true) : undefined,
     onBlur: popover ? () => setIsFocused(false) : undefined,
+    'aria-invalid': isError,
+    'aria-errormessage': feedbackId,
     className: clsx(
       inputClassName,
-      'input placeholder-gray-04 w-full text-inherit focus:outline-none disabled:cursor-not-allowed',
+      'input placeholder-gray-04 disabled:placeholder-gray-05 w-full text-inherit focus:outline-none disabled:cursor-not-allowed',
     ),
     ...props,
   };
 
-  const render = () => {
+  const renderer = () => {
     const input = isInput ? (
       <input
         ref={ref as Ref<HTMLInputElement>}
@@ -68,31 +69,31 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     );
 
     return (
-      <div
+      <InputTriggerWrapper
+        isError={isError}
+        disabled={isDisabled}
         className={clsx(
           className,
-          'rounded-8 flex items-center gap-x-2 px-4',
-          INPUT_ELEMENT_STYLES[variant],
-          ...Object.values(INPUT_STYLES),
+          !isError &&
+            'focus-within:border-primary-05 focus-within:outline-gray-02 focus-within:outline-2',
         )}
       >
         {input}
-        {useReset && canReset && (
-          <InputIconButton
-            aria-label='초기화'
-            disabled={isDisabled}
-            iconKey={'x-circle'}
-            onClick={onReset}
-          />
-        )}
+        <InputIconButton
+          ariaLabel='초기화'
+          disabled={isDisabled}
+          iconKey={'x-circle'}
+          onClick={onReset}
+          className={clsx(canReset ? 'visible' : 'invisible')}
+        />
         {addonEnd && addonEnd}
-      </div>
+      </InputTriggerWrapper>
     );
   };
 
   return popover ? (
     <Popover
-      trigger={render()}
+      trigger={renderer()}
       isOpen={isFocused}
       offset={INPUT_POPOVER_OFFSET}
       onPopoverClose={() => setIsFocused(false)}
@@ -102,7 +103,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
       <div>{popover}</div>
     </Popover>
   ) : (
-    render()
+    renderer()
   );
 };
 

@@ -9,7 +9,7 @@ const InputField = ({
   label,
   feedback,
   badge,
-  error,
+  isError,
   required,
   rootClassName,
   value,
@@ -33,7 +33,7 @@ const InputField = ({
       value={inputValue}
       label={label}
       feedback={feedback}
-      error={error}
+      isError={isError}
       badge={badge}
       required={required}
       className={rootClassName}
