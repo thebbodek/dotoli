@@ -6,19 +6,14 @@ import {
   TypographyElementType,
   TypographyProps,
 } from '@/components/Typography/types';
-import {
-  COLOR_STYLES_MAPPER,
-  COLOR_VARIANTS,
-  TYPOGRAPHY_STYLES_MAPPER,
-  TYPOGRAPHY_VARIANTS,
-} from '@/variants';
+import { COLOR_STYLES_MAPPER, TYPOGRAPHY_STYLES_MAPPER } from '@/variants';
 
 const Typography = <
   T extends TypographyElementType = typeof TYPOGRAPHY_ELEMENTS.SPAN,
 >({
   as,
-  variant = TYPOGRAPHY_VARIANTS.BODY_16_R,
-  color = COLOR_VARIANTS.BLACK,
+  variant,
+  color,
   className,
   children,
   title,
@@ -32,8 +27,8 @@ const Typography = <
     <Component
       className={clsx(
         className,
-        TYPOGRAPHY_STYLES_MAPPER[variant],
-        COLOR_STYLES_MAPPER.TEXT[color],
+        variant && TYPOGRAPHY_STYLES_MAPPER[variant],
+        color && COLOR_STYLES_MAPPER.TEXT[color],
       )}
       id={id}
       title={title}

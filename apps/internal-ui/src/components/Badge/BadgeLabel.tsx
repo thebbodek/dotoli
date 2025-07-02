@@ -13,6 +13,7 @@ const BadgeLabel = <T extends BadgeVariant>({
   return (
     <Typography
       variant='body-12-m'
+      color='black'
       className={clsx(BADGE_THEME_STYLES[variant][theme].LABEL)}
       title={title}
     >
