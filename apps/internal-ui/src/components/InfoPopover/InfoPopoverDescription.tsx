@@ -6,7 +6,7 @@ const InfoPopoverDescription = ({
   className,
 }: InfoPopoverDescriptionProps) => {
   return (
-    <Typography as='p' variant='body-12-m' className={className}>
+    <Typography as='p' variant='body-12-m' color='black' className={className}>
       {description}
     </Typography>
   );
