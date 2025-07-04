@@ -22,7 +22,7 @@ export const TYPOGRAPHY_VARIANTS = {
   BODY_12_M: 'body-12-m',
 } as const;
 
-export const TYPOGRAPHY_PREFIX = 'text-';
+export const TYPOGRAPHY_PREFIX = 'text-in-';
 
 export const TYPOGRAPHY_STYLES_MAPPER: Record<TypographyVariants, string> = {
   [TYPOGRAPHY_VARIANTS.DISPLAY_34_B]: `${TYPOGRAPHY_PREFIX}${TYPOGRAPHY_VARIANTS.DISPLAY_34_B}`,

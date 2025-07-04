@@ -22,7 +22,7 @@ const BottomSheet = ({
       <div
         className={clsx(
           className,
-          'animate-bottom-sheet safe-area-bottom shadow-30 rounded-t-24 bg-white',
+          'animate-in-bottom-sheet in-safe-area-bottom shadow-in-30 rounded-t-in-24 bg-in-white',
         )}
       >
         {children}

@@ -24,10 +24,10 @@ const SelectBaseTriggerWrapper = ({
       role='button'
       className={clsx(
         className,
-        'border-gray-02 rounded-8 flex h-[2.5rem] w-full items-center justify-between gap-x-2 overflow-hidden border px-4 py-2',
-        !disabled && 'bg-white',
-        disabled && 'bg-gray-02 cursor-not-allowed',
-        !isOpen && !disabled && isError && 'border-red-04',
+        'border-in-gray-02 rounded-in-8 flex h-[2.5rem] w-full items-center justify-between gap-x-2 overflow-hidden border px-4 py-2',
+        !disabled && 'bg-in-white',
+        disabled && 'bg-in-gray-02 cursor-not-allowed',
+        !isOpen && !disabled && isError && 'border-in-red-04',
       )}
       aria-disabled={disabled}
       onClick={onClick}
@@ -35,7 +35,7 @@ const SelectBaseTriggerWrapper = ({
       {children}
       <Icon
         iconKey={isOpen ? 'caret-up' : 'caret-down'}
-        className='text-gray-04 shrink-0 text-[0.875rem]'
+        className='text-in-gray-04 shrink-0 text-[0.875rem]'
         weight='fill'
         aria-hidden
       />

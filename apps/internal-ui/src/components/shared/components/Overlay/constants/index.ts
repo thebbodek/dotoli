@@ -6,7 +6,7 @@ export const OVERLAY_VARIANTS = {
 } as const;
 
 export const OVERLAY_CONTENT_POSITION: Record<OverlayVariant, string> = {
-  [OVERLAY_VARIANTS.MODAL]: 'flex-h-stack-center',
+  [OVERLAY_VARIANTS.MODAL]: 'in-flex-h-stack-center',
   [OVERLAY_VARIANTS.BOTTOM_SHEET]: 'flex justify-center items-end',
 } as const;
 

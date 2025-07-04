@@ -24,7 +24,7 @@ const InputTriggerWrapper = ({
       className={clsx(
         className,
         INPUT_TRIGGER_STYLES[variant],
-        'rounded-8 flex items-center justify-between gap-x-2 overflow-hidden border px-4',
+        'rounded-in-8 flex items-center justify-between gap-x-2 overflow-hidden border px-4',
         disabled && INPUT_TRIGGER_STATE_STYLES.DISABLED,
         !disabled && isError && INPUT_TRIGGER_STATE_STYLES.ERROR,
         !disabled && !isError && INPUT_TRIGGER_STATE_STYLES.DEFAULT,

@@ -21,7 +21,7 @@ const DialogFooter = ({
       isLoading={isLoading}
       possibleConfirm={possibleConfirm}
       buttonSize={BUTTON_SIZES.LG}
-      className='border-gray-02 border-t px-[1.875rem] py-[1.125rem]'
+      className='border-in-gray-02 border-t px-[1.875rem] py-[1.125rem]'
     />
   );
 };

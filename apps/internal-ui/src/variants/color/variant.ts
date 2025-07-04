@@ -61,11 +61,11 @@ export const COLOR_TYPES = {
 } as const;
 
 export const COLOR_TYPE_PREFIXES: Record<ColorTypes, string> = {
-  [COLOR_TYPES.TEXT]: 'text-',
-  [COLOR_TYPES.BACKGROUND]: 'bg-',
-  [COLOR_TYPES.BORDER]: 'border-',
-  [COLOR_TYPES.FILL]: 'fill-',
-  [COLOR_TYPES.PLACEHOLDER]: 'placeholder-',
+  [COLOR_TYPES.TEXT]: 'text-in-',
+  [COLOR_TYPES.BACKGROUND]: 'bg-in-',
+  [COLOR_TYPES.BORDER]: 'border-in-',
+  [COLOR_TYPES.FILL]: 'fill-in-',
+  [COLOR_TYPES.PLACEHOLDER]: 'placeholder-in-',
 } as const;
 
 export const COLOR_STYLES_MAPPER: Record<

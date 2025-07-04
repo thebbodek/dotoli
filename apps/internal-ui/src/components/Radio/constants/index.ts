@@ -26,15 +26,15 @@ export const RADIO_LABEL_SIZE_VARIANTS: Record<RadioSize, TypographyVariants> =
 
 export const RADIO_STYLES = {
   [RADIO_STATE.DEFAULT]: {
-    icon: 'before:bg-white border-gray-02 bg-white',
-    label: 'text-black',
+    icon: 'before:bg-in-white border-in-gray-02 bg-in-white',
+    label: 'text-in-black',
   },
   [RADIO_STATE.SELECTED]: {
-    icon: 'peer-checked:before:bg-primary-05 peer-checked:border-primary-05',
-    label: 'peer-checked:text-black',
+    icon: 'peer-checked:before:bg-in-primary-05 peer-checked:border-in-primary-05',
+    label: 'peer-checked:text-in-black',
   },
   [RADIO_STATE.DISABLED]: {
-    icon: 'peer-disabled:before:bg-gray-02 peer-disabled:border-gray-02',
-    label: 'peer-disabled:text-gray-05',
+    icon: 'peer-disabled:before:bg-in-gray-02 peer-disabled:border-in-gray-02',
+    label: 'peer-disabled:text-in-gray-05',
   },
 } as const;

@@ -38,7 +38,7 @@ export const Default: Story = {
           onClose={() => setIsOpen(false)}
           className='min-w-sm'
         >
-          <div className='bg-gray-02 rounded-8 h-[25.625rem] w-full' />
+          <div className='bg-in-gray-02 rounded-in-8 h-[25.625rem] w-full' />
         </InfoFullScreenDialog>
       </>
     );

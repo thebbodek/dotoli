@@ -24,7 +24,7 @@ const TableRow = ({
       role='row'
       className={clsx(
         className,
-        'flex-h-stack min-w-fit',
+        'in-flex-h-stack min-w-fit',
         TABLE_ROW_STYLES[variant],
       )}
     >

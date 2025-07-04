@@ -18,6 +18,7 @@ const AvatarImage = ({ src, alt, size, type }: AvatarImageProps) => {
       alt={alt ?? ''}
       onError={() => setIsError(true)}
       className='h-full w-full object-cover'
+      unoptimized
       {...AVATAR_SIZE_IMAGE_PROPS[size]}
     />
   );

@@ -20,7 +20,7 @@ const Chip = ({
     <button
       className={clsx(
         className,
-        'text-body-14-r text-primary-06 bg-primary-02 flex h-[1.5rem] items-center gap-x-1 rounded-full px-3',
+        'text-in-body-14-r text-in-primary-06 bg-in-primary-02 rounded-in-full flex h-[1.5rem] items-center gap-x-1 px-3',
       )}
       aria-label={ariaLabel ?? `${label} 제거`}
       disabled={disabled}

@@ -302,7 +302,7 @@ export const WithChildren = {
     };
 
     const items = Array.from({ length: 10 }, (_, index) => (
-      <div key={index} className='shadow-12 rounded-4 px-2 py-1'>
+      <div key={index} className='shadow-in-12 rounded-in-4 px-2 py-1'>
         Flex {index + 1}
       </div>
     ));

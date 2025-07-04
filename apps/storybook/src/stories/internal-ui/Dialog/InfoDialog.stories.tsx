@@ -48,7 +48,7 @@ export const Default: Story = {
           onConfirm={() => setIsOpen(false)}
           confirmButtonLabel='닫기'
         >
-          <div className='bg-gray-02 rounded-8 h-[25.625rem] w-[48.75rem]' />
+          <div className='bg-in-gray-02 rounded-in-8 h-[25.625rem] w-[48.75rem]' />
         </InfoDialog>
       </>
     );

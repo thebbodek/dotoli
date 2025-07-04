@@ -3,7 +3,7 @@ import { TableCellButtonProps } from '@/components/Table/types';
 
 const TableCellButton = ({ items }: TableCellButtonProps) => {
   return (
-    <ul className='flex-h-stack-center gap-x-4'>
+    <ul className='in-flex-h-stack-center gap-x-4'>
       {items.map((item, index) => (
         <li key={index}>
           <Button {...item} size='sm' variant='text' />

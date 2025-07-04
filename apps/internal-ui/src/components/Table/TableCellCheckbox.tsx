@@ -10,7 +10,7 @@ const TableCellCheckbox = ({
       content={label}
       hidden={!label}
       placement='top'
-      rootClassName='h-full flex-h-stack-center'
+      rootClassName='h-full in-flex-h-stack-center'
     >
       <Checkbox {...props} size='sm' />
     </Tooltip>

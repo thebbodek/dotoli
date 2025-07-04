@@ -35,9 +35,9 @@ export const Default = {
       <div className='flex flex-col items-center gap-4'>
         <Button label='Open Portal' onClick={onToggle} />
         {isOpen && (
-          <div className='rounded-8 shadow-8 p-2'>
+          <div className='rounded-in-8 shadow-in-8 p-2'>
             <Portal>
-              <div className='rounded-8 shadow-8 p-2'>Portal</div>
+              <div className='rounded-in-8 shadow-in-8 p-2'>Portal</div>
             </Portal>
             Original Portal Position
           </div>

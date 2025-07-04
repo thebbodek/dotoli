@@ -8,7 +8,7 @@ const FullScreenDialogHeader = ({
   isPending,
 }: FullScreenDialogHeaderProps) => {
   return (
-    <OverlayHeader className='flex-h-stack items-center px-5 py-3'>
+    <OverlayHeader className='in-flex-h-stack items-center px-5 py-3'>
       <IconButton
         iconKey='x'
         arialLabel={'닫기'}

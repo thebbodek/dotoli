@@ -88,7 +88,7 @@ export const PersonaSizes: Story = {
     type: 'single',
   },
   render: (args) => (
-    <div className='flex-v-stack gap-y-4'>
+    <div className='in-flex-v-stack gap-y-4'>
       <Persona {...args} size={AVATAR_SIZES.SM} />
       <Persona {...args} size={AVATAR_SIZES.MD} />
     </div>

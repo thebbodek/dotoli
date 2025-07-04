@@ -266,7 +266,7 @@ export const Default: Story = {
 
                   if (key === 'goodsCode') {
                     const UPPER_CASE_REG_EXP = /[^A-Z]/g;
-                    const error =
+                    const isError =
                       user.goodsCode.length > 0 &&
                       UPPER_CASE_REG_EXP.test(user.goodsCode);
 
@@ -275,9 +275,9 @@ export const Default: Story = {
                         {...defaultProps}
                         placeholder='입력해주세요'
                         value={user.goodsCode}
-                        error={error}
+                        isError={isError}
                         feedback={
-                          error ? '! 대문자만 입력 가능합니다' : undefined
+                          isError ? '! 대문자만 입력 가능합니다' : undefined
                         }
                         onChange={(e) =>
                           onChange({ key, value: e.target.value })

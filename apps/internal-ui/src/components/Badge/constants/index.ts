@@ -15,37 +15,37 @@ export const BADGE_THEMES = {
 } as const;
 
 export const BADGE_VARIANT_STYLES: Record<BadgeVariant, string> = {
-  [BADGE_VARIANTS.FILLED]: 'rounded-4',
-  [BADGE_VARIANTS.OUTLINED]: 'rounded-4 border border-gray-02',
-  [BADGE_VARIANTS.STATUS]: 'rounded-full',
+  [BADGE_VARIANTS.FILLED]: 'rounded-in-4',
+  [BADGE_VARIANTS.OUTLINED]: 'rounded-in-4 border border-in-gray-02',
+  [BADGE_VARIANTS.STATUS]: 'rounded-in-full',
 };
 
 export const BADGE_FILLED_THEME_STYLES: BadgeStyle = {
   [BADGE_THEMES.GRAY]: {
-    CONTAINER: 'bg-gray-02',
-    LABEL: 'text-gray-07',
+    CONTAINER: 'bg-in-gray-02',
+    LABEL: 'text-in-gray-07',
   },
   [BADGE_THEMES.PRIMARY]: {
-    CONTAINER: 'bg-primary-02',
-    LABEL: 'text-primary-07',
+    CONTAINER: 'bg-in-primary-02',
+    LABEL: 'text-in-primary-07',
   },
   [BADGE_THEMES.GREEN]: {
-    CONTAINER: 'bg-green-01',
-    LABEL: 'text-green-06',
+    CONTAINER: 'bg-in-green-01',
+    LABEL: 'text-in-green-06',
   },
   [BADGE_THEMES.YELLOW]: {
-    CONTAINER: 'bg-yellow-01',
-    LABEL: 'text-yellow-07',
+    CONTAINER: 'bg-in-yellow-01',
+    LABEL: 'text-in-yellow-07',
   },
   [BADGE_THEMES.RED]: {
-    CONTAINER: 'bg-red-01',
-    LABEL: 'text-red-07',
+    CONTAINER: 'bg-in-red-01',
+    LABEL: 'text-in-red-07',
   },
 };
 
 const BADGE_OUTLINED_THEME_DEFAULT_STYLES = {
-  CONTAINER: 'border-gray-02 border bg-white',
-  LABEL: 'text-gray-06',
+  CONTAINER: 'border-in-gray-02 border bg-in-white',
+  LABEL: 'text-in-gray-06',
 };
 
 export const BADGE_THEME_STYLES: Record<BadgeVariant, BadgeStyle> = {
@@ -61,11 +61,11 @@ export const BADGE_THEME_STYLES: Record<BadgeVariant, BadgeStyle> = {
 } as const;
 
 export const BADGE_THEME_ICON_STYLES: Record<BadgeTheme, string> = {
-  [BADGE_THEMES.GRAY]: 'text-gray-05',
-  [BADGE_THEMES.PRIMARY]: 'text-primary-05',
-  [BADGE_THEMES.GREEN]: 'text-green-04',
-  [BADGE_THEMES.YELLOW]: 'text-yellow-04',
-  [BADGE_THEMES.RED]: 'text-red-04',
+  [BADGE_THEMES.GRAY]: 'text-in-gray-05',
+  [BADGE_THEMES.PRIMARY]: 'text-in-primary-05',
+  [BADGE_THEMES.GREEN]: 'text-in-green-04',
+  [BADGE_THEMES.YELLOW]: 'text-in-yellow-04',
+  [BADGE_THEMES.RED]: 'text-in-red-04',
 } as const;
 
 export const BADGE_ICON_SIZE_STYLES: Record<BadgeVariant, string> = {

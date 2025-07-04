@@ -11,7 +11,7 @@ const SelectBasePopoverWrapper = ({
     <div
       className={clsx(
         className,
-        'animate-fade-in-select rounded-8 shadow-8 overflow-hidden bg-white',
+        'animate-in-fade-in-select rounded-in-8 shadow-in-8 bg-in-white overflow-hidden',
       )}
     >
       {children}

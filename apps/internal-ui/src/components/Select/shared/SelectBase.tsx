@@ -86,7 +86,10 @@ const SelectBase = ({
   };
 
   return (
-    <div {...getAriaAttributes()} className={clsx(className, 'flex-v-stack')}>
+    <div
+      {...getAriaAttributes()}
+      className={clsx(className, 'in-flex-v-stack')}
+    >
       <SelectLabelProvider id={labelId} required={required}>
         {label}
       </SelectLabelProvider>

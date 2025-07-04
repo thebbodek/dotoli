@@ -27,15 +27,15 @@ export const CHECKBOX_LABEL_SIZE_VARIANTS: Record<
 
 export const CHECKBOX_STYLES = {
   [CHECKBOX_STATE.DEFAULT]: {
-    icon: 'border-gray-02 bg-white',
-    label: 'text-black',
+    icon: 'border-in-gray-02 bg-in-white',
+    label: 'text-in-black',
   },
   [CHECKBOX_STATE.SELECTED]: {
-    icon: 'peer-checked:border-primary-05 peer-checked:bg-primary-05',
-    label: 'peer-checked:text-black',
+    icon: 'peer-checked:border-in-primary-05 peer-checked:bg-in-primary-05',
+    label: 'peer-checked:text-in-black',
   },
   [CHECKBOX_STATE.DISABLED]: {
-    icon: 'peer-disabled:border-gray-02 peer-disabled:bg-gray-02',
-    label: 'peer-disabled:text-gray-05',
+    icon: 'peer-disabled:border-in-gray-02 peer-disabled:bg-in-gray-02',
+    label: 'peer-disabled:text-in-gray-05',
   },
 } as const;
