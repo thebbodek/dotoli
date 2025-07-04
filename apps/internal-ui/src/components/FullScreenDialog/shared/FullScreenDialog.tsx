@@ -17,7 +17,7 @@ const FullScreenDialog = ({
       <div
         className={clsx(
           className,
-          'flex-v-stack h-screen w-screen overflow-hidden bg-white',
+          'in-flex-v-stack bg-in-white h-screen w-screen overflow-hidden',
         )}
       >
         {children}

@@ -21,7 +21,7 @@ const SelectBaseItem = ({
       role='option'
       className={clsx(
         className,
-        'rounded-8 hover:bg-primary-01 shrink-0 cursor-pointer overflow-hidden text-black',
+        'rounded-in-8 hover:bg-in-primary-01 text-in-black shrink-0 cursor-pointer overflow-hidden',
       )}
       aria-selected={selected}
       title={label}

@@ -17,14 +17,14 @@ const ConfirmOverlayContent = ({
   } = iconOptions;
 
   return (
-    <div className='flex-v-stack-center gap-y-2'>
+    <div className='in-flex-v-stack-center gap-y-2'>
       {useIcon && (
         <Icon
           iconKey={iconKey}
           className={clsx(
             COLOR_STYLES_MAPPER.TEXT[color],
             COLOR_STYLES_MAPPER.BACKGROUND[backgroundColor],
-            'mb-1 h-[3.25rem] w-[3.25rem] rounded-full text-[2.125rem]',
+            'rounded-in-full mb-1 h-[3.25rem] w-[3.25rem] text-[2.125rem]',
           )}
         />
       )}

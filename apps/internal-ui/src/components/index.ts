@@ -16,10 +16,11 @@ export * from './Persona';
 export * from './Popover';
 export * from './Portal';
 export * from './Radio';
-export * from './Table';
 export * from './Select';
+export * from './Table';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';
 
 export { DialogOverlayFormDivider } from './shared';
+export type { ComponentPropsRef } from './shared';

@@ -30,7 +30,7 @@ const InputIconButton = ({
       <Icon
         iconKey={iconKey}
         weight={weight}
-        className='text-gray-05 text-[1.125rem]'
+        className='text-in-gray-05 text-[1.125rem]'
       />
     </button>
   );

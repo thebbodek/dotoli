@@ -18,7 +18,7 @@ const Dialog = ({
       <div
         className={clsx(
           className,
-          'rounded-16 shadow-24 flex-v-stack max-h-[86dvh] bg-white',
+          'rounded-in-16 shadow-in-24 in-flex-v-stack bg-in-white max-h-[86dvh]',
         )}
       >
         {children}

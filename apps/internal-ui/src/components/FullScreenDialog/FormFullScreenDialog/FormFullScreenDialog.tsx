@@ -41,7 +41,7 @@ const FormFullScreenDialog = ({
         possibleConfirm={possibleConfirm}
         isPending={isPending}
         isLoading={isLoading}
-        className='border-t-gray-02 border-t px-5 py-3'
+        className='border-t-in-gray-02 border-t px-5 py-3'
         isFull
       />
     </FullScreenDialog>

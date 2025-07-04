@@ -11,13 +11,13 @@ const CheckboxIcon = ({ size }: CheckboxIconProps) => {
   return (
     <div
       className={clsx(
-        'rounded-4 flex items-center justify-center overflow-hidden border-[0.125rem]',
+        'rounded-in-4 flex items-center justify-center overflow-hidden border-[0.125rem]',
         CHECKBOX_ICON_SIZE_STYLES[size],
         ...Object.values(CHECKBOX_STYLES).map(({ icon }) => icon),
       )}
       aria-hidden
     >
-      <Icon className='text-white' iconKey='check' />
+      <Icon className='text-in-white' iconKey='check' />
     </div>
   );
 };

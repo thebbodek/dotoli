@@ -147,7 +147,7 @@ export const Default: Story = {
       >
         <div
           className={
-            'shadow-8 rounded-8 flex items-center justify-between gap-2 bg-white px-3 py-2'
+            'shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'
           }
         >
           Popover Content
@@ -178,7 +178,7 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
       >
         <div
           className={
-            'shadow-8 rounded-8 flex items-center justify-between gap-2 bg-white px-3 py-2'
+            'shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'
           }
         >
           Popover Content {index}
@@ -202,7 +202,7 @@ export const WithListRoot: Story = {
       <ul
         ref={rootRef}
         className={
-          'popover-root bg-yellow-02 max-h-[20rem] w-60 overflow-y-auto'
+          'popover-root bg-in-yellow-02 max-h-[20rem] w-60 overflow-y-auto'
         }
       >
         {Array.from({ length: 10 }).map((_, i) => (
