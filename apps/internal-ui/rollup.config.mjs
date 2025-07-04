@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs';
 import image from '@rollup/plugin-image';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
@@ -26,6 +27,7 @@ export default {
     }),
     peerDepsExternal(),
     resolve(),
+    commonjs(),
     image(),
     typescript({
       tsconfig: './tsconfig.build.json',
@@ -47,5 +49,5 @@ export default {
       },
     }),
   ],
-  external: ['react', 'react-dom', 'next'],
+  external: ['react', 'react-dom'],
 };
