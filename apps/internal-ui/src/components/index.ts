@@ -17,6 +17,7 @@ export * from './Popover';
 export * from './Portal';
 export * from './Radio';
 export * from './Select';
+export * from './Tab';
 export * from './Table';
 export * from './Toggle';
 export * from './Tooltip';
