@@ -31,7 +31,9 @@ export const Default: Story = {
             className='flex items-center gap-x-0.5'
             onClick={() => setIsOpen((v) => !v)}
           >
-            <Typography variant='body-18-b'>배송 유형</Typography>
+            <Typography variant='body-18-b' color='black'>
+              배송 유형
+            </Typography>
             <Icon
               iconKey='warning-circle'
               className='text-in-gray-04 text-[1.125rem]'

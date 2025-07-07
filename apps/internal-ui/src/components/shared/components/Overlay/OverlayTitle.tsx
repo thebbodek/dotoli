@@ -8,7 +8,12 @@ const OverlayTitle = ({
   className,
 }: OverlayTitleProps) => {
   return (
-    <Typography as='strong' variant={variant} className={className}>
+    <Typography
+      as='strong'
+      color='black'
+      variant={variant}
+      className={className}
+    >
       {title}
     </Typography>
   );

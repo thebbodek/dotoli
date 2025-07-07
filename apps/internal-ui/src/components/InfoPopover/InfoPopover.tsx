@@ -17,7 +17,7 @@ const InfoPopover = ({
     <Popover {...popoverProps}>
       <div className={clsx(className, 'shadow-in-4 rounded-in-8 bg-in-white')}>
         <header className='border-in-gray-01 border-b py-2.5 pl-4 pr-5'>
-          <Typography as='strong' variant='body-14-b'>
+          <Typography as='strong' variant='body-14-b' color='black'>
             {title}
           </Typography>
         </header>
