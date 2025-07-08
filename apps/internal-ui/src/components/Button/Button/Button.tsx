@@ -6,6 +6,7 @@ import ButtonIcon from '@/components/Button/shared/ButtonIcon';
 import { BUTTON_PENDING_ICON_KEY } from '@/components/Button/shared/constants';
 import useButtonPropsValidationEffect from '@/components/Button/shared/hooks/effects/useButtonRenderErrorEffect';
 import { generateButtonStyle } from '@/components/Button/shared/utils/generateButtonStyle';
+import { IconProps } from '@/components/Icon';
 
 const Button = ({
   label,
@@ -17,8 +18,8 @@ const Button = ({
   disabled = false,
   ...props
 }: ButtonProps) => {
-  const { variant, theme, size } = props;
-  const iconKey = isPending ? BUTTON_PENDING_ICON_KEY : props.iconKey;
+  const { variant, theme, size, iconOption } = props;
+  const iconKey = isPending ? BUTTON_PENDING_ICON_KEY : iconOption?.iconKey;
   const isDisabled = disabled || isPending;
 
   useButtonPropsValidationEffect({ variant, theme, size });
@@ -34,8 +35,12 @@ const Button = ({
   return (
     <button
       className={clsx(
-        generateButtonStyle({ ...props, iconKey, disabled: isDisabled }),
         className,
+        generateButtonStyle({
+          ...props,
+          iconOption: { iconKey: iconKey as IconProps['iconKey'] },
+          disabled: isDisabled,
+        }),
       )}
       disabled={isDisabled}
       ref={ref}

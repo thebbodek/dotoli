@@ -18,9 +18,10 @@ export const generateButtonStyle = ({
   theme = BUTTON_THEMES.PRIMARY,
   size = BUTTON_SIZES.LG,
   disabled = false,
-  iconKey,
-  iconPosition = BUTTON_ICON_POSITIONS.LEFT,
+  iconOption,
+  iconPosition,
 }: GenerateButtonStyleProps) => {
+  const { iconKey } = iconOption ?? {};
   const styles = (BUTTON_STYLES[theme][variant] ?? {}) as ButtonStyles;
   const filteredStyles = Object.keys(styles).filter(
     (state) => (state === BUTTON_STATE.DISABLED) === disabled,

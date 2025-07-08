@@ -13,9 +13,15 @@ const LinkButton = ({
   className,
   ref,
   onClick,
+  variant,
+  theme,
+  size,
+  disabled,
+  iconOption,
+  iconPosition,
   ...props
 }: LinkButtonProps) => {
-  const { variant, theme, size, disabled, iconKey, ...rest } = props;
+  const { iconKey } = iconOption ?? {};
 
   useButtonPropsValidationEffect({ variant, theme, size });
 
@@ -32,12 +38,22 @@ const LinkButton = ({
   return (
     <Link
       aria-disabled={disabled}
-      className={clsx(generateButtonStyle(props), className)}
+      className={clsx(
+        className,
+        generateButtonStyle({
+          variant,
+          theme,
+          size,
+          disabled,
+          iconOption,
+          iconPosition,
+        }),
+      )}
       href={href}
       ref={ref}
       onClick={handleClick}
       tabIndex={disabled ? -1 : 0}
-      {...rest}
+      {...props}
     >
       {iconKey && <ButtonIcon iconKey={iconKey} size={size} />}
       {label}

@@ -5,6 +5,7 @@ import {
   BUTTON_STYLES,
   BUTTON_THEMES,
   BUTTON_VARIANTS,
+  ButtonProps,
   ButtonTheme,
   ButtonVariant,
 } from '@bbodek/internal-ui';
@@ -21,7 +22,11 @@ const BUTTON_TYPES = {
   RESET: 'reset',
 } as const;
 
-const meta: Meta<typeof Button> = {
+export interface ButtonArgs extends Omit<ButtonProps, 'iconOption'> {
+  iconKey: NonNullable<ButtonProps['iconOption']>['iconKey'];
+}
+
+const meta: Meta<ButtonArgs> = {
   title: 'core/internal-ui/Button/Button',
   component: Button,
   argTypes: {
@@ -122,7 +127,7 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<ButtonArgs>;
 
 export const Primary: Story = {
   args: {
@@ -133,6 +138,9 @@ export const Primary: Story = {
     disabled: false,
     onClick: () => alert('clicked'),
   },
+  render: ({ iconKey, ...args }) => (
+    <Button {...args} iconOption={{ iconKey }} />
+  ),
 };
 
 export const Variant: Story = {
@@ -143,7 +151,7 @@ export const Variant: Story = {
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: (args) => (
+  render: ({ iconKey, ...args }) => (
     <ul className='flex flex-col gap-y-4'>
       {Object.entries(BUTTON_STYLES).map(([theme, variants]) => (
         <li key={theme}>
@@ -154,6 +162,7 @@ export const Variant: Story = {
                   {...args}
                   theme={theme as ButtonTheme}
                   variant={variant as ButtonVariant}
+                  iconOption={{ iconKey }}
                 />
               </li>
             ))}
@@ -172,7 +181,7 @@ export const Size: Story = {
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: (args) => (
+  render: ({ iconKey, ...args }) => (
     <ul className='flex gap-x-4'>
       {Object.values(BUTTON_VARIANTS).map((variant) => (
         <li key={variant} className='flex w-32 justify-center gap-y-4'>
@@ -181,7 +190,12 @@ export const Size: Story = {
               variant === BUTTON_VARIANTS.FILLED &&
               size === BUTTON_SIZES.XS ? null : (
                 <li key={size}>
-                  <Button {...args} variant={variant} size={size} />
+                  <Button
+                    {...args}
+                    variant={variant}
+                    size={size}
+                    iconOption={{ iconKey }}
+                  />
                 </li>
               ),
             )}
