@@ -26,7 +26,7 @@ export interface ButtonPrimitiveProps {
   variant?: ButtonVariant;
   theme?: ButtonTheme;
   size?: ButtonSize;
-  iconKey?: IconProps['iconKey'];
+  iconOption?: Pick<IconProps, 'iconKey'>;
   iconPosition?: ButtonIconPosition;
   disabled?: boolean;
 }
@@ -37,7 +37,7 @@ export interface UseButtonRenderErrorEffectProps
 export interface GenerateButtonStyleProps
   extends Pick<
     ButtonPrimitiveProps,
-    'variant' | 'theme' | 'size' | 'disabled' | 'iconKey' | 'iconPosition'
+    'variant' | 'theme' | 'size' | 'disabled' | 'iconOption' | 'iconPosition'
   > {}
 
 export interface ButtonIconProps

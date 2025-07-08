@@ -3,10 +3,11 @@ import {
   BUTTON_THEMES,
   BUTTON_VARIANTS,
   LinkButton,
+  LinkButtonProps,
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { default as ButtonMeta } from './Button.stories';
+import { ButtonArgs, default as ButtonMeta } from './Button.stories';
 
 const {
   label,
@@ -19,7 +20,9 @@ const {
   onClick,
 } = ButtonMeta.argTypes ?? {};
 
-const meta: Meta<typeof LinkButton> = {
+interface LinkButtonArgs extends LinkButtonProps, Pick<ButtonArgs, 'iconKey'> {}
+
+const meta: Meta<LinkButtonArgs> = {
   title: 'core/internal-ui/Button/LinkButton',
   component: LinkButton,
   argTypes: {
@@ -44,7 +47,7 @@ const meta: Meta<typeof LinkButton> = {
 
 export default meta;
 
-type Story = StoryObj<typeof LinkButton>;
+type Story = StoryObj<LinkButtonArgs>;
 
 export const Link: Story = {
   args: {
@@ -56,4 +59,7 @@ export const Link: Story = {
     disabled: false,
     iconKey: 'arrow-square-out',
   },
+  render: ({ iconKey, ...args }) => (
+    <LinkButton {...args} iconOption={{ iconKey }} />
+  ),
 };
