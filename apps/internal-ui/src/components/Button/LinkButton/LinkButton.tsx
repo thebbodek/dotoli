@@ -39,7 +39,7 @@ const LinkButton = ({
       tabIndex={disabled ? -1 : 0}
       {...rest}
     >
-      {iconKey && <ButtonIcon iconKey={iconKey} />}
+      {iconKey && <ButtonIcon iconKey={iconKey} size={size} />}
       {label}
     </Link>
   );
