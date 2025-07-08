@@ -33,9 +33,9 @@ const meta: Meta<typeof IconButton> = {
         name: 'string',
       },
     },
-    tooltipContent: {
-      description: 'Icon Button Tooltip Content',
-      control: 'text',
+    tooltipOption: {
+      description: 'Icon Button Tooltip option (content, placement)',
+      control: 'object',
     },
     iconKey,
     type,
@@ -55,5 +55,9 @@ export const Default: Story = {
     disabled: false,
     iconKey: 'pencil',
     arialLabel: '수정',
+    tooltipOption: {
+      content: '수정',
+      placement: 'bottom',
+    },
   },
 };

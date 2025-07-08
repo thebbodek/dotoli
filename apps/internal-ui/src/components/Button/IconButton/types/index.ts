@@ -14,11 +14,11 @@ export interface IconButtonProps
       ButtonHTMLAttributes<HTMLButtonElement>,
       'onClick' | 'disabled' | 'type'
     >,
-    Pick<TooltipProps, 'rootClassName'>,
     Pick<IconProps, 'iconKey'>,
     Pick<ButtonProps, 'isPending'>,
     ComponentPropsRef<HTMLButtonElement> {
   theme?: IconButtonTheme;
   arialLabel: Required<ButtonHTMLAttributes<HTMLButtonElement>['aria-label']>;
-  tooltipContent?: string;
+  className?: TooltipProps['rootClassName'];
+  tooltipOption?: Pick<TooltipProps, 'content' | 'placement'>;
 }

@@ -16,12 +16,13 @@ const IconButton = ({
   type = 'button',
   theme = ICON_BUTTON_THEMES.HOVER_GRAY,
   arialLabel,
-  tooltipContent,
-  rootClassName,
+  tooltipOption,
+  className,
   disabled = false,
   isPending = false,
   onClick,
 }: IconButtonProps) => {
+  const { content, placement = 'bottom' } = tooltipOption ?? {};
   const isDisabled = disabled || isPending;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -34,9 +35,9 @@ const IconButton = ({
 
   return (
     <Tooltip
-      content={tooltipContent ?? arialLabel}
-      rootClassName={rootClassName}
-      placement='bottom'
+      content={content ?? arialLabel}
+      rootClassName={className}
+      placement={placement}
     >
       <button
         ref={ref}
