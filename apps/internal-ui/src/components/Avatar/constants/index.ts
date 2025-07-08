@@ -19,8 +19,8 @@ export const AVATAR_THEMES = {
 } as const;
 
 export const AVATAR_SIZE_STYLES: Record<AvatarSize, string> = {
-  [AVATAR_SIZES.SM]: 'w-8 h-8 rounded-12 border-2 border-white',
-  [AVATAR_SIZES.MD]: 'w-10 h-10 rounded-16',
+  [AVATAR_SIZES.SM]: 'w-8 h-8 rounded-in-12 border-2 border-in-white',
+  [AVATAR_SIZES.MD]: 'w-10 h-10 rounded-in-16',
 };
 
 export const AVATAR_SIZE_IMAGE_PROPS: Record<
@@ -54,6 +54,6 @@ export const AVATAR_ICON_STYLES = {
 } as const;
 
 export const AVATAR_THEME_STYLES: Record<AvatarTheme, string> = {
-  [AVATAR_THEMES.PRIMARY]: 'text-primary-04 bg-primary-02',
-  [AVATAR_THEMES.GRAY]: 'bg-gray-02 text-gray-06',
+  [AVATAR_THEMES.PRIMARY]: 'text-in-primary-04 bg-in-primary-02',
+  [AVATAR_THEMES.GRAY]: 'bg-in-gray-02 text-in-gray-06',
 };

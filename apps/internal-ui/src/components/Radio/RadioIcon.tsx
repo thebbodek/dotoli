@@ -10,7 +10,7 @@ const RadioIcon = ({ size }: RadioIconProps) => {
   return (
     <div
       className={clsx(
-        'relative flex items-center justify-center overflow-hidden rounded-full border-[0.125rem] before:rounded-full',
+        'rounded-in-full before:rounded-in-full relative flex items-center justify-center overflow-hidden border-[0.125rem]',
         RADIO_ICON_SIZE_STYLES[size],
         ...Object.values(RADIO_STYLES).map(({ icon }) => icon),
       )}

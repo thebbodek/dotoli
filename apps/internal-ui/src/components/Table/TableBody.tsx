@@ -40,7 +40,7 @@ const TableBody = ({
       className={clsx(
         className,
         TABLE_ROW_GROUP_COMMON_STYLE,
-        'h-[calc(100%-2rem)] bg-white',
+        'bg-in-white h-[calc(100%-2rem)]',
         isEmpty && 'sticky left-0',
       )}
     >

@@ -34,26 +34,26 @@ export const Default: Story = {
             <Typography variant='body-18-b'>배송 유형</Typography>
             <Icon
               iconKey='warning-circle'
-              className='text-gray-04 text-[1.125rem]'
+              className='text-in-gray-04 text-[1.125rem]'
               weight='fill'
             />
           </button>
         }
         className={'w-[330px]'}
-        innerClassName={'flex-v-stack gap-y-2.5'}
+        innerClassName={'in-flex-v-stack gap-y-2.5'}
       >
         <InfoPopover.Description
           description={
             <>
               사용수량을 직전 영업일에 배송하는 일반배송 외 <br />
               주말/공휴일에도 배송하는 유형을 지정할 수 있습니다. <br />
-              <strong className='text-primary-05'>
+              <strong className='text-in-primary-05'>
                 ※ 토요일/일요일 배송은 공휴일 여부와 상관없이 배송됩니다.
               </strong>
             </>
           }
         />
-        <div className='bg-gray-01 rounded-6 h-[160px] w-full' />
+        <div className='bg-in-gray-01 rounded-in-6 h-[160px] w-full' />
       </InfoPopover>
     );
   },

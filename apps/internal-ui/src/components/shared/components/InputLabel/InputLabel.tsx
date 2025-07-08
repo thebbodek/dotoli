@@ -10,9 +10,9 @@ const InputLabel = ({
   required,
 }: PropsWithChildren<InputLabelProps>) => {
   const className = clsx(
-    'text-body-14-m text-gray-07 mb-0.5',
+    'text-in-body-14-m text-in-gray-07 mb-0.5',
     badge && 'flex items-center gap-x-0.5',
-    required && 'before:text-primary-06 before:content-["*"]',
+    required && 'before:text-in-primary-06 before:content-["*"]',
   );
 
   if (htmlFor) {

@@ -8,7 +8,7 @@ const OverlayHeader = ({
   className,
 }: PropsWithChildren<OverlayHeaderProps>) => {
   return (
-    <header className={clsx(className, 'border-b-gray-02 border-b')}>
+    <header className={clsx(className, 'border-b-in-gray-02 border-b')}>
       {children}
     </header>
   );

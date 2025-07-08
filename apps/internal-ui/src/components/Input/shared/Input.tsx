@@ -52,7 +52,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     'aria-errormessage': feedbackId,
     className: clsx(
       inputClassName,
-      'input placeholder-gray-04 disabled:placeholder-gray-05 w-full text-inherit focus:outline-none disabled:cursor-not-allowed',
+      'input placeholder-in-gray-04 disabled:placeholder-in-gray-05 w-full text-inherit focus:outline-none disabled:cursor-not-allowed',
     ),
     ...props,
   };
@@ -70,12 +70,13 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
 
     return (
       <InputTriggerWrapper
+        variant={variant}
         isError={isError}
         disabled={isDisabled}
         className={clsx(
           className,
           !isError &&
-            'focus-within:border-primary-05 focus-within:outline-gray-02 focus-within:outline-2',
+            'focus-within:border-in-primary-05 focus-within:outline-in-gray-02 focus-within:outline-2',
         )}
       >
         {input}

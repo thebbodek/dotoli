@@ -21,7 +21,9 @@ export default meta;
 
 type Story = StoryObj<typeof InfoBottomSheet>;
 
-const Box = () => <div className='bg-gray-01 rounded-8 h-[11.687rem] w-full' />;
+const Box = () => (
+  <div className='bg-in-gray-01 rounded-in-8 h-[11.687rem] w-full' />
+);
 
 export const Default: Story = {
   args: {
@@ -78,7 +80,7 @@ export const WithClose: Story = {
               <>
                 사용수량을 직전 영업일에 배송하는 일반배송 외 <br />
                 주말/공휴일에도 배송하는 유형을 지정할 수 있습니다. <br />
-                <span className='text-primary-05'>
+                <span className='text-in-primary-05'>
                   ※ 토요일/일요일 배송은 공휴일 여부와 상관없이 배송됩니다.
                 </span>
               </>

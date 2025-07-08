@@ -9,11 +9,11 @@ export const RADIUS_VARIANTS = {
 } as const;
 
 export const RADIUS_STYLES_MAPPER = {
-  [RADIUS_VARIANTS.RADIUS_4]: 'rounded-4',
-  [RADIUS_VARIANTS.RADIUS_6]: 'rounded-6',
-  [RADIUS_VARIANTS.RADIUS_8]: 'rounded-8',
-  [RADIUS_VARIANTS.RADIUS_12]: 'rounded-12',
-  [RADIUS_VARIANTS.RADIUS_16]: 'rounded-16',
-  [RADIUS_VARIANTS.RADIUS_24]: 'rounded-24',
-  [RADIUS_VARIANTS.RADIUS_FULL]: 'rounded-full',
+  [RADIUS_VARIANTS.RADIUS_4]: 'rounded-in-4',
+  [RADIUS_VARIANTS.RADIUS_6]: 'rounded-in-6',
+  [RADIUS_VARIANTS.RADIUS_8]: 'rounded-in-8',
+  [RADIUS_VARIANTS.RADIUS_12]: 'rounded-in-12',
+  [RADIUS_VARIANTS.RADIUS_16]: 'rounded-in-16',
+  [RADIUS_VARIANTS.RADIUS_24]: 'rounded-in-24',
+  [RADIUS_VARIANTS.RADIUS_FULL]: 'rounded-in-full',
 } as const;

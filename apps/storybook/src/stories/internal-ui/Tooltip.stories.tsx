@@ -1,4 +1,4 @@
-import { IconButton, Tooltip } from '@bbodek/internal-ui';
+import { Button, Tooltip } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
@@ -67,7 +67,7 @@ export const Default: Story = {
   },
   render: (args) => (
     <Tooltip {...args}>
-      <IconButton iconKey='pencil' arialLabel={'수정'} />
+      <Button label='Hover Me' />
     </Tooltip>
   ),
 };

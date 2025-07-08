@@ -17,7 +17,7 @@ const AvatarGroup = ({
   return (
     <Tooltip
       content={tooltipContent}
-      rootClassName='flex-h-stack items-center -space-x-[0.687rem]'
+      rootClassName='in-flex-h-stack items-center -space-x-[0.687rem]'
       className={tooltipClassName}
       placement='bottom'
     >
@@ -25,7 +25,7 @@ const AvatarGroup = ({
         <Avatar key={item.name} {...item} />
       ))}
       {isOverflow && (
-        <AvatarBase size='sm' theme='gray' className='text-body-12-m'>
+        <AvatarBase size='sm' theme='gray' className='text-in-body-12-m'>
           {`+${overflowCount}`}
         </AvatarBase>
       )}

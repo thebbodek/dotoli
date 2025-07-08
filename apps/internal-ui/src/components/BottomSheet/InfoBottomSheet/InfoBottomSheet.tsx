@@ -18,7 +18,7 @@ const InfoBottomSheet = ({
     <BottomSheet isOpen={isOpen} ref={ref} className={className}>
       <BottomSheet.ContentWrapper
         isLoading={isLoading}
-        className='flex-v-stack gap-y-3'
+        className='in-flex-v-stack gap-y-3'
       >
         <header>
           <OverlayTitle title={title} />

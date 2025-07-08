@@ -79,7 +79,7 @@ const Tooltip = ({
             style={floatingStyles}
             {...getFloatingProps()}
             className={clsx(
-              'text-body-12-m rounded-4 bg-tooltip z-[10000] animate-[fade-in_.1s_ease-in-out_1] break-keep px-2.5 py-1',
+              'text-in-body-12-m rounded-in-4 bg-in-tooltip z-[10000] animate-[fade-in_.1s_ease-in-out_1] break-keep px-2.5 py-1',
               COLOR_STYLES_MAPPER.TEXT[color],
               className,
             )}

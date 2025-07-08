@@ -68,7 +68,7 @@ export const Default: Story = {
 export const AvatarOnImageError: Story = {
   args: {
     alt: '강준영',
-    src: 'https://404.png',
+    src: 'https://ca.slack-edge.com/404-test.png',
     type: AVATAR_TYPES.SINGLE,
     size: AVATAR_SIZES.SM,
   },
@@ -76,7 +76,7 @@ export const AvatarOnImageError: Story = {
 
 export const AvatarSizes: Story = {
   render: ({ type, ...args }) => (
-    <div className='flex-h-stack items-end gap-x-2'>
+    <div className='in-flex-h-stack items-end gap-x-2'>
       <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.SM} />
       <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.MD} />
     </div>

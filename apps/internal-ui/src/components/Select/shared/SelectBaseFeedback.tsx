@@ -19,7 +19,7 @@ const SelectBaseFeedback = ({
       <Icon
         iconKey='info'
         weight='fill'
-        className='text-red-04 translate-y-[0.083em]'
+        className='text-in-red-04 translate-y-[0.083em]'
         aria-hidden
       />
       {children}

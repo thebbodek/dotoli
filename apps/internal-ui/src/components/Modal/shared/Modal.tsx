@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import ModalContentWrapper from '@/components/Modal/shared/ModalContentWrapper';
 import ModalFooter from '@/components/Modal/shared/ModalFooter';
 import { ModalProps } from '@/components/Modal/shared/types';
 import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
-import ModalContentWrapper from '@/components/Modal/shared/ModalContentWrapper';
 
 const Modal = ({
   isOpen,
@@ -17,7 +17,7 @@ const Modal = ({
       <div
         className={clsx(
           className,
-          'rounded-16 shadow-24 animate-popup bg-white px-[1.875rem] pb-6',
+          'rounded-in-16 shadow-in-24 animate-in-popup bg-in-white px-[1.875rem] pb-6',
         )}
       >
         {children}

@@ -38,7 +38,7 @@ const OverlayFooter = ({
     <footer
       className={clsx(
         className,
-        'flex-h-stack items-center gap-x-2',
+        'in-flex-h-stack items-center gap-x-2',
         !isFull && 'justify-end',
       )}
     >

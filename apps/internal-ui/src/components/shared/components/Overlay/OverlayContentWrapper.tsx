@@ -24,7 +24,7 @@ const OverlayContentWrapper = ({
     return (
       <form
         onSubmit={(e) => e.preventDefault()}
-        className={clsx(commonClassName, 'flex-v-stack')}
+        className={clsx(commonClassName, 'in-flex-v-stack')}
       >
         {_children}
       </form>

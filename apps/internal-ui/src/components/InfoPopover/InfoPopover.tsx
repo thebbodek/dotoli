@@ -15,8 +15,8 @@ const InfoPopover = ({
 }: PropsWithChildren<InfoPopoverProps>) => {
   return (
     <Popover {...popoverProps}>
-      <div className={clsx(className, 'shadow-4 rounded-8 bg-white')}>
-        <header className='border-gray-01 border-b py-2.5 pl-4 pr-5'>
+      <div className={clsx(className, 'shadow-in-4 rounded-in-8 bg-in-white')}>
+        <header className='border-in-gray-01 border-b py-2.5 pl-4 pr-5'>
           <Typography as='strong' variant='body-14-b'>
             {title}
           </Typography>

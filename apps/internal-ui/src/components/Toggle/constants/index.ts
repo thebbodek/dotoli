@@ -33,15 +33,15 @@ export const TOGGLE_LABEL_SIZE_VARIANTS: Record<
 
 export const TOGGLE_STYLES = {
   [TOGGLE_STATE.DEFAULT]: {
-    icon: 'bg-gray-03 before:bg-white before:-translate-x-1/2',
+    icon: 'bg-in-gray-03 before:bg-in-white before:-translate-x-1/2',
     label: '',
   },
   [TOGGLE_STATE.SELECTED]: {
-    icon: 'peer-checked:bg-primary-05 peer-checked:before:translate-x-1/2',
+    icon: 'peer-checked:bg-in-primary-05 peer-checked:before:translate-x-1/2',
     label: '',
   },
   [TOGGLE_STATE.DISABLED]: {
-    icon: 'peer-disabled:bg-gray-02 peer-disabled:before:bg-gray-01',
-    label: 'peer-disabled:text-gray-05',
+    icon: 'peer-disabled:bg-in-gray-02 peer-disabled:before:bg-in-gray-01',
+    label: 'peer-disabled:text-in-gray-05',
   },
 } as const;

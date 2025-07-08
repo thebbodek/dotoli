@@ -18,7 +18,7 @@ const SelectBaseLabel = ({
       className={clsx(
         'mb-0.5',
         badge && 'flex items-center gap-x-0.5',
-        required && 'before:text-primary-06 before:content-["*"]',
+        required && 'before:text-in-primary-06 before:content-["*"]',
       )}
       color='gray-07'
       variant='body-14-m'

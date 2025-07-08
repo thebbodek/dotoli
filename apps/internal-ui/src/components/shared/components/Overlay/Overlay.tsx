@@ -45,10 +45,10 @@ const Overlay = ({
         ref={ref}
         className={clsx(
           className,
-          'open:animate-fade-in left-0 top-0 z-[10000] h-full w-full overflow-hidden',
-          variant === OVERLAY_VARIANTS['MODAL'] && 'safe-area-bottom',
+          'open:animate-in-fade-in left-0 top-0 z-[10000] h-full w-full overflow-hidden',
+          variant === OVERLAY_VARIANTS['MODAL'] && 'in-safe-area-bottom',
           OVERLAY_CONTENT_POSITION[variant],
-          dimmed && 'bg-dimmed',
+          dimmed && 'bg-in-dimmed',
         )}
         open={isOpen}
         {...rest}
