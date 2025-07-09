@@ -19,6 +19,7 @@ const LinkButton = ({
   disabled,
   iconOption,
   iconPosition,
+  responsive,
   ...props
 }: LinkButtonProps) => {
   const { iconKey } = iconOption ?? {};
@@ -47,6 +48,7 @@ const LinkButton = ({
           disabled,
           iconOption,
           iconPosition,
+          responsive,
         }),
       )}
       href={href}
@@ -55,7 +57,9 @@ const LinkButton = ({
       tabIndex={disabled ? -1 : 0}
       {...props}
     >
-      {iconKey && <ButtonIcon iconKey={iconKey} size={size} />}
+      {iconKey && (
+        <ButtonIcon iconKey={iconKey} size={size} responsive={responsive} />
+      )}
       {label}
     </Link>
   );

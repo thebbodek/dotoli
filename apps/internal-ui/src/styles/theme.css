@@ -151,12 +151,12 @@
   --shadow-in-24: 0px 10px 24px 0px rgba(16, 24, 40, 0.3);
   --shadow-in-30: 0px 12px 30px 0px rgba(16, 24, 40, 0.36);
 
-  --breakpoint-in-sm: 22.5rem;
-  --breakpoint-in-md: 51.25rem;
-  --breakpoint-in-lg: 73.75rem;
-  --container-in-sm: var(--breakpoint-in-sm);
-  --container-in-md: var(--breakpoint-in-md);
-  --container-in-lg: var(--breakpoint-in-lg);
+  --breakpoint-in-mobile: 22.5rem;
+  --breakpoint-in-tablet: 51.25rem;
+  --breakpoint-in-desktop: 73.75rem;
+  --container-in-mobile: var(--breakpoint-in-mobile);
+  --container-in-tablet: var(--breakpoint-in-tablet);
+  --container-in-desktop: var(--breakpoint-in-desktop);
 
   --animate-in-fade-in: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
   --animate-in-fade-in-select: fade-in 0.3s ease;

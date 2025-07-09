@@ -6,6 +6,7 @@ import {
   BUTTON_VARIANTS,
 } from '@/components/Button/shared/constants';
 import { IconProps } from '@/components/Icon';
+import { ContainerVariant } from '@/variants/container/types';
 
 export type ButtonVariant =
   (typeof BUTTON_VARIANTS)[keyof typeof BUTTON_VARIANTS];
@@ -21,6 +22,8 @@ export type ButtonIconPosition =
 
 export type ButtonStyles = Record<ButtonState, string>;
 
+export type ButtonSizeStyle = Record<string, string>;
+
 export interface ButtonPrimitiveProps {
   label: string;
   variant?: ButtonVariant;
@@ -28,6 +31,7 @@ export interface ButtonPrimitiveProps {
   size?: ButtonSize;
   iconOption?: Pick<IconProps, 'iconKey'>;
   iconPosition?: ButtonIconPosition;
+  responsive?: Partial<Record<ContainerVariant, ButtonSize>>;
   disabled?: boolean;
 }
 
@@ -37,9 +41,20 @@ export interface UseButtonRenderErrorEffectProps
 export interface GenerateButtonStyleProps
   extends Pick<
     ButtonPrimitiveProps,
-    'variant' | 'theme' | 'size' | 'disabled' | 'iconOption' | 'iconPosition'
+    | 'variant'
+    | 'theme'
+    | 'size'
+    | 'disabled'
+    | 'iconOption'
+    | 'iconPosition'
+    | 'responsive'
   > {}
 
 export interface ButtonIconProps
   extends Pick<IconProps, 'iconKey' | 'className'>,
-    Pick<ButtonPrimitiveProps, 'size'> {}
+    Pick<ButtonPrimitiveProps, 'size' | 'responsive'> {}
+
+export interface GetResponsiveStylesProps<T>
+  extends Pick<ButtonPrimitiveProps, 'responsive'> {
+  styles: Record<ContainerVariant, Record<ButtonSize, T>>;
+}

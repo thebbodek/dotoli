@@ -52,6 +52,7 @@ const Button = ({
           iconKey={iconKey}
           size={size}
           className={clsx(isPending && 'animate-spin')}
+          responsive={props.responsive}
         />
       )}
       {label}
