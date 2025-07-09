@@ -45,3 +45,84 @@
 @utility in-safe-area {
   @apply in-safe-area-top in-safe-area-right in-safe-area-bottom in-safe-area-left;
 }
+
+/* Button */
+@utility in-button-xs {
+  @apply text-in-body-12-m h-[1.625rem];
+}
+
+@utility in-button-sm {
+  @apply text-in-body-14-m h-8;
+}
+
+@utility in-button-md {
+  @apply text-in-body-16-m h-10;
+}
+
+@utility in-button-lg {
+  @apply text-in-body-16-b h-12;
+}
+
+@utility in-button-xs-gap {
+  @apply gap-x-0.5;
+}
+
+@utility in-button-sm-gap {
+  @apply gap-x-0.5;
+}
+
+@utility in-button-md-gap {
+  @apply gap-x-0.5;
+}
+
+@utility in-button-lg-gap {
+  @apply gap-x-1;
+}
+
+@utility in-button-xs-padding {
+  @apply px-[0.625rem];
+}
+
+@utility in-button-sm-padding {
+  @apply px-[0.875rem];
+}
+
+@utility in-button-md-padding {
+  @apply px-5;
+}
+
+@utility in-button-lg-padding {
+  @apply px-10;
+}
+
+@utility in-button-xs-rounded {
+  @apply rounded-in-6;
+}
+
+@utility in-button-sm-rounded {
+  @apply rounded-in-6;
+}
+
+@utility in-button-md-rounded {
+  @apply rounded-in-8;
+}
+
+@utility in-button-lg-rounded {
+  @apply rounded-in-8;
+}
+
+@utility in-button-xs-icon {
+  @apply text-in-body-12-b;
+}
+
+@utility in-button-sm-icon {
+  @apply text-in-body-14-b;
+}
+
+@utility in-button-md-icon {
+  @apply text-in-body-16-b;
+}
+
+@utility in-button-lg-icon {
+  @apply text-in-body-16-b;
+}

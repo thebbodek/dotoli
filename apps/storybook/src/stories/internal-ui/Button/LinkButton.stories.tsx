@@ -8,6 +8,7 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ButtonArgs, default as ButtonMeta } from './Button.stories';
+import { getResponsive } from '@/stories/internal-ui/Button/utils/getResponsive';
 
 const {
   label,
@@ -18,9 +19,17 @@ const {
   iconKey,
   iconPosition,
   onClick,
+  responsiveMobile,
+  responsiveTablet,
+  responsiveDesktop,
 } = ButtonMeta.argTypes ?? {};
 
-interface LinkButtonArgs extends LinkButtonProps, Pick<ButtonArgs, 'iconKey'> {}
+interface LinkButtonArgs
+  extends LinkButtonProps,
+    Pick<
+      ButtonArgs,
+      'iconKey' | 'responsiveMobile' | 'responsiveTablet' | 'responsiveDesktop'
+    > {}
 
 const meta: Meta<LinkButtonArgs> = {
   title: 'core/internal-ui/Button/LinkButton',
@@ -42,6 +51,9 @@ const meta: Meta<LinkButtonArgs> = {
     iconKey,
     iconPosition,
     onClick,
+    responsiveMobile,
+    responsiveTablet,
+    responsiveDesktop,
   },
 };
 
@@ -59,7 +71,23 @@ export const Link: Story = {
     disabled: false,
     iconKey: 'arrow-square-out',
   },
-  render: ({ iconKey, ...args }) => (
-    <LinkButton {...args} iconOption={{ iconKey }} />
+  render: ({
+    iconKey,
+    size,
+    responsiveMobile,
+    responsiveTablet,
+    responsiveDesktop,
+    ...args
+  }) => (
+    <LinkButton
+      {...args}
+      size={size}
+      iconOption={{ iconKey }}
+      responsive={getResponsive({
+        responsiveMobile,
+        responsiveTablet,
+        responsiveDesktop,
+      })}
+    />
   ),
 };

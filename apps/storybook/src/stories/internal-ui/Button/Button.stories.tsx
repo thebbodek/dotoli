@@ -6,6 +6,7 @@ import {
   BUTTON_THEMES,
   BUTTON_VARIANTS,
   ButtonProps,
+  ButtonSize,
   ButtonTheme,
   ButtonVariant,
 } from '@bbodek/internal-ui';
@@ -13,6 +14,7 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { getResponsive } from './utils/getResponsive';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 
@@ -24,6 +26,9 @@ const BUTTON_TYPES = {
 
 export interface ButtonArgs extends Omit<ButtonProps, 'iconOption'> {
   iconKey: NonNullable<ButtonProps['iconOption']>['iconKey'];
+  responsiveMobile: ButtonSize;
+  responsiveTablet: ButtonSize;
+  responsiveDesktop: ButtonSize;
 }
 
 const meta: Meta<ButtonArgs> = {
@@ -122,6 +127,48 @@ const meta: Meta<ButtonArgs> = {
       },
     },
     onClick: { action: 'clicked' },
+    responsiveMobile: {
+      name: 'responsiveMobile',
+      description: 'Button responsive size for mobile',
+      control: 'select',
+      options: Object.values(BUTTON_SIZES),
+      table: {
+        subcategory: 'responsive',
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_SIZES),
+          }),
+        },
+      },
+    },
+    responsiveTablet: {
+      name: 'responsiveTablet',
+      description: 'Button responsive size for tablet',
+      control: 'select',
+      options: Object.values(BUTTON_SIZES),
+      table: {
+        subcategory: 'responsive',
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_SIZES),
+          }),
+        },
+      },
+    },
+    responsiveDesktop: {
+      name: 'responsiveDesktop',
+      description: 'Button responsive size for desktop',
+      control: 'select',
+      options: Object.values(BUTTON_SIZES),
+      table: {
+        subcategory: 'responsive',
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(BUTTON_SIZES),
+          }),
+        },
+      },
+    },
   },
 };
 
@@ -133,14 +180,30 @@ export const Primary: Story = {
   args: {
     label: 'Button',
     variant: BUTTON_VARIANTS.FILLED,
-    size: BUTTON_SIZES.LG,
+    size: BUTTON_SIZES.SM,
     theme: BUTTON_THEMES.PRIMARY,
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: ({ iconKey, ...args }) => (
-    <Button {...args} iconOption={{ iconKey }} />
-  ),
+  render: ({
+    iconKey,
+    responsiveMobile,
+    responsiveTablet,
+    responsiveDesktop,
+    ...args
+  }) => {
+    return (
+      <Button
+        {...args}
+        iconOption={{ iconKey }}
+        responsive={getResponsive({
+          responsiveMobile,
+          responsiveTablet,
+          responsiveDesktop,
+        })}
+      />
+    );
+  },
 };
 
 export const Variant: Story = {
@@ -148,29 +211,43 @@ export const Variant: Story = {
     label: 'Button',
     theme: BUTTON_THEMES.PRIMARY,
     variant: BUTTON_VARIANTS.FILLED,
+    size: BUTTON_SIZES.SM,
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: ({ iconKey, ...args }) => (
-    <ul className='flex flex-col gap-y-4'>
-      {Object.entries(BUTTON_STYLES).map(([theme, variants]) => (
-        <li key={theme}>
-          <ul className='flex items-center justify-end gap-x-4'>
-            {Object.keys(variants).map((variant) => (
-              <li key={variant} className='flex w-32 justify-center'>
-                <Button
-                  {...args}
-                  theme={theme as ButtonTheme}
-                  variant={variant as ButtonVariant}
-                  iconOption={{ iconKey }}
-                />
-              </li>
-            ))}
-          </ul>
-        </li>
-      ))}
-    </ul>
-  ),
+  render: ({
+    iconKey,
+    responsiveMobile,
+    responsiveTablet,
+    responsiveDesktop,
+    ...args
+  }) => {
+    return (
+      <ul className='flex flex-col gap-y-4'>
+        {Object.entries(BUTTON_STYLES).map(([theme, variants]) => (
+          <li key={theme}>
+            <ul className='flex items-center justify-end'>
+              {Object.keys(variants).map((variant) => (
+                <li key={variant} className='flex w-24 justify-center'>
+                  <Button
+                    {...args}
+                    theme={theme as ButtonTheme}
+                    variant={variant as ButtonVariant}
+                    iconOption={{ iconKey }}
+                    responsive={getResponsive({
+                      responsiveMobile,
+                      responsiveTablet,
+                      responsiveDesktop,
+                    })}
+                  />
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    );
+  },
 };
 
 export const Size: Story = {
@@ -181,11 +258,17 @@ export const Size: Story = {
     disabled: false,
     onClick: () => alert('clicked'),
   },
-  render: ({ iconKey, ...args }) => (
+  render: ({
+    iconKey,
+    responsiveMobile,
+    responsiveTablet,
+    responsiveDesktop,
+    ...args
+  }) => (
     <ul className='flex gap-x-4'>
       {Object.values(BUTTON_VARIANTS).map((variant) => (
         <li key={variant} className='flex w-32 justify-center gap-y-4'>
-          <ul className='flex flex-col gap-2'>
+          <ul className='flex flex-col gap-4'>
             {Object.values(BUTTON_SIZES).map((size) =>
               variant === BUTTON_VARIANTS.FILLED &&
               size === BUTTON_SIZES.XS ? null : (
@@ -195,6 +278,11 @@ export const Size: Story = {
                     variant={variant}
                     size={size}
                     iconOption={{ iconKey }}
+                    responsive={getResponsive({
+                      responsiveMobile,
+                      responsiveTablet,
+                      responsiveDesktop,
+                    })}
                   />
                 </li>
               ),
