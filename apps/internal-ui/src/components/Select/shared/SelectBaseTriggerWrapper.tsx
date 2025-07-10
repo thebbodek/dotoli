@@ -24,7 +24,7 @@ const SelectBaseTriggerWrapper = ({
       role='button'
       className={clsx(
         className,
-        'border-in-gray-02 rounded-in-8 flex h-[2.5rem] w-full items-center justify-between gap-x-2 overflow-hidden border px-4 py-2',
+        'border-in-gray-02 rounded-in-8 flex h-[2.5rem] w-full min-w-[20rem] items-center justify-between gap-x-2 overflow-hidden border px-4 py-2',
         !disabled && 'bg-in-white',
         disabled && 'bg-in-gray-02 cursor-not-allowed',
         !isOpen && !disabled && isError && 'border-in-red-04',

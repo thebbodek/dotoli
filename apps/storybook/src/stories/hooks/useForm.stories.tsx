@@ -45,7 +45,7 @@ export const Default = () => {
       {errors.name && <p className='text-sm text-red-400'>{errors.name}</p>}
       <button
         type='submit'
-        className='rounded-md bg-black px-3 py-2 text-white disabled:cursor-not-allowed disabled:bg-gray-300'
+        className='bg-in-black text-in-white disabled:bg-in-gray-03 rounded-md px-3 py-2 disabled:cursor-not-allowed'
         disabled={!values.name}
       >
         Submit

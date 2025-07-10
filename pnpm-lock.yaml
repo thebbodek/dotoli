@@ -85,8 +85,8 @@ importers:
         specifier: ^0.0.13
         version: 0.0.13(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@bbodek/utils':
-        specifier: ^0.0.2
-        version: 0.0.2(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^0.0.3
+        version: 0.0.3(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@floating-ui/react':
         specifier: ^0.27.8
         version: 0.27.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -940,8 +940,8 @@ packages:
       react: ^19.1.0
       react-dom: ^19.1.0
 
-  '@bbodek/utils@0.0.2':
-    resolution: {integrity: sha512-UOORhNJqy22ik7tLr5R7IgrRCAmoADf/USXIBdFp+7UDDxWF6EJyDGdcBi0zRRPwGh4GA9/xy0XkoktbBkGECg==}
+  '@bbodek/utils@0.0.3':
+    resolution: {integrity: sha512-uSpY5MdFrTsWT5xre9A8njlsPEC0SqrG9tA2NXOrQcDoKMPf/ZyEoQnJt0h0ZT5sSyeZxN3q1OfJPQw8ZBUkrg==}
     peerDependencies:
       next: ^15.3.1
       react: ^19.1.0
@@ -6735,7 +6735,7 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@bbodek/utils@0.0.2(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@bbodek/utils@0.0.3(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
