@@ -8,4 +8,4 @@ export interface LinkButtonProps
   extends ComponentPropsRef<HTMLAnchorElement>,
     ButtonPrimitiveProps,
     LinkProps,
-    Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'className'> {}
+    Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target'> {}
