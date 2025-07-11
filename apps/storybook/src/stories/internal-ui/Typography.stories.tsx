@@ -33,9 +33,6 @@ const meta: Meta<typeof Typography> = {
       options: Object.values(COLOR_VARIANTS),
       description: 'Typography Color',
       table: {
-        defaultValue: {
-          summary: 'black',
-        },
         type: {
           summary: generateArgTypeSummary({
             options: Object.values(COLOR_VARIANTS),
@@ -48,9 +45,6 @@ const meta: Meta<typeof Typography> = {
       options: Object.values(TYPOGRAPHY_VARIANTS),
       description: 'Typography Variant',
       table: {
-        defaultValue: {
-          summary: 'body-16-r',
-        },
         type: {
           summary: generateArgTypeSummary({
             options: Object.values(TYPOGRAPHY_VARIANTS),
