@@ -5,10 +5,7 @@ import { ComponentPropsRef } from '@/components/shared/types';
 
 export interface ButtonProps
   extends ButtonPrimitiveProps,
-    Pick<
-      ButtonHTMLAttributes<HTMLButtonElement>,
-      'type' | 'className' | 'onClick'
-    >,
+    Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'onClick'>,
     ComponentPropsRef<HTMLButtonElement> {
   isPending?: boolean;
 }

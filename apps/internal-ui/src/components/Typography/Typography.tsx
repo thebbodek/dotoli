@@ -28,7 +28,7 @@ const Typography = <
       className={clsx(
         className,
         variant && TYPOGRAPHY_STYLES_MAPPER[variant],
-        color && COLOR_STYLES_MAPPER.TEXT[color],
+        color ? COLOR_STYLES_MAPPER.TEXT[color] : 'text-inherit',
       )}
       id={id}
       title={title}

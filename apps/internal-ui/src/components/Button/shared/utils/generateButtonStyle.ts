@@ -44,8 +44,9 @@ export const generateButtonStyle = ({
   };
 
   return clsx(
-    'flex items-center justify-center transition-colors',
-    iconPosition === BUTTON_ICON_POSITIONS.RIGHT && 'flex-row-reverse',
+    'flex items-center transition-colors',
+    iconPosition === BUTTON_ICON_POSITIONS.RIGHT &&
+      'flex-row-reverse justify-end',
     !!iconKey && [
       BUTTON_SIZE_STYLES[size].GAP,
       responsiveStyles.map((style) => style.GAP),

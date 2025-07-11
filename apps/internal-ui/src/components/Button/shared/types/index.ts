@@ -1,3 +1,5 @@
+import { HTMLAttributes } from 'react';
+
 import {
   BUTTON_ICON_POSITIONS,
   BUTTON_SIZES,
@@ -24,7 +26,8 @@ export type ButtonStyles = Record<ButtonState, string>;
 
 export type ButtonSizeStyle = Record<string, string>;
 
-export interface ButtonPrimitiveProps {
+export interface ButtonPrimitiveProps
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
   label: string;
   variant?: ButtonVariant;
   theme?: ButtonTheme;
