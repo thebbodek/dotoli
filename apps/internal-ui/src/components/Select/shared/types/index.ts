@@ -1,5 +1,6 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
+import { IconProps } from '@/components/Icon';
 import { PopoverProps } from '@/components/Popover';
 import { SELECT_TYPE } from '@/components/Select/shared';
 import { ComponentPropsRef } from '@/components/shared/types';
@@ -30,7 +31,14 @@ export interface SelectBaseLabelProps {
 }
 
 export interface SelectBaseTriggerWrapperProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  subFixIcon?: ReactElement<IconProps>;
+}
+
+export interface SelectBaseDisplayValueProps {
+  displayValue: string | number | null;
+  hasValue: boolean;
+}
 
 export interface SelectBaseFeedbackProps
   extends Required<Pick<HTMLAttributes<HTMLDivElement>, 'id'>> {}
@@ -75,3 +83,6 @@ export interface SelectLabelContextValue
   extends Required<Pick<HTMLAttributes<HTMLSpanElement>, 'id'>> {
   required?: boolean;
 }
+
+export interface SelectBaseResetButtonProps
+  extends Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'> {}
