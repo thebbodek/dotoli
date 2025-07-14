@@ -58,9 +58,9 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
         }}
       >
         {({ close }) => (
-          <SelectBase.PopoverWrapper className='in-tablet:min-h-[44svh] in-tablet:max-h-[34svh] in-flex-v-stack in-tablet:block in-tablet:static in-tablet:inset-auto fixed inset-0 justify-between'>
+          <SelectBase.PopoverWrapper className='in-tablet:min-h-[34svh] in-tablet:max-h-[44svh] in-flex-v-stack in-tablet:block in-tablet:static in-tablet:inset-auto fixed inset-0 justify-between'>
             <MultiSelectBase
-              className='in-tablet:min-h-[calc(44svh-4.125rem)] in-tablet:max-h-[calc(34svh-4.125rem)]'
+              className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)]'
               labelId={labelId}
               inputOption={inputOption}
               searchPanel={<MultiSearchSelectSearchPanel />}
