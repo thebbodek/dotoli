@@ -2,7 +2,7 @@ import { PropsWithChildren, useId } from 'react';
 
 import { SelectBase } from '@/components/Select/shared';
 import { SingleSelectListProvider } from '@/components/Select/Single/shared/context';
-import SingleSelectTrigger from '@/components/Select/Single/shared/SingleSelectBaseTrigger';
+import SingleSelectBaseTrigger from '@/components/Select/Single/shared/SingleSelectBaseTrigger';
 import {
   SelectValue,
   SingleSelectBaseProps,
@@ -34,7 +34,13 @@ const SingleSelectBase = <T extends SelectValue>({
       className={className}
       label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
       popoverOption={popoverOption}
-      trigger={<SingleSelectTrigger displayValue={displayValue} />}
+      trigger={
+        <SingleSelectBaseTrigger
+          displayValue={displayValue}
+          disabled={disabled}
+          onSelect={onSelect}
+        />
+      }
       disabled={disabled}
       feedback={feedback}
       required={required}

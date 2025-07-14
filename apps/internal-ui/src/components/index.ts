@@ -4,6 +4,7 @@ export * from './AvatarGroup';
 export * from './Badge';
 export * from './BottomSheet';
 export * from './Button';
+export * from './Calendar';
 export * from './Checkbox';
 export * from './Chip';
 export * from './Dialog';
