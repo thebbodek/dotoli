@@ -32,7 +32,8 @@ export interface MultiSelectBaseResultPanelProps
 export interface MultiSelectBaseListHeaderProps
   extends Pick<MultiSelectBaseResultPanelProps, 'count'> {}
 
-export interface MultiSelectBaseProps extends Pick<SelectBaseProps, 'labelId'> {
+export interface MultiSelectBaseProps
+  extends Pick<SelectBaseProps, 'labelId' | 'className'> {
   searchPanel: ReactNode;
   selectedPanel: ReactNode;
   inputOption?: Omit<

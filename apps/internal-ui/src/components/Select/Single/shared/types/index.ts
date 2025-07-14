@@ -24,12 +24,14 @@ export interface SingleSelectBaseProps<T extends SelectValue>
     >,
     Pick<SingleSelectListContextValue<T>, 'onSelect' | 'value'>,
     Pick<SelectBaseLabelProps, 'badge'>,
-    SingleSelectBaseTriggerProps {
+    Omit<SingleSelectBaseTriggerProps<T>, 'disabled'> {
   label: string;
   popoverWrapperClassName: SelectBasePopoverWrapperProps['className'];
 }
 
-export interface SingleSelectBaseTriggerProps {
+export interface SingleSelectBaseTriggerProps<T extends SelectValue>
+  extends Pick<SingleSelectListContextValue<T>, 'onSelect'>,
+    Pick<SelectBaseProps, 'disabled'> {
   displayValue: SelectValue;
 }
 

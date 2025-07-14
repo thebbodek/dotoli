@@ -1,23 +1,30 @@
+import { SelectBaseTriggerWrapper } from '@/components/Select/shared';
+import SelectBaseDisplayValue from '@/components/Select/shared/SelectBaseDisplayValue';
+import SelectBaseResetButton from '@/components/Select/shared/SelectBaseResetButton';
 import {
-  SelectBaseTriggerWrapper,
-  useSelectTriggerContext,
-} from '@/components/Select/shared';
-import { SingleSelectBaseTriggerProps } from '@/components/Select/Single/shared/types';
-import { Typography } from '@/components/Typography';
+  SelectValue,
+  SingleSelectBaseTriggerProps,
+} from '@/components/Select/Single/shared/types';
 
-const SingleSelectBaseTrigger = ({
+const SingleSelectBaseTrigger = <T extends SelectValue>({
   displayValue,
-}: SingleSelectBaseTriggerProps) => {
-  const { disabled, placeholder } = useSelectTriggerContext();
+  disabled = false,
+  onSelect,
+}: SingleSelectBaseTriggerProps<T>) => {
+  const hasValue = !!displayValue;
+  const showResetButton = hasValue && !disabled;
+
+  const onReset = () => {
+    onSelect({ value: null as T });
+  };
 
   return (
     <SelectBaseTriggerWrapper>
-      <Typography
-        variant='body-16-r'
-        color={!!displayValue && !disabled ? 'black' : 'gray-04'}
-      >
-        {displayValue || placeholder}
-      </Typography>
+      <SelectBaseDisplayValue
+        displayValue={displayValue}
+        hasValue={!!displayValue}
+      />
+      {showResetButton && <SelectBaseResetButton onClick={onReset} />}
     </SelectBaseTriggerWrapper>
   );
 };
