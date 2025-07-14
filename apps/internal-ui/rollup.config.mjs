@@ -41,7 +41,7 @@ export default {
     }),
     terser({
       compress: {
-        drop_console: !isWatch,
+        drop_console: false,
         drop_debugger: !isWatch,
       },
       format: {
