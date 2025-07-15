@@ -162,6 +162,8 @@
   --animate-in-fade-in-select: fade-in 0.3s ease;
   --animate-in-popup: popup 0.2s cubic-bezier(0, 0, 0.5, 1);
   --animate-in-bottom-sheet: bottom-sheet 0.2s cubic-bezier(0, 0, 0.5, 1);
+  --animate-in-toast-in: toast-in 0.2s ease;
+  --animate-in-toast-out: toast-out 0.2s ease forwards;
 
   @keyframes fade-in {
     0% {
@@ -187,6 +189,28 @@
     }
     100% {
       transform: translateY(0);
+    }
+  }
+
+  @keyframes toast-in {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes toast-out {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
     }
   }
 }
