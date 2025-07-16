@@ -5,7 +5,7 @@ import { SelectBaseItemProps } from '@/components/Select/shared/types';
 
 const SelectBaseItem = ({
   className,
-  selected,
+  isSelected,
   children,
   onClick,
   label,
@@ -21,9 +21,10 @@ const SelectBaseItem = ({
       role='option'
       className={clsx(
         className,
-        'rounded-in-8 hover:bg-in-primary-01 text-in-black shrink-0 cursor-pointer overflow-hidden',
+        'rounded-in-8 shrink-0 cursor-pointer overflow-hidden',
+        !isSelected && 'bg-in-white',
       )}
-      aria-selected={selected}
+      aria-selected={isSelected}
       title={label}
       onClick={handleClick}
     >
