@@ -26,6 +26,9 @@ importers:
 
   apps/hooks:
     dependencies:
+      '@bbodek/utils':
+        specifier: ^0.0.5
+        version: 0.0.5(@bbodek/internal-ui@0.0.31(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6))(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hot-toast@2.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       next:
         specifier: ^15.3.1
         version: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -962,6 +965,15 @@ packages:
       next: ^15.3.1
       react: ^19.1.0
       react-dom: ^19.1.0
+
+  '@bbodek/utils@0.0.5':
+    resolution: {integrity: sha512-lZQ0HA1x9zHL+kcI/p/xny6G7EjNohWp8xWm27O478o3oQYdJKUqMRil5Xz2u0tRlCJMaWH03/TzyDtbNzNIJA==}
+    peerDependencies:
+      '@bbodek/internal-ui': ^0.0.31
+      next: ^15.3.1
+      react: ^19.1.0
+      react-dom: ^19.1.0
+      react-hot-toast: ^2.5.2
 
   '@bcoe/v8-coverage@1.0.2':
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
@@ -6790,6 +6802,14 @@ snapshots:
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
+
+  '@bbodek/utils@0.0.5(@bbodek/internal-ui@0.0.31(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6))(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react-hot-toast@2.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      '@bbodek/internal-ui': 0.0.31(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)
+      next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-hot-toast: 2.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
 
   '@bcoe/v8-coverage@1.0.2': {}
 

@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/utils",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "license": "MIT",
   "type": "module",
   "exports": {
