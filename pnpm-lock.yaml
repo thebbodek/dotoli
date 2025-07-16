@@ -82,8 +82,8 @@ importers:
   apps/internal-ui:
     dependencies:
       '@bbodek/hooks':
-        specifier: ^0.0.13
-        version: 0.0.13(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        specifier: ^0.0.14
+        version: 0.0.14(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@bbodek/utils':
         specifier: ^0.0.2
         version: 0.0.2(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -942,8 +942,8 @@ packages:
     resolution: {integrity: sha512-+EzkxvLNfiUeKMgy/3luqfsCWFRXLb7U6wNQTk60tovuckwB15B191tJWvpp4HjiQWdJkCxO3Wbvc6jlk3Xb2Q==}
     engines: {node: '>=6.9.0'}
 
-  '@bbodek/hooks@0.0.13':
-    resolution: {integrity: sha512-GPlXSR3s9t/iDrk/2SX3ogtmPXbCH7bDIJUOC2iTe71tg2h0TSI4/O7RM5vu4DlojfoL5VZ6EmxhncWy//Wk7Q==}
+  '@bbodek/hooks@0.0.14':
+    resolution: {integrity: sha512-bLBhkLrfJeVuVspMyTiGfMlY7hLuZwxCQsFEm0fjoKCOfneSrfhSeiuo/sdEvm5zJnaePMW1aItvUUERNyJ07Q==}
     peerDependencies:
       next: ^15.3.1
       react: ^19.1.0
@@ -6757,7 +6757,7 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.27.1
 
-  '@bbodek/hooks@0.0.13(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@bbodek/hooks@0.0.14(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
