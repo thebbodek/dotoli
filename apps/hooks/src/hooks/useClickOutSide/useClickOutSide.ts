@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 
-import { UseClickOutsideProps } from '@/useClickOutSide/types';
-import useClickOutSideEffect from '@/useClickOutSide/useClickOutSideEffect';
+import { UseClickOutsideProps } from '@/hooks/useClickOutSide/types';
+import useClickOutSideEffect from '@/hooks/useClickOutSide/useClickOutSideEffect';
 
 const useClickOutside = <T extends HTMLElement>({
   onClose,

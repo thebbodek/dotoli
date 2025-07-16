@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { UseClickOutSideEffectProps } from '@/useClickOutSide/types';
+import { UseClickOutSideEffectProps } from '@/hooks/useClickOutSide/types';
 
 const useClickOutSideEffect = <T extends HTMLElement>({
   ref,

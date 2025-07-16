@@ -29,10 +29,6 @@ export interface OverlayProps
   dimmed?: boolean;
 }
 
-export interface UseBodyScrollLockEffectProps {
-  isLocked: boolean;
-}
-
 export interface OverlayHeaderProps
   extends Pick<HTMLAttributes<HTMLElement>, 'className'> {}
 

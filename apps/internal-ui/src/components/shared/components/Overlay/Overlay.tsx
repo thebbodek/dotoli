@@ -1,3 +1,4 @@
+import { useScrollLockEffect } from '@bbodek/hooks';
 import clsx from 'clsx';
 import {
   PropsWithChildren,
@@ -12,7 +13,6 @@ import {
   OVERLAY_CONTENT_SIZE,
   OVERLAY_VARIANTS,
 } from '@/components/shared/components/Overlay/constants';
-import useBodyScrollLockEffect from '@/components/shared/components/Overlay/hooks/effects/useBodyScrollLockEffect';
 import OverlayLoading from '@/components/shared/components/Overlay/OverlayLoading';
 import { OverlayProps } from '@/components/shared/components/Overlay/types';
 
@@ -29,7 +29,7 @@ const Overlay = ({
 }: PropsWithChildren<OverlayProps>) => {
   const { className, ...rest } = props;
 
-  useBodyScrollLockEffect({ isLocked: isOpen });
+  useScrollLockEffect({ isLocked: isOpen });
 
   if (!isOpen || !children) return null;
 
