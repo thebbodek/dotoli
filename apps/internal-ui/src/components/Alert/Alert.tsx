@@ -47,7 +47,7 @@ const Alert = ({
             aria-hidden={collapsed}
           >
             <AlertDescription description={content} />
-            <AlertActionButton className='mt-1' />
+            <AlertActionButton className='mt-1 w-fit' />
           </div>
         )}
       </AlertBox>
