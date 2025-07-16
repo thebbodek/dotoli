@@ -48,11 +48,9 @@ const warning = (content: ToastProps['content'], option?: ToastOption) =>
 const error = (content: ToastProps['content'], option?: ToastOption) =>
   createToast({ type: TOAST_TYPES.ERROR, content, ...option });
 
-const toast = {
+export const toast = {
   info,
   success,
   warning,
   error,
 };
-
-export default toast;
