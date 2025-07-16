@@ -3,6 +3,8 @@ import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import typescript from 'rollup-plugin-typescript2';
 
+const isWatch = process.argv.includes('--watch');
+
 export default {
   input: 'src/index.ts',
   output: {
@@ -26,8 +28,8 @@ export default {
     }),
     terser({
       compress: {
-        drop_console: true,
-        drop_debugger: true,
+        drop_console: !isWatch,
+        drop_debugger: !isWatch,
       },
       format: {
         comments: false,

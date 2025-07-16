@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/hooks",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -13,7 +13,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",
     "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "next start",
     "lint": "next lint"
