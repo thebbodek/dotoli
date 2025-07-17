@@ -1,4 +1,4 @@
-export interface ExecuteFunction<T extends () => void> {
+export interface ExecuteFunction<T> {
   disabled?: boolean;
   fn: T;
 }
