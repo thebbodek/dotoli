@@ -1,3 +1,4 @@
+import { Toaster } from '@bbodek/utils';
 import { DocsContainer } from '@storybook/blocks';
 import type { Preview } from '@storybook/react';
 import { fn } from '@storybook/test';
@@ -29,6 +30,7 @@ const preview: Preview = {
         <>
           <DocsContainer context={context}>{children}</DocsContainer>
           <div id='portal' />
+          <Toaster />
         </>
       ),
     },
@@ -37,7 +39,12 @@ const preview: Preview = {
     (Story, { viewMode }) => {
       return (
         <>
-          {viewMode !== 'docs' && <div id='portal' />}
+          {viewMode !== 'docs' && (
+            <>
+              <div id='portal' />
+              <Toaster />
+            </>
+          )}
           <Story />
         </>
       );

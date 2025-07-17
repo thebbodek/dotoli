@@ -126,3 +126,7 @@
 @utility in-button-lg-icon {
   @apply text-in-body-16-b;
 }
+
+@utility toaster {
+  @apply in-tablet:inset-6!;
+}

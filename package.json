@@ -14,6 +14,7 @@
     "sb:dev": "pnpm sb dev",
     "sb:build": "turbo --filter=storybook build",
     "ut": "pnpm --filter=@bbodek/utils",
+    "ut:dev": "turbo --filter=@bbodek/utils dev",
     "ut:build": "turbo --filter=@bbodek/utils build",
     "ut:pub": "pnpm ut:build && cd apps/utils && (npm version patch || true) && npm publish",
     "in": "pnpm --filter=@bbodek/internal-ui",
