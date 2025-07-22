@@ -1,6 +1,7 @@
 export * from '@/composeEventHandler';
 export * from '@/executeFunction';
 export * from '@/extractExt';
+export * from '@/getUUID';
 export * from '@/highlightText';
 export * from '@/isServer';
 export * from '@/mergeRefs';
