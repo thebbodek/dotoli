@@ -5,6 +5,7 @@
 @import '@phosphor-icons/web/regular';
 @import '@phosphor-icons/web/thin';
 @import 'pretendard/dist/web/variable/pretendardvariable.css';
+@import 'react-loading-skeleton/dist/skeleton.css';
 @import './base.css';
 @import './theme.css';
 @import './safelist.css';
