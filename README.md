@@ -58,8 +58,10 @@ pnpm --filter=@bbodek/hooks build
 Licensed under the [MIT license](https://github.com/thebbodek/dotoli/blob/main/LICENSE).
 
 <a href="https://bbodek.com/" target="_blank">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://image.thebbodek.com/logo/logo-white.png"/>
-    <img align="center" alt="BBODEK" width="100" hspace="16" src="https://image.thebbodek.com/logo/logo-color.png"/>
-  </picture>
+  <p align="center">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://image.thebbodek.com/logo/logo-white.png"/>
+      <img alt="BBODEK" width="100" hspace="16" src="https://image.thebbodek.com/logo/logo-color.png"/>
+    </picture>
+  </p>
 </a>
