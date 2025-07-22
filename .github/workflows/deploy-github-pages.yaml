@@ -22,10 +22,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-      - run: rm -rf ~/.pnpm-store node_modules .turbo apps/storybook/storybook-static
       - uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
-          install_command: pnpm sb install --no-frozen-lockfile
-          build_command: pnpm build && pnpm sb:build
+          install_command: pnpm prebuild
+          build_command: pnpm in build && pnpm ut build && pnpm hooks build  && pnpm sb build
           path: apps/storybook/storybook-static
           checkout: true

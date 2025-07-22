@@ -1,6 +1,7 @@
 {
   "name": "dotoli",
   "scripts": {
+    "prebuild": "pnpm install --filter=!storybook --no-frozen-lockfile --no-link-workspace-packages && pnpm install --filter=storybook --no-frozen-lockfile",
     "build": "turbo --filter=!storybook build",
     "dev": "turbo dev",
     "lint": "turbo lint",

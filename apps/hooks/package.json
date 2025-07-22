@@ -18,18 +18,18 @@
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {
-    "@bbodek/utils": "^0.0.5",
-    "next": "^15.3.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "@bbodek/utils": "^0.0.5"
   },
   "devDependencies": {
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@bbodek/utils": "^0.0.5",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@rollup/plugin-node-resolve": "^16.0.1",

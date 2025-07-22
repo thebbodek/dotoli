@@ -19,18 +19,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^15.3.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-hot-toast": "^2.5.2",
-    "@bbodek/internal-ui": "^0.0.32"
+    "react-hot-toast": "^2.5.2"
   },
   "peerDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "@bbodek/internal-ui": "^0.0.32"
   },
   "devDependencies": {
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@bbodek/internal-ui": "^0.0.32",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@rollup/plugin-node-resolve": "^16.0.1",
