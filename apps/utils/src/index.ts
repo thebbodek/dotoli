@@ -1,5 +1,6 @@
 export * from '@/composeEventHandler';
 export * from '@/executeFunction';
+export * from '@/extractDifferences';
 export * from '@/extractExt';
 export * from '@/getUUID';
 export * from '@/highlightText';
