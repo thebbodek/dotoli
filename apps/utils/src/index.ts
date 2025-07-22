@@ -1,3 +1,4 @@
+export * from '@/clipboard';
 export * from '@/composeEventHandler';
 export * from '@/executeFunction';
 export * from '@/extractExt';
