@@ -8,6 +8,7 @@ export * from '@/isServer';
 export * from '@/mergeRefs';
 export * from '@/parseExt';
 export * from '@/removeExt';
+export * from '@/toAbstractString';
 export * from '@/toast';
 
 export { ACCEPT_FILE_EXT, ACCEPT_FILES } from '@/shared';
