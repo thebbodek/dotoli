@@ -1,3 +1,4 @@
+import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
@@ -19,6 +20,10 @@ export default {
   plugins: [
     peerDepsExternal(),
     resolve(),
+    commonjs({
+      include: /node_modules/,
+      requireReturnsDefault: 'auto',
+    }),
     typescript({
       tsconfig: './tsconfig.build.json',
       useTsconfigDeclarationDir: true,
