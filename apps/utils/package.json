@@ -20,7 +20,9 @@
   },
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "react-hot-toast": "^2.5.2"
+    "dayjs": "^1.11.13",
+    "react-hot-toast": "^2.5.2",
+    "xlsx-js-style": "^1.2.0"
   },
   "peerDependencies": {
     "@bbodek/internal-ui": "^0.0.32",
@@ -32,6 +34,7 @@
     "@bbodek/internal-ui": "^0.0.32",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
+    "@rollup/plugin-commonjs": "^28.0.6",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@types/lodash-es": "^4.17.12",
