@@ -19,6 +19,7 @@ export * from './Portal';
 export * from './Radio';
 export * from './Select';
 export * from './Sort';
+export * from './Skeleton';
 export * from './Tab';
 export * from './Table';
 export * from './Toast';
