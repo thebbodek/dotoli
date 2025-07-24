@@ -1,4 +1,5 @@
 export * from '@/composeEventHandler';
+export * from '@/excelDownload';
 export * from '@/executeFunction';
 export * from '@/extractExt';
 export * from '@/getUUID';
