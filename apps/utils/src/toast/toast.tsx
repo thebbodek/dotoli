@@ -5,7 +5,7 @@ import { CreateToastOption, ToastOption } from '@/toast/types';
 
 const createToast = ({
   useClose,
-  duration = 3000,
+  duration = 2000,
   onClose,
   ...props
 }: CreateToastOption) => {
