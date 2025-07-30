@@ -13,11 +13,16 @@ const FullScreenDialog = ({
   className,
 }: PropsWithChildren<FullScreenDialogProps>) => {
   return (
-    <Overlay variant={OVERLAY_VARIANTS.MODAL} isOpen={isOpen} ref={ref} dimmed>
+    <Overlay
+      variant={OVERLAY_VARIANTS.FULL_SCREEN}
+      isOpen={isOpen}
+      ref={ref}
+      dimmed
+    >
       <div
         className={clsx(
           className,
-          'in-flex-v-stack bg-in-white h-screen w-screen overflow-hidden',
+          'in-flex-v-stack bg-in-white w-full overflow-hidden',
         )}
       >
         {children}
