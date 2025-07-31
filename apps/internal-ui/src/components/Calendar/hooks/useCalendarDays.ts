@@ -1,4 +1,12 @@
-import dayjs from 'dayjs';
+import {
+  date,
+  day,
+  endOf,
+  now,
+  timezone,
+  toParseDateType,
+  toString,
+} from '@bbodek/utils';
 import { useCallback, useMemo } from 'react';
 
 import {
@@ -33,22 +41,20 @@ const useCalendarDays = ({
 
   const holidaysSet = useMemo(
     () =>
-      new Set(
-        holidays?.map((holiday) => dayjs(holiday).format('YYYY-MM-DD')) ?? [],
-      ),
+      new Set(holidays?.map((holiday) => toString({ date: holiday })) ?? []),
     [holidays],
   );
 
   const getLabel = useCallback(
     ({
-      date,
+      dateValue,
       isToday,
       isHoliday,
-    }: Pick<CalendarDaysOfMonth, 'date'> &
+    }: Pick<CalendarDaysOfMonth, 'dateValue'> &
       Pick<GetDayVariantParams, 'isToday' | 'isHoliday'>) => {
-      const dateString = date.format('YYYY-MM-DD');
+      const dateString = toString({ date: dateValue });
       const foundLabel = externalDaysLabels?.find(
-        (label) => label.date === dateString,
+        (label) => label.dateValue === dateString,
       );
 
       if (foundLabel) return foundLabel.label;
@@ -70,15 +76,17 @@ const useCalendarDays = ({
     }: Pick<UseCalendarDaysProps, 'year'> &
       Pick<CalendarContextValue, 'variant'> &
       Pick<CalendarMonthProps, 'month'>) => {
-      const today = dayjs();
-      const todayToString = today.format('YYYY-MM-DD');
-      const firstDayOfMonth = dayjs(
-        `${year}-${month.toString().padStart(2, '0')}-01`,
-      );
-      const lastDayOfMonth = firstDayOfMonth.endOf('month');
-      const firstDay = firstDayOfMonth.date();
-      const lastDay = lastDayOfMonth.date();
-      const firstDayWeekday = firstDayOfMonth.day();
+      const todayToString = toString({ date: now() });
+      const firstDayOfMonth = timezone({
+        date: `${year}-${month.toString().padStart(2, '0')}-01`,
+      });
+      const lastDayOfMonth = endOf({
+        date: firstDayOfMonth,
+        unit: 'month',
+      });
+      const firstDay = date({ date: firstDayOfMonth });
+      const lastDay = date({ date: lastDayOfMonth });
+      const firstDayWeekday = day({ date: firstDayOfMonth });
 
       const daysOfMonth = Array.from(
         { length: CALENDAR_DAYS_COUNT },
@@ -91,34 +99,37 @@ const useCalendarDays = ({
           }
 
           const dayToString = `${year}-${month.toString().padStart(2, '0')}-${dayIndex.toString().padStart(2, '0')}`;
-          const date = dayjs(dayToString);
-          const dateToString = date.format('YYYY-MM-DD');
+          const _dateValue = toParseDateType({
+            date: dayToString,
+            type: 'dayjs',
+          });
+          const dateToString = toString({ date: _dateValue });
           const isToday = dateToString === todayToString;
 
           return {
             key: dateToString,
             day: dayIndex,
-            date,
+            dateValue: _dateValue,
             label: getLabel({
-              date,
+              dateValue: _dateValue,
               isToday,
-              isHoliday: isHoliday({ date, holidaysSet }),
+              isHoliday: isHoliday({ dateValue: _dateValue, holidaysSet }),
             }),
             variant: getDayVariant({
-              week: date.day(),
+              week: day({ date: _dateValue }),
               useWeekend,
               variant: _variant,
               isDisabled: isDisabled({
-                date,
+                dateValue: _dateValue,
                 minDate,
                 maxDate,
                 disabledDays,
               }),
-              isHoliday: isHoliday({ date, holidaysSet }),
-              isSelected: isSelected({ date }),
+              isHoliday: isHoliday({ dateValue: _dateValue, holidaysSet }),
+              isSelected: isSelected({ dateValue: _dateValue }),
               isToday,
-              isStart: isStart({ date }),
-              isEnd: isEnd({ date }),
+              isStart: isStart({ dateValue: _dateValue }),
+              isEnd: isEnd({ dateValue: _dateValue }),
             }),
           };
         },

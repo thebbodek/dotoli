@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { toParseDateType } from '@bbodek/utils';
 import {
   createContext,
   PropsWithChildren,
@@ -30,8 +30,12 @@ export const CalendarProvider = ({
       value === null
         ? null
         : {
-            startDate: value.startDate ? dayjs(value.startDate) : null,
-            endDate: value.endDate ? dayjs(value.endDate) : null,
+            startDate: value.startDate
+              ? toParseDateType({ date: value.startDate, type: 'dayjs' })
+              : null,
+            endDate: value.endDate
+              ? toParseDateType({ date: value.endDate, type: 'dayjs' })
+              : null,
           };
 
     setInternalValue(normalizedValue);
