@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { utils, WorkBook, write, writeFile } from 'xlsx-js-style';
 
 import {
@@ -14,6 +13,7 @@ import {
   GenerateWorkSheetParams,
 } from '@/excelDownload/types';
 import { ACCEPT_FILE_EXT } from '@/shared';
+import { date, DATE_FORMATS } from '../date';
 
 // NOTE: https://docs.sheetjs.com/docs/
 
@@ -53,7 +53,10 @@ const getFileName = ({
   fileNameOption = { name: 'download', hasTimestamp: true },
 }: Pick<ExcelDownloadParams, 'fileNameOption'>) => {
   const { name, hasTimestamp } = fileNameOption;
-  const timestamp = dayjs().format('YYMMDD_HHmmss');
+  const timestamp = date.toString({
+    date: date.now(),
+    format: DATE_FORMATS['YYMMDD_HHmmss'],
+  });
 
   if (!hasTimestamp) return name;
 

@@ -31,6 +31,7 @@ export type {
   DateStartOfParams,
   DateTimeZoneParams,
   DateType,
+  DateValue,
   DateYearParams,
 } from './core/types';
 export type {
