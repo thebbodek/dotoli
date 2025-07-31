@@ -1,4 +1,3 @@
-import { Dayjs } from 'dayjs';
 import { Dispatch, HTMLAttributes, RefObject, SetStateAction } from 'react';
 
 import {
@@ -7,6 +6,7 @@ import {
   CALENDAR_VARIANTS,
   CALENDAR_WEEKS,
 } from '@/components/Calendar/constants';
+import { DateValue } from '@bbodek/utils';
 
 export type CalendarVariants =
   (typeof CALENDAR_VARIANTS)[keyof typeof CALENDAR_VARIANTS];
@@ -36,7 +36,7 @@ export type CalendarDay = number;
 export type CalendarDaysOfMonth = {
   key: string;
   day: CalendarDay;
-  date: Dayjs;
+  dateValue: DateValue;
   label: CalendarDayLabel | null;
   variant: CalendarDayVariants;
 };
@@ -61,7 +61,7 @@ export interface CalendarMonthlyRowProps {
   month: CalendarMonth;
   daysIndex: number;
   daysOfMonth: (CalendarDaysOfMonth | null)[];
-  handleClick: ({ date }: { date: Dayjs }) => void;
+  handleClick: ({ dateValue }: { dateValue: DateValue }) => void;
 }
 
 export interface CalendarDayProps {
@@ -97,8 +97,8 @@ export interface CalendarContextProviderProps
   > {}
 
 export interface CalendarInternalValue {
-  startDate: Dayjs | null;
-  endDate: Dayjs | null;
+  startDate: DateValue | null;
+  endDate: DateValue | null;
 }
 
 export interface CalendarContextValue {
@@ -112,7 +112,7 @@ export interface CalendarContextValue {
 
 export type CalendarDayLabel = string;
 export type CalendarExternalDaysLabel = {
-  date: CalendarDateValue;
+  dateValue: CalendarDateValue;
   label: CalendarDayLabel;
 };
 
@@ -146,7 +146,7 @@ export interface UseCalendarHandlersProps {
 
 export interface UseCalendarHandlersReturn {
   onYearChange: (params: CalendarYearChangeParams) => void;
-  handleClick: ({ date }: Pick<CalendarDaysOfMonth, 'date'>) => void;
+  handleClick: ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => void;
 }
 
 export type CalendarMonthlyRefs = Record<CalendarMonth, HTMLDivElement | null>;

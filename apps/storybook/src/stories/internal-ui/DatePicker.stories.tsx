@@ -255,7 +255,7 @@ export const WithDisabledDays: Story = {
 
 export const WithExternalDaysLabels: Story = {
   args: {
-    externalDaysLabels: [{ date: '2025-08-12', label: '라벨' }],
+    externalDaysLabels: [{ dateValue: '2025-08-12', label: '라벨' }],
   },
   render: (args) => {
     const [value, setValue] = useState<CalendarValue>(null);

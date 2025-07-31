@@ -1,5 +1,11 @@
 import { Alert, Flex, InputField } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS, DateIsValidParams } from '@bbodek/utils';
+import {
+  DATE_FORMATS,
+  DateIsValidParams,
+  isValid,
+  now,
+  toString,
+} from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -40,8 +46,8 @@ const meta: Meta<DateIsValidParams> = {
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY-MM-DD'],
     }),
     format: DATE_FORMATS['YYYY-MM-DD'],
@@ -55,7 +61,7 @@ type Story = StoryObj<DateIsValidParams>;
 export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState(args.date);
-    const isError = !date.isValid({
+    const isError = !isValid({
       date: value,
       format: args.format,
     });

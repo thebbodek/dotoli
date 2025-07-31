@@ -1,7 +1,7 @@
-import * as calculations from './calculations';
-import * as core from './core';
-import * as formatting from './formatting';
-import * as validation from './validation';
+export * from './calculations';
+export * from './core';
+export * from './formatting';
+export * from './validation';
 
 export * from './calculations/constants';
 export * from './core/constants';
@@ -31,6 +31,7 @@ export type {
   DateStartOfParams,
   DateTimeZoneParams,
   DateType,
+  DateValue,
   DateYearParams,
 } from './core/types';
 export type {
@@ -39,10 +40,3 @@ export type {
   DateToStringParams,
 } from './formatting/types';
 export type { DateIsValidParams } from './validation/types';
-
-export const date = {
-  ...calculations,
-  ...core,
-  ...formatting,
-  ...validation,
-};
