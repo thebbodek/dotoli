@@ -20,11 +20,11 @@ const meta: Meta<DateCompareParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },

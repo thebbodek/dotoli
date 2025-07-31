@@ -17,10 +17,6 @@ export const DATE_COMPARE_DIRECTIONS = {
   TO_NOW: 'toNow',
 } as const;
 
-/**
- * @description Unit type of dayjs UnitTypeLong
- * @see https://github.com/iamkun/dayjs/blob/dev/types/index.d.ts
- */
 export const DATE_UNITS = {
   MILLISECOND: 'millisecond',
   SECOND: 'second',

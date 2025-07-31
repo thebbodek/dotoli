@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import { date } from '@bbodek/utils';
 import { useEffect, useRef } from 'react';
 
 import { useCalendarContext } from '@/components/Calendar/context';
@@ -10,8 +9,6 @@ import {
   CalendarYear,
   UseCalendarInitialScrollEffectProps,
 } from '@/components/Calendar/types';
-
-dayjs.extend(isSameOrAfter);
 
 const useCalendarInitialScrollEffect = ({
   monthlyRefs,
@@ -49,16 +46,24 @@ const useCalendarInitialScrollEffect = ({
       const { startDate } = value;
 
       return {
-        year: dayjs(startDate).year(),
-        month: dayjs(startDate).month(),
+        year: date.year({ date: startDate }),
+        month: date.month({ date: startDate }),
       };
     }
 
-    const today = dayjs();
-    const minDateDayjs = dayjs(minDate);
-    const isSameOrAfterToday = today.isSameOrAfter(minDateDayjs, 'day');
-    const _year = isSameOrAfterToday ? today.year() : minDateDayjs.year();
-    const _month = isSameOrAfterToday ? today.month() : minDateDayjs.month();
+    const today = date.now();
+    const minDateDayjs = date.toParseDateType({ type: 'dayjs', date: minDate });
+    const isSameOrAfterToday = date.isAfter({
+      date: today,
+      target: minDateDayjs,
+      isInclude: true,
+    });
+    const _year = isSameOrAfterToday
+      ? date.year({ date: today })
+      : date.year({ date: minDateDayjs });
+    const _month = isSameOrAfterToday
+      ? date.month({ date: today })
+      : date.month({ date: minDateDayjs });
 
     return {
       year: _year,

@@ -1,9 +1,14 @@
-import { ConfigType } from 'dayjs';
+import { Dayjs } from 'dayjs';
 
 import { DateUnit } from '@/date/calculations/types';
 import { DateFormatType } from '@/date/formatting/types';
 
-export type DateType = Exclude<ConfigType, null | undefined>;
+/**
+ * @description Unit type of dayjs ConfigType
+ * @see https://github.com/iamkun/dayjs/blob/dev/types/index.d.ts
+ */
+export type DateValue = Dayjs;
+export type DateType = string | number | DateValue;
 
 export interface DateTimeZoneParams {
   date?: DateType;

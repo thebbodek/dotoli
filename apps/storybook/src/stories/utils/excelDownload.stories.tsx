@@ -1,7 +1,6 @@
 import { Button, Flex, Table } from '@bbodek/internal-ui';
-import { excelDownload, ExcelDownloadParams } from '@bbodek/utils';
+import { date, excelDownload, ExcelDownloadParams } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
@@ -66,7 +65,7 @@ export const Default: Story = {
     rows: Array.from({ length: 10 }).map(() => [
       { value: '식기세척기' },
       { value: 10000 },
-      { value: dayjs().format('YYYY-MM-DD') },
+      { value: date.toString({ date: date.now() }) },
       { value: ['가전', '주방', '세척기'] },
       {
         value: 'https://bbodek.com',

@@ -11,7 +11,7 @@ export const isAfter = ({
   date,
   target,
   unit = DATE_UNITS.DAY,
-  isInclude = true,
+  isInclude = false,
 }: DateIsAfterParams) => {
   const _date = timezone({ date });
 

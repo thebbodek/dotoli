@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { date } from '@bbodek/utils';
 
 import { CALENDAR_VARIANTS, useCalendarContext } from '@/components/Calendar';
 import { isValidDateOfVariant } from '@/components/DatePicker/utils';
@@ -25,28 +25,26 @@ const DatePickTrigger = () => {
     if (!value) return placeholder;
 
     const { startDate, endDate } = value;
-    const formattedStartDate = dayjs(startDate).format('YYYY-MM-DD');
-    const formattedEndDate = dayjs(endDate).format('YYYY-MM-DD');
 
     if (
       variant === CALENDAR_VARIANTS.SINGLE &&
       isValidDateOfVariant({ value, variant: CALENDAR_VARIANTS.SINGLE })
     ) {
-      return formattedStartDate;
+      return date.toString({ date: startDate! });
     }
 
     if (
       variant === CALENDAR_VARIANTS.RANGE &&
       isValidDateOfVariant({ value, variant: CALENDAR_VARIANTS.RANGE })
     ) {
-      return `${formattedStartDate} ~ ${formattedEndDate}`;
+      return `${date.toString({ date: startDate! })} ~ ${date.toString({ date: endDate! })}`;
     }
 
     if (
       variant === CALENDAR_VARIANTS.UNBOUNDED &&
       isValidDateOfVariant({ value, variant: CALENDAR_VARIANTS.UNBOUNDED })
     ) {
-      return `${formattedStartDate} 부터`;
+      return `${date.toString({ date: startDate! })} 부터`;
     }
 
     return placeholder;
