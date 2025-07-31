@@ -1,9 +1,9 @@
 import { Typography } from '@bbodek/internal-ui';
-import { toPaddedString } from '@bbodek/utils';
-import type { Meta } from '@storybook/react';
+import { toPaddedString, ToPaddedStringParams } from '@bbodek/utils';
+import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-const meta: Meta = {
+const meta: Meta<ToPaddedStringParams> = {
   title: 'core/utils/toPaddedString',
   argTypes: {
     number: {
@@ -19,12 +19,14 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj<ToPaddedStringParams>;
+
+export const Default: Story = {
   args: {
     number: 1,
     length: 8,
   },
-  render: ({ number, length }: keyof typeof meta.argTypes) => {
+  render: ({ number, length }: ToPaddedStringParams) => {
     const [str, setStr] = useState(number);
     const [len, setLen] = useState(length);
 
@@ -33,6 +35,10 @@ export const Default = {
       setLen(length);
     }, [number, length]);
 
-    return <Typography>변환 결과: {toPaddedString(str, len)}</Typography>;
+    return (
+      <Typography>
+        변환 결과: {toPaddedString({ number: str, length: len })}
+      </Typography>
+    );
   },
 };
