@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/utils",
-  "version": "0.0.6",
+  "version": "0.0.12",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -25,13 +25,13 @@
     "xlsx-js-style": "^1.2.0"
   },
   "peerDependencies": {
-    "@bbodek/internal-ui": "^0.0.32",
+    "@bbodek/internal-ui": "^0.0.33",
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@bbodek/internal-ui": "^0.0.32",
+    "@bbodek/internal-ui": "^0.0.33",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@rollup/plugin-commonjs": "^28.0.6",

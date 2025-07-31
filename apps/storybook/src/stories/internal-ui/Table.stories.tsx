@@ -1,7 +1,7 @@
 import { useForm } from '@bbodek/hooks';
 import { Badge, Flex, Table, Toggle } from '@bbodek/internal-ui';
+import { date } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 
 const meta: Meta<typeof Table> = {
@@ -302,7 +302,7 @@ export const Default: Story = {
   },
 };
 
-const startDate = dayjs();
+const startDate = date.now();
 const endDate = startDate.add(7, 'day');
 const diffDay = endDate.diff(startDate, 'day');
 

@@ -11,6 +11,10 @@ export type DateCompareDirection =
 export type DateIsBetweenRange =
   (typeof DATE_IS_BETWEEN_RANGE)[keyof typeof DATE_IS_BETWEEN_RANGE];
 
+/**
+ * @description Unit type of dayjs UnitTypeLong
+ * @see https://github.com/iamkun/dayjs/blob/dev/types/index.d.ts
+ */
 export type DateUnit = (typeof DATE_UNITS)[keyof typeof DATE_UNITS];
 
 export interface DateIsSameParams extends Pick<DateTimeZoneParams, 'date'> {
