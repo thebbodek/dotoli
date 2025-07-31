@@ -27,6 +27,7 @@ export * from './Toast';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';
+export * from './DatePicker'
 
 export { DialogOverlayFormDivider } from './shared';
 export type { ComponentPropsRef } from './shared';
