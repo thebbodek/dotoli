@@ -1,9 +1,9 @@
 import { Button, Flex, InputField, Typography } from '@bbodek/internal-ui';
-import { clipboard } from '@bbodek/utils';
-import type { Meta } from '@storybook/react';
+import { clipboard, ClipboardParams } from '@bbodek/utils';
+import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-const meta: Meta = {
+const meta: Meta<ClipboardParams> = {
   title: 'core/utils/clipboard',
   argTypes: {
     text: {
@@ -15,11 +15,13 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj<ClipboardParams>;
+
+export const Default: Story = {
   args: {
     text: '이 텍스트가 복사됩니다',
   },
-  render: ({ text }: keyof typeof meta.argTypes) => {
+  render: ({ text }: ClipboardParams) => {
     const [copyText, setCopyText] = useState(text);
 
     useEffect(() => {
@@ -30,7 +32,11 @@ export const Default = {
       <Flex direction='column' align={{ items: 'center' }} gap={4}>
         <div className='in-flex-h-stack-center gap-4'>
           <Typography>{copyText}</Typography>
-          <Button size='sm' label='복사하기' onClick={() => clipboard(text)} />
+          <Button
+            size='sm'
+            label='복사하기'
+            onClick={() => clipboard({ text: copyText })}
+          />
         </div>
         <InputField
           placeholder='복사 후 여기에 붙여넣어 보세요!'
