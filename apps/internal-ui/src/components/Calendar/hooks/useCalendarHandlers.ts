@@ -1,3 +1,4 @@
+import { isBefore } from '@bbodek/utils';
 import { useCallback, useMemo } from 'react';
 
 import {
@@ -21,19 +22,19 @@ const useCalendarHandlers = ({
   const { isStart, isDisabled, isEnd } = useCalendarValidUtils();
 
   const handleSingleClick = useCallback(
-    ({ date }: Pick<CalendarDaysOfMonth, 'date'>) => {
-      if (isStart({ date })) return;
+    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
+      if (isStart({ dateValue })) return;
 
-      setInternalValue({ startDate: date, endDate: date });
+      setInternalValue({ startDate: dateValue, endDate: dateValue });
     },
     [isStart],
   );
 
   const handleRangeClick = useCallback(
-    ({ date }: Pick<CalendarDaysOfMonth, 'date'>) => {
+    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
       if (!internalValue) {
         return setInternalValue({
-          startDate: date,
+          startDate: dateValue,
           endDate: null,
         });
       }
@@ -41,25 +42,32 @@ const useCalendarHandlers = ({
       const { startDate, endDate } = internalValue;
 
       if (startDate && !endDate) {
-        if (isStart({ date })) {
-          return setInternalValue({ startDate: date, endDate: date });
+        if (isStart({ dateValue })) {
+          return setInternalValue({ startDate: dateValue, endDate: dateValue });
         }
 
-        const isBeforeStartDate = date.isBefore(startDate);
+        const isBeforeStartDate = isBefore({
+          date: dateValue,
+          target: startDate,
+        });
 
         return setInternalValue(() =>
           isBeforeStartDate
-            ? { startDate: date, endDate: startDate }
-            : { startDate, endDate: date },
+            ? { startDate: dateValue, endDate: startDate }
+            : { startDate, endDate: dateValue },
         );
       }
 
-      if (startDate && endDate && (isEnd({ date }) || isStart({ date }))) {
-        return setInternalValue({ startDate: date, endDate: null });
+      if (
+        startDate &&
+        endDate &&
+        (isEnd({ dateValue }) || isStart({ dateValue }))
+      ) {
+        return setInternalValue({ startDate: dateValue, endDate: null });
       }
 
       return setInternalValue({
-        startDate: date,
+        startDate: dateValue,
         endDate: null,
       });
     },
@@ -67,10 +75,10 @@ const useCalendarHandlers = ({
   );
 
   const handleUnboundedClick = useCallback(
-    ({ date }: Pick<CalendarDaysOfMonth, 'date'>) => {
-      if (isStart({ date })) return;
+    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
+      if (isStart({ dateValue })) return;
 
-      setInternalValue({ startDate: date, endDate: null });
+      setInternalValue({ startDate: dateValue, endDate: null });
     },
     [isStart],
   );
@@ -85,10 +93,10 @@ const useCalendarHandlers = ({
   );
 
   const handleClick = useCallback(
-    ({ date }: Pick<CalendarDaysOfMonth, 'date'>) => {
-      if (isDisabled({ date })) return;
+    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
+      if (isDisabled({ dateValue })) return;
 
-      handleDateClick[variant]({ date });
+      handleDateClick[variant]({ dateValue });
     },
     [variant, handleDateClick, isDisabled],
   );

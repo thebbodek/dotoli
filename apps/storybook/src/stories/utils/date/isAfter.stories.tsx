@@ -1,9 +1,12 @@
 import { Alert } from '@bbodek/internal-ui';
 import {
-  date,
+  add,
   DATE_FORMATS,
   DATE_UNITS,
   DateIsAfterParams,
+  isAfter,
+  now,
+  toString,
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
@@ -20,11 +23,11 @@ const meta: Meta<DateIsAfterParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -36,11 +39,11 @@ const meta: Meta<DateIsAfterParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -70,13 +73,13 @@ const meta: Meta<DateIsAfterParams> = {
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY-MM-DD'],
     }),
-    target: date.toString({
-      date: date.add({
-        date: date.now(),
+    target: toString({
+      date: add({
+        date: now(),
         value: 1,
         unit: DATE_UNITS.DAY,
       }),
@@ -95,7 +98,7 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Alert
-        content={`${date.isAfter({
+        content={`${isAfter({
           date: args.date,
           target: args.target,
           unit: args.unit,

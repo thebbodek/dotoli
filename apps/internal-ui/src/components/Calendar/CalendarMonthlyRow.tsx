@@ -25,12 +25,12 @@ const CalendarMonthlyRow = ({
           return <CalendarEmptyDay key={`${month}-${dayIndex}`} />;
         }
 
-        const { date, key, ...rest } = snapshot;
+        const { dateValue, key, ...rest } = snapshot;
 
         return (
           <CalendarDay
             key={key}
-            onClick={() => handleClick({ date })}
+            onClick={() => handleClick({ dateValue })}
             {...rest}
           />
         );

@@ -1,9 +1,15 @@
 import { Alert } from '@bbodek/internal-ui';
 import {
-  date,
+  add,
   DATE_FORMATS,
   DATE_UNITS,
   DateMinMaxParams,
+  max,
+  min,
+  minMax,
+  now,
+  subtract,
+  toString,
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
@@ -26,9 +32,9 @@ const meta: Meta<DateMinMaxParams> = {
   },
   args: {
     dates: [
-      date.now(),
-      date.add({ date: date.now(), value: 1, unit: DATE_UNITS.DAY }),
-      date.subtract({ date: date.now(), value: 1, unit: DATE_UNITS.DAY }),
+      now(),
+      add({ date: now(), value: 1, unit: DATE_UNITS.DAY }),
+      subtract({ date: now(), value: 1, unit: DATE_UNITS.DAY }),
     ],
   },
 };
@@ -39,12 +45,12 @@ type Story = StoryObj<DateMinMaxParams>;
 
 export const MinMax: Story = {
   render: (args) => {
-    const { min, max } = date.minMax(args);
-    const minString = date.toString({
+    const { min, max } = minMax(args);
+    const minString = toString({
       date: min,
       format: DATE_FORMATS['YYYY-MM-DD'],
     });
-    const maxString = date.toString({
+    const maxString = toString({
       date: max,
       format: DATE_FORMATS['YYYY-MM-DD'],
     });
@@ -57,8 +63,8 @@ export const Min: Story = {
   render: (args) => {
     return (
       <Alert
-        content={date.toString({
-          date: date.min(args),
+        content={toString({
+          date: min(args),
           format: DATE_FORMATS['YYYY-MM-DD'],
         })}
       />
@@ -70,8 +76,8 @@ export const Max: Story = {
   render: (args) => {
     return (
       <Alert
-        content={date.toString({
-          date: date.max(args),
+        content={toString({
+          date: max(args),
           format: DATE_FORMATS['YYYY-MM-DD'],
         })}
       />

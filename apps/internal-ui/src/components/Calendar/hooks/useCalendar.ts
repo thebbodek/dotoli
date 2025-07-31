@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import { year as dateYear } from '@bbodek/utils';
 import { useRef, useState } from 'react';
 
 import useCalendarDays from '@/components/Calendar/hooks/useCalendarDays';
@@ -20,7 +20,7 @@ const useCalendar = ({
 }: UseCalendarProps): UseCalendarReturn => {
   const monthlyRefs = useRef<CalendarMonthlyRefs>({});
   const monthlyWrapperRef = useRef<HTMLDivElement>(null);
-  const [year, setYear] = useState<CalendarYear>(dayjs().year());
+  const [year, setYear] = useState<CalendarYear>(dateYear());
   const { onYearChange, handleClick } = useCalendarHandlers({
     monthlyWrapperRef,
     setYear,

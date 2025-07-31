@@ -1,5 +1,11 @@
 import { Alert } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS, DateTimeZoneParams } from '@bbodek/utils';
+import {
+  DATE_FORMATS,
+  DateTimeZoneParams,
+  now,
+  timezone,
+  toString,
+} from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
@@ -15,11 +21,11 @@ const meta: Meta<DateTimeZoneParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -46,8 +52,8 @@ const meta: Meta<DateTimeZoneParams> = {
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY-MM-DD'],
     }),
     format: DATE_FORMATS['YYYY-MM-DD'],
@@ -63,8 +69,8 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Alert
-        content={date.toString({
-          date: date.timezone({
+        content={toString({
+          date: timezone({
             date: args.date,
             format: args.format,
             isStrict: args.isStrict,

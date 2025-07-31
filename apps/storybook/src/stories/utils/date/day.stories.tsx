@@ -1,5 +1,5 @@
 import { Alert } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS, DateDayParams } from '@bbodek/utils';
+import { DATE_FORMATS, DateDayParams, day, now, toString } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<DateDayParams> = {
@@ -13,18 +13,18 @@ const meta: Meta<DateDayParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY-MM-DD'],
     }),
   },
@@ -36,6 +36,6 @@ type Story = StoryObj<DateDayParams>;
 
 export const Default: Story = {
   render: (args) => {
-    return <Alert content={date.day({ date: args.date })} />;
+    return <Alert content={day({ date: args.date })} />;
   },
 };

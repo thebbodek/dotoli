@@ -1,5 +1,13 @@
 import { Alert } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS, DATE_UNITS, DateDiffParams } from '@bbodek/utils';
+import {
+  add,
+  DATE_FORMATS,
+  DATE_UNITS,
+  DateDiffParams,
+  diff,
+  now,
+  toString,
+} from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
@@ -15,11 +23,11 @@ const meta: Meta<DateDiffParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -31,11 +39,11 @@ const meta: Meta<DateDiffParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -56,13 +64,13 @@ const meta: Meta<DateDiffParams> = {
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY-MM-DD'],
     }),
-    target: date.toString({
-      date: date.add({
-        date: date.now(),
+    target: toString({
+      date: add({
+        date: now(),
         value: 1,
         unit: DATE_UNITS.DAY,
       }),
@@ -80,7 +88,7 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Alert
-        content={date.diff({
+        content={diff({
           date: args.date,
           target: args.target,
           unit: args.unit,

@@ -1,5 +1,12 @@
 import { Alert } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS, DATE_UNITS, DateEndOfParams } from '@bbodek/utils';
+import {
+  DATE_FORMATS,
+  DATE_UNITS,
+  DateEndOfParams,
+  endOf,
+  now,
+  toString,
+} from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
@@ -15,11 +22,11 @@ const meta: Meta<DateEndOfParams> = {
       type: {
         required: true,
         name: 'other',
-        value: 'string | number | Date | Dayjs',
+        value: 'string | number | DateValue',
       },
       table: {
         type: {
-          summary: 'string | number | Date | Dayjs',
+          summary: 'string | number | DateValue',
         },
       },
     },
@@ -40,8 +47,8 @@ const meta: Meta<DateEndOfParams> = {
     },
   },
   args: {
-    date: date.toString({
-      date: date.now(),
+    date: toString({
+      date: now(),
       format: DATE_FORMATS['YYYY.MM.DD.HH.mm.ss'],
     }),
     unit: DATE_UNITS.DAY,
@@ -56,8 +63,8 @@ export const Default: Story = {
   render: (args) => {
     return (
       <Alert
-        content={date.toString({
-          date: date.endOf({
+        content={toString({
+          date: endOf({
             date: args.date,
             unit: args.unit,
           }),

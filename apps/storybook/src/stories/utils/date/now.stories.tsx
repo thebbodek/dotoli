@@ -1,5 +1,5 @@
 import { Alert } from '@bbodek/internal-ui';
-import { date, DATE_FORMATS } from '@bbodek/utils';
+import { DATE_FORMATS, now, toString } from '@bbodek/utils';
 
 const meta = {
   title: 'core/utils/date/now',
@@ -11,8 +11,8 @@ export const Default = {
   render: () => {
     return (
       <Alert
-        content={date.toString({
-          date: date.now(),
+        content={toString({
+          date: now(),
           format: DATE_FORMATS['YYYY.MM.DD.HH.mm.ss'],
         })}
       />
