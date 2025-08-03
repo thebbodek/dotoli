@@ -19,7 +19,6 @@ export interface SortProps
     | 'displayValue'
     | 'className'
     | 'label'
-    | 'badge'
   > {}
 
 export interface SortOnSelectParams<T extends SortValue>

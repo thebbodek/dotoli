@@ -166,3 +166,28 @@ export interface UseCalendarInitialScrollEffectProps
 export interface UseCalendarSyncExternalValueEffectProps
   extends Pick<CalendarContextProviderProps, 'value'>,
     Pick<CalendarContextValue, 'setInternalValue'> {}
+
+export interface UseCalendarHolidaysProps
+  extends Pick<CalendarProps, 'holidays'> {}
+
+export interface GetLabelParams
+  extends Pick<CalendarDaysOfMonth, 'dateValue'>,
+    Pick<GetDayVariantParams, 'isToday' | 'isHoliday'> {}
+
+export interface GetStringDateParams
+  extends Pick<GenerateMonthDaysParams, 'year' | 'month'> {
+  day: CalendarDay;
+}
+
+export interface GenerateMonthDaysParams
+  extends Pick<UseCalendarDaysProps, 'year'>,
+    Pick<CalendarContextValue, 'variant'>,
+    Pick<CalendarMonthProps, 'month'> {}
+
+export interface ScrollToMonthParams {
+  month: CalendarMonth;
+}
+
+export interface HandleScrollParams extends ScrollToMonthParams {
+  year: CalendarYear;
+}

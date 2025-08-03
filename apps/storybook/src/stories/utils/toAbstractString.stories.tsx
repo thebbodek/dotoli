@@ -55,8 +55,8 @@ export const Default: Story = {
     }, [argValues]);
 
     return (
-      <Flex direction='column' gap={2}>
-        <Flex gap={4}>
+      <Flex direction='column' gap='2'>
+        <Flex gap='4'>
           {argValues.map((item) => (
             <Checkbox
               key={item}

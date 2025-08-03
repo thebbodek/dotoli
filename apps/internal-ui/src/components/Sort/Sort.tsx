@@ -10,7 +10,6 @@ import { SortProps } from '@/components/Sort/types';
 const Sort = ({
   value,
   displayValue,
-  badge,
   label,
   children,
   disabled = false,
@@ -25,7 +24,8 @@ const Sort = ({
     <SelectBase
       type={SELECT_TYPE.SELECT}
       className={className}
-      label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
+      // NOTE - label 필요 없음
+      label={<SelectBase.Label>{label}</SelectBase.Label>}
       popoverOption={popoverOption}
       trigger={<SortTrigger displayValue={displayValue} />}
       disabled={disabled}
