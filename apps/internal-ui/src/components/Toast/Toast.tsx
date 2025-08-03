@@ -23,13 +23,13 @@ const Toast = ({
         visible ? 'animate-in-toast-in' : 'animate-in-toast-out',
       )}
     >
-      <Flex gap={{ row: 2 }}>
+      <Flex gap={{ row: '2' }}>
         <ToastIcon type={type} />
         <ToastContent content={content} />
       </Flex>
       <Flex
         align={{ items: 'center' }}
-        gap={{ row: 1 }}
+        gap={{ row: '1' }}
         className='ml-auto pl-2'
       >
         {actionOption && <ToastActionButton actionOption={actionOption} />}
