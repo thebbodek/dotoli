@@ -48,7 +48,8 @@ export interface DatePickerWrapperProps
 }
 
 export interface DatePickerSelectButtonProps
-  extends Pick<SelectBaseChildrenProps, 'close'> {}
+  extends Pick<SelectBaseChildrenProps, 'close'>,
+    Pick<DatePickerProps, 'disabled'> {}
 
 export interface IsValidDateOfVariantParams
   extends Pick<CalendarContextProviderProps, 'variant'> {

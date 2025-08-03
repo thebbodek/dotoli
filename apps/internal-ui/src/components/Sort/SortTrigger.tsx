@@ -35,7 +35,12 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
           !disabled && 'text-in-primary-06',
         )}
       >
-        <Icon iconKey='sort-ascending' className='text-[1rem]' aria-hidden />
+        <Icon
+          iconKey='sort-ascending'
+          className='text-[1rem]'
+          weight='regular'
+          aria-hidden
+        />
         <Typography variant='body-14-m' className='truncate'>
           {displayValue}
         </Typography>

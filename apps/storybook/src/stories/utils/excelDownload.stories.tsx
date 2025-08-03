@@ -80,7 +80,7 @@ export const Default: Story = {
   },
   render: (args) => {
     return (
-      <Flex direction='column' align={{ items: 'end' }} gap={2}>
+      <Flex direction='column' align={{ items: 'end' }} gap='2'>
         <Button
           label='다운로드'
           size='sm'

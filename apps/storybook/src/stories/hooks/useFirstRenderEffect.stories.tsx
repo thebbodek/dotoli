@@ -28,7 +28,7 @@ export const Default = {
     });
 
     return (
-      <Flex align={{ items: 'center' }} gap={4}>
+      <Flex align={{ items: 'center' }} gap='4'>
         <p>Count: {count}</p>
         <IconButton
           iconKey='plus'

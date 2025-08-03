@@ -51,10 +51,7 @@ const Calendar = ({
     <div
       id={id}
       aria-labelledby={labelId}
-      className={clsx(
-        className,
-        'in-flex-v-stack in-tablet:p-[0.875rem] overflow-hidden p-4',
-      )}
+      className={clsx(className, 'in-flex-v-stack overflow-hidden p-4')}
     >
       <CalendarNavigator onYearChange={onYearChange} year={year} />
       <div role='grid' className='in-flex-v-stack items-center overflow-hidden'>
