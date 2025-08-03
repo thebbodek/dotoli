@@ -4,9 +4,9 @@ import { useEffect, useRef } from 'react';
 import { useCalendarContext } from '@/components/Calendar/context';
 import {
   CalendarContextValue,
-  CalendarMonth,
   CalendarProps,
-  CalendarYear,
+  HandleScrollParams,
+  ScrollToMonthParams,
   UseCalendarInitialScrollEffectProps,
 } from '@/components/Calendar/types';
 
@@ -18,7 +18,7 @@ const useCalendarInitialScrollEffect = ({
   const isMountedRef = useRef(false);
   const { value } = useCalendarContext();
 
-  const scrollToMonth = ({ month }: { month: CalendarMonth }) => {
+  const scrollToMonth = ({ month }: ScrollToMonthParams) => {
     if (!monthlyRefs.current[month]) return;
 
     monthlyRefs.current[month].scrollIntoView({
@@ -27,13 +27,7 @@ const useCalendarInitialScrollEffect = ({
     });
   };
 
-  const handleScroll = ({
-    year,
-    month,
-  }: {
-    year: CalendarYear;
-    month: CalendarMonth;
-  }) => {
+  const handleScroll = ({ year, month }: HandleScrollParams) => {
     setYear(year);
     scrollToMonth({ month });
   };

@@ -3,9 +3,13 @@ import { CALENDAR_VARIANTS, useCalendarContext } from '@/components/Calendar';
 import { DatePickerSelectButtonProps } from '@/components/DatePicker/types';
 import { isValidDateOfVariant } from '@/components/DatePicker/utils';
 
-const DatePickerSelectButton = ({ close }: DatePickerSelectButtonProps) => {
+const DatePickerSelectButton = ({
+  close,
+  disabled,
+}: DatePickerSelectButtonProps) => {
   const { variant, onChange, internalValue } = useCalendarContext();
-  const disabled = !isValidDateOfVariant({ value: internalValue, variant });
+  const _disabled =
+    disabled || !isValidDateOfVariant({ value: internalValue, variant });
 
   const handleClick = () => {
     const value = () => {
@@ -40,7 +44,7 @@ const DatePickerSelectButton = ({ close }: DatePickerSelectButtonProps) => {
         size={BUTTON_SIZES.SM}
         onClick={handleClick}
         className='w-full'
-        disabled={disabled}
+        disabled={_disabled}
       />
     </div>
   );

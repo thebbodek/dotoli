@@ -208,22 +208,22 @@ export const FLEX_JUSTIFY_STYLES: FlexJustifyStyles = {
 };
 
 export const FLEX_GAPS = {
-  NONE: 0,
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
-  SIX: 6,
-  SEVEN: 7,
-  EIGHT: 8,
-  NINE: 9,
-  TEN: 10,
-  ELEVEN: 11,
-  TWELVE: 12,
-  THIRTEEN: 13,
-  FOURTEEN: 14,
-  FIFTEEN: 15,
+  NONE: '0',
+  ONE: '1',
+  TWO: '2',
+  THREE: '3',
+  FOUR: '4',
+  FIVE: '5',
+  SIX: '6',
+  SEVEN: '7',
+  EIGHT: '8',
+  NINE: '9',
+  TEN: '10',
+  ELEVEN: '11',
+  TWELVE: '12',
+  THIRTEEN: '13',
+  FOURTEEN: '14',
+  FIFTEEN: '15',
 } as const;
 
 export const FLEX_GAP_STYLES: FlexGapStyles = {
@@ -301,12 +301,12 @@ export const FLEX_WRAP_STYLES = {
 } as const;
 
 export const FLEX_SHRINKS = {
-  NONE: 0,
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
+  NONE: '0',
+  ONE: '1',
+  TWO: '2',
+  THREE: '3',
+  FOUR: '4',
+  FIVE: '5',
 } as const;
 
 export const FLEX_SHRINK_STYLES = {
@@ -319,12 +319,12 @@ export const FLEX_SHRINK_STYLES = {
 } as const;
 
 export const FLEX_GROWS = {
-  NONE: 0,
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
+  NONE: '0',
+  ONE: '1',
+  TWO: '2',
+  THREE: '3',
+  FOUR: '4',
+  FIVE: '5',
 } as const;
 
 export const FLEX_GROW_STYLES = {
@@ -337,11 +337,11 @@ export const FLEX_GROW_STYLES = {
 } as const;
 
 export const FLEX_ORDERS = {
-  FIRST: 1,
-  SECOND: 2,
-  THIRD: 3,
-  FOURTH: 4,
-  FIFTH: 5,
+  FIRST: '1',
+  SECOND: '2',
+  THIRD: '3',
+  FOURTH: '4',
+  FIFTH: '5',
 } as const;
 
 export const FLEX_ORDER_STYLES = {
@@ -353,11 +353,11 @@ export const FLEX_ORDER_STYLES = {
 } as const;
 
 export const FLEX_BASES = {
-  FIRST: 1,
-  SECOND: 2,
-  THIRD: 3,
-  FOURTH: 4,
-  FIFTH: 5,
+  FIRST: '1',
+  SECOND: '2',
+  THIRD: '3',
+  FOURTH: '4',
+  FIFTH: '5',
 } as const;
 
 export const FLEX_BASIS_STYLES = {
@@ -369,12 +369,12 @@ export const FLEX_BASIS_STYLES = {
 } as const;
 
 export const FLEX_GROW_AND_SHRINK_AND_BASIS = {
-  NONE: 0,
-  ONE: 1,
-  TWO: 2,
-  THREE: 3,
-  FOUR: 4,
-  FIVE: 5,
+  NONE: '0',
+  ONE: '1',
+  TWO: '2',
+  THREE: '3',
+  FOUR: '4',
+  FIVE: '5',
 } as const;
 
 export const FLEX_GROW_AND_SHRINK_AND_BASIS_STYLES = {

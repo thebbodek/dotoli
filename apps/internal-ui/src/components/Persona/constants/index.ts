@@ -8,7 +8,7 @@ export const PERSONA_PROFILE_THEMES = {
 export const PERSONA_SIZE_FLEX_PROPS = {
   [AVATAR_SIZES.SM]: {
     root: { className: 'gap-x-1.5' },
-    profile: { align: { items: 'center' }, gap: { row: 1 } },
+    profile: { align: { items: 'center' }, gap: { row: '1' } },
   },
   [AVATAR_SIZES.MD]: {
     root: { className: 'gap-x-2.5' },

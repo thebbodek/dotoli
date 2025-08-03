@@ -90,9 +90,11 @@ const SelectBase = ({
       {...getAriaAttributes()}
       className={clsx(className, 'in-flex-v-stack')}
     >
-      <SelectLabelProvider id={labelId} required={required}>
-        {label}
-      </SelectLabelProvider>
+      {label && (
+        <SelectLabelProvider id={labelId} required={required}>
+          {label}
+        </SelectLabelProvider>
+      )}
       <Popover
         isOpen={isOpen && !disabled}
         trigger={

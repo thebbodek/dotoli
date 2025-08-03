@@ -60,13 +60,13 @@ export const Default: Story = {
     const [length, setLength] = useState(args.items.length);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap={3}>
+      <Flex direction='column' align={{ items: 'center' }} gap='3'>
         <AvatarGroup
           {...args}
           items={generateItems(length)}
           tooltipClassName='max-w-[197px]'
         />
-        <Flex gap={1}>
+        <Flex gap='1'>
           <IconButton
             iconKey='minus'
             arialLabel='minus'
