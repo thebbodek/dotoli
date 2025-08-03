@@ -356,7 +356,7 @@ export const EmptyTable: Story = {
     const [count, setCount] = useState(0);
 
     return (
-      <Flex direction='column' gap={4}>
+      <Flex direction='column' gap='4'>
         <Toggle
           label='테이블 비우기'
           checked={count === 0}

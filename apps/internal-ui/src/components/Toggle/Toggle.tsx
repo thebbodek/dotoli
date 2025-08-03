@@ -18,6 +18,7 @@ const Toggle = ({
   labelColor = COLOR_VARIANTS.BLACK,
   labelClassName,
   className,
+  name,
   onChange,
 }: ToggleProps) => {
   const id = useId();
@@ -41,6 +42,7 @@ const Toggle = ({
         id={id}
         type='checkbox'
         onChange={onChange}
+        name={name}
       />
       <ToggleIcon size={size} />
       {label && (

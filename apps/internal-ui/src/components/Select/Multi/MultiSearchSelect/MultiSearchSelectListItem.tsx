@@ -24,7 +24,7 @@ const MultiSearchSelectListItem = <T extends MultiSelectBaseValue>({
       label={label}
       isSelected={isSelected}
     >
-      <span className='truncate'>
+      <span className='text-in-body-14-r truncate'>
         {highlightText({
           text: label,
           targetText: currentSearchValue ?? '',

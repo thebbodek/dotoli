@@ -18,7 +18,7 @@ export interface SelectBaseProps
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<PopoverProps, 'trigger'>,
     Pick<SelectTriggerContextValue, 'isError' | 'placeholder'> {
-  label: ReactNode;
+  label?: ReactNode;
   children: ((props: SelectBaseChildrenProps) => ReactNode) | ReactNode;
   popoverOption?: Omit<PopoverProps, 'trigger' | 'isOpen' | 'offset'>;
   feedback?: string;

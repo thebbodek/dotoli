@@ -1,4 +1,4 @@
-import { toParseDateType } from '@bbodek/utils';
+import { toParseDateType, toString } from '@bbodek/utils';
 import {
   createContext,
   PropsWithChildren,
@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react';
 
+import { CALENDAR_VARIANTS } from '@/components/Calendar/constants';
 import {
   CalendarContextProviderProps,
   CalendarContextValue,
@@ -24,6 +25,32 @@ export const CalendarProvider = ({
 }: PropsWithChildren<CalendarContextProviderProps>) => {
   const [internalValue, setInternalValue] =
     useState<CalendarContextValue['internalValue']>(null);
+
+  const handleChange = () => {
+    const value = () => {
+      if (internalValue == null) return null;
+
+      const { startDate, endDate } = internalValue;
+      const formattedStartDate =
+        startDate !== null ? toString({ date: startDate }) : null;
+      const formattedEndDate =
+        endDate !== null ? toString({ date: endDate }) : null;
+
+      if (variant === CALENDAR_VARIANTS.UNBOUNDED) {
+        return {
+          startDate: formattedStartDate,
+          endDate: null,
+        };
+      }
+
+      return {
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+      };
+    };
+
+    onChange(value());
+  };
 
   const setCalendarInternalValue = useCallback(() => {
     const normalizedValue =
@@ -46,6 +73,7 @@ export const CalendarProvider = ({
     internalValue,
     variant,
     onChange,
+    handleChange,
     setInternalValue,
     setCalendarInternalValue,
   };
