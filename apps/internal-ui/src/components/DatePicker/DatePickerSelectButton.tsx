@@ -33,7 +33,7 @@ const DatePickerSelectButton = ({ close }: DatePickerSelectButtonProps) => {
   };
 
   return (
-    <div className='border-t-in-gray-02 border-t p-4'>
+    <div className='border-t-in-gray-02 w-full border-t p-4'>
       <Button
         label='선택 완료'
         theme={BUTTON_THEMES.PRIMARY}

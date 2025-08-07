@@ -44,7 +44,9 @@ export interface SelectBaseFeedbackProps
   extends Required<Pick<HTMLAttributes<HTMLDivElement>, 'id'>> {}
 
 export interface SelectBasePopoverWrapperProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  useMobile?: boolean;
+}
 
 export interface SelectBaseAriaAttributes
   extends Pick<
