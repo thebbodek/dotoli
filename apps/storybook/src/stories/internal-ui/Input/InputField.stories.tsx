@@ -86,9 +86,7 @@ export default meta;
 type Story = StoryObj<typeof InputField>;
 
 export const Default: Story = {
-  args: {
-    placeholder: 'placeholder',
-  },
+  args: {},
   render(args) {
     const [value, setValue] = useState('');
 
@@ -106,7 +104,6 @@ export const WithLabel: Story = {
   args: {
     label: 'Label',
     type: 'text',
-    placeholder: 'placeholder',
     required: true,
   },
   render(args) {
@@ -126,7 +123,6 @@ export const WithBadge: Story = {
   args: {
     label: 'Label',
     type: 'text',
-    placeholder: 'placeholder',
     badge: <Icon iconKey='info' weight='fill' />,
   },
   render(args) {
@@ -146,7 +142,6 @@ export const WithFeedback: Story = {
   args: {
     label: 'Label',
     type: 'text',
-    placeholder: 'placeholder',
     required: false,
     isError: false,
     readOnly: false,
@@ -177,7 +172,6 @@ export const WithRegexCallback: Story = {
   args: {
     label: 'Label',
     type: 'text',
-    placeholder: 'placeholder',
   },
   render: (args) => {
     const [value, setValue] = useState('');

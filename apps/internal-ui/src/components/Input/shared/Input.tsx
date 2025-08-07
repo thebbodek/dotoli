@@ -21,8 +21,8 @@ const Popover = dynamic(() => import('@/components/Popover/Popover/Popover'), {
 
 const Input = <T extends InputElementType, P extends InputElement<T>>({
   as = INPUT_ELEMENTS.INPUT as T,
-  variant,
   value,
+  variant,
   addonEnd,
   popover,
   isFocused,
@@ -34,6 +34,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
   disabled = false,
   readOnly = false,
   inputClassName,
+  placeholder = '입력해주세요',
   ...props
 }: InputProps<T, P>) => {
   const { feedbackId, isError } = useInputContext();
@@ -42,10 +43,11 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
   const canReset = !!onReset && value && !isDisabled;
 
   const _props = {
-    value,
     readOnly,
     required,
+    value: value ?? '',
     disabled: isDisabled,
+    placeholder,
     onFocus: popover ? () => setIsFocused(true) : undefined,
     onBlur: popover ? () => setIsFocused(false) : undefined,
     'aria-invalid': isError,

@@ -28,6 +28,7 @@ const SearchSelect = <T extends SelectValue>({
 }: PropsWithChildren<SearchSelectProps<T>>) => {
   const {
     placeholder: inputPlaceholder = '검색어를 입력해주세요',
+    value: searchValue = null,
     ...restInputOption
   } = inputOption ?? {};
   const hasChildren = Children.count(children) > 0;
@@ -49,7 +50,11 @@ const SearchSelect = <T extends SelectValue>({
       placeholder={placeholder}
       popoverWrapperClassName='in-flex-v-stack h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
     >
-      <InputSearch {...restInputOption} placeholder={inputPlaceholder} />
+      <InputSearch
+        {...restInputOption}
+        value={searchValue}
+        placeholder={inputPlaceholder}
+      />
       <SingleSelectBaseList>
         {hasChildren ? children : <SelectBaseListEmpty />}
       </SingleSelectBaseList>

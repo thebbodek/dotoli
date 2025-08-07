@@ -54,6 +54,7 @@ const TextArea = ({
       badge={badge}
       required={required}
       className={rootClassName}
+      value={inputValue}
     >
       <Input
         id={id}

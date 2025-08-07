@@ -36,7 +36,7 @@ export interface InputBaseProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<InputContextProps, 'isError'>,
     Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'required'> {
-  value?: string;
+  value: string | null;
   label?: string;
   badge?: ReactNode;
   feedback?: string;
