@@ -8,6 +8,7 @@ import {
 import DatePickerSelectButton from '@/components/DatePicker/DatePickerSelectButton';
 import DatePickerTrigger from '@/components/DatePicker/DatePickerTrigger';
 import { DatePickerProps } from '@/components/DatePicker/types';
+import { Flex } from '@/components/Flex';
 import { SELECT_TYPE, SelectBase } from '@/components/Select/shared';
 
 const DatePicker = ({
@@ -56,18 +57,23 @@ const DatePicker = ({
         }}
       >
         {({ close }) => (
-          <SelectBase.PopoverWrapper className='in-tablet:min-h-[34svh] in-flex-v-stack in-tablet:max-h-[46svh] in-tablet:static in-tablet:inset-auto fixed inset-0 min-w-[23.75rem] items-center'>
-            <Calendar
-              className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(46svh-4.125rem)]'
-              id={calendarId}
-              labelId={labelId}
-              minDate={minDate}
-              maxDate={maxDate}
-              holidays={holidays}
-              disabledDays={disabledDays}
-              externalDaysLabels={externalDaysLabels}
-            />
-            <DatePickerSelectButton close={close} />
+          <SelectBase.PopoverWrapper useMobile>
+            <Flex
+              direction='column'
+              className='in-tablet:min-w-[23.75rem] in-tablet:max-w-full in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full min-w-[22.5rem] max-w-[26.875rem] justify-between'
+            >
+              <Calendar
+                className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(46svh-4.125rem)] mx-auto'
+                id={calendarId}
+                labelId={labelId}
+                minDate={minDate}
+                maxDate={maxDate}
+                holidays={holidays}
+                disabledDays={disabledDays}
+                externalDaysLabels={externalDaysLabels}
+              />
+              <DatePickerSelectButton close={close} />
+            </Flex>
           </SelectBase.PopoverWrapper>
         )}
       </SelectBase>

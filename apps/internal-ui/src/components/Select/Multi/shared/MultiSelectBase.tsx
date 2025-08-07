@@ -23,10 +23,10 @@ const MultiSelectBase = ({
       aria-describedby={labelId}
       className={clsx(
         className,
-        'in-tablet:in-flex-h-stack in-flex-v-stack flex-1 flex-col-reverse overflow-auto',
+        'in-tablet:in-flex-h-stack in-flex-v-stack flex-col-reverse overflow-auto',
       )}
     >
-      <div className='in-flex-v-stack bg-in-white in-tablet:w-[21.875rem] in-tablet:p-4 flex-1 overflow-hidden p-[1.25rem]'>
+      <div className='in-flex-v-stack bg-in-white in-tablet:min-w-[21.875rem] in-tablet:p-4 overflow-hidden p-[1.25rem]'>
         <InputSearch
           {...restInputOption}
           rootClassName='mb-[1.125rem] in-tablet:mb-[0.875rem]'

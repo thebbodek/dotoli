@@ -1,5 +1,6 @@
 import { useId } from 'react';
 
+import { Flex } from '@/components/Flex';
 import MultiSearchSelectButton from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectButton';
 import MultiSearchSelectSearchPanel from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectSearchPanel';
 import MultiSearchSelectSelectedPanel from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectSelectedPanel';
@@ -58,15 +59,20 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
         }}
       >
         {({ close }) => (
-          <SelectBase.PopoverWrapper className='in-tablet:min-h-[34svh] in-tablet:max-h-[44svh] in-flex-v-stack in-tablet:block in-tablet:static in-tablet:inset-auto fixed inset-0 justify-between'>
-            <MultiSelectBase
-              className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)]'
-              labelId={labelId}
-              inputOption={inputOption}
-              searchPanel={<MultiSearchSelectSearchPanel />}
-              selectedPanel={<MultiSearchSelectSelectedPanel />}
-            />
-            <MultiSearchSelectButton close={close} />
+          <SelectBase.PopoverWrapper useMobile>
+            <Flex
+              direction='column'
+              className='in-tablet:min-w-[36.25rem] in-tablet:max-w-auto in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full min-w-[22.5rem] max-w-[26.875rem] justify-between'
+            >
+              <MultiSelectBase
+                className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)]'
+                labelId={labelId}
+                inputOption={inputOption}
+                searchPanel={<MultiSearchSelectSearchPanel />}
+                selectedPanel={<MultiSearchSelectSelectedPanel />}
+              />
+              <MultiSearchSelectButton close={close} />
+            </Flex>
           </SelectBase.PopoverWrapper>
         )}
       </SelectBase>
