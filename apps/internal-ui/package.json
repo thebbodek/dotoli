@@ -27,7 +27,6 @@
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
     "clsx": "^2.1.1",
-    "dayjs": "^1.11.13",
     "es-toolkit": "^1.39.8",
     "next": "^15.3.1",
     "pretendard": "^1.3.9",
@@ -35,14 +34,14 @@
   },
   "peerDependencies": {
     "@bbodek/hooks": "^0.0.14",
-    "@bbodek/utils": "^0.0.5",
+    "@bbodek/utils": "^0.0.11",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {
     "@bbodek/hooks": "^0.0.14",
-    "@bbodek/utils": "^0.0.5",
+    "@bbodek/utils": "^0.0.11",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@rollup/plugin-commonjs": "^28.0.6",
