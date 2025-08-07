@@ -13,7 +13,7 @@
     "@bbodek/internal-ui": "workspace:*",
     "@phosphor-icons/core": "^2.1.1",
     "dayjs": "^1.11.13",
-    "next": "^15.3.2",
+    "next": "^15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
