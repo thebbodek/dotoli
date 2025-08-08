@@ -18,7 +18,6 @@ export interface MultiSearchSelectProps<T extends MultiSelectBaseValue>
     Pick<MultiSelectBaseProviderProps<T>, 'options' | 'value' | 'onChange'>,
     Pick<
       SelectBaseProps,
-      | 'label'
       | 'disabled'
       | 'feedback'
       | 'required'
@@ -26,6 +25,7 @@ export interface MultiSearchSelectProps<T extends MultiSelectBaseValue>
       | 'placeholder'
       | 'className'
     >,
+    Pick<SelectBaseLabelProps, 'hiddenLabel' | 'label'>,
     Pick<SelectBaseLabelProps, 'badge'> {
   popoverOption?: Omit<
     SelectBaseProps['popoverOption'],

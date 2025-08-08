@@ -29,7 +29,9 @@ const MultiSelectBase = ({
       <div className='in-flex-v-stack bg-in-white in-tablet:min-w-[21.875rem] in-tablet:p-4 overflow-hidden p-[1.25rem]'>
         <InputSearch
           {...restInputOption}
-          rootClassName='mb-[1.125rem] in-tablet:mb-[0.875rem]'
+          label='검색'
+          hiddenLabel
+          className='in-tablet:mb-[0.875rem] mb-[1.125rem]'
           placeholder={inputPlaceholder}
           value={currentSearchValue ?? ''}
           onChange={(e) => onSearch({ value: e.target.value })}

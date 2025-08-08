@@ -26,6 +26,7 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
   placeholder,
   className,
   options,
+  hiddenLabel,
   onChange,
 }: MultiSearchSelectProps<T>) => {
   const selectListResultId = useId();
@@ -44,7 +45,13 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
       <SelectBase
         className={className}
         type={SELECT_TYPE.MULTI_SEARCH_SELECT}
-        label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
+        label={
+          <SelectBase.Label
+            label={label}
+            badge={badge}
+            hiddenLabel={hiddenLabel}
+          />
+        }
         trigger={<MultiSearchSelectTrigger />}
         disabled={disabled}
         feedback={feedback}

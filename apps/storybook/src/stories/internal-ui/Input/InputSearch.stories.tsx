@@ -37,7 +37,7 @@ export const Default: Story = {
         {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        rootClassName='w-[300px]'
+        className='w-[300px]'
       />
     );
   },
@@ -59,7 +59,7 @@ export const WithSubmit: Story = {
           e.preventDefault();
           alert('submit!');
         }}
-        rootClassName='w-[300px]'
+        className='w-[300px]'
       />
     );
   },

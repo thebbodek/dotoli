@@ -22,10 +22,10 @@ export interface SingleSelectBaseProps<T extends SelectValue>
       | 'placeholder'
       | 'type'
     >,
+    Pick<SelectBaseLabelProps, 'hiddenLabel' | 'label'>,
     Pick<SingleSelectListContextValue<T>, 'onSelect' | 'value'>,
     Pick<SelectBaseLabelProps, 'badge'>,
     Omit<SingleSelectBaseTriggerProps<T>, 'disabled'> {
-  label: string;
   popoverWrapperClassName: SelectBasePopoverWrapperProps['className'];
 }
 

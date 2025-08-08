@@ -1,14 +1,16 @@
 import clsx from 'clsx';
-import { PropsWithChildren, useId } from 'react';
+import { FormEvent, PropsWithChildren, useId } from 'react';
 
+import { InputProvider } from '@/components/Input/shared/context/InputContext';
 import { InputBaseProps } from '@/components/Input/shared/types';
 import { InputFeedback, InputLabel } from '@/components/shared';
-import { InputProvider } from '@/components/Input/shared/context/InputContext';
+import { InputWrapper } from '@/components/shared/components/InputWrapper';
 
 const InputBase = ({
   id,
   value,
   label,
+  hiddenLabel,
   feedback,
   isError = false,
   required = false,
@@ -21,13 +23,28 @@ const InputBase = ({
   const isEmpty = !value || value.replaceAll(' ', '').length <= 0;
   const isValidInput = !isEmpty && !isError;
 
-  const render = (
-    <>
-      {label && (
-        <InputLabel htmlFor={id} badge={badge} required={required}>
-          {label}
-        </InputLabel>
-      )}
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    if (!onSubmit) return;
+
+    e.preventDefault();
+    e.currentTarget.reset();
+
+    onSubmit(e);
+  };
+
+  return (
+    <InputWrapper
+      className={clsx(className, 'group')}
+      onSubmit={onSubmit && handleSubmit}
+    >
+      <InputLabel
+        htmlFor={id}
+        badge={badge}
+        required={required}
+        hidden={hiddenLabel}
+      >
+        {label}
+      </InputLabel>
       <InputProvider
         feedbackId={feedback ? feedbackId : undefined}
         isError={isError}
@@ -44,26 +61,8 @@ const InputBase = ({
           )}
         />
       )}
-    </>
+    </InputWrapper>
   );
-
-  if (onSubmit) {
-    return (
-      <form
-        className={className}
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.currentTarget.reset();
-
-          onSubmit?.(e);
-        }}
-      >
-        {render}
-      </form>
-    );
-  }
-
-  return <div className={className}>{render}</div>;
 };
 
 export default InputBase;

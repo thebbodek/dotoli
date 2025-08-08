@@ -1,34 +1,27 @@
-import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import InputLabelText from '@/components/shared/components/InputLabel/InputLabelTitle';
 import { InputLabelProps } from '@/components/shared/components/InputLabel/types';
 
 const InputLabel = ({
-  children,
   htmlFor,
-  badge,
-  required,
+  children,
+  hidden,
+  className,
+  ...props
 }: PropsWithChildren<InputLabelProps>) => {
-  const className = clsx(
-    'text-in-body-14-m text-in-gray-07 mb-0.5',
-    badge && 'flex items-center gap-x-0.5',
-    required && 'before:text-in-primary-06 before:content-["*"]',
-  );
-
   if (htmlFor) {
     return (
-      <label htmlFor={htmlFor} className={className}>
-        {children}
-        {badge && badge}
+      <label htmlFor={htmlFor} hidden={hidden} className='leading-none'>
+        <InputLabelText {...props}>{children}</InputLabelText>
       </label>
     );
   }
 
   return (
-    <div className={className}>
+    <InputLabelText {...props} hidden={hidden}>
       {children}
-      {badge && badge}
-    </div>
+    </InputLabelText>
   );
 };
 

@@ -1,11 +1,9 @@
-import clsx from 'clsx';
 import { useId, useState } from 'react';
 
 import { Popover } from '@/components/Popover';
 import { SELECT_TYPE } from '@/components/Select/shared/constants';
 import { SelectLabelProvider } from '@/components/Select/shared/context/SelectLabelContext';
 import { SelectTriggerProvider } from '@/components/Select/shared/context/SelectTriggerContext';
-import SelectFeedback from '@/components/Select/shared/SelectBaseFeedback';
 import SelectBaseItem from '@/components/Select/shared/SelectBaseItem';
 import SelectLabel from '@/components/Select/shared/SelectBaseLabel';
 import SelectPopoverWrapper from '@/components/Select/shared/SelectBasePopoverWrapper';
@@ -13,6 +11,8 @@ import {
   SelectBaseAriaAttributes,
   SelectBaseProps,
 } from '@/components/Select/shared/types';
+import { InputFeedback } from '@/components/shared';
+import { InputWrapper } from '@/components/shared/components/InputWrapper';
 
 const SelectBase = ({
   required = false,
@@ -86,10 +86,7 @@ const SelectBase = ({
   };
 
   return (
-    <div
-      {...getAriaAttributes()}
-      className={clsx(className, 'in-flex-v-stack')}
-    >
+    <InputWrapper {...getAriaAttributes()} className={className}>
       <SelectLabelProvider id={labelId} required={required}>
         {label}
       </SelectLabelProvider>
@@ -110,8 +107,10 @@ const SelectBase = ({
       >
         {!isFunction ? children : children({ close })}
       </Popover>
-      {_isError && <SelectFeedback id={feedbackId}>{feedback}</SelectFeedback>}
-    </div>
+      {_isError && (
+        <InputFeedback id={feedbackId} feedback={feedback} className='flex' />
+      )}
+    </InputWrapper>
   );
 };
 

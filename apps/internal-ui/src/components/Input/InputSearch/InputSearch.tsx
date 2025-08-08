@@ -8,11 +8,12 @@ import { INPUT_TRIGGER_VARIANTS } from '@/components/shared';
 
 const InputSearch = ({
   label,
+  hiddenLabel,
   feedback,
   badge,
   isError = false,
   required = false,
-  rootClassName,
+  className,
   value,
   name,
   autoComplete = 'off',
@@ -45,11 +46,12 @@ const InputSearch = ({
       id={id}
       value={inputValue}
       label={label}
+      hiddenLabel={hiddenLabel}
       feedback={feedback}
       isError={isError}
       badge={badge}
       required={required}
-      className={rootClassName}
+      className={className}
       onSubmit={onSubmit ? handleSubmit : undefined}
     >
       <Input

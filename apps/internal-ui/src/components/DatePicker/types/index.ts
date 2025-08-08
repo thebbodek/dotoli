@@ -13,7 +13,6 @@ import {
 export interface DatePickerProps
   extends Pick<
       SelectBaseProps,
-      | 'label'
       | 'disabled'
       | 'feedback'
       | 'required'
@@ -21,6 +20,7 @@ export interface DatePickerProps
       | 'placeholder'
       | 'className'
     >,
+    Pick<SelectBaseLabelProps, 'label' | 'hiddenLabel'>,
     Pick<SelectBaseLabelProps, 'badge'>,
     CalendarProps,
     CalendarContextProviderProps {

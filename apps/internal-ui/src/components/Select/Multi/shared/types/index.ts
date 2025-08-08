@@ -38,7 +38,7 @@ export interface MultiSelectBaseProps
   selectedPanel: ReactNode;
   inputOption?: Omit<
     InputSearchProps,
-    'rootClassName' | 'type' | 'onChange' | 'value'
+    'rootClassName' | 'type' | 'onChange' | 'value' | 'hiddenLabel' | 'label'
   >;
 }
 
