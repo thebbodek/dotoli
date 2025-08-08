@@ -10,14 +10,19 @@ import {
 export interface InputFieldProps
   extends Pick<
       InputBaseProps,
-      'label' | 'feedback' | 'isError' | 'required' | 'badge'
+      | 'label'
+      | 'feedback'
+      | 'isError'
+      | 'required'
+      | 'badge'
+      | 'hiddenLabel'
+      | 'className'
     >,
     Pick<
       InputProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
       | 'id'
       | 'required'
       | 'value'
-      | 'className'
       | 'placeholder'
       | 'disabled'
       | 'readOnly'
@@ -25,12 +30,10 @@ export interface InputFieldProps
       | 'autoComplete'
       | 'onChange'
       | 'ref'
-      | 'inputClassName'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
       'regCallback'
     > {
   type?: Extract<HTMLInputTypeAttribute, 'text' | 'email' | 'number'>;
-  rootClassName?: InputBaseProps['className'];
 }

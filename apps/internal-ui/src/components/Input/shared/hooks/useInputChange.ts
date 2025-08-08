@@ -1,9 +1,11 @@
+import { ChangeEvent, useEffect, useState } from 'react';
+
 import {
+  InputBaseProps,
   InputElement,
   InputElementType,
   UseInputChangeProps,
 } from '@/components/Input/shared/types';
-import { ChangeEvent, useState } from 'react';
 
 const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   value,
@@ -11,7 +13,7 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   onChange,
   regCallback,
 }: UseInputChangeProps<T, P>) => {
-  const [inputValue, setInputValue] = useState(value ?? '');
+  const [inputValue, setInputValue] = useState<InputBaseProps['value']>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -35,6 +37,10 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
     setInputValue(eventTargetValue);
     onChange?.(event);
   };
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   return { inputValue, handleChange, handleReset };
 };

@@ -52,8 +52,10 @@ const SearchSelect = <T extends SelectValue>({
     >
       <InputSearch
         {...restInputOption}
+        label='검색'
         value={searchValue}
         placeholder={inputPlaceholder}
+        hiddenLabel
       />
       <SingleSelectBaseList>
         {hasChildren ? children : <SelectBaseListEmpty />}

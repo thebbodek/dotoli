@@ -8,11 +8,12 @@ import InputIconButton from '@/components/Input/shared/InputIconButton';
 
 const InputPassword = ({
   label,
+  hiddenLabel,
   feedback,
   badge,
   isError = false,
   required = false,
-  rootClassName,
+  className,
   value,
   name,
   rules,
@@ -36,18 +37,21 @@ const InputPassword = ({
 
   const hasRuleError =
     !!rules &&
-    Object.entries(rules).some(([_, { regex }]) => !regex.test(inputValue));
+    Object.entries(rules).some(
+      ([_, { regex }]) => !!inputValue && !regex.test(inputValue),
+    );
 
   return (
     <InputBase
       id={id}
       value={inputValue}
       label={label}
+      hiddenLabel={hiddenLabel}
       feedback={feedback}
       isError={isError}
       badge={badge}
       required={required}
-      className={rootClassName}
+      className={className}
     >
       <Input
         id={id}

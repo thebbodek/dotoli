@@ -7,7 +7,10 @@ import {
 
 export interface SearchSelectProps<T extends SelectValue>
   extends Omit<SingleSelectBaseProps<T>, 'popoverWrapperClassName' | 'type'> {
-  inputOption?: Omit<InputSearchProps, 'rootClassName' | 'type'>;
+  inputOption?: Omit<
+    InputSearchProps,
+    'rootClassName' | 'type' | 'hiddenLabel' | 'label'
+  >;
 }
 
 export interface SearchSelectItemProps<T extends SelectValue>

@@ -1,6 +1,7 @@
 import { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
 import { IconProps } from '@/components/Icon';
+import { InputBaseProps } from '@/components/Input';
 import { PopoverProps } from '@/components/Popover';
 import { SELECT_TYPE } from '@/components/Select/shared';
 import { ComponentPropsRef } from '@/components/shared/types';
@@ -26,9 +27,8 @@ export interface SelectBaseProps
   labelId: SelectLabelContextValue['id'];
 }
 
-export interface SelectBaseLabelProps {
-  badge?: ReactNode;
-}
+export interface SelectBaseLabelProps
+  extends Pick<InputBaseProps, 'badge' | 'hiddenLabel' | 'label'> {}
 
 export interface SelectBaseTriggerWrapperProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {

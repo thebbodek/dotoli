@@ -9,7 +9,7 @@ const SingleSelectBaseList = ({ children }: PropsWithChildren) => {
     <ul
       id={id}
       role='listbox'
-      className='in-flex-v-stack h-full gap-y-0.5 overflow-y-auto'
+      className='in-flex-v-stack flex-1 gap-y-0.5 overflow-y-auto'
       aria-labelledby={labelId}
     >
       {children}

@@ -148,7 +148,7 @@ export const Default = {
         onSelect={onSelect}
         displayValue={value}
       >
-        {Array.from({ length: 10 }, (_, idx) => (
+        {Array.from({ length: 2 }, (_, idx) => (
           <Select.Item key={idx} value={String(idx)} label={String(idx)}>
             {idx}
           </Select.Item>

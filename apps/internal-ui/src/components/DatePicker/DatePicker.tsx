@@ -15,6 +15,7 @@ const DatePicker = ({
   className,
   badge,
   label,
+  hiddenLabel,
   disabled,
   feedback,
   required,
@@ -42,7 +43,13 @@ const DatePicker = ({
             ? SELECT_TYPE.SELECT
             : SELECT_TYPE.MULTI_SEARCH_SELECT
         }
-        label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
+        label={
+          <SelectBase.Label
+            badge={badge}
+            label={label}
+            hiddenLabel={hiddenLabel}
+          />
+        }
         trigger={<DatePickerTrigger />}
         disabled={disabled}
         feedback={feedback}

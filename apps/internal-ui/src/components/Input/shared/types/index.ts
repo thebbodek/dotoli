@@ -12,6 +12,7 @@ import {
 
 import { IconProps } from '@/components/Icon';
 import { INPUT_ELEMENTS } from '@/components/Input/shared/constants';
+import { InputLabelProps } from '@/components/shared';
 import { InputTriggerWrapperProps } from '@/components/shared/components/InputTriggerWrapper';
 import { ComponentPropsRef } from '@/components/shared/types';
 
@@ -35,10 +36,11 @@ export interface InputProviderProps extends InputContextProps {}
 export interface InputBaseProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<InputContextProps, 'isError'>,
+    Pick<InputLabelProps, 'badge'>,
     Pick<InputHTMLAttributes<HTMLInputElement>, 'id' | 'required'> {
+  label: string;
+  hiddenLabel?: InputLabelProps['hidden'];
   value: string | null;
-  label?: string;
-  badge?: ReactNode;
   feedback?: string;
   onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
 }

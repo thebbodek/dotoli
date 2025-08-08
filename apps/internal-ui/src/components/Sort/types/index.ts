@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react';
 
 import {
+  SelectBaseLabelProps,
   SelectValue,
   SingleSelectBaseItemProps,
   SingleSelectBaseProps,
@@ -11,16 +12,16 @@ export type SortValue = SelectValue;
 
 export interface SortProps
   extends Pick<
-    SingleSelectBaseProps<SortValue>,
-    | 'value'
-    | 'disabled'
-    | 'popoverOption'
-    | 'onSelect'
-    | 'displayValue'
-    | 'className'
-    | 'label'
-    | 'badge'
-  > {}
+      SingleSelectBaseProps<SortValue>,
+      | 'value'
+      | 'disabled'
+      | 'popoverOption'
+      | 'onSelect'
+      | 'displayValue'
+      | 'className'
+      | 'badge'
+    >,
+    Pick<SelectBaseLabelProps, 'label'> {}
 
 export interface SortOnSelectParams<T extends SortValue>
   extends SingleSelectOnSelectParams<T> {}
