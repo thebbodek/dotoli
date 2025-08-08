@@ -43,7 +43,7 @@ const TableInputCell = ({
       >
         <input
           type={type}
-          value={inputValue}
+          value={inputValue ?? ''}
           onChange={handleChange}
           aria-invalid={isError}
           aria-errormessage={feedbackId}

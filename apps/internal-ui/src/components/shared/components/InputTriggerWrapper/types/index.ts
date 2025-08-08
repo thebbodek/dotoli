@@ -8,7 +8,10 @@ export type InputTriggerWrapperVariant =
 
 export interface InputTriggerWrapperProps
   extends ComponentPropsRef<HTMLDivElement>,
-    Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'role'> {
+    Pick<
+      HTMLAttributes<HTMLDivElement>,
+      'className' | 'role' | 'aria-disabled' | 'onClick'
+    > {
   variant?: InputTriggerWrapperVariant;
   disabled?: boolean;
   isError?: boolean;

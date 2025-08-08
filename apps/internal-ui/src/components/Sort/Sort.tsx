@@ -25,7 +25,7 @@ const Sort = ({
     <SelectBase
       type={SELECT_TYPE.SELECT}
       className={className}
-      label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
+      label={<SelectBase.Label badge={badge} label={label} hidden />}
       popoverOption={popoverOption}
       trigger={<SortTrigger displayValue={displayValue} />}
       disabled={disabled}

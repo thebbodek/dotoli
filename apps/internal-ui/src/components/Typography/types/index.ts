@@ -10,10 +10,12 @@ export type TypographyElementType = Extract<ElementType, TypographyElements>;
 
 export interface TypographyProps<
   T extends TypographyElementType = typeof TYPOGRAPHY_ELEMENTS.SPAN,
-> extends Pick<HTMLAttributes<T>, 'className' | 'title' | 'id' | 'role'>,
+> extends Pick<
+      HTMLAttributes<T>,
+      'className' | 'title' | 'id' | 'role' | 'hidden' | 'aria-live'
+    >,
     RefAttributes<HTMLElement> {
   as?: T;
   variant?: TypographyVariants;
   color?: ColorVariants;
-  ariaLive?: HTMLAttributes<T>['aria-live'];
 }

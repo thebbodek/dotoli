@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { PropsWithChildren, useId } from 'react';
 
 import { SelectBase } from '@/components/Select/shared';
@@ -24,6 +25,7 @@ const SingleSelectBase = <T extends SelectValue>({
   type,
   children,
   popoverWrapperClassName,
+  hiddenLabel,
 }: PropsWithChildren<SingleSelectBaseProps<T>>) => {
   const selectListId = useId();
   const labelId = useId();
@@ -32,7 +34,9 @@ const SingleSelectBase = <T extends SelectValue>({
     <SelectBase
       type={type}
       className={className}
-      label={<SelectBase.Label badge={badge}>{label}</SelectBase.Label>}
+      label={
+        <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
+      }
       popoverOption={popoverOption}
       trigger={
         <SingleSelectBaseTrigger
@@ -57,7 +61,9 @@ const SingleSelectBase = <T extends SelectValue>({
           onSelect={onSelect}
           close={close}
         >
-          <SelectBase.PopoverWrapper className={popoverWrapperClassName}>
+          <SelectBase.PopoverWrapper
+            className={clsx('in-flex-v-stack', popoverWrapperClassName)}
+          >
             {children}
           </SelectBase.PopoverWrapper>
         </SingleSelectListProvider>

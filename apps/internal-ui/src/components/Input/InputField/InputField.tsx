@@ -7,15 +7,16 @@ import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 
 const InputField = ({
   label,
+  hiddenLabel,
   feedback,
   badge,
   isError,
   required,
-  rootClassName,
   value,
   name,
   onChange,
   regCallback,
+  className,
   ...rest
 }: InputFieldProps) => {
   const id = useId();
@@ -32,11 +33,12 @@ const InputField = ({
       id={id}
       value={inputValue}
       label={label}
+      hiddenLabel={hiddenLabel}
       feedback={feedback}
       isError={isError}
       badge={badge}
       required={required}
-      className={rootClassName}
+      className={className}
     >
       <Input
         id={id}

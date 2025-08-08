@@ -39,17 +39,14 @@ export const Default: Story = {
     const [value, setValue] = useState('');
 
     return (
-      <>
-        <div id='portal' />
-        <div className='popover-root'>
-          <InputPassword
-            {...args}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            rootClassName='w-[300px]'
-          />
-        </div>
-      </>
+      <div className='popover-root'>
+        <InputPassword
+          {...args}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          className='w-[300px]'
+        />
+      </div>
     );
   },
 };
@@ -63,27 +60,24 @@ export const WithRule: Story = {
     const isError = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
 
     return (
-      <>
-        <div id='portal' />
-        <InputPassword
-          {...args}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          rootClassName='w-[300px]'
-          isError={isError}
-          feedback={isError ? '특수문자는 작성할 수 없어요' : ''}
-          rules={{
-            length: {
-              message: '8자 이상 입력해주세요',
-              regex: /^.{8,}$/,
-            },
-            number: {
-              message: '숫자를 포함해주세요',
-              regex: /[0-9]/,
-            },
-          }}
-        />
-      </>
+      <InputPassword
+        {...args}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className='w-[300px]'
+        isError={isError}
+        feedback={isError ? '특수문자는 작성할 수 없어요' : ''}
+        rules={{
+          length: {
+            message: '8자 이상 입력해주세요',
+            regex: /^.{8,}$/,
+          },
+          number: {
+            message: '숫자를 포함해주세요',
+            regex: /[0-9]/,
+          },
+        }}
+      />
     );
   },
 };

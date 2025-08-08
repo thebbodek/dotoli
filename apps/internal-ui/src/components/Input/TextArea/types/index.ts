@@ -8,7 +8,13 @@ import {
 export interface TextAreaProps
   extends Pick<
       InputBaseProps,
-      'label' | 'feedback' | 'isError' | 'required' | 'badge'
+      | 'label'
+      | 'feedback'
+      | 'isError'
+      | 'required'
+      | 'badge'
+      | 'hiddenLabel'
+      | 'className'
     >,
     Pick<
       InputProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
@@ -23,12 +29,10 @@ export interface TextAreaProps
       | 'autoComplete'
       | 'onChange'
       | 'ref'
-      | 'inputClassName'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
       'regCallback'
     > {
-  rootClassName?: InputBaseProps['className'];
   maxLength?: number;
 }

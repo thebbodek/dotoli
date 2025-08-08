@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { ChangeEvent, useId, useState } from 'react';
 
 import { INPUT_ELEMENTS } from '@/components/Input/shared';
@@ -15,7 +14,6 @@ const TextArea = ({
   badge,
   isError = false,
   required = false,
-  rootClassName,
   value,
   name,
   onChange,
@@ -24,6 +22,7 @@ const TextArea = ({
   disabled = false,
   readOnly = false,
   maxLength,
+  hiddenLabel,
   ...rest
 }: TextAreaProps) => {
   const id = useId();
@@ -53,8 +52,9 @@ const TextArea = ({
       isError={isError}
       badge={badge}
       required={required}
-      className={rootClassName}
+      className={className}
       value={inputValue}
+      hiddenLabel={hiddenLabel}
     >
       <Input
         id={id}
@@ -68,7 +68,7 @@ const TextArea = ({
         disabled={disabled}
         isFocused={isFocused}
         setIsFocused={setIsFocused}
-        className={clsx(className, 'flex-col')}
+        className='flex-col'
         inputClassName='resize-none h-full'
         addonEnd={
           maxLength && (
