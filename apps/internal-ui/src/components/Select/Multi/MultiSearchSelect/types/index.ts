@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { ChipProps } from '@/components/Chip';
 import { InputBaseProps } from '@/components/Input';
 import {
@@ -17,7 +19,14 @@ import {
 export interface MultiSearchSelectProps<T extends MultiSelectBaseValue>
   extends Pick<MultiSelectBaseProps, 'inputOption'>,
     Pick<MultiSelectBaseProviderProps<T>, 'options' | 'value' | 'onChange'>,
-    Pick<
+    Pick<SelectBaseLabelProps, 'label' | 'badge'>,
+    Omit<
+      MultiSearchSelectWrapperProps,
+      'controls' | 'labelId' | 'children' | 'label'
+    > {}
+
+export interface MultiSearchSelectWrapperProps
+  extends Pick<
       SelectBaseProps,
       | 'disabled'
       | 'feedback'
@@ -25,13 +34,14 @@ export interface MultiSearchSelectProps<T extends MultiSelectBaseValue>
       | 'isError'
       | 'placeholder'
       | 'className'
+      | 'controls'
+      | 'labelId'
+      | 'children'
+      | 'popoverOption'
     >,
     Pick<InputBaseProps, 'hiddenLabel'>,
-    Pick<SelectBaseLabelProps, 'badge' | 'label'> {
-  popoverOption?: Omit<
-    SelectBaseProps['popoverOption'],
-    'useClickOutsideEvent'
-  >;
+    Pick<SelectBaseLabelProps, 'badge'> {
+  label: ReactNode;
 }
 
 export interface MultiSearchSelectListHeaderProps

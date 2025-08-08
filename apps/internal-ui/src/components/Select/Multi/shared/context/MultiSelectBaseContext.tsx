@@ -8,7 +8,6 @@ import {
   useState,
 } from 'react';
 
-import useMultiSelectBaseInitialOptionsEffect from '@/components/Select/Multi/shared/hooks/effects/useMultiSelectBaseInitialOptionsEffect';
 import {
   MultiSelectBaseContextValue,
   MultiSelectBaseOnSearchParams,
@@ -16,6 +15,7 @@ import {
   MultiSelectBaseValue,
   MultiSelectInternalOption,
 } from '@/components/Select/Multi/shared/types';
+import { getOptionKey } from '@/components/Select/Multi/shared/utils';
 import { SelectBaseItemProps } from '@/components/Select/shared';
 
 const createMultiSelectBaseContext = <T extends MultiSelectBaseValue>() =>
@@ -95,11 +95,18 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
     );
   };
 
-  useMultiSelectBaseInitialOptionsEffect({
-    value,
-    options,
-    setInternalOptions,
-  });
+  const setMultiSelectInternalOptions = useCallback(() => {
+    setInternalOptions(() => {
+      const _value = value.map(({ value }) => value);
+      const initialInternalOptions = options.map((option) => ({
+        ...option,
+        key: getOptionKey({ value: option.value, label: option.label }),
+        isSelected: _value.includes(option.value),
+      }));
+
+      return initialInternalOptions;
+    });
+  }, [value, options]);
 
   const contextValue = {
     onRemove,
@@ -113,7 +120,9 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
     onRemoveTriggerValueClick,
     onSearch,
     currentSearchValue,
-  };
+    setMultiSelectInternalOptions,
+    setCurrentSearchValue,
+  } as MultiSelectBaseContextValue<MultiSelectBaseValue>;
 
   return (
     <MultiSelectBaseContext.Provider

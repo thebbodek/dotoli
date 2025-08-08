@@ -1,6 +1,12 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import dayjs from 'dayjs';
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useState,
+} from 'react';
 
-import useCalendarSyncExternalValueEffect from '@/components/Calendar/hooks/effects/useCalendarSyncExternalValueEffect';
 import {
   CalendarContextProviderProps,
   CalendarContextValue,
@@ -19,18 +25,26 @@ export const CalendarProvider = ({
   const [internalValue, setInternalValue] =
     useState<CalendarContextValue['internalValue']>(null);
 
+  const setCalendarInternalValue = useCallback(() => {
+    const normalizedValue =
+      value === null
+        ? null
+        : {
+            startDate: value.startDate ? dayjs(value.startDate) : null,
+            endDate: value.endDate ? dayjs(value.endDate) : null,
+          };
+
+    setInternalValue(normalizedValue);
+  }, [value]);
+
   const contextValue = {
     value,
     internalValue,
     variant,
     onChange,
     setInternalValue,
+    setCalendarInternalValue,
   };
-
-  useCalendarSyncExternalValueEffect({
-    value,
-    setInternalValue,
-  });
 
   return (
     <CalendarContext.Provider value={contextValue}>

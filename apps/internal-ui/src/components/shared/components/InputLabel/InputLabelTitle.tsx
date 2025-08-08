@@ -17,7 +17,7 @@ const InputLabelText = ({
       id={id}
       className={clsx(
         className,
-        'mb-0.5 inline-block',
+        'mb-0.5',
         badge && 'flex items-center gap-x-0.5',
         required && 'before:text-in-primary-06 before:content-["*"]',
       )}

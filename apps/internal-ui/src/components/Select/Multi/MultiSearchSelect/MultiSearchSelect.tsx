@@ -4,14 +4,14 @@ import { Flex } from '@/components/Flex';
 import MultiSearchSelectButton from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectButton';
 import MultiSearchSelectSearchPanel from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectSearchPanel';
 import MultiSearchSelectSelectedPanel from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectSelectedPanel';
-import MultiSearchSelectTrigger from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectTrigger';
+import MultiSearchSelectWrapper from '@/components/Select/Multi/MultiSearchSelect/MultiSearchSelectWrapper';
 import { MultiSearchSelectProps } from '@/components/Select/Multi/MultiSearchSelect/types';
 import {
   MultiSelectBase,
   MultiSelectBaseValue,
 } from '@/components/Select/Multi/shared';
 import { MultiSelectBaseProvider } from '@/components/Select/Multi/shared/context/MultiSelectBaseContext';
-import { SELECT_TYPE, SelectBase } from '@/components/Select/shared';
+import { SelectBase } from '@/components/Select/shared';
 
 const MultiSearchSelect = <T extends MultiSelectBaseValue>({
   inputOption,
@@ -42,13 +42,11 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
       selectListResultId={selectListResultId}
       selectedListResultId={selectedListResultId}
     >
-      <SelectBase
+      <MultiSearchSelectWrapper
         className={className}
-        type={SELECT_TYPE.MULTI_SEARCH_SELECT}
         label={
           <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
         }
-        trigger={<MultiSearchSelectTrigger />}
         disabled={disabled}
         feedback={feedback}
         required={required}
@@ -56,10 +54,7 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
         placeholder={placeholder}
         controls={controls}
         labelId={labelId}
-        popoverOption={{
-          ...popoverOption,
-          useClickOutsideEvent: false,
-        }}
+        popoverOption={popoverOption}
       >
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
@@ -78,7 +73,7 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
             </Flex>
           </SelectBase.PopoverWrapper>
         )}
-      </SelectBase>
+      </MultiSearchSelectWrapper>
     </MultiSelectBaseProvider>
   );
 };
