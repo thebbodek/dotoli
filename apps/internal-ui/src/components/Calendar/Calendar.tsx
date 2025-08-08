@@ -10,7 +10,10 @@ import {
   CALENDAR_MONTHLY_ARRAY,
 } from '@/components/Calendar/constants';
 import { useCalendar } from '@/components/Calendar/hooks';
-import { useCalendarInitialScrollEffect } from '@/components/Calendar/hooks/effects';
+import {
+  useCalendarInitialInternalValueEffect,
+  useCalendarInitialScrollEffect,
+} from '@/components/Calendar/hooks/effects';
 import { CalendarProps } from '@/components/Calendar/types';
 
 const Calendar = ({
@@ -35,6 +38,8 @@ const Calendar = ({
     externalDaysLabels,
     useWeekend,
   });
+
+  useCalendarInitialInternalValueEffect();
 
   useCalendarInitialScrollEffect({
     monthlyRefs,
