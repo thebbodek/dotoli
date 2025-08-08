@@ -37,7 +37,7 @@ export const Default: Story = {
     };
 
     const onClick = () => {
-      executeFunction({ disabled, fn: executeConsole });
+      executeFunction({ disabled, fn: executeConsole() });
     };
 
     return <Button onClick={onClick} label='Execute' />;

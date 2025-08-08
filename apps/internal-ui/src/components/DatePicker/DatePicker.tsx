@@ -6,7 +6,7 @@ import {
   CalendarProvider,
 } from '@/components/Calendar';
 import DatePickerSelectButton from '@/components/DatePicker/DatePickerSelectButton';
-import DatePickerTrigger from '@/components/DatePicker/DatePickerTrigger';
+import DatePickerWrapper from '@/components/DatePicker/DatePickerWrapper';
 import { DatePickerProps } from '@/components/DatePicker/types';
 import { Flex } from '@/components/Flex';
 import { SELECT_TYPE, SelectBase } from '@/components/Select/shared';
@@ -36,7 +36,7 @@ const DatePicker = ({
 
   return (
     <CalendarProvider value={value} variant={variant} onChange={onChange}>
-      <SelectBase
+      <DatePickerWrapper
         className={className}
         type={
           variant === CALENDAR_VARIANTS.SINGLE
@@ -46,7 +46,6 @@ const DatePicker = ({
         label={
           <SelectBase.Label badge={badge} label={label} hidden={hiddenLabel} />
         }
-        trigger={<DatePickerTrigger />}
         disabled={disabled}
         feedback={feedback}
         required={required}
@@ -54,10 +53,7 @@ const DatePicker = ({
         placeholder={placeholder}
         controls={calendarId}
         labelId={labelId}
-        popoverOption={{
-          ...popoverOption,
-          useClickOutsideEvent: false,
-        }}
+        popoverOption={popoverOption}
       >
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
@@ -79,7 +75,7 @@ const DatePicker = ({
             </Flex>
           </SelectBase.PopoverWrapper>
         )}
-      </SelectBase>
+      </DatePickerWrapper>
     </CalendarProvider>
   );
 };

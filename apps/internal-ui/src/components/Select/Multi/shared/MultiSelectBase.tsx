@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 import { InputSearch } from '@/components/Input';
 import { useMultiSelectBaseContext } from '@/components/Select/Multi/shared/context/MultiSelectBaseContext';
+import { useMultiSelectBaseInitialValueEffect } from '@/components/Select/Multi/shared/hooks';
 import MultiSelectBaseSelectedHeader from '@/components/Select/Multi/shared/MultiSelectBaseSelectedHeader';
 import { MultiSelectBaseProps } from '@/components/Select/Multi/shared/types';
 
@@ -17,6 +18,8 @@ const MultiSelectBase = ({
     placeholder: inputPlaceholder = '검색어를 입력해주세요',
     ...restInputOption
   } = inputOption ?? {};
+
+  useMultiSelectBaseInitialValueEffect();
 
   return (
     <div
@@ -38,7 +41,7 @@ const MultiSelectBase = ({
         />
         {searchPanel}
       </div>
-      <div className='bg-in-gray-01 in-flex-v-stack in-tablet:w-[14.375rem] in-tablet:gap-y-[0.625rem] in-tablet:p-4 gap-y-[0.75rem] p-[1.25rem]'>
+      <div className='bg-in-gray-01 in-flex-v-stack in-tablet:shrink-0 in-tablet:w-[14.375rem] in-tablet:gap-y-[0.625rem] in-tablet:p-4 gap-y-[0.75rem] p-[1.25rem]'>
         <MultiSelectBaseSelectedHeader />
         {selectedPanel}
       </div>

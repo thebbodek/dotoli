@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import {
   CalendarContextProviderProps,
   CalendarContextValue,
@@ -13,22 +15,36 @@ import {
 
 export interface DatePickerProps
   extends Pick<
-      SelectBaseProps,
+      DatePickerWrapperProps,
       | 'disabled'
       | 'feedback'
       | 'required'
       | 'isError'
       | 'placeholder'
       | 'className'
+      | 'popoverOption'
     >,
     Pick<SelectBaseLabelProps, 'label' | 'badge'>,
     Pick<InputBaseProps, 'hiddenLabel'>,
     CalendarProps,
-    CalendarContextProviderProps {
-  popoverOption?: Omit<
-    SelectBaseProps['popoverOption'],
-    'useClickOutsideEvent'
-  >;
+    CalendarContextProviderProps {}
+
+export interface DatePickerWrapperProps
+  extends Pick<
+    SelectBaseProps,
+    | 'disabled'
+    | 'feedback'
+    | 'required'
+    | 'isError'
+    | 'placeholder'
+    | 'className'
+    | 'type'
+    | 'controls'
+    | 'labelId'
+    | 'children'
+    | 'popoverOption'
+  > {
+  label: ReactNode;
 }
 
 export interface DatePickerSelectButtonProps

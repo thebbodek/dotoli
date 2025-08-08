@@ -197,7 +197,7 @@ export const Default = {
     return (
       <MultiSearchSelect
         {...args}
-        className='max-w-[20rem]'
+        className='w-[15rem]'
         label={label}
         options={items.map((item) => ({
           value: item,
@@ -221,7 +221,7 @@ export const WithBadge = {
 
     return (
       <MultiSearchSelect
-        className='max-w-[20rem]'
+        className='w-[15rem]'
         label='Select Label'
         options={items.map((item) => ({
           value: item,
@@ -253,7 +253,7 @@ export const Error: Story = {
 
     return (
       <MultiSearchSelect
-        className='max-w-[20rem]'
+        className='w-[15rem]'
         label='Select Label'
         options={items.map((item) => ({
           value: item,
@@ -282,7 +282,7 @@ export const Disabled: Story = {
 
     return (
       <MultiSearchSelect
-        className='max-w-[20rem]'
+        className='w-[15rem]'
         label='Select Label'
         options={items.map((item) => ({
           value: item,
@@ -310,7 +310,7 @@ export const Required: Story = {
 
     return (
       <MultiSearchSelect
-        className='max-w-[20rem]'
+        className='w-[15rem]'
         label='Select Label'
         options={items.map((item) => ({
           value: item,
