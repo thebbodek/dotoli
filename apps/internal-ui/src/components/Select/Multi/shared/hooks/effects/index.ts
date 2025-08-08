@@ -1,1 +1,1 @@
-export { default as useMultiSelectBaseInitialOptionsEffect } from './useMultiSelectBaseInitialOptionsEffect';
+export { default as useMultiSelectBaseInitialValueEffect } from './useMultiSelectBaseInitialValueEffect';
