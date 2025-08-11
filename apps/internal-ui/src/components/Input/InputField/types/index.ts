@@ -26,6 +26,7 @@ export interface InputFieldProps
       | 'onChange'
       | 'ref'
       | 'inputClassName'
+      | 'maxLength'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,

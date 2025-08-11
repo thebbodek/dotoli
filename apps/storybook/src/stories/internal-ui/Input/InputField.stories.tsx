@@ -158,7 +158,6 @@ export const WithFeedback: Story = {
         {...args}
         value={value}
         onChange={(e) => {
-          console.log(e.target.value);
           setValue(e.target.value);
         }}
         feedback={isError ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}

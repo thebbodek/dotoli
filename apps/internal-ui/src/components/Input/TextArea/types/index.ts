@@ -24,11 +24,11 @@ export interface TextAreaProps
       | 'onChange'
       | 'ref'
       | 'inputClassName'
+      | 'maxLength'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
       'regCallback'
     > {
   rootClassName?: InputBaseProps['className'];
-  maxLength?: number;
 }

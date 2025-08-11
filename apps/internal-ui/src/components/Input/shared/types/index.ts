@@ -52,12 +52,7 @@ export interface InputDefaultProps<
     ComponentPropsRef<P>,
     Pick<
       InputHTMLAttributes<HTMLInputElement>,
-      | 'placeholder'
-      | 'disabled'
-      | 'readOnly'
-      | 'name'
-      | 'autoComplete'
-      | 'maxLength'
+      'placeholder' | 'disabled' | 'readOnly' | 'name' | 'autoComplete'
     > {
   as?: T;
   addonEnd?: ReactNode;
@@ -66,6 +61,7 @@ export interface InputDefaultProps<
   onReset?: () => void;
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<boolean>>;
+  maxLength?: number;
   inputClassName?: HTMLAttributes<P>['className'];
 }
 
@@ -80,7 +76,8 @@ export type InputProps<
 export interface UseInputChangeProps<
   T extends InputElementType,
   P extends InputElement<T>,
-> extends Pick<InputProps<T, P>, 'value' | 'onChange' | 'name'> {
+> extends Pick<InputProps<T, P>, 'value' | 'onChange' | 'name'>,
+    Required<Pick<InputDefaultProps<T, P>, 'maxLength'>> {
   regCallback?: (value: string) => string;
 }
 

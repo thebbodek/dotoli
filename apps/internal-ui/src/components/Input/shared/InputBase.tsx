@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { PropsWithChildren, useId } from 'react';
 
+import { InputProvider } from '@/components/Input/shared/context/InputContext';
 import { InputBaseProps } from '@/components/Input/shared/types';
 import { InputFeedback, InputLabel } from '@/components/shared';
-import { InputProvider } from '@/components/Input/shared/context/InputContext';
 
 const InputBase = ({
   id,
