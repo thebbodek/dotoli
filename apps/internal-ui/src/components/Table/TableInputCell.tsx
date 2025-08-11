@@ -6,6 +6,7 @@ import { TABLE_CELL_INPUT_STYLES } from '@/components/Table/constants';
 import TableCell from '@/components/Table/TableCell';
 import { TableInputCellProps } from '@/components/Table/types';
 import { Tooltip } from '@/components/Tooltip';
+import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input';
 
 const TableInputCell = ({
   value,
@@ -16,6 +17,7 @@ const TableInputCell = ({
   onChange,
   regCallback,
   className,
+  maxLength = INPUT_DEFAULT_MAX_LENGTH,
   ...rest
 }: TableInputCellProps) => {
   const feedbackId = useId();
@@ -24,6 +26,7 @@ const TableInputCell = ({
     name,
     onChange,
     regCallback,
+    maxLength,
   });
 
   return (

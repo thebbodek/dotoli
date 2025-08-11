@@ -2,7 +2,11 @@ import { useId, useState } from 'react';
 
 import InputPasswordRules from '@/components/Input/InputPassword/InputPasswordRules';
 import { InputPasswordProps } from '@/components/Input/InputPassword/types';
-import { Input, InputBase } from '@/components/Input/shared';
+import {
+  Input,
+  INPUT_DEFAULT_MAX_LENGTH,
+  InputBase,
+} from '@/components/Input/shared';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import InputIconButton from '@/components/Input/shared/InputIconButton';
 
@@ -20,6 +24,7 @@ const InputPassword = ({
   autoComplete = 'off',
   disabled = false,
   readOnly = false,
+  maxLength = INPUT_DEFAULT_MAX_LENGTH,
   onChange,
   regCallback,
   ...rest
@@ -33,6 +38,7 @@ const InputPassword = ({
     name,
     onChange,
     regCallback,
+    maxLength,
   });
 
   const hasRuleError =

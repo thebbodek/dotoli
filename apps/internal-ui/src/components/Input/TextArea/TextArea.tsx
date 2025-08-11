@@ -1,6 +1,9 @@
-import { ChangeEvent, useId, useState } from 'react';
+import { useId, useState } from 'react';
 
-import { INPUT_ELEMENTS } from '@/components/Input/shared';
+import {
+  INPUT_ELEMENTS,
+  TEXTAREA_DEFAULT_MAX_LENGTH,
+} from '@/components/Input/shared';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import Input from '@/components/Input/shared/Input';
 import InputBase from '@/components/Input/shared/InputBase';
@@ -21,7 +24,7 @@ const TextArea = ({
   className,
   disabled = false,
   readOnly = false,
-  maxLength,
+  maxLength = TEXTAREA_DEFAULT_MAX_LENGTH,
   hiddenLabel,
   ...rest
 }: TextAreaProps) => {
@@ -32,17 +35,8 @@ const TextArea = ({
     name,
     onChange,
     regCallback,
+    maxLength,
   });
-
-  const onChangeTextArea = (
-    e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    if (maxLength && e.target.value.length > maxLength) {
-      e.target.value = e.target.value.slice(0, maxLength);
-    }
-
-    handleChange(e);
-  };
 
   return (
     <InputBase
@@ -62,7 +56,7 @@ const TextArea = ({
         variant={INPUT_TRIGGER_VARIANTS.TEXTAREA}
         value={inputValue}
         name={name}
-        onChange={onChangeTextArea}
+        onChange={handleChange}
         required={required}
         readOnly={readOnly}
         disabled={disabled}
@@ -71,18 +65,16 @@ const TextArea = ({
         className='flex-col'
         inputClassName='resize-none h-full'
         addonEnd={
-          maxLength && (
-            <Typography
-              variant='body-12-m'
-              color='gray-03'
-              className='absolute bottom-[0.312rem] right-[0.687rem]'
-            >
-              <Typography variant='body-12-m' as='strong' color='gray-07'>
-                {String(inputValue).length}
-              </Typography>
-              {`/${maxLength}`}
+          <Typography
+            variant='body-12-m'
+            color='gray-03'
+            className='absolute bottom-[0.312rem] right-[0.687rem]'
+          >
+            <Typography variant='body-12-m' as='strong' color='gray-07'>
+              {String(inputValue).length}
             </Typography>
-          )
+            {`/${maxLength}`}
+          </Typography>
         }
         {...rest}
       />

@@ -29,10 +29,9 @@ export interface TextAreaProps
       | 'autoComplete'
       | 'onChange'
       | 'ref'
+      | 'maxLength'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.TEXTAREA, HTMLTextAreaElement>,
       'regCallback'
-    > {
-  maxLength?: number;
-}
+    > {}
