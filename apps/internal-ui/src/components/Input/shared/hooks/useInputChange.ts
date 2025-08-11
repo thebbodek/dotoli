@@ -1,27 +1,36 @@
+import { ChangeEvent, useState } from 'react';
+
 import {
   InputElement,
   InputElementType,
   UseInputChangeProps,
 } from '@/components/Input/shared/types';
-import { ChangeEvent, useState } from 'react';
 
 const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   value,
   name,
   onChange,
   regCallback,
+  maxLength,
 }: UseInputChangeProps<T, P>) => {
   const [inputValue, setInputValue] = useState(value ?? '');
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const eventTargetValue = regCallback
-      ? regCallback(e.target.value)
-      : e.target.value;
+    let newValue = e.target.value;
 
-    e.target.value = eventTargetValue;
-    setInputValue(e.target.value);
+    if (newValue.length > maxLength) {
+      newValue = newValue.slice(0, maxLength);
+    }
+
+    if (regCallback) {
+      newValue = regCallback(newValue);
+    }
+
+    e.target.value = newValue;
+
+    setInputValue(newValue);
     onChange?.(e);
   };
 

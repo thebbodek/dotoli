@@ -59,6 +59,7 @@ export interface TableInputCellProps
       | 'regCallback'
       | 'type'
       | 'placeholder'
+      | 'maxLength'
     > {}
 
 export interface TableCellButtonProps {

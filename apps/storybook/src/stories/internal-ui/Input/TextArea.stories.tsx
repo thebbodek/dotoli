@@ -47,22 +47,3 @@ export const Default: Story = {
     );
   },
 };
-
-export const WithMaxLength: Story = {
-  args: {
-    placeholder: 'placeholder',
-  },
-  render: (args) => {
-    const [value, setValue] = useState('');
-
-    return (
-      <TextArea
-        {...args}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
-        maxLength={100}
-      />
-    );
-  },
-};
