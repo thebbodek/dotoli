@@ -74,9 +74,11 @@ export interface MultiSelectBaseContextValue<T extends MultiSelectBaseValue> {
   onAllSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   selectListResultId: string;
   selectedListResultId: string;
+  setMultiSelectInternalOptions: () => void;
   onChange: () => void;
   onSearch: ({ value }: MultiSelectBaseOnSearchParams) => void;
   currentSearchValue: string | null;
+  setCurrentSearchValue: Dispatch<SetStateAction<string | null>>;
   onRemoveTriggerValueClick: ({
     key,
   }: Pick<MultiSelectInternalOption<T>, 'key'>) => void;
@@ -87,9 +89,3 @@ export interface GetOptionKeyParams
 
 export interface MultiSelectBaseSelectedListProps
   extends Pick<HTMLAttributes<HTMLUListElement>, 'className'> {}
-
-export interface UseMultiSelectBaseInitialOptionsEffectProps<
-  T extends MultiSelectBaseValue,
-> extends Pick<MultiSelectBaseProviderProps<T>, 'value' | 'options'> {
-  setInternalOptions: Dispatch<SetStateAction<MultiSelectInternalOption<T>[]>>;
-}

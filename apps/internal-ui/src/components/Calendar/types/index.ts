@@ -91,7 +91,10 @@ export type CalendarValue = {
 } | null;
 
 export interface CalendarContextProviderProps
-  extends Omit<CalendarContextValue, 'internalValue' | 'setInternalValue'> {}
+  extends Omit<
+    CalendarContextValue,
+    'internalValue' | 'setInternalValue' | 'setCalendarInternalValue'
+  > {}
 
 export interface CalendarInternalValue {
   startDate: Dayjs | null;
@@ -104,6 +107,7 @@ export interface CalendarContextValue {
   variant: CalendarVariants;
   onChange: (value: CalendarValue) => void;
   setInternalValue: Dispatch<SetStateAction<CalendarInternalValue | null>>;
+  setCalendarInternalValue: () => void;
 }
 
 export type CalendarDayLabel = string;
@@ -162,7 +166,3 @@ export interface UseCalendarInitialScrollEffectProps
   extends Pick<CalendarProps, 'minDate'>,
     Pick<UseCalendarReturn['models'], 'monthlyRefs'>,
     Pick<UseCalendarReturn['operations'], 'setYear'> {}
-
-export interface UseCalendarSyncExternalValueEffectProps
-  extends Pick<CalendarContextProviderProps, 'value'>,
-    Pick<CalendarContextValue, 'setInternalValue'> {}

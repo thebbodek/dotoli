@@ -34,14 +34,14 @@
     "react-loading-skeleton": "^3.5.0"
   },
   "peerDependencies": {
-    "@bbodek/hooks": "^0.0.14",
+    "@bbodek/hooks": "^0.0.17",
     "@bbodek/utils": "^0.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {
-    "@bbodek/hooks": "^0.0.14",
+    "@bbodek/hooks": "^0.0.17",
     "@bbodek/utils": "^0.0.5",
     "@dotoli/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",

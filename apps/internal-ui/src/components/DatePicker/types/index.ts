@@ -9,25 +9,31 @@ import {
   SelectBaseLabelProps,
   SelectBaseProps,
 } from '@/components/Select';
+import { ReactNode } from 'react';
 
 export interface DatePickerProps
-  extends Pick<
-      SelectBaseProps,
-      | 'label'
-      | 'disabled'
-      | 'feedback'
-      | 'required'
-      | 'isError'
-      | 'placeholder'
-      | 'className'
-    >,
+  extends Pick<SelectBaseProps, 'label'>,
     Pick<SelectBaseLabelProps, 'badge'>,
+    Omit<DatePickerWrapperProps, 'label' | 'children' | 'type' | 'labelId'>,
     CalendarProps,
-    CalendarContextProviderProps {
-  popoverOption?: Omit<
-    SelectBaseProps['popoverOption'],
-    'useClickOutsideEvent'
-  >;
+    CalendarContextProviderProps {}
+
+export interface DatePickerWrapperProps
+  extends Pick<
+    SelectBaseProps,
+    | 'disabled'
+    | 'feedback'
+    | 'required'
+    | 'isError'
+    | 'placeholder'
+    | 'className'
+    | 'type'
+    | 'controls'
+    | 'labelId'
+    | 'children'
+    | 'popoverOption'
+  > {
+  label: ReactNode;
 }
 
 export interface DatePickerSelectButtonProps
