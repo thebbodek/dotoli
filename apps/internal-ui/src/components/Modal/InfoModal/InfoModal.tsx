@@ -9,10 +9,8 @@ const InfoModal = ({
   isOpen,
   title,
   children,
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel = '닫기',
+  confirmOption,
+  cancelOption = { label: '닫기' },
   isLoading,
   className,
 }: InfoModalProps) => {
@@ -25,10 +23,8 @@ const InfoModal = ({
         {children}
       </Modal.ContentWrapper>
       <Modal.Footer
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        confirmButtonLabel={confirmButtonLabel}
-        cancelButtonLabel={cancelButtonLabel}
+        confirmOption={confirmOption}
+        cancelOption={cancelOption}
         possibleConfirm
       />
     </Modal>

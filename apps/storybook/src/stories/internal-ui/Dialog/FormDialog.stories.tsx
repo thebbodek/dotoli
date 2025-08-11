@@ -12,10 +12,8 @@ import {
 const {
   isOpen,
   title,
-  confirmButtonLabel,
-  cancelButtonLabel,
-  onCancel,
-  onConfirm,
+  confirmOption,
+  cancelOption,
   possibleConfirm,
   isPending,
   isLoading,
@@ -33,10 +31,8 @@ const meta: Meta<typeof FormDialog> = {
       ...title,
       description: 'dialog title',
     },
-    confirmButtonLabel,
-    cancelButtonLabel,
-    onCancel,
-    onConfirm,
+    confirmOption,
+    cancelOption,
     possibleConfirm,
     isPending,
     isLoading,
@@ -64,10 +60,14 @@ const Dialog = ({
       isOpen={isOpen}
       possibleConfirm={args.possibleConfirm ?? !hasError}
       isPending={args.isPending || isPending}
-      onCancel={close}
-      onConfirm={handleConfirm}
-      confirmButtonLabel={args.confirmButtonLabel ?? '작성 완료'}
-      cancelButtonLabel={args.cancelButtonLabel ?? '작성 취소'}
+      confirmOption={{
+        label: args.confirmOption?.label ?? '작성 완료',
+        onConfirm: handleConfirm,
+      }}
+      cancelOption={{
+        label: args.cancelOption?.label ?? '작성 취소',
+        onCancel: close,
+      }}
       className='w-[31.125rem]'
     >
       <FormContent values={values} handleChange={handleChange} />

@@ -3,20 +3,16 @@ import { DialogFooterProps } from '@/components/Dialog/shared/types';
 import OverlayFooter from '@/components/shared/components/Overlay/OverlayFooter';
 
 const DialogFooter = ({
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  confirmOption,
+  cancelOption,
   isPending,
   isLoading,
   possibleConfirm,
 }: DialogFooterProps) => {
   return (
     <OverlayFooter
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      confirmButtonLabel={confirmButtonLabel}
-      cancelButtonLabel={cancelButtonLabel}
+      confirmOption={confirmOption}
+      cancelOption={cancelOption}
       isPending={isPending}
       isLoading={isLoading}
       possibleConfirm={possibleConfirm}
