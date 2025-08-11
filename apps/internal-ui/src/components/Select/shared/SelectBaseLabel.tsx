@@ -6,13 +6,13 @@ import { InputLabel } from '@/components/shared';
 
 const SelectBaseLabel = ({
   label,
-  hiddenLabel,
+  hidden,
   badge,
 }: PropsWithChildren<SelectBaseLabelProps>) => {
   const { id, required } = useSelectLabelContext();
 
   return (
-    <InputLabel id={id} badge={badge} required={required} hidden={hiddenLabel}>
+    <InputLabel id={id} badge={badge} required={required} hidden={hidden}>
       {label}
     </InputLabel>
   );

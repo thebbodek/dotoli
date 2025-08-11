@@ -46,11 +46,7 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
         className={className}
         type={SELECT_TYPE.MULTI_SEARCH_SELECT}
         label={
-          <SelectBase.Label
-            label={label}
-            badge={badge}
-            hiddenLabel={hiddenLabel}
-          />
+          <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
         }
         trigger={<MultiSearchSelectTrigger />}
         disabled={disabled}

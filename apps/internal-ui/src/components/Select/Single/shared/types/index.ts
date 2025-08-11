@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react';
 
+import { InputBaseProps } from '@/components/Input';
 import {
   SelectBaseLabelProps,
   SelectBasePopoverWrapperProps,
@@ -22,9 +23,9 @@ export interface SingleSelectBaseProps<T extends SelectValue>
       | 'placeholder'
       | 'type'
     >,
-    Pick<SelectBaseLabelProps, 'hiddenLabel' | 'label'>,
+    Pick<InputBaseProps, 'hiddenLabel'>,
+    Pick<SelectBaseLabelProps, 'badge' | 'label'>,
     Pick<SingleSelectListContextValue<T>, 'onSelect' | 'value'>,
-    Pick<SelectBaseLabelProps, 'badge'>,
     Omit<SingleSelectBaseTriggerProps<T>, 'disabled'> {
   popoverWrapperClassName: SelectBasePopoverWrapperProps['className'];
 }

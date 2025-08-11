@@ -4,6 +4,7 @@ import {
   CalendarProps,
   CalendarValue,
 } from '@/components/Calendar';
+import { InputBaseProps } from '@/components/Input';
 import {
   SelectBaseChildrenProps,
   SelectBaseLabelProps,
@@ -20,8 +21,8 @@ export interface DatePickerProps
       | 'placeholder'
       | 'className'
     >,
-    Pick<SelectBaseLabelProps, 'label' | 'hiddenLabel'>,
-    Pick<SelectBaseLabelProps, 'badge'>,
+    Pick<SelectBaseLabelProps, 'label' | 'badge'>,
+    Pick<InputBaseProps, 'hiddenLabel'>,
     CalendarProps,
     CalendarContextProviderProps {
   popoverOption?: Omit<

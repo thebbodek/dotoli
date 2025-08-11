@@ -1,5 +1,5 @@
-import { FormEvent, HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 
-export interface InputWrapperProps extends HTMLAttributes<HTMLElement> {
-  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
-}
+export interface InputWrapperProps
+  extends Omit<HTMLAttributes<HTMLElement>, 'onSubmit'>,
+    Pick<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {}

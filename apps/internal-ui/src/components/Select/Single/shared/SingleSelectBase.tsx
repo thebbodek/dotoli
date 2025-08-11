@@ -35,11 +35,7 @@ const SingleSelectBase = <T extends SelectValue>({
       type={type}
       className={className}
       label={
-        <SelectBase.Label
-          label={label}
-          badge={badge}
-          hiddenLabel={hiddenLabel}
-        />
+        <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
       }
       popoverOption={popoverOption}
       trigger={

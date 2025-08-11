@@ -44,11 +44,7 @@ const DatePicker = ({
             : SELECT_TYPE.MULTI_SEARCH_SELECT
         }
         label={
-          <SelectBase.Label
-            badge={badge}
-            label={label}
-            hiddenLabel={hiddenLabel}
-          />
+          <SelectBase.Label badge={badge} label={label} hidden={hiddenLabel} />
         }
         trigger={<DatePickerTrigger />}
         disabled={disabled}

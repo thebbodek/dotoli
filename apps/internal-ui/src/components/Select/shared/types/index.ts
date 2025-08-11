@@ -4,6 +4,7 @@ import { IconProps } from '@/components/Icon';
 import { InputBaseProps } from '@/components/Input';
 import { PopoverProps } from '@/components/Popover';
 import { SELECT_TYPE } from '@/components/Select/shared';
+import { InputLabelProps } from '@/components/shared';
 import { ComponentPropsRef } from '@/components/shared/types';
 
 export type SelectType = (typeof SELECT_TYPE)[keyof typeof SELECT_TYPE];
@@ -28,7 +29,8 @@ export interface SelectBaseProps
 }
 
 export interface SelectBaseLabelProps
-  extends Pick<InputBaseProps, 'badge' | 'hiddenLabel' | 'label'> {}
+  extends Pick<InputBaseProps, 'label'>,
+    Pick<InputLabelProps, 'badge' | 'hidden'> {}
 
 export interface SelectBaseTriggerWrapperProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {

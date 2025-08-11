@@ -1,4 +1,5 @@
 import { ChipProps } from '@/components/Chip';
+import { InputBaseProps } from '@/components/Input';
 import {
   MultiSelectBaseListItemProps,
   MultiSelectBaseProps,
@@ -25,8 +26,8 @@ export interface MultiSearchSelectProps<T extends MultiSelectBaseValue>
       | 'placeholder'
       | 'className'
     >,
-    Pick<SelectBaseLabelProps, 'hiddenLabel' | 'label'>,
-    Pick<SelectBaseLabelProps, 'badge'> {
+    Pick<InputBaseProps, 'hiddenLabel'>,
+    Pick<SelectBaseLabelProps, 'badge' | 'label'> {
   popoverOption?: Omit<
     SelectBaseProps['popoverOption'],
     'useClickOutsideEvent'

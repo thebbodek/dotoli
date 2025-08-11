@@ -12,6 +12,7 @@ import { SelectValue } from '@/components/Select/Single/shared/types';
 
 const SearchSelect = <T extends SelectValue>({
   label,
+  hiddenLabel,
   badge,
   children,
   feedback,
@@ -38,6 +39,7 @@ const SearchSelect = <T extends SelectValue>({
       type={SELECT_TYPE.SEARCH_SELECT}
       className={className}
       label={label}
+      hiddenLabel={hiddenLabel}
       popoverOption={popoverOption}
       disabled={disabled}
       feedback={feedback}
@@ -48,7 +50,7 @@ const SearchSelect = <T extends SelectValue>({
       onSelect={onSelect}
       displayValue={displayValue}
       placeholder={placeholder}
-      popoverWrapperClassName='in-flex-v-stack h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
+      popoverWrapperClassName='max-h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
     >
       <InputSearch
         {...restInputOption}
