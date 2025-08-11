@@ -28,7 +28,10 @@ const Box = () => (
 export const Default: Story = {
   args: {
     title: '한줄 타이틀이 들어갑니다',
-    confirmButtonLabel: '확인 완료',
+    confirmOption: {
+      label: '확인 완료',
+      onConfirm: () => {},
+    },
   },
   render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +42,10 @@ export const Default: Story = {
         <InfoBottomSheet
           {...args}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
+          confirmOption={{
+            label: args.confirmOption?.label ?? '확인 완료',
+            onConfirm: () => setIsOpen(false),
+          }}
         >
           <Box />
           <InfoBottomSheet.Description
@@ -60,7 +66,10 @@ export const Default: Story = {
 export const WithClose: Story = {
   args: {
     title: '배송 유형이란?',
-    confirmButtonLabel: '바로가기',
+    confirmOption: {
+      label: '바로가기',
+      onConfirm: () => {},
+    },
   },
   render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -71,8 +80,14 @@ export const WithClose: Story = {
         <InfoBottomSheet
           {...args}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
-          onCancel={() => setIsOpen(false)}
+          confirmOption={{
+            ...args.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+          cancelOption={{
+            ...args.cancelOption,
+            onCancel: () => setIsOpen(false),
+          }}
           className='max-w-sm'
         >
           <InfoBottomSheet.Description

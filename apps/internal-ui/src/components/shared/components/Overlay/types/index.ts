@@ -13,6 +13,7 @@ import {
   OVERLAY_VARIANTS,
 } from '@/components/shared/components/Overlay/constants';
 import { ComponentPropsRef } from '@/components/shared/types';
+import { TooltipProps } from '@/components/Tooltip';
 import { TYPOGRAPHY_ELEMENTS, TypographyProps } from '@/components/Typography';
 import { TypographyVariants } from '@/variants';
 
@@ -47,10 +48,17 @@ export interface OverlayDescriptionProps
 }
 
 export interface OverlayFooterPrimitiveProps {
-  onConfirm: () => void;
-  onCancel?: () => void;
-  confirmButtonLabel: string;
-  cancelButtonLabel?: string;
+  confirmOption: {
+    label: string;
+    onConfirm: () => void;
+    tooltipOption?: Partial<Pick<TooltipProps, 'content'>> & {
+      useTooltip: boolean;
+    };
+  };
+  cancelOption?: {
+    label?: string;
+    onCancel?: () => void;
+  };
 }
 
 export interface OverlayFooterStateProps

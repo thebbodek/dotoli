@@ -22,3 +22,5 @@ export const OVERLAY_CONTENT_WRAPPER_ELEMENTS = {
   FORM: 'form',
   DIV: 'div',
 } as const;
+
+export const OVERLAY_CONFIRM_TOOLTIP_GAP = 10;

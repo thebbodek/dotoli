@@ -90,34 +90,23 @@ const meta: Meta<ConfirmModalArgs> = {
         },
       },
     },
-    confirmButtonLabel: {
-      control: 'text',
-      description: 'confirm button label',
+    confirmOption: {
+      control: 'object',
+      description: 'confirm button label, onConfirm',
       type: {
         required: true,
         name: 'string',
       },
     },
-    cancelButtonLabel: {
-      control: 'text',
-      description: 'cancel button label',
+    cancelOption: {
+      control: 'object',
+      description: 'cancel button label, onCancel',
       type: 'string',
       table: {
         defaultValue: {
           summary: '취소',
         },
       },
-    },
-    onConfirm: {
-      description: 'on confirm',
-      type: {
-        required: true,
-        name: 'function',
-      },
-    },
-    onCancel: {
-      description: 'on cancel',
-      type: 'function',
     },
     possibleConfirm: {
       control: 'boolean',
@@ -160,7 +149,10 @@ export const Default: Story = {
   args: {
     useIcon: false,
     title: '승인신청이 완료되었습니다',
-    confirmButtonLabel: '확인',
+    confirmOption: {
+      label: '확인',
+      onConfirm: () => {},
+    },
     possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
@@ -178,7 +170,10 @@ export const Default: Story = {
         <ConfirmModal
           {...rest}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
+          confirmOption={{
+            ...rest.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           iconOptions={iconOptions}
         >
           <ConfirmModal.Description description='승인이 완료되면 슬랙으로 알려드립니다' />
@@ -197,8 +192,14 @@ export const WithClose: Story = {
         <br /> 정보를 삭제하시겠습니까?
       </>
     ),
-    confirmButtonLabel: '네',
-    cancelButtonLabel: '아니요',
+    confirmOption: {
+      label: '네',
+      onConfirm: () => {},
+    },
+    cancelOption: {
+      label: '아니요',
+      onCancel: () => {},
+    },
     possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
@@ -216,8 +217,14 @@ export const WithClose: Story = {
         <ConfirmModal
           {...rest}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
-          onCancel={() => setIsOpen(false)}
+          confirmOption={{
+            ...rest.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+          cancelOption={{
+            ...rest.cancelOption,
+            onCancel: () => setIsOpen(false),
+          }}
           iconOptions={iconOptions}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />
@@ -236,8 +243,14 @@ export const WithIcon: Story = {
         정보를 삭제하시겠습니까?
       </>
     ),
-    confirmButtonLabel: '네',
-    cancelButtonLabel: '아니요',
+    confirmOption: {
+      label: '네',
+      onConfirm: () => {},
+    },
+    cancelOption: {
+      label: '아니요',
+      onCancel: () => {},
+    },
     possibleConfirm: true,
   },
   render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
@@ -255,8 +268,14 @@ export const WithIcon: Story = {
         <ConfirmModal
           {...rest}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
-          onCancel={() => setIsOpen(false)}
+          confirmOption={{
+            ...rest.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+          cancelOption={{
+            ...rest.cancelOption,
+            onCancel: () => setIsOpen(false),
+          }}
           iconOptions={iconOptions}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />

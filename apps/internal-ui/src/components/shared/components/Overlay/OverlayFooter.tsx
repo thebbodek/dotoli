@@ -8,12 +8,12 @@ import {
   ButtonProps,
 } from '@/components/Button';
 import { OverlayFooterProps } from '@/components/shared/components/Overlay/types';
+import { Tooltip } from '@/components/Tooltip';
+import { OVERLAY_CONFIRM_TOOLTIP_GAP } from '@/components/shared/components/Overlay/constants';
 
 const OverlayFooter = ({
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  confirmOption,
+  cancelOption,
   possibleConfirm = false,
   isPending = false,
   isLoading = false,
@@ -21,10 +21,20 @@ const OverlayFooter = ({
   buttonSize = BUTTON_SIZES.MD,
   className,
 }: OverlayFooterProps) => {
+  const { label: confirmLabel, onConfirm, tooltipOption } = confirmOption;
+  const {
+    useTooltip = !possibleConfirm,
+    content = '필수 항목을 모두 입력해주세요',
+  } = tooltipOption ?? {};
+  const { label: cancelLabel, onCancel } = cancelOption ?? {};
+
   const buttonDefaultProps: Omit<ButtonProps, 'label'> = {
     size: buttonSize,
-    className: clsx(isFull && 'flex-1'),
   };
+  const buttonClassName = clsx(
+    isFull && 'flex-1',
+    isFull && onCancel && 'max-w-[calc(50%-4px)]',
+  );
 
   const handleConfirm = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -45,21 +55,30 @@ const OverlayFooter = ({
       {onCancel && (
         <Button
           {...buttonDefaultProps}
-          label={cancelButtonLabel || '취소'}
+          label={cancelLabel || '취소'}
           variant='outlined'
           theme='gray'
           onClick={() => !isPending && onCancel?.()}
           disabled={isPending}
+          className={buttonClassName}
         />
       )}
-      <Button
-        {...buttonDefaultProps}
-        label={confirmButtonLabel}
-        onClick={handleConfirm}
-        disabled={!possibleConfirm || isPending || isLoading}
-        isPending={isPending}
-        iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
-      />
+      <Tooltip
+        content={content}
+        hidden={!useTooltip}
+        rootClassName={buttonClassName}
+        gap={OVERLAY_CONFIRM_TOOLTIP_GAP}
+      >
+        <Button
+          {...buttonDefaultProps}
+          label={confirmLabel}
+          onClick={handleConfirm}
+          disabled={!possibleConfirm || isPending || isLoading}
+          isPending={isPending}
+          iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
+          className='w-full'
+        />
+      </Tooltip>
     </footer>
   );
 };

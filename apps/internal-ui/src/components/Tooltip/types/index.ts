@@ -11,6 +11,7 @@ export interface TooltipProps
   color?: ColorVariants;
   isKeepFloating?: boolean;
   ariaLive?: HTMLAttributes<HTMLDivElement>['aria-live'];
+  gap?: number;
 }
 
 export interface UseTooltipOpenEffectProps

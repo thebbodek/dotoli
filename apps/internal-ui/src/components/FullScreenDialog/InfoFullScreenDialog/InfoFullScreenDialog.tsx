@@ -12,7 +12,7 @@ const InfoFullScreenDialog = ({
 }: InfoFullScreenDialogProps) => {
   return (
     <FullScreenDialog isOpen={isOpen} ref={ref} className={className}>
-      <FullScreenDialog.Header onCancel={onClose} title={title} />
+      <FullScreenDialog.Header onClose={onClose} title={title} />
       <FullScreenDialog.ContentWrapper isLoading={isLoading}>
         {children}
       </FullScreenDialog.ContentWrapper>

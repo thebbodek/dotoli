@@ -11,19 +11,19 @@ const FormFullScreenDialog = ({
   ref,
   title,
   className,
-  onCancel,
-  onConfirm,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  confirmOption,
+  cancelOption,
   possibleConfirm,
   isPending,
   isLoading,
 }: FormFullScreenDialogProps) => {
+  const { onCancel } = cancelOption;
+
   return (
     <FullScreenDialog isOpen={isOpen} ref={ref} className={className}>
       <FullScreenDialog.Header
         title={title}
-        onCancel={onCancel}
+        onClose={onCancel}
         isPending={isPending}
       />
       <FullScreenDialog.ContentWrapper
@@ -34,10 +34,8 @@ const FormFullScreenDialog = ({
         {children}
       </FullScreenDialog.ContentWrapper>
       <OverlayFooter
-        onCancel={onCancel}
-        onConfirm={onConfirm}
-        confirmButtonLabel={confirmButtonLabel}
-        cancelButtonLabel={cancelButtonLabel}
+        confirmOption={confirmOption}
+        cancelOption={cancelOption}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
         isLoading={isLoading}

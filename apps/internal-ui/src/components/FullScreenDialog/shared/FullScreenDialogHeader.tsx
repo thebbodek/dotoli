@@ -4,7 +4,7 @@ import { FullScreenDialogHeaderProps } from './types';
 
 const FullScreenDialogHeader = ({
   title,
-  onCancel,
+  onClose,
   isPending,
 }: FullScreenDialogHeaderProps) => {
   return (
@@ -12,7 +12,7 @@ const FullScreenDialogHeader = ({
       <IconButton
         iconKey='x'
         arialLabel={'닫기'}
-        onClick={onCancel}
+        onClick={onClose}
         theme='hover-white'
         disabled={isPending}
       />
