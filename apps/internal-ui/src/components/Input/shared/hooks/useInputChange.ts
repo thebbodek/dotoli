@@ -12,18 +12,26 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   name,
   onChange,
   regCallback,
+  maxLength,
 }: UseInputChangeProps<T, P>) => {
   const [inputValue, setInputValue] = useState<InputBaseProps['value']>(null);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const eventTargetValue = regCallback
-      ? regCallback(e.target.value)
-      : e.target.value;
+    let newValue = e.target.value;
 
-    e.target.value = eventTargetValue;
-    setInputValue(e.target.value);
+    if (newValue.length > maxLength) {
+      newValue = newValue.slice(0, maxLength);
+    }
+
+    if (regCallback) {
+      newValue = regCallback(newValue);
+    }
+
+    e.target.value = newValue;
+
+    setInputValue(newValue);
     onChange?.(e);
   };
 

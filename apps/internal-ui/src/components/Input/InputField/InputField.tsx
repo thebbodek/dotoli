@@ -3,6 +3,7 @@ import { useId, useState } from 'react';
 import { InputFieldProps } from '@/components/Input/InputField/types';
 import Input from '@/components/Input/shared/Input';
 import InputBase from '@/components/Input/shared/InputBase';
+import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input/shared/constants';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 
 const InputField = ({
@@ -14,6 +15,7 @@ const InputField = ({
   required,
   value,
   name,
+  maxLength = INPUT_DEFAULT_MAX_LENGTH,
   onChange,
   regCallback,
   className,
@@ -26,6 +28,7 @@ const InputField = ({
     name,
     onChange,
     regCallback,
+    maxLength,
   });
 
   return (

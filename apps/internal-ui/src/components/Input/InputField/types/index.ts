@@ -30,6 +30,7 @@ export interface InputFieldProps
       | 'autoComplete'
       | 'onChange'
       | 'ref'
+      | 'maxLength'
     >,
     Pick<
       UseInputChangeProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,

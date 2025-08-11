@@ -1,7 +1,11 @@
 import { FormEvent, useId, useState } from 'react';
 
 import { InputSearchProps } from '@/components/Input/InputSearch/types';
-import { Input, InputBase } from '@/components/Input/shared';
+import {
+  Input,
+  INPUT_DEFAULT_MAX_LENGTH,
+  InputBase,
+} from '@/components/Input/shared';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import InputIconButton from '@/components/Input/shared/InputIconButton';
 import { INPUT_TRIGGER_VARIANTS } from '@/components/shared';
@@ -19,6 +23,7 @@ const InputSearch = ({
   autoComplete = 'off',
   disabled = false,
   readOnly = false,
+  maxLength = INPUT_DEFAULT_MAX_LENGTH,
   onChange,
   regCallback,
   onSubmit,
@@ -32,6 +37,7 @@ const InputSearch = ({
     name,
     onChange,
     regCallback,
+    maxLength,
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
