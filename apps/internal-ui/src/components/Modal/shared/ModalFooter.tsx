@@ -2,20 +2,16 @@ import { ModalFooterProps } from '@/components/Modal/shared/types';
 import { OverlayFooter } from '@/components/shared';
 
 const ModalFooter = ({
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  confirmOption,
+  cancelOption,
   isPending,
   isLoading,
   possibleConfirm,
 }: ModalFooterProps) => {
   return (
     <OverlayFooter
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      confirmButtonLabel={confirmButtonLabel}
-      cancelButtonLabel={cancelButtonLabel}
+      confirmOption={confirmOption}
+      cancelOption={cancelOption}
       isPending={isPending}
       isLoading={isLoading}
       possibleConfirm={possibleConfirm}

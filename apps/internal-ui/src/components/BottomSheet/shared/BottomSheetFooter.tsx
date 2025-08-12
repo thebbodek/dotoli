@@ -2,20 +2,16 @@ import { BottomSheetFooterProps } from '@/components/BottomSheet/shared/types';
 import { OverlayFooter } from '@/components/shared';
 
 const BottomSheetFooter = ({
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  confirmOption,
+  cancelOption,
   isPending,
   isLoading,
   possibleConfirm,
 }: BottomSheetFooterProps) => {
   return (
     <OverlayFooter
-      onConfirm={onConfirm}
-      onCancel={onCancel}
-      confirmButtonLabel={confirmButtonLabel}
-      cancelButtonLabel={cancelButtonLabel}
+      confirmOption={confirmOption}
+      cancelOption={cancelOption}
       isPending={isPending}
       isLoading={isLoading}
       possibleConfirm={possibleConfirm}

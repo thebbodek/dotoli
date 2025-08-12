@@ -7,10 +7,8 @@ const InfoBottomSheet = ({
   isOpen,
   title,
   children,
-  onConfirm,
-  onCancel,
-  confirmButtonLabel,
-  cancelButtonLabel = '닫기',
+  confirmOption,
+  cancelOption = { label: '닫기' },
   isLoading,
   className,
 }: InfoBottomSheetProps) => {
@@ -26,10 +24,8 @@ const InfoBottomSheet = ({
         {children}
       </BottomSheet.ContentWrapper>
       <BottomSheet.Footer
-        onConfirm={onConfirm}
-        onCancel={onCancel}
-        confirmButtonLabel={confirmButtonLabel}
-        cancelButtonLabel={cancelButtonLabel}
+        confirmOption={confirmOption}
+        cancelOption={cancelOption}
         possibleConfirm
       />
     </BottomSheet>

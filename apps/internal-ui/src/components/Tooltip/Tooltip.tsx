@@ -29,6 +29,7 @@ const Tooltip = ({
   id,
   ariaLive,
   role,
+  gap = TOOLTIP_GAP,
 }: PropsWithChildren<TooltipProps>) => {
   const [isOpen, setIsOpen] = useState(!hidden && isKeepFloating);
 
@@ -39,7 +40,7 @@ const Tooltip = ({
   } = useFloating({
     open: isOpen,
     placement,
-    middleware: [offset(TOOLTIP_GAP), flip(), shift()],
+    middleware: [offset(gap), flip(), shift()],
     whileElementsMounted: autoUpdate,
     onOpenChange: (open: boolean) => {
       if (hidden || isKeepFloating) return;

@@ -11,10 +11,8 @@ const FormDialog = ({
   ref,
   title,
   className,
-  onCancel,
-  onConfirm,
-  confirmButtonLabel,
-  cancelButtonLabel,
+  cancelOption,
+  confirmOption,
   possibleConfirm,
   isPending,
   isLoading,
@@ -32,10 +30,8 @@ const FormDialog = ({
         {children}
       </Dialog.ContentWrapper>
       <Dialog.Footer
-        onCancel={onCancel}
-        onConfirm={onConfirm}
-        confirmButtonLabel={confirmButtonLabel}
-        cancelButtonLabel={cancelButtonLabel}
+        cancelOption={cancelOption}
+        confirmOption={confirmOption}
         possibleConfirm={possibleConfirm}
         isPending={isPending}
         isLoading={isLoading}

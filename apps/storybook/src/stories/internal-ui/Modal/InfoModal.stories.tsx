@@ -4,15 +4,8 @@ import { useState } from 'react';
 
 import { default as ConfirmModalMeta } from '@/stories/internal-ui/Modal/ConfirmModal.stories';
 
-const {
-  isOpen,
-  title,
-  onCancel,
-  onConfirm,
-  confirmButtonLabel,
-  cancelButtonLabel,
-  isLoading,
-} = ConfirmModalMeta.argTypes ?? {};
+const { isOpen, title, confirmOption, cancelOption, isLoading } =
+  ConfirmModalMeta.argTypes ?? {};
 
 const meta: Meta<typeof InfoModal> = {
   title: 'core/internal-ui/Modal/InfoModal',
@@ -20,18 +13,9 @@ const meta: Meta<typeof InfoModal> = {
   argTypes: {
     isOpen,
     title,
-    onCancel,
-    onConfirm,
-    confirmButtonLabel,
+    confirmOption,
+    cancelOption,
     isLoading,
-    cancelButtonLabel: {
-      ...cancelButtonLabel,
-      table: {
-        defaultValue: {
-          summary: '닫기',
-        },
-      },
-    },
   },
 };
 
@@ -41,7 +25,7 @@ type Story = StoryObj<typeof InfoModal>;
 
 const defaultArgs = {
   title: '한줄 타이틀이 들어갑니다',
-  confirmButtonLabel: '확인 완료',
+  confirmOption: { label: '확인 완료', onConfirm: () => {} },
 };
 
 const Box = () => (
@@ -56,7 +40,14 @@ export const Default: Story = {
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
-        <InfoModal {...args} isOpen={isOpen} onConfirm={() => setIsOpen(false)}>
+        <InfoModal
+          {...args}
+          isOpen={isOpen}
+          confirmOption={{
+            ...args.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+        >
           <div className='in-flex-v-stack gap-y-5'>
             <InfoModal.Description
               description={
@@ -76,7 +67,10 @@ export const Default: Story = {
 };
 
 export const WithClose: Story = {
-  args: { ...defaultArgs, confirmButtonLabel: '바로가기' },
+  args: {
+    ...defaultArgs,
+    confirmOption: { label: '바로가기', onConfirm: () => {} },
+  },
   render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -86,8 +80,14 @@ export const WithClose: Story = {
         <InfoModal
           {...args}
           isOpen={isOpen}
-          onConfirm={() => setIsOpen(false)}
-          onCancel={() => setIsOpen(false)}
+          confirmOption={{
+            ...args.confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+          cancelOption={{
+            ...args.cancelOption,
+            onCancel: () => setIsOpen(false),
+          }}
         >
           <div className='in-flex-v-stack gap-y-5'>
             <InfoModal.Description

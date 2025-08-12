@@ -10,4 +10,6 @@ export interface FullScreenDialogContentWrapperProps
   extends OverlayContentWrapperProps {}
 
 export interface FullScreenDialogHeaderProps
-  extends Pick<FormDialogOverlayProps, 'onCancel' | 'title' | 'isPending'> {}
+  extends Pick<FormDialogOverlayProps, 'title' | 'isPending'> {
+  onClose: () => void;
+}

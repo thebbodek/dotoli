@@ -8,10 +8,11 @@ const InfoDialog = ({
   ref,
   title,
   className,
-  onConfirm,
   isLoading,
-  confirmButtonLabel = '닫기',
+  confirmOption,
 }: InfoDialogProps) => {
+  const { label: confirmLabel = '닫기', onConfirm } = confirmOption;
+
   return (
     <Dialog isOpen={isOpen} ref={ref} className={className}>
       <Dialog.Header>
@@ -21,8 +22,7 @@ const InfoDialog = ({
         {children}
       </Dialog.ContentWrapper>
       <Dialog.Footer
-        onConfirm={onConfirm}
-        confirmButtonLabel={confirmButtonLabel}
+        confirmOption={{ label: confirmLabel, onConfirm }}
         possibleConfirm
       />
     </Dialog>

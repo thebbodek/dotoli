@@ -10,7 +10,4 @@ export interface FormDialogOverlayProps
     OverlayFooterStateProps {}
 
 export interface InfoDialogOverlayPrimitiveProps
-  extends Omit<
-    DialogOverlayProps,
-    'confirmButtonLabel' | 'onConfirm' | 'onCancel' | 'cancelButtonLabel'
-  > {}
+  extends Omit<DialogOverlayProps, 'confirmOption' | 'cancelOption'> {}
