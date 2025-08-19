@@ -5,7 +5,7 @@ import { useState } from 'react';
 import {
   ConfirmModalArgs,
   default as ConfirmModalMeta,
-} from '@/stories/internal-ui/Modal/ConfirmModal.stories';
+} from '../Modal/ConfirmModal.stories';
 
 const { isOpen, title, ...restArgs } = ConfirmModalMeta.argTypes ?? {};
 

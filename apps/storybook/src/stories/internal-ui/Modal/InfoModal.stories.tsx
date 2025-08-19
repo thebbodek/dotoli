@@ -2,7 +2,7 @@ import { Button, InfoModal } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { default as ConfirmModalMeta } from '@/stories/internal-ui/Modal/ConfirmModal.stories';
+import { default as ConfirmModalMeta } from '../Modal/ConfirmModal.stories';
 
 const { isOpen, title, confirmOption, cancelOption, isLoading } =
   ConfirmModalMeta.argTypes ?? {};
