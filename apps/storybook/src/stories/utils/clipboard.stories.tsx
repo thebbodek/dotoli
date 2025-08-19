@@ -39,8 +39,9 @@ export const Default: Story = {
           />
         </div>
         <InputField
+          label='복사 후 여기에 붙여넣어 보세요!'
           placeholder='복사 후 여기에 붙여넣어 보세요!'
-          rootClassName='w-full'
+          value={copyText}
         />
       </Flex>
     );
