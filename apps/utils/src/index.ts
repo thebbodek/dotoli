@@ -1,6 +1,7 @@
 export * from '@/clipboard';
 export * from '@/composeEventHandler';
 export * from '@/date';
+export * from '@/device';
 export * from '@/excelDownload';
 export * from '@/executeFunction';
 export * from '@/extractDifferences';
