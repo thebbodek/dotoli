@@ -1,2 +1,1 @@
 export * from './isAOS';
-export * from './isiOS';
