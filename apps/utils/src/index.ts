@@ -6,6 +6,7 @@ export * from '@/executeFunction';
 export * from '@/extractDifferences';
 export * from '@/extractExt';
 export * from '@/getUUID';
+export * from '@/hasUserAgent';
 export * from '@/highlightText';
 export * from '@/isServer';
 export * from '@/mergeRefs';
