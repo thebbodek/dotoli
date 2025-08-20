@@ -4,6 +4,7 @@ import {
   endOf,
   now,
   timezone,
+  toPaddedString,
   toParseDateType,
   toString,
 } from '@bbodek/utils';
@@ -15,12 +16,12 @@ import {
   CALENDAR_MONTHLY_ARRAY,
 } from '@/components/Calendar/constants';
 import { useCalendarContext } from '@/components/Calendar/context';
+import useCalendarHolidays from '@/components/Calendar/hooks/useCalendarHolidays';
 import useCalendarValidUtils from '@/components/Calendar/hooks/useCalendarValidUtils';
 import {
-  CalendarContextValue,
-  CalendarDaysOfMonth,
-  CalendarMonthProps,
-  GetDayVariantParams,
+  GenerateMonthDaysParams,
+  GetLabelParams,
+  GetStringDateParams,
   UseCalendarDaysProps,
   UseCalendarDaysReturn,
 } from '@/components/Calendar/types';
@@ -38,20 +39,10 @@ const useCalendarDays = ({
   const { variant } = useCalendarContext();
   const { isHoliday, isStart, isEnd, isDisabled, isSelected } =
     useCalendarValidUtils();
-
-  const holidaysSet = useMemo(
-    () =>
-      new Set(holidays?.map((holiday) => toString({ date: holiday })) ?? []),
-    [holidays],
-  );
+  const { holidaysSet } = useCalendarHolidays({ holidays });
 
   const getLabel = useCallback(
-    ({
-      dateValue,
-      isToday,
-      isHoliday,
-    }: Pick<CalendarDaysOfMonth, 'dateValue'> &
-      Pick<GetDayVariantParams, 'isToday' | 'isHoliday'>) => {
+    ({ dateValue, isToday, isHoliday }: GetLabelParams) => {
       const dateString = toString({ date: dateValue });
       const foundLabel = externalDaysLabels?.find(
         (label) => label.dateValue === dateString,
@@ -68,17 +59,14 @@ const useCalendarDays = ({
     [externalDaysLabels],
   );
 
+  const getStringDate = ({ year, month, day }: GetStringDateParams) =>
+    `${year}-${toPaddedString({ number: month, length: 2 })}-${toPaddedString({ number: day, length: 2 })}`;
+
   const generateMonthDays = useCallback(
-    ({
-      year,
-      month,
-      variant: _variant,
-    }: Pick<UseCalendarDaysProps, 'year'> &
-      Pick<CalendarContextValue, 'variant'> &
-      Pick<CalendarMonthProps, 'month'>) => {
+    ({ year, month, variant: _variant }: GenerateMonthDaysParams) => {
       const todayToString = toString({ date: now() });
       const firstDayOfMonth = timezone({
-        date: `${year}-${month.toString().padStart(2, '0')}-01`,
+        date: getStringDate({ year, month, day: 1 }),
       });
       const lastDayOfMonth = endOf({
         date: firstDayOfMonth,
@@ -98,9 +86,8 @@ const useCalendarDays = ({
             return null;
           }
 
-          const dayToString = `${year}-${month.toString().padStart(2, '0')}-${dayIndex.toString().padStart(2, '0')}`;
           const _dateValue = toParseDateType({
-            date: dayToString,
+            date: getStringDate({ year, month, day: dayIndex }),
             type: 'dayjs',
           });
           const dateToString = toString({ date: _dateValue });

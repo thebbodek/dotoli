@@ -12,16 +12,15 @@ export type SortValue = SelectValue;
 
 export interface SortProps
   extends Pick<
-      SingleSelectBaseProps<SortValue>,
-      | 'value'
-      | 'disabled'
-      | 'popoverOption'
-      | 'onSelect'
-      | 'displayValue'
-      | 'className'
-      | 'badge'
-    >,
-    Pick<SelectBaseLabelProps, 'label'> {}
+    SingleSelectBaseProps<SortValue>,
+    | 'value'
+    | 'disabled'
+    | 'popoverOption'
+    | 'onSelect'
+    | 'displayValue'
+    | 'className'
+    | 'label'
+  > {}
 
 export interface SortOnSelectParams<T extends SortValue>
   extends SingleSelectOnSelectParams<T> {}

@@ -31,7 +31,7 @@ interface Obj {
 const Item = ({ label, values }: { label: string; values: Partial<Obj> }) => (
   <Flex
     direction='column'
-    gap={{ column: 2 }}
+    gap={{ column: '2' }}
     className='bg-in-primary-01 rounded-in-8 w-full min-w-[132px] px-4 py-2'
   >
     {label && (
@@ -58,8 +58,12 @@ export const Default = {
     };
 
     return (
-      <Flex direction='column' gap={{ column: 4 }} align={{ items: 'center' }}>
-        <Flex gap={{ row: 4 }}>
+      <Flex
+        direction='column'
+        gap={{ column: '4' }}
+        align={{ items: 'center' }}
+      >
+        <Flex gap={{ row: '4' }}>
           <Item label='기존 객체' values={originalValues} />
           <Item label='변경 객체' values={values} />
           {differences && (

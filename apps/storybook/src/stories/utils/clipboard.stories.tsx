@@ -29,7 +29,7 @@ export const Default: Story = {
     }, [text]);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap={4}>
+      <Flex direction='column' align={{ items: 'center' }} gap='4'>
         <div className='in-flex-h-stack-center gap-4'>
           <Typography>{copyText}</Typography>
           <Button

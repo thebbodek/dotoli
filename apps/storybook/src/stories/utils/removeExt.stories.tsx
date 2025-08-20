@@ -27,7 +27,7 @@ export const Default: Story = {
     }, [args.str]);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap={4}>
+      <Flex direction='column' align={{ items: 'center' }} gap='4'>
         <Typography>{str}</Typography>
         <Button
           label='확장자 제거하기'

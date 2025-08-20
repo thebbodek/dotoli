@@ -13,5 +13,6 @@ export const ICON_BUTTON_COLORS_STYLES: Record<IconButtonTheme, string> = {
   [ICON_BUTTON_THEMES.HOVER_WHITE]: 'text-in-gray-06 active:text-in-primary-05',
   [ICON_BUTTON_THEMES.BG_WHITE]:
     'text-in-gray-06 bg-in-white hover:bg-in-gray-01 disabled:bg-in-gray-01',
-  [ICON_BUTTON_THEMES.WHITE]: 'text-in-white hover:text-in-gray-02 active:text-in-gray-02',
+  [ICON_BUTTON_THEMES.WHITE]:
+    'text-in-white hover:text-in-gray-02 active:text-in-gray-02',
 };

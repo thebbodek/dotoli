@@ -5,7 +5,7 @@ export const isValidDateOfVariant = ({
   value,
   variant,
 }: IsValidDateOfVariantParams) => {
-  if (!value) return true;
+  if (!value) return false;
 
   const { startDate, endDate } = value;
 

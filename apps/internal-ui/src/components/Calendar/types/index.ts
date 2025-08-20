@@ -93,7 +93,10 @@ export type CalendarValue = {
 export interface CalendarContextProviderProps
   extends Omit<
     CalendarContextValue,
-    'internalValue' | 'setInternalValue' | 'setCalendarInternalValue'
+    | 'internalValue'
+    | 'setInternalValue'
+    | 'handleChange'
+    | 'setCalendarInternalValue'
   > {}
 
 export interface CalendarInternalValue {
@@ -106,6 +109,7 @@ export interface CalendarContextValue {
   internalValue: CalendarInternalValue | null;
   variant: CalendarVariants;
   onChange: (value: CalendarValue) => void;
+  handleChange: () => void;
   setInternalValue: Dispatch<SetStateAction<CalendarInternalValue | null>>;
   setCalendarInternalValue: () => void;
 }
@@ -166,3 +170,32 @@ export interface UseCalendarInitialScrollEffectProps
   extends Pick<CalendarProps, 'minDate'>,
     Pick<UseCalendarReturn['models'], 'monthlyRefs'>,
     Pick<UseCalendarReturn['operations'], 'setYear'> {}
+
+export interface UseCalendarSyncExternalValueEffectProps
+  extends Pick<CalendarContextProviderProps, 'value'>,
+    Pick<CalendarContextValue, 'setInternalValue'> {}
+
+export interface UseCalendarHolidaysProps
+  extends Pick<CalendarProps, 'holidays'> {}
+
+export interface GetLabelParams
+  extends Pick<CalendarDaysOfMonth, 'dateValue'>,
+    Pick<GetDayVariantParams, 'isToday' | 'isHoliday'> {}
+
+export interface GetStringDateParams
+  extends Pick<GenerateMonthDaysParams, 'year' | 'month'> {
+  day: CalendarDay;
+}
+
+export interface GenerateMonthDaysParams
+  extends Pick<UseCalendarDaysProps, 'year'>,
+    Pick<CalendarContextValue, 'variant'>,
+    Pick<CalendarMonthProps, 'month'> {}
+
+export interface ScrollToMonthParams {
+  month: CalendarMonth;
+}
+
+export interface HandleScrollParams extends ScrollToMonthParams {
+  year: CalendarYear;
+}

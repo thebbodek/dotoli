@@ -6,7 +6,10 @@ import { ColorVariants } from '@/variants';
 export type ToggleSize = (typeof TOGGLE_SIZES)[keyof typeof TOGGLE_SIZES];
 
 export interface ToggleProps
-  extends Pick<InputHTMLAttributes<HTMLInputElement>, 'disabled' | 'className'>,
+  extends Pick<
+      InputHTMLAttributes<HTMLInputElement>,
+      'disabled' | 'className' | 'name'
+    >,
     Required<
       Pick<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'onChange'>
     > {

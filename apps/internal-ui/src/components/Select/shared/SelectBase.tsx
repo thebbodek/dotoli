@@ -87,9 +87,11 @@ const SelectBase = ({
 
   return (
     <InputWrapper {...getAriaAttributes()} className={className}>
-      <SelectLabelProvider id={labelId} required={required}>
-        {label}
-      </SelectLabelProvider>
+      {label && (
+        <SelectLabelProvider id={labelId} required={required}>
+          {label}
+        </SelectLabelProvider>
+      )}
       <Popover
         isOpen={isOpen && !disabled}
         trigger={
