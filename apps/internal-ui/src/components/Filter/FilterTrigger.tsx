@@ -37,7 +37,7 @@ const FilterTrigger = () => {
       aria-disabled={disabled}
       onClick={onClick}
     >
-      <Flex gap={{ row: '1' }} align={{ items: 'center' }}>
+      <Flex gap={{ row: '4' }} align={{ items: 'center' }}>
         <Icon
           iconKey='funnel-simple'
           className={clsx(
