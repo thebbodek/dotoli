@@ -11,6 +11,7 @@ export * from '@/isServer';
 export * from '@/mergeRefs';
 export * from '@/parseExt';
 export * from '@/removeExt';
+export * from '@/storage';
 export * from '@/toAbstractString';
 export * from '@/toast';
 export * from '@/toPaddedString';
