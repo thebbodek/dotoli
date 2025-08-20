@@ -62,7 +62,7 @@ const Flex = <T extends FlexElementType = typeof FLEX_ELEMENTS.DIV>({
     ].filter(Boolean) as string[];
 
     if (gap) {
-      if (typeof gap === 'number') {
+      if (typeof gap === 'string') {
         classes.push(FLEX_GAP_STYLES[gap]);
       }
 
