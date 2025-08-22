@@ -1,3 +1,4 @@
+import { isServer } from '@/application';
 import {
   StorageGetParams,
   StorageHasParams,
@@ -6,7 +7,7 @@ import {
 } from '@/storage/types';
 
 const storageError = () => {
-  if (typeof window === 'undefined')
+  if (isServer())
     return console.error('localStorage is only available to client-side');
 };
 
