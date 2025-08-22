@@ -1,3 +1,4 @@
+export * from '@/application';
 export * from '@/clipboard';
 export * from '@/composeEventHandler';
 export * from '@/date';
@@ -9,7 +10,6 @@ export * from '@/extractExt';
 export * from '@/getUUID';
 export * from '@/hasUserAgent';
 export * from '@/highlightText';
-export * from '@/isServer';
 export * from '@/mergeRefs';
 export * from '@/parseExt';
 export * from '@/removeExt';
