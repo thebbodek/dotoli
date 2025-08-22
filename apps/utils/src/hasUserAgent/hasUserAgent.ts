@@ -1,9 +1,8 @@
+import { isClient } from '@/application';
 import { HasUserAgentParams } from '@/hasUserAgent/types';
 
 export const hasUserAgent = ({ target, userAgent }: HasUserAgentParams) => {
-  const ua =
-    userAgent ||
-    (typeof window !== 'undefined' ? window.navigator.userAgent : null);
+  const ua = userAgent || (isClient() ? window.navigator.userAgent : null);
 
   if (ua === null) {
     return false;
