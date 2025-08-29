@@ -34,6 +34,7 @@ export interface SingleSelectBaseTriggerProps<T extends SelectValue>
   extends Pick<SingleSelectListContextValue<T>, 'onSelect'>,
     Pick<SelectBaseProps, 'disabled'> {
   displayValue: SelectValue;
+  useReset?: boolean;
 }
 
 export interface SingleSelectListProviderProps<T extends SelectValue>

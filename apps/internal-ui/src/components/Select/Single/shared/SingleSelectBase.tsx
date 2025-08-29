@@ -26,6 +26,7 @@ const SingleSelectBase = <T extends SelectValue>({
   children,
   popoverWrapperClassName,
   hiddenLabel,
+  useReset,
 }: PropsWithChildren<SingleSelectBaseProps<T>>) => {
   const selectListId = useId();
   const labelId = useId();
@@ -43,6 +44,7 @@ const SingleSelectBase = <T extends SelectValue>({
           displayValue={displayValue}
           disabled={disabled}
           onSelect={onSelect}
+          useReset={useReset}
         />
       }
       disabled={disabled}

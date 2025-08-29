@@ -124,6 +124,18 @@ const meta: Meta<typeof Select> = {
         name: 'function',
       },
     },
+    useReset: {
+      control: 'boolean',
+      description: 'use reset button',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
 };
 

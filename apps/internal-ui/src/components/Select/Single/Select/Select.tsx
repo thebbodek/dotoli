@@ -22,6 +22,7 @@ const Select = <T extends SelectValue>({
   required = false,
   popoverOption,
   hiddenLabel,
+  useReset,
   onSelect,
   displayValue,
 }: PropsWithChildren<SelectProps<T>>) => {
@@ -42,6 +43,7 @@ const Select = <T extends SelectValue>({
       displayValue={displayValue}
       placeholder={placeholder}
       popoverWrapperClassName={'max-h-[14.875rem] p-1'}
+      useReset={useReset}
     >
       <SingleSelectBaseList>{children}</SingleSelectBaseList>
     </SingleSelectBase>
