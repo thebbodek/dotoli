@@ -150,6 +150,18 @@ const meta: Meta<typeof SearchSelect> = {
         name: 'function',
       },
     },
+    useReset: {
+      control: 'boolean',
+      description: 'use reset button',
+      table: {
+        defaultValue: {
+          summary: 'true',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
 };
 

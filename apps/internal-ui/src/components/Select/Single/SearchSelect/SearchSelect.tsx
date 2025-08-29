@@ -26,6 +26,7 @@ const SearchSelect = <T extends SelectValue>({
   onSelect,
   displayValue,
   value,
+  useReset,
 }: PropsWithChildren<SearchSelectProps<T>>) => {
   const {
     placeholder: inputPlaceholder = '검색어를 입력해주세요',
@@ -50,6 +51,7 @@ const SearchSelect = <T extends SelectValue>({
       onSelect={onSelect}
       displayValue={displayValue}
       placeholder={placeholder}
+      useReset={useReset}
       popoverWrapperClassName='max-h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
     >
       <InputSearch
