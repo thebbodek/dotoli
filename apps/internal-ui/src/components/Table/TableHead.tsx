@@ -5,11 +5,8 @@ import {
   TABLE_ROW_GROUP_COMMON_STYLE,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
-import {
-  ChildrenElement,
-  TableHeadProps,
-  TableRowProps,
-} from '@/components/Table/types';
+import { TableHeadProps, TableRowProps } from '@/components/Table/types';
+import { ChildrenElement } from '@/components/shared';
 
 const TableHead = ({
   children,

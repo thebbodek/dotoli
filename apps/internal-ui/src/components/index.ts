@@ -11,6 +11,7 @@ export * from './DatePicker';
 export * from './Dialog';
 export * from './Filter';
 export * from './Flex';
+export * from './FormRepeater';
 export * from './FullScreenDialog';
 export * from './Icon';
 export * from './InfoPopover';
@@ -31,4 +32,4 @@ export * from './Tooltip';
 export * from './Typography';
 
 export { DialogOverlayFormDivider } from './shared';
-export type { ComponentPropsRef } from './shared';
+export type { ChildrenElement, ComponentPropsRef } from './shared';

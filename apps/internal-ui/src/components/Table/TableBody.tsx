@@ -6,11 +6,8 @@ import {
   TABLE_ROW_GROUP_COMMON_STYLE,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
-import {
-  ChildrenElement,
-  TableBodyProps,
-  TableRowProps,
-} from '@/components/Table/types';
+import { TableBodyProps, TableRowProps } from '@/components/Table/types';
+import { ChildrenElement } from '@/components/shared';
 
 const TableBodyEmpty = dynamic(
   () => import('@/components/Table/TableBodyEmpty'),
