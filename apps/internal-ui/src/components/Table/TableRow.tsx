@@ -6,11 +6,8 @@ import {
   TABLE_ROW_STYLES,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
-import {
-  ChildrenElement,
-  TableCellProps,
-  TableRowProps,
-} from '@/components/Table/types';
+import { TableCellProps, TableRowProps } from '@/components/Table/types';
+import { ChildrenElement } from '@/components/shared';
 
 const TableRow = ({
   variant = TABLE_ROW_VARIANTS.BODY,

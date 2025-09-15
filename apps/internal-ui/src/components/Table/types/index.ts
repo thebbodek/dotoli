@@ -1,9 +1,4 @@
-import {
-  HTMLAttributes,
-  JSXElementConstructor,
-  PropsWithChildren,
-  ReactElement,
-} from 'react';
+import { HTMLAttributes, PropsWithChildren } from 'react';
 
 import { ButtonProps, IconButtonProps } from '@/components/Button';
 import { InputFieldProps } from '@/components/Input';
@@ -17,8 +12,6 @@ export type TableRowVariant =
 
 export type TableCellRole =
   (typeof TABLE_CELL_ROLES)[keyof typeof TABLE_CELL_ROLES];
-
-export type ChildrenElement<T> = ReactElement<T, JSXElementConstructor<T>>;
 
 export interface TableProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
