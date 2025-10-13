@@ -18,7 +18,6 @@ const Typography = <
   children,
   title,
   id,
-  hidden,
   'aria-live': ariaLive,
   role,
 }: PropsWithChildren<TypographyProps<T>>) => {
@@ -30,7 +29,6 @@ const Typography = <
         className,
         variant && TYPOGRAPHY_STYLES_MAPPER[variant],
         color ? COLOR_STYLES_MAPPER.TEXT[color] : 'text-inherit',
-        hidden && 'sr-only'
       )}
       id={id}
       title={title}
