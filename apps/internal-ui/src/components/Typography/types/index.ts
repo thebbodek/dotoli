@@ -12,7 +12,7 @@ export interface TypographyProps<
   T extends TypographyElementType = typeof TYPOGRAPHY_ELEMENTS.SPAN,
 > extends Pick<
       HTMLAttributes<T>,
-      'className' | 'title' | 'id' | 'role' | 'hidden' | 'aria-live'
+      'className' | 'title' | 'id' | 'role' | 'aria-live'
     >,
     RefAttributes<HTMLElement> {
   as?: T;

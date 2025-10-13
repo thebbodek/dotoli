@@ -9,7 +9,6 @@ const InputLabelText = ({
   badge,
   required,
   className,
-  hidden,
   children,
 }: PropsWithChildren<InputLabelTextProps>) => {
   return (
@@ -17,11 +16,10 @@ const InputLabelText = ({
       id={id}
       className={clsx(
         className,
-        'mb-0.5',
+        'mb-0.5 inline-block',
         badge && 'flex items-center gap-x-0.5',
         required && 'before:text-in-primary-06 before:content-["*"]',
       )}
-      hidden={hidden}
       color='gray-07'
       variant='body-14-m'
     >
