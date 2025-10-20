@@ -28,19 +28,16 @@ importers:
     devDependencies:
       '@bbodek/utils':
         specifier: ^0.0.6
-        version: 0.0.6(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 0.0.6(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@dotoli/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@dotoli/rollup-config':
+        specifier: workspace:*
+        version: link:../../packages/rollup-config
       '@dotoli/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@rollup/plugin-node-resolve':
-        specifier: ^16.0.1
-        version: 16.0.1(rollup@4.40.2)
-      '@rollup/plugin-terser':
-        specifier: ^0.4.4
-        version: 0.4.4(rollup@4.40.2)
       '@types/node':
         specifier: ^20
         version: 20.17.46
@@ -65,12 +62,6 @@ importers:
       rollup:
         specifier: ^4.40.2
         version: 4.40.2
-      rollup-plugin-peer-deps-external:
-        specifier: ^2.2.4
-        version: 2.2.4(rollup@4.40.2)
-      rollup-plugin-typescript2:
-        specifier: ^0.36.0
-        version: 0.36.0(rollup@4.40.2)(typescript@5.8.3)
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
@@ -113,25 +104,19 @@ importers:
         version: 0.0.17(@bbodek/utils@0.0.13)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@bbodek/utils':
         specifier: ^0.0.13
-        version: 0.0.13(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+        version: 0.0.13(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@dotoli/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@dotoli/rollup-config':
+        specifier: workspace:*
+        version: link:../../packages/rollup-config
       '@dotoli/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@rollup/plugin-commonjs':
-        specifier: ^28.0.6
-        version: 28.0.6(rollup@4.40.2)
       '@rollup/plugin-image':
         specifier: ^3.0.3
         version: 3.0.3(rollup@4.40.2)
-      '@rollup/plugin-node-resolve':
-        specifier: ^16.0.1
-        version: 16.0.1(rollup@4.40.2)
-      '@rollup/plugin-terser':
-        specifier: ^0.4.4
-        version: 0.4.4(rollup@4.40.2)
       '@types/node':
         specifier: ^20
         version: 20.17.46
@@ -153,15 +138,9 @@ importers:
       rollup:
         specifier: ^4.40.2
         version: 4.40.2
-      rollup-plugin-peer-deps-external:
-        specifier: ^2.2.4
-        version: 2.2.4(rollup@4.40.2)
       rollup-plugin-postcss:
         specifier: ^4.0.2
         version: 4.0.2(postcss@8.5.3)
-      rollup-plugin-typescript2:
-        specifier: ^0.36.0
-        version: 0.36.0(rollup@4.40.2)(typescript@5.8.3)
       tailwindcss:
         specifier: ^4
         version: 4.1.6
@@ -293,18 +272,12 @@ importers:
       '@dotoli/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
+      '@dotoli/rollup-config':
+        specifier: workspace:*
+        version: link:../../packages/rollup-config
       '@dotoli/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
-      '@rollup/plugin-commonjs':
-        specifier: ^28.0.6
-        version: 28.0.6(rollup@4.40.2)
-      '@rollup/plugin-node-resolve':
-        specifier: ^16.0.1
-        version: 16.0.1(rollup@4.40.2)
-      '@rollup/plugin-terser':
-        specifier: ^0.4.4
-        version: 0.4.4(rollup@4.40.2)
       '@types/node':
         specifier: ^20
         version: 20.17.46
@@ -329,12 +302,6 @@ importers:
       rollup:
         specifier: ^4.40.2
         version: 4.40.2
-      rollup-plugin-peer-deps-external:
-        specifier: ^2.2.4
-        version: 2.2.4(rollup@4.40.2)
-      rollup-plugin-typescript2:
-        specifier: ^0.36.0
-        version: 0.36.0(rollup@4.40.2)(typescript@5.8.3)
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
@@ -385,6 +352,24 @@ importers:
         version: 16.1.0
 
   packages/prettier-config: {}
+
+  packages/rollup-config:
+    devDependencies:
+      '@rollup/plugin-commonjs':
+        specifier: ^28.0.6
+        version: 28.0.6(rollup@4.40.2)
+      '@rollup/plugin-node-resolve':
+        specifier: ^16.0.1
+        version: 16.0.1(rollup@4.40.2)
+      '@rollup/plugin-terser':
+        specifier: ^0.4.4
+        version: 0.4.4(rollup@4.40.2)
+      rollup-plugin-peer-deps-external:
+        specifier: ^2.2.4
+        version: 2.2.4(rollup@4.40.2)
+      rollup-plugin-typescript2:
+        specifier: ^0.36.0
+        version: 0.36.0(rollup@4.40.2)(typescript@5.8.3)
 
   packages/typescript-config: {}
 
@@ -981,8 +966,8 @@ packages:
       react-dom: ^19.1.0
       tailwindcss: ^4
 
-  '@bbodek/internal-ui@0.0.39':
-    resolution: {integrity: sha512-KWI/KZ7WsvEirsuMu+wH1BBf6udl0uSzDZv9OpBHHefbZGhzV5K23ckH8kSSA9GYOhlHi6YvcsCIAjkICrNwpg==}
+  '@bbodek/internal-ui@0.0.45':
+    resolution: {integrity: sha512-vMIIBKhqhunneH2YAvMfy1l3FeLLHyHtG8XdzeJ48DmugB0K8eCIjpAvlL+2Sj9PWYIePKQ3FSF6YIPstmV70Q==}
     peerDependencies:
       '@bbodek/hooks': ^0.0.17
       '@bbodek/utils': ^0.0.13
@@ -6883,7 +6868,7 @@ snapshots:
 
   '@bbodek/hooks@0.0.17(@bbodek/utils@0.0.13)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@bbodek/utils': 0.0.13(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@bbodek/utils': 0.0.13(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -6897,7 +6882,7 @@ snapshots:
 
   '@bbodek/hooks@0.0.18(@bbodek/utils@0.0.6)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@bbodek/utils': 0.0.6(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@bbodek/utils': 0.0.6(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -6924,10 +6909,10 @@ snapshots:
       - babel-plugin-react-compiler
       - sass
 
-  '@bbodek/internal-ui@0.0.39(@bbodek/hooks@0.0.17)(@bbodek/utils@0.0.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)':
+  '@bbodek/internal-ui@0.0.45(@bbodek/hooks@0.0.17)(@bbodek/utils@0.0.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)':
     dependencies:
       '@bbodek/hooks': 0.0.17(@bbodek/utils@0.0.13)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@bbodek/utils': 0.0.13(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@bbodek/utils': 0.0.13(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@floating-ui/react': 0.27.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@phosphor-icons/core': 2.1.1
       '@phosphor-icons/web': 2.1.2
@@ -6947,10 +6932,10 @@ snapshots:
       - babel-plugin-react-compiler
       - sass
 
-  '@bbodek/internal-ui@0.0.39(@bbodek/hooks@0.0.18)(@bbodek/utils@0.0.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)':
+  '@bbodek/internal-ui@0.0.45(@bbodek/hooks@0.0.18)(@bbodek/utils@0.0.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)':
     dependencies:
       '@bbodek/hooks': 0.0.18(@bbodek/utils@0.0.6)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@bbodek/utils': 0.0.6(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@bbodek/utils': 0.0.6(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@floating-ui/react': 0.27.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@phosphor-icons/core': 2.1.1
       '@phosphor-icons/web': 2.1.2
@@ -6970,9 +6955,9 @@ snapshots:
       - babel-plugin-react-compiler
       - sass
 
-  '@bbodek/utils@0.0.13(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@bbodek/utils@0.0.13(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@bbodek/internal-ui': 0.0.39(@bbodek/hooks@0.0.17)(@bbodek/utils@0.0.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)
+      '@bbodek/internal-ui': 0.0.45(@bbodek/hooks@0.0.17)(@bbodek/utils@0.0.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)
       dayjs: 1.11.13
       es-toolkit: 1.39.8
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -6992,9 +6977,9 @@ snapshots:
       react-hot-toast: 2.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       xlsx-js-style: 1.2.0
 
-  '@bbodek/utils@0.0.6(@bbodek/internal-ui@0.0.39)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@bbodek/utils@0.0.6(@bbodek/internal-ui@0.0.45)(next@15.3.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@bbodek/internal-ui': 0.0.39(@bbodek/hooks@0.0.18)(@bbodek/utils@0.0.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)
+      '@bbodek/internal-ui': 0.0.45(@bbodek/hooks@0.0.18)(@bbodek/utils@0.0.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.6)
       next: 15.3.2(@babel/core@7.27.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
