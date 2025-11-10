@@ -1,6 +1,7 @@
 import { createRollupConfig } from '@dotoli/rollup-config';
 import image from '@rollup/plugin-image';
 import postcss from 'rollup-plugin-postcss';
+import { fileURLToPath } from 'url';
 
 export default createRollupConfig({
   plugins: [
@@ -11,4 +12,5 @@ export default createRollupConfig({
     }),
     image(),
   ],
+  srcPath: fileURLToPath(new URL('./src', import.meta.url)),
 });
