@@ -11,19 +11,43 @@ import {
   UseFormContentProps,
   useFormContent,
 } from '@/stories/internal-ui/shared/hooks/useFormContent';
-import { default as ConfirmModalMeta } from '../Modal/ConfirmModal.stories';
+import {
+  ConfirmModalArgs,
+  default as ConfirmModalMeta,
+} from '../Modal/ConfirmModal.stories';
 
 const {
   isOpen,
   title,
   confirmOption,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
   cancelOption,
+  cancelLabel,
+  onCancel,
+  isLoading,
+  ref,
+  className,
+  children,
   possibleConfirm,
   isPending,
-  isLoading,
 } = ConfirmModalMeta.argTypes ?? {};
 
-const meta: Meta<typeof FormFullScreenDialog> = {
+export interface FormFullScreenDialogArgs
+  extends Pick<ConfirmModalArgs, keyof FormFullScreenDialogProps>,
+    Pick<
+      ConfirmModalArgs,
+      | 'confirmLabel'
+      | 'onConfirm'
+      | 'confirmTooltipContent'
+      | 'confirmTooltipUseTooltip'
+      | 'cancelLabel'
+      | 'onCancel'
+    > {}
+
+const meta = {
   title: 'core/internal-ui/FullScreenDialog/FormFullScreenDialog',
   component: FormFullScreenDialog,
   argTypes: {
@@ -36,27 +60,59 @@ const meta: Meta<typeof FormFullScreenDialog> = {
       description: 'full screen dialog title',
     },
     confirmOption,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
     cancelOption,
+    cancelLabel,
+    onCancel,
+    isLoading,
+    ref,
+    className,
+    children,
     possibleConfirm,
     isPending,
-    isLoading,
   },
-};
+} satisfies Meta<FormFullScreenDialogArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof FormFullScreenDialog>;
+type Story = StoryObj<FormFullScreenDialogArgs>;
 
 const Dialog = ({
   isOpen,
   close,
+  cancelLabel,
+  onCancel,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
   ...args
-}: UseFormContentProps & FormFullScreenDialogProps) => {
+}: UseFormContentProps & FormFullScreenDialogArgs) => {
   const {
     models: { values },
     status: { hasError, isPending },
     operations: { handleChange, handleConfirm },
   } = useFormContent({ close });
+
+  const confirmOption = args.confirmOption
+    ? args.confirmOption
+    : {
+        label: confirmLabel || '작성 완료',
+        tooltipOption: {
+          content: confirmTooltipContent,
+          useTooltip: confirmTooltipUseTooltip,
+        },
+      };
+
+  const cancelOption = args.cancelOption
+    ? args.cancelOption
+    : {
+        label: cancelLabel || '작성 취소',
+        onCancel,
+      };
 
   return (
     <FormFullScreenDialog
@@ -64,14 +120,8 @@ const Dialog = ({
       isOpen={isOpen}
       possibleConfirm={args.possibleConfirm ?? !hasError}
       isPending={args.isPending || isPending}
-      confirmOption={{
-        label: args.confirmOption?.label ?? '작성 완료',
-        onConfirm: handleConfirm,
-      }}
-      cancelOption={{
-        label: args.cancelOption?.label ?? '작성 취소',
-        onCancel: close,
-      }}
+      confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
+      cancelOption={{ ...cancelOption, onCancel: close }}
       className='min-w-sm'
     >
       <FormContent values={values} handleChange={handleChange} />

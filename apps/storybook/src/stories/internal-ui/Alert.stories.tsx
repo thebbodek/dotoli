@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<typeof Alert> = {
+const meta = {
   title: 'core/internal-ui/Alert',
   component: Alert,
   argTypes: {
@@ -11,13 +11,24 @@ const meta: Meta<typeof Alert> = {
       control: 'object',
       description: 'Alert content',
       type: {
+        name: 'other',
+        value: 'ReactNode',
         required: true,
-        name: 'string',
+      },
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
       },
     },
     title: {
-      control: 'object',
+      control: 'text',
       description: 'Alert title',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
     },
     theme: {
       control: 'select',
@@ -36,22 +47,50 @@ const meta: Meta<typeof Alert> = {
     },
     collapsible: {
       control: 'boolean',
+      type: 'boolean',
       description: 'Alert collapsible',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
     },
     useClose: {
       control: 'boolean',
+      type: 'boolean',
       description: 'use close',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
     },
     actionOption: {
       control: 'object',
       description: 'Alert button option',
+      table: {
+        type: {
+          summary:
+            'Partial<Pick<ActionButtonProps, "as" | "buttonOption" | "disabled" | "label" | "linkOption" | "responsive">>',
+        },
+      },
     },
     iconOption: {
       control: 'object',
       description: 'Alert icon option',
+      table: {
+        type: {
+          summary: 'Pick<IconProps, "iconKey">',
+        },
+      },
+    },
+    className: {
+      control: 'text',
+      description: 'Alert className',
+      type: 'string',
     },
   },
-};
+} satisfies Meta<typeof Alert>;
 
 export default meta;
 
@@ -78,7 +117,7 @@ const commonArgs = {
     '내용이 들어갑니다 내용이 들어갑니다 내용이 들어갑니다 내용이 들어갑니다 내용이 들어갑니다 내용이 들어갑니다 내용이 들어갑니다',
 };
 
-export const WithDescription: Story = {
+export const WithTitle: Story = {
   args: {
     ...commonArgs,
     className: 'w-[490px]',

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { tabItems } from '@/stories/internal-ui/Tab/constants';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<typeof Tabs> = {
+const meta = {
   title: 'core/internal-ui/Tab/Tabs',
   component: Tabs,
   argTypes: {
@@ -74,13 +74,18 @@ const meta: Meta<typeof Tabs> = {
         defaultValue: { summary: 'false' },
       },
     },
-    ariaLabel: {
+    'aria-label': {
       control: 'text',
       description: 'Tab aria-label',
       type: 'string',
     },
+    className: {
+      control: 'text',
+      description: 'Tab className',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Tabs>;
 
 export default meta;
 

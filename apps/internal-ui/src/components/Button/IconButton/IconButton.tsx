@@ -15,7 +15,7 @@ const IconButton = ({
   iconKey,
   type = 'button',
   theme = ICON_BUTTON_THEMES.HOVER_GRAY,
-  arialLabel,
+  'aria-label': ariaLabel,
   tooltipOption,
   className,
   disabled = false,
@@ -35,7 +35,7 @@ const IconButton = ({
 
   return (
     <Tooltip
-      content={content ?? arialLabel}
+      content={content ?? ariaLabel}
       rootClassName={className}
       placement={placement}
     >
@@ -46,7 +46,7 @@ const IconButton = ({
           'rounded-in-6 text-in-body-16-b disabled:text-in-gray-04 in-flex-h-stack-center h-8 w-8 cursor-pointer transition-colors disabled:cursor-not-allowed',
           ICON_BUTTON_COLORS_STYLES[theme],
         )}
-        aria-label={arialLabel}
+        aria-label={ariaLabel}
         disabled={isDisabled}
         onClick={handleClick}
       >

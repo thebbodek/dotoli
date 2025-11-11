@@ -1,11 +1,15 @@
 import { ChangeEvent, useState } from 'react';
 
-import { Props, UseFormErrors, UseFormReturnType } from '@/hooks/useForm/types';
+import {
+  UseFormErrors,
+  UseFormParams,
+  UseFormReturnType,
+} from '@/hooks/useForm/types';
 
 const useForm = <T extends object>({
   initialValues,
   validate,
-}: Props<T>): UseFormReturnType<T> => {
+}: UseFormParams<T>): UseFormReturnType<T> => {
   const [values, setValuesState] = useState<T>(initialValues);
   const [errors, setErrors] = useState<UseFormErrors>({} as UseFormErrors);
 

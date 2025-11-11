@@ -4,37 +4,63 @@ import { useState } from 'react';
 
 import { default as InputFieldMeta } from './InputField.stories';
 
-const { label, feedback, isError, required, readOnly, disabled, placeholder } =
-  InputFieldMeta.argTypes ?? {};
+const {
+  label,
+  hiddenLabel,
+  feedback,
+  badge,
+  isError,
+  required,
+  className,
+  value,
+  name,
+  autoComplete,
+  disabled,
+  readOnly,
+  maxLength,
+  onChange,
+  regCallback,
+  id,
+  placeholder,
+  ref,
+} = InputFieldMeta.argTypes ?? {};
 
-const meta: Meta<typeof InputPassword> = {
+const meta = {
   title: 'core/internal-ui/Input/InputPassword',
   component: InputPassword,
   argTypes: {
-    label,
-    feedback,
-    isError,
-    required,
-    readOnly,
-    disabled,
-    placeholder,
     rules: {
       control: {
         type: 'object',
       },
       description: 'Input Password Rules',
     },
+    label,
+    value,
+    hiddenLabel,
+    feedback,
+    badge,
+    isError,
+    required,
+    className,
+    name,
+    autoComplete,
+    disabled,
+    readOnly,
+    maxLength,
+    onChange,
+    regCallback,
+    id,
+    placeholder,
+    ref,
   },
-};
+} satisfies Meta<typeof InputPassword>;
 
 export default meta;
 
 type Story = StoryObj<typeof InputPassword>;
 
 export const Default: Story = {
-  args: {
-    placeholder: 'placeholder',
-  },
   render: (args) => {
     const [value, setValue] = useState('');
 
@@ -52,9 +78,6 @@ export const Default: Story = {
 };
 
 export const WithRule: Story = {
-  args: {
-    placeholder: 'placeholder',
-  },
   render: (args) => {
     const [value, setValue] = useState('');
     const isError = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);

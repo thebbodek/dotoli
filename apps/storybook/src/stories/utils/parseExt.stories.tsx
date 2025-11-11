@@ -1,18 +1,18 @@
 import { Button, Flex, Typography } from '@bbodek/internal-ui';
-import { ExtFnProps, parseExt } from '@bbodek/utils';
+import { ExtFnParams, parseExt } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 import { default as extractExtMeta } from './extractExt.stories';
 
-const meta: Meta<ExtFnProps> = {
+const meta = {
   title: 'core/utils/parseExt',
   argTypes: extractExtMeta.argTypes,
-};
+} satisfies Meta<ExtFnParams>;
 
 export default meta;
 
-type Story = StoryObj<ExtFnProps>;
+type Story = StoryObj<ExtFnParams>;
 
 export const Default: Story = {
   args: {

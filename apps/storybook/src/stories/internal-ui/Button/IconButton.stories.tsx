@@ -1,14 +1,27 @@
-import { ICON_BUTTON_THEMES, IconButton } from '@bbodek/internal-ui';
+import {
+  ICON_BUTTON_THEMES,
+  IconButton,
+  IconButtonProps,
+  TooltipProps,
+} from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
+import { default as TooltipMeta } from '@/stories/internal-ui/Tooltip.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as ButtonMeta } from './Button.stories';
 
-const { disabled, onClick, type, isPending } = ButtonMeta.argTypes ?? {};
-const { iconKey } = IconMeta.argTypes ?? {};
+const { disabled, onClick, type, isPending, ref, className } =
+  ButtonMeta.argTypes;
+const { iconKey } = IconMeta.argTypes;
+const { placement } = TooltipMeta.argTypes;
 
-const meta: Meta<typeof IconButton> = {
+export interface IconButtonArgs extends Omit<IconButtonProps, 'tooltipOption'> {
+  tooltipContent?: TooltipProps['content'];
+  tooltipPlacement?: TooltipProps['placement'];
+}
+
+const meta = {
   title: 'core/internal-ui/Button/IconButton',
   component: IconButton,
   argTypes: {
@@ -33,21 +46,42 @@ const meta: Meta<typeof IconButton> = {
         name: 'string',
       },
     },
-    tooltipOption: {
-      description: 'Icon Button Tooltip option (content, placement)',
-      control: 'object',
+    tooltipContent: {
+      name: 'content',
+      description: 'tooltip content',
+      control: 'text',
+      table: {
+        subcategory: 'tooltipOption',
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    tooltipPlacement: {
+      ...placement,
+      name: 'placement',
+      description: 'tooltip placement',
+      table: {
+        ...placement?.table,
+        subcategory: 'tooltipOption',
+        defaultValue: {
+          summary: 'bottom',
+        },
+      },
     },
     iconKey,
     type,
     disabled,
     isPending,
     onClick,
+    ref,
+    className,
   },
-};
+} satisfies Meta<IconButtonArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof IconButton>;
+type Story = StoryObj<IconButtonArgs>;
 
 export const Default: Story = {
   args: {
@@ -55,9 +89,13 @@ export const Default: Story = {
     disabled: false,
     iconKey: 'pencil',
     arialLabel: '수정',
-    tooltipOption: {
-      content: '수정',
-      placement: 'bottom',
-    },
+    tooltipContent: '수정',
+    tooltipPlacement: 'bottom',
   },
+  render: ({ tooltipContent, tooltipPlacement, ...args }) => (
+    <IconButton
+      {...args}
+      tooltipOption={{ content: tooltipContent, placement: tooltipPlacement }}
+    />
+  ),
 };

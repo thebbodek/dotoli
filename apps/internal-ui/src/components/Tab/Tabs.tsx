@@ -9,7 +9,7 @@ import { TabItemRefs, TabsProps } from '@/components/Tab/types';
 
 const Tabs = ({
   currentValue,
-  ariaLabel,
+  'aria-label': ariaLabel,
   variant,
   theme,
   size,
@@ -31,7 +31,7 @@ const Tabs = ({
       disabled={disabled}
       usePanel
     >
-      <TabListBase ariaLabel={ariaLabel} className={className}>
+      <TabListBase aria-label={ariaLabel} className={className}>
         {children}
         <TabIndicator />
       </TabListBase>

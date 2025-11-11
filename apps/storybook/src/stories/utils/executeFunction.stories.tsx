@@ -1,19 +1,19 @@
 import { Button } from '@bbodek/internal-ui';
 import { executeFunction, ExecuteFunction } from '@bbodek/utils';
-import type { StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+
+type Props = ExecuteFunction<() => void>;
 
 const meta = {
   title: 'core/utils/executeFunction',
   argTypes: {
     disabled: {
       control: 'boolean',
-      description: 'ExecuteFunction disabled',
+      description: 'execute function disabled',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'true | false',
         },
       },
     },
@@ -24,11 +24,11 @@ const meta = {
       },
     },
   },
-};
+} satisfies Meta<Props>;
 
 export default meta;
 
-type Story = StoryObj<ExecuteFunction<() => void>>;
+type Story = StoryObj<Props>;
 
 export const Default: Story = {
   render: ({ disabled }) => {
@@ -37,7 +37,7 @@ export const Default: Story = {
     };
 
     const onClick = () => {
-      executeFunction({ disabled, fn: executeConsole() });
+      executeFunction({ disabled, fn: executeConsole });
     };
 
     return <Button onClick={onClick} label='Execute' />;

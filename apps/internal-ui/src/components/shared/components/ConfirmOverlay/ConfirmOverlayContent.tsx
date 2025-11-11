@@ -7,14 +7,14 @@ import { ConfirmOverlayContentProps } from './types';
 
 const ConfirmOverlayContent = ({
   useIcon = false,
-  iconOptions = {},
+  iconOption = {},
   title,
 }: ConfirmOverlayContentProps) => {
   const {
     color = COLOR_VARIANTS.PRIMARY_04,
     backgroundColor = COLOR_VARIANTS.PRIMARY_01,
     iconKey = 'exclamation-mark',
-  } = iconOptions;
+  } = iconOption;
 
   return (
     <div className='in-flex-v-stack-center gap-y-2'>

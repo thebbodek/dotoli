@@ -1,18 +1,18 @@
 import { Button, Flex, Typography } from '@bbodek/internal-ui';
-import { ExtFnProps, removeExt } from '@bbodek/utils';
+import { ExtFnParams, removeExt } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 import { default as extractExtMeta } from './extractExt.stories';
 
-const meta: Meta<ExtFnProps> = {
+const meta = {
   title: 'core/utils/removeExt',
   argTypes: extractExtMeta.argTypes,
-};
+} satisfies Meta<ExtFnParams>;
 
 export default meta;
 
-type Story = StoryObj<ExtFnProps>;
+type Story = StoryObj<ExtFnParams>;
 
 export const Default: Story = {
   args: {

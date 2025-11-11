@@ -2,12 +2,12 @@ import { Button, Portal, PORTAL_DEFAULT_TARGET } from '@bbodek/internal-ui';
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Portal> = {
+const meta = {
   title: 'core/internal-ui/Portal',
   component: Portal,
   argTypes: {
     target: {
-      description: 'Portal target',
+      description: 'Portal target element id',
       control: 'text',
       table: {
         defaultValue: {
@@ -19,7 +19,7 @@ const meta: Meta<typeof Portal> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Portal>;
 
 export default meta;
 

@@ -1,9 +1,9 @@
 import { useScrollLockEffect, UseScrollLockEffectProps } from '@bbodek/hooks';
-import { Toggle } from '@bbodek/internal-ui';
+import { Toggle, Typography } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<UseScrollLockEffectProps> = {
+const meta = {
   title: 'core/hooks/useScrollLockEffect',
   argTypes: {
     isLocked: {
@@ -20,13 +20,16 @@ const meta: Meta<UseScrollLockEffectProps> = {
       },
     },
   },
-};
+} satisfies Meta<UseScrollLockEffectProps>;
 
 export default meta;
 
 type Story = StoryObj<UseScrollLockEffectProps>;
 
 export const Default: Story = {
+  args: {
+    isLocked: false,
+  },
   render: (args) => {
     const [isLocked, setIsLocked] = useState(false);
 
@@ -44,8 +47,11 @@ export const Default: Story = {
         />
         <div
           id='target'
-          className='bg-in-gray-02 rounded-in-8 mt-4 h-[500px] w-[500px] overflow-y-auto p-4'
+          className='bg-in-gray-02 rounded-in-8 relative mt-4 h-[500px] w-[500px] overflow-scroll'
         >
+          <Typography className='in-flex-h-stack-center sticky top-0 h-full w-full'>
+            scroll me
+          </Typography>
           <div className='h-[1000px]' />
         </div>
       </>

@@ -3,6 +3,7 @@ import { DocsContainer } from '@storybook/blocks';
 import type { Preview } from '@storybook/react';
 import { fn } from '@storybook/test';
 import 'dayjs/locale/ko';
+import React from 'react';
 
 import '@/styles/globals.css';
 

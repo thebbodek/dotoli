@@ -10,7 +10,7 @@ const ConfirmBottomSheet = ({
   isOpen,
   title,
   children,
-  iconOptions,
+  iconOption,
   useIcon,
   confirmOption,
   cancelOption,
@@ -24,7 +24,7 @@ const ConfirmBottomSheet = ({
       <BottomSheet.ContentWrapper isLoading={isLoading}>
         <ConfirmOverlayContent
           title={title}
-          iconOptions={iconOptions}
+          iconOption={iconOption}
           useIcon={useIcon}
         />
         {children}

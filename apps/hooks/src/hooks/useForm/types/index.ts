@@ -3,7 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 export type ValueKey<T> = keyof T & string;
 export type UseFormErrors = { [key: string]: string };
 
-export interface Props<T> {
+export interface UseFormParams<T> {
   initialValues: T;
   validate?: (fields: T) => UseFormErrors;
 }

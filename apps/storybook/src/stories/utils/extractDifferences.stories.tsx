@@ -1,32 +1,40 @@
 import { Button, Flex, Icon, Typography } from '@bbodek/internal-ui';
-import { extractDifferences } from '@bbodek/utils';
+import { extractDifferences, ExtractDifferencesParams } from '@bbodek/utils';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-
-const meta = {
-  title: 'core/utils/extractDifferences',
-  argTypes: {
-    values: {
-      control: {
-        type: 'object',
-      },
-      type: 'object',
-    },
-    originalValues: {
-      control: {
-        type: 'object',
-      },
-      type: 'object',
-    },
-  },
-};
-
-export default meta;
 
 interface Obj {
   a: number;
   b: number;
   c: number;
 }
+type Props = ExtractDifferencesParams<Obj>;
+
+const meta = {
+  title: 'core/utils/extractDifferences',
+  argTypes: {
+    values: {
+      description: 'new values',
+      table: {
+        type: {
+          summary: 'object',
+        },
+      },
+    },
+    originalValues: {
+      description: 'original values',
+      table: {
+        type: {
+          summary: 'object',
+        },
+      },
+    },
+  },
+} satisfies Meta<Props>;
+
+export default meta;
+
+type Story = StoryObj<Props>;
 
 const Item = ({ label, values }: { label: string; values: Partial<Obj> }) => (
   <Flex
@@ -34,11 +42,9 @@ const Item = ({ label, values }: { label: string; values: Partial<Obj> }) => (
     gap={{ column: '8' }}
     className='bg-in-primary-01 rounded-in-8 w-full min-w-[132px] px-4 py-2'
   >
-    {label && (
-      <Typography color='primary-06' variant='body-16-m'>
-        {label}
-      </Typography>
-    )}
+    <Typography color='primary-06' variant='body-16-m'>
+      {label}
+    </Typography>
     <Flex direction='column'>
       {Object.entries(values).map(([key, value]) => (
         <Typography key={key}>{`${key}: ${value}`}</Typography>
@@ -47,7 +53,7 @@ const Item = ({ label, values }: { label: string; values: Partial<Obj> }) => (
   </Flex>
 );
 
-export const Default = {
+export const Default: Story = {
   render: () => {
     const originalValues = { a: 1, b: 2, c: 3 };
     const values = { a: 1, b: 3, c: 30 };

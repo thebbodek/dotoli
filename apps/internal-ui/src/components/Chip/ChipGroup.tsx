@@ -6,7 +6,7 @@ const ChipGroup = ({
   ref,
   className,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
 }: PropsWithChildren<ChipGroupProps>) => {
   return (
     <ul aria-label={ariaLabel ?? undefined} className={className} ref={ref}>

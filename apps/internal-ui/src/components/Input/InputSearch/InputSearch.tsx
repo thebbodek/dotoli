@@ -76,7 +76,7 @@ const InputSearch = ({
         addonEnd={
           <InputIconButton
             type='submit'
-            ariaLabel='검색'
+            aria-label='검색'
             iconKey={'magnifying-glass'}
             weight='bold'
             disabled={isDisabled}

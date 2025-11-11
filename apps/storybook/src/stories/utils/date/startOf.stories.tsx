@@ -9,43 +9,26 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateStartOfParams> = {
+const { date, unit } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/startOf',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of startOf',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
   },
+} satisfies Meta<DateStartOfParams>;
+
+export default meta;
+
+type Story = StoryObj<DateStartOfParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -53,13 +36,6 @@ const meta: Meta<DateStartOfParams> = {
     }),
     unit: DATE_UNITS.DAY,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateStartOfParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

@@ -4,7 +4,7 @@ import { PopoverProps } from '@/components/Popover';
 import { TypographyProps } from '@/components/Typography';
 
 export interface InfoPopoverProps
-  extends Omit<PopoverProps, 'children'>,
+  extends PopoverProps,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   title: ReactNode;
   innerClassName?: HTMLAttributes<HTMLDivElement>['className'];

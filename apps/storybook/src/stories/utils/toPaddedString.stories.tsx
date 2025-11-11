@@ -3,19 +3,24 @@ import { toPaddedString, ToPaddedStringParams } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-const meta: Meta<ToPaddedStringParams> = {
+const meta = {
   title: 'core/utils/toPaddedString',
   argTypes: {
     number: {
       control: 'number',
-      type: 'number',
+      type: { name: 'number', required: true },
     },
     length: {
       control: 'number',
       type: 'number',
+      table: {
+        defaultValue: {
+          summary: '8',
+        },
+      },
     },
   },
-};
+} satisfies Meta<ToPaddedStringParams>;
 
 export default meta;
 
@@ -26,19 +31,13 @@ export const Default: Story = {
     number: 1,
     length: 8,
   },
-  render: ({ number, length }: ToPaddedStringParams) => {
-    const [str, setStr] = useState(number);
-    const [len, setLen] = useState(length);
+  render: (args) => {
+    const [options, setOptions] = useState(args);
 
     useEffect(() => {
-      setStr(number);
-      setLen(length);
-    }, [number, length]);
+      setOptions(args);
+    }, [args]);
 
-    return (
-      <Typography>
-        변환 결과: {toPaddedString({ number: str, length: len })}
-      </Typography>
-    );
+    return <Typography>변환 결과: {toPaddedString(options)}</Typography>;
   },
 };

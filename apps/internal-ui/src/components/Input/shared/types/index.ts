@@ -86,8 +86,6 @@ export interface UseInputChangeProps<
 export interface InputIconButtonProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
-      'disabled' | 'onClick' | 'type' | 'className'
+      'disabled' | 'onClick' | 'type' | 'className' | 'aria-label'
     >,
-    Pick<IconProps, 'iconKey' | 'weight'> {
-  ariaLabel: ButtonHTMLAttributes<HTMLButtonElement>['aria-label'];
-}
+    Pick<IconProps, 'iconKey' | 'weight'> {}

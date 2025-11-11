@@ -11,30 +11,23 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateToParseDateTypeParams<DateParseType>> = {
+const { date } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/toParseDateType',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
     type: {
       control: 'select',
       description: 'Parse result type',
       options: Object.values(DATE_PARSE_TYPES),
+      type: {
+        name: 'other',
+        value: 'DateParseType',
+        required: true,
+      },
       table: {
         type: {
           summary: generateArgTypeSummary({
@@ -44,6 +37,13 @@ const meta: Meta<DateToParseDateTypeParams<DateParseType>> = {
       },
     },
   },
+} satisfies Meta<DateToParseDateTypeParams<DateParseType>>;
+
+export default meta;
+
+type Story = StoryObj<DateToParseDateTypeParams<DateParseType>>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -51,13 +51,6 @@ const meta: Meta<DateToParseDateTypeParams<DateParseType>> = {
     }),
     type: DATE_PARSE_TYPES.DAYJS,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateToParseDateTypeParams<DateParseType>>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

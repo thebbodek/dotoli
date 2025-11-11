@@ -1,9 +1,10 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { Radio, RADIO_SIZES, RadioProps } from '@bbodek/internal-ui';
 import { Meta } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Radio> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const meta = {
   title: 'core/internal-ui/Radio',
   component: Radio,
   argTypes: {
@@ -25,11 +26,7 @@ const meta: Meta<typeof Radio> = {
     label: {
       description: 'Radio label',
       control: 'text',
-      table: {
-        type: {
-          summary: 'string',
-        },
-      },
+      type: 'string',
     },
     checked: {
       description: 'Radio checked',
@@ -37,11 +34,6 @@ const meta: Meta<typeof Radio> = {
       type: {
         name: 'boolean',
         required: true,
-      },
-      table: {
-        type: {
-          summary: 'true | false',
-        },
       },
     },
     disabled: {
@@ -58,16 +50,22 @@ const meta: Meta<typeof Radio> = {
     },
     onChange: {
       action: 'changed',
+      description: 'Radio onChange',
       type: {
         name: 'function',
         required: true,
       },
     },
+    className: {
+      description: 'Radio className',
+      control: 'text',
+      type: 'string',
+    },
   },
   args: {
     size: RADIO_SIZES.SM,
   },
-};
+} satisfies Meta<typeof Radio>;
 
 export default meta;
 

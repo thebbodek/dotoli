@@ -10,7 +10,7 @@ const CalendarNavigator = ({ onYearChange, year }: CalendarNavigatorProps) => {
   return (
     <div className='in-tablet:mb-3 text-in-gray-06 in-flex-h-stack-center mb-2 pt-3'>
       <IconButton
-        arialLabel={
+        aria-label={
           CALENDAR_NAVIGATE_META_DATA[CALENDAR_NAVIGATE_TYPE.PREV].LABEL
         }
         iconKey={
@@ -22,7 +22,7 @@ const CalendarNavigator = ({ onYearChange, year }: CalendarNavigatorProps) => {
       />
       <CalendarYear year={year} />
       <IconButton
-        arialLabel={
+        aria-label={
           CALENDAR_NAVIGATE_META_DATA[CALENDAR_NAVIGATE_TYPE.NEXT].LABEL
         }
         iconKey={

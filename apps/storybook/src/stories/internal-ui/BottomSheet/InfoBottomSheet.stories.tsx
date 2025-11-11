@@ -3,23 +3,28 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { default as ConfirmBottomSheetMeta } from '@/stories/internal-ui/BottomSheet/ConfirmBottomSheet.stories';
-import { default as InfoModalMeta } from '@/stories/internal-ui/Modal/InfoModal.stories';
+import {
+  InfoModalArgs,
+  default as InfoModalMeta,
+} from '@/stories/internal-ui/Modal/InfoModal.stories';
 
 const { isOpen, title } = ConfirmBottomSheetMeta.argTypes ?? {};
 
-const meta: Meta<typeof InfoBottomSheet> = {
+interface InfoBottomSheetArgs extends InfoModalArgs {}
+
+const meta = {
   title: 'core/internal-ui/BottomSheet/InfoBottomSheet',
   component: InfoBottomSheet,
   argTypes: {
-    ...(InfoModalMeta.argTypes ?? {}),
+    ...InfoModalMeta.argTypes,
     isOpen,
     title,
   },
-};
+} satisfies Meta<InfoBottomSheetArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof InfoBottomSheet>;
+type Story = StoryObj<InfoBottomSheetArgs>;
 
 const Box = () => (
   <div className='bg-in-gray-01 rounded-in-8 h-[11.687rem] w-full' />
@@ -28,13 +33,35 @@ const Box = () => (
 export const Default: Story = {
   args: {
     title: '한줄 타이틀이 들어갑니다',
-    confirmOption: {
-      label: '확인 완료',
-      onConfirm: () => {},
-    },
   },
-  render: (args) => {
+  render: ({
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '확인 완료',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel,
+          onCancel,
+        };
 
     return (
       <>
@@ -43,9 +70,10 @@ export const Default: Story = {
           {...args}
           isOpen={isOpen}
           confirmOption={{
-            label: args.confirmOption?.label ?? '확인 완료',
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
+          cancelOption={cancelOption}
         >
           <Box />
           <InfoBottomSheet.Description
@@ -66,13 +94,35 @@ export const Default: Story = {
 export const WithClose: Story = {
   args: {
     title: '배송 유형이란?',
-    confirmOption: {
-      label: '바로가기',
-      onConfirm: () => {},
-    },
   },
-  render: (args) => {
+  render: ({
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '바로가기',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel,
+          onCancel,
+        };
 
     return (
       <>
@@ -81,11 +131,11 @@ export const WithClose: Story = {
           {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...args.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={{
-            ...args.cancelOption,
+            ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
           className='max-w-sm'

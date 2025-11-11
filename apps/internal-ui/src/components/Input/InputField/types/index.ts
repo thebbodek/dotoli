@@ -21,7 +21,6 @@ export interface InputFieldProps
     Pick<
       InputProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
       | 'id'
-      | 'required'
       | 'value'
       | 'placeholder'
       | 'disabled'

@@ -9,7 +9,7 @@ const Chip = ({
   onClick,
   disabled = false,
   className,
-  ariaLabel,
+  'aria-label': ariaLabel,
 }: ChipProps) => {
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();

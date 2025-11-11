@@ -6,7 +6,7 @@ import { default as IconMeta } from './Icon.stories';
 
 const { iconKey } = IconMeta.argTypes ?? {};
 
-const meta: Meta<typeof Badge> = {
+const meta = {
   title: 'core/internal-ui/Badge',
   component: Badge,
   argTypes: {
@@ -55,8 +55,13 @@ const meta: Meta<typeof Badge> = {
         name: 'string',
       },
     },
+    className: {
+      control: 'text',
+      description: 'Badge className',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Badge>;
 
 export default meta;
 
@@ -85,34 +90,10 @@ export const VariantsAndColors: Story = {
             variant={variant}
             theme={theme}
             key={`${variant}-${theme}`}
+            iconKey='shield-check'
           />
         )),
       )}
-    </ul>
-  ),
-};
-
-export const WithIcon: Story = {
-  args: {
-    label: 'Badge',
-    variant: BADGE_VARIANTS.FILLED,
-    theme: BADGE_THEMES.PRIMARY,
-  },
-  render: (args) => (
-    <ul className='grid grid-cols-5 gap-4'>
-      {Object.values(BADGE_VARIANTS)
-        .filter((variant) => variant !== BADGE_VARIANTS.STATUS)
-        .map((variant) =>
-          Object.values(BADGE_THEMES).map((theme) => (
-            <Badge
-              {...args}
-              variant={variant}
-              theme={theme}
-              key={`${variant}-${theme}`}
-              iconKey='shield-check'
-            />
-          )),
-        )}
     </ul>
   ),
 };

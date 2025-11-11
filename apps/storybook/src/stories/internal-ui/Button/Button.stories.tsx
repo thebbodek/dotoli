@@ -24,14 +24,15 @@ const BUTTON_TYPES = {
   RESET: 'reset',
 } as const;
 
-export interface ButtonArgs extends Omit<ButtonProps, 'iconOption'> {
+export interface ButtonArgs
+  extends Omit<ButtonProps, 'iconOption' | 'responsive'> {
   iconKey: NonNullable<ButtonProps['iconOption']>['iconKey'];
   responsiveMobile: ButtonSize;
   responsiveTablet: ButtonSize;
   responsiveDesktop: ButtonSize;
 }
 
-const meta: Meta<ButtonArgs> = {
+const meta = {
   title: 'core/internal-ui/Button/Button',
   component: Button,
   argTypes: {
@@ -105,6 +106,7 @@ const meta: Meta<ButtonArgs> = {
     isPending: {
       description: 'Button Pending',
       control: 'boolean',
+      type: { name: 'boolean' },
       table: {
         defaultValue: { summary: 'false' },
       },
@@ -112,6 +114,9 @@ const meta: Meta<ButtonArgs> = {
     iconKey: {
       ...iconKeyArgType,
       type: { required: false, name: 'string' },
+      table: {
+        subcategory: 'iconOption',
+      },
     },
     iconPosition: {
       description: 'Button Icon Position',
@@ -126,9 +131,13 @@ const meta: Meta<ButtonArgs> = {
         },
       },
     },
-    onClick: { action: 'clicked' },
+    onClick: {
+      action: 'clicked',
+      type: 'function',
+      description: 'Button on click',
+    },
     responsiveMobile: {
-      name: 'responsiveMobile',
+      name: 'mobile',
       description: 'Button responsive size for mobile',
       control: 'select',
       options: Object.values(BUTTON_SIZES),
@@ -142,7 +151,7 @@ const meta: Meta<ButtonArgs> = {
       },
     },
     responsiveTablet: {
-      name: 'responsiveTablet',
+      name: 'tablet',
       description: 'Button responsive size for tablet',
       control: 'select',
       options: Object.values(BUTTON_SIZES),
@@ -156,7 +165,7 @@ const meta: Meta<ButtonArgs> = {
       },
     },
     responsiveDesktop: {
-      name: 'responsiveDesktop',
+      name: 'desktop',
       description: 'Button responsive size for desktop',
       control: 'select',
       options: Object.values(BUTTON_SIZES),
@@ -169,8 +178,21 @@ const meta: Meta<ButtonArgs> = {
         },
       },
     },
+    className: {
+      description: 'Button className',
+      control: 'text',
+      type: 'string',
+    },
+    ref: {
+      description: 'Button ref',
+      table: {
+        type: {
+          summary: 'Ref<HTMLButtonElement>',
+        },
+      },
+    },
   },
-};
+} satisfies Meta<ButtonArgs>;
 
 export default meta;
 
@@ -291,5 +313,33 @@ export const Size: Story = {
         </li>
       ))}
     </ul>
+  ),
+};
+
+export const Responsive: Story = {
+  args: {
+    label: 'Button',
+    size: BUTTON_SIZES.SM,
+    theme: BUTTON_THEMES.PRIMARY,
+    variant: BUTTON_VARIANTS.FILLED,
+    disabled: false,
+    onClick: () => alert('clicked'),
+  },
+  render: ({
+    iconKey,
+    responsiveMobile = BUTTON_SIZES.SM,
+    responsiveTablet = BUTTON_SIZES.MD,
+    responsiveDesktop = BUTTON_SIZES.LG,
+    ...args
+  }) => (
+    <Button
+      {...args}
+      iconOption={{ iconKey }}
+      responsive={getResponsive({
+        responsiveMobile,
+        responsiveTablet,
+        responsiveDesktop,
+      })}
+    />
   ),
 };

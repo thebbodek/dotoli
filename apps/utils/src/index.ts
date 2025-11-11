@@ -19,4 +19,4 @@ export * from '@/toast';
 export * from '@/toPaddedString';
 
 export { ACCEPT_FILE_EXT, ACCEPT_FILES } from '@/shared';
-export type { ExtFnProps } from '@/shared';
+export type { ExtFnParams } from '@/shared';

@@ -7,7 +7,12 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Sort> = {
+import { default as selectMeta } from './Select/Select.stories';
+
+const { onSelect, popoverOption, disabled, label, className } =
+  selectMeta.argTypes;
+
+const meta = {
   title: 'core/internal-ui/Sort',
   component: Sort,
   argTypes: {
@@ -39,31 +44,13 @@ const meta: Meta<typeof Sort> = {
         value: 'string | null',
       },
     },
-    disabled: {
-      control: 'boolean',
-      description: 'Sort disabled',
-      type: 'boolean',
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-      },
-    },
-    onSelect: {
-      action: 'clicked',
-      description: 'Sort on select',
-      table: {
-        type: {
-          summary: 'function',
-        },
-      },
-      type: {
-        required: true,
-        name: 'function',
-      },
-    },
+    label,
+    className,
+    disabled,
+    onSelect,
+    popoverOption,
   },
-};
+} satisfies Meta<typeof Sort>;
 
 export default meta;
 

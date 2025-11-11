@@ -2,13 +2,38 @@ import { Icon, InfoPopover, Typography } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { default as PopoverMeta } from './Popover.stories';
+import { default as popoverMeta } from './Popover.stories';
 
-const meta: Meta<typeof InfoPopover> = {
+const meta = {
   title: 'core/internal-ui/InfoPopover',
   component: InfoPopover,
-  argTypes: PopoverMeta.argTypes,
-};
+  argTypes: {
+    ...popoverMeta.argTypes,
+    title: {
+      control: 'object',
+      description: 'InfoPopover title',
+      type: {
+        name: 'string',
+        required: true,
+      },
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    innerClassName: {
+      control: 'text',
+      description: 'InfoPopover inner className',
+      type: 'string',
+    },
+    className: {
+      control: 'text',
+      description: 'InfoPopover className',
+      type: 'string',
+    },
+  },
+} satisfies Meta<typeof InfoPopover>;
 
 export default meta;
 

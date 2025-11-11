@@ -9,7 +9,7 @@ import { useState } from 'react';
 
 import { default as AvatarMeta } from './Avatar.stories';
 
-const meta: Meta<typeof AvatarGroup> = {
+const meta = {
   title: 'core/internal-ui/AvatarGroup',
   component: AvatarGroup,
   globals: AvatarMeta.globals,
@@ -40,7 +40,7 @@ const meta: Meta<typeof AvatarGroup> = {
       type: 'string',
     },
   },
-};
+} satisfies Meta<typeof AvatarGroup>;
 
 export default meta;
 
@@ -60,13 +60,13 @@ export const Default: Story = {
     const [length, setLength] = useState(args.items.length);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap='3'>
+      <Flex direction='column' align={{ items: 'center' }} gap='12'>
         <AvatarGroup
           {...args}
           items={generateItems(length)}
           tooltipClassName='max-w-[197px]'
         />
-        <Flex gap='1'>
+        <Flex gap='4'>
           <IconButton
             iconKey='minus'
             arialLabel='minus'

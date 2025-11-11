@@ -1,8 +1,8 @@
 import { useIsomorphicLayoutEffect } from '@bbodek/hooks';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-const meta: Meta = {
+const meta = {
   title: 'core/hooks/useIsomorphicLayoutEffect',
   parameters: {
     docs: {
@@ -12,11 +12,13 @@ const meta: Meta = {
       },
     },
   },
-};
+} satisfies Meta;
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj;
+
+export const Default: Story = {
   render: () => {
     const ref = useRef<HTMLDivElement>(null);
     const [width, setWidth] = useState(0);

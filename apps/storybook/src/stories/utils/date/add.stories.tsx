@@ -11,33 +11,29 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<DateAddParams> = {
+const DATE_TYPE = 'string | number | DateValue';
+
+const meta = {
   title: 'core/utils/date/add',
   argTypes: {
     date: {
       description: 'Date value',
-      control: {
-        type: 'text',
-      },
+      control: 'text',
       type: {
-        required: true,
         name: 'other',
-        value: 'string | number | DateValue',
+        value: DATE_TYPE,
+        required: true,
       },
       table: {
         type: {
-          summary: 'string | number | DateValue',
+          summary: DATE_TYPE,
         },
       },
     },
     value: {
       control: 'number',
       description: 'Date value of add',
-      table: {
-        type: {
-          summary: 'number',
-        },
-      },
+      type: { name: 'number', required: true },
     },
     unit: {
       control: 'select',
@@ -55,6 +51,13 @@ const meta: Meta<DateAddParams> = {
       },
     },
   },
+} satisfies Meta<DateAddParams>;
+
+export default meta;
+
+type Story = StoryObj<DateAddParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -63,13 +66,6 @@ const meta: Meta<DateAddParams> = {
     value: 1,
     unit: DATE_UNITS.DAY,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateAddParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

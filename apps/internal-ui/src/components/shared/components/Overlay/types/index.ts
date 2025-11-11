@@ -52,7 +52,7 @@ export interface OverlayFooterPrimitiveProps {
     label: string;
     onConfirm: () => void;
     tooltipOption?: Partial<Pick<TooltipProps, 'content'>> & {
-      useTooltip: boolean;
+      useTooltip?: boolean;
     };
   };
   cancelOption?: {

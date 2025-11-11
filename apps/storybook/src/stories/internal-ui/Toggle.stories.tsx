@@ -1,9 +1,14 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { Toggle, TOGGLE_SIZES, ToggleProps } from '@bbodek/internal-ui';
-import { Meta } from '@storybook/react';
+import { COLOR_VARIANTS, Toggle, TOGGLE_SIZES } from '@bbodek/internal-ui';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Toggle> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const labelColorOptions = Object.values(COLOR_VARIANTS).filter(
+  (color) => color === COLOR_VARIANTS.BLACK || color === COLOR_VARIANTS.GRAY_06,
+);
+
+const meta = {
   title: 'core/internal-ui/Toggle',
   component: Toggle,
   argTypes: {
@@ -25,11 +30,27 @@ const meta: Meta<typeof Toggle> = {
     label: {
       description: 'Toggle label',
       control: 'text',
+      type: 'string',
+    },
+    labelColor: {
+      description: 'Toggle label color',
+      control: 'select',
+      options: labelColorOptions,
       table: {
         type: {
-          summary: 'string',
+          summary: generateArgTypeSummary({
+            options: labelColorOptions,
+          }),
+        },
+        defaultValue: {
+          summary: COLOR_VARIANTS.BLACK,
         },
       },
+    },
+    labelClassName: {
+      description: 'Toggle label className',
+      control: 'text',
+      type: 'string',
     },
     checked: {
       description: 'Toggle checked',
@@ -38,21 +59,14 @@ const meta: Meta<typeof Toggle> = {
         name: 'boolean',
         required: true,
       },
-      table: {
-        type: {
-          summary: 'true | false',
-        },
-      },
     },
     disabled: {
       description: 'Toggle disabled',
       control: 'boolean',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'true | false',
         },
       },
     },
@@ -62,22 +76,19 @@ const meta: Meta<typeof Toggle> = {
         name: 'function',
         required: true,
       },
-      table: {
-        type: {
-          summary: 'function',
-        },
-      },
     },
   },
   args: {
     size: TOGGLE_SIZES.SM,
   },
-};
+} satisfies Meta<typeof Toggle>;
 
 export default meta;
 
-export const Default = {
-  render: (args: ToggleProps) => {
+type Story = StoryObj<typeof Toggle>;
+
+export const Default: Story = {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -90,11 +101,11 @@ export const Default = {
   },
 };
 
-export const WithLabel = {
+export const WithLabel: Story = {
   args: {
     label: 'Toggle',
   },
-  render: (args: ToggleProps) => {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -107,14 +118,14 @@ export const WithLabel = {
   },
 };
 
-export const Checked = {
+export const Checked: Story = {
   args: {
     label: 'Toggle',
     checked: true,
   },
 };
 
-export const Disabled = {
+export const Disabled: Story = {
   args: {
     label: 'Toggle',
     disabled: true,

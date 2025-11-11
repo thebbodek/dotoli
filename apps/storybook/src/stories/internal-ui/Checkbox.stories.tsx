@@ -1,9 +1,10 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { Checkbox, CHECKBOX_SIZES, CheckboxProps } from '@bbodek/internal-ui';
-import { Meta } from '@storybook/react';
+import { Checkbox, CHECKBOX_SIZES } from '@bbodek/internal-ui';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Checkbox> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const meta = {
   title: 'core/internal-ui/Checkbox',
   component: Checkbox,
   argTypes: {
@@ -25,11 +26,7 @@ const meta: Meta<typeof Checkbox> = {
     label: {
       description: 'Checkbox label',
       control: 'text',
-      table: {
-        type: {
-          summary: 'string',
-        },
-      },
+      type: 'string',
     },
     checked: {
       description: 'Checkbox checked',
@@ -38,21 +35,14 @@ const meta: Meta<typeof Checkbox> = {
         name: 'boolean',
         required: true,
       },
-      table: {
-        type: {
-          summary: 'true | false',
-        },
-      },
     },
     disabled: {
       description: 'Checkbox disabled',
       control: 'boolean',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'true | false',
         },
       },
     },
@@ -67,12 +57,14 @@ const meta: Meta<typeof Checkbox> = {
   args: {
     size: CHECKBOX_SIZES.SM,
   },
-};
+} satisfies Meta<typeof Checkbox>;
 
 export default meta;
 
-export const Default = {
-  render: (args: CheckboxProps) => {
+type Story = StoryObj<typeof Checkbox>;
+
+export const Default: Story = {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -85,11 +77,11 @@ export const Default = {
   },
 };
 
-export const WithLabel = {
+export const WithLabel: Story = {
   args: {
     label: 'Checkbox',
   },
-  render: (args: CheckboxProps) => {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -102,14 +94,14 @@ export const WithLabel = {
   },
 };
 
-export const Checked = {
+export const Checked: Story = {
   args: {
     label: 'Checkbox',
     checked: true,
   },
 };
 
-export const Disabled = {
+export const Disabled: Story = {
   args: {
     label: 'Checkbox',
     disabled: true,

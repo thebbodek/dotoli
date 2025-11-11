@@ -10,25 +10,14 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateIsValidParams> = {
+const { date } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/isValid',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'string',
-      },
-      table: {
-        type: {
-          summary: 'string',
-        },
-      },
-    },
+    date,
     format: {
       control: 'select',
       description: 'Date format of isValid',
@@ -45,6 +34,13 @@ const meta: Meta<DateIsValidParams> = {
       },
     },
   },
+} satisfies Meta<DateIsValidParams>;
+
+export default meta;
+
+type Story = StoryObj<DateIsValidParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -52,13 +48,6 @@ const meta: Meta<DateIsValidParams> = {
     }),
     format: DATE_FORMATS['YYYY-MM-DD'],
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateIsValidParams>;
-
-export const Default: Story = {
   render: (args) => {
     const [value, setValue] = useState(args.date);
     const isError = !isValid({

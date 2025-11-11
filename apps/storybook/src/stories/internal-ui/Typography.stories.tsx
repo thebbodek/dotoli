@@ -1,4 +1,3 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import {
   COLOR_VARIANTS,
   Typography,
@@ -7,7 +6,9 @@ import {
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Typography> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const meta = {
   title: 'core/internal-ui/Typography',
   component: Typography,
   argTypes: {
@@ -19,12 +20,18 @@ const meta: Meta<typeof Typography> = {
         name: 'string',
       },
     },
-    id: {
-      control: 'text',
-      description: 'Typography ID',
+    as: {
+      control: 'select',
+      options: Object.values(TYPOGRAPHY_ELEMENTS),
+      description: 'Typography Element',
       table: {
+        defaultValue: {
+          summary: 'span',
+        },
         type: {
-          summary: 'string',
+          summary: generateArgTypeSummary({
+            options: Object.values(TYPOGRAPHY_ELEMENTS),
+          }),
         },
       },
     },
@@ -52,23 +59,41 @@ const meta: Meta<typeof Typography> = {
         },
       },
     },
-    as: {
-      control: 'select',
-      options: Object.values(TYPOGRAPHY_ELEMENTS),
-      description: 'Typography Element',
+    id: {
+      control: 'text',
+      description: 'Typography ID',
+      type: 'string',
+    },
+    title: {
+      control: 'text',
+      description: 'Typography title',
+      type: 'string',
+    },
+    role: {
+      control: 'text',
+      description: 'Typography role',
+      type: 'string',
+    },
+    'aria-live': {
+      control: 'text',
+      description: 'Typography aria-live',
+      type: 'string',
+    },
+    ref: {
+      description: 'Typography ref',
       table: {
-        defaultValue: {
-          summary: 'span',
-        },
         type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(TYPOGRAPHY_ELEMENTS),
-          }),
+          summary: 'Ref<HTMLElement>',
         },
       },
     },
+    className: {
+      control: 'text',
+      description: 'Typography className',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Typography>;
 
 export default meta;
 

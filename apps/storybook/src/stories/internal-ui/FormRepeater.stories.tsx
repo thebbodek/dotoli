@@ -8,24 +8,29 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 import { useMemo } from 'react';
 
-const meta: Meta<typeof FormRepeater> = {
+const meta = {
   title: 'core/internal-ui/FormRepeater',
   component: FormRepeater,
   argTypes: {
     changedRowsCount: {
-      control: 'object',
+      control: 'number',
       description: 'changed rows count',
       type: 'number',
+      table: {
+        defaultValue: {
+          summary: '0',
+        },
+      },
     },
     onAdd: {
-      action: 'add',
       description: 'on add',
       type: 'function',
+      action: 'add',
     },
     onAllReset: {
-      action: 'reset',
       description: 'on all reset',
       type: 'function',
+      action: 'reset',
     },
     disabled: {
       control: 'boolean',
@@ -37,8 +42,21 @@ const meta: Meta<typeof FormRepeater> = {
         },
       },
     },
+    className: {
+      description: 'className',
+      control: 'text',
+      type: 'string',
+    },
+    children: {
+      description: 'children',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
   },
-};
+} satisfies Meta<typeof FormRepeater>;
 
 export default meta;
 
@@ -62,7 +80,22 @@ export const Default: Story = {
     const originalValues: UpdateFields = useMemo(
       () => ({
         id: 'id',
-        items: [],
+        items: [
+          {
+            id: '1',
+            name: '김뽀득',
+            dispatchCenter: dispatchCenters[0],
+            dispatchType: dispatchTypes[0],
+            useOrderNotice: false,
+          },
+          {
+            id: '2',
+            name: '박뽀득',
+            dispatchCenter: dispatchCenters[1],
+            dispatchType: dispatchTypes[0],
+            useOrderNotice: true,
+          },
+        ],
       }),
       [],
     );

@@ -1,7 +1,6 @@
 import {
   TabItemRefs,
   TabList,
-  TabListProps,
   TabListProvider,
   TabPanel,
   Tabs,
@@ -13,14 +12,20 @@ import { useRef, useState } from 'react';
 import { default as TabMeta } from '@/stories/internal-ui/Tab/Tabs.stories';
 import { tabItems } from '@/stories/internal-ui/Tab/constants';
 
-const { variant, size, theme, full, disabled, ariaLabel } =
-  TabMeta.argTypes ?? {};
+const {
+  variant,
+  size,
+  theme,
+  full,
+  disabled,
+  'aria-label': ariaLabel,
+} = TabMeta.argTypes ?? {};
 
-const meta: Meta<typeof TabList> = {
+const meta = {
   title: 'core/internal-ui/Tab/TabList',
   component: TabList,
-  argTypes: { variant, size, theme, full, disabled, ariaLabel },
-};
+  argTypes: { variant, size, theme, full, disabled, 'aria-label': ariaLabel },
+} satisfies Meta<typeof TabList>;
 
 export default meta;
 
@@ -30,7 +35,7 @@ export const Default: Story = {
   args: {
     variant: 'line',
   },
-  render: (args: TabListProps) => {
+  render: (args) => {
     const tabRefs: TabItemRefs = useRef({});
     const [currentValue, setCurrentValue] = useState(tabItems[0].value);
 

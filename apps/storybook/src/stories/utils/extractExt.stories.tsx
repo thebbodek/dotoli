@@ -1,34 +1,31 @@
 import { Button, Flex, Typography } from '@bbodek/internal-ui';
-import { ACCEPT_FILES, ExtFnProps, extractExt } from '@bbodek/utils';
+import { ACCEPT_FILES, ExtFnParams, extractExt } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-
-const meta: Meta<ExtFnProps> = {
+const meta = {
   title: 'core/utils/extractExt',
   argTypes: {
     str: {
       control: 'text',
       description: 'file name with ext',
+      type: { name: 'string', required: true },
     },
     accept: {
-      control: 'object',
-      options: ACCEPT_FILES,
+      description: 'accept file extensions',
       table: {
+        type: { summary: 'AcceptFileExt[]' },
         defaultValue: {
-          summary: generateArgTypeSummary({
-            options: ACCEPT_FILES,
-          }),
+          summary: `[${ACCEPT_FILES.map((ext) => `'${ext}'`).join(', ')}]`,
         },
       },
     },
   },
-};
+} satisfies Meta<ExtFnParams>;
 
 export default meta;
 
-type Story = StoryObj<ExtFnProps>;
+type Story = StoryObj<ExtFnParams>;
 
 export const Default: Story = {
   args: {

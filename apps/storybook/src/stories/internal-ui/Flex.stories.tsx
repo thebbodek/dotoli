@@ -1,4 +1,3 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import {
   Flex,
   FLEX_ALIGN_CONTENT_STYLES,
@@ -26,9 +25,13 @@ import {
   FlexJustifySelf,
   FlexProps,
 } from '@bbodek/internal-ui';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { PropsWithChildren } from 'react';
 
-interface FlexArgs extends Omit<FlexProps, 'align' | 'justify' | 'gap'> {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+interface FlexArgs
+  extends PropsWithChildren<Omit<FlexProps, 'align' | 'justify' | 'gap'>> {
   alignContent: FlexAlignContent;
   alignItems: FlexAlignItems;
   alignSelf: FlexAlignSelf;
@@ -40,7 +43,7 @@ interface FlexArgs extends Omit<FlexProps, 'align' | 'justify' | 'gap'> {
   gapRow: FlexGap;
 }
 
-const meta: Meta<FlexArgs> = {
+const meta = {
   title: 'core/internal-ui/Flex',
   component: Flex,
   argTypes: {
@@ -263,19 +266,42 @@ const meta: Meta<FlexArgs> = {
         },
       },
     },
+    children: {
+      description: 'children',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    className: {
+      description: 'className',
+      control: 'text',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<FlexArgs>;
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj<FlexArgs>;
+
+const FlexItem = ({ children }: PropsWithChildren) => {
+  return (
+    <div className='bg-in-green-02 text-in-green-06 rounded-in-4 px-2 py-1'>
+      {children}
+    </div>
+  );
+};
+
+export const Default: Story = {
   args: {
-    children: 'Flex',
+    children: <FlexItem>Flex</FlexItem>,
   },
 };
 
-export const WithChildren = {
-  render: (args: FlexArgs) => {
+export const WithChildren: Story = {
+  render: (args) => {
     const {
       alignContent,
       alignItems,
@@ -302,9 +328,7 @@ export const WithChildren = {
     };
 
     const items = Array.from({ length: 10 }, (_, index) => (
-      <div key={index} className='shadow-in-12 rounded-in-4 px-2 py-1'>
-        Flex {index + 1}
-      </div>
+      <FlexItem key={index}>Flex {index + 1}</FlexItem>
     ));
 
     return (
@@ -313,7 +337,12 @@ export const WithChildren = {
         {...originalProps}
         align={align}
         justify={justify}
-        gap={gap || { column: gapColumn, row: gapRow }}
+        gap={
+          gap || {
+            column: gapColumn,
+            row: gapRow || '6',
+          }
+        }
       >
         {items}
       </Flex>

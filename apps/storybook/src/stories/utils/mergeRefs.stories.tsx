@@ -14,14 +14,20 @@ export const Default = {
     const ref2 = useRef<HTMLDivElement>(null);
 
     const onRef1Click = () => {
-      alert(`ref1 is trigger root className: ${ref1.current?.className}`);
+      alert(`ref1 trigger root: ${ref1.current?.textContent}`);
     };
     const onRef2Click = () => {
-      alert(`ref2 is trigger root className: ${ref2.current?.className}`);
+      alert(`ref2 trigger root: ${ref2.current?.textContent}`);
     };
 
     return (
-      <div ref={mergeRefs(ref1, ref2)} className='merge-container'>
+      <div className='in-flex-v-stack gap-y-2'>
+        <div
+          ref={mergeRefs(ref1, ref2)}
+          className='bg-in-gray-02 rounded-in-8 p-4 text-center'
+        >
+          Bbodek
+        </div>
         <ul className='flex items-center gap-x-2'>
           <li>
             <Button onClick={onRef1Click} label='ref1' />

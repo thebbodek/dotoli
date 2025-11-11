@@ -10,7 +10,7 @@ export interface ConfirmOverlayProps
   extends OverlayPrimitiveProps,
     OverlayFooterStateProps {
   useIcon?: boolean;
-  iconOptions?: {
+  iconOption?: {
     color?: ColorVariants;
     backgroundColor?: ColorVariants;
     iconKey?: IconProps['iconKey'];
@@ -18,7 +18,7 @@ export interface ConfirmOverlayProps
 }
 
 export interface ConfirmOverlayContentProps
-  extends Pick<ConfirmOverlayProps, 'title' | 'useIcon' | 'iconOptions'> {}
+  extends Pick<ConfirmOverlayProps, 'title' | 'useIcon' | 'iconOption'> {}
 
 export interface ConfirmOverlayDescriptionProps
   extends Pick<OverlayDescriptionProps, 'description'> {}

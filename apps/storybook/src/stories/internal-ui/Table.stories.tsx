@@ -4,25 +4,26 @@ import { now } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Table> = {
+const meta = {
   title: 'core/internal-ui/Table',
   component: Table,
   argTypes: {
     caption: {
       description: 'Table caption',
-      control: {
-        type: 'text',
-      },
+      control: 'text',
       type: 'string',
     },
     children: {
-      type: { name: 'other', value: 'node' },
       description: `The content of the component, normally TableHead, TableBody`,
-      table: { type: { summary: 'node' } },
+      table: { type: { summary: 'ReactNode' } },
     },
-    className: { control: 'text', type: 'string' },
+    className: {
+      description: 'Table className',
+      control: 'text',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Table>;
 
 export default meta;
 
