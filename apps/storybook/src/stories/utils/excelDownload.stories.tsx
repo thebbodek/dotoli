@@ -1,5 +1,6 @@
 import { Button, Flex, Table } from '@bbodek/internal-ui';
 import {
+  ExcelCellOption,
   excelDownload,
   ExcelDownloadParams,
   now,
@@ -9,35 +10,88 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const fileTypes = ['base64', 'binary', 'buffer', 'file', 'array', 'string'];
+const FILE_TYPES = ['base64', 'binary', 'buffer', 'file', 'array', 'string'];
 
-const meta: Meta<ExcelDownloadParams> = {
+interface ExcelDownloadArgs extends ExcelDownloadParams {
+  fileName?: NonNullable<ExcelDownloadParams['fileNameOption']>['name'];
+  fileNameHasTimestamp?: NonNullable<
+    ExcelDownloadParams['fileNameOption']
+  >['hasTimestamp'];
+  rowValue?: ExcelCellOption['value'];
+  rowLink?: ExcelCellOption['link'];
+}
+
+const meta = {
   title: 'core/utils/excelDownload',
   argTypes: {
     columns: {
-      control: 'object',
       description: 'columns data',
+      type: {
+        name: 'array',
+        value: { name: 'string' },
+        required: true,
+      },
       table: {
         type: { summary: 'string[]' },
       },
     },
     rows: {
-      control: 'object',
       description: 'rows data',
+      type: {
+        name: 'array',
+        value: { name: 'other', value: 'ExcelCellOption[]' },
+        required: true,
+      },
       table: {
         type: { summary: 'ExcelCellOption[][]' },
+      },
+    },
+    rowValue: {
+      name: 'value',
+      control: 'text',
+      description: 'row value',
+      type: {
+        name: 'other',
+        required: true,
+        value: 'string | number | boolean | Date | undefined',
+      },
+      table: {
+        category: 'ExcelCellOption',
+        type: {
+          summary: generateArgTypeSummary({
+            options: [
+              'string',
+              'number',
+              'boolean',
+              'Date',
+              'undefined',
+              'string array',
+            ],
+          }),
+        },
+      },
+    },
+    rowLink: {
+      name: 'link',
+      control: 'object',
+      description: 'row link',
+      table: {
+        category: 'ExcelCellOption',
+        type: {
+          summary: 'HyperLink',
+        },
       },
     },
     type: {
       control: 'select',
       description: 'file type',
-      options: fileTypes,
+      options: FILE_TYPES,
       table: {
         defaultValue: {
           summary: 'file',
         },
         type: {
-          summary: generateArgTypeSummary({ options: fileTypes }),
+          summary: generateArgTypeSummary({ options: FILE_TYPES }),
         },
       },
     },
@@ -46,28 +100,49 @@ const meta: Meta<ExcelDownloadParams> = {
       description: 'file name option',
       table: {
         type: {
-          summary: '{ name: string, hasTimestamp?: boolean (default: true) }',
+          summary: 'object',
         },
+      },
+    },
+    fileName: {
+      control: 'text',
+      name: 'name',
+      description: 'file name',
+      type: { name: 'string', required: true },
+      table: {
+        category: 'fileNameOption',
+      },
+    },
+    fileNameHasTimestamp: {
+      control: 'boolean',
+      name: 'hasTimestamp',
+      description: 'file name has timestamp',
+      type: 'boolean',
+      table: {
+        category: 'fileNameOption',
       },
     },
     sheetName: {
       control: 'text',
-      description: 'sheetName',
+      description: 'sheet name',
+      type: 'string',
       table: {
-        type: { summary: 'string' },
+        defaultValue: {
+          summary: 'Sheet1',
+        },
       },
     },
   },
-};
+} satisfies Meta<ExcelDownloadArgs>;
 
 export default meta;
 
-type Story = StoryObj<ExcelDownloadParams>;
+type Story = StoryObj<ExcelDownloadArgs>;
 
 export const Default: Story = {
   args: {
     columns: ['제품명', '가격', '생산일', '카테고리', '링크'],
-    rows: Array.from({ length: 10 }).map(() => [
+    rows: Array.from({ length: 5 }).map(() => [
       { value: '식기세척기' },
       { value: 10000 },
       { value: toString({ date: now() }) },
@@ -78,16 +153,24 @@ export const Default: Story = {
       },
     ]),
   },
-  render: (args) => {
+  render: ({ fileName = 'test', fileNameHasTimestamp = true, ...args }) => {
     return (
-      <Flex direction='column' align={{ items: 'end' }} gap='2'>
+      <Flex direction='column' align={{ items: 'end' }} gap='4'>
         <Button
           label='다운로드'
           size='sm'
           theme='green'
           className='w-fit'
           iconOption={{ iconKey: 'download-simple' }}
-          onClick={() => excelDownload(args)}
+          onClick={() =>
+            excelDownload({
+              ...args,
+              fileNameOption: {
+                name: fileName,
+                hasTimestamp: fileNameHasTimestamp,
+              },
+            })
+          }
         />
 
         <Table>

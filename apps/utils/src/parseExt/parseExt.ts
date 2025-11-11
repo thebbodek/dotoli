@@ -1,8 +1,8 @@
 import { extractExt } from '@/extractExt';
 import { removeExt } from '@/removeExt';
-import { ACCEPT_FILES, ExtFnProps } from '@/shared';
+import { ACCEPT_FILES, ExtFnParams } from '@/shared';
 
-export const parseExt = ({ accept = ACCEPT_FILES, str }: ExtFnProps) => {
+export const parseExt = ({ accept = ACCEPT_FILES, str }: ExtFnParams) => {
   const initialValue = {
     removedExt: '',
     ext: '',

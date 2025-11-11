@@ -10,59 +10,33 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateDiffParams> = {
+const { date, unit } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/diff',
   argTypes: {
     date: {
+      ...date,
       description: 'Origin date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     target: {
+      ...date,
       description: 'Target date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of diff',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
   },
+} satisfies Meta<DateDiffParams>;
+
+export default meta;
+
+type Story = StoryObj<DateDiffParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -78,13 +52,6 @@ const meta: Meta<DateDiffParams> = {
     }),
     unit: DATE_UNITS.DAY,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateDiffParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

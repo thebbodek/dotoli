@@ -9,46 +9,40 @@ import {
   now,
   toString,
 } from '@bbodek/utils';
-
 import { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<DateCompareParams> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
+
+const { date } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/compare',
   argTypes: {
     target: {
+      ...date,
       description: 'Date value of compare from now',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     direction: {
       control: 'select',
       description: 'Date direction of compare',
       options: Object.values(DATE_COMPARE_DIRECTIONS),
       type: {
+        name: 'string',
         required: true,
-        name: 'other',
-        value: 'DateCompareDirection',
       },
       table: {
         type: {
-          summary: 'DateCompareDirection',
+          summary: generateArgTypeSummary({
+            options: Object.values(DATE_COMPARE_DIRECTIONS),
+          }),
         },
       },
     },
     isRelative: {
       control: 'boolean',
       description: 'Compare without suffix',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
@@ -56,6 +50,13 @@ const meta: Meta<DateCompareParams> = {
       },
     },
   },
+} satisfies Meta<DateCompareParams>;
+
+export default meta;
+
+type Story = StoryObj<DateCompareParams>;
+
+export const Default: Story = {
   args: {
     target: toString({
       date: add({
@@ -68,13 +69,6 @@ const meta: Meta<DateCompareParams> = {
     direction: DATE_COMPARE_DIRECTIONS.FROM_NOW,
     isRelative: false,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateCompareParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

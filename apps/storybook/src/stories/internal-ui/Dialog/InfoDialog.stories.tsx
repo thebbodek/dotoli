@@ -1,31 +1,77 @@
-import { Button, InfoDialog } from '@bbodek/internal-ui';
+import { Button, InfoDialog, InfoDialogProps } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { default as FormDialogMeta } from '@/stories/internal-ui/Dialog/FormDialog.stories';
+import { ConfirmModalArgs } from '@/stories/internal-ui/Modal/ConfirmModal.stories';
 
-const { isOpen, title, confirmOption, isLoading } =
-  FormDialogMeta.argTypes ?? {};
+const {
+  isOpen,
+  title,
+  confirmOption,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
+  isLoading,
+  ref,
+  className,
+  children,
+} = FormDialogMeta.argTypes ?? {};
 
-const meta: Meta<typeof InfoDialog> = {
+export interface InfoDialogArgs
+  extends Pick<ConfirmModalArgs, keyof InfoDialogProps>,
+    Pick<
+      ConfirmModalArgs,
+      | 'confirmLabel'
+      | 'onConfirm'
+      | 'confirmTooltipContent'
+      | 'confirmTooltipUseTooltip'
+    > {}
+
+const meta = {
   title: 'core/internal-ui/Dialog/InfoDialog',
   component: InfoDialog,
   argTypes: {
     isOpen,
     title,
     confirmOption,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
     isLoading,
+    ref,
+    className,
+    children,
   },
-};
+} satisfies Meta<InfoDialogArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof InfoDialog>;
+type Story = StoryObj<InfoDialogArgs>;
 
 export const Default: Story = {
   args: { title: '일 평균 수량 지난 주차 보기' },
-  render: (args) => {
+  render: ({
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '닫기',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
 
     return (
       <>
@@ -34,7 +80,7 @@ export const Default: Story = {
           {...args}
           isOpen={isOpen}
           confirmOption={{
-            label: args.confirmOption?.label ?? '닫기',
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
         >

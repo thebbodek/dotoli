@@ -1,52 +1,53 @@
-import { useClickOutside } from '@bbodek/hooks';
-import { Button, ComponentPropsRef } from '@bbodek/internal-ui';
-import clsx from 'clsx';
+import { useClickOutside, UseClickOutsideProps } from '@bbodek/hooks';
+import { Button } from '@bbodek/internal-ui';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 const meta = {
   title: 'core/hooks/useClickOutSide',
   argTypes: {
-    onClose: { action: 'clicked', type: { name: 'function', required: true } },
+    onClose: {
+      description: 'on close',
+      action: 'clicked',
+      type: { name: 'function', required: true },
+    },
     useClickOutsideEvent: {
       control: 'boolean',
-      description: 'useClickOutsideEvent',
+      description: 'use click outside event',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'true',
         },
-        type: {
-          summary: 'true | false',
-        },
       },
     },
   },
-};
+} satisfies Meta<UseClickOutsideProps>;
 
 export default meta;
 
-export const Default = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { contentRef } = useClickOutside({
-    onClose: () => setIsOpen(false),
-    useClickOutsideEvent: true,
-  });
+type Story = StoryObj<UseClickOutsideProps>;
 
-  return (
-    <div
-      ref={contentRef as ComponentPropsRef<HTMLDivElement>['ref']}
-      className={'flex flex-col gap-y-2'}
-    >
-      <Button onClick={() => setIsOpen(true)} label='Open' />
-      <div className='flex h-[20rem] w-[20rem]'>
-        <div
-          className={clsx(
-            'bg-gray-01 flex flex-1 items-center justify-center rounded-lg p-4 opacity-0 transition-opacity',
-            isOpen && 'opacity-100',
-          )}
-        >
-          Open!!
-        </div>
+export const Default: Story = {
+  args: {
+    useClickOutsideEvent: true,
+  },
+  render: ({ useClickOutsideEvent = true }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const { contentRef } = useClickOutside<HTMLDivElement>({
+      onClose: () => setIsOpen(false),
+      useClickOutsideEvent,
+    });
+
+    return (
+      <div ref={contentRef} className='in-flex-v-stack-center relative'>
+        <Button onClick={() => setIsOpen(true)} label='Open' />
+        {isOpen && (
+          <div className='bg-in-gray-02 in-flex-h-stack-center absolute h-[100px] w-[200px] rounded-lg p-4'>
+            Open!!
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  },
 };

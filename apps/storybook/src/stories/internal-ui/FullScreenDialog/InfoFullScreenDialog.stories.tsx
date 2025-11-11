@@ -4,21 +4,25 @@ import { useState } from 'react';
 
 import { default as FormFullScreenDialogMeta } from './FormFullScreenDialog.stories';
 
-const { isOpen, title, isLoading } = FormFullScreenDialogMeta.argTypes ?? {};
+const { isOpen, title, isLoading, ref, className, children } =
+  FormFullScreenDialogMeta.argTypes ?? {};
 
-const meta: Meta<typeof InfoFullScreenDialog> = {
+const meta = {
   title: 'core/internal-ui/FullScreenDialog/InfoFullScreenDialog',
   component: InfoFullScreenDialog,
   argTypes: {
     isOpen,
     title,
-    isLoading,
     onClose: {
       description: 'on close',
-      type: 'function',
+      type: { name: 'function', required: true },
     },
+    isLoading,
+    ref,
+    className,
+    children,
   },
-};
+} satisfies Meta<typeof InfoFullScreenDialog>;
 
 export default meta;
 

@@ -83,7 +83,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
       >
         {input}
         <InputIconButton
-          ariaLabel='초기화'
+          aria-label='초기화'
           disabled={isDisabled}
           iconKey={'x-circle'}
           onClick={onReset}

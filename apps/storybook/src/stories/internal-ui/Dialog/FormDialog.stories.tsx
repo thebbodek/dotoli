@@ -7,19 +7,43 @@ import {
   UseFormContentProps,
   useFormContent,
 } from '@/stories/internal-ui/shared/hooks/useFormContent';
-import { default as ConfirmModalMeta } from '../Modal/ConfirmModal.stories';
+import {
+  ConfirmModalArgs,
+  default as ConfirmModalMeta,
+} from '../Modal/ConfirmModal.stories';
 
 const {
   isOpen,
   title,
   confirmOption,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
   cancelOption,
+  cancelLabel,
+  onCancel,
+  isLoading,
+  ref,
+  className,
+  children,
   possibleConfirm,
   isPending,
-  isLoading,
-} = ConfirmModalMeta.argTypes ?? {};
+} = ConfirmModalMeta.argTypes;
 
-const meta: Meta<typeof FormDialog> = {
+export interface FormDialogArgs
+  extends Pick<ConfirmModalArgs, keyof FormDialogProps>,
+    Pick<
+      ConfirmModalArgs,
+      | 'confirmLabel'
+      | 'onConfirm'
+      | 'confirmTooltipContent'
+      | 'confirmTooltipUseTooltip'
+      | 'cancelLabel'
+      | 'onCancel'
+    > {}
+
+const meta = {
   title: 'core/internal-ui/Dialog/FormDialog',
   component: FormDialog,
   argTypes: {
@@ -32,27 +56,59 @@ const meta: Meta<typeof FormDialog> = {
       description: 'dialog title',
     },
     confirmOption,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
     cancelOption,
+    cancelLabel,
+    onCancel,
     possibleConfirm,
     isPending,
     isLoading,
+    ref,
+    className,
+    children,
   },
-};
+} satisfies Meta<FormDialogArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof FormDialog>;
+type Story = StoryObj<FormDialogArgs>;
 
 const Dialog = ({
   isOpen,
   close,
+  cancelLabel,
+  onCancel,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
   ...args
-}: UseFormContentProps & FormDialogProps) => {
+}: UseFormContentProps & FormDialogArgs) => {
   const {
     models: { values },
     status: { hasError, isPending },
     operations: { handleChange, handleConfirm },
   } = useFormContent({ close });
+
+  const confirmOption = args.confirmOption
+    ? args.confirmOption
+    : {
+        label: confirmLabel || '작성 완료',
+        tooltipOption: {
+          content: confirmTooltipContent,
+          useTooltip: confirmTooltipUseTooltip,
+        },
+      };
+
+  const cancelOption = args.cancelOption
+    ? args.cancelOption
+    : {
+        label: cancelLabel || '작성 취소',
+        onCancel,
+      };
 
   return (
     <FormDialog
@@ -60,15 +116,9 @@ const Dialog = ({
       isOpen={isOpen}
       possibleConfirm={args.possibleConfirm ?? !hasError}
       isPending={args.isPending || isPending}
-      confirmOption={{
-        label: args.confirmOption?.label ?? '작성 완료',
-        onConfirm: handleConfirm,
-      }}
-      cancelOption={{
-        label: args.cancelOption?.label ?? '작성 취소',
-        onCancel: close,
-      }}
       className='w-[31.125rem]'
+      confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
+      cancelOption={{ ...cancelOption, onCancel: close }}
     >
       <FormContent values={values} handleChange={handleChange} />
     </FormDialog>

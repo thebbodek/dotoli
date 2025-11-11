@@ -1,4 +1,3 @@
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import {
   Button,
   BUTTON_THEMES,
@@ -12,7 +11,9 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-const meta: Meta<typeof Popover> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const meta = {
   title: 'core/internal-ui/Popover',
   component: Popover,
   argTypes: {
@@ -34,60 +35,50 @@ const meta: Meta<typeof Popover> = {
     threshold: {
       control: 'number',
       description: 'threshold',
+      type: 'number',
       table: {
         defaultValue: {
           summary: '2',
-        },
-        type: {
-          summary: 'number',
         },
       },
     },
     offset: {
       control: 'number',
       description: 'trigger and popover between distance',
+      type: 'number',
       table: {
         defaultValue: {
           summary: '8',
-        },
-        type: {
-          summary: 'number',
         },
       },
     },
     useAutoFocus: {
       control: 'boolean',
       description: 'use auto focus to open popover',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'true',
-        },
-        type: {
-          summary: 'boolean',
         },
       },
     },
     applyMaxWidth: {
       control: 'boolean',
       description: 'apply max width to popover',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
         },
       },
     },
     useClickOutsideEvent: {
       control: 'boolean',
       description: 'use click outside event to close popover',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'true',
-        },
-        type: {
-          summary: 'boolean',
         },
       },
     },
@@ -102,9 +93,6 @@ const meta: Meta<typeof Popover> = {
         defaultValue: {
           summary: 'false',
         },
-        type: {
-          summary: 'boolean',
-        },
       },
     },
     onPopoverClose: {
@@ -116,7 +104,7 @@ const meta: Meta<typeof Popover> = {
       },
     },
   },
-};
+} satisfies Meta<PopoverProps>;
 
 export default meta;
 
@@ -146,11 +134,7 @@ export const Default: Story = {
           />
         }
       >
-        <div
-          className={
-            'shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'
-          }
-        >
+        <div className='shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'>
           Popover Content
         </div>
       </Popover>
@@ -163,7 +147,7 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
   const close = () => setIsOpen(false);
 
   return (
-    <li className='flex border-b p-2 first:justify-end last:border-b-0 even:justify-center'>
+    <li className='border-b-in-gray-05 flex border-b p-2 first:justify-end last:border-b-0 even:justify-center'>
       <Popover
         {...args}
         onPopoverClose={close}
@@ -177,11 +161,7 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
           />
         }
       >
-        <div
-          className={
-            'shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'
-          }
-        >
+        <div className='shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'>
           Popover Content {index}
           <IconButton
             arialLabel={'닫기'}
@@ -202,9 +182,7 @@ export const WithListRoot: Story = {
     return (
       <ul
         ref={rootRef}
-        className={
-          'popover-root bg-in-yellow-02 max-h-[20rem] w-60 overflow-y-auto'
-        }
+        className='popover-root bg-in-gray-01 rounded-in-8 border-in-gray-05 max-h-[20rem] w-60 overflow-y-auto border'
       >
         {Array.from({ length: 10 }).map((_, i) => (
           <ListItem key={i} index={i + 1} {...args} rootRef={rootRef} />

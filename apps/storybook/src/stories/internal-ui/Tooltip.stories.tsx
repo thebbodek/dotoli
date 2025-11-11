@@ -1,4 +1,4 @@
-import { Button, Tooltip } from '@bbodek/internal-ui';
+import { Button, COLOR_VARIANTS, Tooltip } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
@@ -18,22 +18,28 @@ const placements = [
   'left-end',
 ];
 
-const meta: Meta<typeof Tooltip> = {
+const meta = {
   title: 'core/internal-ui/Tooltip',
   component: Tooltip,
   argTypes: {
     content: {
-      control: 'text',
-      description: 'Tooltip Content',
+      control: 'object',
+      description: 'Tooltip content',
       type: {
         required: true,
-        name: 'string',
+        name: 'other',
+        value: 'ReactNode',
+      },
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
       },
     },
     placement: {
       control: 'select',
       options: placements,
-      description: 'Tooltip Placement',
+      description: 'Tooltip placement',
       table: {
         defaultValue: {
           summary: 'top',
@@ -43,17 +49,62 @@ const meta: Meta<typeof Tooltip> = {
         },
       },
     },
-    hidden: {
+    isKeepFloating: {
       control: 'boolean',
-      description: 'Hide Tooltip',
+      description: 'Tooltip keep floating',
+      type: 'boolean',
       table: {
         defaultValue: {
           summary: 'false',
         },
       },
     },
+    hidden: {
+      control: 'boolean',
+      description: 'Tooltip hide',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    color: {
+      control: 'select',
+      options: Object.values(COLOR_VARIANTS),
+      description: 'Tooltip color',
+      table: {
+        defaultValue: {
+          summary: COLOR_VARIANTS.WHITE,
+        },
+      },
+    },
+    id: {
+      control: 'text',
+      description: 'Tooltip id',
+      type: 'string',
+    },
+    ariaLive: {
+      control: 'text',
+      description: 'Tooltip aria-live',
+      type: 'string',
+    },
+    role: {
+      control: 'text',
+      description: 'Tooltip role',
+      type: 'string',
+    },
+    gap: {
+      control: 'number',
+      description: 'Tooltip gap',
+      type: 'number',
+      table: {
+        defaultValue: {
+          summary: '4',
+        },
+      },
+    },
   },
-};
+} satisfies Meta<typeof Tooltip>;
 
 export default meta;
 
@@ -61,7 +112,7 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Default: Story = {
   args: {
-    content: '수정',
+    content: 'hello world',
     placement: 'top',
     hidden: false,
   },

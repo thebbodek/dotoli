@@ -1,15 +1,17 @@
 import { Button, Flex, Typography } from '@bbodek/internal-ui';
 import { getUUID } from '@bbodek/utils';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 const meta: Meta = {
   title: 'core/utils/getUUID',
-};
+} satisfies Meta;
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj;
+
+export const Default: Story = {
   render: () => {
     const [UUID, setUUID] = useState<string | null>(null);
 

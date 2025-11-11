@@ -11,73 +11,26 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { default as addMeta } from './add.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<DateIsBetweenParams> = {
+const { date, unit } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/isBetween',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
     from: {
+      ...date,
       description: 'From date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     to: {
+      ...date,
       description: 'To date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of isBetween',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
     range: {
       control: 'select',
@@ -87,9 +40,21 @@ const meta: Meta<DateIsBetweenParams> = {
         defaultValue: {
           summary: DATE_IS_BETWEEN_RANGE.INCLUDE_INCLUDE,
         },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(DATE_IS_BETWEEN_RANGE),
+          }),
+        },
       },
     },
   },
+} satisfies Meta<DateIsBetweenParams>;
+
+export default meta;
+
+type Story = StoryObj<DateIsBetweenParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -114,13 +79,6 @@ const meta: Meta<DateIsBetweenParams> = {
     unit: DATE_UNITS.DAY,
     range: DATE_IS_BETWEEN_RANGE.INCLUDE_INCLUDE,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateIsBetweenParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

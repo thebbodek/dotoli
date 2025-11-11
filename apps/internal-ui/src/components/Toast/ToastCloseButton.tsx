@@ -5,7 +5,7 @@ const ToastCloseButton = ({ onClose }: Pick<ToastProps, 'onClose'>) => {
   return (
     <IconButton
       iconKey='x'
-      arialLabel='닫기'
+      aria-label='닫기'
       theme='white'
       className='-mr-2'
       onClick={onClose}

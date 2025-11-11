@@ -8,39 +8,28 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<DateDateParams> = {
+import { default as addMeta } from './add.stories';
+
+const { date: dateArgType } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/date',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date: dateArgType,
   },
-  args: {
-    date: toString({
-      date: now(),
-      format: DATE_FORMATS['YYYY-MM-DD'],
-    }),
-  },
-};
+} satisfies Meta<DateDateParams>;
 
 export default meta;
 
 type Story = StoryObj<DateDateParams>;
 
 export const Default: Story = {
+  args: {
+    date: toString({
+      date: now(),
+      format: DATE_FORMATS['YYYY-MM-DD'],
+    }),
+  },
   render: (args) => {
     return <Alert content={date({ date: args.date })} />;
   },

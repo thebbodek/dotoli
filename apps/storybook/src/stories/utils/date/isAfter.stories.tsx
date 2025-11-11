@@ -10,57 +10,24 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateIsAfterParams> = {
+const { date, unit } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/isAfter',
   argTypes: {
     date: {
+      ...date,
       description: 'Origin date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     target: {
+      ...date,
       description: 'Target date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of isAfter',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
     isInclude: {
       control: 'boolean',
@@ -72,6 +39,13 @@ const meta: Meta<DateIsAfterParams> = {
       },
     },
   },
+} satisfies Meta<DateIsAfterParams>;
+
+export default meta;
+
+type Story = StoryObj<DateIsAfterParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -88,13 +62,6 @@ const meta: Meta<DateIsAfterParams> = {
     unit: DATE_UNITS.DAY,
     isInclude: true,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateIsAfterParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

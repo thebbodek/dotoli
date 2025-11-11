@@ -14,9 +14,9 @@ export interface AlertProps
   collapsible?: boolean;
   useClose?: boolean;
   actionOption?: Partial<
-    Omit<
+    Pick<
       ActionButtonProps,
-      'theme' | 'size' | 'variant' | 'iconPosition' | 'iconOption' | 'className'
+      'as' | 'buttonOption' | 'disabled' | 'label' | 'linkOption' | 'responsive'
     >
   >;
   iconOption?: Pick<IconProps, 'iconKey'>;

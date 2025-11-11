@@ -40,9 +40,7 @@ export interface TabListContextProps
 export interface TabListProviderProps extends TabListContextProps {}
 
 export interface TabListBaseProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
-  ariaLabel?: HTMLAttributes<HTMLDivElement>['aria-label'];
-}
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'aria-label'> {}
 
 export interface TabsProps
   extends Omit<TabProviderProps, 'usePanel' | 'tabRefs'>,

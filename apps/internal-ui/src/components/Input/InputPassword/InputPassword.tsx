@@ -77,7 +77,7 @@ const InputPassword = ({
         addonEnd={
           <InputIconButton
             onClick={() => setVisible((v) => !v)}
-            ariaLabel={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
+            aria-label={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
             disabled={isDisabled}
             iconKey={visible ? 'eye' : 'eye-slash'}
           />

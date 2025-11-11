@@ -1,10 +1,10 @@
 import { Icon } from '@bbodek/internal-ui';
 import { icons, IconStyle } from '@phosphor-icons/core';
-import { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<typeof Icon> = {
+const meta = {
   title: 'core/internal-ui/Icon',
   component: Icon,
   argTypes: {
@@ -20,8 +20,8 @@ const meta: Meta<typeof Icon> = {
         },
       },
       type: {
-        required: true,
         name: 'string',
+        required: true,
       },
     },
     weight: {
@@ -40,12 +40,29 @@ const meta: Meta<typeof Icon> = {
         },
       },
     },
+    title: {
+      control: 'text',
+      description: 'icon title',
+      type: 'string',
+    },
+    'aria-hidden': {
+      control: 'boolean',
+      description: 'icon aria-hidden',
+      type: 'boolean',
+    },
+    className: {
+      description: 'className',
+      control: 'text',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Icon>;
 
 export default meta;
 
-export const Default = {
+type Story = StoryObj<typeof Icon>;
+
+export const Default: Story = {
   args: {
     iconKey: 'baby',
   },

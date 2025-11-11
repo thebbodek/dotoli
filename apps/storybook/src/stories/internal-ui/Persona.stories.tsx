@@ -8,15 +8,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as AvatarMeta } from './Avatar.stories';
 
-const { size, type } = AvatarMeta.argTypes ?? {};
+const { size, type, src } = AvatarMeta.argTypes ?? {};
 
-const meta: Meta<typeof Persona> = {
+const meta = {
   title: 'core/internal-ui/Persona',
   component: Persona,
   globals: AvatarMeta.globals,
   argTypes: {
     size,
     type,
+    src,
     name: {
       control: 'text',
       description: 'Persona Name',
@@ -30,16 +31,10 @@ const meta: Meta<typeof Persona> = {
       description: 'Persona Description',
       type: 'string',
     },
-    src: {
-      control: 'text',
-      description: 'Persona Image src',
-      type: 'string',
-    },
     profileTheme: {
       control: 'select',
       description: 'Persona Profile color',
       options: Object.values(PERSONA_PROFILE_THEMES),
-      type: 'string',
       table: {
         defaultValue: {
           summary: PERSONA_PROFILE_THEMES.LIGHT,
@@ -52,7 +47,7 @@ const meta: Meta<typeof Persona> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Persona>;
 
 export default meta;
 
@@ -60,22 +55,22 @@ type Story = StoryObj<typeof Persona>;
 
 export const Default: Story = {
   args: {
-    name: '강준영',
+    name: '김뽀득',
     type: 'single',
   },
 };
 
-export const WithPersonaImage: Story = {
+export const WithImage: Story = {
   args: {
-    name: '강준영',
-    src: 'https://ca.slack-edge.com/T01HSRM9C0Z-U0673TXRU2U-7184f5cfe3fe-512',
+    name: '김뽀득',
+    src: 'https://image.thebbodek.com/logo/logo-color-symbol-bg.png',
     type: 'single',
   },
 };
 
 export const WithDescription: Story = {
   args: {
-    name: '강준영',
+    name: '김뽀득',
     description: '플랫폼팀',
     type: 'single',
   },
@@ -83,7 +78,7 @@ export const WithDescription: Story = {
 
 export const PersonaSizes: Story = {
   args: {
-    name: '강준영',
+    name: '김뽀득',
     description: '플랫폼팀',
     type: 'single',
   },

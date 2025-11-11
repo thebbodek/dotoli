@@ -9,59 +9,30 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as addMeta } from './add.stories';
 
-const meta: Meta<DateIsSameParams> = {
+const { date, unit } = addMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/isSame',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
     target: {
+      ...date,
       description: 'Target date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
     },
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of isSame',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
   },
+} satisfies Meta<DateIsSameParams>;
+
+export default meta;
+
+type Story = StoryObj<DateIsSameParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -73,13 +44,6 @@ const meta: Meta<DateIsSameParams> = {
     }),
     unit: DATE_UNITS.DAY,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateIsSameParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

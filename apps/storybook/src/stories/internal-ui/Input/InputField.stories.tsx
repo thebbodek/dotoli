@@ -1,4 +1,8 @@
-import { Icon, InputField } from '@bbodek/internal-ui';
+import {
+  Icon,
+  INPUT_DEFAULT_MAX_LENGTH,
+  InputField,
+} from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -6,14 +10,38 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const textFieldTypes = ['text', 'email', 'number'];
 
-const meta: Meta<typeof InputField> = {
+const meta = {
   title: 'core/internal-ui/Input/InputField',
   component: InputField,
   argTypes: {
     label: {
       control: 'text',
       description: 'Input Field label',
-      type: 'string',
+      type: {
+        name: 'string',
+        required: true,
+      },
+    },
+    value: {
+      control: 'text',
+      description: 'input value',
+      type: {
+        name: 'other',
+        value: 'string | number | readonly string[] | undefined',
+        required: true,
+      },
+      table: {
+        type: {
+          summary: generateArgTypeSummary({
+            options: ['string', 'number', 'readonly string array', 'undefined'],
+          }),
+        },
+      },
+    },
+    onChange: {
+      action: 'onChange',
+      type: 'function',
+      description: 'input onChange',
     },
     feedback: {
       control: 'text',
@@ -30,18 +58,52 @@ const meta: Meta<typeof InputField> = {
         },
       },
     },
+    badge: {
+      control: 'object',
+      description: 'input label badge',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    hiddenLabel: {
+      control: 'boolean',
+      description: 'hidden label',
+      type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    className: {
+      control: 'text',
+      description: 'input className',
+      type: 'string',
+    },
     type: {
       control: 'select',
       description: 'Input Field type',
       options: textFieldTypes,
       table: {
         defaultValue: {
-          summary: `'text'`,
+          summary: 'text',
         },
         type: {
           summary: generateArgTypeSummary({ options: textFieldTypes }),
         },
       },
+    },
+    id: {
+      control: 'text',
+      description: 'input id',
+      type: 'string',
+    },
+    placeholder: {
+      control: 'text',
+      type: 'string',
+      description: 'Input Field placeholder',
     },
     required: {
       control: 'boolean',
@@ -73,37 +135,73 @@ const meta: Meta<typeof InputField> = {
         },
       },
     },
-    placeholder: {
+    name: {
       control: 'text',
+      description: 'input name',
       type: 'string',
-      description: 'Input Field placeholder',
+    },
+    autoComplete: {
+      control: 'text',
+      description: 'input auto complete',
+      type: 'string',
+    },
+    ref: {
+      description: 'input ref',
+      table: {
+        type: {
+          summary: 'Ref<HTMLInputElement>',
+        },
+      },
+    },
+    maxLength: {
+      control: 'number',
+      description: 'input max length',
+      type: 'number',
+      table: {
+        defaultValue: {
+          summary: `${INPUT_DEFAULT_MAX_LENGTH}`,
+        },
+      },
+    },
+    regCallback: {
+      action: 'regCallback',
+      description: 'input reg callback',
+      type: 'function',
     },
   },
-};
+  args: {
+    label: 'Label',
+    type: 'text',
+  },
+} satisfies Meta<typeof InputField>;
 
 export default meta;
 
 type Story = StoryObj<typeof InputField>;
 
 export const Default: Story = {
-  args: {},
   render(args) {
     const [value, setValue] = useState('');
 
     return (
-      <InputField
-        {...args}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-      />
+      <>
+        <InputField
+          {...args}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <input
+          type='text'
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+      </>
     );
   },
 };
 
 export const WithLabel: Story = {
   args: {
-    label: 'Label',
-    type: 'text',
     required: true,
   },
   render(args) {
@@ -121,8 +219,6 @@ export const WithLabel: Story = {
 
 export const WithBadge: Story = {
   args: {
-    label: 'Label',
-    type: 'text',
     badge: <Icon iconKey='info' weight='fill' />,
   },
   render(args) {
@@ -140,12 +236,6 @@ export const WithBadge: Story = {
 
 export const WithFeedback: Story = {
   args: {
-    label: 'Label',
-    type: 'text',
-    required: false,
-    isError: false,
-    readOnly: false,
-    disabled: false,
     feedback: '소문자로 입력해주세요',
   },
   render(args) {
@@ -168,10 +258,6 @@ export const WithFeedback: Story = {
 };
 
 export const WithRegexCallback: Story = {
-  args: {
-    label: 'Label',
-    type: 'text',
-  },
   render: (args) => {
     const [value, setValue] = useState('');
     const NUMERIC_REG_EXP = /[^0-9]/g;

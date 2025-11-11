@@ -12,13 +12,12 @@ export type IconButtonTheme =
 export interface IconButtonProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
-      'onClick' | 'disabled' | 'type'
+      'onClick' | 'disabled' | 'type' | 'aria-label'
     >,
     Pick<IconProps, 'iconKey'>,
     Pick<ButtonProps, 'isPending'>,
     ComponentPropsRef<HTMLButtonElement> {
   theme?: IconButtonTheme;
-  arialLabel: Required<ButtonHTMLAttributes<HTMLButtonElement>['aria-label']>;
   className?: TooltipProps['rootClassName'];
   tooltipOption?: Pick<TooltipProps, 'content' | 'placement'>;
 }

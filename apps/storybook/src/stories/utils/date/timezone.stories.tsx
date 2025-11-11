@@ -8,49 +8,36 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as isValidMeta } from './isValid.stories';
 
-const meta: Meta<DateTimeZoneParams> = {
+const { date, format } = isValidMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/timezone',
   argTypes: {
     date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
+      ...date,
       type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
+        ...date.type,
+        required: false,
       },
     },
     format: {
-      control: 'select',
+      ...format,
       description: 'Date format of timezone',
-      options: Object.keys(DATE_FORMATS),
-      table: {
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.keys(DATE_FORMATS),
-          }),
-        },
-      },
     },
     isStrict: {
       control: 'boolean',
       description: 'Strict of date',
-      table: {
-        type: {
-          summary: 'boolean',
-        },
-      },
     },
   },
+} satisfies Meta<DateTimeZoneParams>;
+
+export default meta;
+
+type Story = StoryObj<DateTimeZoneParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -59,13 +46,6 @@ const meta: Meta<DateTimeZoneParams> = {
     format: DATE_FORMATS['YYYY-MM-DD'],
     isStrict: false,
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateTimeZoneParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

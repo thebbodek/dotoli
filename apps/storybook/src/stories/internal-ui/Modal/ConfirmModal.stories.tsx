@@ -12,23 +12,32 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey } = IconMeta.argTypes ?? {};
 
-type IconOptions = Required<ConfirmModalProps>['iconOptions'];
+type IconOptions = Required<ConfirmModalProps>['iconOption'];
 
-export interface ConfirmModalArgs
-  extends Omit<ConfirmModalProps, 'iconOptions'> {
+export interface ConfirmModalArgs extends ConfirmModalProps {
   iconKey?: IconOptions['iconKey'];
   iconColor?: IconOptions['color'];
   iconBackgroundColor?: IconOptions['backgroundColor'];
+  cancelLabel?: NonNullable<ConfirmModalProps['cancelOption']>['label'];
+  onCancel?: NonNullable<ConfirmModalProps['cancelOption']>['onCancel'];
+  confirmLabel?: ConfirmModalProps['confirmOption']['label'];
+  onConfirm?: ConfirmModalProps['confirmOption']['onConfirm'];
+  confirmTooltipContent?: NonNullable<
+    ConfirmModalProps['confirmOption']['tooltipOption']
+  >['content'];
+  confirmTooltipUseTooltip?: NonNullable<
+    ConfirmModalProps['confirmOption']['tooltipOption']
+  >['useTooltip'];
 }
 
-const meta: Meta<ConfirmModalArgs> = {
+const meta = {
   title: 'core/internal-ui/Modal/ConfirmModal',
   component: ConfirmModal,
   argTypes: {
     isOpen: {
       control: 'boolean',
       description: 'is open modal',
-      type: 'boolean',
+      type: { name: 'boolean', required: true },
     },
     title: {
       control: 'object',
@@ -47,10 +56,20 @@ const meta: Meta<ConfirmModalArgs> = {
         },
       },
     },
+    iconOption: {
+      control: 'object',
+      description: 'icon iconKey, color, backgroundColor',
+      table: {
+        type: {
+          summary: 'object',
+        },
+      },
+    },
     iconKey: {
       ...iconKey,
       table: {
         ...iconKey?.table,
+        category: 'iconOption',
         defaultValue: {
           summary: 'exclamation-mark',
         },
@@ -62,9 +81,11 @@ const meta: Meta<ConfirmModalArgs> = {
     },
     iconColor: {
       control: 'select',
+      name: 'color',
       options: Object.values(COLOR_VARIANTS),
       description: 'icon color',
       table: {
+        category: 'iconOption',
         defaultValue: {
           summary: COLOR_VARIANTS.PRIMARY_04,
         },
@@ -77,9 +98,11 @@ const meta: Meta<ConfirmModalArgs> = {
     },
     iconBackgroundColor: {
       control: 'select',
+      name: 'backgroundColor',
       options: Object.values(COLOR_VARIANTS),
       description: 'icon background color',
       table: {
+        category: 'iconOption',
         defaultValue: {
           summary: COLOR_VARIANTS.PRIMARY_01,
         },
@@ -101,11 +124,79 @@ const meta: Meta<ConfirmModalArgs> = {
     cancelOption: {
       control: 'object',
       description: 'cancel button label, onCancel',
+      table: {
+        type: {
+          summary: 'object',
+        },
+      },
+    },
+    confirmLabel: {
+      name: 'label',
+      control: 'text',
+      description: 'confirm button label',
+      type: {
+        required: true,
+        name: 'string',
+      },
+      table: {
+        category: 'confirmOption',
+      },
+    },
+    onConfirm: {
+      description: 'confirm button click',
+      type: {
+        required: true,
+        name: 'function',
+      },
+      table: {
+        category: 'confirmOption',
+      },
+    },
+    confirmTooltipContent: {
+      control: 'text',
+      name: 'content',
+      description: 'confirm button tooltip content',
+      table: {
+        category: 'confirmOption',
+        subcategory: 'tooltipOption',
+        defaultValue: {
+          summary: '필수 항목을 모두 입력해주세요',
+        },
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    confirmTooltipUseTooltip: {
+      control: 'boolean',
+      name: 'useTooltip',
+      description: 'confirm button use tooltip',
+      type: 'boolean',
+      table: {
+        category: 'confirmOption',
+        subcategory: 'tooltipOption',
+        defaultValue: {
+          summary: '!possibleConfirm',
+        },
+      },
+    },
+    cancelLabel: {
+      name: 'label',
+      control: 'text',
+      description: 'cancel button label',
       type: 'string',
       table: {
+        category: 'cancelOption',
         defaultValue: {
           summary: '취소',
         },
+      },
+    },
+    onCancel: {
+      description: 'cancel button click',
+      type: 'function',
+      table: {
+        category: 'cancelOption',
       },
     },
     possibleConfirm: {
@@ -138,8 +229,30 @@ const meta: Meta<ConfirmModalArgs> = {
         },
       },
     },
+    children: {
+      control: 'object',
+      description: 'children',
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    className: {
+      control: 'text',
+      description: 'className',
+      type: 'string',
+    },
+    ref: {
+      description: 'ref',
+      table: {
+        type: {
+          summary: 'Ref<HTMLDialogElement>',
+        },
+      },
+    },
   },
-};
+} satisfies Meta<ConfirmModalArgs>;
 
 export default meta;
 
@@ -149,32 +262,59 @@ export const Default: Story = {
   args: {
     useIcon: false,
     title: '승인신청이 완료되었습니다',
-    confirmOption: {
-      label: '확인',
-      onConfirm: () => {},
-    },
     possibleConfirm: true,
   },
-  render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
+  render: ({
+    iconKey,
+    iconColor,
+    iconBackgroundColor,
+    children,
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const iconOptions = {
+    const iconOption = {
       color: iconColor,
       backgroundColor: iconBackgroundColor,
       iconKey,
     };
 
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '확인',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel,
+          onCancel,
+        };
+
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...rest}
+          {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...rest.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
-          iconOptions={iconOptions}
+          cancelOption={cancelOption}
+          iconOption={iconOption}
         >
           <ConfirmModal.Description description='승인이 완료되면 슬랙으로 알려드립니다' />
         </ConfirmModal>
@@ -192,40 +332,62 @@ export const WithClose: Story = {
         <br /> 정보를 삭제하시겠습니까?
       </>
     ),
-    confirmOption: {
-      label: '네',
-      onConfirm: () => {},
-    },
-    cancelOption: {
-      label: '아니요',
-      onCancel: () => {},
-    },
     possibleConfirm: true,
   },
-  render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
+  render: ({
+    iconKey,
+    iconColor,
+    iconBackgroundColor,
+    children,
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const iconOptions = {
+    const iconOption = {
       color: iconColor,
       backgroundColor: iconBackgroundColor,
       iconKey,
     };
 
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '네',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel || '아니요',
+          onCancel,
+        };
+
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...rest}
+          {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...rest.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={{
-            ...rest.cancelOption,
+            ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
-          iconOptions={iconOptions}
+          iconOption={iconOption}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmModal>
@@ -243,40 +405,62 @@ export const WithIcon: Story = {
         정보를 삭제하시겠습니까?
       </>
     ),
-    confirmOption: {
-      label: '네',
-      onConfirm: () => {},
-    },
-    cancelOption: {
-      label: '아니요',
-      onCancel: () => {},
-    },
     possibleConfirm: true,
   },
-  render: ({ iconKey, iconColor, iconBackgroundColor, children, ...rest }) => {
+  render: ({
+    iconKey,
+    iconColor,
+    iconBackgroundColor,
+    children,
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const iconOptions = {
+    const iconOption = {
       color: iconColor,
       backgroundColor: iconBackgroundColor,
       iconKey,
     };
 
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '네',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel || '아니요',
+          onCancel,
+        };
+
     return (
       <>
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
-          {...rest}
+          {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...rest.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={{
-            ...rest.cancelOption,
+            ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
-          iconOptions={iconOptions}
+          iconOption={iconOption}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmModal>

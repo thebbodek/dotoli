@@ -7,37 +7,45 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Calendar> = {
+const meta = {
   title: 'core/internal-ui/Calendar',
   component: Calendar,
   argTypes: {
     minDate: {
       description: 'Minimum selectable date',
       control: 'date',
-      type: { name: 'string', required: false },
+      type: 'string',
     },
     maxDate: {
       description: 'Maximum selectable date',
       control: 'date',
-      type: { name: 'string', required: false },
+      type: 'string',
     },
     holidays: {
       description: 'Holidays (array of YYYY-MM-DD)',
       control: 'object',
-      type: { name: 'other', required: false, value: 'CalendarDateValue[]' },
+      table: {
+        type: {
+          summary: 'CalendarDateValue[]',
+        },
+      },
     },
     disabledDays: {
       description: 'Disabled dates (array of YYYY-MM-DD)',
       control: 'object',
-      type: { name: 'other', required: false, value: 'CalendarDateValue[]' },
+      table: {
+        type: {
+          summary: 'CalendarDateValue[]',
+        },
+      },
     },
     externalDaysLabels: {
       description: 'Labels to display on specific dates',
       control: 'object',
-      type: {
-        name: 'other',
-        required: false,
-        value: 'CalendarExternalDaysLabel[]',
+      table: {
+        type: {
+          summary: 'CalendarExternalDaysLabel[]',
+        },
       },
     },
     useWeekend: {
@@ -48,13 +56,25 @@ const meta: Meta<typeof Calendar> = {
         defaultValue: {
           summary: 'false',
         },
-        type: {
-          summary: 'boolean',
-        },
       },
     },
+    id: {
+      description: 'Calendar element id',
+      control: 'text',
+      type: 'string',
+    },
+    labelId: {
+      description: 'Calendar label id',
+      control: 'text',
+      type: 'string',
+    },
+    className: {
+      description: 'Calendar className',
+      control: 'text',
+      type: 'string',
+    },
   },
-};
+} satisfies Meta<typeof Calendar>;
 
 export default meta;
 
@@ -71,6 +91,7 @@ export const Single: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}
@@ -94,6 +115,7 @@ export const Range: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}
@@ -117,6 +139,7 @@ export const Unbounded: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}
@@ -140,6 +163,7 @@ export const WithMinMaxDate: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate ?? '2025-06-22'}
           maxDate={args.maxDate ?? '2025-08-05'}
           holidays={args.holidays}
@@ -167,6 +191,7 @@ export const WithHolidays: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}
@@ -193,6 +218,7 @@ export const WithDisabledDays: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}
@@ -219,6 +245,7 @@ export const WithExternalDaysLabels: Story = {
         onChange={setValue}
       >
         <Calendar
+          className='h-[500px] overflow-y-auto'
           minDate={args.minDate}
           maxDate={args.maxDate}
           holidays={args.holidays}

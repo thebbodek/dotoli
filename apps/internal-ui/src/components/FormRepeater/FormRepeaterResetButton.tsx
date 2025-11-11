@@ -14,7 +14,7 @@ const FormRepeaterResetButton = ({
 
   return (
     <IconButton
-      arialLabel='초기화'
+      aria-label='초기화'
       iconKey='arrow-bend-up-left'
       theme={disabled ? 'hover-gray' : 'hover-white'}
       className={clsx(isChanged && !isAdded ? 'visible' : 'invisible')}

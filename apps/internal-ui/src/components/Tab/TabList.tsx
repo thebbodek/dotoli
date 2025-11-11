@@ -9,7 +9,7 @@ import TabPanel from '@/components/Tab/TabPanel';
 import { TabListProps } from '@/components/Tab/types';
 
 const TabList = ({
-  ariaLabel,
+  'aria-label': ariaLabel,
   variant,
   theme,
   size,
@@ -31,7 +31,7 @@ const TabList = ({
       disabled={disabled}
       usePanel
     >
-      <TabListBase ariaLabel={ariaLabel} className={className}>
+      <TabListBase aria-label={ariaLabel} className={className}>
         {children}
         <TabIndicator />
       </TabListBase>

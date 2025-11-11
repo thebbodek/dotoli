@@ -1,7 +1,7 @@
 import { Skeleton } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Skeleton> = {
+const meta = {
   title: 'core/internal-ui/Skeleton/Skeleton',
   component: Skeleton,
   argTypes: {
@@ -99,7 +99,7 @@ const meta: Meta<typeof Skeleton> = {
       },
     },
   },
-};
+} satisfies Meta<typeof Skeleton>;
 
 export default meta;
 

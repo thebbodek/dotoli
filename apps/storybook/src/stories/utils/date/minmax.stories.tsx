@@ -13,7 +13,7 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<DateMinMaxParams> = {
+const meta = {
   title: 'core/utils/date/minmax',
   argTypes: {
     dates: {
@@ -37,7 +37,7 @@ const meta: Meta<DateMinMaxParams> = {
       subtract({ date: now(), value: 1, unit: DATE_UNITS.DAY }),
     ],
   },
-};
+} satisfies Meta<DateMinMaxParams>;
 
 export default meta;
 

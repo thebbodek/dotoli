@@ -7,7 +7,7 @@ import { TabListBaseProps } from '@/components/Tab/types';
 import { handleKeyDownFocus } from '@/components/shared';
 
 const TabListBase = ({
-  ariaLabel,
+  'aria-label': ariaLabel,
   children,
   className,
 }: PropsWithChildren<TabListBaseProps>) => {

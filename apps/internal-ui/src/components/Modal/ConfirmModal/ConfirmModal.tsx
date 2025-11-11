@@ -12,7 +12,7 @@ const ConfirmModal = ({
   isOpen,
   title,
   children,
-  iconOptions,
+  iconOption,
   useIcon = false,
   confirmOption,
   cancelOption,
@@ -26,7 +26,7 @@ const ConfirmModal = ({
       <Modal.ContentWrapper isLoading={isLoading}>
         <ConfirmOverlayContent
           title={title}
-          iconOptions={iconOptions}
+          iconOption={iconOption}
           useIcon={useIcon}
         />
         {children}

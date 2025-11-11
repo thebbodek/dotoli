@@ -11,7 +11,7 @@ const FullScreenDialogHeader = ({
     <OverlayHeader className='in-flex-h-stack items-center px-5 py-3'>
       <IconButton
         iconKey='x'
-        arialLabel={'닫기'}
+        aria-label={'닫기'}
         onClick={onClose}
         theme='hover-white'
         disabled={isPending}

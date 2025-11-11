@@ -1,4 +1,5 @@
 import { useForm } from '@bbodek/hooks';
+import { toast } from '@bbodek/utils';
 import { useState } from 'react';
 
 import { FormContentFields } from '@/stories/internal-ui/shared/types';
@@ -30,6 +31,7 @@ export const useFormContent = ({ close }: UseFormContentProps) => {
     setTimeout(() => {
       setIsPending(false);
       close();
+      toast.success('작성이 완료되었습니다');
     }, 1000);
   };
 

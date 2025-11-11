@@ -8,14 +8,63 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof Filter> = {
+import { default as selectMeta } from './Select/Select.stories';
+
+const { label, popoverOption, disabled, className } = selectMeta.argTypes;
+
+const meta = {
   title: 'core/internal-ui/Filter',
   component: Filter,
-};
+  argTypes: {
+    label,
+    disabled,
+    popoverOption,
+    className,
+    toggleValues: {
+      description: 'Filter toggle values',
+      table: {
+        type: {
+          summary: 'FilterOptionKey[] | null',
+        },
+      },
+    },
+    toggleOptions: {
+      description: 'Filter toggle options',
+      type: { name: 'other', value: 'FilterToggleOption[]', required: true },
+      table: {
+        type: {
+          summary: 'FilterToggleOption[]',
+        },
+      },
+    },
+    selectValues: {
+      description: 'Filter select values',
+      table: {
+        type: {
+          summary:
+            'Record<FilterOptionKey,FilterSelectOption["value"][] | null> | null',
+        },
+      },
+    },
+    selectOptions: {
+      description: 'Filter select options',
+      type: { name: 'other', value: 'FilterSelectOptions[]', required: true },
+      table: {
+        type: {
+          summary: 'FilterSelectOptions[]',
+        },
+      },
+    },
+    onChange: {
+      description: 'Filter onChange',
+      type: { name: 'function', required: true },
+    },
+  },
+} satisfies Meta<typeof Filter>;
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Filter>;
 
 const filterOptions = [
   {
@@ -24044,6 +24093,7 @@ export const Default: Story = {
 
     return (
       <Filter
+        label='Filter'
         toggleValues={toggleValues}
         selectValues={selectValues}
         toggleOptions={_toggleOptions}

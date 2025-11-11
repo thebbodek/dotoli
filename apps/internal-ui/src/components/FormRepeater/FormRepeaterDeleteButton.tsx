@@ -15,7 +15,7 @@ const FormRepeaterDeleteButton = ({
 
   return (
     <IconButton
-      arialLabel='삭제'
+      aria-label='삭제'
       iconKey='trash'
       theme={isChanged && !isDisabled ? 'hover-white' : 'hover-gray'}
       onClick={onClick}

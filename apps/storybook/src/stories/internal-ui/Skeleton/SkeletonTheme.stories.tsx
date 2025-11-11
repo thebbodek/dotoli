@@ -5,7 +5,7 @@ import { default as SkeletonMeta } from './Skeleton.stories';
 
 const { width, height, borderRadius, inline } = SkeletonMeta.argTypes ?? {};
 
-const meta: Meta<typeof SkeletonTheme> = {
+const meta = {
   title: 'core/internal-ui/Skeleton/SkeletonTheme',
   component: SkeletonTheme,
   argTypes: {
@@ -14,7 +14,7 @@ const meta: Meta<typeof SkeletonTheme> = {
     borderRadius,
     inline,
   },
-};
+} satisfies Meta<typeof SkeletonTheme>;
 
 export default meta;
 

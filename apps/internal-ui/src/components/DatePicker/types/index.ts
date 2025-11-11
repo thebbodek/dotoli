@@ -26,7 +26,10 @@ export interface DatePickerProps
     >,
     Pick<SelectBaseLabelProps, 'label' | 'badge'>,
     Pick<InputBaseProps, 'hiddenLabel'>,
-    CalendarProps,
+    Pick<
+      CalendarProps,
+      'minDate' | 'maxDate' | 'holidays' | 'disabledDays' | 'externalDaysLabels'
+    >,
     CalendarContextProviderProps {}
 
 export interface DatePickerWrapperProps

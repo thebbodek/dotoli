@@ -2,43 +2,26 @@ import { Alert } from '@bbodek/internal-ui';
 import { DATE_FORMATS, DateToStringParams, now, toString } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as isValidMeta } from './isValid.stories';
 
-const meta: Meta<DateToStringParams> = {
+const { date, format } = isValidMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/toString',
   argTypes: {
-    date: {
-      description: 'Date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
     format: {
-      control: 'select',
+      ...format,
       description: 'Result format',
-      options: Object.keys(DATE_FORMATS),
-      table: {
-        defaultValue: {
-          summary: DATE_FORMATS['YYYY-MM-DD'],
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.keys(DATE_FORMATS),
-          }),
-        },
-      },
     },
   },
+} satisfies Meta<DateToStringParams>;
+
+export default meta;
+
+type Story = StoryObj<DateToStringParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -46,13 +29,6 @@ const meta: Meta<DateToStringParams> = {
     }),
     format: DATE_FORMATS['YYYY-MM-DD'],
   },
-};
-
-export default meta;
-
-type Story = StoryObj<DateToStringParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

@@ -13,7 +13,7 @@ export const extractDifferences = <T extends object>({
     const originalValue = originalValues[key];
 
     if (!isEqual(value, originalValue)) {
-      changedValues[key] = value as unknown as undefined;
+      changedValues[key] = value;
     }
   });
 

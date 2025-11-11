@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const meta: Meta<typeof Avatar> = {
+const meta = {
   title: 'core/internal-ui/Avatar',
   component: Avatar,
   globals: {
@@ -50,7 +50,7 @@ const meta: Meta<typeof Avatar> = {
       type: 'string',
     },
   },
-};
+} satisfies Meta<typeof Avatar>;
 
 export default meta;
 
@@ -58,8 +58,8 @@ type Story = StoryObj<typeof Avatar>;
 
 export const Default: Story = {
   args: {
-    alt: '강준영',
-    src: 'https://ca.slack-edge.com/T01HSRM9C0Z-U0673TXRU2U-7184f5cfe3fe-512',
+    alt: '김뽀득',
+    src: 'https://image.thebbodek.com/logo/logo-color-symbol-bg.png',
     type: AVATAR_TYPES.SINGLE,
     size: AVATAR_SIZES.SM,
   },
@@ -67,7 +67,7 @@ export const Default: Story = {
 
 export const AvatarOnImageError: Story = {
   args: {
-    alt: '강준영',
+    alt: '김뽀득',
     src: 'https://ca.slack-edge.com/404-test.png',
     type: AVATAR_TYPES.SINGLE,
     size: AVATAR_SIZES.SM,

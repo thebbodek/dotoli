@@ -9,7 +9,7 @@ const InputIconButton = ({
   iconKey,
   weight = 'fill',
   disabled = false,
-  ariaLabel,
+  'aria-label': ariaLabel,
   className,
   onClick,
 }: InputIconButtonProps) => {

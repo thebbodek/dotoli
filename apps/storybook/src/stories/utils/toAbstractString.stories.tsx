@@ -3,12 +3,17 @@ import { toAbstractString, ToAbstractStringParam } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
-const meta: Meta<ToAbstractStringParam> = {
+const meta = {
   title: 'core/utils/toAbstractString',
   argTypes: {
     values: {
       control: 'object',
       description: 'string array',
+      type: {
+        name: 'array',
+        value: { name: 'string' },
+        required: true,
+      },
       table: {
         type: {
           summary: 'string[]',
@@ -34,7 +39,7 @@ const meta: Meta<ToAbstractStringParam> = {
       },
     },
   },
-};
+} satisfies Meta<ToAbstractStringParam>;
 
 export default meta;
 
@@ -55,8 +60,8 @@ export const Default: Story = {
     }, [argValues]);
 
     return (
-      <Flex direction='column' gap='2'>
-        <Flex gap='4'>
+      <Flex direction='column' gap='4'>
+        <Flex gap='16'>
           {argValues.map((item) => (
             <Checkbox
               key={item}

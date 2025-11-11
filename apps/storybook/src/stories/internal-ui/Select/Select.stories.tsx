@@ -1,3 +1,6 @@
+import { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+
 import {
   Icon,
   Select,
@@ -5,27 +8,33 @@ import {
   SelectValue,
   SingleSelectOnSelectParams,
 } from '@bbodek/internal-ui';
-import { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { default as inputMeta } from '../Input/InputField.stories';
 
-const meta: Meta<typeof Select> = {
+const { hiddenLabel } = inputMeta.argTypes;
+
+const meta = {
   title: 'core/internal-ui/Select/Select',
   component: Select,
   argTypes: {
     label: {
       control: 'text',
-      description: 'Select label',
+      description: 'label',
       type: {
         required: true,
         name: 'string',
       },
     },
     popoverOption: {
+      description: 'Popover options',
       control: 'object',
-      description: 'Select popover option',
+      table: {
+        type: {
+          summary: 'PopoverProps',
+        },
+      },
     },
     badge: {
-      description: 'Select Label Badge',
+      description: 'Label Badge',
       table: {
         type: {
           summary: 'ReactNode',
@@ -39,7 +48,7 @@ const meta: Meta<typeof Select> = {
     },
     placeholder: {
       control: 'text',
-      description: 'Select placeholder',
+      description: 'placeholder',
       table: {
         type: {
           summary: 'string',
@@ -60,7 +69,7 @@ const meta: Meta<typeof Select> = {
     },
     disabled: {
       control: 'boolean',
-      description: 'Select disabled',
+      description: 'disabled',
       type: 'boolean',
       table: {
         defaultValue: {
@@ -70,7 +79,7 @@ const meta: Meta<typeof Select> = {
     },
     required: {
       control: 'boolean',
-      description: 'Select required',
+      description: 'required',
       type: 'boolean',
       table: {
         defaultValue: {
@@ -80,12 +89,12 @@ const meta: Meta<typeof Select> = {
     },
     feedback: {
       control: 'text',
-      description: 'Select feedback',
+      description: 'feedback',
       type: 'string',
     },
     value: {
       control: 'text',
-      description: 'Select current value',
+      description: 'current value',
       table: {
         type: {
           summary: 'string | number | null',
@@ -99,7 +108,7 @@ const meta: Meta<typeof Select> = {
     },
     displayValue: {
       control: 'text',
-      description: 'Select current display value',
+      description: 'current display value',
       table: {
         type: {
           summary: 'string | number | null',
@@ -113,7 +122,7 @@ const meta: Meta<typeof Select> = {
     },
     onSelect: {
       action: 'clicked',
-      description: 'Select on select',
+      description: 'on select',
       table: {
         type: {
           summary: 'function',
@@ -136,8 +145,14 @@ const meta: Meta<typeof Select> = {
         },
       },
     },
+    className: {
+      description: 'className',
+      control: 'text',
+      type: 'string',
+    },
+    hiddenLabel,
   },
-};
+} satisfies Meta<typeof Select>;
 
 export default meta;
 

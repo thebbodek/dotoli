@@ -6,149 +6,78 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-const meta: Meta<typeof DatePicker> = {
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as calendarMeta } from './Calendar.stories';
+import { default as selectMeta } from './Select/Select.stories';
+
+const { minDate, maxDate, holidays, disabledDays, externalDaysLabels } =
+  calendarMeta.argTypes;
+const {
+  label,
+  disabled,
+  feedback,
+  required,
+  isError,
+  placeholder,
+  className,
+  popoverOption,
+  badge,
+  hiddenLabel,
+} = selectMeta.argTypes;
+
+const meta = {
   title: 'core/internal-ui/DatePicker',
   component: DatePicker,
   argTypes: {
-    label: {
-      description: 'Label',
-      control: 'text',
-      type: { name: 'string', required: false },
-    },
-    badge: {
-      description: 'Badge next to the label (ReactNode)',
-      control: 'text',
-      type: { name: 'string', required: false },
-    },
-    disabled: {
-      description: 'Disabled state',
-      control: 'boolean',
-      type: { name: 'boolean', required: false },
+    label,
+    value: {
+      description: 'DatePicker value',
+      type: { name: 'other', value: 'CalendarValue', required: true },
       table: {
-        defaultValue: {
-          summary: 'false',
-        },
         type: {
-          summary: 'boolean',
-        },
-      },
-    },
-    feedback: {
-      description: 'Feedback message',
-      control: 'text',
-      type: { name: 'string', required: false },
-    },
-    required: {
-      description: 'Required input',
-      control: 'boolean',
-      type: { name: 'boolean', required: false },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
-        },
-      },
-    },
-    isError: {
-      description: 'Error state',
-      control: 'boolean',
-      type: { name: 'boolean', required: false },
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
-        },
-      },
-    },
-    placeholder: {
-      description: 'Placeholder',
-      control: 'text',
-      type: { name: 'string', required: false },
-    },
-    className: {
-      description: 'Custom class name',
-      control: 'text',
-      type: { name: 'string', required: false },
-    },
-    minDate: {
-      description: 'Minimum selectable date',
-      control: 'date',
-      type: { name: 'string', required: false },
-    },
-    maxDate: {
-      description: 'Maximum selectable date',
-      control: 'date',
-      type: { name: 'string', required: false },
-    },
-    holidays: {
-      description: 'Holidays (array of YYYY-MM-DD)',
-      control: 'object',
-      type: { name: 'other', required: false, value: 'CalendarDateValue[]' },
-    },
-    disabledDays: {
-      description: 'Disabled dates (array of YYYY-MM-DD)',
-      control: 'object',
-      type: { name: 'other', required: false, value: 'CalendarDateValue[]' },
-    },
-    externalDaysLabels: {
-      description: 'Labels to display on specific dates',
-      control: 'object',
-      type: {
-        name: 'other',
-        required: false,
-        value: 'CalendarExternalDaysLabel[]',
-      },
-    },
-    useWeekend: {
-      description: 'Highlight weekends',
-      control: 'boolean',
-      type: 'boolean',
-      table: {
-        defaultValue: {
-          summary: 'false',
-        },
-        type: {
-          summary: 'boolean',
+          summary: 'CalendarValue',
         },
       },
     },
     variant: {
       description: 'Calendar selection type',
       control: 'select',
-      options: [
-        CALENDAR_VARIANTS.SINGLE,
-        CALENDAR_VARIANTS.RANGE,
-        CALENDAR_VARIANTS.UNBOUNDED,
-      ],
-      table: {
-        type: {
-          summary: 'CalendarVariants',
-        },
-      },
-    },
-    popoverOption: {
-      description: 'Popover options',
-      control: 'object',
+      options: Object.values(CALENDAR_VARIANTS),
       type: {
-        name: 'other',
-        value: 'PopoverProps',
-        required: false,
+        name: 'string',
+        required: true,
       },
       table: {
         type: {
-          summary: 'PopoverProps',
+          summary: generateArgTypeSummary({
+            options: Object.values(CALENDAR_VARIANTS),
+          }),
         },
       },
     },
+    onChange: {
+      description: 'DatePicker onChange',
+      type: { name: 'function', required: true },
+    },
+    minDate,
+    maxDate,
+    holidays,
+    disabledDays,
+    externalDaysLabels,
+    badge,
+    hiddenLabel,
+    disabled,
+    feedback,
+    required,
+    isError,
+    placeholder,
+    popoverOption,
+    className,
   },
   args: {
     label: 'DatePicker',
   },
-};
+} satisfies Meta<typeof DatePicker>;
 
 export default meta;
 

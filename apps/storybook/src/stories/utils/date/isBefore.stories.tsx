@@ -10,68 +10,28 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+import { default as isAfterMeta } from './isAfter.stories';
 
-const meta: Meta<DateIsBeforeParams> = {
+const { date, target, unit, isInclude } = isAfterMeta.argTypes;
+
+const meta = {
   title: 'core/utils/date/isBefore',
   argTypes: {
-    date: {
-      description: 'Origin date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
-    target: {
-      description: 'Target date value',
-      control: {
-        type: 'text',
-      },
-      type: {
-        required: true,
-        name: 'other',
-        value: 'string | number | DateValue',
-      },
-      table: {
-        type: {
-          summary: 'string | number | DateValue',
-        },
-      },
-    },
+    date,
+    target,
     unit: {
-      control: 'select',
+      ...unit,
       description: 'Date unit of isBefore',
-      options: Object.values(DATE_UNITS),
-      table: {
-        defaultValue: {
-          summary: DATE_UNITS.DAY,
-        },
-        type: {
-          summary: generateArgTypeSummary({
-            options: Object.values(DATE_UNITS),
-          }),
-        },
-      },
     },
-    isInclude: {
-      control: 'boolean',
-      description: 'Include target date in origin date',
-      table: {
-        defaultValue: {
-          summary: 'true',
-        },
-      },
-    },
+    isInclude,
   },
+} satisfies Meta<DateIsBeforeParams>;
+
+export default meta;
+
+type Story = StoryObj<DateIsBeforeParams>;
+
+export const Default: Story = {
   args: {
     date: toString({
       date: now(),
@@ -88,13 +48,7 @@ const meta: Meta<DateIsBeforeParams> = {
     unit: DATE_UNITS.DAY,
     isInclude: true,
   },
-};
 
-export default meta;
-
-type Story = StoryObj<DateIsBeforeParams>;
-
-export const Default: Story = {
   render: (args) => {
     return (
       <Alert

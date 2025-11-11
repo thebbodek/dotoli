@@ -1,43 +1,62 @@
-import { Button } from '@bbodek/internal-ui';
+import { Button, Toast } from '@bbodek/internal-ui';
 import { CreateToastOption, toast } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export interface ToastArgs extends Omit<CreateToastOption, 'type'> {}
 
-const meta: Meta<ToastArgs> = {
+const meta = {
   title: 'core/internal-ui/Toast',
+  component: Toast,
   argTypes: {
     content: {
-      control: {
-        type: 'object',
-      },
+      control: 'object',
       description: 'Toast content',
       type: {
         required: true,
-        name: 'string',
+        name: 'other',
+        value: 'ReactNode',
       },
       table: {
         type: { summary: 'ReactNode' },
       },
     },
     duration: {
-      control: {
-        type: 'number',
-      },
+      control: 'number',
       description: 'Toast duration',
+      type: 'number',
+      table: {
+        defaultValue: {
+          summary: '2000',
+        },
+      },
     },
     useClose: {
-      type: 'function',
+      control: 'boolean',
+      type: 'boolean',
       description: 'use close',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    onClose: {
+      action: 'closed',
+      description: 'Toast on close',
+      type: 'function',
     },
     actionOption: {
-      control: {
-        type: 'object',
+      control: 'object',
+      description: 'action button option',
+      table: {
+        type: {
+          summary:
+            'Pick<ActionButtonProps, "label" | "as" | "linkOption" | "buttonOption">',
+        },
       },
-      description: 'action option',
     },
   },
-};
+} satisfies Meta<ToastArgs>;
 
 export default meta;
 

@@ -1,41 +1,110 @@
-import { Button, InfoModal } from '@bbodek/internal-ui';
+import { Button, InfoModal, InfoModalProps } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { default as ConfirmModalMeta } from '../Modal/ConfirmModal.stories';
+import {
+  ConfirmModalArgs,
+  default as ConfirmModalMeta,
+} from '../Modal/ConfirmModal.stories';
 
-const { isOpen, title, confirmOption, cancelOption, isLoading } =
-  ConfirmModalMeta.argTypes ?? {};
+const {
+  isOpen,
+  title,
+  confirmOption,
+  confirmLabel,
+  onConfirm,
+  confirmTooltipContent,
+  confirmTooltipUseTooltip,
+  cancelOption,
+  cancelLabel,
+  onCancel,
+  isLoading,
+  ref,
+  className,
+  children,
+} = ConfirmModalMeta.argTypes;
 
-const meta: Meta<typeof InfoModal> = {
+export interface InfoModalArgs
+  extends Pick<ConfirmModalArgs, keyof InfoModalProps>,
+    Pick<
+      ConfirmModalArgs,
+      | 'confirmLabel'
+      | 'onConfirm'
+      | 'confirmTooltipContent'
+      | 'confirmTooltipUseTooltip'
+      | 'cancelLabel'
+      | 'onCancel'
+    > {}
+
+const meta = {
   title: 'core/internal-ui/Modal/InfoModal',
   component: InfoModal,
   argTypes: {
     isOpen,
     title,
     confirmOption,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
     cancelOption,
+    cancelLabel: {
+      ...cancelLabel,
+      table: {
+        ...cancelLabel?.table,
+        defaultValue: {
+          summary: '닫기',
+        },
+      },
+    },
+    onCancel,
     isLoading,
+    ref,
+    className,
+    children,
   },
-};
+  args: {
+    title: '한줄 타이틀이 들어갑니다',
+  },
+} satisfies Meta<InfoModalArgs>;
 
 export default meta;
 
-type Story = StoryObj<typeof InfoModal>;
-
-const defaultArgs = {
-  title: '한줄 타이틀이 들어갑니다',
-  confirmOption: { label: '확인 완료', onConfirm: () => {} },
-};
+type Story = StoryObj<InfoModalArgs>;
 
 const Box = () => (
   <div className='bg-in-gray-02 rounded-in-8 h-[11.687rem] w-full' />
 );
 
 export const Default: Story = {
-  args: defaultArgs,
-  render: (args) => {
+  render: ({
+    cancelLabel,
+    onCancel,
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '확인 완료',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel,
+          onCancel,
+        };
 
     return (
       <>
@@ -44,9 +113,10 @@ export const Default: Story = {
           {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...args.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
+          cancelOption={cancelOption}
         >
           <div className='in-flex-v-stack gap-y-5'>
             <InfoModal.Description
@@ -67,12 +137,34 @@ export const Default: Story = {
 };
 
 export const WithClose: Story = {
-  args: {
-    ...defaultArgs,
-    confirmOption: { label: '바로가기', onConfirm: () => {} },
-  },
-  render: (args) => {
+  render: ({
+    confirmLabel,
+    onConfirm,
+    confirmTooltipContent,
+    confirmTooltipUseTooltip,
+    cancelLabel,
+    onCancel,
+    ...args
+  }) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const confirmOption = args.confirmOption
+      ? args.confirmOption
+      : {
+          label: confirmLabel || '바로가기',
+          onConfirm,
+          tooltipOption: {
+            content: confirmTooltipContent,
+            useTooltip: confirmTooltipUseTooltip,
+          },
+        };
+
+    const cancelOption = args.cancelOption
+      ? args.cancelOption
+      : {
+          label: cancelLabel,
+          onCancel,
+        };
 
     return (
       <>
@@ -81,11 +173,11 @@ export const WithClose: Story = {
           {...args}
           isOpen={isOpen}
           confirmOption={{
-            ...args.confirmOption,
+            ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={{
-            ...args.cancelOption,
+            ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
         >
