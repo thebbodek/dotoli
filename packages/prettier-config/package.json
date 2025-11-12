@@ -1,12 +1,15 @@
 {
-  "name": "@dotoli/prettier-config",
-  "version": "0.0.0",
+  "name": "@bbodek/prettier-config",
+  "version": "0.0.4",
   "license": "MIT",
   "type": "module",
+  "main": "index.js",
   "publishConfig": {
     "access": "public"
   },
-  "exports": {
-    ".": "./index.js"
+  "peerDependencies": {
+    "prettier": ">= 3",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "prettier-plugin-tailwindcss": "^0.6.11"
   }
 }

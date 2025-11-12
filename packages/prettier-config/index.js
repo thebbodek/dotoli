@@ -1,13 +1,23 @@
-const config = {
-  semi: true,
-  useTabs: false,
-  tabWidth: 2,
-  endOfLine: 'lf',
-  singleQuote: true,
-  jsxSingleQuote: true,
-  trailingComma: 'all',
-  plugins: ['prettier-plugin-tailwindcss'],
-  tailwindFunctions: ['clsx'],
+import config from './base.js';
+
+/**
+ * @typedef {Object} CreatePrettierConfigOptions
+ * @property {string[]} internalImports
+ */
+
+/**
+ * @param {CreatePrettierConfigOptions} options
+ * @returns {import("prettier").Config}
+ */
+export const createPrettierConfig = (options) => {
+  const { internalImports = [] } = options ?? {};
+  const [absolutePath, relativePath] = config.importOrder;
+  const importOrders = [absolutePath, ...internalImports, relativePath];
+
+  return {
+    ...config,
+    importOrder: [importOrders.join('|')],
+  };
 };
 
-export default config;
+export default createPrettierConfig();

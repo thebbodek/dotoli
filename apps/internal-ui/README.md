@@ -50,7 +50,7 @@ export default Example;
 
 ## License
 
-Licensed under the [MIT license](https://github.com/thebbodek/dotoli/blob/main/LICENSE).
+Licensed under the [MIT license](https://github.com/thebbodek/dotoli/blob/main/apps/internal-ui/LICENSE).
 
 <a href="https://bbodek.com/" target="_blank">
   <p align="center">
