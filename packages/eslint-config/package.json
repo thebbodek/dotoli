@@ -1,6 +1,6 @@
 {
-  "name": "@dotoli/eslint-config",
-  "version": "0.0.0",
+  "name": "@bbodek/eslint-config",
+  "version": "0.0.3",
   "license": "MIT",
   "type": "module",
   "publishConfig": {
@@ -9,18 +9,23 @@
   "exports": {
     ".": "./eslint.config.js"
   },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@eslint/js": "^9.26.0",
-    "@stylistic/eslint-plugin": "^4.2.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^9.26.0",
+  "dependencies": {
     "eslint-config-next": "^15.3.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prefer-arrow-functions": "^3.6.2",
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
-    "globals": "^16.1.0"
+    "globals": "^16.1.0",
+    "@eslint/eslintrc": "^3",
+    "@eslint/js": "^9.26.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9.26.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.26.0"
   }
 }

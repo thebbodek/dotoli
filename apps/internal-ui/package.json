@@ -20,7 +20,7 @@
     "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",
     "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.8",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@bbodek/hooks": "^0.0.17",
     "@bbodek/utils": "^0.0.13",
-    "@dotoli/eslint-config": "workspace:*",
+    "@bbodek/eslint-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@rollup/plugin-image": "^3.0.3",
