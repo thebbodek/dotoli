@@ -9,8 +9,8 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 import { useRef, useState } from 'react';
 
-import { default as TabMeta } from '@/stories/internal-ui/Tab/Tabs.stories';
 import { tabItems } from '@/stories/internal-ui/Tab/constants';
+import { default as TabMeta } from '@/stories/internal-ui/Tab/Tabs.stories';
 
 const {
   variant,

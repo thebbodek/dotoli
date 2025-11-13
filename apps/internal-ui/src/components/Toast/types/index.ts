@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import { TOAST_TYPES } from '@/components/Toast/constants';
 import { ActionButtonProps } from '@/components/shared';
+import { TOAST_TYPES } from '@/components/Toast/constants';
 
 export type ToastType = (typeof TOAST_TYPES)[keyof typeof TOAST_TYPES];
 

@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { MouseEvent } from 'react';
 
-import { Icon } from '@/components/Icon';
 import { ChipProps } from './types';
+import { Icon } from '@/components/Icon';
 
 const Chip = ({
   label,

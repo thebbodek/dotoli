@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import { handleKeyDownFocus } from '@/components/shared';
 import { TAB_THEME_STYLES } from '@/components/Tab/constants';
 import { useTabContext } from '@/components/Tab/context';
 import { TabListBaseProps } from '@/components/Tab/types';
-import { handleKeyDownFocus } from '@/components/shared';
 
 const TabListBase = ({
   'aria-label': ariaLabel,

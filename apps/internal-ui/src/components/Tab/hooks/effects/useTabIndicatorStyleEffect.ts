@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { UseTabIndicatorStyleProps } from '@/components/Tab/types';
 import { useTabContext } from '@/components/Tab/context';
+import { UseTabIndicatorStyleProps } from '@/components/Tab/types';
 
 const useTabIndicatorStyleEffect = ({
   setStyle,

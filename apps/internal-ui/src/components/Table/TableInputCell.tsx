@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { useId } from 'react';
 
+import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
 import { TABLE_CELL_INPUT_STYLES } from '@/components/Table/constants';
 import TableCell from '@/components/Table/TableCell';
 import { TableInputCellProps } from '@/components/Table/types';
 import { Tooltip } from '@/components/Tooltip';
-import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input';
 
 const TableInputCell = ({
   value,

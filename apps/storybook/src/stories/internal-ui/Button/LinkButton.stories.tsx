@@ -7,9 +7,9 @@ import {
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { ButtonArgs, default as ButtonMeta } from './Button.stories';
 import { getResponsive } from '@/stories/internal-ui/Button/utils/getResponsive';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { ButtonArgs, default as ButtonMeta } from './Button.stories';
 
 const {
   label,

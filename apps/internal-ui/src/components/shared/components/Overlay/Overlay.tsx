@@ -1,10 +1,10 @@
 import { useScrollLockEffect } from '@bbodek/hooks';
 import clsx from 'clsx';
 import {
-  PropsWithChildren,
-  ReactElement,
   cloneElement,
   isValidElement,
+  PropsWithChildren,
+  ReactElement,
 } from 'react';
 
 import { Portal } from '@/components/Portal';

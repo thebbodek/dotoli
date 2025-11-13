@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
-import { UseTabPanelIdEffectProps } from '@/components/Tab/types';
 import { useTabListContext } from '@/components/Tab/context';
+import { UseTabPanelIdEffectProps } from '@/components/Tab/types';
 
 const useTabPanelIdEffect = ({ value, setTabId }: UseTabPanelIdEffectProps) => {
   const { tabRefs } = useTabListContext();

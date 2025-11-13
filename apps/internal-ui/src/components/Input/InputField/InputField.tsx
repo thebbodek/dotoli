@@ -1,10 +1,10 @@
 import { useId, useState } from 'react';
 
 import { InputFieldProps } from '@/components/Input/InputField/types';
-import Input from '@/components/Input/shared/Input';
-import InputBase from '@/components/Input/shared/InputBase';
 import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input/shared/constants';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
+import Input from '@/components/Input/shared/Input';
+import InputBase from '@/components/Input/shared/InputBase';
 
 const InputField = ({
   label,

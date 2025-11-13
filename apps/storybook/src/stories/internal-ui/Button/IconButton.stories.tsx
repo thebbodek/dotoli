@@ -6,10 +6,10 @@ import {
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { default as ButtonMeta } from './Button.stories';
 import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { default as TooltipMeta } from '@/stories/internal-ui/Tooltip.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { default as ButtonMeta } from './Button.stories';
 
 const { disabled, onClick, type, isPending, ref, className } =
   ButtonMeta.argTypes;

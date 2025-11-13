@@ -1,7 +1,7 @@
 import {
   CalendarDayVariants,
-  CalendarWeekWeeks,
   CalendarWeeksValues,
+  CalendarWeekWeeks,
 } from '@/components/Calendar/types';
 import {
   COLOR_STYLES_MAPPER,

@@ -6,12 +6,12 @@ import {
   SetStateAction,
 } from 'react';
 
+import { KeydownFocusControlItemRefs } from '@/components/shared/utils/handleKeyDownFocus/types';
 import {
   TAB_SIZES,
   TAB_THEMES,
   TAB_VARIANTS,
 } from '@/components/Tab/constants';
-import { KeydownFocusControlItemRefs } from '@/components/shared/utils/handleKeyDownFocus/types';
 
 export type TabVariant = (typeof TAB_VARIANTS)[keyof typeof TAB_VARIANTS];
 

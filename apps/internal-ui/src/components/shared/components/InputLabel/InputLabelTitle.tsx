@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
-import { Typography } from '@/components/Typography';
 import { InputLabelTextProps } from '@/components/shared/components/InputLabel/types';
+import { Typography } from '@/components/Typography';
 
 const InputLabelText = ({
   id,

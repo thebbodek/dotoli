@@ -10,8 +10,8 @@ import {
 } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as addMeta } from './add.stories';
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { date } = addMeta.argTypes;
 

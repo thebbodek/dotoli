@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import { InfoPopoverProps } from './types';
 import InfoPopoverDescription from '@/components/InfoPopover/InfoPopoverDescription';
 import { Popover } from '@/components/Popover';
 import { Typography } from '@/components/Typography';
-import { InfoPopoverProps } from './types';
 
 const InfoPopover = ({
   title,
