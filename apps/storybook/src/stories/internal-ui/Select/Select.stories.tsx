@@ -1,6 +1,3 @@
-import { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
-
 import {
   Icon,
   Select,
@@ -8,6 +5,9 @@ import {
   SelectValue,
   SingleSelectOnSelectParams,
 } from '@bbodek/internal-ui';
+import { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+
 import { default as inputMeta } from '../Input/InputField.stories';
 
 const { hiddenLabel } = inputMeta.argTypes;

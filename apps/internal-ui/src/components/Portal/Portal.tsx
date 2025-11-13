@@ -1,8 +1,8 @@
 import { PropsWithChildren, ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 
-import { PORTAL_DEFAULT_TARGET } from '@/components/Portal/constants';
 import { PortalProps } from './types';
+import { PORTAL_DEFAULT_TARGET } from '@/components/Portal/constants';
 
 const Portal = ({
   target = PORTAL_DEFAULT_TARGET,

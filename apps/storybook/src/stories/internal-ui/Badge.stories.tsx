@@ -1,8 +1,8 @@
 import { Badge, BADGE_THEMES, BADGE_VARIANTS } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as IconMeta } from './Icon.stories';
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey } = IconMeta.argTypes ?? {};
 

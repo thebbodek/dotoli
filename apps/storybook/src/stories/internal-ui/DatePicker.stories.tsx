@@ -6,9 +6,9 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as calendarMeta } from './Calendar.stories';
 import { default as selectMeta } from './Select/Select.stories';
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { minDate, maxDate, holidays, disabledDays, externalDaysLabels } =
   calendarMeta.argTypes;

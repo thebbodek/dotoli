@@ -6,15 +6,15 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import FormContent from '@/stories/internal-ui/shared/FormContent';
-import {
-  UseFormContentProps,
-  useFormContent,
-} from '@/stories/internal-ui/shared/hooks/useFormContent';
 import {
   ConfirmModalArgs,
   default as ConfirmModalMeta,
 } from '../Modal/ConfirmModal.stories';
+import FormContent from '@/stories/internal-ui/shared/FormContent';
+import {
+  useFormContent,
+  UseFormContentProps,
+} from '@/stories/internal-ui/shared/hooks/useFormContent';
 
 const {
   isOpen,

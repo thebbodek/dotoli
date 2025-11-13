@@ -1,6 +1,6 @@
+import { FullScreenDialogHeaderProps } from './types';
 import { IconButton } from '@/components/Button';
 import { OverlayHeader, OverlayTitle } from '@/components/shared';
-import { FullScreenDialogHeaderProps } from './types';
 
 const FullScreenDialogHeader = ({
   title,

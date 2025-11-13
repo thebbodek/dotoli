@@ -1,3 +1,4 @@
+import { DateValue } from '@bbodek/utils';
 import { Dispatch, HTMLAttributes, RefObject, SetStateAction } from 'react';
 
 import {
@@ -6,7 +7,6 @@ import {
   CALENDAR_VARIANTS,
   CALENDAR_WEEKS,
 } from '@/components/Calendar/constants';
-import { DateValue } from '@bbodek/utils';
 
 export type CalendarVariants =
   (typeof CALENDAR_VARIANTS)[keyof typeof CALENDAR_VARIANTS];

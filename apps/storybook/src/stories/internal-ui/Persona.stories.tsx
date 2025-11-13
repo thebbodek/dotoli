@@ -5,8 +5,8 @@ import {
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 import { default as AvatarMeta } from './Avatar.stories';
+import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { size, type, src } = AvatarMeta.argTypes ?? {};
 

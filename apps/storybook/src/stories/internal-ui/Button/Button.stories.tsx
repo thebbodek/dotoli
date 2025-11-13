@@ -12,9 +12,9 @@ import {
 } from '@bbodek/internal-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
+import { getResponsive } from './utils/getResponsive';
 import { default as IconMeta } from '@/stories/internal-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
-import { getResponsive } from './utils/getResponsive';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 

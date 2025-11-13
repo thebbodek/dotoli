@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import { Children, cloneElement, PropsWithChildren } from 'react';
 
+import { ChildrenElement } from '@/components/shared';
 import {
   TABLE_ROW_GROUP_COMMON_STYLE,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
 import { TableBodyProps, TableRowProps } from '@/components/Table/types';
-import { ChildrenElement } from '@/components/shared';
 
 const TableBodyEmpty = dynamic(
   () => import('@/components/Table/TableBodyEmpty'),

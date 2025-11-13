@@ -7,9 +7,9 @@ import {
   BUTTON_SIZES,
   ButtonProps,
 } from '@/components/Button';
+import { OVERLAY_CONFIRM_TOOLTIP_GAP } from '@/components/shared/components/Overlay/constants';
 import { OverlayFooterProps } from '@/components/shared/components/Overlay/types';
 import { Tooltip } from '@/components/Tooltip';
-import { OVERLAY_CONFIRM_TOOLTIP_GAP } from '@/components/shared/components/Overlay/constants';
 
 const OverlayFooter = ({
   confirmOption,

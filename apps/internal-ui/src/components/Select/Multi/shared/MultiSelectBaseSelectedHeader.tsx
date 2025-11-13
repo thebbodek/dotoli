@@ -1,5 +1,5 @@
-import MultiSelectResultPanel from '@/components/Select/Multi/shared/MultiSelectBaseResultPanel';
 import { useMultiSelectBaseContext } from '@/components/Select/Multi/shared/context/MultiSelectBaseContext';
+import MultiSelectResultPanel from '@/components/Select/Multi/shared/MultiSelectBaseResultPanel';
 
 const MultiSelectBaseSelectedHeader = () => {
   const { selectedListResultId, internalOptions } = useMultiSelectBaseContext();

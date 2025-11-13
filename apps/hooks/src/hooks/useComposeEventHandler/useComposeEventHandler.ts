@@ -1,6 +1,5 @@
-import { EventHandler, SyntheticEvent, useCallback } from 'react';
-
 import { composeEventHandler, ComposeEventHandler } from '@bbodek/utils';
+import { EventHandler, SyntheticEvent, useCallback } from 'react';
 
 const useComposeEventHandler = () => {
   const compose = useCallback(

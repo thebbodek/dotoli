@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { MouseEvent } from 'react';
 
+import { IconButtonProps } from './types';
 import {
   ICON_BUTTON_COLORS_STYLES,
   ICON_BUTTON_THEMES,
@@ -8,7 +9,6 @@ import {
 import { BUTTON_PENDING_ICON_KEY } from '@/components/Button/shared';
 import { Icon } from '@/components/Icon';
 import { Tooltip } from '@/components/Tooltip';
-import { IconButtonProps } from './types';
 
 const IconButton = ({
   ref,
