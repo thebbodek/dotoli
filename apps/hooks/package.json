@@ -16,7 +16,7 @@
     "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",
     "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {},
   "peerDependencies": {
@@ -30,7 +30,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "@bbodek/utils": "^0.0.6",
-    "@dotoli/eslint-config": "workspace:*",
+    "@bbodek/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
     "@types/node": "^20",

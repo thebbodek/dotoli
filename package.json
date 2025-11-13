@@ -5,6 +5,7 @@
     "build": "turbo --filter=!storybook build",
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "fix": "turbo lint -- --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css}\"",
     "clean": "find ./ -type d -name '.turbo' -o -name 'dist' -o -name 'storybook-static' -o -name 'node_modules' | xargs rm -rf && find ./ -type f -name '*.tsbuildinfo' | xargs rm -f",
     "reset": "pnpm clean && pnpm install && pnpm build",
@@ -23,7 +24,8 @@
     "in:dev": "turbo --filter=@bbodek/internal-ui dev",
     "in:build": "turbo --filter=@bbodek/internal-ui build",
     "in:pub": "pnpm in:build && cd apps/internal-ui && (npm version patch || true) && npm publish --access=public",
-    "pt:pub": "cd packages/prettier-config && (npm version patch || true) && npm publish --access=public"
+    "pt:pub": "cd packages/prettier-config && (npm version patch || true) && npm publish --access=public",
+    "lint:pub": "cd packages/eslint-config && (npm version patch || true) && npm publish --access=public"
   },
   "devDependencies": {
     "@bbodek/prettier-config": "workspace:*",

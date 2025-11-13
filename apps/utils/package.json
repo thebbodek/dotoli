@@ -16,7 +16,7 @@
     "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",
     "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {
     "dayjs": "^1.11.13",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@bbodek/internal-ui": "^0.0.33",
-    "@dotoli/eslint-config": "workspace:*",
+    "@bbodek/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
     "@types/node": "^20",
