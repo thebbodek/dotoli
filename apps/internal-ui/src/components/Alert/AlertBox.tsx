@@ -9,12 +9,11 @@ const AlertBox = ({
   children,
   className,
 }: PropsWithChildren<AlertBoxProps>) => {
-  const { theme, hasTitle, collapsible, collapsed } = useAlertContext();
-  const useCollapse = hasTitle && collapsible;
+  const { theme, hasTitle, useCollapse, isCollapsed } = useAlertContext();
+  const canCollapse = hasTitle && isCollapsed;
 
   return (
     <div
-      role='alert'
       className={clsx(
         className,
         'in-flex-v-stack rounded-in-8 items-start break-keep px-4',
@@ -22,10 +21,11 @@ const AlertBox = ({
         ALERT_THEME_STYLES[theme].root,
         useCollapse && [
           'transition-[max-height] duration-150 ease-out',
-          collapsed ? 'max-h-[3.375rem]' : 'max-h-[100svh]',
+          canCollapse ? 'max-h-[3.375rem]' : 'max-h-[100svh]',
         ],
       )}
-      aria-expanded={useCollapse ? !collapsed : undefined}
+      aria-expanded={useCollapse ? !canCollapse : undefined}
+      role='alert'
     >
       {children}
     </div>

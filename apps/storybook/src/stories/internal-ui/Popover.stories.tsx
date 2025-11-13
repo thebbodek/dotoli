@@ -96,7 +96,6 @@ const meta = {
       },
     },
     onPopoverClose: {
-      action: 'clicked',
       description: 'on popover close',
       type: {
         name: 'function',
@@ -122,17 +121,17 @@ export const Default: Story = {
     return (
       <Popover
         {...args}
-        useClickOutsideEvent={true}
-        isOpen={args.isOpen || isOpen}
-        onPopoverClose={close}
         trigger={
           <Button
-            label={`클릭`}
-            variant={BUTTON_VARIANTS.OUTLINED}
+            label='클릭'
             theme={BUTTON_THEMES.PRIMARY}
+            variant={BUTTON_VARIANTS.OUTLINED}
             onClick={() => setIsOpen((v) => !v)}
           />
         }
+        isOpen={args.isOpen || isOpen}
+        useClickOutsideEvent
+        onPopoverClose={close}
       >
         <div className='shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'>
           Popover Content
@@ -150,23 +149,23 @@ const ListItem = ({ index, ...args }: { index: number } & PopoverProps) => {
     <li className='border-b-in-gray-05 flex border-b p-2 first:justify-end last:border-b-0 even:justify-center'>
       <Popover
         {...args}
-        onPopoverClose={close}
-        isOpen={isOpen}
         trigger={
           <Button
             label={`클릭 ${index}`}
-            variant={BUTTON_VARIANTS.OUTLINED}
             theme={BUTTON_THEMES.PRIMARY}
+            variant={BUTTON_VARIANTS.OUTLINED}
             onClick={() => setIsOpen((v) => !v)}
           />
         }
+        isOpen={isOpen}
+        onPopoverClose={close}
       >
         <div className='shadow-in-8 rounded-in-8 bg-in-white flex items-center justify-between gap-2 px-3 py-2'>
           Popover Content {index}
           <IconButton
-            arialLabel={'닫기'}
+            aria-label='닫기'
+            iconKey='x'
             theme={ICON_BUTTON_THEMES.HOVER_GRAY}
-            iconKey={'x'}
             onClick={close}
           />
         </div>
@@ -181,11 +180,11 @@ export const WithListRoot: Story = {
 
     return (
       <ul
-        ref={rootRef}
         className='popover-root bg-in-gray-01 rounded-in-8 border-in-gray-05 max-h-[20rem] w-60 overflow-y-auto border'
+        ref={rootRef}
       >
         {Array.from({ length: 10 }).map((_, i) => (
-          <ListItem key={i} index={i + 1} {...args} rootRef={rootRef} />
+          <ListItem index={i + 1} key={i} {...args} rootRef={rootRef} />
         ))}
       </ul>
     );

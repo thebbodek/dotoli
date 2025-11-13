@@ -11,7 +11,7 @@ const BottomSheetContentWrapper = ({
 }: PropsWithChildren<BottomSheetContentWrapperProps>) => {
   return (
     <div className={clsx('px-5 pb-5 pt-[2.125rem]')}>
-      <OverlayContentWrapper isLoading={isLoading} className={className}>
+      <OverlayContentWrapper className={className} isLoading={isLoading}>
         {children}
       </OverlayContentWrapper>
     </div>

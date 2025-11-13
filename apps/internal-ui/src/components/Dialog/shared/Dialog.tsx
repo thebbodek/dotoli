@@ -14,7 +14,7 @@ const Dialog = ({
   className,
 }: PropsWithChildren<DialogProps>) => {
   return (
-    <Overlay variant={OVERLAY_VARIANTS.MODAL} isOpen={isOpen} ref={ref} dimmed>
+    <Overlay isOpen={isOpen} ref={ref} variant={OVERLAY_VARIANTS.MODAL} dimmed>
       <div
         className={clsx(
           className,

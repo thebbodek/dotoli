@@ -22,21 +22,21 @@ const ConfirmModal = ({
   className,
 }: ConfirmModalProps) => {
   return (
-    <Modal isOpen={isOpen} ref={ref} className={clsx(className, 'pt-10')}>
+    <Modal className={clsx(className, 'pt-10')} isOpen={isOpen} ref={ref}>
       <Modal.ContentWrapper isLoading={isLoading}>
         <ConfirmOverlayContent
-          title={title}
           iconOption={iconOption}
+          title={title}
           useIcon={useIcon}
         />
         {children}
       </Modal.ContentWrapper>
       <Modal.Footer
-        confirmOption={confirmOption}
         cancelOption={cancelOption}
-        possibleConfirm={possibleConfirm}
-        isPending={isPending}
+        confirmOption={confirmOption}
         isLoading={isLoading}
+        isPending={isPending}
+        possibleConfirm={possibleConfirm}
       />
     </Modal>
   );

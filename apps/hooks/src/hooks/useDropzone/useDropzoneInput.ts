@@ -13,7 +13,7 @@ import { parseAcceptAttr } from '@/hooks/useDropzone/utils/acceptFiles';
 import useExecuteFunction from '@/hooks/useExecuteFunction/useExecuteFunction';
 
 const useDropzoneInput = ({
-  multiple = true,
+  isMultiple = true,
   accept = ACCEPT_FILES,
   disabled = false,
   handleUpload,
@@ -38,7 +38,7 @@ const useDropzoneInput = ({
     () =>
       ({ onChange, ...rest }: InputHTMLAttributes<HTMLInputElement> = {}) => {
         const props = {
-          multiple,
+          isMultiple,
           type: 'file',
           style: { display: 'none' },
           tabIndex: -1,
@@ -57,7 +57,7 @@ const useDropzoneInput = ({
         return { ...props, ...rest };
       },
     [
-      multiple,
+      isMultiple,
       accept,
       inputRef,
       handleChangeCallback,

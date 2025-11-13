@@ -18,13 +18,13 @@ const SelectBaseItem = ({
 
   return (
     <li
-      role='option'
       className={clsx(
         className,
         'rounded-in-8 shrink-0 cursor-pointer overflow-hidden',
         !isSelected && 'bg-in-white',
       )}
       aria-selected={isSelected}
+      role='option'
       title={label}
       onClick={handleClick}
     >

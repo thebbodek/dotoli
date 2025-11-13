@@ -18,12 +18,12 @@ const TabPanel = ({
 
   return (
     <div
-      role='tabpanel'
-      id={id}
       aria-labelledby={tabId}
-      tabIndex={0}
-      hidden={currentValue !== value}
       className={className}
+      hidden={currentValue !== value}
+      id={id}
+      role='tabpanel'
+      tabIndex={0}
     >
       {children}
     </div>

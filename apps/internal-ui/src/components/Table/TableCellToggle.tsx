@@ -4,9 +4,9 @@ const TableCellToggle = (props: Omit<ToggleProps, 'size'>) => {
   return (
     <Toggle
       {...props}
-      size='sm'
-      labelColor='gray-06'
       labelClassName='font-medium'
+      labelColor='gray-06'
+      size='sm'
     />
   );
 };

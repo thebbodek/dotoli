@@ -6,8 +6,8 @@ import { FilterCloseButtonProps } from '@/components/Filter/types';
 const FilterCloseButton = ({ className, onClose }: FilterCloseButtonProps) => {
   return (
     <IconButton
-      className={clsx('text-[1rem]', className)}
       aria-label='닫기'
+      className={clsx('text-[1rem]', className)}
       iconKey='x'
       onClick={onClose}
     />

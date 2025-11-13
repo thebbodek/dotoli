@@ -21,7 +21,7 @@ const MultiSearchSelectTrigger = () => {
   const renderer = () => {
     if (!hasValue) {
       return (
-        <Typography variant='body-16-r' color={'gray-04'}>
+        <Typography color='gray-04' variant='body-16-r'>
           {placeholder}
         </Typography>
       );
@@ -44,9 +44,9 @@ const MultiSearchSelectTrigger = () => {
             return (
               <Chip
                 className={clsx(isMaxValue ? 'max-w-1/2' : 'max-w-full')}
+                disabled={disabled}
                 key={value}
                 label={label}
-                disabled={disabled}
                 onClick={() => {
                   if (disabled) return;
 
@@ -61,8 +61,8 @@ const MultiSearchSelectTrigger = () => {
         </div>
         {isOverflow && (
           <MultiSearchSelectOverflowCount
-            disabled={disabled}
             count={value.length - MULTI_SEARCH_SELECT_MAX_COUNT}
+            disabled={disabled}
           />
         )}
       </div>

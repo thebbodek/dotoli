@@ -33,7 +33,6 @@ const meta = {
     value,
     onChange,
     onSubmit: {
-      action: 'submit',
       description: 'Input Search onSubmit',
       type: 'function',
     },
@@ -66,9 +65,9 @@ export const Default: Story = {
     return (
       <InputSearch
         {...args}
+        className='w-[300px]'
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
       />
     );
   },
@@ -81,13 +80,13 @@ export const WithSubmit: Story = {
     return (
       <InputSearch
         {...args}
+        className='w-[300px]'
         value={value}
-        onChange={(e) => setValue(e.target.value)}
         onSubmit={(e) => {
           e.preventDefault();
           alert('submit!');
         }}
-        className='w-[300px]'
+        onChange={(e) => setValue(e.target.value)}
       />
     );
   },

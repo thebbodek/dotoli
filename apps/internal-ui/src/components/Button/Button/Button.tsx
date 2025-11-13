@@ -49,10 +49,10 @@ const Button = ({
     >
       {iconKey && (
         <ButtonIcon
-          iconKey={iconKey}
-          size={size}
           className={clsx(isPending && 'animate-spin')}
+          iconKey={iconKey}
           responsive={props.responsive}
+          size={size}
         />
       )}
       {label}

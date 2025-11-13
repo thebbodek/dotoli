@@ -69,9 +69,9 @@ export const Default: Story = {
     return (
       <TextArea
         {...args}
+        className='w-[300px]'
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
       />
     );
   },

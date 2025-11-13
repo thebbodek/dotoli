@@ -13,7 +13,6 @@ const InputLabelText = ({
 }: PropsWithChildren<InputLabelTextProps>) => {
   return (
     <Typography
-      id={id}
       className={clsx(
         className,
         'mb-0.5',
@@ -21,6 +20,7 @@ const InputLabelText = ({
         required && 'before:text-in-primary-06 before:content-["*"]',
       )}
       color='gray-07'
+      id={id}
       variant='body-14-m'
     >
       {children}

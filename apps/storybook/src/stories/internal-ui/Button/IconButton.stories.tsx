@@ -38,7 +38,7 @@ const meta = {
         },
       },
     },
-    arialLabel: {
+    'aria-label': {
       description: 'Icon Button Aria Label',
       control: 'text',
       type: {
@@ -88,7 +88,7 @@ export const Default: Story = {
     theme: ICON_BUTTON_THEMES.HOVER_GRAY,
     disabled: false,
     iconKey: 'pencil',
-    arialLabel: '수정',
+    'aria-label': '수정',
     tooltipContent: '수정',
     tooltipPlacement: 'bottom',
   },

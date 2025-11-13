@@ -16,15 +16,15 @@ const InputFeedback = ({
 }: InputFeedbackProps) => {
   return (
     <Typography
-      id={id}
-      as='p'
-      role='alert'
       aria-live='assertive'
-      variant='body-12-m'
-      color={INPUT_FEEDBACK_TYPOGRAPHY_COLOR[theme]}
+      as='p'
       className={clsx(className, 'mt-1.5 items-baseline gap-x-0.5 break-all')}
+      color={INPUT_FEEDBACK_TYPOGRAPHY_COLOR[theme]}
+      id={id}
+      role='alert'
+      variant='body-12-m'
     >
-      <Icon iconKey='info' weight='fill' className='translate-y-[0.083em]' />
+      <Icon className='translate-y-[0.083em]' iconKey='info' weight='fill' />
       {feedback}
     </Typography>
   );

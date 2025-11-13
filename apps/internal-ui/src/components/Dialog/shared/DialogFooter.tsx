@@ -11,13 +11,13 @@ const DialogFooter = ({
 }: DialogFooterProps) => {
   return (
     <OverlayFooter
-      confirmOption={confirmOption}
-      cancelOption={cancelOption}
-      isPending={isPending}
-      isLoading={isLoading}
-      possibleConfirm={possibleConfirm}
       buttonSize={BUTTON_SIZES.LG}
+      cancelOption={cancelOption}
       className='border-in-gray-02 border-t px-[1.875rem] py-[1.125rem]'
+      confirmOption={confirmOption}
+      isLoading={isLoading}
+      isPending={isPending}
+      possibleConfirm={possibleConfirm}
     />
   );
 };

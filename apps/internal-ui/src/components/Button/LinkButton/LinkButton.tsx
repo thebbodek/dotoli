@@ -38,7 +38,6 @@ const LinkButton = ({
 
   return (
     <Link
-      aria-disabled={disabled}
       className={clsx(
         className,
         generateButtonStyle({
@@ -51,14 +50,15 @@ const LinkButton = ({
           responsive,
         }),
       )}
+      aria-disabled={disabled}
       href={href}
       ref={ref}
-      onClick={handleClick}
       tabIndex={disabled ? -1 : 0}
+      onClick={handleClick}
       {...props}
     >
       {iconKey && (
-        <ButtonIcon iconKey={iconKey} size={size} responsive={responsive} />
+        <ButtonIcon iconKey={iconKey} responsive={responsive} size={size} />
       )}
       {label}
     </Link>

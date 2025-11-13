@@ -40,7 +40,7 @@ export const Default: Story = {
     }, [args.str]);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap='4'>
+      <Flex align={{ items: 'center' }} direction='column' gap='4'>
         <Typography>{str}</Typography>
         <Button
           label='확장자 추출하기'

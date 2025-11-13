@@ -132,7 +132,6 @@ const meta = {
       },
     },
     onClick: {
-      action: 'clicked',
       type: 'function',
       description: 'Button on click',
     },
@@ -217,12 +216,12 @@ export const Primary: Story = {
     return (
       <Button
         {...args}
-        iconOption={{ iconKey }}
         responsive={getResponsive({
           responsiveMobile,
           responsiveTablet,
           responsiveDesktop,
         })}
+        iconOption={{ iconKey }}
       />
     );
   },
@@ -250,17 +249,17 @@ export const Variant: Story = {
           <li key={theme}>
             <ul className='flex items-center justify-end'>
               {Object.keys(variants).map((variant) => (
-                <li key={variant} className='flex w-24 justify-center'>
+                <li className='flex w-24 justify-center' key={variant}>
                   <Button
                     {...args}
-                    theme={theme as ButtonTheme}
-                    variant={variant as ButtonVariant}
-                    iconOption={{ iconKey }}
                     responsive={getResponsive({
                       responsiveMobile,
                       responsiveTablet,
                       responsiveDesktop,
                     })}
+                    iconOption={{ iconKey }}
+                    theme={theme as ButtonTheme}
+                    variant={variant as ButtonVariant}
                   />
                 </li>
               ))}
@@ -289,7 +288,7 @@ export const Size: Story = {
   }) => (
     <ul className='flex gap-x-4'>
       {Object.values(BUTTON_VARIANTS).map((variant) => (
-        <li key={variant} className='flex w-32 justify-center gap-y-4'>
+        <li className='flex w-32 justify-center gap-y-4' key={variant}>
           <ul className='flex flex-col gap-4'>
             {Object.values(BUTTON_SIZES).map((size) =>
               variant === BUTTON_VARIANTS.FILLED &&
@@ -297,14 +296,14 @@ export const Size: Story = {
                 <li key={size}>
                   <Button
                     {...args}
-                    variant={variant}
-                    size={size}
-                    iconOption={{ iconKey }}
                     responsive={getResponsive({
                       responsiveMobile,
                       responsiveTablet,
                       responsiveDesktop,
                     })}
+                    iconOption={{ iconKey }}
+                    size={size}
+                    variant={variant}
                   />
                 </li>
               ),
@@ -334,12 +333,12 @@ export const Responsive: Story = {
   }) => (
     <Button
       {...args}
-      iconOption={{ iconKey }}
       responsive={getResponsive({
         responsiveMobile,
         responsiveTablet,
         responsiveDesktop,
       })}
+      iconOption={{ iconKey }}
     />
   ),
 };

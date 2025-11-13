@@ -15,7 +15,7 @@ export const TabProvider = ({
   variant = TAB_VARIANTS.LINE,
   theme = TAB_THEMES.GRAY,
   size = TAB_SIZES.MD,
-  full = false,
+  isFull = false,
   disabled = false,
   usePanel = false,
   children,
@@ -28,7 +28,7 @@ export const TabProvider = ({
         variant,
         theme,
         size,
-        full,
+        isFull,
         disabled,
         usePanel,
       }}

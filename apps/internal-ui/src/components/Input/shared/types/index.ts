@@ -73,7 +73,7 @@ export type InputProps<
 > = InputDefaultProps<T, P> &
   (T extends typeof INPUT_ELEMENTS.INPUT
     ? Pick<InputHTMLAttributes<HTMLInputElement>, 'type'>
-    : {});
+    : NonNullable<unknown>);
 
 export interface UseInputChangeProps<
   T extends InputElementType,

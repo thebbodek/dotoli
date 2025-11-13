@@ -11,10 +11,10 @@ const MultiSearchSelectListHeader = ({
 
   return (
     <div className='text-in-body-14-r text-in-gray-05 mb-2 flex items-center justify-between px-3'>
-      <strong id={selectListResultId} className='sr-only'>
+      <strong className='sr-only' id={selectListResultId}>
         {ariaLabel}
       </strong>
-      <MultiSelectBaseResultPanel label='검색결과' count={count} />
+      <MultiSelectBaseResultPanel count={count} label='검색결과' />
       <MultiSearchSelectAllCheckbox />
     </div>
   );

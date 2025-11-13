@@ -26,31 +26,31 @@ const Filter = ({
 
   return (
     <FilterProvider
-      toggleValues={toggleValues}
-      toggleOptions={toggleOptions}
-      selectValues={selectValues}
       selectOptions={selectOptions}
+      selectValues={selectValues}
+      toggleOptions={toggleOptions}
+      toggleValues={toggleValues}
       onChange={onChange}
     >
       <SelectBase
-        className={className}
-        type={SELECT_TYPE.MULTI_SEARCH_SELECT}
-        label={<SelectBase.Label label={label} hidden />}
-        trigger={<FilterTrigger />}
-        disabled={disabled}
-        controls={selectListId}
-        labelId={labelId}
         popoverOption={{
           ...popoverOption,
           useClickOutsideEvent: false,
         }}
+        className={className}
+        controls={selectListId}
+        disabled={disabled}
+        label={<SelectBase.Label label={label} hidden />}
+        labelId={labelId}
+        trigger={<FilterTrigger />}
+        type={SELECT_TYPE.MULTI_SEARCH_SELECT}
       >
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
             <FilterPanelProvider>
               <Flex
-                direction='column'
                 className='in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-[22.5rem]'
+                direction='column'
               >
                 <FilterHeader close={close} />
                 <FilterOptionPanel />

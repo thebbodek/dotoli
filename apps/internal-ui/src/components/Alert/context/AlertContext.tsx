@@ -10,12 +10,12 @@ const AlertContext = createContext<AlertContextProps | undefined>(undefined);
 export const AlertProvider = ({
   hasTitle,
   theme,
-  collapsible,
+  useCollapse,
   actionOption,
   useClose,
-  collapsed,
-  setCollapsed,
-  setVisible,
+  isCollapsed,
+  setIsCollapsed,
+  setIsVisible,
   children,
 }: PropsWithChildren<AlertProviderProps>) => {
   return (
@@ -23,12 +23,12 @@ export const AlertProvider = ({
       value={{
         hasTitle,
         theme,
-        collapsible,
+        useCollapse,
         actionOption,
         useClose,
-        collapsed,
-        setCollapsed,
-        setVisible,
+        isCollapsed,
+        setIsCollapsed,
+        setIsVisible,
       }}
     >
       {children}

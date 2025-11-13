@@ -9,16 +9,16 @@ const AvatarImage = ({ src, alt, size, type }: AvatarImageProps) => {
   const [isError, setIsError] = useState(false);
 
   if (!src || isError) {
-    return <AvatarIcon type={type} size={size} />;
+    return <AvatarIcon size={size} type={type} />;
   }
 
   return (
     <Image
-      src={src}
       alt={alt ?? ''}
-      onError={() => setIsError(true)}
       className='h-full w-full object-cover'
+      src={src}
       unoptimized
+      onError={() => setIsError(true)}
       {...AVATAR_SIZE_IMAGE_PROPS[size]}
     />
   );

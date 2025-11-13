@@ -8,9 +8,9 @@ const OverlayDescription = ({
   return (
     <Typography
       as='p'
-      variant='body-16-r'
-      color='gray-07'
       className={className}
+      color='gray-07'
+      variant='body-16-r'
     >
       {description}
     </Typography>

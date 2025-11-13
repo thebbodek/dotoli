@@ -13,7 +13,7 @@ const CalendarDay = ({ day, label, variant, onClick }: CalendarDayProps) => {
   const { COLOR, BACKGROUND, VARIANT, ROUNDED } = CALENDAR_DAY_STYLES[variant];
   const isSelected = CALENDAR_DAY_SELECTED_VARIANTS.includes(variant);
   const isDisabled = CALENDAR_DAY_DISABLED_VARIANTS.includes(variant);
-  const showLabel = !!label && !isSelected;
+  const showsLabel = !!label && !isSelected;
 
   return (
     <button
@@ -23,16 +23,16 @@ const CalendarDay = ({ day, label, variant, onClick }: CalendarDayProps) => {
         BACKGROUND,
         ROUNDED,
       )}
-      role='gridcell'
       aria-selected={isSelected}
-      onClick={!isDisabled ? onClick : undefined}
       disabled={isDisabled}
+      role='gridcell'
+      onClick={!isDisabled ? onClick : undefined}
     >
       <Typography color={COLOR} variant={VARIANT}>
         {day}
       </Typography>
-      {showLabel && (
-        <Typography color={COLOR} className='text-[0.625rem] leading-none'>
+      {showsLabel && (
+        <Typography className='text-[0.625rem] leading-none' color={COLOR}>
           {label}
         </Typography>
       )}

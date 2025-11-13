@@ -23,9 +23,9 @@ const FormRepeaterListItemSelectContent = <T extends SelectValue>({
       <Select
         {...selectProps}
         className='w-full'
+        disabled={disabled || isAllDisabled}
         label={label}
         required={required}
-        disabled={disabled || isAllDisabled}
         hiddenLabel
       />
     </FormRepeaterListItemContentBase>

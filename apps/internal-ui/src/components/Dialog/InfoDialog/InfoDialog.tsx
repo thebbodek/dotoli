@@ -14,7 +14,7 @@ const InfoDialog = ({
   const { label: confirmLabel = '닫기', onConfirm } = confirmOption;
 
   return (
-    <Dialog isOpen={isOpen} ref={ref} className={className}>
+    <Dialog className={className} isOpen={isOpen} ref={ref}>
       <Dialog.Header>
         <OverlayTitle title={title} />
       </Dialog.Header>

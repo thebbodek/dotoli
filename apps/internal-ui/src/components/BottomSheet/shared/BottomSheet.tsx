@@ -14,9 +14,9 @@ const BottomSheet = ({
 }: PropsWithChildren<BottomSheetProps>) => {
   return (
     <Overlay
+      isOpen={isOpen}
       ref={ref}
       variant={OVERLAY_VARIANTS.BOTTOM_SHEET}
-      isOpen={isOpen}
       dimmed
     >
       <div

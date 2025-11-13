@@ -18,7 +18,7 @@ const SelectBase = ({
   required = false,
   className,
   trigger,
-  isError = false,
+  isError: isErrorExternal = false,
   placeholder,
   label,
   children,
@@ -31,7 +31,7 @@ const SelectBase = ({
 }: SelectBaseProps) => {
   const feedbackId = useId();
   const [isOpen, setIsOpen] = useState(false);
-  const _isError = !isOpen && isError && !!feedback && !disabled;
+  const isError = !isOpen && isErrorExternal && !!feedback && !disabled;
   const isFunction = typeof children === 'function';
   const {
     onPopoverClose,
@@ -66,7 +66,7 @@ const SelectBase = ({
       'aria-expanded': isOpen,
       'aria-controls': controls,
       'aria-labelledby': labelId,
-      'aria-describedby': _isError ? feedbackId : undefined,
+      'aria-describedby': isError ? feedbackId : undefined,
     } as SelectBaseAriaAttributes;
 
     if (type === SELECT_TYPE.SELECT) {
@@ -93,24 +93,24 @@ const SelectBase = ({
         </SelectLabelProvider>
       )}
       <Popover
-        isOpen={isOpen && !disabled}
         trigger={
           <SelectTriggerProvider
-            isOpen={isOpen}
-            onToggle={onToggle}
             disabled={disabled}
-            isError={_isError}
+            isError={isError}
+            isOpen={isOpen}
             placeholder={placeholder}
+            onToggle={onToggle}
           >
             {trigger}
           </SelectTriggerProvider>
         }
+        isOpen={isOpen && !disabled}
         {..._popoverOption}
       >
         {!isFunction ? children : children({ close })}
       </Popover>
-      {_isError && (
-        <InputFeedback id={feedbackId} feedback={feedback} className='flex' />
+      {isError && (
+        <InputFeedback className='flex' feedback={feedback} id={feedbackId} />
       )}
     </InputWrapper>
   );

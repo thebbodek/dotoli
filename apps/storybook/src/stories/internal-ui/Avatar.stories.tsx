@@ -77,8 +77,8 @@ export const AvatarOnImageError: Story = {
 export const AvatarSizes: Story = {
   render: ({ type, ...args }) => (
     <div className='in-flex-h-stack items-end gap-x-2'>
-      <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.SM} />
-      <Avatar {...args} type={type ?? 'single'} size={AVATAR_SIZES.MD} />
+      <Avatar {...args} size={AVATAR_SIZES.SM} type={type ?? 'single'} />
+      <Avatar {...args} size={AVATAR_SIZES.MD} type={type ?? 'single'} />
     </div>
   ),
 };

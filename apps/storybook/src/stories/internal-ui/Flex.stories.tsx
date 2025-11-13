@@ -335,14 +335,14 @@ export const WithChildren: Story = {
       <Flex
         className='w-[1000px] px-4'
         {...originalProps}
-        align={align}
-        justify={justify}
         gap={
           gap || {
             column: gapColumn,
             row: gapRow || '6',
           }
         }
+        align={align}
+        justify={justify}
       >
         {items}
       </Flex>

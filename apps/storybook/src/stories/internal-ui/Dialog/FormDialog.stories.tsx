@@ -82,7 +82,6 @@ const Dialog = ({
   cancelLabel,
   onCancel,
   confirmLabel,
-  onConfirm,
   confirmTooltipContent,
   confirmTooltipUseTooltip,
   ...args
@@ -113,14 +112,14 @@ const Dialog = ({
   return (
     <FormDialog
       {...args}
-      isOpen={isOpen}
-      possibleConfirm={args.possibleConfirm ?? !hasError}
-      isPending={args.isPending || isPending}
+      cancelOption={{ ...cancelOption, onCancel: close }}
       className='w-[31.125rem]'
       confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
-      cancelOption={{ ...cancelOption, onCancel: close }}
+      isOpen={isOpen}
+      isPending={args.isPending || isPending}
+      possibleConfirm={args.possibleConfirm ?? !hasError}
     >
-      <FormContent values={values} handleChange={handleChange} />
+      <FormContent handleChange={handleChange} values={values} />
     </FormDialog>
   );
 };
@@ -132,8 +131,8 @@ export const Default: Story = {
 
     return (
       <>
-        <Button onClick={() => setIsOpen(true)} label='작성하기' />
-        <Dialog {...args} isOpen={isOpen} close={() => setIsOpen(false)} />
+        <Button label='작성하기' onClick={() => setIsOpen(true)} />
+        <Dialog {...args} close={() => setIsOpen(false)} isOpen={isOpen} />
       </>
     );
   },

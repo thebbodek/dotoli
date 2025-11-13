@@ -20,13 +20,13 @@ const Table = ({
 }: PropsWithChildren<TableProps>) => {
   return (
     <div
-      role={'table'}
-      aria-label={caption}
       aria-describedby={caption}
+      aria-label={caption}
       className={clsx(className, 'overflow-auto')}
+      role='table'
     >
       {caption && (
-        <div className={'sr-only'} id={caption}>
+        <div className='sr-only' id={caption}>
           {caption}
         </div>
       )}

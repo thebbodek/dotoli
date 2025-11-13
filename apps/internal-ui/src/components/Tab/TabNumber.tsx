@@ -10,15 +10,13 @@ import { Typography } from '@/components/Typography';
 
 const TabNumber = ({ children }: PropsWithChildren) => {
   const { variant, theme } = useTabContext();
+  const themeStyle = TAB_THEME_STYLES[theme][variant];
 
   return (
     <Typography
-      variant={TAB_NUMBER_TYPOGRAPHY_VARIANT[variant]}
+      className={clsx('group-disabled:text-in-gray-03', themeStyle.number)}
       color='gray-04'
-      className={clsx(
-        'group-disabled:text-in-gray-03',
-        TAB_THEME_STYLES[theme][variant].number,
-      )}
+      variant={TAB_NUMBER_TYPOGRAPHY_VARIANT[variant]}
     >
       {children}
     </Typography>

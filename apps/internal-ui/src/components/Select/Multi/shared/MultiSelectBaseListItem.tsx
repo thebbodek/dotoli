@@ -23,14 +23,14 @@ const MultiSelectBaseListItem = <T extends MultiSelectBaseValue>({
 
   return (
     <SelectBaseItem
-      isSelected={isSelected}
       className={clsx(
         className,
         'hover:bg-in-primary-02 flex items-center justify-between',
         isSelected && 'bg-in-primary-02',
       )}
-      onClick={onClick}
+      isSelected={isSelected}
       label={label}
+      onClick={onClick}
     >
       {children}
       <MultiSelectBaseCheckIcon isSelected={isSelected} />

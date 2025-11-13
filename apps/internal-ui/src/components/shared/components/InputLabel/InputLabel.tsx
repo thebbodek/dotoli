@@ -15,7 +15,7 @@ const InputLabel = ({
 
   if (htmlFor) {
     return (
-      <label htmlFor={htmlFor} className={clsx(classNames, 'leading-none')}>
+      <label className={clsx(classNames, 'leading-none')} htmlFor={htmlFor}>
         <InputLabelText {...props}>{children}</InputLabelText>
       </label>
     );

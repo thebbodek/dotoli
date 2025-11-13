@@ -87,10 +87,10 @@ export const VariantsAndColors: Story = {
         Object.values(BADGE_THEMES).map((theme) => (
           <Badge
             {...args}
-            variant={variant}
-            theme={theme}
-            key={`${variant}-${theme}`}
             iconKey='shield-check'
+            key={`${variant}-${theme}`}
+            theme={theme}
+            variant={variant}
           />
         )),
       )}

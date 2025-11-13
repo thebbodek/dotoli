@@ -92,11 +92,11 @@ export const Single: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -116,11 +116,11 @@ export const Range: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -140,11 +140,11 @@ export const Unbounded: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -164,11 +164,11 @@ export const WithMinMaxDate: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate ?? '2025-06-22'}
-          maxDate={args.maxDate ?? '2025-08-05'}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate ?? '2025-08-05'}
+          minDate={args.minDate ?? '2025-06-22'}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -192,11 +192,11 @@ export const WithHolidays: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -219,11 +219,11 @@ export const WithDisabledDays: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>
@@ -246,11 +246,11 @@ export const WithExternalDaysLabels: Story = {
       >
         <Calendar
           className='h-[500px] overflow-y-auto'
-          minDate={args.minDate}
-          maxDate={args.maxDate}
-          holidays={args.holidays}
           disabledDays={args.disabledDays}
           externalDaysLabels={args.externalDaysLabels}
+          holidays={args.holidays}
+          maxDate={args.maxDate}
+          minDate={args.minDate}
           useWeekend={args.useWeekend}
         />
       </CalendarProvider>

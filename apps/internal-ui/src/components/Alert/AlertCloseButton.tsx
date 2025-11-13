@@ -2,14 +2,14 @@ import { useAlertContext } from '@/components/Alert/context';
 import { IconButton } from '@/components/Button';
 
 const AlertCloseButton = () => {
-  const { setVisible } = useAlertContext();
+  const { setIsVisible } = useAlertContext();
 
   return (
     <IconButton
-      iconKey='x'
       aria-label='닫기'
+      iconKey='x'
       theme='hover-white'
-      onClick={() => setVisible(false)}
+      onClick={() => setIsVisible(false)}
     />
   );
 };

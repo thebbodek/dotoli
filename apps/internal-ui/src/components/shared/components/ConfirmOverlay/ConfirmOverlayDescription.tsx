@@ -6,8 +6,8 @@ const ConfirmOverlayDescription = ({
 }: ConfirmOverlayDescriptionProps) => {
   return (
     <OverlayDescription
-      description={description}
       className='mt-2 text-center'
+      description={description}
     />
   );
 };

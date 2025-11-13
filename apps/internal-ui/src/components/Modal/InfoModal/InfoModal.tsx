@@ -15,7 +15,7 @@ const InfoModal = ({
   className,
 }: InfoModalProps) => {
   return (
-    <Modal isOpen={isOpen} ref={ref} className={clsx(className, 'pt-5')}>
+    <Modal className={clsx(className, 'pt-5')} isOpen={isOpen} ref={ref}>
       <Modal.ContentWrapper isLoading={isLoading}>
         <header className='mb-5'>
           <OverlayTitle title={title} />
@@ -23,8 +23,8 @@ const InfoModal = ({
         {children}
       </Modal.ContentWrapper>
       <Modal.Footer
-        confirmOption={confirmOption}
         cancelOption={cancelOption}
+        confirmOption={confirmOption}
         possibleConfirm
       />
     </Modal>

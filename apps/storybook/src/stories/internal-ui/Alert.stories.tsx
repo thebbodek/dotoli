@@ -45,7 +45,7 @@ const meta = {
         },
       },
     },
-    collapsible: {
+    useCollapse: {
       control: 'boolean',
       type: 'boolean',
       description: 'Alert collapsible',
@@ -143,16 +143,16 @@ export const WithButton: Story = {
             key={theme}
             {...args}
             content={Default.args?.content}
-            title={undefined}
             theme={theme}
+            title={undefined}
           />
         ))}
         {Object.values(ALERT_THEMES).map((theme) => (
           <Alert
             key={theme}
             {...args}
-            collapsible={args.collapsible ?? true}
             theme={theme}
+            useCollapse={args.useCollapse ?? true}
           />
         ))}
       </div>
@@ -174,8 +174,8 @@ export const WithClose: Story = {
             key={theme}
             {...args}
             content={Default.args?.content}
-            title={undefined}
             theme={theme}
+            title={undefined}
           />
         ))}
         {Object.values(ALERT_THEMES).map((theme) => (
@@ -190,7 +190,7 @@ export const WithCollapsible: Story = {
   args: {
     ...commonArgs,
     className: 'w-[490px]',
-    collapsible: true,
+    useCollapse: true,
   },
   render: (args) => {
     return (

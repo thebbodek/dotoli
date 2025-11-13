@@ -14,12 +14,12 @@ const BadgeIcon = <T extends BadgeVariant>({
 }: BadgeIconProps<T>) => {
   return (
     <Icon
-      weight='fill'
-      iconKey={iconKey}
       className={clsx(
         BADGE_ICON_SIZE_STYLES[variant],
         BADGE_THEME_ICON_STYLES[theme],
       )}
+      iconKey={iconKey}
+      weight='fill'
     />
   );
 };

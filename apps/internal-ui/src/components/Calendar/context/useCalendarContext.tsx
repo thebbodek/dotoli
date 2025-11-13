@@ -28,7 +28,7 @@ export const CalendarProvider = ({
 
   const handleChange = () => {
     const value = () => {
-      if (internalValue == null) return null;
+      if (internalValue === null) return null;
 
       const { startDate, endDate } = internalValue;
       const formattedStartDate =

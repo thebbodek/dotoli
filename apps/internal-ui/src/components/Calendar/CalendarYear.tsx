@@ -7,9 +7,9 @@ import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 const CalendarYear = ({ year }: CalendarYearProps) => {
   return (
     <Typography
+      className='w-[4.125rem] text-center'
       color={COLOR_VARIANTS.BLACK}
       variant={TYPOGRAPHY_VARIANTS.HEADLINE_20_M}
-      className='w-[4.125rem] text-center'
     >
       {year}년
     </Typography>

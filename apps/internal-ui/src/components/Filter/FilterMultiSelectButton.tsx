@@ -11,11 +11,11 @@ const FilterMultiSelectButton = () => {
 
   return (
     <FilterSelectButton
-      onClick={handleClick}
       disabled={
         internalOptions.length === 0 ||
         internalOptions.find(({ isSelected }) => isSelected) === undefined
       }
+      onClick={handleClick}
     />
   );
 };

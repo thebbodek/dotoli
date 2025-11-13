@@ -11,7 +11,7 @@ const FormRepeaterBody = ({
   const { listRef } = useFormRepeaterContext();
 
   return (
-    <ul ref={listRef} className={clsx(className, 'overflow-y-auto')}>
+    <ul className={clsx(className, 'overflow-y-auto')} ref={listRef}>
       <FormRepeaterListProvider itemsCount={Children.count(children)}>
         {children}
       </FormRepeaterListProvider>

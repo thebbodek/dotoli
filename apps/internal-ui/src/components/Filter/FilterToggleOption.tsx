@@ -30,11 +30,11 @@ const FilterToggleOption = () => {
     <ul className='in-flex-v-stack bg-in-gray-01 border-b-in-gray-02 in-tablet:gap-y-3 in-tablet:py-4 in-tablet:px-6 gap-y-[1.125rem] border-b px-5 py-[1.625rem]'>
       {toggleOptions.map(({ label, key }) => (
         <FilterToggleOptionItem
-          key={key}
-          optionKey={key}
-          label={label}
           checked={toggleValues?.includes(key) ?? false}
           handleChange={handleChange}
+          key={key}
+          label={label}
+          optionKey={key}
         />
       ))}
     </ul>

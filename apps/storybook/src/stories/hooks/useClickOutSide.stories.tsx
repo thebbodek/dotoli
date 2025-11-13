@@ -8,7 +8,6 @@ const meta = {
   argTypes: {
     onClose: {
       description: 'on close',
-      action: 'clicked',
       type: { name: 'function', required: true },
     },
     useClickOutsideEvent: {
@@ -40,8 +39,8 @@ export const Default: Story = {
     });
 
     return (
-      <div ref={contentRef} className='in-flex-v-stack-center relative'>
-        <Button onClick={() => setIsOpen(true)} label='Open' />
+      <div className='in-flex-v-stack-center relative' ref={contentRef}>
+        <Button label='Open' onClick={() => setIsOpen(true)} />
         {isOpen && (
           <div className='bg-in-gray-02 in-flex-h-stack-center absolute h-[100px] w-[200px] rounded-lg p-4'>
             Open!!

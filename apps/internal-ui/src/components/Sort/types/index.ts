@@ -1,7 +1,6 @@
 import { HTMLAttributes } from 'react';
 
 import {
-  SelectBaseLabelProps,
   SelectValue,
   SingleSelectBaseItemProps,
   SingleSelectBaseProps,

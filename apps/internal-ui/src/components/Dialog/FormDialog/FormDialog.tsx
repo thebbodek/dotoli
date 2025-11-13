@@ -18,23 +18,23 @@ const FormDialog = ({
   isLoading,
 }: FormDialogProps) => {
   return (
-    <Dialog isOpen={isOpen} ref={ref} className={className}>
+    <Dialog className={className} isOpen={isOpen} ref={ref}>
       <Dialog.Header>
         <OverlayTitle title={title} />
       </Dialog.Header>
       <Dialog.ContentWrapper
         as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
-        isLoading={isLoading}
         className='gap-y-6'
+        isLoading={isLoading}
       >
         {children}
       </Dialog.ContentWrapper>
       <Dialog.Footer
         cancelOption={cancelOption}
         confirmOption={confirmOption}
-        possibleConfirm={possibleConfirm}
-        isPending={isPending}
         isLoading={isLoading}
+        isPending={isPending}
+        possibleConfirm={possibleConfirm}
       />
     </Dialog>
   );

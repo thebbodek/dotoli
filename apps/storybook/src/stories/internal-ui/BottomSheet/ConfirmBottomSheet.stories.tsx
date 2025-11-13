@@ -42,7 +42,6 @@ export const Default: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -82,13 +81,13 @@ export const Default: Story = {
         <Button label='Open BottomSheet' onClick={() => setIsOpen(true)} />
         <ConfirmBottomSheet
           {...args}
-          isOpen={isOpen}
           confirmOption={{
             ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={cancelOption}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmBottomSheet.Description description='승인이 완료되면 슬랙으로 알려드립니다' />
         </ConfirmBottomSheet>
@@ -110,7 +109,6 @@ export const WithClose: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -150,16 +148,16 @@ export const WithClose: Story = {
         <Button label='Open BottomSheet' onClick={() => setIsOpen(true)} />
         <ConfirmBottomSheet
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmBottomSheet.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmBottomSheet>
@@ -182,7 +180,6 @@ export const WithIcon: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -222,16 +219,16 @@ export const WithIcon: Story = {
         <Button label='Open BottomSheet' onClick={() => setIsOpen(true)} />
         <ConfirmBottomSheet
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmBottomSheet.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmBottomSheet>

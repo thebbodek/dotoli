@@ -23,17 +23,17 @@ export const Default = {
     return (
       <div className='in-flex-v-stack gap-y-2'>
         <div
-          ref={mergeRefs(ref1, ref2)}
           className='bg-in-gray-02 rounded-in-8 p-4 text-center'
+          ref={mergeRefs(ref1, ref2)}
         >
           Bbodek
         </div>
         <ul className='flex items-center gap-x-2'>
           <li>
-            <Button onClick={onRef1Click} label='ref1' />
+            <Button label='ref1' onClick={onRef1Click} />
           </li>
           <li>
-            <Button onClick={onRef2Click} variant='outlined' label='ref2' />
+            <Button label='ref2' variant='outlined' onClick={onRef2Click} />
           </li>
         </ul>
       </div>
