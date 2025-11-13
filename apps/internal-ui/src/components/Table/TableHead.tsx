@@ -22,12 +22,12 @@ const TableHead = ({
 
   return (
     <div
-      role='rowgroup'
       className={clsx(
         className,
         TABLE_ROW_GROUP_COMMON_STYLE,
         'sticky top-0 z-[1]',
       )}
+      role='rowgroup'
     >
       {renderer}
     </div>

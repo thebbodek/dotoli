@@ -49,17 +49,17 @@ const Calendar = ({
 
   return (
     <div
-      id={id}
       aria-labelledby={labelId}
       className={clsx(className, 'in-flex-v-stack overflow-hidden p-4')}
+      id={id}
     >
-      <CalendarNavigator onYearChange={onYearChange} year={year} />
-      <div role='grid' className='in-flex-v-stack items-center overflow-hidden'>
+      <CalendarNavigator year={year} onYearChange={onYearChange} />
+      <div className='in-flex-v-stack items-center overflow-hidden' role='grid'>
         <CalendarWeeks />
         <div
+          className='in-flex-v-stack gap-y-2.5 overflow-y-scroll'
           ref={monthlyWrapperRef}
           role='presentation'
-          className='in-flex-v-stack gap-y-2.5 overflow-y-scroll'
         >
           {CALENDAR_MONTHLY_ARRAY.map((month) => {
             const daysOfMonth = days.get(month);
@@ -74,11 +74,11 @@ const Calendar = ({
                 <CalendarMonth month={month} />
                 {CALENDAR_DAYS_ARRAY.map((daysIndex) => (
                   <CalendarMonthlyRow
-                    key={`${month}-${daysIndex}`}
-                    month={month}
                     daysIndex={daysIndex}
                     daysOfMonth={daysOfMonth}
                     handleClick={handleClick}
+                    key={`${month}-${daysIndex}`}
+                    month={month}
                   />
                 ))}
               </CalendarMonthly>

@@ -111,12 +111,12 @@ export const Default: Story = {
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <InfoModal
           {...args}
-          isOpen={isOpen}
           confirmOption={{
             ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={cancelOption}
+          isOpen={isOpen}
         >
           <div className='in-flex-v-stack gap-y-5'>
             <InfoModal.Description
@@ -171,15 +171,15 @@ export const WithClose: Story = {
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <InfoModal
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
+          isOpen={isOpen}
         >
           <div className='in-flex-v-stack gap-y-5'>
             <InfoModal.Description

@@ -9,8 +9,8 @@ const AlertDescription = ({ description }: AlertDescriptionProps) => {
   return (
     <Typography
       as='p'
-      variant='body-14-r'
       color={ALERT_LABEL_TYPOGRAPHY_VARIANTS[theme]}
+      variant='body-14-r'
     >
       {description}
     </Typography>

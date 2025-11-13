@@ -13,10 +13,10 @@ const InfoBottomSheet = ({
   className,
 }: InfoBottomSheetProps) => {
   return (
-    <BottomSheet isOpen={isOpen} ref={ref} className={className}>
+    <BottomSheet className={className} isOpen={isOpen} ref={ref}>
       <BottomSheet.ContentWrapper
-        isLoading={isLoading}
         className='in-flex-v-stack gap-y-3'
+        isLoading={isLoading}
       >
         <header>
           <OverlayTitle title={title} />
@@ -24,8 +24,8 @@ const InfoBottomSheet = ({
         {children}
       </BottomSheet.ContentWrapper>
       <BottomSheet.Footer
-        confirmOption={confirmOption}
         cancelOption={cancelOption}
+        confirmOption={confirmOption}
         possibleConfirm
       />
     </BottomSheet>

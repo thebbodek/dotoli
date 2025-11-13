@@ -49,7 +49,6 @@ const meta = {
       },
     },
     onChange: {
-      action: 'changed',
       description: 'Radio onChange',
       type: {
         name: 'function',

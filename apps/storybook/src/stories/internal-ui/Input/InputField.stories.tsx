@@ -39,7 +39,6 @@ const meta = {
       },
     },
     onChange: {
-      action: 'onChange',
       type: 'function',
       description: 'input onChange',
     },
@@ -164,7 +163,6 @@ const meta = {
       },
     },
     regCallback: {
-      action: 'regCallback',
       description: 'input reg callback',
       type: 'function',
     },
@@ -180,18 +178,13 @@ export default meta;
 type Story = StoryObj<typeof InputField>;
 
 export const Default: Story = {
-  render(args) {
+  render: (args) => {
     const [value, setValue] = useState('');
 
     return (
       <>
         <InputField
           {...args}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <input
-          type='text'
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
@@ -204,7 +197,7 @@ export const WithLabel: Story = {
   args: {
     required: true,
   },
-  render(args) {
+  render: (args) => {
     const [value, setValue] = useState('');
 
     return (
@@ -221,7 +214,7 @@ export const WithBadge: Story = {
   args: {
     badge: <Icon iconKey='info' weight='fill' />,
   },
-  render(args) {
+  render: (args) => {
     const [value, setValue] = useState('');
 
     return (
@@ -238,7 +231,7 @@ export const WithFeedback: Story = {
   args: {
     feedback: '소문자로 입력해주세요',
   },
-  render(args) {
+  render: (args) => {
     const [value, setValue] = useState('');
     const regex = /^[a-z]+$/;
     const isError = value.length > 0 && !regex.test(value);
@@ -246,12 +239,12 @@ export const WithFeedback: Story = {
     return (
       <InputField
         {...args}
+        feedback={isError ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}
+        isError={isError}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
         }}
-        feedback={isError ? '소문자로만 입력해주세요' : '소문자로 입력해주세요'}
-        isError={isError}
       />
     );
   },
@@ -266,10 +259,10 @@ export const WithRegexCallback: Story = {
     return (
       <InputField
         {...args}
+        feedback='숫자만 입력해주세요'
+        regCallback={replaceNumeric}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        regCallback={replaceNumeric}
-        feedback={'숫자만 입력해주세요'}
       />
     );
   },

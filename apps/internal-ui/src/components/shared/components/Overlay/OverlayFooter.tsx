@@ -55,28 +55,28 @@ const OverlayFooter = ({
       {onCancel && (
         <Button
           {...buttonDefaultProps}
-          label={cancelLabel || '취소'}
-          variant='outlined'
-          theme='gray'
-          onClick={() => !isPending && onCancel?.()}
-          disabled={isPending}
           className={buttonClassName}
+          disabled={isPending}
+          label={cancelLabel || '취소'}
+          theme='gray'
+          variant='outlined'
+          onClick={() => !isPending && onCancel?.()}
         />
       )}
       <Tooltip
         content={content}
+        gap={OVERLAY_CONFIRM_TOOLTIP_GAP}
         hidden={!useTooltip}
         rootClassName={buttonClassName}
-        gap={OVERLAY_CONFIRM_TOOLTIP_GAP}
       >
         <Button
           {...buttonDefaultProps}
+          className='w-full'
+          disabled={!possibleConfirm || isPending || isLoading}
+          iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
+          isPending={isPending}
           label={confirmLabel}
           onClick={handleConfirm}
-          disabled={!possibleConfirm || isPending || isLoading}
-          isPending={isPending}
-          iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
-          className='w-full'
         />
       </Tooltip>
     </footer>

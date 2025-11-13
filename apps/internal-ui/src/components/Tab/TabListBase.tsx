@@ -12,16 +12,17 @@ const TabListBase = ({
   className,
 }: PropsWithChildren<TabListBaseProps>) => {
   const { theme, variant, tabRefs } = useTabContext();
+  const themeStyle = TAB_THEME_STYLES[theme][variant];
 
   return (
     <div
-      role='tablist'
-      aria-label={ariaLabel}
       className={clsx(
         className,
         'group/tablist relative flex items-center',
-        TAB_THEME_STYLES[theme][variant].list,
+        themeStyle.list,
       )}
+      aria-label={ariaLabel}
+      role='tablist'
       onKeyDown={(e) => handleKeyDownFocus({ e, refs: tabRefs })}
     >
       {children}

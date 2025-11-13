@@ -21,9 +21,9 @@ const FormRepeaterListItemInputContent = ({
     <FormRepeaterListItemContentBase className={className}>
       <InputField
         {...inputProps}
+        disabled={disabled || isAllDisabled}
         label={label}
         required={required}
-        disabled={disabled || isAllDisabled}
         hiddenLabel
       />
     </FormRepeaterListItemContentBase>

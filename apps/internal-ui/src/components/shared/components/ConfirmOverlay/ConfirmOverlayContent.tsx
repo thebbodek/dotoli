@@ -20,15 +20,15 @@ const ConfirmOverlayContent = ({
     <div className='in-flex-v-stack-center gap-y-2'>
       {useIcon && (
         <Icon
-          iconKey={iconKey}
           className={clsx(
             COLOR_STYLES_MAPPER.TEXT[color],
             COLOR_STYLES_MAPPER.BACKGROUND[backgroundColor],
             'rounded-in-full mb-1 h-[3.25rem] w-[3.25rem] text-[2.125rem]',
           )}
+          iconKey={iconKey}
         />
       )}
-      <OverlayTitle title={title} className='text-center' />
+      <OverlayTitle className='text-center' title={title} />
     </div>
   );
 };

@@ -138,7 +138,6 @@ const meta: Meta<typeof SearchSelect> = {
       },
     },
     onSelect: {
-      action: 'clicked',
       description: 'SearchSelect on select',
       table: {
         type: {
@@ -194,16 +193,16 @@ export const Default = {
         className='w-[15rem]'
         label={label}
         {...args}
-        value={value}
-        onSelect={onSelect}
-        displayValue={value}
-        inputOption={{ value: searchValue, onChange: onSearch }}
         popoverOption={{
           onPopoverClose: () => setSearchValue(''),
         }}
+        displayValue={value}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        value={value}
+        onSelect={onSelect}
       >
         {filteredItems.map((item) => (
-          <SearchSelect.Item key={item} value={item} label={item}>
+          <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
           </SearchSelect.Item>
         ))}
@@ -231,19 +230,19 @@ export const WithBadge: Story = {
 
     return (
       <SearchSelect
-        className='w-[15rem]'
-        label='Select Label'
-        value={value}
-        onSelect={onSelect}
-        displayValue={value}
-        inputOption={{ value: searchValue, onChange: onSearch }}
-        badge={<Icon iconKey='info' weight='fill' />}
         popoverOption={{
           onPopoverClose: () => setSearchValue(''),
         }}
+        badge={<Icon iconKey='info' weight='fill' />}
+        className='w-[15rem]'
+        displayValue={value}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        label='Select Label'
+        value={value}
+        onSelect={onSelect}
       >
         {filteredItems.map((item) => (
-          <SearchSelect.Item key={item} value={item} label={item}>
+          <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
           </SearchSelect.Item>
         ))}
@@ -275,20 +274,20 @@ export const Error: Story = {
 
     return (
       <SearchSelect
-        className='w-[15rem]'
-        label='SearchSelect Label'
-        value={value}
-        onSelect={onSelect}
-        displayValue={value}
-        inputOption={{ value: searchValue, onChange: onSearch }}
-        isError={isError}
-        feedback={feedback}
         popoverOption={{
           onPopoverClose: () => setSearchValue(''),
         }}
+        className='w-[15rem]'
+        displayValue={value}
+        feedback={feedback}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        isError={isError}
+        label='SearchSelect Label'
+        value={value}
+        onSelect={onSelect}
       >
         {filteredItems.map((item) => (
-          <SearchSelect.Item key={item} value={item} label={item}>
+          <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
           </SearchSelect.Item>
         ))}
@@ -319,19 +318,19 @@ export const Disabled: Story = {
 
     return (
       <SearchSelect
-        className='w-[15rem]'
-        label='SearchSelect Label'
-        value={value}
-        onSelect={onSelect}
-        displayValue={value}
-        inputOption={{ value: searchValue, onChange: onSearch }}
-        disabled={disabled}
         popoverOption={{
           onPopoverClose: () => setSearchValue(''),
         }}
+        className='w-[15rem]'
+        disabled={disabled}
+        displayValue={value}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        label='SearchSelect Label'
+        value={value}
+        onSelect={onSelect}
       >
         {filteredItems.map((item) => (
-          <SearchSelect.Item key={item} value={item} label={item}>
+          <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
           </SearchSelect.Item>
         ))}
@@ -362,19 +361,19 @@ export const Required: Story = {
 
     return (
       <SearchSelect
-        className='w-[15rem]'
-        label='SearchSelect Label'
-        value={value}
-        onSelect={onSelect}
-        displayValue={value}
-        inputOption={{ value: searchValue, onChange: onSearch }}
-        required={required}
         popoverOption={{
           onPopoverClose: () => setSearchValue(''),
         }}
+        className='w-[15rem]'
+        displayValue={value}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        label='SearchSelect Label'
+        required={required}
+        value={value}
+        onSelect={onSelect}
       >
         {filteredItems.map((item) => (
-          <SearchSelect.Item key={item} value={item} label={item}>
+          <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
           </SearchSelect.Item>
         ))}

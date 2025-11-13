@@ -68,9 +68,9 @@ export const Default: Story = {
       <div className='popover-root'>
         <InputPassword
           {...args}
+          className='w-[300px]'
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='w-[300px]'
         />
       </div>
     );
@@ -80,16 +80,11 @@ export const Default: Story = {
 export const WithRule: Story = {
   render: (args) => {
     const [value, setValue] = useState('');
-    const isError = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
+    const isError = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value);
 
     return (
       <InputPassword
         {...args}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        className='w-[300px]'
-        isError={isError}
-        feedback={isError ? '특수문자는 작성할 수 없어요' : ''}
         rules={{
           length: {
             message: '8자 이상 입력해주세요',
@@ -100,6 +95,11 @@ export const WithRule: Story = {
             regex: /[0-9]/,
           },
         }}
+        className='w-[300px]'
+        feedback={isError ? '특수문자는 작성할 수 없어요' : ''}
+        isError={isError}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
     );
   },

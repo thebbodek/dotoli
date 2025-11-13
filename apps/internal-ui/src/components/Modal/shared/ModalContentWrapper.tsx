@@ -8,7 +8,7 @@ const ModalContentWrapper = ({
   isLoading,
 }: PropsWithChildren<ModalContentWrapperProps>) => {
   return (
-    <OverlayContentWrapper isLoading={isLoading} className={'mb-6'}>
+    <OverlayContentWrapper className='mb-6' isLoading={isLoading}>
       {children}
     </OverlayContentWrapper>
   );

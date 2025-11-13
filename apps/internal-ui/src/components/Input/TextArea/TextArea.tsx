@@ -40,42 +40,42 @@ const TextArea = ({
 
   return (
     <InputBase
-      id={id}
-      label={label}
-      feedback={feedback}
-      isError={isError}
       badge={badge}
-      required={required}
       className={className}
-      value={inputValue}
+      feedback={feedback}
       hiddenLabel={hiddenLabel}
+      id={id}
+      isError={isError}
+      label={label}
+      required={required}
+      value={inputValue}
     >
       <Input
-        id={id}
-        as={INPUT_ELEMENTS.TEXTAREA}
-        variant={INPUT_TRIGGER_VARIANTS.TEXTAREA}
-        value={inputValue}
-        name={name}
-        onChange={handleChange}
-        required={required}
-        readOnly={readOnly}
-        disabled={disabled}
-        isFocused={isFocused}
-        setIsFocused={setIsFocused}
-        className='flex-col'
-        inputClassName='resize-none h-full'
         addonEnd={
           <Typography
-            variant='body-12-m'
-            color='gray-03'
             className='absolute bottom-[0.312rem] right-[0.687rem]'
+            color='gray-03'
+            variant='body-12-m'
           >
-            <Typography variant='body-12-m' as='strong' color='gray-07'>
+            <Typography as='strong' color='gray-07' variant='body-12-m'>
               {String(inputValue).length}
             </Typography>
             {`/${maxLength}`}
           </Typography>
         }
+        as={INPUT_ELEMENTS.TEXTAREA}
+        className='flex-col'
+        disabled={disabled}
+        id={id}
+        inputClassName='resize-none h-full'
+        isFocused={isFocused}
+        name={name}
+        readOnly={readOnly}
+        required={required}
+        setIsFocused={setIsFocused}
+        value={inputValue}
+        variant={INPUT_TRIGGER_VARIANTS.TEXTAREA}
+        onChange={handleChange}
         {...rest}
       />
     </InputBase>

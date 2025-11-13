@@ -26,8 +26,6 @@ const FilterTrigger = () => {
 
   return (
     <div
-      ref={ref}
-      role='button'
       className={clsx(
         'rounded-in-8 border-in-gray-02 flex h-8 w-full items-center justify-between gap-x-1 overflow-hidden border px-4 py-2',
         hasValue && 'border-in-primary-05 text-in-primary-06 bg-white',
@@ -35,21 +33,23 @@ const FilterTrigger = () => {
           'bg-in-gray-02 border-in-gray-04 text-in-gray-04 cursor-not-allowed',
       )}
       aria-disabled={disabled}
+      ref={ref}
+      role='button'
       onClick={onClick}
     >
-      <Flex gap={{ row: '4' }} align={{ items: 'center' }}>
+      <Flex align={{ items: 'center' }} gap={{ row: '4' }}>
         <Icon
-          iconKey='funnel-simple'
           className={clsx(
             'text-in-gray-06 text-[1rem]',
             hasValue && 'text-inherit',
           )}
+          iconKey='funnel-simple'
           weight='regular'
           aria-hidden
         />
         <Typography
-          variant='body-14-m'
           color={!hasValue ? 'gray-07' : undefined}
+          variant='body-14-m'
         >
           필터
         </Typography>

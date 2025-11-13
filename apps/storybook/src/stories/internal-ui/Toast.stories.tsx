@@ -41,7 +41,6 @@ const meta = {
       },
     },
     onClose: {
-      action: 'closed',
       description: 'Toast on close',
       type: 'function',
     },
@@ -67,7 +66,7 @@ export const Default: Story = {
     content: '버튼 없는 토스트 UI, n 초 뒤에 자동 삭제',
   },
   render: ({ content, ...args }) => (
-    <Button onClick={() => toast.info(content, args)} label='open toast' />
+    <Button label='open toast' onClick={() => toast.info(content, args)} />
   ),
 };
 
@@ -78,7 +77,7 @@ export const WithClose: Story = {
     duration: Infinity,
   },
   render: ({ content, ...args }) => (
-    <Button onClick={() => toast.info(content, args)} label='open toast' />
+    <Button label='open toast' onClick={() => toast.info(content, args)} />
   ),
 };
 
@@ -91,7 +90,7 @@ export const WithAction: Story = {
     },
   },
   render: ({ content, ...args }) => (
-    <Button onClick={() => toast.info(content, args)} label='open toast' />
+    <Button label='open toast' onClick={() => toast.info(content, args)} />
   ),
 };
 
@@ -106,6 +105,6 @@ export const WithActionAndClose: Story = {
     },
   },
   render: ({ content, ...args }) => (
-    <Button onClick={() => toast.info(content, args)} label='open toast' />
+    <Button label='open toast' onClick={() => toast.info(content, args)} />
   ),
 };

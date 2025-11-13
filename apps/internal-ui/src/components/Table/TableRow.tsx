@@ -18,12 +18,12 @@ const TableRow = ({
 
   return (
     <div
-      role='row'
       className={clsx(
         className,
         'in-flex-h-stack min-w-fit',
         TABLE_ROW_STYLES[variant],
       )}
+      role='row'
     >
       {cells.map((cell) =>
         cloneElement(cell, {

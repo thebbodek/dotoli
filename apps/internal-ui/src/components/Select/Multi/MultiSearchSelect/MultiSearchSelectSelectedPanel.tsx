@@ -13,8 +13,8 @@ const MultiSearchSelectSelectedPanel = () => {
       {selectedOptions.map(({ label, key }) => (
         <MultiSearchSelectSelectedListItem
           key={key}
-          optionKey={key}
           label={label}
+          optionKey={key}
         />
       ))}
     </MultiSelectBaseSelectedList>

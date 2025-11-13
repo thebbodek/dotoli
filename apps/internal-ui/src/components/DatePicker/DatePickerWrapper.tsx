@@ -30,17 +30,17 @@ const DatePickerWrapper = ({
   return (
     <SelectBase
       className={className}
-      type={type}
-      label={label}
-      trigger={<DatePickerTrigger />}
+      controls={controls}
       disabled={disabled}
       feedback={feedback}
-      required={required}
       isError={isError}
-      placeholder={placeholder}
-      controls={controls}
+      label={label}
       labelId={labelId}
+      placeholder={placeholder}
       popoverOption={_popoverOption}
+      required={required}
+      trigger={<DatePickerTrigger />}
+      type={type}
     >
       {children}
     </SelectBase>

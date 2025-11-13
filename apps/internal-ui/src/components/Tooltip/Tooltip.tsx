@@ -73,10 +73,10 @@ const Tooltip = ({
       {isOpen && (
         <FloatingPortal>
           <div
-            id={id}
             aria-live={ariaLive}
-            role={role}
+            id={id}
             ref={setFloating}
+            role={role}
             style={floatingStyles}
             {...getFloatingProps()}
             className={clsx(

@@ -24,11 +24,11 @@ const meta = {
       type: 'function',
     },
   },
-} satisfies Meta<UseFormParams<any>>;
+} satisfies Meta<UseFormParams<object>>;
 
 export default meta;
 
-type Story = StoryObj<UseFormParams<any>>;
+type Story = StoryObj<UseFormParams<object>>;
 
 export const Default: Story = {
   render: () => {
@@ -53,23 +53,23 @@ export const Default: Story = {
     };
 
     return (
-      <form onSubmit={onSubmit} className={'flex flex-col gap-2'}>
+      <form className='flex flex-col gap-2' onSubmit={onSubmit}>
         <input
-          type='text'
-          name='name'
-          value={values.name || ''}
-          onChange={handleChange}
-          placeholder='이름을 입력해주세요'
           className={clsx(
             'outline-hidden rounded-lg border px-3 py-2',
             errors.name ? 'border-red-400' : 'border-gray-600',
           )}
+          name='name'
+          placeholder='이름을 입력해주세요'
+          type='text'
+          value={values.name || ''}
+          onChange={handleChange}
         />
         {errors.name && <p className='text-sm text-red-400'>{errors.name}</p>}
         <button
-          type='submit'
           className='bg-in-black text-in-white disabled:bg-in-gray-03 rounded-md px-3 py-2 disabled:cursor-not-allowed'
           disabled={!values.name}
+          type='submit'
         >
           Submit
         </button>

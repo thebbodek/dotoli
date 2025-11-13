@@ -34,26 +34,26 @@ const TableInputCell = ({
       className={clsx(className, 'has-[input]:p-0', isError && 'error group')}
     >
       <Tooltip
-        id={feedbackId}
-        role='alert'
         ariaLive='assertive'
+        color='red-03'
         content={feedback}
         hidden={!isError}
-        placement={'bottom-start'}
-        color={'red-03'}
+        id={feedbackId}
+        placement='bottom-start'
+        role='alert'
         rootClassName='h-full'
         isKeepFloating
       >
         <input
-          type={type}
-          value={inputValue ?? ''}
-          onChange={handleChange}
-          aria-invalid={isError}
-          aria-errormessage={feedbackId}
           className={clsx(
             'h-full w-full py-2.5 pl-4',
             Object.values(TABLE_CELL_INPUT_STYLES),
           )}
+          aria-errormessage={feedbackId}
+          aria-invalid={isError}
+          type={type}
+          value={inputValue ?? ''}
+          onChange={handleChange}
           {...rest}
         />
       </Tooltip>

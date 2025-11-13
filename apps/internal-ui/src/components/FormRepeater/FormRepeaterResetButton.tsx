@@ -15,11 +15,11 @@ const FormRepeaterResetButton = ({
   return (
     <IconButton
       aria-label='초기화'
+      className={clsx(isChanged && !isAdded ? 'visible' : 'invisible')}
+      disabled={disabled}
       iconKey='arrow-bend-up-left'
       theme={disabled ? 'hover-gray' : 'hover-white'}
-      className={clsx(isChanged && !isAdded ? 'visible' : 'invisible')}
       onClick={onClick}
-      disabled={disabled}
     />
   );
 };

@@ -33,35 +33,35 @@ const SingleSelectBase = <T extends SelectValue>({
 
   return (
     <SelectBase
-      type={type}
-      className={className}
       label={
-        <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
+        <SelectBase.Label badge={badge} hidden={hiddenLabel} label={label} />
       }
-      popoverOption={popoverOption}
       trigger={
         <SingleSelectBaseTrigger
-          displayValue={displayValue}
           disabled={disabled}
-          onSelect={onSelect}
+          displayValue={displayValue}
           useReset={useReset}
+          onSelect={onSelect}
         />
       }
+      className={className}
+      controls={selectListId}
       disabled={disabled}
       feedback={feedback}
-      required={required}
       isError={isError}
-      placeholder={placeholder}
-      controls={selectListId}
       labelId={labelId}
+      placeholder={placeholder}
+      popoverOption={popoverOption}
+      required={required}
+      type={type}
     >
       {({ close }) => (
         <SingleSelectListProvider
+          close={close}
           id={selectListId}
           labelId={labelId}
           value={value}
           onSelect={onSelect}
-          close={close}
         >
           <SelectBase.PopoverWrapper
             className={clsx('in-flex-v-stack', popoverWrapperClassName)}

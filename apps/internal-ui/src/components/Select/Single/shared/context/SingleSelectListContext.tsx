@@ -6,11 +6,12 @@ import {
   SingleSelectListProviderProps,
 } from '@/components/Select/Single/shared/types';
 
-function createSelectListContext<T extends SelectValue>() {
-  return createContext<SingleSelectListContextValue<T> | undefined>(undefined);
-}
+const createSelectListContext = () =>
+  createContext<SingleSelectListContextValue<SelectValue> | undefined>(
+    undefined,
+  );
 
-const SingleSelectListContext = createSelectListContext<SelectValue>();
+const SingleSelectListContext = createSelectListContext();
 
 export const SingleSelectListProvider = <T extends SelectValue>({
   id,

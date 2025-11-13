@@ -60,7 +60,7 @@ export const Default: Story = {
     const [length, setLength] = useState(args.items.length);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap='12'>
+      <Flex align={{ items: 'center' }} direction='column' gap='12'>
         <AvatarGroup
           {...args}
           items={generateItems(length)}
@@ -68,14 +68,14 @@ export const Default: Story = {
         />
         <Flex gap='4'>
           <IconButton
+            aria-label='minus'
             iconKey='minus'
-            arialLabel='minus'
             theme='bg-white'
             onClick={() => setLength(length - 1)}
           />
           <IconButton
+            aria-label='plus'
             iconKey='plus'
-            arialLabel='plus'
             theme='bg-white'
             onClick={() => setLength(length + 1)}
           />

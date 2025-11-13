@@ -14,7 +14,7 @@ const DatePickTrigger = () => {
   const { placeholder = '', disabled } = useSelectTriggerContext();
   const { value, variant, setInternalValue, onChange } = useCalendarContext();
   const hasValue = !!value && isValidDateOfVariant({ value, variant });
-  const showResetButton = hasValue && !disabled;
+  const showsResetButton = hasValue && !disabled;
 
   const onReset = () => {
     setInternalValue(null);
@@ -52,13 +52,13 @@ const DatePickTrigger = () => {
 
   return (
     <SelectBaseTriggerWrapper
-      subFixIcon={<Icon iconKey='calendar-dots' className='text-[1.125rem]' />}
+      subFixIcon={<Icon className='text-[1.125rem]' iconKey='calendar-dots' />}
     >
       <SelectBaseDisplayValue
         displayValue={displayValue()}
         hasValue={hasValue}
       />
-      {showResetButton && <SelectBaseResetButton onClick={onReset} />}
+      {showsResetButton && <SelectBaseResetButton onClick={onReset} />}
     </SelectBaseTriggerWrapper>
   );
 };

@@ -38,10 +38,10 @@ const InputBase = ({
       onSubmit={onSubmit && handleSubmit}
     >
       <InputLabel
-        htmlFor={id}
         badge={badge}
-        required={required}
         hidden={hiddenLabel}
+        htmlFor={id}
+        required={required}
       >
         {label}
       </InputLabel>
@@ -53,12 +53,12 @@ const InputBase = ({
       </InputProvider>
       {feedback && (
         <InputFeedback
-          id={feedbackId}
-          feedback={feedback}
-          theme={isError ? 'error' : 'info'}
           className={clsx(
             isValidInput ? 'hidden group-has-[.input:focus]:flex' : 'flex',
           )}
+          feedback={feedback}
+          id={feedbackId}
+          theme={isError ? 'error' : 'info'}
         />
       )}
     </InputWrapper>

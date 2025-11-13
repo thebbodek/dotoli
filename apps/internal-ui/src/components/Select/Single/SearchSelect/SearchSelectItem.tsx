@@ -10,7 +10,7 @@ const SearchSelectItem = <T extends SelectValue>({
   label,
 }: PropsWithChildren<SearchSelectItemProps<T>>) => {
   return (
-    <SingleSelectBaseItem value={value} label={label}>
+    <SingleSelectBaseItem label={label} value={value}>
       {children}
     </SingleSelectBaseItem>
   );

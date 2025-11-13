@@ -14,7 +14,7 @@ const TabList = ({
   theme,
   size,
   disabled,
-  full,
+  isFull,
   children,
   className,
 }: PropsWithChildren<TabListProps>) => {
@@ -23,12 +23,12 @@ const TabList = ({
   return (
     <TabProvider
       currentValue={currentValue}
-      tabRefs={tabRefs}
-      variant={variant}
-      theme={theme}
-      size={size}
-      full={full}
       disabled={disabled}
+      isFull={isFull}
+      size={size}
+      tabRefs={tabRefs}
+      theme={theme}
+      variant={variant}
       usePanel
     >
       <TabListBase aria-label={ariaLabel} className={className}>

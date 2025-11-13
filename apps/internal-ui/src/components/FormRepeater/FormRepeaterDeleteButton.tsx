@@ -16,10 +16,10 @@ const FormRepeaterDeleteButton = ({
   return (
     <IconButton
       aria-label='삭제'
+      disabled={isDisabled}
       iconKey='trash'
       theme={isChanged && !isDisabled ? 'hover-white' : 'hover-gray'}
       onClick={onClick}
-      disabled={isDisabled}
     />
   );
 };

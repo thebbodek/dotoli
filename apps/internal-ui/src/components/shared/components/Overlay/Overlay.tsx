@@ -23,8 +23,6 @@ const Overlay = ({
   dimmed = false,
   children,
   ref,
-  onClose,
-  useClickOutsideEvent,
   ...props
 }: PropsWithChildren<OverlayProps>) => {
   const { className, ...rest } = props;
@@ -42,7 +40,6 @@ const Overlay = ({
   return (
     <Portal target={target}>
       <dialog
-        ref={ref}
         className={clsx(
           className,
           'open:animate-in-fade-in left-0 top-0 z-[1000] h-full w-full overflow-hidden',
@@ -51,6 +48,7 @@ const Overlay = ({
           dimmed && 'bg-in-dimmed',
         )}
         open={isOpen}
+        ref={ref}
         {...rest}
       >
         {cloneElement(_children, {

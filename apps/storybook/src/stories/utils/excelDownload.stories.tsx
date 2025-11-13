@@ -155,13 +155,13 @@ export const Default: Story = {
   },
   render: ({ fileName = 'test', fileNameHasTimestamp = true, ...args }) => {
     return (
-      <Flex direction='column' align={{ items: 'end' }} gap='4'>
+      <Flex align={{ items: 'end' }} direction='column' gap='4'>
         <Button
+          className='w-fit'
+          iconOption={{ iconKey: 'download-simple' }}
           label='다운로드'
           size='sm'
           theme='green'
-          className='w-fit'
-          iconOption={{ iconKey: 'download-simple' }}
           onClick={() =>
             excelDownload({
               ...args,
@@ -177,7 +177,7 @@ export const Default: Story = {
           <Table.Head>
             <Table.Row>
               {args.columns.map((column) => (
-                <Table.Cell key={column} className='w-[150px]'>
+                <Table.Cell className='w-[150px]' key={column}>
                   {column}
                 </Table.Cell>
               ))}
@@ -187,7 +187,7 @@ export const Default: Story = {
             {args.rows.map((row, index) => (
               <Table.Row key={index}>
                 {row.map(({ value }) => (
-                  <Table.Cell key={String(value)} className='w-[150px]'>
+                  <Table.Cell className='w-[150px]' key={String(value)}>
                     {String(value)}
                   </Table.Cell>
                 ))}

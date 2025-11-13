@@ -16,7 +16,7 @@ export const Default: Story = {
     const [UUID, setUUID] = useState<string | null>(null);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap='4'>
+      <Flex align={{ items: 'center' }} direction='column' gap='4'>
         <Typography color={UUID ? 'black' : 'gray-06'}>
           {UUID ? UUID : '버튼을 클릭해주세요'}
         </Typography>

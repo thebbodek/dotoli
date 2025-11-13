@@ -20,8 +20,8 @@ const FilterToggleOptionItem = ({
 
   return (
     <li
-      role='option'
       className='in-flex-h-stack in-tablet:px-0 justify-between px-2'
+      role='option'
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           handleChange({ optionKey });

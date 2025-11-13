@@ -9,7 +9,7 @@ const SortItem = <T extends SortValue>({
   children,
 }: PropsWithChildren<SortItemProps<T>>) => {
   return (
-    <SingleSelectBaseItem value={value} label={label}>
+    <SingleSelectBaseItem label={label} value={value}>
       {children}
     </SingleSelectBaseItem>
   );

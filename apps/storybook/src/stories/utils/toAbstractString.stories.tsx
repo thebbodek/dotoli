@@ -64,6 +64,7 @@ export const Default: Story = {
         <Flex gap='16'>
           {argValues.map((item) => (
             <Checkbox
+              checked={values.includes(item)}
               key={item}
               label={item}
               onChange={(e) => {
@@ -73,15 +74,14 @@ export const Default: Story = {
                     : prev.filter((preItem) => preItem !== item),
                 );
               }}
-              checked={values.includes(item)}
             />
           ))}
         </Flex>
         <Typography>
           {result && (
             <Badge
-              variant='filled'
               label={`${result.value} ${result.remaining}`}
+              variant='filled'
             />
           )}
         </Typography>

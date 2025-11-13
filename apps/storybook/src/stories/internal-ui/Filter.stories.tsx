@@ -24094,10 +24094,10 @@ export const Default: Story = {
     return (
       <Filter
         label='Filter'
-        toggleValues={toggleValues}
+        selectOptions={_selectOptions}
         selectValues={selectValues}
         toggleOptions={_toggleOptions}
-        selectOptions={_selectOptions}
+        toggleValues={toggleValues}
         onChange={onChange}
       />
     );

@@ -12,15 +12,15 @@ const SelectBaseResetButton = ({ onClick }: SelectBaseResetButtonProps) => {
 
   return (
     <button
-      type={'button'}
-      aria-label={'초기화'}
-      className={'shrink-0 cursor-pointer'}
+      aria-label='초기화'
+      className='shrink-0 cursor-pointer'
+      type='button'
       onClick={handleClick}
     >
       <Icon
-        iconKey={'x-circle'}
-        weight={'fill'}
         className='text-in-gray-05 text-[1.125rem]'
+        iconKey='x-circle'
+        weight='fill'
       />
     </button>
   );

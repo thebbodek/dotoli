@@ -14,11 +14,11 @@ const MultiSearchSelectButton = ({ close }: MultiSearchSelectButtonProps) => {
   return (
     <div className='border-t-in-gray-02 border-t p-4'>
       <Button
-        label='선택 완료'
-        theme={BUTTON_THEMES.PRIMARY}
-        size={BUTTON_SIZES.SM}
-        onClick={handleClick}
         className='w-full'
+        label='선택 완료'
+        size={BUTTON_SIZES.SM}
+        theme={BUTTON_THEMES.PRIMARY}
+        onClick={handleClick}
       />
     </div>
   );

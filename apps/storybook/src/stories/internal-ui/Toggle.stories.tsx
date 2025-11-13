@@ -71,7 +71,6 @@ const meta = {
       },
     },
     onChange: {
-      action: 'changed',
       type: {
         name: 'function',
         required: true,

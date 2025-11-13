@@ -12,12 +12,12 @@ const DialogContentWrapper = ({
 }: PropsWithChildren<DialogContentWrapperProps>) => {
   return (
     <OverlayContentWrapper
-      as={as}
-      isLoading={isLoading}
       className={clsx(
         className,
         'flex-1 overflow-y-auto px-[1.875rem] py-[1.625rem]',
       )}
+      as={as}
+      isLoading={isLoading}
     >
       {children}
     </OverlayContentWrapper>

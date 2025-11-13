@@ -13,28 +13,28 @@ const Alert = ({
   title,
   content,
   theme = ALERT_THEMES.PRIMARY,
-  collapsible = false,
+  useCollapse = false,
   useClose = false,
   actionOption,
   iconOption,
   className,
 }: AlertProps) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const hasTitle = !!title;
 
-  if (!visible) return null;
+  if (!isVisible) return null;
 
   return (
     <AlertProvider
-      hasTitle={hasTitle}
-      theme={theme}
-      collapsible={collapsible}
       actionOption={actionOption}
+      hasTitle={hasTitle}
+      isCollapsed={isCollapsed}
+      setIsCollapsed={setIsCollapsed}
+      setIsVisible={setIsVisible}
+      theme={theme}
       useClose={useClose}
-      collapsed={collapsed}
-      setCollapsed={setCollapsed}
-      setVisible={setVisible}
+      useCollapse={useCollapse}
     >
       <AlertBox className={className}>
         <AlertHeading heading={title ?? content} iconOption={iconOption} />
@@ -42,9 +42,9 @@ const Alert = ({
           <div
             className={clsx(
               'pl-[1.625rem] transition-opacity',
-              !collapsed ? 'opacity-100' : 'opacity-0',
+              !isCollapsed ? 'opacity-100' : 'opacity-0',
             )}
-            aria-hidden={collapsed}
+            aria-hidden={isCollapsed}
           >
             <AlertDescription description={content} />
             <AlertActionButton className='mt-1 w-fit' />

@@ -20,7 +20,7 @@ const FilterOptionPanel = () => {
 
   if (filterStep === FILTER_STEPS.IDLE) {
     return (
-      <Flex direction='column' className='w-[22.5rem]'>
+      <Flex className='w-[22.5rem]' direction='column'>
         {hasToggleOptions && <FilterToggleOption />}
         {hasSelectOptions && <FilterSelectOptionCategories />}
       </Flex>

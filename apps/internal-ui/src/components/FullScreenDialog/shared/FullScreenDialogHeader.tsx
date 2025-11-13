@@ -10,13 +10,13 @@ const FullScreenDialogHeader = ({
   return (
     <OverlayHeader className='in-flex-h-stack items-center px-5 py-3'>
       <IconButton
-        iconKey='x'
-        aria-label={'닫기'}
-        onClick={onClose}
-        theme='hover-white'
+        aria-label='닫기'
         disabled={isPending}
+        iconKey='x'
+        theme='hover-white'
+        onClick={onClose}
       />
-      <OverlayTitle variant={'body-16-b'} title={title} />
+      <OverlayTitle title={title} variant='body-16-b' />
     </OverlayHeader>
   );
 };

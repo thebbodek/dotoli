@@ -25,12 +25,10 @@ const meta = {
     onAdd: {
       description: 'on add',
       type: 'function',
-      action: 'add',
     },
     onAllReset: {
       description: 'on all reset',
       type: 'function',
-      action: 'reset',
     },
     disabled: {
       control: 'boolean',
@@ -121,32 +119,32 @@ export const Default: Story = {
 
     return (
       <FormRepeater
-        onAdd={onAdd}
-        onAllReset={onAllReset}
         changedRowsCount={Object.keys(changedValues).length}
         disabled={disabled}
+        onAdd={onAdd}
+        onAllReset={onAllReset}
       >
         <FormRepeater.Header>
-          <FormRepeater.HeaderContent label='패키지' className='w-[120px]' />
+          <FormRepeater.HeaderContent className='w-[120px]' label='패키지' />
           <FormRepeater.HeaderContent
+            className='w-[200px]'
             label='이름'
-            className='w-[200px]'
             required
           />
           <FormRepeater.HeaderContent
+            className='w-[200px]'
             label='출고 센터'
-            className='w-[200px]'
             required
           />
-          <FormRepeater.HeaderContent label='배송 유형' className='w-[80px]' />
+          <FormRepeater.HeaderContent className='w-[80px]' label='배송 유형' />
           <FormRepeater.HeaderContent
-            label='해당'
             className='w-[100px]'
+            label='해당'
             required
           />
           <FormRepeater.HeaderContent
-            label='출고 유형'
             className='w-[150px]'
+            label='출고 유형'
             required
           />
         </FormRepeater.Header>
@@ -157,8 +155,8 @@ export const Default: Story = {
 
             return (
               <FormRepeater.Item
-                key={id}
                 changedValue={changedValues[id]}
+                key={id}
                 onDelete={() => onDelete({ id })}
                 onReset={({ originalValue }) => onReset({ id, originalValue })}
               >
@@ -171,28 +169,28 @@ export const Default: Story = {
                 />
                 <FormRepeater.Select
                   displayValue={dispatchCenter}
+                  feedback='출고 센터를 선택해주세요.'
+                  isError={!dispatchCenter}
                   value={dispatchCenter}
                   onSelect={({ value }) =>
                     onChange({ id, key: 'dispatchCenter', value })
                   }
-                  isError={!dispatchCenter}
-                  feedback='출고 센터를 선택해주세요.'
                 >
                   {dispatchCenters.map((center) => (
-                    <Select.Item key={center} value={center} label={center}>
+                    <Select.Item key={center} label={center} value={center}>
                       {center}
                     </Select.Item>
                   ))}
                 </FormRepeater.Select>
                 <FormRepeater.Badge
-                  label='직출고'
-                  variant='outlined'
-                  theme='primary'
                   iconKey='arrows-left-right'
+                  label='직출고'
+                  theme='primary'
+                  variant='outlined'
                 />
                 <FormRepeater.Toggle
-                  label='해당'
                   checked={useOrderNotice}
+                  label='해당'
                   onChange={(e) =>
                     onChange({
                       id,
@@ -204,9 +202,9 @@ export const Default: Story = {
                 <FormRepeater.Radio>
                   {dispatchTypes.map((type) => (
                     <Radio
+                      checked={dispatchType === type}
                       key={type}
                       label={type}
-                      checked={dispatchType === type}
                       onChange={() =>
                         onChange({ id, key: 'dispatchType', value: type })
                       }

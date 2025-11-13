@@ -11,8 +11,8 @@ const RadioLabel = ({ size, label, labelId }: RadioLabelProps) => {
   return (
     <Typography
       className={clsx(...Object.values(RADIO_STYLES).map(({ label }) => label))}
-      id={labelId}
       color='black'
+      id={labelId}
       variant={RADIO_LABEL_SIZE_VARIANTS[size]}
     >
       {label}

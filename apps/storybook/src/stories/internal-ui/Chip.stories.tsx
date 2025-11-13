@@ -26,7 +26,7 @@ const meta = {
       control: 'text',
       type: 'string',
     },
-    onClick: { action: 'clicked', type: 'function' },
+    onClick: { type: 'function' },
     className: {
       description: 'Chip className',
       control: 'text',

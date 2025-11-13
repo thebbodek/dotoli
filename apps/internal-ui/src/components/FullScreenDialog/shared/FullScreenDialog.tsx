@@ -14,9 +14,9 @@ const FullScreenDialog = ({
 }: PropsWithChildren<FullScreenDialogProps>) => {
   return (
     <Overlay
-      variant={OVERLAY_VARIANTS.FULL_SCREEN}
       isOpen={isOpen}
       ref={ref}
+      variant={OVERLAY_VARIANTS.FULL_SCREEN}
       dimmed
     >
       <div

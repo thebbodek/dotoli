@@ -16,7 +16,7 @@ const {
   variant,
   size,
   theme,
-  full,
+  isFull,
   disabled,
   'aria-label': ariaLabel,
 } = TabMeta.argTypes ?? {};
@@ -24,7 +24,7 @@ const {
 const meta = {
   title: 'core/internal-ui/Tab/TabList',
   component: TabList,
-  argTypes: { variant, size, theme, full, disabled, 'aria-label': ariaLabel },
+  argTypes: { variant, size, theme, isFull, disabled, 'aria-label': ariaLabel },
 } satisfies Meta<typeof TabList>;
 
 export default meta;
@@ -56,11 +56,11 @@ export const Default: Story = {
           </TabList>
           {Object.values(tabItems).map((item) => (
             <TabPanel
+              className='shadow-in-8 rounded-in-8 bg-in-white mt-6 flex-1 p-4'
               key={item.value}
               value={item.value}
-              className='shadow-in-8 rounded-in-8 bg-in-white mt-6 flex-1 p-4'
             >
-              <Typography variant='body-16-b' color='gray-07'>
+              <Typography color='gray-07' variant='body-16-b'>
                 {item.label}
               </Typography>
             </TabPanel>

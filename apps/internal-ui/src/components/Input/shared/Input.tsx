@@ -72,22 +72,22 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
 
     return (
       <InputTriggerWrapper
-        variant={variant}
-        isError={isError}
-        disabled={isDisabled}
         className={clsx(
           className,
           !isError &&
             'focus-within:border-in-primary-05 focus-within:outline-in-gray-02 focus-within:outline-2',
         )}
+        disabled={isDisabled}
+        isError={isError}
+        variant={variant}
       >
         {input}
         <InputIconButton
           aria-label='초기화'
-          disabled={isDisabled}
-          iconKey={'x-circle'}
-          onClick={onReset}
           className={clsx(canReset ? 'visible' : 'invisible')}
+          disabled={isDisabled}
+          iconKey='x-circle'
+          onClick={onReset}
         />
         {addonEnd && addonEnd}
       </InputTriggerWrapper>
@@ -96,12 +96,12 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
 
   return popover ? (
     <Popover
-      trigger={renderer()}
       isOpen={isFocused}
       offset={INPUT_POPOVER_OFFSET}
-      onPopoverClose={() => setIsFocused(false)}
+      trigger={renderer()}
       useAutoFocus={false}
       applyMaxWidth
+      onPopoverClose={() => setIsFocused(false)}
     >
       <div>{popover}</div>
     </Popover>

@@ -13,10 +13,10 @@ const FilterHeader = ({ close }: FilterHeaderProps) => {
 
   return (
     <Flex
+      align={{ items: 'center' }}
       as='header'
       className='border-b-in-gray-02 in-tablet:px-4 in-tablet:h-[3.75rem] h-[4rem] border-b px-5'
-      align={{ items: 'center' }}
-      shrink={'0'}
+      shrink='0'
     >
       {filterStep === FILTER_STEPS.IDLE && (
         <FilterHeaderMobileCloseButton close={close} />

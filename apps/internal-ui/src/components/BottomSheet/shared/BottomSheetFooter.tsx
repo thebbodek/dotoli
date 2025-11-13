@@ -10,12 +10,12 @@ const BottomSheetFooter = ({
 }: BottomSheetFooterProps) => {
   return (
     <OverlayFooter
-      confirmOption={confirmOption}
       cancelOption={cancelOption}
-      isPending={isPending}
-      isLoading={isLoading}
-      possibleConfirm={possibleConfirm}
       className='px-5 pb-5'
+      confirmOption={confirmOption}
+      isLoading={isLoading}
+      isPending={isPending}
+      possibleConfirm={possibleConfirm}
       isFull
     />
   );

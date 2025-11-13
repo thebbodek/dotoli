@@ -1,4 +1,3 @@
-import { UseClickOutsideProps } from '@bbodek/hooks';
 import {
   DialogHTMLAttributes,
   HTMLAttributes,
@@ -23,8 +22,7 @@ export type OverlayVariant =
 export interface OverlayProps
   extends Pick<PortalProps, 'target'>,
     Pick<DialogHTMLAttributes<HTMLDialogElement>, 'className'>,
-    ComponentPropsRef<HTMLDialogElement>,
-    Partial<UseClickOutsideProps> {
+    ComponentPropsRef<HTMLDialogElement> {
   variant: OverlayVariant;
   isOpen: boolean;
   dimmed?: boolean;

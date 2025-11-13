@@ -16,6 +16,7 @@ const useTabIndicatorStyleEffect = ({
     const setIndicatorStyle = () => {
       if (!current) {
         resetStyle();
+
         return;
       }
 

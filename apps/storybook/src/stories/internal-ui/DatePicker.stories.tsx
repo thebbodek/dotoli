@@ -90,8 +90,8 @@ export const Single: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.SINGLE}
         value={value}
+        variant={CALENDAR_VARIANTS.SINGLE}
         onChange={setValue}
       />
     );
@@ -105,8 +105,8 @@ export const Range: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.RANGE}
         value={value}
+        variant={CALENDAR_VARIANTS.RANGE}
         onChange={setValue}
       />
     );
@@ -120,8 +120,8 @@ export const Unbounded: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.UNBOUNDED}
         value={value}
+        variant={CALENDAR_VARIANTS.UNBOUNDED}
         onChange={setValue}
       />
     );
@@ -135,10 +135,10 @@ export const WithMinMaxDate: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.RANGE}
-        minDate={args.minDate ?? '2025-06-22'}
         maxDate={args.maxDate ?? '2025-08-05'}
+        minDate={args.minDate ?? '2025-06-22'}
         value={value}
+        variant={CALENDAR_VARIANTS.RANGE}
         onChange={setValue}
       />
     );
@@ -156,8 +156,8 @@ export const WithHolidays: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.SINGLE}
         value={value}
+        variant={CALENDAR_VARIANTS.SINGLE}
         onChange={setValue}
       />
     );
@@ -174,8 +174,8 @@ export const WithDisabledDays: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.SINGLE}
         value={value}
+        variant={CALENDAR_VARIANTS.SINGLE}
         onChange={setValue}
       />
     );
@@ -192,8 +192,8 @@ export const WithExternalDaysLabels: Story = {
     return (
       <DatePicker
         {...args}
-        variant={CALENDAR_VARIANTS.SINGLE}
         value={value}
+        variant={CALENDAR_VARIANTS.SINGLE}
         onChange={setValue}
       />
     );

@@ -30,10 +30,10 @@ const Typography = <
         variant && TYPOGRAPHY_STYLES_MAPPER[variant],
         color ? COLOR_STYLES_MAPPER.TEXT[color] : 'text-inherit',
       )}
-      id={id}
-      title={title}
-      role={role}
       aria-live={ariaLive}
+      id={id}
+      role={role}
+      title={title}
     >
       {children}
     </Component>
