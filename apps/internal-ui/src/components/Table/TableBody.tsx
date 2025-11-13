@@ -33,13 +33,13 @@ const TableBody = ({
 
   return (
     <div
-      role='rowgroup'
       className={clsx(
         className,
         TABLE_ROW_GROUP_COMMON_STYLE,
         'bg-in-white h-[calc(100%-2rem)]',
         isEmpty && 'sticky left-0',
       )}
+      role='rowgroup'
     >
       {renderer()}
     </div>

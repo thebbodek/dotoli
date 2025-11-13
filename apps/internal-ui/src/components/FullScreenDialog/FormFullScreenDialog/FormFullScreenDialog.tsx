@@ -20,26 +20,26 @@ const FormFullScreenDialog = ({
   const { onCancel } = cancelOption;
 
   return (
-    <FullScreenDialog isOpen={isOpen} ref={ref} className={className}>
+    <FullScreenDialog className={className} isOpen={isOpen} ref={ref}>
       <FullScreenDialog.Header
+        isPending={isPending}
         title={title}
         onClose={onCancel}
-        isPending={isPending}
       />
       <FullScreenDialog.ContentWrapper
         as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
-        isLoading={isLoading}
         className='gap-y-8'
+        isLoading={isLoading}
       >
         {children}
       </FullScreenDialog.ContentWrapper>
       <OverlayFooter
-        confirmOption={confirmOption}
         cancelOption={cancelOption}
-        possibleConfirm={possibleConfirm}
-        isPending={isPending}
-        isLoading={isLoading}
         className='border-t-in-gray-02 border-t px-5 py-3'
+        confirmOption={confirmOption}
+        isLoading={isLoading}
+        isPending={isPending}
+        possibleConfirm={possibleConfirm}
         isFull
       />
     </FullScreenDialog>

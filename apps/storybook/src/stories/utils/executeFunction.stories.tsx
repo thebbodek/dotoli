@@ -40,6 +40,6 @@ export const Default: Story = {
       executeFunction({ disabled, fn: executeConsole });
     };
 
-    return <Button onClick={onClick} label='Execute' />;
+    return <Button label='Execute' onClick={onClick} />;
   },
 };

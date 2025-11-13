@@ -69,12 +69,12 @@ export const Default: Story = {
       <Sort
         className='w-[15rem]'
         {...args}
+        displayValue={value}
         value={value}
         onSelect={onSelect}
-        displayValue={value}
       >
         {data.map((label) => (
-          <Sort.Item key={label} value={String(label)} label={label}>
+          <Sort.Item key={label} label={label} value={String(label)}>
             {label}
           </Sort.Item>
         ))}

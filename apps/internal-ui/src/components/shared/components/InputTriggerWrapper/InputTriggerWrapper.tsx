@@ -21,10 +21,6 @@ const InputTriggerWrapper = ({
 }: PropsWithChildren<InputTriggerWrapperProps>) => {
   return (
     <div
-      ref={ref}
-      role={role}
-      aria-disabled={ariaDisabled}
-      onClick={onClick}
       className={clsx(
         className,
         INPUT_TRIGGER_STYLES[variant],
@@ -33,6 +29,10 @@ const InputTriggerWrapper = ({
         !disabled && isError && INPUT_TRIGGER_STATE_STYLES.ERROR,
         !disabled && !isError && INPUT_TRIGGER_STATE_STYLES.DEFAULT,
       )}
+      aria-disabled={ariaDisabled}
+      ref={ref}
+      role={role}
+      onClick={onClick}
     >
       {children}
     </div>

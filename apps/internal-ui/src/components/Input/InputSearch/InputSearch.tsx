@@ -49,39 +49,39 @@ const InputSearch = ({
 
   return (
     <InputBase
-      id={id}
-      value={inputValue}
-      label={label}
-      hiddenLabel={hiddenLabel}
-      feedback={feedback}
-      isError={isError}
       badge={badge}
-      required={required}
       className={className}
+      feedback={feedback}
+      hiddenLabel={hiddenLabel}
+      id={id}
+      isError={isError}
+      label={label}
+      required={required}
+      value={inputValue}
       onSubmit={onSubmit ? handleSubmit : undefined}
     >
       <Input
-        id={id}
-        variant={INPUT_TRIGGER_VARIANTS.SEARCH}
-        value={inputValue}
-        name={name}
-        onChange={handleChange}
-        autoComplete={autoComplete}
-        required={required}
-        readOnly={readOnly}
-        disabled={disabled}
-        onReset={handleReset}
-        isFocused={isFocused}
-        setIsFocused={setIsFocused}
         addonEnd={
           <InputIconButton
-            type='submit'
             aria-label='검색'
-            iconKey={'magnifying-glass'}
-            weight='bold'
             disabled={isDisabled}
+            iconKey='magnifying-glass'
+            type='submit'
+            weight='bold'
           />
         }
+        autoComplete={autoComplete}
+        disabled={disabled}
+        id={id}
+        isFocused={isFocused}
+        name={name}
+        readOnly={readOnly}
+        required={required}
+        setIsFocused={setIsFocused}
+        value={inputValue}
+        variant={INPUT_TRIGGER_VARIANTS.SEARCH}
+        onChange={handleChange}
+        onReset={handleReset}
         {...rest}
       />
     </InputBase>

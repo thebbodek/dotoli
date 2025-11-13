@@ -10,9 +10,9 @@ const OverlayTitle = ({
   return (
     <Typography
       as='strong'
+      className={className}
       color='black'
       variant={variant}
-      className={className}
     >
       {title}
     </Typography>

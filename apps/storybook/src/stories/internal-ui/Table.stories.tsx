@@ -42,13 +42,13 @@ export const Default: Story = {
 
     interface UserFields extends User {
       checked: boolean;
-      active: boolean;
+      isActive: boolean;
       goodsCode: string;
     }
 
     const USER_LIST_MAPPER = {
       CHECKED: 'checked',
-      ACTIVE: 'active',
+      ACTIVE: 'isActive',
       NAME: 'name',
       USER_NAME: 'username',
       IS_APPROVED: 'isApproved',
@@ -99,7 +99,7 @@ export const Default: Story = {
       initialValues: users.map((user) => ({
         ...user,
         checked: false,
-        active: false,
+        isActive: false,
         goodsCode: '',
       })),
     });
@@ -126,12 +126,12 @@ export const Default: Story = {
                 );
               };
 
-              if (key === 'checked') {
+              if (key === USER_LIST_MAPPER['CHECKED']) {
                 return (
                   <Table.Cell {...defaultProps}>
                     <Table.Cell.Checkbox
-                      label={label}
                       checked={values.every((user) => user.checked)}
+                      label={label}
                       onChange={(e) =>
                         onChange({ key, value: e.target.checked })
                       }
@@ -140,12 +140,12 @@ export const Default: Story = {
                 );
               }
 
-              if (key === 'active') {
+              if (key === USER_LIST_MAPPER['ACTIVE']) {
                 return (
                   <Table.Cell {...defaultProps}>
                     <Table.Cell.Toggle
+                      checked={values.every((user) => user.isActive)}
                       label={label}
-                      checked={values.every((user) => user.active)}
                       onChange={(e) =>
                         onChange({ key, value: e.target.checked })
                       }
@@ -160,7 +160,7 @@ export const Default: Story = {
         </Table.Head>
         <Table.Body>
           {values.map((user) => {
-            const { id, checked, active } = user;
+            const { id, checked, isActive } = user;
 
             const onChange = ({
               key,
@@ -196,11 +196,11 @@ export const Default: Story = {
                     );
                   }
 
-                  if (key === 'active') {
+                  if (key === USER_LIST_MAPPER['ACTIVE']) {
                     return (
                       <Table.Cell {...defaultProps}>
                         <Table.Cell.Toggle
-                          checked={active}
+                          checked={isActive}
                           onChange={(e) =>
                             onChange({ key, value: e.target.checked })
                           }
@@ -209,19 +209,19 @@ export const Default: Story = {
                     );
                   }
 
-                  if (key === 'isApproved') {
+                  if (key === USER_LIST_MAPPER['IS_APPROVED']) {
                     return (
                       <Table.Cell {...defaultProps}>
                         <Badge
-                          variant='status'
                           label={user.isApproved ? '승인' : '미승인'}
                           theme={user.isApproved ? 'green' : 'red'}
+                          variant='status'
                         />
                       </Table.Cell>
                     );
                   }
 
-                  if (key === 'createdBy') {
+                  if (key === USER_LIST_MAPPER['CREATED_BY']) {
                     return (
                       <Table.Cell {...defaultProps}>
                         <Table.Cell.Persona name={user.createdBy} />
@@ -229,7 +229,7 @@ export const Default: Story = {
                     );
                   }
 
-                  if (key === 'confirm') {
+                  if (key === USER_LIST_MAPPER['CONFIRM']) {
                     return (
                       <Table.Cell {...defaultProps}>
                         <Table.Cell.Button
@@ -242,22 +242,22 @@ export const Default: Story = {
                     );
                   }
 
-                  if (key === 'actions') {
+                  if (key === USER_LIST_MAPPER['ACTIONS']) {
                     return (
                       <Table.Cell {...defaultProps}>
                         <Table.Cell.IconButton
                           items={[
                             {
                               iconKey: 'copy',
-                              arialLabel: '복사',
+                              'aria-label': '복사',
                             },
                             {
                               iconKey: 'pencil-simple-line',
-                              arialLabel: '수정',
+                              'aria-label': '수정',
                             },
                             {
                               iconKey: 'trash',
-                              arialLabel: '삭제',
+                              'aria-label': '삭제',
                             },
                           ]}
                         />
@@ -265,7 +265,7 @@ export const Default: Story = {
                     );
                   }
 
-                  if (key === 'goodsCode') {
+                  if (key === USER_LIST_MAPPER['GOODS_CODE']) {
                     const UPPER_CASE_REG_EXP = /[^A-Z]/g;
                     const isError =
                       user.goodsCode.length > 0 &&
@@ -274,16 +274,16 @@ export const Default: Story = {
                     return (
                       <Table.InputCell
                         {...defaultProps}
-                        placeholder='입력해주세요'
-                        value={user.goodsCode}
-                        isError={isError}
                         feedback={
                           isError ? '! 대문자만 입력 가능합니다' : undefined
                         }
+                        disabled={user.id === 0}
+                        isError={isError}
+                        placeholder='입력해주세요'
+                        value={user.goodsCode}
                         onChange={(e) =>
                           onChange({ key, value: e.target.value })
                         }
-                        disabled={user.id === 0}
                       />
                     );
                   }
@@ -359,8 +359,8 @@ export const EmptyTable: Story = {
     return (
       <Flex direction='column' gap='4'>
         <Toggle
-          label='테이블 비우기'
           checked={count === 0}
+          label='테이블 비우기'
           onChange={() => setCount((v) => (v === 0 ? 10 : 0))}
         />
 

@@ -37,28 +37,28 @@ const SearchSelect = <T extends SelectValue>({
 
   return (
     <SingleSelectBase
-      type={SELECT_TYPE.SEARCH_SELECT}
-      className={className}
-      label={label}
-      hiddenLabel={hiddenLabel}
-      popoverOption={popoverOption}
-      disabled={disabled}
-      feedback={feedback}
-      required={required}
-      isError={isError}
-      value={value}
       badge={badge}
-      onSelect={onSelect}
+      className={className}
+      disabled={disabled}
       displayValue={displayValue}
+      feedback={feedback}
+      hiddenLabel={hiddenLabel}
+      isError={isError}
+      label={label}
       placeholder={placeholder}
-      useReset={useReset}
+      popoverOption={popoverOption}
       popoverWrapperClassName='max-h-[19rem] gap-y-[0.875rem] p-[0.875rem]'
+      required={required}
+      type={SELECT_TYPE.SEARCH_SELECT}
+      useReset={useReset}
+      value={value}
+      onSelect={onSelect}
     >
       <InputSearch
         {...restInputOption}
         label='검색'
-        value={searchValue}
         placeholder={inputPlaceholder}
+        value={searchValue}
         hiddenLabel
       />
       <SingleSelectBaseList>

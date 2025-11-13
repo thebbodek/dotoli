@@ -11,7 +11,7 @@ export const highlightText = ({ text, targetText }: HighlightTextParams) => {
 
     if (isTargetText) {
       return (
-        <span key={index} className='text-in-primary-06'>
+        <span className='text-in-primary-06' key={index}>
           {part}
         </span>
       );

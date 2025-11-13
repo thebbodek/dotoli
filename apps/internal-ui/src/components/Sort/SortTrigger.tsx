@@ -17,8 +17,6 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
 
   return (
     <div
-      ref={ref}
-      role='button'
       className={clsx(
         className,
         'rounded-in-8 flex h-8 w-full items-center justify-between gap-x-1 overflow-hidden border px-4 py-2',
@@ -27,6 +25,8 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
           'bg-in-gray-02 border-in-gray-04 text-in-gray-04 cursor-not-allowed',
       )}
       aria-disabled={disabled}
+      ref={ref}
+      role='button'
       onClick={onClick}
     >
       <div
@@ -36,21 +36,21 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
         )}
       >
         <Icon
-          iconKey='sort-ascending'
           className='text-[1rem]'
+          iconKey='sort-ascending'
           weight='regular'
           aria-hidden
         />
-        <Typography variant='body-14-m' className='truncate'>
+        <Typography className='truncate' variant='body-14-m'>
           {displayValue}
         </Typography>
       </div>
       <Icon
-        iconKey={isOpen ? 'caret-up' : 'caret-down'}
         className={clsx(
           'shrink-0 text-[0.562rem]',
           !disabled && 'text-in-primary-05',
         )}
+        iconKey={isOpen ? 'caret-up' : 'caret-down'}
         weight='fill'
         aria-hidden
       />

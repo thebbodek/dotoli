@@ -42,7 +42,7 @@ Workspace Installation:
 
 ```sh
 cd apps/hooks
-pnpm add -D @dotoli/eslint-config@workspace:* 
+pnpm add -D @bbodek/eslint-config@workspace:* 
 ```
 
 Run project scripts from root directory:

@@ -18,7 +18,7 @@ const SelectBaseDisplayValue = ({
   };
 
   return (
-    <Typography className='w-full truncate' variant='body-16-r' color={color()}>
+    <Typography className='w-full truncate' color={color()} variant='body-16-r'>
       {displayValue || placeholder}
     </Typography>
   );

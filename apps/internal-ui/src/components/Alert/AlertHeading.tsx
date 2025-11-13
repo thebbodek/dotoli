@@ -8,18 +8,18 @@ import { AlertHeadingProps } from '@/components/Alert/types';
 import { Typography } from '@/components/Typography';
 
 const AlertHeading = ({ heading, iconOption }: AlertHeadingProps) => {
-  const { theme, hasTitle, collapsible, useClose, actionOption } =
+  const { theme, hasTitle, useCollapse, useClose, actionOption } =
     useAlertContext();
-  const hasAction = collapsible || useClose || actionOption;
+  const hasAction = useCollapse || useClose || actionOption;
 
   const Heading = (
     <div className='in-flex-h-stack w-full items-center gap-x-1.5 overflow-hidden'>
       <AlertIcon iconOption={iconOption} />
       <Typography
         as={hasTitle ? 'strong' : 'p'}
-        variant={hasTitle ? 'body-14-b' : 'body-14-m'}
-        color={ALERT_LABEL_TYPOGRAPHY_VARIANTS[theme]}
         className='truncate'
+        color={ALERT_LABEL_TYPOGRAPHY_VARIANTS[theme]}
+        variant={hasTitle ? 'body-14-b' : 'body-14-m'}
       >
         {heading}
       </Typography>

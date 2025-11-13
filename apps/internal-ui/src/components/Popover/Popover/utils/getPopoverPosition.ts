@@ -84,9 +84,10 @@ export const getPopoverPosition = ({
     .split(POPOVER_POSITION_DIVISION)
     .map((position) => {
       const _position = position as PopoverPlacementPosition;
-      const { flag, flippedPosition } = POPOVER_POSITION_OVERFLOWS[_position];
+      const { flag: isFlag, flippedPosition } =
+        POPOVER_POSITION_OVERFLOWS[_position];
 
-      return !flag ? _position : flippedPosition;
+      return !isFlag ? _position : flippedPosition;
     });
 
   const style = {

@@ -24,20 +24,21 @@ const Badge = <T extends BadgeVariant>({
 }: BadgeProps<T>) => {
   const customIconKey = (props as BadgeFilledIconKeyProps).iconKey;
   const iconKey = variant === BADGE_VARIANTS.STATUS ? 'circle' : customIconKey;
+  const themeStyle = BADGE_THEME_STYLES[variant][theme];
 
   return (
     <div
       className={clsx(
         'inline-flex h-5 items-center justify-center gap-x-1 px-2',
         BADGE_VARIANT_STYLES[variant],
-        BADGE_THEME_STYLES[variant][theme].CONTAINER,
+        themeStyle.CONTAINER,
         className,
       )}
     >
       {iconKey && (
-        <BadgeIcon variant={variant} iconKey={iconKey} theme={theme} />
+        <BadgeIcon iconKey={iconKey} theme={theme} variant={variant} />
       )}
-      <BadgeLabel label={label} variant={variant} title={title} theme={theme} />
+      <BadgeLabel label={label} theme={theme} title={title} variant={variant} />
     </div>
   );
 };

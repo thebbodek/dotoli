@@ -19,9 +19,11 @@ const useCalendarInitialScrollEffect = ({
   const { value } = useCalendarContext();
 
   const scrollToMonth = ({ month }: ScrollToMonthParams) => {
-    if (!monthlyRefs.current[month]) return;
+    const monthlyRef = monthlyRefs.current[month];
 
-    monthlyRefs.current[month].scrollIntoView({
+    if (!monthlyRef) return;
+
+    monthlyRef.scrollIntoView({
       behavior: 'instant',
       block: 'start',
     });

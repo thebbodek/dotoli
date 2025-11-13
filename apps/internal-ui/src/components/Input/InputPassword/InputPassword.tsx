@@ -32,7 +32,7 @@ const InputPassword = ({
   const id = useId();
   const isDisabled = disabled || readOnly;
   const [isFocused, setIsFocused] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const { inputValue, handleChange } = useInputChange({
     value,
     name,
@@ -43,45 +43,45 @@ const InputPassword = ({
 
   const hasRuleError =
     !!rules &&
-    Object.entries(rules).some(
-      ([_, { regex }]) => !!inputValue && !regex.test(inputValue),
+    Object.values(rules).some(
+      ({ regex }) => !!inputValue && !regex.test(inputValue),
     );
 
   return (
     <InputBase
-      id={id}
-      value={inputValue}
-      label={label}
-      hiddenLabel={hiddenLabel}
-      feedback={feedback}
-      isError={isError}
       badge={badge}
-      required={required}
       className={className}
+      feedback={feedback}
+      hiddenLabel={hiddenLabel}
+      id={id}
+      isError={isError}
+      label={label}
+      required={required}
+      value={inputValue}
     >
       <Input
-        id={id}
-        type={visible ? 'text' : 'password'}
-        value={inputValue}
-        name={name}
-        onChange={handleChange}
-        autoComplete={autoComplete}
-        required={required}
-        readOnly={readOnly}
-        disabled={disabled}
-        isFocused={isFocused && !isError && hasRuleError}
-        setIsFocused={setIsFocused}
+        addonEnd={
+          <InputIconButton
+            aria-label={isVisible ? '비밀번호 숨기기' : '비밀번호 보기'}
+            disabled={isDisabled}
+            iconKey={isVisible ? 'eye' : 'eye-slash'}
+            onClick={() => setIsVisible((v) => !v)}
+          />
+        }
         popover={
           rules && <InputPasswordRules rules={rules} value={inputValue} />
         }
-        addonEnd={
-          <InputIconButton
-            onClick={() => setVisible((v) => !v)}
-            aria-label={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
-            disabled={isDisabled}
-            iconKey={visible ? 'eye' : 'eye-slash'}
-          />
-        }
+        autoComplete={autoComplete}
+        disabled={disabled}
+        id={id}
+        isFocused={isFocused && !isError && hasRuleError}
+        name={name}
+        readOnly={readOnly}
+        required={required}
+        setIsFocused={setIsFocused}
+        type={isVisible ? 'text' : 'password'}
+        value={inputValue}
+        onChange={handleChange}
         {...rest}
       />
     </InputBase>

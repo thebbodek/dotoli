@@ -20,21 +20,21 @@ const ConfirmBottomSheet = ({
   className,
 }: ConfirmBottomSheetProps) => {
   return (
-    <BottomSheet isOpen={isOpen} ref={ref} className={className}>
+    <BottomSheet className={className} isOpen={isOpen} ref={ref}>
       <BottomSheet.ContentWrapper isLoading={isLoading}>
         <ConfirmOverlayContent
-          title={title}
           iconOption={iconOption}
+          title={title}
           useIcon={useIcon}
         />
         {children}
       </BottomSheet.ContentWrapper>
       <BottomSheet.Footer
-        confirmOption={confirmOption}
         cancelOption={cancelOption}
-        possibleConfirm={possibleConfirm}
-        isPending={isPending}
+        confirmOption={confirmOption}
         isLoading={isLoading}
+        isPending={isPending}
+        possibleConfirm={possibleConfirm}
       />
     </BottomSheet>
   );

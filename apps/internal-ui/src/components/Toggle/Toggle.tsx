@@ -40,18 +40,18 @@ const Toggle = ({
         className='toggle peer hidden'
         disabled={disabled}
         id={id}
+        name={name}
         type='checkbox'
         onChange={onChange}
-        name={name}
       />
       <ToggleIcon size={size} />
       {label && (
         <ToggleLabel
+          className={labelClassName}
+          color={labelColor}
           label={label}
           labelId={labelId}
           size={size}
-          color={labelColor}
-          className={labelClassName}
         />
       )}
     </label>

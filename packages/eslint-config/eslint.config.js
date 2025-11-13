@@ -120,8 +120,12 @@ export default defineConfig([
             'allows',
             'accepts',
             'contains',
+            'use',
           ],
-          filter: { ignore: ['disabled', 'checked'] },
+          filter: {
+            regex: '^(disabled|checked|required)$',
+            match: false,
+          },
         },
         {
           selector: 'function',

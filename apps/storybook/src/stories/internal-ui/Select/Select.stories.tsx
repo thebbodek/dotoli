@@ -121,7 +121,6 @@ const meta = {
       },
     },
     onSelect: {
-      action: 'clicked',
       description: 'on select',
       table: {
         type: {
@@ -171,12 +170,12 @@ export const Default = {
         className='w-[15rem]'
         label={label}
         {...args}
+        displayValue={value}
         value={value}
         onSelect={onSelect}
-        displayValue={value}
       >
         {Array.from({ length: 2 }, (_, idx) => (
-          <Select.Item key={idx} value={String(idx)} label={String(idx)}>
+          <Select.Item key={idx} label={String(idx)} value={String(idx)}>
             {idx}
           </Select.Item>
         ))}
@@ -195,15 +194,15 @@ export const WithBadge = {
 
     return (
       <Select
+        badge={<Icon iconKey='info' weight='fill' />}
         className='w-[15rem]'
+        displayValue={value}
         label='Select Label'
         value={value}
         onSelect={onSelect}
-        displayValue={value}
-        badge={<Icon iconKey='info' weight='fill' />}
       >
         {Array.from({ length: 10 }, (_, idx) => (
-          <Select.Item key={idx} value={String(idx)} label={String(idx)}>
+          <Select.Item key={idx} label={String(idx)} value={String(idx)}>
             {idx}
           </Select.Item>
         ))}
@@ -227,15 +226,15 @@ export const Error: Story = {
     return (
       <Select
         className='w-[15rem]'
+        displayValue={value}
+        feedback={feedback}
+        isError={isError}
         label='Select Label'
         value={value}
         onSelect={onSelect}
-        displayValue={value}
-        isError={isError}
-        feedback={feedback}
       >
         {Array.from({ length: 10 }, (_, idx) => (
-          <Select.Item key={idx} value={String(idx)} label={String(idx)}>
+          <Select.Item key={idx} label={String(idx)} value={String(idx)}>
             {idx}
           </Select.Item>
         ))}
@@ -258,14 +257,14 @@ export const Disabled: Story = {
     return (
       <Select
         className='w-[15rem]'
+        disabled={disabled}
+        displayValue={value}
         label='Select Label'
         value={value}
         onSelect={onSelect}
-        displayValue={value}
-        disabled={disabled}
       >
         {Array.from({ length: 10 }, (_, idx) => (
-          <Select.Item key={idx} value={String(idx)} label={String(idx)}>
+          <Select.Item key={idx} label={String(idx)} value={String(idx)}>
             {idx}
           </Select.Item>
         ))}
@@ -288,14 +287,14 @@ export const Required: Story = {
     return (
       <Select
         className='w-[15rem]'
+        displayValue={value}
         label='Select Label'
+        required={required}
         value={value}
         onSelect={onSelect}
-        displayValue={value}
-        required={required}
       >
         {Array.from({ length: 10 }, (_, idx) => (
-          <Select.Item key={idx} value={String(idx)} label={String(idx)}>
+          <Select.Item key={idx} label={String(idx)} value={String(idx)}>
             {idx}
           </Select.Item>
         ))}

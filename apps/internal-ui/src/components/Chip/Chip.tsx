@@ -26,9 +26,9 @@ const Chip = ({
       )}
       aria-label={ariaLabel ?? `${label} 제거`}
       disabled={disabled}
+      title={label}
       type='button'
       onClick={handleClick}
-      title={label}
     >
       <span className='truncate'>{label}</span>
       {!disabled && <Icon className='text-[0.75rem]' iconKey='x' aria-hidden />}

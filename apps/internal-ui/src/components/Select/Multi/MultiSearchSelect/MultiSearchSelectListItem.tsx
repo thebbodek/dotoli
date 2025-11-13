@@ -16,13 +16,13 @@ const MultiSearchSelectListItem = <T extends MultiSelectBaseValue>({
 
   return (
     <MultiSelectBaseListItem
-      optionKey={optionKey}
       className={clsx(
         'text-in-black hover:text-in-primary-06 h-[2rem] gap-x-2 px-3',
         isSelected && 'text-in-primary-06',
       )}
-      label={label}
       isSelected={isSelected}
+      label={label}
+      optionKey={optionKey}
     >
       <span className='text-in-body-14-r truncate'>
         {highlightText({

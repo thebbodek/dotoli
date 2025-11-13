@@ -19,13 +19,13 @@ const TableCell = ({
 }: TableCellProps) => {
   return (
     <div
-      role={role}
       className={clsx(
         className,
         'cell shrink-0 pl-4 last:pr-4',
         TABLE_CELL_STYLES[role],
         isFixedLeft && 'sticky left-0',
       )}
+      role={role}
     >
       {children}
     </div>

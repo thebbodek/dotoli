@@ -17,12 +17,12 @@ const ToggleLabel = ({
 }: ToggleLabelProps) => {
   return (
     <Typography
-      color={color}
       className={clsx(
         className,
         'transition-[color]',
         ...Object.values(TOGGLE_STYLES).map(({ label }) => label),
       )}
+      color={color}
       id={labelId}
       variant={TOGGLE_LABEL_SIZE_VARIANTS[size]}
     >

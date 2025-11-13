@@ -13,8 +13,8 @@ const FullScreenDialogContentWrapper = ({
   return (
     <OverlayContentWrapper
       as={as}
-      isLoading={isLoading}
       className={clsx(className, 'flex-1 overflow-y-auto px-5 py-10')}
+      isLoading={isLoading}
     >
       {children}
     </OverlayContentWrapper>

@@ -10,16 +10,16 @@ const SelectBaseFeedback = ({
 }: PropsWithChildren<SelectBaseFeedbackProps>) => {
   return (
     <Typography
-      id={id}
+      aria-live='assertive'
       className='mt-1.5 flex items-baseline gap-x-0.5 break-all'
       color='red-04'
+      id={id}
       variant='body-12-m'
-      aria-live='assertive'
     >
       <Icon
+        className='text-in-red-04 translate-y-[0.083em]'
         iconKey='info'
         weight='fill'
-        className='text-in-red-04 translate-y-[0.083em]'
         aria-hidden
       />
       {children}

@@ -27,9 +27,6 @@ export default meta;
 type Story = StoryObj<UseScrollLockEffectProps>;
 
 export const Default: Story = {
-  args: {
-    isLocked: false,
-  },
   render: (args) => {
     const [isLocked, setIsLocked] = useState(false);
 
@@ -41,13 +38,13 @@ export const Default: Story = {
     return (
       <>
         <Toggle
-          label='Locked'
           checked={isLocked}
+          label='Locked'
           onChange={() => setIsLocked((v) => !v)}
         />
         <div
-          id='target'
           className='bg-in-gray-02 rounded-in-8 relative mt-4 h-[500px] w-[500px] overflow-scroll'
+          id='target'
         >
           <Typography className='in-flex-h-stack-center sticky top-0 h-full w-full'>
             scroll me

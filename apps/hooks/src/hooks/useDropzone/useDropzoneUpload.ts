@@ -17,7 +17,7 @@ const useDropzoneUpload = ({
   uploadedFiles,
   state,
   dispatch,
-  multiple = true,
+  isMultiple = true,
   limit,
   onDrop,
   onDropAccepted,
@@ -67,7 +67,7 @@ const useDropzoneUpload = ({
       parseFileData,
     ) as unknown as FileData[];
 
-    if (!multiple && acceptedFiles.length > 1) {
+    if (!isMultiple && acceptedFiles.length > 1) {
       return rejectUpload({
         acceptedFiles,
         rejectCode: DROPZONE_REJECT_CODE_MAPPER['SINGLE_FILE_ONLY'],
@@ -75,7 +75,7 @@ const useDropzoneUpload = ({
     }
 
     if (typeof limit !== 'undefined') {
-      if (!multiple) {
+      if (!isMultiple) {
         return rejectUpload({
           acceptedFiles,
           rejectCode:

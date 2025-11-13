@@ -13,7 +13,7 @@ const Modal = ({
   className,
 }: PropsWithChildren<ModalProps>) => {
   return (
-    <Overlay ref={ref} variant={OVERLAY_VARIANTS.MODAL} isOpen={isOpen} dimmed>
+    <Overlay isOpen={isOpen} ref={ref} variant={OVERLAY_VARIANTS.MODAL} dimmed>
       <div
         className={clsx(
           className,

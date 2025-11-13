@@ -35,12 +35,12 @@ export const Default: Story = {
 
     return (
       <>
-        <Button onClick={() => setIsOpen(true)} label='자세히 보기' />
+        <Button label='자세히 보기' onClick={() => setIsOpen(true)} />
         <InfoFullScreenDialog
           {...args}
+          className='min-w-sm'
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className='min-w-sm'
         >
           <div className='bg-in-gray-02 rounded-in-8 h-[25.625rem] w-full' />
         </InfoFullScreenDialog>

@@ -22,12 +22,12 @@ const ButtonIcon = ({
 
   return (
     <Icon
-      iconKey={iconKey}
       className={clsx(
         className,
         BUTTON_ICON_SIZE_STYLES[size],
         responsiveStyles.map((style) => style),
       )}
+      iconKey={iconKey}
     />
   );
 };

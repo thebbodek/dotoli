@@ -22,22 +22,22 @@ const Sort = ({
 
   return (
     <SelectBase
-      type={SELECT_TYPE.SELECT}
       className={className}
+      controls={selectListId}
+      disabled={disabled}
       label={<SelectBase.Label label={label} hidden />}
+      labelId={labelId}
       popoverOption={popoverOption}
       trigger={<SortTrigger displayValue={displayValue} />}
-      disabled={disabled}
-      controls={selectListId}
-      labelId={labelId}
+      type={SELECT_TYPE.SELECT}
     >
       {({ close }) => (
         <SingleSelectListProvider
+          close={close}
           id={selectListId}
           labelId={labelId}
           value={value}
           onSelect={onSelect}
-          close={close}
         >
           <SelectBase.PopoverWrapper className='p-1'>
             <SingleSelectBaseList>{children}</SingleSelectBaseList>

@@ -36,23 +36,23 @@ const IconButton = ({
   return (
     <Tooltip
       content={content ?? ariaLabel}
-      rootClassName={className}
       placement={placement}
+      rootClassName={className}
     >
       <button
-        ref={ref}
-        type={type}
         className={clsx(
           'rounded-in-6 text-in-body-16-b disabled:text-in-gray-04 in-flex-h-stack-center h-8 w-8 cursor-pointer transition-colors disabled:cursor-not-allowed',
           ICON_BUTTON_COLORS_STYLES[theme],
         )}
         aria-label={ariaLabel}
         disabled={isDisabled}
+        ref={ref}
+        type={type}
         onClick={handleClick}
       >
         <Icon
-          iconKey={isPending ? BUTTON_PENDING_ICON_KEY : iconKey}
           className={clsx(isPending && 'animate-spin')}
+          iconKey={isPending ? BUTTON_PENDING_ICON_KEY : iconKey}
           aria-hidden
         />
       </button>

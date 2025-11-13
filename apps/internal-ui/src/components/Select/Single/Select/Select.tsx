@@ -28,22 +28,22 @@ const Select = <T extends SelectValue>({
 }: PropsWithChildren<SelectProps<T>>) => {
   return (
     <SingleSelectBase
-      type={SELECT_TYPE.SELECT}
-      className={className}
-      label={label}
-      hiddenLabel={hiddenLabel}
-      popoverOption={popoverOption}
-      disabled={disabled}
-      feedback={feedback}
-      required={required}
-      isError={isError}
-      value={value}
       badge={badge}
-      onSelect={onSelect}
+      className={className}
+      disabled={disabled}
       displayValue={displayValue}
+      feedback={feedback}
+      hiddenLabel={hiddenLabel}
+      isError={isError}
+      label={label}
       placeholder={placeholder}
-      popoverWrapperClassName={'max-h-[14.875rem] p-1'}
+      popoverOption={popoverOption}
+      popoverWrapperClassName='max-h-[14.875rem] p-1'
+      required={required}
+      type={SELECT_TYPE.SELECT}
       useReset={useReset}
+      value={value}
+      onSelect={onSelect}
     >
       <SingleSelectBaseList>{children}</SingleSelectBaseList>
     </SingleSelectBase>

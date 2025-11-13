@@ -58,7 +58,7 @@ const meta = {
         },
       },
     },
-    full: {
+    isFull: {
       control: 'boolean',
       description: 'Tab item full width',
       type: 'boolean',
@@ -164,7 +164,7 @@ export const WithNumber: Story = {
 export const WithFull: Story = {
   args: {
     variant: 'line',
-    full: true,
+    isFull: true,
   },
   render: (args) => {
     const [currentValue, setCurrentValue] = useState(tabItems[0].value);
@@ -172,8 +172,8 @@ export const WithFull: Story = {
     return (
       <Tabs
         {...args}
-        currentValue={args.currentValue ?? currentValue}
         className='w-[800px]'
+        currentValue={args.currentValue ?? currentValue}
       >
         {Object.values(tabItems).map((tab) => (
           <Tabs.Tab

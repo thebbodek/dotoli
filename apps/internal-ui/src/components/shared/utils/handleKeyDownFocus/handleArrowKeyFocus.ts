@@ -41,22 +41,21 @@ export const handleKeyDownFocus = <
 
   e.preventDefault();
 
-  const { current: items } = refs;
-  const enabledItems = Object.entries(items).filter(
-    ([_, el]) => el && 'disabled' in el && !el.disabled,
+  const { current: tabs } = refs;
+  const enabledTabKeys = Object.keys(tabs).filter(
+    (key) => tabs[key] && 'disabled' in tabs[key] && !tabs[key].disabled,
   );
-  const currentFocusIndex = enabledItems.findIndex(
-    ([value]) => document.activeElement === items[value],
+  const currentFocusIndex = enabledTabKeys.findIndex(
+    (key) => document.activeElement === tabs[key],
   );
 
-  const { length } = enabledItems;
   const targetIndex = getTargetIndex({
     currentFocusIndex,
     eventKey: e.key,
-    length,
+    length: enabledTabKeys.length,
   });
-  const [targetValue] = enabledItems[targetIndex];
-  const targetEl = refs.current[targetValue];
+  const [targetKey] = enabledTabKeys[targetIndex];
+  const targetEl = tabs[targetKey];
 
   if (targetEl) targetEl.focus();
 };

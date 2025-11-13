@@ -36,8 +36,8 @@ const SelectBaseTriggerWrapper = ({
 
     return (
       <Icon
-        iconKey={isOpen ? 'caret-up' : 'caret-down'}
         className='text-in-gray-04 shrink-0 text-[0.875rem]'
+        iconKey={isOpen ? 'caret-up' : 'caret-down'}
         weight='fill'
         aria-hidden
       />
@@ -46,13 +46,13 @@ const SelectBaseTriggerWrapper = ({
 
   return (
     <InputTriggerWrapper
+      aria-disabled={disabled}
+      className={className}
+      disabled={disabled}
+      isError={isError}
       ref={ref}
       role='button'
-      disabled={disabled}
-      aria-disabled={disabled}
-      isError={isError}
       onClick={onClick}
-      className={className}
     >
       {children}
       {subFix()}

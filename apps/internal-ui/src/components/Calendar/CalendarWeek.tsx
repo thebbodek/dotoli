@@ -12,11 +12,11 @@ const CalendarWeek = ({ week }: CalendarWeekProps) => {
 
   return (
     <Typography
+      aria-label={LONG}
+      className='text-center'
+      color={COLOR_VARIANTS.GRAY_05}
       role='columnheader'
       variant={TYPOGRAPHY_VARIANTS.BODY_14_R}
-      className='text-center'
-      aria-label={LONG}
-      color={COLOR_VARIANTS.GRAY_05}
     >
       {SHORT}
     </Typography>

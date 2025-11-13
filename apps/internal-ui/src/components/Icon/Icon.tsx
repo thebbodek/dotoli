@@ -21,8 +21,8 @@ const Icon = ({
         iconWeight,
         className,
       )}
-      title={title}
       aria-hidden={ariaHidden}
+      title={title}
     />
   );
 };

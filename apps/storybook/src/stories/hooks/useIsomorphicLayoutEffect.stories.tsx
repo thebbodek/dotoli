@@ -31,8 +31,8 @@ export const Default: Story = {
 
     return (
       <div
-        ref={ref}
         className='bg-in-gray-02 rounded-in-8 in-flex-h-stack-center h-40 w-96 p-4'
+        ref={ref}
       >
         width is {width}
       </div>

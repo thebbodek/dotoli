@@ -11,7 +11,7 @@ export interface AlertProps
   content: ReactNode;
   title?: ReactNode;
   theme?: AlertTheme;
-  collapsible?: boolean;
+  useCollapse?: boolean;
   useClose?: boolean;
   actionOption?: Partial<
     Pick<
@@ -23,12 +23,12 @@ export interface AlertProps
 }
 
 export interface AlertContextProps
-  extends Required<Pick<AlertProps, 'theme' | 'collapsible' | 'useClose'>>,
+  extends Required<Pick<AlertProps, 'theme' | 'useCollapse' | 'useClose'>>,
     Pick<AlertProps, 'actionOption'> {
   hasTitle: boolean;
-  collapsed: boolean;
-  setCollapsed: Dispatch<SetStateAction<boolean>>;
-  setVisible: Dispatch<SetStateAction<boolean>>;
+  isCollapsed: boolean;
+  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
+  setIsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface AlertProviderProps extends AlertContextProps {}

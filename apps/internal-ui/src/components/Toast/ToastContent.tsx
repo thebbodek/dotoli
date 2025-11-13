@@ -3,7 +3,7 @@ import { Typography } from '@/components/Typography';
 
 const ToastContent = ({ content }: Pick<ToastProps, 'content'>) => {
   return (
-    <Typography as='p' variant='body-14-m' color='white'>
+    <Typography as='p' color='white' variant='body-14-m'>
       {content}
     </Typography>
   );

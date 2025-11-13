@@ -9,13 +9,13 @@ const MultiSelectBaseSelectedHeader = () => {
 
   return (
     <>
-      <strong id={selectedListResultId} className='sr-only'>
+      <strong className='sr-only' id={selectedListResultId}>
         {ariaLabel}
       </strong>
       <MultiSelectResultPanel
         className='text-in-body-12-m in-tablet:text-in-body-14-r in-tablet:py-2.5'
-        label='선택'
         count={count}
+        label='선택'
       />
     </>
   );

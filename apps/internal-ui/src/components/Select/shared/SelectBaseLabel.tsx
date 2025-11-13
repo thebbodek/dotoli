@@ -12,7 +12,7 @@ const SelectBaseLabel = ({
   const { id, required } = useSelectLabelContext();
 
   return (
-    <InputLabel id={id} badge={badge} required={required} hidden={hidden}>
+    <InputLabel badge={badge} hidden={hidden} id={id} required={required}>
       {label}
     </InputLabel>
   );

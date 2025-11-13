@@ -31,20 +31,20 @@ export const Default: Story = {
     }, [text]);
 
     return (
-      <Flex direction='column' align={{ items: 'center' }} gap='16'>
+      <Flex align={{ items: 'center' }} direction='column' gap='16'>
         <div className='in-flex-h-stack-center gap-4'>
           <Typography>{copyText}</Typography>
           <Button
-            size='sm'
             label='복사하기'
+            size='sm'
             onClick={() => clipboard({ text: copyText })}
           />
         </div>
         <InputField
+          className='bg-in-gray-02 rounded-in-8 px-3 py-2'
           label='복사 후 여기에 붙여넣어 보세요!'
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className='bg-in-gray-02 rounded-in-8 px-3 py-2'
         />
       </Flex>
     );

@@ -27,9 +27,9 @@ const SingleSelectBaseItem = <T extends SelectValue>({
         'text-in-body-16-r text-in-black hover:bg-in-primary-01 h-[2.5rem] truncate px-4 py-2',
         isSelected && 'bg-in-primary-01',
       )}
-      onClick={onClick}
       isSelected={isSelected}
       label={label}
+      onClick={onClick}
     >
       {children}
     </SelectBaseItem>

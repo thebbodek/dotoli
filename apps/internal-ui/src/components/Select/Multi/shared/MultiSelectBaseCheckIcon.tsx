@@ -8,11 +8,11 @@ const MultiSelectBaseCheckIcon = ({
 }: MultiSelectBaseCheckIconProps) => {
   return (
     <Icon
-      iconKey='check'
       className={clsx(
         'text-in-gray-03 text-[1rem]',
         isSelected && 'text-in-primary-06',
       )}
+      iconKey='check'
       aria-hidden
     />
   );

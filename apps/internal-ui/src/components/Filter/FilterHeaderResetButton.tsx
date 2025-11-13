@@ -41,12 +41,12 @@ const FilterHeaderResetButton = () => {
 
   return (
     <Button
+      iconOption={{ iconKey: 'arrow-clockwise' }}
+      label='초기화'
+      size={BUTTON_SIZES.SM}
       theme={BUTTON_THEMES.GRAY}
       variant={BUTTON_VARIANTS.OUTLINED}
-      iconOption={{ iconKey: 'arrow-clockwise' }}
-      size={BUTTON_SIZES.SM}
       onClick={handleClick}
-      label='초기화'
     />
   );
 };

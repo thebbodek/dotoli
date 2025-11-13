@@ -14,12 +14,12 @@ const Persona = ({
 }: PersonaProps) => {
   return (
     <Flex {...PERSONA_SIZE_FLEX_PROPS[size].root} align={{ items: 'center' }}>
-      <Avatar src={src} alt={name} type={type} size={size} />
+      <Avatar alt={name} size={size} src={src} type={type} />
       <PersonaProfile
-        name={name}
         description={description}
-        size={size}
+        name={name}
         profileTheme={profileTheme}
+        size={size}
       />
     </Flex>
   );

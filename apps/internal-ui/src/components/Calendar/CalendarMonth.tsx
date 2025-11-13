@@ -7,8 +7,8 @@ import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 const CalendarMonth = ({ month }: CalendarMonthProps) => {
   return (
     <Typography
-      variant={TYPOGRAPHY_VARIANTS.BODY_16_M}
       color={COLOR_VARIANTS.BLACK}
+      variant={TYPOGRAPHY_VARIANTS.BODY_16_M}
     >
       {month + 1}월
     </Typography>

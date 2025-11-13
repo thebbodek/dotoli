@@ -18,10 +18,10 @@ const MultiSearchSelectSearchPanel = () => {
 
     return _internalOptions.map(({ label, isSelected, key }) => (
       <MultiSearchSelectListItem
-        key={key}
-        optionKey={key}
-        label={label}
         isSelected={isSelected}
+        key={key}
+        label={label}
+        optionKey={key}
       />
     ));
   };

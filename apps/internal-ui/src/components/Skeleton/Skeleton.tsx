@@ -17,9 +17,9 @@ const Skeleton = ({
     <ReactSkeleton
       {...props}
       baseColor={SKELETON_BASE_COLOR}
-      highlightColor={SKELETON_HIGHLIGHT_COLOR}
       borderRadius={borderRadius}
       containerClassName={clsx('flex w-full items-center', containerClassName)}
+      highlightColor={SKELETON_HIGHLIGHT_COLOR}
     />
   );
 };

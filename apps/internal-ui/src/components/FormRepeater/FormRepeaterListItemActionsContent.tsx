@@ -29,8 +29,8 @@ const FormRepeaterListItemActionsContent = ({
         )}
         {onReset && (
           <FormRepeaterResetButton
-            isChanged={isChanged}
             isAdded={isAdded}
+            isChanged={isChanged}
             onClick={onReset}
           />
         )}

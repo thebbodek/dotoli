@@ -33,25 +33,25 @@ const InputField = ({
 
   return (
     <InputBase
-      id={id}
-      value={inputValue}
-      label={label}
-      hiddenLabel={hiddenLabel}
-      feedback={feedback}
-      isError={isError}
       badge={badge}
-      required={required}
       className={className}
+      feedback={feedback}
+      hiddenLabel={hiddenLabel}
+      id={id}
+      isError={isError}
+      label={label}
+      required={required}
+      value={inputValue}
     >
       <Input
         id={id}
-        value={inputValue}
-        name={name}
         isFocused={isFocused}
+        name={name}
+        required={required}
         setIsFocused={setIsFocused}
+        value={inputValue}
         onChange={handleChange}
         onReset={handleReset}
-        required={required}
         {...rest}
       />
     </InputBase>

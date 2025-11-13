@@ -110,8 +110,8 @@ export const Default: Story = {
     <div className='in-flex-h-stack-center'>
       <Skeleton
         {...args}
-        width={args.width ?? 200}
         height={args.height ?? 40}
+        width={args.width ?? 200}
       />
     </div>
   ),

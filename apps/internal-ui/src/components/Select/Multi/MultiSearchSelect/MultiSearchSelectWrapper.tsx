@@ -35,17 +35,17 @@ const MultiSearchSelectWrapper = ({
   return (
     <SelectBase
       className={className}
-      type={SELECT_TYPE.MULTI_SEARCH_SELECT}
-      label={label}
-      trigger={<MultiSearchSelectTrigger />}
+      controls={controls}
       disabled={disabled}
       feedback={feedback}
-      required={required}
       isError={isError}
-      placeholder={placeholder}
-      controls={controls}
+      label={label}
       labelId={labelId}
+      placeholder={placeholder}
       popoverOption={_popoverOption}
+      required={required}
+      trigger={<MultiSearchSelectTrigger />}
+      type={SELECT_TYPE.MULTI_SEARCH_SELECT}
     >
       {children}
     </SelectBase>

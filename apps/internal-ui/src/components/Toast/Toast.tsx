@@ -29,8 +29,8 @@ const Toast = ({
       </Flex>
       <Flex
         align={{ items: 'center' }}
-        gap={{ row: '4' }}
         className='ml-auto pl-2'
+        gap={{ row: '4' }}
       >
         {actionOption && <ToastActionButton actionOption={actionOption} />}
         {useClose && <ToastCloseButton onClose={onClose} />}

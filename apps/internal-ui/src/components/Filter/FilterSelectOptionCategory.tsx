@@ -35,8 +35,8 @@ const FilterSelectOptionCategory = ({
       onClick={onClick}
     >
       <Typography
-        color='black'
         className='mr-auto shrink-0'
+        color='black'
         variant={TYPOGRAPHY_VARIANTS.BODY_14_M}
       >
         {label}
@@ -44,13 +44,13 @@ const FilterSelectOptionCategory = ({
       {selectedValues &&
         (type === FILTER_TYPES.MULTI_SELECT ? (
           <FilterMultiSelectOptionSummary
-            selectedValues={selectedValues}
             optionKey={optionKey}
+            selectedValues={selectedValues}
           />
         ) : (
           <FilterCalendarSummary selectedValues={selectedValues} type={type} />
         ))}
-      <Icon iconKey='caret-right' className='text-in-gray-05 text-[1rem]' />
+      <Icon className='text-in-gray-05 text-[1rem]' iconKey='caret-right' />
     </li>
   );
 };

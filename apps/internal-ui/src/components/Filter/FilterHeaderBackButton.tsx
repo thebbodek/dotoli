@@ -12,8 +12,8 @@ const FilterHeaderBackButton = () => {
 
   return (
     <IconButton
-      className='text-in-black'
       aria-label='뒤로가기'
+      className='text-in-black'
       iconKey='caret-left'
       onClick={handleClick}
     />

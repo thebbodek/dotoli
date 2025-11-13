@@ -19,8 +19,8 @@ const createToast = ({
   return _toast.custom(
     (t) => (
       <Toast
-        visible={t.visible}
         useClose={useClose}
+        visible={t.visible}
         onClose={() => handleClose({ id: t.id })}
         {...props}
       />

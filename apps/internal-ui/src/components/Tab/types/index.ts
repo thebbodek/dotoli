@@ -25,7 +25,7 @@ export interface TabProviderProps {
   variant?: TabVariant;
   theme?: TabTheme;
   size?: TabSize;
-  full?: boolean;
+  isFull?: boolean;
   disabled?: TabProps['disabled'];
   currentValue: TabProps['value'];
   tabRefs: TabItemRefs;

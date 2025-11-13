@@ -268,7 +268,6 @@ export const Default: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -308,13 +307,13 @@ export const Default: Story = {
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
           {...args}
-          isOpen={isOpen}
           confirmOption={{
             ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={cancelOption}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmModal.Description description='승인이 완료되면 슬랙으로 알려드립니다' />
         </ConfirmModal>
@@ -338,7 +337,6 @@ export const WithClose: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -378,16 +376,16 @@ export const WithClose: Story = {
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmModal>
@@ -411,7 +409,6 @@ export const WithIcon: Story = {
     iconKey,
     iconColor,
     iconBackgroundColor,
-    children,
     cancelLabel,
     onCancel,
     confirmLabel,
@@ -451,16 +448,16 @@ export const WithIcon: Story = {
         <Button label='Open Modal' onClick={() => setIsOpen(true)} />
         <ConfirmModal
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           iconOption={iconOption}
+          isOpen={isOpen}
         >
           <ConfirmModal.Description description='선택한 정보가 모두 삭제됩니다' />
         </ConfirmModal>

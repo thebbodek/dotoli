@@ -16,8 +16,8 @@ const SkeletonTheme = ({
     <ReactSkeletonTheme
       {...props}
       baseColor={SKELETON_BASE_COLOR}
-      highlightColor={SKELETON_HIGHLIGHT_COLOR}
       borderRadius={borderRadius}
+      highlightColor={SKELETON_HIGHLIGHT_COLOR}
     >
       {children}
     </ReactSkeletonTheme>

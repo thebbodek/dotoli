@@ -197,12 +197,12 @@ export const Default = {
     return (
       <MultiSearchSelect
         {...args}
-        className='w-[15rem]'
-        label={label}
         options={items.map((item) => ({
           value: item,
           label: item,
         }))}
+        className='w-[15rem]'
+        label={label}
         value={value}
         onChange={onChange}
       />
@@ -221,15 +221,15 @@ export const WithBadge = {
 
     return (
       <MultiSearchSelect
-        className='w-[15rem]'
-        label='Select Label'
         options={items.map((item) => ({
           value: item,
           label: item,
         }))}
+        badge={<Icon iconKey='info' weight='fill' />}
+        className='w-[15rem]'
+        label='Select Label'
         value={value}
         onChange={onChange}
-        badge={<Icon iconKey='info' weight='fill' />}
       />
     );
   },
@@ -253,16 +253,16 @@ export const Error: Story = {
 
     return (
       <MultiSearchSelect
-        className='w-[15rem]'
-        label='Select Label'
         options={items.map((item) => ({
           value: item,
           label: item,
         }))}
+        className='w-[15rem]'
+        feedback={feedback}
+        isError={isError}
+        label='Select Label'
         value={value}
         onChange={onChange}
-        isError={isError}
-        feedback={feedback}
       />
     );
   },
@@ -282,15 +282,15 @@ export const Disabled: Story = {
 
     return (
       <MultiSearchSelect
-        className='w-[15rem]'
-        label='Select Label'
         options={items.map((item) => ({
           value: item,
           label: item,
         }))}
+        className='w-[15rem]'
+        disabled={disabled}
+        label='Select Label'
         value={value}
         onChange={onChange}
-        disabled={disabled}
       />
     );
   },
@@ -310,15 +310,15 @@ export const Required: Story = {
 
     return (
       <MultiSearchSelect
-        className='w-[15rem]'
-        label='Select Label'
         options={items.map((item) => ({
           value: item,
           label: item,
         }))}
+        className='w-[15rem]'
+        label='Select Label'
+        required={required}
         value={value}
         onChange={onChange}
-        required={required}
       />
     );
   },

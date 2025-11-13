@@ -11,20 +11,20 @@ const MultiSearchSelectAllCheckbox = () => {
 
   return (
     <label
-      htmlFor={allCheckboxId}
       className='group flex gap-x-1 hover:cursor-pointer'
+      htmlFor={allCheckboxId}
     >
       <input
-        id={allCheckboxId}
-        className='peer hidden'
         aria-labelledby={allCheckboxLabelId}
+        checked={isAllSelected}
+        className='peer hidden'
+        id={allCheckboxId}
         type='checkbox'
         onChange={onAllSelect}
-        checked={isAllSelected}
       />
       <span
-        id={allCheckboxLabelId}
         className='peer-checked:text-in-primary-06 group-hover:text-in-primary-06'
+        id={allCheckboxLabelId}
       >
         전체
       </span>

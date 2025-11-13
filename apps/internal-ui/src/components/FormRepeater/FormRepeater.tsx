@@ -48,36 +48,36 @@ const FormRepeater = ({
   const columns = Children.toArray(header.props.children);
 
   return (
-    <Flex direction='column' gap='8' className={className}>
+    <Flex className={className} direction='column' gap='8'>
       <div className='in-flex-v-stack border-in-gray-02 rounded-in-12 bg-in-white border p-2.5 pt-4'>
         <FormRepeaterContextProvider
-          listRef={listRef}
           columns={columns as ChildrenElement<FormRepeaterHeaderContentProps>[]}
           disabled={disabled}
+          listRef={listRef}
         >
           {children}
         </FormRepeaterContextProvider>
         {onAdd && (
           <Button
+            className='mt-3'
+            disabled={disabled}
+            iconOption={{ iconKey: 'plus' }}
+            label='추가'
             size='sm'
             theme='primary'
             variant='outlined'
-            label='추가'
-            className='mt-3'
-            iconOption={{ iconKey: 'plus' }}
             onClick={() => {
               onAdd();
               scrollToBottom();
             }}
-            disabled={disabled}
           />
         )}
       </div>
       {hasChangedRows && onAllReset && (
         <FormRepeaterFooter
-          onAllReset={onAllReset}
           changedRowsCount={changedRowsCount}
           disabled={disabled}
+          onAllReset={onAllReset}
         />
       )}
     </Flex>

@@ -19,15 +19,15 @@ const FilterMultiSelectPanel = () => {
 
   return (
     <MultiSelectBaseProvider
-      onChange={onChange}
-      value={value}
       options={options}
       selectListResultId={selectListResultId}
       selectedListResultId={selectedListResultId}
+      value={value}
+      onChange={onChange}
     >
       <Flex
-        direction='column'
         className='in-tablet:min-w-[36.25rem] mx-auto w-[22.5rem] flex-1 justify-between overflow-hidden'
+        direction='column'
       >
         <MultiSelectBase
           className='in-tablet:min-h-[calc(34svh-3.75rem)] in-tablet:max-h-[calc(46svh-3.75rem)] h-[100svh-4rem]'

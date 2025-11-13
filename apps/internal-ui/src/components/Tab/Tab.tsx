@@ -17,38 +17,39 @@ const Tab = ({
     variant,
     size,
     theme,
-    full,
+    isFull,
     tabRefs,
     currentValue,
-    disabled: tabDisabled,
+    disabled: isDisabledTab,
     usePanel,
   } = useTabContext();
   const id = useId();
-  const selected = value === currentValue;
+  const isSelected = value === currentValue;
   const panelId = getPanelId({ id });
+  const themeStyle = TAB_THEME_STYLES[theme][variant];
 
   return (
     <button
-      type='button'
-      role='tab'
-      id={id}
-      tabIndex={selected ? 0 : -1}
-      aria-controls={usePanel ? panelId : undefined}
-      ref={(el) => {
-        tabRefs.current[value] = el;
-      }}
       className={clsx(
         'text-in-gray-05 in-flex-h-stack-center group relative z-[1] min-w-fit transition-colors disabled:cursor-not-allowed',
         TAB_SIZE_STYLES[variant][size],
-        TAB_THEME_STYLES[theme][variant].label,
-        selected
+        themeStyle.label,
+        isSelected
           ? 'disabled:text-in-gray-04 font-bold'
           : 'disabled:text-in-gray-03',
-        full && 'flex-1',
+        isFull && 'flex-1',
       )}
+      ref={(el) => {
+        tabRefs.current[value] = el;
+      }}
+      aria-controls={usePanel ? panelId : undefined}
+      aria-selected={isSelected}
+      disabled={disabled || isDisabledTab}
+      id={id}
+      role='tab'
+      tabIndex={isSelected ? 0 : -1}
+      type='button'
       onClick={(e) => !disabled && onChange?.(e)}
-      aria-selected={selected}
-      disabled={disabled || tabDisabled}
     >
       {children}
     </button>

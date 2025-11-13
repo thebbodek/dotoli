@@ -4,9 +4,9 @@ import FilterSelectButton from '@/components/Filter/FilterSelectButton';
 
 const FilterCalendarSelectButton = () => {
   const { variant, internalValue, handleChange } = useCalendarContext();
-  const _disabled = !isValidDateOfVariant({ value: internalValue, variant });
+  const isDisabled = !isValidDateOfVariant({ value: internalValue, variant });
 
-  return <FilterSelectButton onClick={handleChange} disabled={_disabled} />;
+  return <FilterSelectButton disabled={isDisabled} onClick={handleChange} />;
 };
 
 export default FilterCalendarSelectButton;

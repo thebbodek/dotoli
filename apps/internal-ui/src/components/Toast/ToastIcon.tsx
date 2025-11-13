@@ -9,8 +9,8 @@ const ToastIcon = ({ type }: Required<Pick<ToastProps, 'type'>>) => {
 
   return (
     <Icon
-      iconKey={iconKey}
       className={clsx(color, 'h-[1.312rem] shrink-0')}
+      iconKey={iconKey}
       weight='fill'
     />
   );

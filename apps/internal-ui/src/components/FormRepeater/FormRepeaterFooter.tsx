@@ -13,12 +13,12 @@ const FormRepeaterFooter = ({
         {changedRowsCount}건 수정
       </Typography>
       <Button
+        disabled={disabled}
         label='전체 초기화'
+        size='xs'
         theme='gray'
         variant='outlined'
-        size='xs'
         onClick={onAllReset}
-        disabled={disabled}
       />
     </footer>
   );

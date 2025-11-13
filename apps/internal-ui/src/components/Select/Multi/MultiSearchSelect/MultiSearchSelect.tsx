@@ -36,36 +36,36 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
 
   return (
     <MultiSelectBaseProvider
-      onChange={onChange}
-      value={value}
       options={options}
       selectListResultId={selectListResultId}
       selectedListResultId={selectedListResultId}
+      value={value}
+      onChange={onChange}
     >
       <MultiSearchSelectWrapper
-        className={className}
         label={
-          <SelectBase.Label label={label} badge={badge} hidden={hiddenLabel} />
+          <SelectBase.Label badge={badge} hidden={hiddenLabel} label={label} />
         }
+        className={className}
+        controls={controls}
         disabled={disabled}
         feedback={feedback}
-        required={required}
         isError={isError}
-        placeholder={placeholder}
-        controls={controls}
         labelId={labelId}
+        placeholder={placeholder}
         popoverOption={popoverOption}
+        required={required}
       >
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
             <Flex
-              direction='column'
               className='in-tablet:min-w-[36.25rem] in-tablet:max-w-auto in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full min-w-[22.5rem] max-w-[26.875rem] justify-between'
+              direction='column'
             >
               <MultiSelectBase
                 className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)]'
-                labelId={labelId}
                 inputOption={inputOption}
+                labelId={labelId}
                 searchPanel={<MultiSearchSelectSearchPanel />}
                 selectedPanel={<MultiSearchSelectSelectedPanel />}
               />

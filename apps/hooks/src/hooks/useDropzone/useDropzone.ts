@@ -9,7 +9,7 @@ import useDropzoneUpload from '@/hooks/useDropzone/useDropzoneUpload';
 
 const useDropzone = (props: UseDropzone): UseDropzoneReturn => {
   const {
-    multiple = true,
+    isMultiple = true,
     limit,
     disabled = false,
     onDrop,
@@ -22,7 +22,7 @@ const useDropzone = (props: UseDropzone): UseDropzoneReturn => {
     uploadedFiles: state['acceptedFiles'],
     state,
     dispatch,
-    multiple,
+    isMultiple,
     limit,
     onDrop,
     onDropAccepted,
@@ -32,7 +32,7 @@ const useDropzone = (props: UseDropzone): UseDropzoneReturn => {
   const { inputProps, inputRef } = useDropzoneInput({
     disabled,
     handleUpload,
-    multiple,
+    isMultiple,
     accept,
   });
   const { rootProps } = useDropzoneRoot({

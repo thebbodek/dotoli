@@ -7,8 +7,8 @@ const CalendarWeekly = ({
 }: PropsWithChildren<Pick<HTMLAttributes<HTMLDivElement>, 'className'>>) => {
   return (
     <div
-      role='row'
       className={clsx('grid grid-cols-[repeat(7,_2.8125rem)]', className)}
+      role='row'
     >
       {children}
     </div>

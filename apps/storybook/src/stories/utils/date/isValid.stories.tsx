@@ -56,7 +56,7 @@ export const Default: Story = {
     });
 
     return (
-      <Flex direction='column' gap='2' className='w-[20rem]'>
+      <Flex className='w-[20rem]' direction='column' gap='2'>
         <InputField
           label='날짜 유효성 검증 테스트'
           value={value?.toString() || ''}

@@ -48,26 +48,26 @@ export const Default: Story = {
     return (
       <InfoPopover
         {...args}
-        onPopoverClose={close}
-        isOpen={isOpen}
         trigger={
           <button
-            type='button'
             className='flex items-center gap-x-0.5'
+            type='button'
             onClick={() => setIsOpen((v) => !v)}
           >
-            <Typography variant='body-18-b' color='black'>
+            <Typography color='black' variant='body-18-b'>
               배송 유형
             </Typography>
             <Icon
-              iconKey='warning-circle'
               className='text-in-gray-04 text-[1.125rem]'
+              iconKey='warning-circle'
               weight='fill'
             />
           </button>
         }
-        className={'w-[330px]'}
-        innerClassName={'in-flex-v-stack gap-y-2.5'}
+        className='w-[330px]'
+        innerClassName='in-flex-v-stack gap-y-2.5'
+        isOpen={isOpen}
+        onPopoverClose={close}
       >
         <InfoPopover.Description
           description={

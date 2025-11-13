@@ -21,16 +21,16 @@ const InputIconButton = ({
 
   return (
     <button
-      type={type}
       aria-label={ariaLabel}
       className={clsx(className, 'shrink-0')}
-      onClick={handleClick}
       disabled={disabled}
+      type={type}
+      onClick={handleClick}
     >
       <Icon
+        className='text-in-gray-05 text-[1.125rem]'
         iconKey={iconKey}
         weight={weight}
-        className='text-in-gray-05 text-[1.125rem]'
       />
     </button>
   );

@@ -202,13 +202,13 @@ export const Link: Story = {
   }) => (
     <LinkButton
       {...args}
-      size={size}
-      iconOption={{ iconKey }}
       responsive={getResponsive({
         responsiveMobile,
         responsiveTablet,
         responsiveDesktop,
       })}
+      iconOption={{ iconKey }}
+      size={size}
     />
   ),
 };

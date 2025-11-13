@@ -68,12 +68,12 @@ export const Default: Story = {
         <Button label='Open BottomSheet' onClick={() => setIsOpen(true)} />
         <InfoBottomSheet
           {...args}
-          isOpen={isOpen}
           confirmOption={{
             ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
           cancelOption={cancelOption}
+          isOpen={isOpen}
         >
           <Box />
           <InfoBottomSheet.Description
@@ -129,16 +129,16 @@ export const WithClose: Story = {
         <Button label='Open BottomSheet' onClick={() => setIsOpen(true)} />
         <InfoBottomSheet
           {...args}
-          isOpen={isOpen}
-          confirmOption={{
-            ...confirmOption,
-            onConfirm: () => setIsOpen(false),
-          }}
           cancelOption={{
             ...cancelOption,
             onCancel: () => setIsOpen(false),
           }}
+          confirmOption={{
+            ...confirmOption,
+            onConfirm: () => setIsOpen(false),
+          }}
           className='max-w-sm'
+          isOpen={isOpen}
         >
           <InfoBottomSheet.Description
             description={

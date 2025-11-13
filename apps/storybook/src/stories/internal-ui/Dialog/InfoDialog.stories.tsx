@@ -75,14 +75,14 @@ export const Default: Story = {
 
     return (
       <>
-        <Button onClick={() => setIsOpen(true)} label='자세히 보기' />
+        <Button label='자세히 보기' onClick={() => setIsOpen(true)} />
         <InfoDialog
           {...args}
-          isOpen={isOpen}
           confirmOption={{
             ...confirmOption,
             onConfirm: () => setIsOpen(false),
           }}
+          isOpen={isOpen}
         >
           <div className='bg-in-gray-02 rounded-in-8 h-[25.625rem] w-[48.75rem]' />
         </InfoDialog>

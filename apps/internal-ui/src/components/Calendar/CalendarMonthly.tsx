@@ -8,9 +8,9 @@ const CalendarMonthly = ({
 }: PropsWithChildren<CalendarMonthlyProps>) => {
   return (
     <div
+      className='in-flex-v-stack gap-y-1.5 px-4'
       ref={setRef}
       role='rowgroup'
-      className='in-flex-v-stack gap-y-1.5 px-4'
     >
       {children}
     </div>

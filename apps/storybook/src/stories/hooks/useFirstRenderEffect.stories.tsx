@@ -31,8 +31,9 @@ export const Default: Story = {
       <Flex align={{ items: 'center' }} gap='6'>
         <p>Count: {count}</p>
         <IconButton
+          aria-label='더하기'
+          aria-label='더하기'
           iconKey='plus'
-          arialLabel='더하기'
           onClick={() => setCount((c) => c + 1)}
         />
       </Flex>

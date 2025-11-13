@@ -15,8 +15,8 @@ const FormRepeaterListItemToggleContent = ({
     <FormRepeaterListItemContent className={className}>
       <Toggle
         {...toggleProps}
-        size={TOGGLE_SIZES.SM}
         disabled={disabled || isAllDisabled}
+        size={TOGGLE_SIZES.SM}
       />
     </FormRepeaterListItemContent>
   );

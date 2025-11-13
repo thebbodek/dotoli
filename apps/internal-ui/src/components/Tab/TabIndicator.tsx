@@ -11,6 +11,7 @@ import useTabIndicatorStyleEffect from '@/components/Tab/hooks/effects/useTabInd
 const TabIndicator = () => {
   const { theme, variant } = useTabContext();
   const [style, setStyle] = useState<CSSProperties>({});
+  const themeStyle = TAB_THEME_STYLES[theme][variant];
 
   useTabIndicatorStyleEffect({ setStyle });
 
@@ -19,7 +20,7 @@ const TabIndicator = () => {
       className={clsx(
         'absolute left-0 transition-transform will-change-transform',
         TAB_INDICATOR_VARIANT_STYLES[variant],
-        TAB_THEME_STYLES[theme][variant].indicator,
+        themeStyle.indicator,
       )}
       style={style}
       aria-hidden

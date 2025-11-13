@@ -13,7 +13,7 @@ const SingleSelectBaseTrigger = <T extends SelectValue>({
   useReset = true,
 }: SingleSelectBaseTriggerProps<T>) => {
   const hasValue = !!displayValue;
-  const showResetButton = useReset && hasValue && !disabled;
+  const showsResetButton = useReset && hasValue && !disabled;
 
   const onReset = () => {
     onSelect({ value: null as T });
@@ -25,7 +25,7 @@ const SingleSelectBaseTrigger = <T extends SelectValue>({
         displayValue={displayValue}
         hasValue={!!displayValue}
       />
-      {showResetButton && <SelectBaseResetButton onClick={onReset} />}
+      {showsResetButton && <SelectBaseResetButton onClick={onReset} />}
     </SelectBaseTriggerWrapper>
   );
 };

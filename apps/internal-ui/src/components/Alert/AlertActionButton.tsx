@@ -12,13 +12,13 @@ const AlertActionButton = ({ className }: AlertActionButtonProps) => {
   return (
     <ActionButton
       {...rest}
-      variant='text'
-      size='sm'
-      theme={theme}
-      label={label ?? '확인하기'}
+      className={className}
       iconOption={{ iconKey: 'caret-right' }}
       iconPosition='right'
-      className={className}
+      label={label ?? '확인하기'}
+      size='sm'
+      theme={theme}
+      variant='text'
     />
   );
 };
