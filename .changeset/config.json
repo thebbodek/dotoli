@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@2.3.0/schema.json",
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "fixed": [],
+  "linked": [],
+  "ignore": [
+    "@dotoli/storybook"
+  ],
+  "access": "public",
+  "baseBranch": "DOTOLI-142",
+  "updateInternalDependencies": "patch",
+  "snapshot": {
+    "tag": "snapshot",
+    "prereleaseTemplate": "{tag}-{commit}"
+  }
+}
