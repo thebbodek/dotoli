@@ -1,0 +1,53 @@
+name: Publish Changed Packages
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build only changed packages
+        run: pnpm turbo run build --filter=...[HEAD^1]
+
+      - name: Create release version
+        run: |
+          pnpm changeset version
+          git add .
+          git commit -m "🚀 Version Packages" || echo "No changes to commit"
+
+      - name: Push changes and tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push origin HEAD:dev --follow-tags
+
+      - name: Publish packages
+        run: pnpm changeset publish
