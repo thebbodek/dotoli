@@ -24,6 +24,7 @@ const Alert = ({
   const hasTitle = !!title;
 
   if (!isVisible) return null;
+  console.log('isCollapsed', isCollapsed);
 
   return (
     <AlertProvider
