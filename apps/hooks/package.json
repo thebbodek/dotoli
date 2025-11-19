@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/hooks",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -23,13 +23,13 @@
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6"
+    "@bbodek/utils": "^0.0.16"
   },
   "devDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6",
+    "@bbodek/utils": "^0.0.16",
     "@bbodek/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
