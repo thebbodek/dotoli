@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# changeset .md 파일 생성 후 커밋 반영 스크립트
+
+if [ "$SKIP_HOOKS" = "true" ]; then
+  exit 0
+fi
+
+export SKIP_HOOKS=true
+COMMIT_MSG=$(git log -1 --pretty=%B)
+
+node .githooks/scripts/changeset.js "$COMMIT_MSG"
+git add .
+git commit --amend --no-edit
+
+exit 0

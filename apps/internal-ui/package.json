@@ -33,15 +33,15 @@
     "react-loading-skeleton": "^3.5.0"
   },
   "peerDependencies": {
-    "@bbodek/hooks": "^0.0.17",
-    "@bbodek/utils": "^0.0.13",
+    "@bbodek/hooks": "^0.0.18",
+    "@bbodek/utils": "^0.0.15",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {
-    "@bbodek/hooks": "^0.0.17",
-    "@bbodek/utils": "^0.0.13",
+    "@bbodek/hooks": "^0.0.18",
+    "@bbodek/utils": "^0.0.15",
     "@bbodek/eslint-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
