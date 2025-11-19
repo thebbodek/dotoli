@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# changeset .md 파일 생성 후 커밋 반영 스크립트
+
+if [ "$GITHUB_ACTIONS" = "true" ]; then
+  echo "Skipping pre-push hook in GitHub Actions"
+  exit 0
+fi
+
+if [ "$SKIP_HOOKS" = "true" ]; then
+  exit 0
+fi
+
+export SKIP_HOOKS=true
+COMMIT_MSG=$(git log -1 --pretty=%B)
+
+node .githooks/scripts/changeset.js "$COMMIT_MSG"
+
+if ls .changeset/*.md > /dev/null 2>&1; then
+  git add .
+  git commit --amend --no-edit
+fi
+
+exit 0
