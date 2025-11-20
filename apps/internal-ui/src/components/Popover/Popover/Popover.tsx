@@ -31,14 +31,14 @@ const Popover = <T extends HTMLElement>({
     isOpen,
   });
   const { contentRef: popoverRef } = useClickOutside<HTMLDivElement>({
-    onClose: (e) => {
+    onClose: (e: MouseEvent) => {
       const disabled =
         !triggerRef.current || triggerRef.current.contains(e.target as Node);
 
       execute({
-        disabled: disabled,
-        fn: !disabled && onPopoverClose?.(),
-      });
+        disabled,
+        fn: onPopoverClose,
+      })?.();
     },
     useClickOutsideEvent: useClickOutsideEvent && isOpen,
   });

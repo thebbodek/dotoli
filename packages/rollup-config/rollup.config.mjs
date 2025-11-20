@@ -16,9 +16,9 @@ export const createRollupConfig = (options) => {
   } = options ?? {};
 
   const config = isWatch ? watchConfig({ srcPath }) : buildConfig;
-  const { plugins, ...rest } = config;
+  const { plugins, ...rest } = config.jsConfig;
 
-  return {
+  const jsConfig = {
     ...baseConfig,
     ...rest,
     plugins: [
@@ -30,4 +30,6 @@ export const createRollupConfig = (options) => {
     ],
     external: [...external, 'react', 'react-dom'],
   };
+
+  return config.dtsConfig ? [jsConfig, config.dtsConfig] : jsConfig;
 };

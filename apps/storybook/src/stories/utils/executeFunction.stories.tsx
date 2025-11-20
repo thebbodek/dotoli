@@ -32,14 +32,15 @@ type Story = StoryObj<Props>;
 
 export const Default: Story = {
   render: ({ disabled }) => {
-    const executeConsole = () => {
+    const onClick = () => {
       alert('Execute!');
     };
 
-    const onClick = () => {
-      executeFunction({ disabled, fn: executeConsole });
-    };
-
-    return <Button label='Execute' onClick={onClick} />;
+    return (
+      <Button
+        label='Execute'
+        onClick={executeFunction({ disabled, fn: onClick })}
+      />
+    );
   },
 };

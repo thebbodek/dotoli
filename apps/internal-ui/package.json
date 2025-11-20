@@ -23,6 +23,8 @@
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {
+    "@bbodek/hooks": "workspace:*",
+    "@bbodek/utils": "workspace:*",
     "@floating-ui/react": "^0.27.8",
     "@phosphor-icons/core": "^2.1.1",
     "@phosphor-icons/web": "^2.1.2",
@@ -33,15 +35,13 @@
     "react-loading-skeleton": "^3.5.0"
   },
   "peerDependencies": {
-    "@bbodek/hooks": "^0.0.17",
-    "@bbodek/utils": "^0.0.13",
+    "@bbodek/hooks": "workspace:*",
+    "@bbodek/utils": "workspace:*",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {
-    "@bbodek/hooks": "^0.0.17",
-    "@bbodek/utils": "^0.0.13",
     "@bbodek/eslint-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
