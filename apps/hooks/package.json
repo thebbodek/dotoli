@@ -1,8 +1,14 @@
 {
   "name": "@bbodek/hooks",
-  "version": "0.0.18",
+  "version": "0.0.21",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebbodek/dotoli",
+    "directory": "apps/hooks"
+  },
+  "homepage": "https://github.com/thebbodek/dotoli/tree/main/apps/hooks#readme",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
@@ -18,18 +24,18 @@
     "start": "next start",
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@bbodek/utils": "workspace:*"
+  },
   "peerDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6",
     "@bbodek/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
