@@ -1,6 +1,7 @@
+import terser from '@rollup/plugin-terser';
 import typescript from 'rollup-plugin-typescript2';
 
-export default {
+const jsConfig = {
   plugins: [
     typescript({
       tsconfig: './tsconfig.build.json',
@@ -12,5 +13,16 @@ export default {
         },
       },
     }),
+    terser({
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+      format: {
+        comments: false,
+      },
+    }),
   ],
 };
+
+export default { jsConfig };
