@@ -7,7 +7,7 @@
     "lint": "turbo lint",
     "fix": "turbo lint -- --fix",
     "format": "prettier --write \"**/*.{ts,tsx,css}\"",
-    "clean": "find ./ -type d -name '.turbo' -o -name 'dist' -o -name 'storybook-static' -o -name 'node_modules' | xargs rm -rf && find ./ -type f -name '*.tsbuildinfo' | xargs rm -f",
+    "clean": "find ./ -type d \\( -name '.turbo' -o -name 'dist' -o -name 'storybook-static' -o -name 'node_modules' \\) | xargs rm -rf && find ./ -type f -name '*.tsbuildinfo' | xargs rm -f",
     "reset": "pnpm clean && pnpm install && pnpm build",
     "hooks": "pnpm --filter=@bbodek/hooks",
     "hooks:dev": "turbo --filter=@bbodek/hooks dev",
