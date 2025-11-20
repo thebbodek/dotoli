@@ -1,8 +1,14 @@
 {
   "name": "@bbodek/utils",
-  "version": "0.0.15",
+  "version": "0.0.19",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebbodek/dotoli",
+    "directory": "apps/utils"
+  },
+  "homepage": "https://github.com/thebbodek/dotoli/tree/main/apps/utils#readme",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
