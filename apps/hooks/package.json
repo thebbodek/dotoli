@@ -18,18 +18,19 @@
     "start": "next start",
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@bbodek/utils": "workspace:*"
+  },
   "peerDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6"
+    "@bbodek/utils": "workspace:*"
   },
   "devDependencies": {
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "@bbodek/utils": "^0.0.6",
     "@bbodek/eslint-config": "workspace:*",
     "@dotoli/typescript-config": "workspace:*",
     "@dotoli/rollup-config": "workspace:*",
