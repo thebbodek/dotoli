@@ -6,4 +6,4 @@
 '@bbodek/prettier-config': patch
 ---
 
-DOTOLI-142 디렉터리 별 CI/CD
+slack WIP

@@ -1,0 +1,21 @@
+🦋  info npm info @bbodek/hooks
+🦋  info npm info @bbodek/internal-ui
+🦋  info npm info @bbodek/utils
+🦋  info npm info @bbodek/eslint-config
+🦋  info npm info @bbodek/prettier-config
+🦋  info @bbodek/hooks is being published because our local version (0.0.23) has not been published on npm
+🦋  info @bbodek/internal-ui is being published because our local version (0.0.49) has not been published on npm
+🦋  info @bbodek/utils is being published because our local version (0.0.20) has not been published on npm
+🦋  warn @bbodek/eslint-config is not being published because version 0.0.4 is already published on npm
+🦋  warn @bbodek/prettier-config is not being published because version 0.0.5 is already published on npm
+🦋  info Publishing "@bbodek/hooks" at "0.0.23"
+🦋  info Publishing "@bbodek/internal-ui" at "0.0.49"
+🦋  info Publishing "@bbodek/utils" at "0.0.20"
+🦋  success packages published successfully:
+🦋  @bbodek/hooks@0.0.23
+🦋  @bbodek/internal-ui@0.0.49
+🦋  @bbodek/utils@0.0.20
+🦋  Creating git tags...
+🦋  New tag:  @bbodek/hooks@0.0.23
+🦋  New tag:  @bbodek/internal-ui@0.0.49
+🦋  New tag:  @bbodek/utils@0.0.20

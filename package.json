@@ -18,6 +18,7 @@
     "release:build": "pnpm turbo run build --filter=!@dotoli/storybook --filter=!@dotoli/rollup-config --filter=!@dotoli/typescript-config --filter=...[HEAD^1]",
     "release": "pnpm release:build && pnpm changeset publish",
     "release:install": "pnpm install --no-frozen-lockfile",
+    "release:notify": "node .github/scripts/slack-notification.js",
     "storybook:install": "pnpm release:install --filter=!storybook --no-link-workspace-packages && pnpm release:install --filter=storybook"
   },
   "devDependencies": {

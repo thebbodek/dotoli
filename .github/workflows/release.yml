@@ -72,6 +72,20 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Publish packages
-        run: pnpm release
+        id: publish
+        run: |
+          pnpm release > release.log 2>&1 || true
+          cat release.log
+          echo "log<<EOF" >> $GITHUB_OUTPUT
+          cat release.log >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true
+
+      - name: Slack notification
+        run: pnpm release:notify
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          LOG: ${{ steps.publish.outputs.log }}
