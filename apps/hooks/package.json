@@ -1,8 +1,14 @@
 {
   "name": "@bbodek/hooks",
-  "version": "0.0.18",
+  "version": "0.0.22",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebbodek/dotoli",
+    "directory": "apps/hooks"
+  },
+  "homepage": "https://github.com/thebbodek/dotoli/tree/main/apps/hooks#readme",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
