@@ -4,6 +4,12 @@
   "license": "MIT",
   "type": "module",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebbodek/dotoli",
+    "directory": "packages/prettier-config"
+  },
+  "homepage": "https://github.com/thebbodek/dotoli/tree/main/packages/prettier-config#readme",
   "publishConfig": {
     "access": "public"
   },

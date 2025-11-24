@@ -3,6 +3,12 @@
   "version": "0.0.3",
   "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thebbodek/dotoli",
+    "directory": "packages/eslint-config"
+  },
+  "homepage": "https://github.com/thebbodek/dotoli/tree/main/packages/eslint-config#readme",
   "publishConfig": {
     "access": "public"
   },
