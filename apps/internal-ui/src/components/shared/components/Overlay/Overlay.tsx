@@ -42,7 +42,7 @@ const Overlay = ({
       <dialog
         className={clsx(
           className,
-          'open:animate-in-fade-in left-0 top-0 z-[1000] h-full w-full overflow-hidden',
+          'open:animate-in-fade-in top-0 left-0 z-[1000] h-full w-full overflow-hidden',
           variant === OVERLAY_VARIANTS['MODAL'] && 'in-safe-area-bottom',
           OVERLAY_CONTENT_POSITION[variant],
           dimmed && 'bg-in-dimmed',

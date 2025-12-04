@@ -16,7 +16,7 @@ const AlertBox = ({
     <div
       className={clsx(
         className,
-        'in-flex-v-stack rounded-in-8 items-start break-keep px-4',
+        'in-flex-v-stack rounded-in-8 items-start px-4 break-keep',
         hasTitle ? 'py-[0.875rem]' : 'h-10 justify-center',
         ALERT_THEME_STYLES[theme].root,
         useCollapse && [

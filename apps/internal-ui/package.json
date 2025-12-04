@@ -64,5 +64,6 @@
     "tsc-alias": "^1.8.16",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3"
-  }
+  },
+  "prettier": "@bbodek/prettier-config"
 }

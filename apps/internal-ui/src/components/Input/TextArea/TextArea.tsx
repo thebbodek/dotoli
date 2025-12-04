@@ -53,7 +53,7 @@ const TextArea = ({
       <Input
         addonEnd={
           <Typography
-            className='absolute bottom-[0.312rem] right-[0.687rem]'
+            className='absolute right-[0.687rem] bottom-[0.312rem]'
             color='gray-03'
             variant='body-12-m'
           >

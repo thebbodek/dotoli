@@ -10,7 +10,7 @@ const BottomSheetContentWrapper = ({
   className,
 }: PropsWithChildren<BottomSheetContentWrapperProps>) => {
   return (
-    <div className={clsx('px-5 pb-5 pt-[2.125rem]')}>
+    <div className={clsx('px-5 pt-[2.125rem] pb-5')}>
       <OverlayContentWrapper className={className} isLoading={isLoading}>
         {children}
       </OverlayContentWrapper>
