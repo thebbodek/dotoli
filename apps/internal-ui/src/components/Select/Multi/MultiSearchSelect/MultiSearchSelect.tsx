@@ -59,7 +59,7 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
             <Flex
-              className='in-tablet:min-w-[36.25rem] in-tablet:max-w-auto in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full min-w-[22.5rem] max-w-[26.875rem] justify-between'
+              className='in-tablet:min-w-[36.25rem] in-tablet:max-w-auto in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full max-w-[26.875rem] min-w-[22.5rem] justify-between'
               direction='column'
             >
               <MultiSelectBase

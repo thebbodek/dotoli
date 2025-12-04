@@ -58,7 +58,7 @@ const DatePicker = ({
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>
             <Flex
-              className='in-tablet:min-w-[23.75rem] in-tablet:max-w-full in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full min-w-[22.5rem] max-w-[26.875rem] justify-between'
+              className='in-tablet:min-w-[23.75rem] in-tablet:max-w-full in-tablet:min-h-[34svh] in-tablet:max-h-[46svh] in-tablet:w-auto mx-auto h-full w-full max-w-[26.875rem] min-w-[22.5rem] justify-between'
               direction='column'
             >
               <Calendar
