@@ -12,18 +12,50 @@ yarn add @bbodek/internal-ui
 
 ## Usage
 
-To install Tailwind CSS in your Next.js project:
+### 1. To install Tailwind CSS in your Next.js project
 
 - [Using Pages Router](https://nextjs.org/docs/pages/guides/tailwind-css)
 - [Using App Router](https://nextjs.org/docs/app/guides/tailwind-css#installing-tailwind)
 
-Edit your `globals.css` file:
+### 2. Update your next config file
+
+```javascript
+/* next.config.js */
+const nextConfig = {
+  webpack: (config) => {
+    config.resolve.fallback = { ...config.resolve.fallback, fs: false };
+
+    return config;
+  },
+};
+```
+
+### 3. Update your global css file
+
+#### Standalone Project
 
 ```css
+/* global.css */
 @import 'tailwindcss';
-/* Add Here */
 @import '@bbodek/internal-ui/styles';
 @config '@bbodek/internal-ui/tailwind-config';
+```
+
+#### Monorepo Project
+Create a local Tailwind config file
+
+``` javascript
+/* tailwind.config.js */
+import config from '@bbodek/internal-ui/tailwind-config'
+
+export default config;
+```
+
+```css
+/* global.css */
+@import 'tailwindcss';
+@import '@bbodek/internal-ui/styles';
+@config './tailwind.config.js'; /* Adjust the path as needed */
 ```
 
 ## Example
