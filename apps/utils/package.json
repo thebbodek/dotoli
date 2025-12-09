@@ -1,6 +1,6 @@
 {
   "name": "@bbodek/utils",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -25,14 +25,14 @@
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {
-    "@bbodek/internal-ui": "^0.0.50",
+    "@bbodek/internal-ui": "^0.0.51",
     "dayjs": "^1.11.13",
     "es-toolkit": "^1.39.8",
     "react-hot-toast": "^2.5.2",
     "xlsx-js-style": "^1.2.0"
   },
   "peerDependencies": {
-    "@bbodek/internal-ui": "^0.0.50",
+    "@bbodek/internal-ui": "^0.0.51",
     "next": "^15.3.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"

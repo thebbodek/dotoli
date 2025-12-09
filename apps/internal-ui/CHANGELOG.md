@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.51
+
+### Patch Changes
+
+- 462cd3a: internal-ui README.md 모노레포 세팅 가이드 추가
+  - @bbodek/utils@0.0.22
+  - @bbodek/hooks@0.0.25
+
 ## 0.0.50
 
 ### Patch Changes
