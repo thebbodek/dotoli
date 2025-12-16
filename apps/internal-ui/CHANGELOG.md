@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.52
+
+### Patch Changes
+
+- d38e661: FE-38 npm 패키지 RSC 보안 이슈 대응
+- Updated dependencies [d38e661]
+  - @bbodek/hooks@0.0.26
+  - @bbodek/utils@0.0.23
+
 ## 0.0.51
 
 ### Patch Changes
