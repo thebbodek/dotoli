@@ -9,8 +9,8 @@ import {
 } from '@/components/Table/constants';
 import { TableBodyProps, TableRowProps } from '@/components/Table/types';
 
-const TableBodyEmpty = dynamic(
-  () => import('@/components/Table/TableBodyEmpty'),
+const TableBodySearchEmpty = dynamic(
+  () => import('@/components/Table/TableBodySearchEmpty'),
   {
     ssr: false,
   },
@@ -19,12 +19,15 @@ const TableBodyEmpty = dynamic(
 const TableBody = ({
   children,
   className,
+  emptyComponent,
 }: PropsWithChildren<TableBodyProps>) => {
   const rows = Children.toArray(children) as ChildrenElement<TableRowProps>[];
   const isEmpty = Children.count(children) <= 0;
 
   const renderer = () => {
-    if (isEmpty) return <TableBodyEmpty />;
+    if (isEmpty) {
+      return emptyComponent ?? <TableBodySearchEmpty />;
+    }
 
     return rows.map((row) =>
       cloneElement(row, { variant: TABLE_ROW_VARIANTS.BODY }),

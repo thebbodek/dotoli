@@ -364,7 +364,7 @@ export const EmptyTable: Story = {
           onChange={() => setCount((v) => (v === 0 ? 10 : 0))}
         />
 
-        <Table caption='사용자 목록' className='h-[400px] w-[800px]'>
+        <Table caption='사용자 목록' className='w-[800px]'>
           <Table.Head>
             <Table.Row>
               <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
@@ -378,7 +378,7 @@ export const EmptyTable: Story = {
             </Table.Row>
           </Table.Head>
 
-          <Table.Body>
+          <Table.Body emptyComponent={<Table.Empty />}>
             {Array.from({ length: count }).map(() => (
               <Table.Row>
                 <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>

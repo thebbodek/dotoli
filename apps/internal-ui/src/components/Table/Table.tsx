@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
 import TableBody from '@/components/Table/TableBody';
+import TableBodyEmpty from '@/components/Table/TableBodyEmpty';
+import TableBodySearchEmpty from '@/components/Table/TableBodySearchEmpty';
 import TableCell from '@/components/Table/TableCell';
 import TableCellButton from '@/components/Table/TableCellButton';
 import TableCellCheckbox from '@/components/Table/TableCellCheckbox';
@@ -48,3 +50,5 @@ Table.Cell.Toggle = TableCellToggle;
 Table.Cell.Persona = TableCellPersona;
 Table.Cell.Button = TableCellButton;
 Table.Cell.IconButton = TableCellIconButton;
+Table.SearchEmpty = TableBodySearchEmpty;
+Table.Empty = TableBodyEmpty;
