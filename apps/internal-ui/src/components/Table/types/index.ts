@@ -1,4 +1,4 @@
-import { HTMLAttributes, PropsWithChildren } from 'react';
+import { HTMLAttributes, PropsWithChildren, ReactElement } from 'react';
 
 import { ButtonProps, IconButtonProps } from '@/components/Button';
 import { InputFieldProps } from '@/components/Input';
@@ -13,32 +13,39 @@ export type TableRowVariant =
 export type TableCellRole =
   (typeof TABLE_CELL_ROLES)[keyof typeof TABLE_CELL_ROLES];
 
-export interface TableProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+export interface TableProps extends Pick<
+  HTMLAttributes<HTMLDivElement>,
+  'className'
+> {
   caption?: string;
 }
 
-export interface TableHeadProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+export interface TableHeadProps extends Pick<
+  HTMLAttributes<HTMLDivElement>,
+  'className'
+> {}
 
-export interface TableBodyProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
+export interface TableBodyProps extends Pick<
+  HTMLAttributes<HTMLDivElement>,
+  'className'
+> {
+  emptyComponent?: ReactElement;
+}
 
 export interface TableRowProps
-  extends PropsWithChildren,
-    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends PropsWithChildren, Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   variant?: TableRowVariant;
 }
 
 export interface TableCellProps
-  extends PropsWithChildren,
-    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends PropsWithChildren, Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   role?: TableCellRole;
   isFixedLeft?: boolean;
 }
 
 export interface TableInputCellProps
-  extends TableCellProps,
+  extends
+    TableCellProps,
     Pick<
       InputFieldProps,
       | 'value'
