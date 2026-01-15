@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.53
+
+### Patch Changes
+
+- 73040b6: DOTOLI-146 Table Empty UI
+  - @bbodek/utils@0.0.24
+  - @bbodek/hooks@0.0.27
+
 ## 0.0.52
 
 ### Patch Changes
