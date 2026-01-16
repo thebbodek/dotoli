@@ -11,20 +11,24 @@ import { TableBodyProps, TableRowProps } from '@/components/Table/types';
 
 const TableBodySearchEmpty = dynamic(
   () => import('@/components/Table/TableBodySearchEmpty'),
-  {
-    ssr: false,
-  },
+  { ssr: false },
 );
 
 const TableBody = ({
   children,
   className,
+  isLoading = false,
+  loadingComponent,
   emptyComponent,
 }: PropsWithChildren<TableBodyProps>) => {
   const rows = Children.toArray(children) as ChildrenElement<TableRowProps>[];
   const isEmpty = Children.count(children) <= 0;
 
   const renderer = () => {
+    if (isLoading && loadingComponent) {
+      return loadingComponent;
+    }
+
     if (isEmpty) {
       return emptyComponent ?? <TableBodySearchEmpty />;
     }

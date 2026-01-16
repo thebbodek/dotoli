@@ -1,9 +1,10 @@
+import { SkeletonTheme } from '@bbodek/internal-ui';
 import { Toaster } from '@bbodek/utils';
-import { DocsContainer } from '@storybook/blocks';
-import type { Preview } from '@storybook/react';
+import { DocsContainer, DocsContainerProps } from '@storybook/blocks';
+import type { Preview, ReactRenderer } from '@storybook/react';
 import { fn } from '@storybook/test';
 import 'dayjs/locale/ko';
-import React from 'react';
+import { PropsWithChildren } from 'react';
 
 import '@/styles/globals.css';
 
@@ -18,9 +19,14 @@ const preview: Preview = {
       },
     },
     docs: {
-      container: ({ children, context }) => (
+      container: ({
+        children,
+        context,
+      }: PropsWithChildren<DocsContainerProps<ReactRenderer>>) => (
         <>
-          <DocsContainer context={context}>{children}</DocsContainer>
+          <DocsContainer context={context}>
+            <SkeletonTheme>{children}</SkeletonTheme>
+          </DocsContainer>
           <div id='portal' />
           <Toaster />
         </>
