@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.54
+
+### Patch Changes
+
+- d2e0de0: DOTOLI-147 Table Loading UI
+  - @bbodek/utils@0.0.25
+  - @bbodek/hooks@0.0.28
+
 ## 0.0.53
 
 ### Patch Changes
