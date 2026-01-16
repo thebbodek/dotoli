@@ -13,39 +13,41 @@ export type TableRowVariant =
 export type TableCellRole =
   (typeof TABLE_CELL_ROLES)[keyof typeof TABLE_CELL_ROLES];
 
-export interface TableProps extends Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'className'
-> {
+export interface TableProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   caption?: string;
 }
 
-export interface TableHeadProps extends Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'className'
-> {}
+export interface TableHeadProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {}
 
-export interface TableBodyProps extends Pick<
-  HTMLAttributes<HTMLDivElement>,
-  'className'
-> {
+export interface TableBodyProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   emptyComponent?: ReactElement;
+  loadingComponent?: ReactElement;
+  isLoading?: boolean;
+}
+
+export interface TableBodySkeletonProps<T extends string> {
+  mapper: Record<string, T>;
+  styles: Record<T, string>;
 }
 
 export interface TableRowProps
-  extends PropsWithChildren, Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends PropsWithChildren,
+    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   variant?: TableRowVariant;
 }
 
 export interface TableCellProps
-  extends PropsWithChildren, Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends PropsWithChildren,
+    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   role?: TableCellRole;
   isFixedLeft?: boolean;
 }
 
 export interface TableInputCellProps
-  extends
-    TableCellProps,
+  extends TableCellProps,
     Pick<
       InputFieldProps,
       | 'value'

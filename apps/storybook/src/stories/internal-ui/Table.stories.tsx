@@ -29,72 +29,71 @@ export default meta;
 
 type Story = StoryObj<typeof Table>;
 
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  status: string;
+  isApproved: boolean;
+  createdBy: string;
+}
+
+interface UserFields extends User {
+  checked: boolean;
+  isActive: boolean;
+  goodsCode: string;
+}
+
+const USER_LIST_MAPPER = {
+  CHECKED: 'checked',
+  ACTIVE: 'isActive',
+  NAME: 'name',
+  USER_NAME: 'username',
+  IS_APPROVED: 'isApproved',
+  CREATED_BY: 'createdBy',
+  GOODS_CODE: 'goodsCode',
+  CONFIRM: 'confirm',
+  ACTIONS: 'actions',
+} as const;
+
+type UserListKeys = (typeof USER_LIST_MAPPER)[keyof typeof USER_LIST_MAPPER];
+
+const USER_LIST_COLUMNS_MAPPER: Record<UserListKeys, string> = {
+  [USER_LIST_MAPPER['CHECKED']]: '전체 선택',
+  [USER_LIST_MAPPER['ACTIVE']]: '전체 활성화',
+  [USER_LIST_MAPPER['NAME']]: '이름',
+  [USER_LIST_MAPPER['USER_NAME']]: '고유 ID',
+  [USER_LIST_MAPPER['IS_APPROVED']]: '승인 여부',
+  [USER_LIST_MAPPER['GOODS_CODE']]: '굿즈 코드',
+  [USER_LIST_MAPPER['CREATED_BY']]: '생성자',
+  [USER_LIST_MAPPER['CONFIRM']]: '승인',
+  [USER_LIST_MAPPER['ACTIONS']]: '',
+};
+
+const USER_LIST_STYLE_MAPPER: Record<UserListKeys, string> = {
+  [USER_LIST_MAPPER['CHECKED']]: 'w-[80px]',
+  [USER_LIST_MAPPER['ACTIVE']]: 'w-[150px] gap-x-2',
+  [USER_LIST_MAPPER['NAME']]: 'w-[100px] flex-1',
+  [USER_LIST_MAPPER['USER_NAME']]: 'w-[6.5rem]',
+  [USER_LIST_MAPPER['IS_APPROVED']]: 'w-[90px]',
+  [USER_LIST_MAPPER['GOODS_CODE']]: 'w-[150px]',
+  [USER_LIST_MAPPER['CREATED_BY']]: 'w-[150px]',
+  [USER_LIST_MAPPER['CONFIRM']]: 'w-[100px]',
+  [USER_LIST_MAPPER['ACTIONS']]: 'w-[150px]',
+};
+
+const users: User[] = Array.from({ length: 30 }).map((_, index) => ({
+  id: index,
+  name: 'John Doe',
+  username: 'john.doe',
+  lastLoggedInAt: '2021-01-01',
+  status: 'active',
+  isApproved: true,
+  createdBy: 'John Doe',
+}));
+
 export const Default: Story = {
   render: () => {
-    interface User {
-      id: number;
-      name: string;
-      username: string;
-      status: string;
-      isApproved: boolean;
-      createdBy: string;
-    }
-
-    interface UserFields extends User {
-      checked: boolean;
-      isActive: boolean;
-      goodsCode: string;
-    }
-
-    const USER_LIST_MAPPER = {
-      CHECKED: 'checked',
-      ACTIVE: 'isActive',
-      NAME: 'name',
-      USER_NAME: 'username',
-      IS_APPROVED: 'isApproved',
-      CREATED_BY: 'createdBy',
-      GOODS_CODE: 'goodsCode',
-      CONFIRM: 'confirm',
-      ACTIONS: 'actions',
-    } as const;
-
-    type UserListKeys =
-      (typeof USER_LIST_MAPPER)[keyof typeof USER_LIST_MAPPER];
-
-    const USER_LIST_COLUMNS_MAPPER: Record<UserListKeys, string> = {
-      [USER_LIST_MAPPER['CHECKED']]: '전체 선택',
-      [USER_LIST_MAPPER['ACTIVE']]: '전체 활성화',
-      [USER_LIST_MAPPER['NAME']]: '이름',
-      [USER_LIST_MAPPER['USER_NAME']]: '고유 ID',
-      [USER_LIST_MAPPER['IS_APPROVED']]: '승인 여부',
-      [USER_LIST_MAPPER['GOODS_CODE']]: '굿즈 코드',
-      [USER_LIST_MAPPER['CREATED_BY']]: '생성자',
-      [USER_LIST_MAPPER['CONFIRM']]: '승인',
-      [USER_LIST_MAPPER['ACTIONS']]: '',
-    };
-
-    const USER_LIST_STYLE_MAPPER: Record<UserListKeys, string> = {
-      [USER_LIST_MAPPER['CHECKED']]: 'w-fit',
-      [USER_LIST_MAPPER['ACTIVE']]: 'w-[150px] gap-x-2',
-      [USER_LIST_MAPPER['NAME']]: 'w-[100px] flex-1',
-      [USER_LIST_MAPPER['USER_NAME']]: 'w-[6.5rem]',
-      [USER_LIST_MAPPER['IS_APPROVED']]: 'w-[90px]',
-      [USER_LIST_MAPPER['GOODS_CODE']]: 'w-[150px]',
-      [USER_LIST_MAPPER['CREATED_BY']]: 'w-[150px]',
-      [USER_LIST_MAPPER['CONFIRM']]: 'w-[100px]',
-      [USER_LIST_MAPPER['ACTIONS']]: 'w-[150px]',
-    };
-
-    const users: User[] = Array.from({ length: 30 }).map((_, index) => ({
-      id: index,
-      name: 'John Doe',
-      username: 'john.doe',
-      lastLoggedInAt: '2021-01-01',
-      status: 'active',
-      isApproved: true,
-      createdBy: 'John Doe',
-    }));
-
     const { values, setValues } = useForm<UserFields[]>({
       initialValues: users.map((user) => ({
         ...user,
@@ -387,6 +386,56 @@ export const EmptyTable: Story = {
                 {Array.from({ length: diffDay }).map((_, index) => (
                   <Table.Cell className='w-[145px]'>{String(index)}</Table.Cell>
                 ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Flex>
+    );
+  },
+};
+
+export const LoadingTable: Story = {
+  render: () => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    return (
+      <Flex direction='column' gap='4'>
+        <Toggle
+          checked={isLoading}
+          label='loading'
+          onChange={() => setIsLoading((v) => !v)}
+        />
+
+        <Table caption='사용자 목록' className='h-[500px] w-fit'>
+          <Table.Head>
+            <Table.Row>
+              {Object.values(USER_LIST_MAPPER).map((key) => (
+                <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                  {USER_LIST_COLUMNS_MAPPER[key]}
+                </Table.Cell>
+              ))}
+            </Table.Row>
+          </Table.Head>
+
+          <Table.Body
+            loadingComponent={
+              <Table.Loading
+                mapper={USER_LIST_MAPPER}
+                styles={USER_LIST_STYLE_MAPPER}
+              />
+            }
+            isLoading={isLoading}
+          >
+            {Array.from({ length: 10 }).map(() => (
+              <Table.Row>
+                {Object.values(USER_LIST_MAPPER).map((key) => {
+                  return (
+                    <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                      {key}
+                    </Table.Cell>
+                  );
+                })}
               </Table.Row>
             ))}
           </Table.Body>
