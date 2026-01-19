@@ -5,7 +5,7 @@ import { TABLE_ROW_GROUP_COMMON_STYLE } from '@/components/Table/constants';
 import { TableBodySkeletonProps } from '@/components/Table/types';
 
 const TableBodyLoading = <T extends string>({
-  mapper,
+  keys,
   styles,
 }: TableBodySkeletonProps<T>) => {
   return (
@@ -22,7 +22,7 @@ const TableBodyLoading = <T extends string>({
           key={index}
           role='row'
         >
-          {Object.values(mapper).map((key) => (
+          {keys.map((key) => (
             <div
               className={clsx(styles[key], 'pl-4 last:pr-4')}
               key={key}

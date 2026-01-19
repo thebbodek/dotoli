@@ -421,7 +421,7 @@ export const LoadingTable: Story = {
           <Table.Body
             loadingComponent={
               <Table.Loading
-                mapper={USER_LIST_MAPPER}
+                keys={Object.values(USER_LIST_MAPPER)}
                 styles={USER_LIST_STYLE_MAPPER}
               />
             }
