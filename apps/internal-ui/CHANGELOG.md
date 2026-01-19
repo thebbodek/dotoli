@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.56
+
+### Patch Changes
+
+- ee7f1da: DOTOLI-147 Fix Table Loading component render error
+  - @bbodek/utils@0.0.27
+  - @bbodek/hooks@0.0.30
+
 ## 0.0.55
 
 ### Patch Changes
