@@ -400,7 +400,7 @@ export const LoadingTable: Story = {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
-      <Flex direction='column' gap='4'>
+      <Flex direction='column' gap='8'>
         <Toggle
           checked={isLoading}
           label='loading'

@@ -21,14 +21,12 @@ const TableBody = ({
   loadingComponent,
   emptyComponent,
 }: PropsWithChildren<TableBodyProps>) => {
+  if (isLoading && loadingComponent) return loadingComponent;
+
   const rows = Children.toArray(children) as ChildrenElement<TableRowProps>[];
   const isEmpty = Children.count(children) <= 0;
 
   const renderer = () => {
-    if (isLoading && loadingComponent) {
-      return loadingComponent;
-    }
-
     if (isEmpty) {
       return emptyComponent ?? <TableBodySearchEmpty />;
     }
