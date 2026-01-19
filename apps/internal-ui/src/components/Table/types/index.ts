@@ -29,7 +29,7 @@ export interface TableBodyProps
 }
 
 export interface TableBodySkeletonProps<T extends string> {
-  mapper: Record<string, T>;
+  keys: T[];
   styles: Record<T, string>;
 }
 
