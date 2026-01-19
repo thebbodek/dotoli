@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.55
+
+### Patch Changes
+
+- e525f51: DOTOLI-147 Table Loading component mapper -> keys
+  - @bbodek/utils@0.0.26
+  - @bbodek/hooks@0.0.29
+
 ## 0.0.54
 
 ### Patch Changes
