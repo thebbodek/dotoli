@@ -9,6 +9,7 @@ export * from './Checkbox';
 export * from './Chip';
 export * from './DatePicker';
 export * from './Dialog';
+export * from './FileUploader';
 export * from './Filter';
 export * from './Flex';
 export * from './FormRepeater';

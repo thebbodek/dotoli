@@ -3,8 +3,10 @@ import { ACCEPT_FILES, getUUID } from '@bbodek/utils';
 import {
   DROPZONE_ACTION_MAPPER,
   DROPZONE_REJECT_CODE_MAPPER,
+  FILE_DEFAULT_MAX_SIZE,
 } from '@/hooks/useDropzone/constants';
 import {
+  DropzoneState,
   FileData,
   HandleUpload,
   RejectUpload,
@@ -17,12 +19,13 @@ const useDropzoneUpload = ({
   uploadedFiles,
   state,
   dispatch,
-  isMultiple = true,
+  multiple = true,
   limit,
   onDrop,
   onDropAccepted,
   onDropRejected,
   accept = ACCEPT_FILES,
+  max = FILE_DEFAULT_MAX_SIZE,
 }: UseDropzoneUpload): UseDropzoneUploadReturnType => {
   const parseFileData = (file: File) => {
     const { name, size, type, lastModified, webkitRelativePath } = file;
@@ -36,59 +39,40 @@ const useDropzoneUpload = ({
       webkitRelativePath,
       blob: URL.createObjectURL(file),
       original: file,
-    };
+    } as FileData;
   };
 
   const rejectUpload = ({ acceptedFiles, rejectCode }: RejectUpload) => {
-    const rejectedFiles = {
-      files: acceptedFiles,
-      code: rejectCode,
-    };
+    const rejectedFiles = { files: acceptedFiles, code: rejectCode };
 
     dispatch({
-      type: DROPZONE_ACTION_MAPPER['SET_REJECT'],
+      type: DROPZONE_ACTION_MAPPER.SET_REJECT,
       acceptedFiles,
       rejectedFiles,
     });
     onDropRejected?.({ rejectedFiles, state, dispatch });
-    onDrop?.({
-      acceptedFiles: [],
-      rejectedFiles,
-      state,
-      dispatch,
-    });
+    onDrop?.({ acceptedFiles: [], rejectedFiles, state, dispatch });
 
     console.error(`An error occurred in Dropzone. code: ${rejectCode}`);
   };
 
-  const handleUpload = ({ files }: HandleUpload) => {
-    const acceptedFiles = Array.from(
-      files,
-      parseFileData,
-    ) as unknown as FileData[];
+  const getRejectCode = ({
+    acceptedFiles,
+  }: Pick<DropzoneState, 'acceptedFiles'>) => {
+    const hasLimit = typeof limit !== 'undefined';
+    const isRejectLimit = hasLimit && acceptedFiles.length > limit;
+    const isRejectMultiple = !multiple && acceptedFiles.length > 1;
 
-    if (!isMultiple && acceptedFiles.length > 1) {
-      return rejectUpload({
-        acceptedFiles,
-        rejectCode: DROPZONE_REJECT_CODE_MAPPER['SINGLE_FILE_ONLY'],
-      });
+    if (isRejectLimit || isRejectMultiple) {
+      return DROPZONE_REJECT_CODE_MAPPER.TOO_MANY_FILES;
     }
 
-    if (typeof limit !== 'undefined') {
-      if (!isMultiple) {
-        return rejectUpload({
-          acceptedFiles,
-          rejectCode:
-            DROPZONE_REJECT_CODE_MAPPER['NEED_ACTIVE_MULTIPLE_OPTION'],
-        });
-      }
+    const isRejectSize = acceptedFiles.some(
+      (file) => file.size > 1024 * 1024 * max,
+    );
 
-      if (acceptedFiles.length > limit) {
-        return rejectUpload({
-          acceptedFiles,
-          rejectCode: DROPZONE_REJECT_CODE_MAPPER['TOO_MANY_FILES'],
-        });
-      }
+    if (isRejectSize) {
+      return DROPZONE_REJECT_CODE_MAPPER.TOO_LARGE_FILE;
     }
 
     const isRejectAccept = acceptedFiles.some((file) => {
@@ -103,13 +87,21 @@ const useDropzoneUpload = ({
     });
 
     if (isRejectAccept) {
-      return rejectUpload({
-        acceptedFiles,
-        rejectCode: DROPZONE_REJECT_CODE_MAPPER['INVALID_FILE_FORMAT'],
-      });
+      return DROPZONE_REJECT_CODE_MAPPER.INVALID_FILE_FORMAT;
     }
 
-    dispatch({ type: DROPZONE_ACTION_MAPPER['SET_FILES'], acceptedFiles });
+    return null;
+  };
+
+  const handleUpload = ({ files }: HandleUpload) => {
+    const acceptedFiles = Array.from(files, parseFileData);
+    const rejectCode = getRejectCode({ acceptedFiles });
+
+    if (rejectCode) {
+      return rejectUpload({ acceptedFiles, rejectCode });
+    }
+
+    dispatch({ type: DROPZONE_ACTION_MAPPER.SET_FILES, acceptedFiles });
     onDropAccepted?.({ acceptedFiles, state, dispatch });
     onDrop?.({
       acceptedFiles,
@@ -119,13 +111,13 @@ const useDropzoneUpload = ({
   };
 
   const resetFiles = () => {
-    revokeFile({ url: uploadedFiles.map((file) => file['blob']) });
+    revokeFile({ url: uploadedFiles.map((file) => file.blob) });
 
-    dispatch({ type: DROPZONE_ACTION_MAPPER['RESET_FILES'] });
+    dispatch({ type: DROPZONE_ACTION_MAPPER.RESET_FILES });
   };
 
   const deleteFile = ({ id }: Pick<FileData, 'id'>) => {
-    dispatch({ type: DROPZONE_ACTION_MAPPER['DELETE_FILE'], id });
+    dispatch({ type: DROPZONE_ACTION_MAPPER.DELETE_FILE, id });
   };
 
   return { handleUpload, deleteFile, resetFiles };
