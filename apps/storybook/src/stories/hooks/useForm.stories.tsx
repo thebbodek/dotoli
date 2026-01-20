@@ -56,7 +56,7 @@ export const Default: Story = {
       <form className='flex flex-col gap-2' onSubmit={onSubmit}>
         <input
           className={clsx(
-            'outline-hidden rounded-lg border px-3 py-2',
+            'rounded-lg border px-3 py-2 outline-hidden',
             errors.name ? 'border-red-400' : 'border-gray-600',
           )}
           name='name'
