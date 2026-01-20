@@ -43,13 +43,14 @@ export interface OnDropRejected
     Partial<UseDropzoneReducerReturnType> {}
 
 export interface UseDropzone {
-  isMultiple?: boolean;
+  multiple?: boolean;
   onDrop?: ({ acceptedFiles, rejectedFiles, state, dispatch }: OnDrop) => void;
   onDropAccepted?: ({ acceptedFiles, state, dispatch }: OnDropAccepted) => void;
   onDropRejected?: ({ rejectedFiles, state, dispatch }: OnDropRejected) => void;
   limit?: number;
   disabled?: boolean;
   accept?: string[];
+  max?: number;
 }
 
 export interface UseDropzoneReturn
@@ -71,7 +72,7 @@ export interface UseDropzoneRoot
 }
 
 export interface UseDropzoneInput
-  extends Pick<UseDropzone, 'disabled' | 'isMultiple' | 'accept'>,
+  extends Pick<UseDropzone, 'disabled' | 'multiple' | 'accept'>,
     Pick<UseDropzoneUploadReturnType, 'handleUpload'> {}
 
 export interface FileData extends File {

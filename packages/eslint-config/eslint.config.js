@@ -123,7 +123,7 @@ export default defineConfig([
             'use',
           ],
           filter: {
-            regex: '^(disabled|checked|required)$',
+            regex: '^(disabled|checked|required|multiple)$',
             match: false,
           },
         },
