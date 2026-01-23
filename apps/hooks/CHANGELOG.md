@@ -1,5 +1,12 @@
 # @bbodek/hooks
 
+## 0.0.31
+
+### Patch Changes
+
+- 0ce31ab: DOTOLI-150 FileUploader Component
+  - @bbodek/utils@0.0.28
+
 ## 0.0.30
 
 ### Patch Changes

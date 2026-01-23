@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.57
+
+### Patch Changes
+
+- 0ce31ab: DOTOLI-150 FileUploader Component
+- Updated dependencies [0ce31ab]
+  - @bbodek/hooks@0.0.31
+  - @bbodek/utils@0.0.28
+
 ## 0.0.56
 
 ### Patch Changes
