@@ -21,6 +21,7 @@ export * from './Modal';
 export * from './Persona';
 export * from './Popover';
 export * from './Portal';
+export * from './Preview';
 export * from './Radio';
 export * from './ResponsibleDialog';
 export * from './Select';

@@ -1,0 +1,1 @@
+export const PREVIEW_THUMBNAIL_SIZE = 60;

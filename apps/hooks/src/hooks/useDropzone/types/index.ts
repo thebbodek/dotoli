@@ -75,7 +75,11 @@ export interface UseDropzoneInput
   extends Pick<UseDropzone, 'disabled' | 'multiple' | 'accept'>,
     Pick<UseDropzoneUploadReturnType, 'handleUpload'> {}
 
-export interface FileData extends File {
+export interface FileData
+  extends Pick<
+    File,
+    'name' | 'size' | 'type' | 'lastModified' | 'webkitRelativePath'
+  > {
   id: string;
   blob: string;
   original: File;

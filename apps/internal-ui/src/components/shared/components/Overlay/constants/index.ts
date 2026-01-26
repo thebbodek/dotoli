@@ -13,8 +13,8 @@ export const OVERLAY_CONTENT_POSITION: Record<OverlayVariant, string> = {
 } as const;
 
 export const OVERLAY_CONTENT_SIZE: Record<OverlayVariant, string> = {
-  [OVERLAY_VARIANTS.MODAL]: 'h-auto',
-  [OVERLAY_VARIANTS.BOTTOM_SHEET]: 'h-auto',
+  [OVERLAY_VARIANTS.MODAL]: '',
+  [OVERLAY_VARIANTS.BOTTOM_SHEET]: '',
   [OVERLAY_VARIANTS.FULL_SCREEN]: 'h-[100svh]',
 } as const;
 
