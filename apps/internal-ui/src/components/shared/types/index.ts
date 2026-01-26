@@ -5,3 +5,7 @@ export interface ComponentPropsRef<T> {
 }
 
 export type ChildrenElement<T> = ReactElement<T, JSXElementConstructor<T>>;
+
+export type NonNullableType<T> = {
+  [K in keyof T]-?: NonNullable<T[K]>;
+};

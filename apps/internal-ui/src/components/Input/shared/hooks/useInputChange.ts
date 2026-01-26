@@ -21,17 +21,12 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   ) => {
     let newValue = e.target.value;
 
-    // console.log('newValue1', newValue);
-
     if (newValue.length > maxLength) {
       newValue = newValue.slice(0, maxLength);
-      // console.log('newValue2', newValue);
     }
 
     if (regCallback) {
-      // console.log('regCallback', regCallback);
       newValue = regCallback(newValue);
-      // console.log('newValue3', newValue);
     }
 
     e.target.value = newValue;

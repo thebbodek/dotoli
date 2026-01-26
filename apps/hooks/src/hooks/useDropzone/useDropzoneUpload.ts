@@ -39,7 +39,7 @@ const useDropzoneUpload = ({
       webkitRelativePath,
       blob: URL.createObjectURL(file),
       original: file,
-    } as FileData;
+    };
   };
 
   const rejectUpload = ({ acceptedFiles, rejectCode }: RejectUpload) => {

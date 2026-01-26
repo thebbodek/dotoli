@@ -4,6 +4,7 @@ export * from '@/composeEventHandler';
 export * from '@/date';
 export * from '@/device';
 export * from '@/excelDownload';
+export * from '@/fileDownload';
 export * from '@/executeFunction';
 export * from '@/extractDifferences';
 export * from '@/extractExt';
