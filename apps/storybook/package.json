@@ -16,7 +16,8 @@
     "next": "^15.3.6",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "overlay-kit": "^1.8.6"
+    "overlay-kit": "^1.8.6",
+    "react-hot-toast": "^2.5.2"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3",
