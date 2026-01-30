@@ -190,6 +190,9 @@ importers:
       react-dom:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.1)
+      react-hot-toast:
+        specifier: ^2.5.2
+        version: 2.5.2(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
     devDependencies:
       '@bbodek/eslint-config':
         specifier: workspace:*
@@ -275,9 +278,6 @@ importers:
       es-toolkit:
         specifier: ^1.39.8
         version: 1.39.8
-      react-hot-toast:
-        specifier: ^2.5.2
-        version: 2.5.2(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       xlsx-js-style:
         specifier: ^1.2.0
         version: 1.2.0
@@ -312,6 +312,9 @@ importers:
       react-dom:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.1)
+      react-hot-toast:
+        specifier: ^2.5.2
+        version: 2.5.2(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       rollup:
         specifier: ^4.40.2
         version: 4.52.5
