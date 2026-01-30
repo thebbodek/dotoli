@@ -6,7 +6,6 @@ import { Typography } from '@/components/Typography';
 
 const InputLabelText = ({
   id,
-  badge,
   required,
   className,
   children,
@@ -15,8 +14,6 @@ const InputLabelText = ({
     <Typography
       className={clsx(
         className,
-        'mb-0.5',
-        badge ? 'in-flex-h-stack items-center gap-x-0.5' : 'inline-block',
         required && 'before:text-in-primary-06 before:content-["*"]',
       )}
       color='gray-07'
@@ -24,7 +21,6 @@ const InputLabelText = ({
       variant='body-14-m'
     >
       {children}
-      {badge && badge}
     </Typography>
   );
 };

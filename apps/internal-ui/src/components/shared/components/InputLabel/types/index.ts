@@ -10,5 +10,9 @@ export interface InputLabelProps
   required?: boolean;
 }
 
+export interface InputLabelWrapperProps
+  extends Pick<InputLabelProps, 'badge'>,
+    Pick<LabelHTMLAttributes<HTMLLabelElement>, 'className' | 'htmlFor'> {}
+
 export interface InputLabelTextProps
-  extends Omit<InputLabelProps, 'htmlFor' | 'hidden'> {}
+  extends Omit<InputLabelProps, 'htmlFor' | 'hidden' | 'badge'> {}

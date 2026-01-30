@@ -2,6 +2,7 @@ import {
   Icon,
   INPUT_DEFAULT_MAX_LENGTH,
   InputField,
+  Tooltip,
 } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
@@ -212,7 +213,11 @@ export const WithLabel: Story = {
 
 export const WithBadge: Story = {
   args: {
-    badge: <Icon iconKey='info' weight='fill' />,
+    badge: (
+      <Tooltip content='label info' placement='right'>
+        <Icon className='text-in-gray-05' iconKey='info' weight='fill' />
+      </Tooltip>
+    ),
   },
   render: (args) => {
     const [value, setValue] = useState('');
