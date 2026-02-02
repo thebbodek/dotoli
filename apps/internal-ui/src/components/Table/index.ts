@@ -7,5 +7,6 @@ export { default as TableCellCheckbox } from './TableCellCheckbox';
 export { default as TableCellToggle } from './TableCellToggle';
 export { default as TableHead } from './TableHead';
 export { default as TableInputCell } from './TableInputCell';
+export { default as TableLinkRow } from './TableLinkRow';
 export { default as TableRow } from './TableRow';
 export * from './types';

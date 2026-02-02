@@ -1,4 +1,10 @@
-import { HTMLAttributes, PropsWithChildren, ReactElement } from 'react';
+import { LinkProps } from 'next/link';
+import {
+  AnchorHTMLAttributes,
+  HTMLAttributes,
+  PropsWithChildren,
+  ReactElement,
+} from 'react';
 
 import { ButtonProps, IconButtonProps } from '@/components/Button';
 import { InputFieldProps } from '@/components/Input';
@@ -38,6 +44,11 @@ export interface TableRowProps
     Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   variant?: TableRowVariant;
 }
+
+export interface TableLinkRowProps
+  extends Omit<TableRowProps, 'variant'>,
+    LinkProps,
+    Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target'> {}
 
 export interface TableCellProps
   extends PropsWithChildren,

@@ -444,3 +444,38 @@ export const LoadingTable: Story = {
     );
   },
 };
+
+export const WithLinkRows: Story = {
+  render: () => (
+    <Table caption='사용자 목록' className='h-[500px] w-[800px]'>
+      <Table.Head>
+        <Table.Row>
+          <Table.Cell className='w-[100px]'>ID</Table.Cell>
+          <Table.Cell className='flex-1'>이름</Table.Cell>
+          <Table.Cell className='w-[200px]'>사용자명</Table.Cell>
+          <Table.Cell className='w-[150px]'>상태</Table.Cell>
+        </Table.Row>
+      </Table.Head>
+      <Table.Body>
+        {users.slice(0, 10).map((user) => (
+          <Table.LinkRow
+            className='cursor-pointer transition-colors hover:bg-gray-50'
+            href={`/users/${user.id}`}
+            key={user.id}
+          >
+            <Table.Cell className='w-[100px]'>{user.id}</Table.Cell>
+            <Table.Cell className='flex-1'>{user.name}</Table.Cell>
+            <Table.Cell className='w-[200px]'>{user.username}</Table.Cell>
+            <Table.Cell className='w-[150px]'>
+              <Badge
+                label={user.status === 'active' ? '활성' : '비활성'}
+                theme={user.status === 'active' ? 'green' : 'gray'}
+                variant='status'
+              />
+            </Table.Cell>
+          </Table.LinkRow>
+        ))}
+      </Table.Body>
+    </Table>
+  ),
+};
