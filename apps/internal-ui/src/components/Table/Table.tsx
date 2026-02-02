@@ -13,6 +13,7 @@ import TableCellPersona from '@/components/Table/TableCellPersona';
 import TableCellToggle from '@/components/Table/TableCellToggle';
 import TableHead from '@/components/Table/TableHead';
 import TableInputCell from '@/components/Table/TableInputCell';
+import TableLinkRow from '@/components/Table/TableLinkRow';
 import TableRow from '@/components/Table/TableRow';
 import { TableProps } from '@/components/Table/types';
 
@@ -44,6 +45,7 @@ Table.displayName = 'Table';
 Table.Head = TableHead;
 Table.Body = TableBody;
 Table.Row = TableRow;
+Table.LinkRow = TableLinkRow;
 Table.Cell = TableCell;
 Table.InputCell = TableInputCell;
 Table.Cell.Checkbox = TableCellCheckbox;

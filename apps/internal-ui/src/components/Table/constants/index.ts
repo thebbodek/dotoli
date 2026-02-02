@@ -11,11 +11,13 @@ export const TABLE_CELL_ROLES = {
   ROW_HEADER: 'rowheader',
 } as const;
 
+export const TABLE_ROW_COMMON_STYLE = 'in-flex-h-stack min-w-fit';
+
 export const TABLE_ROW_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]:
-    'text-in-body-14-m border-in-gray-03 border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&_.cell:last-child]:rounded-tr-in-8 h-8',
+    'border-in-gray-03 border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&_.cell:last-child]:rounded-tr-in-8 h-8',
   [TABLE_ROW_VARIANTS.BODY]:
-    'text-in-body-14-r hover:bg-in-gray-01 last:[&_.cell]:border-0 [&_.cell]:border-b',
+    'hover:bg-in-gray-01 last:[&_.cell]:border-0 [&_.cell]:border-b',
 } as const;
 
 export const TABLE_CELL_ROLE_COMMON_STYLES = {
@@ -38,7 +40,7 @@ export const TABLE_CELL_INPUT_STATE = {
 
 export const TABLE_CELL_INPUT_STYLES = {
   [TABLE_CELL_INPUT_STATE.DEFAULT]:
-    'text-in-body-14-r border border-transparent text-in-black placeholder-in-gray-04',
+    'border border-transparent text-in-black placeholder-in-gray-04',
   [TABLE_CELL_INPUT_STATE.FOCUS]:
     'focus:outline-none focus:border-in-primary-05',
   [TABLE_CELL_INPUT_STATE.ERROR]:
