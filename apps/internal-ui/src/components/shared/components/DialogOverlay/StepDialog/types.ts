@@ -18,7 +18,7 @@ export interface StepActionParams<T extends string> {
 export interface StepDialogProps<T extends string>
   extends Omit<
       FormDialogOverlayProps,
-      'confirmOption' | 'cancelOption' | 'possibleConfirm'
+      'confirmOption' | 'cancelOption' | 'title' | 'possibleConfirm'
     >,
     Pick<UseStepDialogParams<T>, 'steps'>,
     Pick<UseStepDialogReturnType<T>['models'], 'step'>,
