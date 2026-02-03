@@ -22,6 +22,7 @@ export * from './Persona';
 export * from './Popover';
 export * from './Portal';
 export * from './Radio';
+export * from './ResponsibleDialog';
 export * from './Select';
 export * from './Skeleton';
 export * from './Sort';
