@@ -4,6 +4,7 @@ import { DocsContainer, DocsContainerProps } from '@storybook/blocks';
 import type { Preview, ReactRenderer } from '@storybook/react';
 import { fn } from '@storybook/test';
 import 'dayjs/locale/ko';
+import { OverlayProvider } from 'overlay-kit';
 import { PropsWithChildren } from 'react';
 
 import '@/styles/globals.css';
@@ -25,7 +26,9 @@ const preview: Preview = {
       }: PropsWithChildren<DocsContainerProps<ReactRenderer>>) => (
         <>
           <DocsContainer context={context}>
-            <SkeletonTheme>{children}</SkeletonTheme>
+            <OverlayProvider>
+              <SkeletonTheme>{children}</SkeletonTheme>
+            </OverlayProvider>
           </DocsContainer>
           <div id='portal' />
           <Toaster />
@@ -39,8 +42,10 @@ const preview: Preview = {
         <>
           {viewMode !== 'docs' && (
             <>
-              <div id='portal' />
-              <Toaster />
+              <OverlayProvider>
+                <div id='portal' />
+                <Toaster />
+              </OverlayProvider>
             </>
           )}
           <Story />

@@ -26,8 +26,6 @@ const IconButton = ({
   const isDisabled = disabled || isPending;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
     if (isDisabled) return;
 
     onClick?.(e);

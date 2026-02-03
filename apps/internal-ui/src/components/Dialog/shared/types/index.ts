@@ -1,9 +1,9 @@
 import { OverlayContentWrapperProps } from '@/components/shared';
 import {
-  OverlayBasePrimitiveProps,
   OverlayFooterPrimitiveProps,
   OverlayFooterStateProps,
-} from '@/components/shared/components/Overlay/types';
+} from '@/components/shared/components/Overlay/OverlayFooter/types';
+import { OverlayBasePrimitiveProps } from '@/components/shared/components/Overlay/types';
 
 export interface DialogProps extends OverlayBasePrimitiveProps {}
 
