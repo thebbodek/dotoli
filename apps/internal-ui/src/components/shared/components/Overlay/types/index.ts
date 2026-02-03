@@ -5,14 +5,13 @@ import {
   ReactNode,
 } from 'react';
 
-import { ButtonProps } from '@/components/Button';
 import { PortalProps } from '@/components/Portal';
 import {
   OVERLAY_CONTENT_WRAPPER_ELEMENTS,
   OVERLAY_VARIANTS,
 } from '@/components/shared/components/Overlay/constants';
+import { OverlayFooterPrimitiveProps } from '@/components/shared/components/Overlay/OverlayFooter';
 import { ComponentPropsRef } from '@/components/shared/types';
-import { TooltipProps } from '@/components/Tooltip';
 import { TYPOGRAPHY_ELEMENTS, TypographyProps } from '@/components/Typography';
 import { TypographyVariants } from '@/variants';
 
@@ -44,37 +43,6 @@ export interface OverlayDescriptionProps
   extends Pick<TypographyProps<typeof TYPOGRAPHY_ELEMENTS.P>, 'className'> {
   description: ReactNode;
 }
-
-export interface OverlayFooterPrimitiveProps {
-  confirmOption: {
-    label: string;
-    onConfirm: () => void;
-    tooltipOption?: Partial<Pick<TooltipProps, 'content'>> & {
-      useTooltip?: boolean;
-    };
-  };
-  cancelOption?: {
-    label?: string;
-    onCancel?: () => void;
-  };
-}
-
-export interface OverlayFooterStateProps
-  extends Pick<ButtonProps, 'isPending'>,
-    Pick<OverlayContentWrapperProps, 'isLoading'> {
-  possibleConfirm?: boolean;
-}
-
-export interface OverlayFooterStyleProps
-  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
-  buttonSize?: ButtonProps['size'];
-  isFull?: boolean;
-}
-
-export interface OverlayFooterProps
-  extends OverlayFooterPrimitiveProps,
-    OverlayFooterStateProps,
-    OverlayFooterStyleProps {}
 
 export interface OverlayBasePrimitiveProps
   extends Pick<OverlayProps, 'isOpen' | 'ref' | 'className'> {}

@@ -1,6 +1,13 @@
+import clsx from 'clsx';
+
 import { BUTTON_SIZES } from '@/components/Button';
+import { DIALOG_FOOTER_DEFAULT_STYLES } from '@/components/Dialog/shared/constants';
 import { DialogFooterProps } from '@/components/Dialog/shared/types';
-import OverlayFooter from '@/components/shared/components/Overlay/OverlayFooter';
+import {
+  OverlayFooterCancelButton,
+  OverlayFooterConfirmButton,
+  OverlayFooterWrapper,
+} from '@/components/shared';
 
 const DialogFooter = ({
   confirmOption,
@@ -10,15 +17,24 @@ const DialogFooter = ({
   possibleConfirm,
 }: DialogFooterProps) => {
   return (
-    <OverlayFooter
-      buttonSize={BUTTON_SIZES.LG}
-      cancelOption={cancelOption}
-      className='border-in-gray-02 border-t px-[1.875rem] py-[1.125rem]'
-      confirmOption={confirmOption}
-      isLoading={isLoading}
-      isPending={isPending}
-      possibleConfirm={possibleConfirm}
-    />
+    <OverlayFooterWrapper
+      className={clsx(DIALOG_FOOTER_DEFAULT_STYLES, 'justify-end gap-x-2')}
+    >
+      {cancelOption && (
+        <OverlayFooterCancelButton
+          cancelOption={cancelOption}
+          isLoading={isLoading}
+          isPending={isPending}
+          size={BUTTON_SIZES.LG}
+        />
+      )}
+      <OverlayFooterConfirmButton
+        confirmOption={confirmOption}
+        isLoading={isLoading}
+        possibleConfirm={possibleConfirm && !isPending}
+        size={BUTTON_SIZES.LG}
+      />
+    </OverlayFooterWrapper>
   );
 };
 

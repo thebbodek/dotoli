@@ -25,7 +25,7 @@ const FormDialog = ({
       <Dialog.ContentWrapper
         as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
         className='gap-y-6'
-        isLoading={isLoading}
+        isLoading={isLoading || isPending}
       >
         {children}
       </Dialog.ContentWrapper>

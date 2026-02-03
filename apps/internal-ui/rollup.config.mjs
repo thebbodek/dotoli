@@ -13,4 +13,5 @@ export default createRollupConfig({
     image(),
   ],
   srcPath: fileURLToPath(new URL('./src', import.meta.url)),
+  external: ['overlay-kit'],
 });
