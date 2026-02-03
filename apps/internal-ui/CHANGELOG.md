@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.58
+
+### Patch Changes
+
+- 09e9be2: DOTOLI-148 Input Label required mark gap 제거
+  - @bbodek/utils@0.0.29
+  - @bbodek/hooks@0.0.32
+
 ## 0.0.57
 
 ### Patch Changes
