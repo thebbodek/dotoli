@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.60
+
+### Patch Changes
+
+- b3162f5: DOTOLI-156 TableLinkRow Component 추가
+  - @bbodek/utils@0.0.31
+  - @bbodek/hooks@0.0.34
+
 ## 0.0.59
 
 ### Patch Changes
