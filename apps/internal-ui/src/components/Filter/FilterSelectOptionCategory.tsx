@@ -30,7 +30,7 @@ const FilterSelectOptionCategory = ({
 
   return (
     <li
-      className='in-flex-h-stack in-tablet:px-3 in-tablet:h-[2rem] h-[2.75rem] items-center px-4'
+      className='in-flex-h-stack in-tablet:px-3 in-tablet:h-[2rem] h-[2.75rem] flex-none items-center px-4'
       role='button'
       onClick={onClick}
     >
