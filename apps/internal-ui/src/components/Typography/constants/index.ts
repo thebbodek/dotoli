@@ -23,4 +23,6 @@ export const TYPOGRAPHY_ELEMENTS = {
   SUP: 'sup',
   TIME: 'time',
   FIGCAPTION: 'figcaption',
+  DT: 'dt',
+  DD: 'dd',
 } as const;
