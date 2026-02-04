@@ -1,5 +1,15 @@
 # @bbodek/internal-ui
 
+## 0.0.59
+
+### Patch Changes
+
+- 7a8b50b: DOTOLI-155 ResponsibleStepDialog Component
+  DOTOLI-154 StepFullScreenDialog Component
+  DOTOLI-152 StepDialog Component
+  - @bbodek/utils@0.0.30
+  - @bbodek/hooks@0.0.33
+
 ## 0.0.58
 
 ### Patch Changes
