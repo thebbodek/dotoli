@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.61
+
+### Patch Changes
+
+- 5ab512f: DOTOLI-157 Typography element dt, dd 추가
+- Updated dependencies [919595e]
+  - @bbodek/utils@0.0.32
+  - @bbodek/hooks@0.0.35
+
 ## 0.0.60
 
 ### Patch Changes

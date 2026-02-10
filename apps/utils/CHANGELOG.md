@@ -1,5 +1,13 @@
 # @bbodek/utils
 
+## 0.0.32
+
+### Patch Changes
+
+- 919595e: DOTOLI-153 toast 외부 사용시 미노출 이슈 수정
+- Updated dependencies [5ab512f]
+  - @bbodek/internal-ui@0.0.61
+
 ## 0.0.31
 
 ### Patch Changes
