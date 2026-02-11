@@ -1,6 +1,7 @@
 import { isMobile } from '@bbodek/utils';
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
+import { KeyboardEvent } from 'react';
 
 import {
   isSupportFileType,
@@ -8,12 +9,8 @@ import {
 } from '@/components/Preview/shared';
 import PreviewThumbnailOverlay from '@/components/Preview/shared/components/PreviewThumbnails/PreviewThumbnailOverlay';
 import { isFileData } from '@/components/Preview/utils';
+import { ThumbnailLoading } from '@/components/shared';
 import { Tooltip } from '@/components/Tooltip';
-
-const PreviewThumbnailLoading = dynamic(
-  () => import('./PreviewThumbnailLoading'),
-  { ssr: false },
-);
 
 const PreviewThumbnailNotSupport = dynamic(
   () => import('./PreviewThumbnailNotSupport'),
@@ -35,7 +32,7 @@ const PreviewThumbnail = ({
 }: PreviewThumbnailProps) => {
   const renderer = () => {
     if (isLoading) {
-      return <PreviewThumbnailLoading />;
+      return <ThumbnailLoading />;
     }
 
     if (!isFileData(file) || !isSupportFileType({ type: file.type })) {
@@ -43,6 +40,20 @@ const PreviewThumbnail = ({
     }
 
     return <PreviewThumbnailViewer file={file} />;
+  };
+
+  const onClick = () => {
+    if (disabled) return;
+
+    onChange({ file });
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLLIElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+
+      onClick();
+    }
   };
 
   return (
@@ -55,11 +66,13 @@ const PreviewThumbnail = ({
       aria-disabled={disabled}
       aria-selected={isCurrent}
       role='option'
+      tabIndex={disabled ? -1 : 0}
       onClick={() => {
         if (disabled) return;
 
         onChange({ file });
       }}
+      onKeyDown={handleKeyDown}
     >
       <Tooltip
         rootClassName={clsx(
@@ -73,7 +86,7 @@ const PreviewThumbnail = ({
         placement='right'
       >
         {renderer()}
-        <PreviewThumbnailOverlay isCurrent={isCurrent} />
+        {!disabled && <PreviewThumbnailOverlay isCurrent={isCurrent} />}
       </Tooltip>
     </li>
   );

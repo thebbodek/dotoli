@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
-import { PREVIEW_THUMBNAIL_SIZE } from '@/components/Preview/shared/components/PreviewThumbnails/constants';
-import { UsePreviewThumbnailPdfUrlEffectParams } from '@/components/Preview/shared/components/PreviewThumbnails/hooks/types';
 import {
   getPdfDoc,
   getPdfImageUrl,
 } from '@/components/Preview/shared/utils/getPdfImageUrl';
+import { UseThumbnailPdfUrlEffectParams } from '@/components/shared/components/Thumbnail/hooks/types';
 
-const usePreviewThumbnailPdfUrlEffect = ({
+const useThumbnailPdfUrlEffect = ({
   file,
+  size,
   setUrl,
   setIsLoading,
-}: UsePreviewThumbnailPdfUrlEffectParams) => {
+}: UseThumbnailPdfUrlEffectParams) => {
   useEffect(() => {
     const setPdfThumbnailUrl = async () => {
       setIsLoading(true);
@@ -21,7 +21,7 @@ const usePreviewThumbnailPdfUrlEffect = ({
         const url = await getPdfImageUrl({
           doc,
           pageNum: 1,
-          width: PREVIEW_THUMBNAIL_SIZE,
+          width: size,
         });
 
         setUrl(url);
@@ -33,7 +33,7 @@ const usePreviewThumbnailPdfUrlEffect = ({
     };
 
     setPdfThumbnailUrl();
-  }, [file]);
+  }, [file, size]);
 };
 
-export default usePreviewThumbnailPdfUrlEffect;
+export default useThumbnailPdfUrlEffect;

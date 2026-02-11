@@ -1,6 +1,6 @@
 import { Icon } from '@/components/Icon';
 
-const PreviewThumbnailLoading = () => {
+const ThumbnailLoading = () => {
   return (
     <Icon
       className='text-in-gray-03 animate-spin text-[1.375rem]'
@@ -9,4 +9,4 @@ const PreviewThumbnailLoading = () => {
   );
 };
 
-export default PreviewThumbnailLoading;
+export default ThumbnailLoading;

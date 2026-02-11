@@ -14,7 +14,7 @@ const PreviewLoading = ({
     <div
       className={clsx(
         className,
-        'in-flex-v-stack-center bg-in-gray-09 gap-y-5',
+        'in-flex-v-stack-center bg-in-gray-09 h-full w-full gap-y-5',
       )}
       style={{ width, height }}
     >
