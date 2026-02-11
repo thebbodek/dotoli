@@ -41,12 +41,12 @@ export interface TableBodySkeletonProps<T extends string> {
 
 export interface TableRowProps
   extends PropsWithChildren,
-    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+    Pick<HTMLAttributes<HTMLDivElement>, 'className' | 'onClick'> {
   variant?: TableRowVariant;
 }
 
 export interface TableLinkRowProps
-  extends Omit<TableRowProps, 'variant'>,
+  extends Omit<TableRowProps, 'variant' | 'onClick'>,
     LinkProps,
     Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target'> {}
 

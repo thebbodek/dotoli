@@ -12,6 +12,7 @@ const TableRow = ({
   variant = TABLE_ROW_VARIANTS.BODY,
   className,
   children,
+  onClick,
 }: TableRowProps) => {
   return (
     <div
@@ -19,8 +20,10 @@ const TableRow = ({
         className,
         TABLE_ROW_COMMON_STYLE,
         TABLE_ROW_STYLES[variant],
+        onClick && 'cursor-pointer',
       )}
       role='row'
+      onClick={onClick}
     >
       {renderTableCells({ children, variant })}
     </div>
