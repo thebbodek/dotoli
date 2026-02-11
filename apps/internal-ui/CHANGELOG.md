@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.62
+
+### Patch Changes
+
+- d184619: DOTOLI-158 Filter Component 버튼, 스크롤 수정
+  - @bbodek/utils@0.0.33
+  - @bbodek/hooks@0.0.36
+
 ## 0.0.61
 
 ### Patch Changes
