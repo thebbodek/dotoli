@@ -1,5 +1,13 @@
 # @bbodek/hooks
 
+## 0.0.37
+
+### Patch Changes
+
+- fe8fecf: DOTOLI-137 Preview Component
+- Updated dependencies [fe8fecf]
+  - @bbodek/utils@0.0.34
+
 ## 0.0.36
 
 ### Patch Changes

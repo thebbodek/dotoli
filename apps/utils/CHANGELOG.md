@@ -1,5 +1,13 @@
 # @bbodek/utils
 
+## 0.0.34
+
+### Patch Changes
+
+- fe8fecf: DOTOLI-137 Preview Component
+- Updated dependencies [fe8fecf]
+  - @bbodek/internal-ui@0.0.63
+
 ## 0.0.33
 
 ### Patch Changes
