@@ -1,7 +1,9 @@
 import FormFullScreenDialogFooter from '@/components/FullScreenDialog/FormFullScreenDialog/FormFullScreenDialogFooter';
 import { FormFullScreenDialogProps } from '@/components/FullScreenDialog/FormFullScreenDialog/types';
-import FullScreenDialog from '@/components/FullScreenDialog/shared/FullScreenDialog';
-import { OVERLAY_CONTENT_WRAPPER_ELEMENTS } from '@/components/shared';
+import {
+  FullScreenDialog,
+  OVERLAY_CONTENT_WRAPPER_ELEMENTS,
+} from '@/components/shared';
 
 const FormFullScreenDialog = ({
   children,
@@ -28,6 +30,7 @@ const FormFullScreenDialog = ({
         as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
         className='gap-y-8'
         isLoading={isLoading || isPending}
+        hasPadding
       >
         {children}
       </FullScreenDialog.ContentWrapper>

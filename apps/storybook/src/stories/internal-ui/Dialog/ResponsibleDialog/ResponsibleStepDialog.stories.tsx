@@ -7,7 +7,7 @@ import {
 import type { Meta, StoryObj } from '@storybook/react';
 import { overlay } from 'overlay-kit';
 
-import { default as StepDialogMeta } from '../Dialog/StepDialog.stories';
+import { default as StepDialogMeta } from '../StepDialog.stories';
 import FormContent from '@/stories/internal-ui/shared/FormContent';
 import {
   useFormContent,
@@ -25,7 +25,7 @@ import {
 const { argTypes } = StepDialogMeta;
 
 const meta = {
-  title: 'core/internal-ui/ResponsibleDialog/ResponsibleStepDialog',
+  title: 'core/internal-ui/Dialog/ResponsibleDialog/ResponsibleStepDialog',
   component: ResponsibleStepDialog,
   argTypes,
 } satisfies Meta<StepDialogArgs>;

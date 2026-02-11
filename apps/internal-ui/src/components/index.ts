@@ -27,6 +27,7 @@ export * from './Preview';
 export * from './Radio';
 export * from './ResponsibleDialog';
 export * from './Select';
+export * from './SideSheet';
 export * from './Skeleton';
 export * from './Sort';
 export * from './Tab';
