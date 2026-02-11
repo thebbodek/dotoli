@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.64
+
+### Patch Changes
+
+- 1201bae: DOTOLI-149 File Component
+  - @bbodek/utils@0.0.35
+  - @bbodek/hooks@0.0.38
+
 ## 0.0.63
 
 ### Patch Changes
