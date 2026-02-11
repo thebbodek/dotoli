@@ -25,8 +25,6 @@ const Button = ({
   useButtonPropsValidationEffect({ variant, theme, size });
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
     if (isDisabled) return;
 
     onClick?.(e);

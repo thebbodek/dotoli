@@ -1,8 +1,9 @@
 import dynamic from 'next/dynamic';
 
-import PreviewImageRenderer from '@/components/Preview/shared/components/Preview/PreviewLoadingRenderer';
+import PreviewLoading from '@/components/Preview/shared/components/Preview/PreviewLoading';
 import { PreviewImageViewerProps } from '@/components/Preview/shared/components/Preview/types';
 import { usePreviewImage } from '@/components/Preview/shared/hooks/usePreviewImage';
+import { ImageLoadingRenderer } from '@/components/shared';
 
 const PreviewImage = dynamic(
   () => import('@/components/Preview/shared/components/Preview/PreviewImage'),
@@ -26,7 +27,10 @@ const PreviewImageViewer = ({
     !!height && height < viewerHeight && previewOptions.fitMode === null;
 
   return (
-    <PreviewImageRenderer isLoading={isLoading}>
+    <ImageLoadingRenderer
+      isLoading={isLoading}
+      loadingComponent={<PreviewLoading />}
+    >
       <PreviewImage
         size={{
           width: useOriginalImageSize ? width : viewerWidth,
@@ -40,7 +44,7 @@ const PreviewImageViewer = ({
         onError={onError}
         onLoad={onLoadImage}
       />
-    </PreviewImageRenderer>
+    </ImageLoadingRenderer>
   );
 };
 

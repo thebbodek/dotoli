@@ -3,13 +3,14 @@ import { useRef, useState } from 'react';
 
 import { PreviewPdfImageUrl } from '@/components/Preview/shared/components/Preview/hooks/effects/usePreviewPdfImageUrlsEffect/types';
 import usePreviewPdfImageUrlsEffect from '@/components/Preview/shared/components/Preview/hooks/effects/usePreviewPdfImageUrlsEffect/usePreviewPdfImageUrlsEffect';
-import PreviewImageRenderer from '@/components/Preview/shared/components/Preview/PreviewLoadingRenderer';
+import PreviewLoading from '@/components/Preview/shared/components/Preview/PreviewLoading';
 import PreviewNotSupport from '@/components/Preview/shared/components/Preview/PreviewNotSupport';
 import {
   PreviewFileData,
   PreviewPdfViewerProps,
 } from '@/components/Preview/shared/components/Preview/types';
 import { usePreviewImage } from '@/components/Preview/shared/hooks/usePreviewImage';
+import { ImageLoadingRenderer } from '@/components/shared';
 
 const PreviewPdfViewerImage = dynamic(
   () =>
@@ -68,7 +69,10 @@ const PreviewPdfViewer = ({
       className='h-full max-h-full w-full max-w-full overflow-auto'
       ref={listRef}
     >
-      <PreviewImageRenderer isLoading={isLoading}>
+      <ImageLoadingRenderer
+        isLoading={isLoading}
+        loadingComponent={<PreviewLoading />}
+      >
         {urls &&
           urls.map(({ id, url }) => (
             <PreviewPdfViewerImage
@@ -86,7 +90,7 @@ const PreviewPdfViewer = ({
               onError={onError}
             />
           ))}
-      </PreviewImageRenderer>
+      </ImageLoadingRenderer>
     </div>
   );
 };

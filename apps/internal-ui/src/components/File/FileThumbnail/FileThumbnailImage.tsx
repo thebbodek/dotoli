@@ -1,13 +1,12 @@
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
+import FileThumbnailNotSupport from '@/components/File/FileThumbnail/FileThumbnailNotSupport';
+import { FileThumbnailImageProps } from '@/components/File/FileThumbnail/types';
 import {
   isSupportImageFileType,
   isSupportPdfFileType,
-  PreviewThumbnailViewerProps,
 } from '@/components/Preview/shared';
-import { PREVIEW_THUMBNAIL_SIZE } from '@/components/Preview/shared/components/PreviewThumbnails/constants';
-import PreviewThumbnailNotSupport from '@/components/Preview/shared/components/PreviewThumbnails/PreviewThumbnailNotSupport';
 import { ImageLoadingRenderer, ThumbnailLoading } from '@/components/shared';
 
 const ThumbnailImage = dynamic(
@@ -20,24 +19,24 @@ const ThumbnailPdfImage = dynamic(
   { ssr: false },
 );
 
-const PreviewThumbnailViewer = ({ file }: PreviewThumbnailViewerProps) => {
+const FileThumbnailImage = ({ file }: FileThumbnailImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const renderer = () => {
-    const { type, blob, original } = file;
+    const { type, blob, name, original } = file;
     const defaultProps = {
-      alt: '',
-      size: PREVIEW_THUMBNAIL_SIZE,
+      alt: name,
+      size: 52,
       setIsLoading,
-      errorComponent: <PreviewThumbnailNotSupport />,
+      errorComponent: <FileThumbnailNotSupport />,
     };
 
     if (isSupportImageFileType({ type })) {
-      return <ThumbnailImage {...defaultProps} src={blob} />;
+      return <ThumbnailImage src={blob} {...defaultProps} />;
     }
 
     if (isSupportPdfFileType({ type })) {
-      return <ThumbnailPdfImage {...defaultProps} file={original} />;
+      return <ThumbnailPdfImage file={original} {...defaultProps} />;
     }
   };
 
@@ -52,4 +51,4 @@ const PreviewThumbnailViewer = ({ file }: PreviewThumbnailViewerProps) => {
   );
 };
 
-export default PreviewThumbnailViewer;
+export default FileThumbnailImage;

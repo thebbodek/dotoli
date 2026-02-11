@@ -24,10 +24,11 @@ export interface PreviewThumbnailViewerProps {
 }
 
 export interface PreviewThumbnailImageProps extends Pick<ImageProps, 'src'> {
+  size: number;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface PreviewThumbnailPdfProps
-  extends Pick<PreviewThumbnailImageProps, 'setIsLoading'> {
+  extends Pick<PreviewThumbnailImageProps, 'setIsLoading' | 'size'> {
   file: File;
 }

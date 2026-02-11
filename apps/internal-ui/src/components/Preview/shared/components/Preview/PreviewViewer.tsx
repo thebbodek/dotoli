@@ -31,7 +31,7 @@ const PreviewViewer = ({
     return <PreviewLoading />;
   }
 
-  const { type, name } = file;
+  const { name } = file;
 
   if (!isFileData(file)) {
     return <PreviewNotSupport downloadOptions={{ url: file.url, name }} />;
@@ -39,11 +39,11 @@ const PreviewViewer = ({
 
   const commonProps = { file, viewerSize, previewOptions };
 
-  if (isSupportImageFileType({ type })) {
+  if (isSupportImageFileType({ type: file.type })) {
     return <PreviewImageViewer {...commonProps} />;
   }
 
-  if (isSupportPdfFileType({ type })) {
+  if (isSupportPdfFileType({ type: file.type })) {
     return <PreviewPdfViewer {...commonProps} />;
   }
 
