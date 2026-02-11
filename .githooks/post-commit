@@ -6,7 +6,7 @@ if [ "$SKIP_HOOKS" = "true" ]; then
 fi
 
 export SKIP_HOOKS=true
-COMMIT_MSG=$(git log -1 --pretty=%B)
+COMMIT_MSG=$(git log origin/main..HEAD --reverse --pretty=format:"%s%n%b%n%n")
 
 node .githooks/scripts/changeset.js "$COMMIT_MSG"
 

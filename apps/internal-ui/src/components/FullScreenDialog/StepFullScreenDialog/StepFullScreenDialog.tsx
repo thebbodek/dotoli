@@ -1,12 +1,12 @@
 import { BUTTON_SIZES } from '@/components/Button';
-import { FullScreenDialog } from '@/components/FullScreenDialog/shared';
-import { FORM_FULL_SCREEN_DIALOG_FOOTER_DEFAULT_STYLES } from '@/components/FullScreenDialog/shared/constants';
 import useStepFullScreenDialogConfirmBottomSheet from '@/components/FullScreenDialog/StepFullScreenDialog/StepFullScreenDialogConfirmBottomSheet/hooks/useStepFullScreenDialogConfirmBottomSheet';
 import {
+  FullScreenDialog,
   OVERLAY_CONTENT_WRAPPER_ELEMENTS,
   StepDialogFooter,
   StepDialogProps,
 } from '@/components/shared';
+import { FORM_FULL_SCREEN_DIALOG_FOOTER_DEFAULT_STYLES } from '@/components/shared/components/FullScreenDialog/constants';
 
 const StepFullScreenDialog = <T extends string>({
   step,
@@ -43,6 +43,7 @@ const StepFullScreenDialog = <T extends string>({
         as={OVERLAY_CONTENT_WRAPPER_ELEMENTS.FORM}
         className={className}
         isLoading={isLoading || isPending}
+        hasPadding
       >
         {children}
       </FullScreenDialog.ContentWrapper>
