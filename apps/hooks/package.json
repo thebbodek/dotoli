@@ -28,13 +28,13 @@
     "@bbodek/utils": "workspace:*"
   },
   "peerDependencies": {
-    "next": "^15.3.6",
+    "next": "^15.5.10",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "@bbodek/utils": "workspace:*"
   },
   "devDependencies": {
-    "next": "^15.3.6",
+    "next": "^15.5.10",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "@bbodek/eslint-config": "workspace:*",
