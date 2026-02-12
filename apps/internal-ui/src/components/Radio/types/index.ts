@@ -4,11 +4,13 @@ import { RADIO_SIZES } from '@/components/Radio/constants';
 
 export type RadioSize = (typeof RADIO_SIZES)[keyof typeof RADIO_SIZES];
 
-export interface RadioProps
+export interface RadioBaseProps
   extends Pick<InputHTMLAttributes<HTMLInputElement>, 'disabled' | 'className'>,
     Required<
       Pick<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'onChange'>
-    > {
+    > {}
+
+export interface RadioProps extends Omit<RadioBaseProps, 'label'> {
   size?: RadioSize;
   label?: string;
 }
