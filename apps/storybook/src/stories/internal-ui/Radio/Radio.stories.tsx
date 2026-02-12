@@ -1,11 +1,11 @@
 import { Radio, RADIO_SIZES, RadioProps } from '@bbodek/internal-ui';
-import { Meta } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const meta = {
-  title: 'core/internal-ui/Radio',
+  title: 'core/internal-ui/Radio/Radio',
   component: Radio,
   argTypes: {
     size: {
@@ -68,8 +68,10 @@ const meta = {
 
 export default meta;
 
-export const Default = {
-  render: (args: RadioProps) => {
+type Story = StoryObj<RadioProps>;
+
+export const Default: Story = {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -82,11 +84,11 @@ export const Default = {
   },
 };
 
-export const WithLabel = {
+export const WithLabel: Story = {
   args: {
     label: 'Radio',
   },
-  render: (args: RadioProps) => {
+  render: (args) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -99,14 +101,14 @@ export const WithLabel = {
   },
 };
 
-export const Checked = {
+export const Checked: Story = {
   args: {
     label: 'Radio',
     checked: true,
   },
 };
 
-export const Disabled = {
+export const Disabled: Story = {
   args: {
     label: 'Radio',
     disabled: true,
