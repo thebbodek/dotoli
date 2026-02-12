@@ -2,14 +2,15 @@ import clsx from 'clsx';
 import { useId } from 'react';
 
 import { RADIO_SIZES } from '@/components/Radio/constants';
+import RadioBase from '@/components/Radio/RadioBase';
 import RadioIcon from '@/components/Radio/RadioIcon';
 import RadioLabel from '@/components/Radio/RadioLabel';
 import { RadioProps } from '@/components/Radio/types';
 
 const Radio = ({
   size = RADIO_SIZES.SM,
-  checked = false,
-  disabled = false,
+  checked,
+  disabled,
   label,
   className,
   onChange,
@@ -18,27 +19,15 @@ const Radio = ({
   const labelId = `${id}-label`;
 
   return (
-    <label
-      className={clsx(
-        className,
-        'cursor-pointer',
-        label && 'flex items-center gap-x-2',
-        'has-[.radio:disabled]:cursor-not-allowed',
-      )}
-      htmlFor={id}
+    <RadioBase
+      checked={checked}
+      className={clsx(className, label && 'flex items-center gap-x-2')}
+      disabled={disabled}
+      onChange={onChange}
     >
-      <input
-        aria-labelledby={labelId}
-        checked={checked}
-        className='radio peer hidden'
-        disabled={disabled}
-        id={id}
-        type='radio'
-        onChange={onChange}
-      />
       <RadioIcon size={size} />
       {label && <RadioLabel label={label} labelId={labelId} size={size} />}
-    </label>
+    </RadioBase>
   );
 };
 
