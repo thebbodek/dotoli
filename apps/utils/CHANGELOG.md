@@ -1,5 +1,12 @@
 # @bbodek/utils
 
+## 0.0.36
+
+### Patch Changes
+
+- 1499e4e: DOTOLI-160 Date Formats 유형 추가
+  - @bbodek/internal-ui@0.0.65
+
 ## 0.0.35
 
 ### Patch Changes
