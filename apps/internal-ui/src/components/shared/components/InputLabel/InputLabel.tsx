@@ -27,14 +27,14 @@ const InputLabel = ({
   if (badge) {
     return (
       <InputLabelWrapper badge={badge} className={classNames}>
-        <InputLabelText>{children}</InputLabelText>
+        <InputLabelText {...props}>{children}</InputLabelText>
         {badge}
       </InputLabelWrapper>
     );
   }
 
   return (
-    <InputLabelText className={clsx(className, classNames)}>
+    <InputLabelText {...props} className={clsx(className, classNames)}>
       {children}
     </InputLabelText>
   );
