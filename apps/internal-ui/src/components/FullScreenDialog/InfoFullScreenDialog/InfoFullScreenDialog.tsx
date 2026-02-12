@@ -1,5 +1,5 @@
 import { InfoFullScreenDialogProps } from '@/components/FullScreenDialog/InfoFullScreenDialog/types';
-import FullScreenDialog from '@/components/FullScreenDialog/shared/FullScreenDialog';
+import { FullScreenDialog } from '@/components/shared';
 
 const InfoFullScreenDialog = ({
   children,
@@ -13,7 +13,7 @@ const InfoFullScreenDialog = ({
   return (
     <FullScreenDialog className={className} isOpen={isOpen} ref={ref}>
       <FullScreenDialog.Header title={title} onClose={onClose} />
-      <FullScreenDialog.ContentWrapper isLoading={isLoading}>
+      <FullScreenDialog.ContentWrapper isLoading={isLoading} hasPadding>
         {children}
       </FullScreenDialog.ContentWrapper>
     </FullScreenDialog>

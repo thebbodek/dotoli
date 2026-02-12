@@ -1,6 +1,7 @@
 export * from './ActionButton';
 export * from './ConfirmOverlay';
 export * from './DialogOverlay';
+export * from './FullScreenDialog';
 export * from './ImageErrorBoundary';
 export * from './ImageLoadingRenderer';
 export * from './InputFeedback';
