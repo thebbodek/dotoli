@@ -7,13 +7,39 @@ import { dirname, join } from 'path';
  */
 const getAbsolutePath = (value: string) =>
   dirname(require.resolve(join(value, 'package.json')));
+
+const getOptionalAbsolutePath = (value: string) => {
+  try {
+    return getAbsolutePath(value);
+  } catch {
+    return null;
+  }
+};
+
+const addonMcpPath = getOptionalAbsolutePath('@storybook/addon-mcp');
+
+const addons: StorybookConfig['addons'] = [
+  getAbsolutePath('@storybook/addon-essentials'),
+  getAbsolutePath('@chromatic-com/storybook'),
+  getAbsolutePath('@storybook/experimental-addon-test'),
+];
+
+if (addonMcpPath) {
+  addons.push({
+    name: addonMcpPath,
+    options: {
+      toolsets: {
+        dev: true,
+        docs: true,
+      },
+      experimentalFormat: 'markdown',
+    },
+  });
+}
+
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@chromatic-com/storybook'),
-    getAbsolutePath('@storybook/experimental-addon-test'),
-  ],
+  addons,
   framework: {
     name: getAbsolutePath('@storybook/nextjs'),
     options: {},
@@ -22,6 +48,9 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: 'react-docgen',
     check: false,
+  },
+  features: {
+    ...(addonMcpPath ? { experimentalComponentsManifest: true } : {}),
   },
 };
 export default config;

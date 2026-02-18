@@ -15,6 +15,7 @@
     "sb": "pnpm --filter=@dotoli/storybook",
     "ut": "pnpm --filter=@bbodek/utils",
     "in": "pnpm --filter=@bbodek/internal-ui",
+    "mcp": "pnpm --filter=@dotoli/mcp",
     "release:build": "pnpm turbo run build --filter=!@dotoli/storybook --filter=!@dotoli/rollup-config --filter=!@dotoli/typescript-config --filter=...[HEAD^1]",
     "release": "pnpm changeset publish",
     "release:install": "pnpm install --no-frozen-lockfile",

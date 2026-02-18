@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dotoli-storybook-mcp": {
+      "type": "streamable-http",
+      "url": "http://localhost:6006/mcp"
+    },
+    "dotoli-custom-mcp": {
+      "type": "streamable-http",
+      "url": "http://localhost:13317/mcp"
+    }
+  }
+}

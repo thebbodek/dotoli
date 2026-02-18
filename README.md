@@ -13,6 +13,7 @@ A monorepo for managing shared configurations, utilities, hooks, and UI componen
 - [@bbodek/hooks](https://github.com/thebbodek/dotoli/blob/main/apps/hooks/README.md)
 - [@bbodek/utils](https://github.com/thebbodek/dotoli/blob/main/apps/utils/README.md)
 - [@bbodek/internal-ui](https://github.com/thebbodek/dotoli/blob/main/apps/internal-ui/README.md)
+- [@dotoli/mcp](https://github.com/thebbodek/dotoli/blob/main/apps/mcp/README.md)
 
 ## Usage
 Prerequisites:
@@ -34,6 +35,18 @@ Run storybook development server:
 
 ```sh
 pnpm sb:dev
+```
+
+Run custom MCP server (hooks/utils):
+
+```sh
+pnpm mcp dev
+```
+
+Hybrid MCP server config example:
+
+```sh
+cat .mcp.servers.example.json
 ```
 
 ## Guide
