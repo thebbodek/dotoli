@@ -13,10 +13,16 @@ const useFileDataCleanUpEffect = ({
   useEffect(() => {
     if (!filesRef.current) return;
 
-    return () => {
+    const revokeFile = () => {
       filesRef.current.forEach(
         (file) => isFileData(file) && URL.revokeObjectURL(file.blob),
       );
+    };
+
+    window.addEventListener('beforeunload', revokeFile);
+
+    return () => {
+      window.removeEventListener('beforeunload', revokeFile);
     };
   }, []);
 };
