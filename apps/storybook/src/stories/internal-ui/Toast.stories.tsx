@@ -1,6 +1,8 @@
-import { Button, Toast } from '@bbodek/internal-ui';
+import { Button, InfoDialog, Toast } from '@bbodek/internal-ui';
 import { CreateToastOption, toast } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
+import { overlay } from 'overlay-kit';
+import { Toaster } from 'react-hot-toast';
 
 export interface ToastArgs extends Omit<CreateToastOption, 'type'> {}
 
@@ -107,4 +109,54 @@ export const WithActionAndClose: Story = {
   render: ({ content, ...args }) => (
     <Button label='open toast' onClick={() => toast.info(content, args)} />
   ),
+};
+
+export const WithMultiToaster: Story = {
+  args: {
+    content: '내부 토스트 알림',
+  },
+  render: ({ content, ...args }) => {
+    const openModal = () => {
+      overlay.open(({ isOpen, unmount }) => (
+        <InfoDialog
+          confirmOption={{
+            onConfirm: () => {
+              toast.dismissAll('internal');
+              toast.success('외부 토스트 알림');
+              unmount();
+            },
+          }}
+          isOpen={isOpen}
+          title='토스트 테스트'
+        >
+          <div className='bg-in-gray-02 rounded-in-8 in-flex-h-stack-center relative h-[25.625rem] w-[48.75rem] overflow-hidden'>
+            <Toaster
+              containerStyle={{
+                position: 'absolute',
+                top: 20,
+                left: 20,
+                bottom: 20,
+                right: 20,
+              }}
+              containerClassName='top-0 right-0 w-full h-full'
+              toasterId='internal'
+            />
+            <Button
+              label='open toast'
+              onClick={() => {
+                toast.dismissAll('internal');
+                toast.info(content, { toasterId: 'internal', ...args });
+              }}
+            />
+          </div>
+        </InfoDialog>
+      ));
+    };
+
+    return (
+      <>
+        <Button label='open modal' onClick={openModal} />
+      </>
+    );
+  },
 };
