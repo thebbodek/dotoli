@@ -1,22 +1,39 @@
+import { Typography } from '@bbodek/internal-ui';
+
 import { HighlightTextParams } from '@/highlightText/types';
 
-export const highlightText = ({ text, targetText }: HighlightTextParams) => {
+export const highlightText = ({
+  text,
+  targetText,
+  highlightOptions,
+}: HighlightTextParams) => {
   if (targetText === '' || text === '') return text;
 
-  const regex = new RegExp(`(${targetText})`, 'gi');
+  const escapedTarget = [...targetText]
+    .map((char) => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .join('\\s*');
+  const regex = new RegExp(`(${escapedTarget})`, 'gi');
   const parts = text.split(regex);
 
-  return parts.map((part, index) => {
-    const isTargetText = part.toLowerCase() === targetText.toLowerCase();
+  const result = parts.map((part, index) => {
+    const isMatched = index % 2 === 1;
 
-    if (isTargetText) {
+    if (isMatched) {
+      const { color, className } = highlightOptions ?? {};
+
       return (
-        <span className='text-in-primary-06' key={index}>
+        <Typography
+          className={className}
+          color={highlightOptions ? color : 'primary-06'}
+          key={index}
+        >
           {part}
-        </span>
+        </Typography>
       );
     }
 
     return part;
   });
+
+  return result;
 };
