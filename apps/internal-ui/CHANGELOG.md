@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.66
+
+### Patch Changes
+
+- 6c27ce3: DOTOLI-161 Input required 미노출 버그 수정
+  - @bbodek/utils@0.0.37
+  - @bbodek/hooks@0.0.40
+
 ## 0.0.65
 
 ### Patch Changes
