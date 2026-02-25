@@ -27,7 +27,8 @@ const FilterTrigger = () => {
   return (
     <div
       className={clsx(
-        'rounded-in-8 border-in-gray-02 flex h-8 w-full items-center justify-between gap-x-1 overflow-hidden border bg-white px-4 py-2',
+        'rounded-in-8 flex h-8 w-full items-center justify-between gap-x-1 overflow-hidden border px-4 py-2',
+        !disabled && 'border-in-gray-02 bg-white',
         hasValue && 'border-in-primary-05 text-in-primary-06',
         disabled &&
           'bg-in-gray-02 border-in-gray-04 text-in-gray-04 cursor-not-allowed',
