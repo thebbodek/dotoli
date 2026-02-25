@@ -24055,7 +24055,7 @@ const toggleOptions = [
 ];
 
 export const Default: Story = {
-  render: () => {
+  render: (args) => {
     const [selectValues, setSelectValues] =
       useState<FilterProps['selectValues']>();
     const [toggleValues, setToggleValues] =
@@ -24093,6 +24093,7 @@ export const Default: Story = {
 
     return (
       <Filter
+        {...args}
         label='Filter'
         selectOptions={_selectOptions}
         selectValues={selectValues}
