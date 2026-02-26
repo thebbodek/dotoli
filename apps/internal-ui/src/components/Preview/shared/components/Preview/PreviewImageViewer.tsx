@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import PreviewLoading from '@/components/Preview/shared/components/Preview/PreviewLoading';
 import { PreviewImageViewerProps } from '@/components/Preview/shared/components/Preview/types';
 import { usePreviewImage } from '@/components/Preview/shared/hooks/usePreviewImage';
+import usePreviewImageResetEffect from '@/components/Preview/shared/hooks/usePreviewImage/effects/usePreviewImageCleanUpEffect';
 import { ImageLoadingRenderer } from '@/components/shared';
 
 const PreviewImage = dynamic(
@@ -18,13 +19,15 @@ const PreviewImageViewer = ({
   const {
     status: { isLoading, isError },
     models: { imgSize },
-    operations: { onLoadImage, onError },
+    operations: { onLoadImage, onError, onReset },
   } = usePreviewImage();
 
   const { width: viewerWidth, height: viewerHeight } = viewerSize;
   const { width, height } = imgSize ?? {};
   const useOriginalImageSize =
     !!height && height < viewerHeight && previewOptions.fitMode === null;
+
+  usePreviewImageResetEffect({ file, onReset });
 
   return (
     <ImageLoadingRenderer
