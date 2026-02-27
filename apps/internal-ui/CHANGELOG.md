@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.68
+
+### Patch Changes
+
+- f26e625: DOTOLI-159 SideSheet Component
+  - @bbodek/utils@0.0.39
+  - @bbodek/hooks@0.0.42
+
 ## 0.0.67
 
 ### Patch Changes

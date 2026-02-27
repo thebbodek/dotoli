@@ -1,5 +1,12 @@
 # @bbodek/utils
 
+## 0.0.39
+
+### Patch Changes
+
+- Updated dependencies [f26e625]
+  - @bbodek/internal-ui@0.0.68
+
 ## 0.0.38
 
 ### Patch Changes
