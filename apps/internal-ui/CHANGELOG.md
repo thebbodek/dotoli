@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.69
+
+### Patch Changes
+
+- 3c8a3c1: DOTOLI-167 Filter disabled 스타일 미적용 수정
+  - @bbodek/utils@0.0.40
+  - @bbodek/hooks@0.0.43
+
 ## 0.0.68
 
 ### Patch Changes
