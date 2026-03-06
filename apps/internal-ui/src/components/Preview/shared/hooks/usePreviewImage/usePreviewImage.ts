@@ -23,10 +23,16 @@ const usePreviewImage = (): UsePreviewImageReturnType => {
     setIsLoading(false);
   };
 
+  const onReset = () => {
+    setIsLoading(true);
+    setIsError(false);
+    setImgSize(null);
+  };
+
   return {
     models: { imgSize },
     status: { isLoading, isError },
-    operations: { onLoadImage, onError, setIsLoading, setIsError },
+    operations: { onLoadImage, onError, onReset, setIsLoading, setIsError },
   };
 };
 
