@@ -1,7 +1,9 @@
 import { PersonaProps } from '@/components/Persona';
 import { TooltipProps } from '@/components/Tooltip';
 
-export type AvatarGroupItem = Pick<PersonaProps, 'name' | 'src' | 'type'>;
+export interface AvatarGroupItem extends Pick<PersonaProps, 'src' | 'type'> {
+  name: string;
+}
 
 export interface AvatarGroupProps {
   items: AvatarGroupItem[];
