@@ -36,6 +36,7 @@ export * from './Toast';
 export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';
+export * from './VirtualList';
 
 export { DialogOverlayFormDivider, InputLabel, useStepDialog } from './shared';
 export type {
