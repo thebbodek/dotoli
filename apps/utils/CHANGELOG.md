@@ -1,5 +1,13 @@
 # @bbodek/utils
 
+## 0.0.41
+
+### Patch Changes
+
+- 448a576: DOTOLI-165 accept file ppt type 추가
+- Updated dependencies [d68d449]
+  - @bbodek/internal-ui@0.0.70
+
 ## 0.0.40
 
 ### Patch Changes

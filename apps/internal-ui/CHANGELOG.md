@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.70
+
+### Patch Changes
+
+- d68d449: DOTOLI-164 Preview useFileDataCleanUpEffect 로직 수정
+- Updated dependencies [448a576]
+  - @bbodek/utils@0.0.41
+  - @bbodek/hooks@0.0.44
+
 ## 0.0.69
 
 ### Patch Changes
