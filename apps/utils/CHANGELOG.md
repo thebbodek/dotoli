@@ -1,5 +1,13 @@
 # @bbodek/utils
 
+## 0.0.42
+
+### Patch Changes
+
+- d04d3b3: DOTOLI-168 highlightText highlightOptions 추가
+- bf11677: DOTOLI-166 Toaster id options 추가
+  - @bbodek/internal-ui@0.0.71
+
 ## 0.0.41
 
 ### Patch Changes
