@@ -1,22 +1,26 @@
 import { Toast, TOAST_TYPES, ToastProps } from '@bbodek/internal-ui';
-import { default as _toast, Toast as ReactHotToast } from 'react-hot-toast';
+import { default as toastBase, ToastOptions } from 'react-hot-toast';
 
 import { CreateToastOption, ToastOption } from '@/toast/types';
 
+const { dismiss, dismissAll, custom } = toastBase;
+
 const createToast = ({
-  useClose,
+  id,
+  toasterId,
   duration = 2000,
+  useClose,
   onClose,
   ...props
 }: CreateToastOption) => {
-  const handleClose = ({ id }: Pick<ReactHotToast, 'id'>) => {
+  const handleClose = ({ id }: Pick<ToastOptions, 'id'>) => {
     if (!useClose) return;
 
-    _toast.dismiss(id);
+    dismiss(id);
     onClose?.();
   };
 
-  return _toast.custom(
+  return custom(
     (t) => (
       <Toast
         useClose={useClose}
@@ -32,6 +36,8 @@ const createToast = ({
         role: 'alert',
         'aria-live': 'assertive',
       },
+      id,
+      toasterId,
     },
   );
 };
@@ -53,4 +59,6 @@ export const toast = {
   success,
   warning,
   error,
+  dismiss,
+  dismissAll,
 };
