@@ -1,6 +1,13 @@
 import { useDropzone } from '@bbodek/hooks';
-import { FileUploader, IconButton, Typography } from '@bbodek/internal-ui';
+import {
+  File,
+  FileUploader,
+  PreviewFileData,
+  PreviewMulti,
+} from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
+import { overlay } from 'overlay-kit';
+import { useState } from 'react';
 
 const meta = {
   title: 'core/internal-ui/File/FileUploader',
@@ -66,8 +73,10 @@ export default meta;
 type Story = StoryObj<typeof FileUploader>;
 
 export const Default: Story = {
-  args: { accept: ['png'], disabled: false },
+  args: { disabled: false },
   render: ({ disabled, accept, ...args }) => {
+    const [files, setFiles] = useState<PreviewFileData[]>([]);
+
     const {
       rootProps,
       inputProps,
@@ -77,7 +86,21 @@ export const Default: Story = {
       multiple: true,
       disabled,
       accept,
+      onDropAccepted: ({ acceptedFiles }) => {
+        setFiles(acceptedFiles);
+      },
     });
+
+    const openPreview = ({ file }: { file: PreviewFileData }) => {
+      overlay.open(({ isOpen, unmount }) => (
+        <PreviewMulti
+          files={files}
+          initialFile={file}
+          isOpen={isOpen}
+          onClose={unmount}
+        />
+      ));
+    };
 
     return (
       <div className='in-flex-v-stack w-[360px] max-w-full gap-y-4'>
@@ -89,31 +112,16 @@ export const Default: Story = {
           rejectedFiles={args.rejectedFiles ?? rejectedFiles}
           rootProps={args.rootProps ?? rootProps}
         />
-        {acceptedFiles.map(({ id, blob, name }) => (
-          <div
-            className='rounded-in-6 border-in-gray-03 flex w-full items-center justify-between border p-2'
+        {acceptedFiles.map(({ id, ...file }) => (
+          <File
+            file={{ id, ...file }}
             key={id}
-          >
-            <div className='flex items-center gap-x-2'>
-              <div className='rounded-in-4 h-10 w-10 overflow-hidden'>
-                <img
-                  alt={name}
-                  className='h-full w-full object-cover'
-                  src={blob}
-                />
-              </div>
-              <Typography color='gray-08' variant='body-14-m'>
-                {name}
-              </Typography>
-            </div>
-            <IconButton
-              aria-label='삭제'
-              iconKey='trash'
-              onClick={() => {
-                deleteFile({ id });
-              }}
-            />
-          </div>
+            onDelete={() => {
+              deleteFile({ id });
+              setFiles(files.filter((file) => file.id !== id));
+            }}
+            onPreview={openPreview}
+          />
         ))}
       </div>
     );
