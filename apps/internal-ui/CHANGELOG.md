@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.72
+
+### Patch Changes
+
+- e3e15d7: DOTOLI-169 Persona Profile name, description type 변경
+  - @bbodek/utils@0.0.43
+  - @bbodek/hooks@0.0.46
+
 ## 0.0.71
 
 ### Patch Changes
