@@ -25,6 +25,7 @@ export interface OverlayProps
   variant: OverlayVariant;
   isOpen: boolean;
   dimmed?: boolean;
+  wrapperClassName?: HTMLAttributes<HTMLElement>['className'];
 }
 
 export interface OverlayHeaderProps

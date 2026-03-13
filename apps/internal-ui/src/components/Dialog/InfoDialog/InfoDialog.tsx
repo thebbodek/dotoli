@@ -10,11 +10,19 @@ const InfoDialog = ({
   className,
   isLoading,
   confirmOption,
+  slot,
+  wrapperClassName,
 }: InfoDialogProps) => {
   const { label: confirmLabel = '닫기', onConfirm } = confirmOption;
 
   return (
-    <Dialog className={className} isOpen={isOpen} ref={ref}>
+    <Dialog
+      className={className}
+      isOpen={isOpen}
+      ref={ref}
+      slot={slot}
+      wrapperClassName={wrapperClassName}
+    >
       <Dialog.Header>
         <OverlayTitle title={title} />
       </Dialog.Header>

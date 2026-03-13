@@ -23,10 +23,10 @@ const Overlay = ({
   dimmed = false,
   children,
   ref,
-  ...props
+  className,
+  wrapperClassName,
+  ...rest
 }: PropsWithChildren<OverlayProps>) => {
-  const { className, ...rest } = props;
-
   useScrollLockEffect({ isLocked: isOpen });
 
   if (!isOpen || !children) return null;
@@ -54,6 +54,7 @@ const Overlay = ({
         {cloneElement(_children, {
           className: clsx(
             _children.props.className,
+            wrapperClassName,
             OVERLAY_CONTENT_SIZE[variant],
           ),
         })}

@@ -16,9 +16,17 @@ const FormDialog = ({
   possibleConfirm,
   isPending,
   isLoading,
+  slot,
+  wrapperClassName,
 }: FormDialogProps) => {
   return (
-    <Dialog className={className} isOpen={isOpen} ref={ref}>
+    <Dialog
+      className={className}
+      isOpen={isOpen}
+      ref={ref}
+      slot={slot}
+      wrapperClassName={wrapperClassName}
+    >
       <Dialog.Header>
         <OverlayTitle title={title} />
       </Dialog.Header>
