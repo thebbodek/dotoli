@@ -4,8 +4,9 @@ import { ElementType, PropsWithChildren } from 'react';
 import { VirtualListItemBaseProps } from '@/components/VirtualList/shared/types';
 
 const VirtualListItemBase = <T extends ElementType = 'div'>({
+  ref,
   as,
-  style,
+  style = {},
   topPosition,
   className,
   children,
@@ -22,6 +23,7 @@ const VirtualListItemBase = <T extends ElementType = 'div'>({
         ...style,
         transform: `translateY(${topPosition}px)`,
       }}
+      ref={ref}
     >
       {children}
     </Component>
