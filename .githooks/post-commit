@@ -6,12 +6,11 @@ if [ "$SKIP_HOOKS" = "true" ]; then
 fi
 
 export SKIP_HOOKS=true
-COMMIT_MSG=$(git log origin/main..HEAD --reverse --pretty=format:"%s%n%b%n%n")
 
-node .githooks/scripts/changeset.js "$COMMIT_MSG"
+node .githooks/scripts/changeset.js
 
 if ls .changeset/*.md > /dev/null 2>&1; then
-  git add .
+  git add .changeset/
   git commit --amend --no-edit
 fi
 

@@ -4,12 +4,16 @@ const { execSync } = require('child_process');
 
 const TARGET_DIRS = ['packages', 'apps'];
 const IGNORE_DIRS = ['rollup-config', 'typescript-config', 'storybook'];
+const COMMIT_HASH_DELIMITER = '__';
+const MAIN_BRANCH = 'origin/main';
 
-function getChangedFiles() {
+// 직전의 커밋과 비교하여 변경된 파일 경로 반환
+function getChangedFiles({ targetBranch, commitHash }) {
   try {
-    const diff = execSync('git diff --name-only origin/main', {
-      encoding: 'utf8',
-    }).trim();
+    const diff = execSync(
+      `git diff --name-only ${targetBranch} ${commitHash}`,
+      { encoding: 'utf8' },
+    ).trim();
 
     return diff.split('\n').filter(Boolean);
   } catch (e) {
@@ -17,9 +21,9 @@ function getChangedFiles() {
   }
 }
 
-// 변경 패키지 경로
-function getChangedPackagePaths() {
-  const files = getChangedFiles();
+// 변경 패키지 이름 배열 반환
+function getChangedPackageNames({ targetBranch, commitHash }) {
+  const files = getChangedFiles({ targetBranch, commitHash });
   const changedPackages = new Set();
 
   files.forEach((file) => {
@@ -32,7 +36,9 @@ function getChangedPackagePaths() {
     changedPackages.add(`${root}/${name}`);
   });
 
-  return Array.from(changedPackages);
+  return Array.from(changedPackages).map((path) =>
+    findPackageName({ dirPath: path }),
+  );
 }
 
 // 변경 패키지 이름 매칭
@@ -52,14 +58,29 @@ function findPackageName({ dirPath }) {
   }
 }
 
+// main 브랜치와 비교하여 변경된 커밋 메시지, 커밋해시 배열 반환
+function getChangedCommits() {
+  const commitMessages = execSync(
+    `git log origin/main..HEAD --reverse --pretty=format:"%s${COMMIT_HASH_DELIMITER}%h"`,
+    { encoding: 'utf8' },
+  ).trim();
+  const commits = commitMessages.split('\n').filter(Boolean);
+
+  return commits.map((commit) => {
+    const [commitMessage, commitHash] = commit.split(COMMIT_HASH_DELIMITER);
+
+    return { commitMessage, commitHash };
+  });
+}
+
 // changeset .md 내용 생성
-function getChangesetContent({ packageNames, summary }) {
+function getChangesetContent({ packageNames, commitMessage }) {
   const lines = [
     '---',
     ...packageNames.map((name) => `'${name}': patch`),
     '---',
     '',
-    summary,
+    commitMessage,
     '',
   ];
 
@@ -70,18 +91,19 @@ function getChangesetContent({ packageNames, summary }) {
 function createChangeset({ content }) {
   try {
     const changesetPath = path.join(process.cwd(), '.changeset');
-    const changesetId = Math.random().toString(36).substring(2, 10);
-    const file = path.join(changesetPath, `${changesetId}.md`);
+    const uniqueFileName = Math.random().toString(36).substring(2, 10);
+    const file = path.join(changesetPath, `${uniqueFileName}.md`);
 
     fs.writeFileSync(file, content);
-    console.log(`✨ 생성 완료: .changeset/${changesetId}.md\n`);
+
+    return `.changeset/${uniqueFileName}.md`;
   } catch (e) {
     console.error('changeset 파일 생성 실패:', e);
-    return;
+    return '';
   }
 }
 
-// changeset.md 파일 모두 제거
+// 전체 changeset.md 파일 삭제
 function cleanChangeset() {
   const changesetPath = path.join(process.cwd(), '.changeset');
   const hasChangesetDir = fs.existsSync(changesetPath);
@@ -97,27 +119,52 @@ function cleanChangeset() {
     });
 }
 
-function main({ commitMessage }) {
+function main() {
   cleanChangeset();
 
-  console.log('\n📦 변경된 패키지:');
-  const changedPackagePaths = getChangedPackagePaths();
+  const commits = getChangedCommits();
+  let changedPackageNames = [];
+  let createdFilePaths = [];
 
-  if (changedPackagePaths.length === 0) {
+  commits.forEach(({ commitMessage, commitHash }, index) => {
+    const isFirstCommit = index === 0;
+    const targetBranch = isFirstCommit
+      ? MAIN_BRANCH
+      : commits[index - 1].commitHash;
+    const packageNames = getChangedPackageNames({ targetBranch, commitHash });
+
+    if (packageNames.length === 0) return;
+
+    const filteredPackageNames = packageNames.filter(
+      (name) => !changedPackageNames.includes(name),
+    );
+
+    changedPackageNames = [...changedPackageNames, ...filteredPackageNames];
+
+    const content = getChangesetContent({ packageNames, commitMessage });
+    const createdFilePath = createChangeset({ content });
+
+    if (createdFilePath) {
+      createdFilePaths.push(createdFilePath);
+    }
+  });
+
+  console.log('\n📦 변경된 패키지:');
+  if (changedPackageNames.length !== 0) {
+    changedPackageNames.forEach((packageName) => {
+      console.log(`   ✔︎ ${packageName}`);
+    });
+  } else {
     console.log('   ✔︎ 없음');
-    return;
   }
 
-  const changedPackagesNames = changedPackagePaths.map((path) => {
-    console.log(`   ✔︎ ${path}`);
-    return findPackageName({ dirPath: path });
-  });
-  const content = getChangesetContent({
-    packageNames: changedPackagesNames,
-    summary: commitMessage,
-  });
-
-  createChangeset({ content });
+  if (createdFilePaths.length !== 0) {
+    console.log('\n✨ 생성 완료:');
+    createdFilePaths.forEach((filePath) => {
+      console.log(`   ✔︎ ${filePath}`);
+    });
+  }
+  console.log('\n');
 }
 
-main({ commitMessage: process.argv[2] });
+main();
