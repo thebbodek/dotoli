@@ -10,11 +10,19 @@ import { Overlay, OVERLAY_VARIANTS, OverlayDivider } from '@/components/shared';
 const Dialog = ({
   isOpen,
   ref,
+  slot,
+  wrapperClassName,
   children,
   className,
 }: PropsWithChildren<DialogProps>) => {
   return (
-    <Overlay isOpen={isOpen} ref={ref} variant={OVERLAY_VARIANTS.MODAL} dimmed>
+    <Overlay
+      isOpen={isOpen}
+      ref={ref}
+      variant={OVERLAY_VARIANTS.MODAL}
+      wrapperClassName={wrapperClassName}
+      dimmed
+    >
       <div
         className={clsx(
           className,
@@ -23,6 +31,7 @@ const Dialog = ({
       >
         {children}
       </div>
+      {slot && slot}
     </Overlay>
   );
 };
