@@ -89,3 +89,27 @@ export interface InputIconButtonProps
       'disabled' | 'onClick' | 'type' | 'className' | 'aria-label'
     >,
     Pick<IconProps, 'iconKey' | 'weight'> {}
+
+export interface InputFieldBaseProps
+  extends Pick<InputLabelProps, 'required'>,
+    Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
+    Pick<InputContextProps, 'isError'>,
+    Pick<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  label?: ReactNode;
+  feedback?: string;
+  disabled?: boolean;
+  hiddenLabel?: InputLabelProps['hidden'];
+}
+
+export interface InputFieldBaseLabelProps {
+  required?: boolean;
+}
+
+export interface InputFieldBaseContextProps
+  extends InputContextProps,
+    Pick<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  disabled?: boolean;
+}
+
+export interface InputFieldBaseProviderProps
+  extends InputFieldBaseContextProps {}
