@@ -9,6 +9,8 @@ const RadioBase = ({
   className,
   onChange,
   children,
+  value,
+  name,
 }: PropsWithChildren<RadioBaseProps>) => {
   const id = useId();
   const labelId = `${id}-label`;
@@ -27,7 +29,9 @@ const RadioBase = ({
         className='radio peer hidden'
         disabled={disabled}
         id={id}
+        name={name}
         type='radio'
+        value={value}
         onChange={onChange}
       />
       {children}

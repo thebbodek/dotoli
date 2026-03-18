@@ -100,10 +100,9 @@ export interface InputFieldBaseProps
   extends Pick<InputLabelProps, 'required'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<InputContextProps, 'isError'>,
-    Pick<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+    Pick<InputFieldBaseContextProps, 'disabled' | 'onChange'> {
   label?: ReactNode;
   feedback?: string;
-  disabled?: boolean;
   hiddenLabel?: InputLabelProps['hidden'];
 }
 
@@ -113,9 +112,8 @@ export interface InputFieldBaseLabelProps {
 
 export interface InputFieldBaseContextProps
   extends InputContextProps,
-    Pick<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
-  disabled?: boolean;
-}
+    Pick<InputHTMLAttributes<HTMLInputElement>, 'disabled'>,
+    Required<Pick<InputHTMLAttributes<HTMLInputElement>, 'onChange'>> {}
 
 export interface InputFieldBaseProviderProps
   extends InputFieldBaseContextProps {}
