@@ -1,9 +1,8 @@
-import clsx from 'clsx';
 import { PropsWithChildren, useId } from 'react';
 
 import { InputFieldBaseProvider } from '@/components/Input/shared/context/InputFieldBaseProvider';
 import { InputFieldBaseProps } from '@/components/Input/shared/types';
-import { InputFeedback } from '@/components/shared';
+import { InputFeedback, InputLabel } from '@/components/shared';
 
 const InputFieldBase = ({
   label,
@@ -18,16 +17,11 @@ const InputFieldBase = ({
   const feedbackId = useId();
 
   return (
-    <fieldset className='in-flex-h-stack gap-1'>
-      <legend
-        className={clsx(
-          'text-in-gray-06 body-14-m',
-          required && 'before:text-in-primary-06 before:content-["*"]',
-          hiddenLabel && 'sr-only',
-        )}
-      >
+    <fieldset className='in-flex-v-stack gap-y-0.5'>
+      <legend className='sr-only'>{label}</legend>
+      <InputLabel hidden={hiddenLabel} required={required} aria-hidden>
         {label}
-      </legend>
+      </InputLabel>
       <InputFieldBaseProvider
         disabled={disabled}
         feedbackId={feedbackId}

@@ -14,6 +14,8 @@ const Radio = ({
   label,
   className,
   onChange,
+  value,
+  name,
 }: RadioProps) => {
   const id = useId();
   const labelId = `${id}-label`;
@@ -23,6 +25,8 @@ const Radio = ({
       checked={checked}
       className={clsx(className, label && 'flex items-center gap-x-2')}
       disabled={disabled}
+      name={name}
+      value={value}
       onChange={onChange}
     >
       <RadioIcon size={size} />
