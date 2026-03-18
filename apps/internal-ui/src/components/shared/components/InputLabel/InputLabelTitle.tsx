@@ -16,7 +16,7 @@ const InputLabelText = ({
         className,
         required && 'before:text-in-primary-06 before:content-["*"]',
       )}
-      color='gray-07'
+      color='gray-06'
       id={id}
       variant='body-14-m'
     >
