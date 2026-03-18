@@ -5,7 +5,10 @@ import { RADIO_SIZES } from '@/components/Radio/constants';
 export type RadioSize = (typeof RADIO_SIZES)[keyof typeof RADIO_SIZES];
 
 export interface RadioBaseProps
-  extends Pick<InputHTMLAttributes<HTMLInputElement>, 'disabled' | 'className'>,
+  extends Pick<
+      InputHTMLAttributes<HTMLInputElement>,
+      'disabled' | 'className' | 'value' | 'name'
+    >,
     Required<
       Pick<InputHTMLAttributes<HTMLInputElement>, 'checked' | 'onChange'>
     > {}
