@@ -1,4 +1,4 @@
-import { FormEvent, useId, useState } from 'react';
+import { FormEvent, KeyboardEvent, useId, useState } from 'react';
 
 import { InputSearchProps } from '@/components/Input/InputSearch/types';
 import {
@@ -27,6 +27,7 @@ const InputSearch = ({
   onChange,
   regCallback,
   onSubmit,
+  onEnter,
   ...rest
 }: InputSearchProps) => {
   const id = useId();
@@ -39,6 +40,15 @@ const InputSearch = ({
     regCallback,
     maxLength,
   });
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (isDisabled) return;
+
+    if (e.key === 'Enter' && onEnter) {
+      e.preventDefault();
+      onEnter();
+    }
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     if (isDisabled) return;
@@ -81,6 +91,7 @@ const InputSearch = ({
         value={inputValue}
         variant={INPUT_TRIGGER_VARIANTS.SEARCH}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         onReset={handleReset}
         {...rest}
       />

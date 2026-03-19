@@ -3,4 +3,6 @@ import { InputBaseProps } from '@/components/Input/shared';
 
 export interface InputSearchProps
   extends Omit<InputFieldProps, 'type'>,
-    Pick<InputBaseProps, 'onSubmit'> {}
+    Pick<InputBaseProps, 'onSubmit'> {
+  onEnter?: () => void;
+}

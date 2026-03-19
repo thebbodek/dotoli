@@ -6,6 +6,7 @@ import {
   FormEvent,
   HTMLAttributes,
   InputHTMLAttributes,
+  KeyboardEventHandler,
   ReactNode,
   SetStateAction,
 } from 'react';
@@ -54,7 +55,11 @@ export interface InputDefaultProps<
     ComponentPropsRef<P>,
     Pick<
       InputHTMLAttributes<HTMLInputElement>,
-      'placeholder' | 'disabled' | 'readOnly' | 'name' | 'autoComplete'
+      | 'placeholder'
+      | 'disabled'
+      | 'readOnly'
+      | 'name'
+      | 'autoComplete'
     > {
   as?: T;
   addonEnd?: ReactNode;
@@ -63,6 +68,7 @@ export interface InputDefaultProps<
   onReset?: () => void;
   isFocused: boolean;
   setIsFocused: Dispatch<SetStateAction<boolean>>;
+  onKeyDown?: KeyboardEventHandler<HTMLElement>;
   maxLength?: number;
   inputClassName?: HTMLAttributes<P>['className'];
 }
