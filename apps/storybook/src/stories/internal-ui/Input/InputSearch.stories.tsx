@@ -36,6 +36,10 @@ const meta = {
       description: 'Input Search onSubmit',
       type: 'function',
     },
+    onEnter: {
+      description: 'Input Search onEnter',
+      type: 'function',
+    },
     hiddenLabel,
     feedback,
     badge,
@@ -85,6 +89,24 @@ export const WithSubmit: Story = {
         onSubmit={(e) => {
           e.preventDefault();
           alert('submit!');
+        }}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
+  },
+};
+
+export const WithEnter: Story = {
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <InputSearch
+        {...args}
+        className='w-[300px]'
+        value={value}
+        onEnter={() => {
+          alert('enter!');
         }}
         onChange={(e) => setValue(e.target.value)}
       />
