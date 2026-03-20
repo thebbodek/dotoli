@@ -13,6 +13,8 @@ const Checkbox = ({
   label,
   className,
   onChange,
+  name,
+  value,
 }: CheckboxProps) => {
   const id = useId();
   const labelId = `${id}-label`;
@@ -33,7 +35,9 @@ const Checkbox = ({
         className='checkbox peer hidden'
         disabled={disabled}
         id={id}
+        name={name}
         type='checkbox'
+        value={value}
         onChange={onChange}
       />
       <CheckboxIcon size={size} />

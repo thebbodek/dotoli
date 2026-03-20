@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext } from 'react';
 
-import { InputToggleFieldContextValue } from '@/index';
+import { InputToggleFieldContextValue } from '@/components/Input/InputToggleField/types';
 
 const createInputToggleFieldContext = () =>
   createContext<InputToggleFieldContextValue | undefined>(undefined);
