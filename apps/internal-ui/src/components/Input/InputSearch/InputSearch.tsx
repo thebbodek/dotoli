@@ -76,7 +76,7 @@ const InputSearch = ({
             aria-label='검색'
             disabled={isDisabled}
             iconKey='magnifying-glass'
-            type='submit'
+            type={!onEnter ? 'submit' : 'button'}
             weight='bold'
           />
         }
