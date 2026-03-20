@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.73
+
+### Patch Changes
+
+- c7516b8: DOTOLI-178 InputSearch onEnter 추가
+  - @bbodek/utils@0.0.44
+  - @bbodek/hooks@0.0.47
+
 ## 0.0.72
 
 ### Patch Changes
