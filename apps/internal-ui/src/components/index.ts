@@ -37,7 +37,12 @@ export * from './Toggle';
 export * from './Tooltip';
 export * from './Typography';
 
-export { DialogOverlayFormDivider, InputLabel, useStepDialog } from './shared';
+export {
+  DialogOverlayFormDivider,
+  InputLabel,
+  OverlayTitle,
+  useStepDialog,
+} from './shared';
 export type {
   ChildrenElement,
   ComponentPropsRef,

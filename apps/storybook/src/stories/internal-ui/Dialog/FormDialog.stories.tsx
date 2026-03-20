@@ -1,5 +1,13 @@
-import { Button, FormDialog, FormDialogProps } from '@bbodek/internal-ui';
+import {
+  Button,
+  DialogHeader,
+  FormDialog,
+  FormDialogProps,
+  IconButton,
+  OverlayTitle,
+} from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
+import clsx from 'clsx';
 import { useState } from 'react';
 
 import {
@@ -32,7 +40,10 @@ const {
 } = ConfirmModalMeta.argTypes;
 
 export interface FormDialogArgs
-  extends Pick<ConfirmModalArgs, keyof FormDialogProps>,
+  extends Pick<
+      ConfirmModalArgs,
+      keyof Omit<FormDialogProps, 'slot' | 'wrapperClassName'>
+    >,
     Pick<
       ConfirmModalArgs,
       | 'confirmLabel'
@@ -41,7 +52,8 @@ export interface FormDialogArgs
       | 'confirmTooltipUseTooltip'
       | 'cancelLabel'
       | 'onCancel'
-    > {}
+    >,
+    Pick<FormDialogProps, 'slot' | 'wrapperClassName'> {}
 
 const meta = {
   title: 'core/internal-ui/Dialog/FormDialog',
@@ -54,6 +66,23 @@ const meta = {
     title: {
       ...title,
       description: 'dialog title',
+    },
+    slot: {
+      control: 'object',
+      description: 'dialog slot',
+      type: {
+        name: 'other',
+        value: 'ReactNode',
+      },
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
+    wrapperClassName: {
+      description: 'dialog wrapper className',
+      type: 'string',
     },
     confirmOption,
     confirmLabel,
@@ -109,17 +138,35 @@ const Dialog = ({
         onCancel,
       };
 
+  const [isSlotOpen, setIsSlotOpen] = useState(false);
+
   return (
     <FormDialog
       {...args}
+      slot={
+        isSlotOpen && (
+          <div className='bg-in-white rounded-in-16 animate-in-fade-in w-[22.5rem]'>
+            <DialogHeader className='flex items-center justify-between'>
+              <OverlayTitle title='title' />
+              <IconButton
+                aria-label='닫기'
+                iconKey='x'
+                onClick={() => setIsSlotOpen(false)}
+              />
+            </DialogHeader>
+          </div>
+        )
+      }
       cancelOption={{ ...cancelOption, onCancel: close }}
       className='w-[31.125rem]'
       confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
       isOpen={isOpen}
       isPending={args.isPending || isPending}
       possibleConfirm={args.possibleConfirm ?? !hasError}
+      wrapperClassName={clsx(isSlotOpen && 'flex gap-x-3')}
     >
       <FormContent handleChange={handleChange} values={values} />
+      <Button label='슬롯 열기' onClick={() => setIsSlotOpen(true)} />
     </FormDialog>
   );
 };
