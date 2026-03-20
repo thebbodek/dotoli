@@ -1,3 +1,4 @@
+export * from './InputCheckboxField';
 export * from './InputField';
 export * from './InputPassword';
 export * from './InputRadioField';

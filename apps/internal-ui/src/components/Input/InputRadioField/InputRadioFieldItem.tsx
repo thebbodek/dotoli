@@ -1,6 +1,6 @@
+import { useInputRadioFieldContext } from '@/components/Input/InputRadioField/context';
 import { InputRadioFieldItemProps } from '@/components/Input/InputRadioField/types';
-import { useInputFieldBaseContext } from '@/components/Input/shared/context/InputFieldBaseProvider';
-import { useInputRadioFieldContext } from '@/components/Input/shared/context/InputRadioFieldContext';
+import { useInputFieldBaseContext } from '@/components/Input/shared/context/InputFieldBaseContext';
 import { Radio } from '@/components/Radio';
 
 const InputRadioFieldItem = <T extends string>({

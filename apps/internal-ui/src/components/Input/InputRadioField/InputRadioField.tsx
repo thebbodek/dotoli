@@ -1,9 +1,9 @@
 import { PropsWithChildren } from 'react';
 
+import { InputRadioFieldProvider } from '@/components/Input/InputRadioField/context';
 import InputRadioFieldGroup from '@/components/Input/InputRadioField/InputRadioFieldGroup';
 import InputRadioFieldItem from '@/components/Input/InputRadioField/InputRadioFieldItem';
 import { InputRadioFieldProps } from '@/components/Input/InputRadioField/types';
-import { InputRadioFieldProvider } from '@/components/Input/shared/context/InputRadioFieldContext';
 import InputFieldBase from '@/components/Input/shared/InputFieldBase';
 import { RADIO_SIZES } from '@/components/Radio';
 

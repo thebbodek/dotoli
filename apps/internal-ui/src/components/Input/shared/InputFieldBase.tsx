@@ -1,6 +1,6 @@
 import { PropsWithChildren, useId } from 'react';
 
-import { InputFieldBaseProvider } from '@/components/Input/shared/context/InputFieldBaseProvider';
+import { InputFieldBaseProvider } from '@/components/Input/shared/context/InputFieldBaseContext';
 import { InputFieldBaseProps } from '@/components/Input/shared/types';
 import { InputFeedback, InputLabel } from '@/components/shared';
 
