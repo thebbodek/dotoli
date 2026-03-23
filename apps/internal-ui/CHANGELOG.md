@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.75
+
+### Patch Changes
+
+- 9f29893: DOTOLI-173 Dialog slot props 추가
+- 9f29893: DOTOLI-170 VirtualList Component
+  - @bbodek/utils@0.0.46
+  - @bbodek/hooks@0.0.49
+
 ## 0.0.74
 
 ### Patch Changes
