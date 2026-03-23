@@ -86,7 +86,7 @@ export const PREVIEW_RESPONSE_STYLES = {
   },
   DESKTOP: {
     WRAPPER:
-      'in-flex-v-stack-center px-[6.25rem] py-[4.375rem] max-w-in-desktop',
+      'in-flex-v-stack-center px-[6.25rem] py-[4.375rem] max-w-in-max-desktop',
     CONTAINER: 'rounded-in-12',
     HEADER: 'justify-between py-2.5 pl-5 pr-3',
     VIEWER_WRAPPER: 'flex-1',

@@ -154,9 +154,12 @@
   --breakpoint-in-mobile: 22.5rem;
   --breakpoint-in-tablet: 51.25rem;
   --breakpoint-in-desktop: 73.75rem;
-  --container-in-mobile: 51.1875rem;
-  --container-in-tablet: 73.6875rem;
-  --container-in-desktop: 120rem;
+  --container-in-mobile: 22.5rem;
+  --container-in-tablet: 51.25rem;
+  --container-in-desktop: 73.75rem;
+  --container-in-max-mobile: 51.1875rem;
+  --container-in-max-tablet: 73.6875rem;
+  --container-in-max-desktop: 120rem;
 
   --animate-in-fade-in: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
   --animate-in-fade-in-select: fade-in 0.3s ease;
