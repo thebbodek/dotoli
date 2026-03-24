@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.77
+
+### Patch Changes
+
+- cc13ff2: DOTOLI-181 Button hover style disabled 시 제거
+  - @bbodek/utils@0.0.48
+  - @bbodek/hooks@0.0.51
+
 ## 0.0.76
 
 ### Patch Changes
