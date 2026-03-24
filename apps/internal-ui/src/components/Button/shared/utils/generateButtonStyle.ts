@@ -58,7 +58,7 @@ export const generateButtonStyle = ({
       getShapeStyle({ style: BUTTON_SIZE_STYLES[size] }),
       responsiveStyles.map((style) => getShapeStyle({ style })),
     ],
-    themeStyles,
+    Object.values(themeStyles),
     variant === BUTTON_VARIANTS.OUTLINED && 'border',
     disabled
       ? `${disabledStyle} cursor-not-allowed`
