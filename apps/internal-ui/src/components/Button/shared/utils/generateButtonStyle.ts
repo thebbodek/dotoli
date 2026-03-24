@@ -31,11 +31,9 @@ export const generateButtonStyle = ({
     responsive,
     styles: BUTTON_SIZE_RESPONSIVE_STYLES,
   });
-  const {
-    default: defaultStyle,
-    disabled: disabledStyle,
-    ...themeStyles
-  } = (BUTTON_STYLES[theme][variant] ?? {}) as ButtonStyles;
+  const { disabled: disabledStyle, ...themeStyles } = (BUTTON_STYLES[theme][
+    variant
+  ] ?? {}) as ButtonStyles;
 
   const getShapeStyle = ({ style }: { style: ButtonSizeStyle }) => {
     return variant === BUTTON_VARIANTS.TEXT
@@ -58,10 +56,9 @@ export const generateButtonStyle = ({
       getShapeStyle({ style: BUTTON_SIZE_STYLES[size] }),
       responsiveStyles.map((style) => getShapeStyle({ style })),
     ],
-    Object.values(themeStyles),
     variant === BUTTON_VARIANTS.OUTLINED && 'border',
     disabled
-      ? `${disabledStyle} cursor-not-allowed`
-      : `${defaultStyle} cursor-pointer`,
+      ? [disabledStyle, 'cursor-not-allowed']
+      : [Object.values(themeStyles), 'cursor-pointer'],
   );
 };
