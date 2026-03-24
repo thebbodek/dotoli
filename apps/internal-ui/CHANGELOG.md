@@ -1,5 +1,17 @@
 # @bbodek/internal-ui
 
+## 0.0.76
+
+### Patch Changes
+
+- ac6fa79: DOTOLI-179 theme.css container 기준값 변경
+- dc9a7bf: DOTOLI-163 DynamicVirtualList Component
+- dc9a7bf: DOTOLI-171 VirtualList 공통 로직 분리
+- 4d88a37: DOTOLI-181 Button hover, active style 미반영 이슈 수정
+- 62d9f35: DOTOLI-180 AvatarBase Component export
+  - @bbodek/utils@0.0.47
+  - @bbodek/hooks@0.0.50
+
 ## 0.0.75
 
 ### Patch Changes
