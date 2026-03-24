@@ -9,14 +9,15 @@ const ImageComponent = ({
   return (
     <>
       {isLoading && (
-        <div className='flex aspect-video w-[9.375rem] items-center justify-center'>
-          Loading Image...
+        <div className='text-in-body-14-r rounded-in-6 bg-in-gray-02 flex aspect-video min-w-[9.375rem] items-center justify-center text-center'>
+          Loading
+          <br /> Image...
         </div>
       )}
       <img
         className={clsx(
-          'aspect-video',
-          isLoading ? 'hidden' : 'rounded-in-6 block',
+          'aspect-video object-cover',
+          isLoading ? 'hidden' : 'rounded-in-6 block min-w-[9.375rem]',
         )}
         alt=''
         src={src}

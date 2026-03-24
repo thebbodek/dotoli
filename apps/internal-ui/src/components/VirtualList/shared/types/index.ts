@@ -34,7 +34,8 @@ export interface VirtualListPrimitiveProps<
 }
 
 export interface VirtualListItemBaseProps<T extends ElementType = 'div'>
-  extends Pick<HTMLAttributes<HTMLElement>, 'className' | 'style'> {
+  extends Pick<HTMLAttributes<HTMLElement>, 'className' | 'style'>,
+    ComponentPropsRef<HTMLElement> {
   as?: T;
   topPosition: number;
 }
