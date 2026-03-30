@@ -1,4 +1,4 @@
-import { ButtonProps, IconButtonProps } from '@/components/Button';
+import { ButtonProps } from '@/components/Button';
 import { CalendarVariants } from '@/components/Calendar';
 import { FILTER_STEPS, FILTER_TYPES } from '@/components/Filter/constants';
 import {
@@ -64,11 +64,6 @@ export interface FilterPanelContextValue {
 }
 
 export interface FilterHeaderProps extends SelectBaseChildrenProps {}
-
-export interface FilterCloseButtonProps
-  extends Pick<IconButtonProps, 'className'> {
-  onClose: IconButtonProps['onClick'];
-}
 
 export interface FilterHeaderCloseButtonProps extends SelectBaseChildrenProps {}
 

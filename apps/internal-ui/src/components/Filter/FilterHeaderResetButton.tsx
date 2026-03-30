@@ -1,12 +1,7 @@
-import {
-  Button,
-  BUTTON_SIZES,
-  BUTTON_THEMES,
-  BUTTON_VARIANTS,
-} from '@/components/Button';
 import { FILTER_STEPS } from '@/components/Filter/constants';
 import { useFilterContext } from '@/components/Filter/context';
 import { useFilterPanelContext } from '@/components/Filter/context/useFilterPanelContext';
+import MultiSelectResetButton from '@/components/Select/Multi/shared/MultiSelectResetButton';
 
 const FilterHeaderResetButton = () => {
   const {
@@ -39,16 +34,7 @@ const FilterHeaderResetButton = () => {
     });
   };
 
-  return (
-    <Button
-      iconOption={{ iconKey: 'arrow-clockwise' }}
-      label='초기화'
-      size={BUTTON_SIZES.SM}
-      theme={BUTTON_THEMES.GRAY}
-      variant={BUTTON_VARIANTS.OUTLINED}
-      onClick={handleClick}
-    />
-  );
+  return <MultiSelectResetButton onReset={handleClick} />;
 };
 
 export default FilterHeaderResetButton;

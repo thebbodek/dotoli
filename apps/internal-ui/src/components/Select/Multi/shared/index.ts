@@ -1,9 +1,16 @@
-export { default as MultiSelectBase } from '../shared/MultiSelectBase';
-export { default as MultiSelectBaseCheckIcon } from '../shared/MultiSelectBaseCheckIcon';
-export { default as MultiSelectBaseList } from '../shared/MultiSelectBaseList';
-export { default as MultiSelectBaseListItem } from '../shared/MultiSelectBaseListItem';
-export { default as MultiSelectBaseResultPanel } from '../shared/MultiSelectBaseResultPanel';
-export { default as MultiSelectBaseSelectedList } from '../shared/MultiSelectBaseSelectedList';
+export { default as MultiSelectBase } from './MultiSelectBase';
+export { default as MultiSelectBaseCheckIcon } from './MultiSelectBaseCheckIcon';
+export { default as MultiSelectBaseList } from './MultiSelectBaseList';
+export { default as MultiSelectBaseListItem } from './MultiSelectBaseListItem';
+export { default as MultiSelectBaseResultPanel } from './MultiSelectBaseResultPanel';
+export { default as MultiSelectBaseSelectedList } from './MultiSelectBaseSelectedList';
+export { default as MultiSelectCloseButton } from './MultiSelectCloseButton';
+export { default as MultiSelectHeader } from './MultiSelectHeader';
+export { default as MultiSelectHeaderTitle } from './MultiSelectHeaderTitle';
+export { default as MultiSelectResetButton } from './MultiSelectResetButton';
+export { default as MultiSelectSearchPanelBase } from './MultiSelectSearchPanelBase';
+
 export * from './constants';
+export * from './context';
 export * from './types';
 export * from './utils';

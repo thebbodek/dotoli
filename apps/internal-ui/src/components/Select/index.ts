@@ -1,5 +1,5 @@
 export * from './Multi';
-export { SELECT_TYPE } from './shared';
+export { SELECT_TYPE, SelectBase, useSelectTriggerContext } from './shared';
 export type {
   SelectBaseChildrenProps,
   SelectBaseLabelProps,

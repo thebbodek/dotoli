@@ -1,7 +1,7 @@
 import { FILTER_STEPS } from '@/components/Filter/constants';
 import { useFilterPanelContext } from '@/components/Filter/context/useFilterPanelContext';
-import FilterCloseButton from '@/components/Filter/FilterCloseButton';
 import { FilterHeaderCloseButtonProps } from '@/components/Filter/types';
+import { MultiSelectCloseButton } from '@/components/Select/Multi/shared';
 
 const FilterHeaderCloseButton = ({ close }: FilterHeaderCloseButtonProps) => {
   const { setFilterStep, setCurrentSelectValue } = useFilterPanelContext();
@@ -13,7 +13,7 @@ const FilterHeaderCloseButton = ({ close }: FilterHeaderCloseButtonProps) => {
   };
 
   return (
-    <FilterCloseButton
+    <MultiSelectCloseButton
       className='text-in-gray-06 in-tablet:block ml-2 hidden'
       onClose={handleClose}
     />
