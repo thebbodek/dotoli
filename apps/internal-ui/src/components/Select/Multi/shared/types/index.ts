@@ -6,6 +6,7 @@ import {
   SetStateAction,
 } from 'react';
 
+import { ButtonProps, IconButtonProps } from '@/components/Button';
 import { InputSearchProps } from '@/components/Input';
 import {
   SelectBaseItemProps,
@@ -71,6 +72,7 @@ export interface MultiSelectBaseContextValue<T extends MultiSelectBaseValue> {
   onSelect: ({ key }: Pick<MultiSelectInternalOption<T>, 'key'>) => void;
   onRemove: ({ key }: Pick<MultiSelectInternalOption<T>, 'key'>) => void;
   internalOptions: MultiSelectInternalOption<T>[];
+  filteredInternalOptions: MultiSelectInternalOption<T>[];
   onAllSelect: (e: ChangeEvent<HTMLInputElement>) => void;
   selectListResultId: string;
   selectedListResultId: string;
@@ -82,6 +84,7 @@ export interface MultiSelectBaseContextValue<T extends MultiSelectBaseValue> {
   onRemoveTriggerValueClick: ({
     key,
   }: Pick<MultiSelectInternalOption<T>, 'key'>) => void;
+  onAllReset: () => void;
 }
 
 export interface GetOptionKeyParams
@@ -89,3 +92,16 @@ export interface GetOptionKeyParams
 
 export interface MultiSelectBaseSelectedListProps
   extends Pick<HTMLAttributes<HTMLUListElement>, 'className'> {}
+
+export interface MultiSelectCloseButtonProps
+  extends Pick<IconButtonProps, 'className'> {
+  onClose: IconButtonProps['onClick'];
+}
+
+export interface MultiSelectResetButtonProps {
+  onReset: ButtonProps['onClick'];
+}
+
+export interface MultiSelectSearchPanelBaseProps {
+  slot?: ReactNode;
+}

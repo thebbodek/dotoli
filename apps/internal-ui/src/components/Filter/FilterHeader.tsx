@@ -6,18 +6,13 @@ import FilterHeaderMobileCloseButton from '@/components/Filter/FilterHeaderMobil
 import FilterHeaderResetButton from '@/components/Filter/FilterHeaderResetButton';
 import FilterHeaderTitle from '@/components/Filter/FilterHeaderTitle';
 import { FilterHeaderProps } from '@/components/Filter/types';
-import { Flex } from '@/components/Flex';
+import { MultiSelectHeader } from '@/components/Select/Multi/shared';
 
 const FilterHeader = ({ close }: FilterHeaderProps) => {
   const { filterStep } = useFilterPanelContext();
 
   return (
-    <Flex
-      align={{ items: 'center' }}
-      as='header'
-      className='border-b-in-gray-02 in-tablet:px-4 in-tablet:h-[3.75rem] h-[4rem] border-b px-5'
-      shrink='0'
-    >
+    <MultiSelectHeader>
       {filterStep === FILTER_STEPS.IDLE && (
         <FilterHeaderMobileCloseButton close={close} />
       )}
@@ -25,7 +20,7 @@ const FilterHeader = ({ close }: FilterHeaderProps) => {
       <FilterHeaderTitle />
       <FilterHeaderResetButton />
       <FilterHeaderCloseButton close={close} />
-    </Flex>
+    </MultiSelectHeader>
   );
 };
 

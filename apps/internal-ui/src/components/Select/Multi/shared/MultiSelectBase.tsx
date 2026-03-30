@@ -25,7 +25,7 @@ const MultiSelectBase = ({
     <div
       className={clsx(
         className,
-        'in-tablet:in-flex-h-stack in-flex-v-stack flex-col-reverse overflow-auto',
+        'in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)] in-tablet:in-flex-h-stack in-flex-v-stack flex-col-reverse overflow-auto',
       )}
       aria-describedby={labelId}
     >

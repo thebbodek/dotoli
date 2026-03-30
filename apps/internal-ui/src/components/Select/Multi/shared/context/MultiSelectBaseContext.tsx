@@ -39,11 +39,21 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
     null,
   );
 
+  const filteredInternalOptions = !currentSearchValue
+    ? internalOptions
+    : internalOptions.filter(({ label }) => label.includes(currentSearchValue));
+
   const onAllSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
 
     setInternalOptions((prev) =>
       prev.map((option) => ({ ...option, isSelected: checked })),
+    );
+  };
+
+  const onAllReset = () => {
+    setInternalOptions((prev) =>
+      prev.map((option) => ({ ...option, isSelected: false })),
     );
   };
 
@@ -122,6 +132,8 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
     currentSearchValue,
     setMultiSelectInternalOptions,
     setCurrentSearchValue,
+    filteredInternalOptions,
+    onAllReset,
   } as MultiSelectBaseContextValue<MultiSelectBaseValue>;
 
   return (

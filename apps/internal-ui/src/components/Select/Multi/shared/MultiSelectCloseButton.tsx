@@ -1,9 +1,12 @@
 import clsx from 'clsx';
 
 import { IconButton } from '@/components/Button';
-import { FilterCloseButtonProps } from '@/components/Filter/types';
+import { MultiSelectCloseButtonProps } from '@/components/Select/Multi/shared/types';
 
-const FilterCloseButton = ({ className, onClose }: FilterCloseButtonProps) => {
+const MultiSelectCloseButton = ({
+  className,
+  onClose,
+}: MultiSelectCloseButtonProps) => {
   return (
     <IconButton
       aria-label='닫기'
@@ -14,4 +17,4 @@ const FilterCloseButton = ({ className, onClose }: FilterCloseButtonProps) => {
   );
 };
 
-export default FilterCloseButton;
+export default MultiSelectCloseButton;

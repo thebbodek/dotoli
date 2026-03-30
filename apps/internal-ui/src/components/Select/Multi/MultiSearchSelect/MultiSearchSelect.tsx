@@ -63,7 +63,6 @@ const MultiSearchSelect = <T extends MultiSelectBaseValue>({
               direction='column'
             >
               <MultiSelectBase
-                className='in-tablet:min-h-[calc(34svh-4.125rem)] in-tablet:max-h-[calc(44svh-4.125rem)]'
                 inputOption={inputOption}
                 labelId={labelId}
                 searchPanel={<MultiSearchSelectSearchPanel />}
