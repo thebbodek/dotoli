@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.78
+
+### Patch Changes
+
+- 296e348: DOTOLI-182 MultiSelect 공통 컴포넌트 분리, export
+  - @bbodek/utils@0.0.49
+  - @bbodek/hooks@0.0.52
+
 ## 0.0.77
 
 ### Patch Changes
