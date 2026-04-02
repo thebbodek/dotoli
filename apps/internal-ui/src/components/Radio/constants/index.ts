@@ -26,7 +26,7 @@ export const RADIO_LABEL_SIZE_VARIANTS: Record<RadioSize, TypographyVariants> =
 
 export const RADIO_STYLES = {
   [RADIO_STATE.DEFAULT]: {
-    icon: 'before:bg-in-white border-in-gray-02 bg-in-white',
+    icon: 'before:bg-in-white border-in-gray-02 bg-in-white before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2',
     label: 'text-in-black',
   },
   [RADIO_STATE.SELECTED]: {
