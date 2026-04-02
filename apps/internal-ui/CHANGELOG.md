@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.79
+
+### Patch Changes
+
+- b5d2c76: DOTOLI-183 Radio Component selected 스타일 중앙정렬 이슈 수정
+  - @bbodek/utils@0.0.50
+  - @bbodek/hooks@0.0.53
+
 ## 0.0.78
 
 ### Patch Changes
