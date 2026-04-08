@@ -1,20 +1,13 @@
-import {
-  Badge,
-  BADGE_THEMES,
-  BADGE_VARIANTS,
-  INFO_BADGE_SIZES,
-  INFO_BADGE_THEMES,
-  InfoBadge,
-} from '@bbodek/internal-ui';
+import { Badge, BADGE_THEMES, BADGE_VARIANTS } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { default as IconMeta } from './Icon.stories';
+import { default as IconMeta } from '../Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey } = IconMeta.argTypes ?? {};
 
 const meta = {
-  title: 'core/internal-ui/Badge',
+  title: 'core/internal-ui/Badge/Badge',
   component: Badge,
   argTypes: {
     label: {
@@ -103,48 +96,4 @@ export const VariantsAndColors: Story = {
       )}
     </ul>
   ),
-};
-
-export const InfoBadgeStories: Story = {
-  render: () => {
-    const sizeOrder = [INFO_BADGE_SIZES.MD, INFO_BADGE_SIZES.SM];
-
-    return (
-      <ul className='grid grid-cols-6 gap-4'>
-        {sizeOrder.map((size) =>
-          Object.values(INFO_BADGE_THEMES).map((theme) => (
-            <InfoBadge
-              key={`info-${theme}-${size}`}
-              label='Info'
-              size={size}
-              theme={theme}
-              variant='info'
-            />
-          )),
-        )}
-        {sizeOrder.map((size) =>
-          Object.values(INFO_BADGE_THEMES).map((theme) => (
-            <InfoBadge
-              key={`circle-${theme}-${size}`}
-              label='2'
-              size={size}
-              theme={theme}
-              variant='circle'
-            />
-          )),
-        )}
-        {sizeOrder.map((size) =>
-          Object.values(INFO_BADGE_THEMES).map((theme) => (
-            <InfoBadge
-              key={`circle-soft-${theme}-${size}`}
-              label='2'
-              size={size}
-              theme={theme}
-              variant='circle-soft'
-            />
-          )),
-        )}
-      </ul>
-    );
-  },
 };

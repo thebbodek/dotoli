@@ -1,15 +1,14 @@
 import clsx from 'clsx';
 
 import {
-  INFO_BADGE_CIRCLE_SOFT_THEME_STYLES,
   INFO_BADGE_SIZE_STYLES,
   INFO_BADGE_SIZES,
-  INFO_BADGE_THEME_STYLES,
+  INFO_BADGE_THEME_VARIANT_STYLES,
   INFO_BADGE_THEMES,
   INFO_BADGE_VARIANT_STYLES,
   INFO_BADGE_VARIANTS,
-} from '@/components/Badge/constants';
-import { InfoBadgeBaseProps, InfoBadgeVariant } from '@/components/Badge/types';
+} from '@/components/Badge/InfoBadge/constants';
+import { InfoBadgeBaseProps } from '@/components/Badge/InfoBadge/types';
 import { Typography } from '@/components/Typography';
 
 const InfoBadge = ({
@@ -19,12 +18,8 @@ const InfoBadge = ({
   className,
   title,
   size = INFO_BADGE_SIZES.MD,
-}: InfoBadgeBaseProps<InfoBadgeVariant>) => {
-  const themeStyles =
-    variant === INFO_BADGE_VARIANTS.CIRCLE_SOFT
-      ? INFO_BADGE_CIRCLE_SOFT_THEME_STYLES
-      : INFO_BADGE_THEME_STYLES;
-  const themeStyle = themeStyles[theme];
+}: InfoBadgeBaseProps) => {
+  const themeStyle = INFO_BADGE_THEME_VARIANT_STYLES[variant][theme];
   const sizeStyle = INFO_BADGE_SIZE_STYLES[size];
 
   return (
@@ -34,12 +29,11 @@ const InfoBadge = ({
         INFO_BADGE_VARIANT_STYLES[variant],
         sizeStyle,
         themeStyle.CONTAINER,
+        themeStyle.LABEL,
         className,
       )}
     >
-      <Typography className={themeStyle.LABEL} color='black' title={title}>
-        {label}
-      </Typography>
+      <Typography title={title}>{label}</Typography>
     </div>
   );
 };
