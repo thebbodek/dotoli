@@ -1,18 +1,18 @@
 import clsx from 'clsx';
 
-import BadgeIcon from '@/components/Badge/BadgeIcon';
-import BadgeLabel from '@/components/Badge/BadgeLabel';
+import BadgeIcon from '@/components/Badge/Badge/BadgeIcon';
+import BadgeLabel from '@/components/Badge/Badge/BadgeLabel';
 import {
   BADGE_THEME_STYLES,
-  BADGE_THEMES,
   BADGE_VARIANT_STYLES,
   BADGE_VARIANTS,
-} from '@/components/Badge/constants';
+} from '@/components/Badge/Badge/constants';
 import {
   BadgeFilledIconKeyProps,
   BadgeProps,
   BadgeVariant,
-} from '@/components/Badge/types';
+} from '@/components/Badge/Badge/types';
+import { BADGE_THEMES } from '@/components/Badge/shared/constants';
 
 const Badge = <T extends BadgeVariant>({
   label,
