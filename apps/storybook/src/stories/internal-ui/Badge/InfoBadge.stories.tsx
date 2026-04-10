@@ -1,12 +1,27 @@
-import {
-  INFO_BADGE_SIZES,
-  INFO_BADGE_THEMES,
-  INFO_BADGE_VARIANTS,
-  InfoBadge,
-} from '@bbodek/internal-ui';
+import { InfoBadge } from '@bbodek/internal-ui';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
+
+const INFO_BADGE_VARIANTS = {
+  INFO: 'info',
+  CIRCLE: 'circle',
+  CIRCLE_SOFT: 'circle-soft',
+} as const;
+
+const INFO_BADGE_THEMES = {
+  GRAY: 'gray',
+  PRIMARY: 'primary',
+  GREEN: 'green',
+  YELLOW: 'yellow',
+  RED: 'red',
+  BLUR: 'blur',
+} as const;
+
+const INFO_BADGE_SIZES = {
+  SM: 'sm',
+  MD: 'md',
+} as const;
 
 const meta = {
   title: 'core/internal-ui/Badge/InfoBadge',

@@ -1,3 +1,3 @@
-export { default } from './InfoBadge';
 export * from './constants';
+export { default as InfoBadge } from './InfoBadge';
 export * from './types';
