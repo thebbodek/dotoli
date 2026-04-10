@@ -458,11 +458,7 @@ export const WithLinkRows: Story = {
       </Table.Head>
       <Table.Body>
         {users.slice(0, 10).map((user) => (
-          <Table.LinkRow
-            className='cursor-pointer transition-colors hover:bg-gray-50'
-            href={`/users/${user.id}`}
-            key={user.id}
-          >
+          <Table.LinkRow href={`/users/${user.id}`} key={user.id}>
             <Table.Cell className='w-[100px]'>{user.id}</Table.Cell>
             <Table.Cell className='flex-1'>{user.name}</Table.Cell>
             <Table.Cell className='w-[200px]'>{user.username}</Table.Cell>
