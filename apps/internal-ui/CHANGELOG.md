@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.80
+
+### Patch Changes
+
+- 5bc8212: DOTOLI-186 TableLinkRow Component hover 효과 누락 수정
+  - @bbodek/utils@0.0.51
+  - @bbodek/hooks@0.0.54
+
 ## 0.0.79
 
 ### Patch Changes
