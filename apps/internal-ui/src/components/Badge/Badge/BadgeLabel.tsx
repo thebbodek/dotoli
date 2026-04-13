@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
-import { BADGE_THEME_STYLES } from '@/components/Badge/constants';
-import { BadgeLabelProps, BadgeVariant } from '@/components/Badge/types';
+import { BADGE_THEME_STYLES } from '@/components/Badge/Badge/constants';
+import { BadgeLabelProps, BadgeVariant } from '@/components/Badge/Badge/types';
 import { Typography } from '@/components/Typography';
 
 const BadgeLabel = <T extends BadgeVariant>({

@@ -1,17 +1,11 @@
-import { BadgeStyle, BadgeTheme, BadgeVariant } from '@/components/Badge/types';
+import type { BadgeVariant } from '@/components/Badge/Badge/types';
+import { BADGE_THEMES } from '@/components/Badge/shared/constants';
+import type { BadgeStyle, BadgeTheme } from '@/components/Badge/shared/types';
 
 export const BADGE_VARIANTS = {
   FILLED: 'filled',
   OUTLINED: 'outlined',
   STATUS: 'status',
-} as const;
-
-export const BADGE_THEMES = {
-  GRAY: 'gray',
-  PRIMARY: 'primary',
-  GREEN: 'green',
-  YELLOW: 'yellow',
-  RED: 'red',
 } as const;
 
 export const BADGE_VARIANT_STYLES: Record<BadgeVariant, string> = {

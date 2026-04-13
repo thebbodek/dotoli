@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import {
   BADGE_ICON_SIZE_STYLES,
   BADGE_THEME_ICON_STYLES,
-} from '@/components/Badge/constants';
-import { BadgeIconProps, BadgeVariant } from '@/components/Badge/types';
+} from '@/components/Badge/Badge/constants';
+import { BadgeIconProps, BadgeVariant } from '@/components/Badge/Badge/types';
 import { Icon } from '@/components/Icon';
 
 const BadgeIcon = <T extends BadgeVariant>({

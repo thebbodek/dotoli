@@ -1,17 +1,10 @@
-import { BADGE_THEMES, BADGE_VARIANTS } from '@/components/Badge/constants';
+import { BADGE_VARIANTS } from '@/components/Badge/Badge/constants';
+import type { BadgeTheme } from '@/components/Badge/shared/types';
 import { IconProps } from '@/components/Icon';
 import { TypographyProps } from '@/components/Typography';
 
 export type BadgeStatusVariant = typeof BADGE_VARIANTS.STATUS;
-
 export type BadgeVariant = (typeof BADGE_VARIANTS)[keyof typeof BADGE_VARIANTS];
-
-export type BadgeTheme = (typeof BADGE_THEMES)[keyof typeof BADGE_THEMES];
-
-export type BadgeStyle = Record<
-  BadgeTheme,
-  { CONTAINER: string; LABEL: string }
->;
 
 export interface BadgeBaseProps<T extends BadgeVariant>
   extends Pick<TypographyProps, 'className' | 'title'> {
