@@ -5,8 +5,10 @@ export const DATE_PARSE_TYPES = {
 
 export const DATE_FORMATS = {
   'MM.DD': 'MM. DD',
+  'MM.DD(ddd)': 'MM.DD(ddd)',
   'YY.MM.DD.ddd': 'YY. MM. DD (ddd)',
   'YYYY-MM-DD': 'YYYY-MM-DD',
+  'YYYY-MM-DD(ddd)': 'YYYY-MM-DD(ddd)',
   'YYYY.MM.DD': 'YYYY. MM. DD',
   'YYYY.MM.DD.ddd': 'YYYY. MM. DD (ddd)',
   'YYYY.MM.DD.HH.mm.ss': 'YYYY. MM. DD HH:mm:ss',
