@@ -1,5 +1,12 @@
 # @bbodek/utils
 
+## 0.0.53
+
+### Patch Changes
+
+- fe2ab28: DOTOLI-187 toString YYYY-MM-DD(ddd), MM.DD(ddd) 포맷 추가
+  - @bbodek/internal-ui@0.0.82
+
 ## 0.0.52
 
 ### Patch Changes
