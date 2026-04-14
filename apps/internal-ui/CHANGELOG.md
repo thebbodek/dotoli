@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.81
+
+### Patch Changes
+
+- dad62d7: DOTOLI-185 InfoBadge Component 추가
+  - @bbodek/utils@0.0.52
+  - @bbodek/hooks@0.0.55
+
 ## 0.0.80
 
 ### Patch Changes
