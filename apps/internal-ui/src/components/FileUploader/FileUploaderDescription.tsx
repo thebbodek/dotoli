@@ -1,16 +1,26 @@
-import { FileUploaderProps } from '@/components/FileUploader/types';
+import { FileUploaderDescriptionProps } from '@/components/FileUploader/types';
 import { Typography } from '@/components/Typography';
 
 const FileUploaderDescription = ({
   accept,
   max,
-}: Required<Pick<FileUploaderProps, 'accept' | 'max'>>) => {
+  description,
+}: FileUploaderDescriptionProps) => {
   return (
-    <Typography className='text-center' color='gray-05' variant='body-12-m'>
-      확장자: {accept.join(', ')}
-      <br />
-      업로드 용량: {max}MB
-    </Typography>
+    <>
+      {description && (
+        <Typography
+          className='mb-0.5 text-center'
+          color='gray-07'
+          variant='body-12-m'
+        >
+          {description}
+        </Typography>
+      )}
+      <Typography className='text-center' color='gray-05' variant='body-12-m'>
+        용량: {max}MB | 확장자: {accept.join(', ')}
+      </Typography>
+    </>
   );
 };
 

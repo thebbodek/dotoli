@@ -16,6 +16,7 @@ const FileUploader = ({
   rootProps,
   inputProps,
   className,
+  description,
 }: FileUploaderProps) => {
   const getStatusStyles = () => {
     if (rejectedFiles) return FILE_UPLOADER_STYLES.ERROR;
@@ -29,7 +30,7 @@ const FileUploader = ({
     <div
       className={clsx(
         className,
-        'rounded-in-8 in-flex-v-stack-center in-tablet:py-[1.375rem] w-full border border-dashed px-5 py-4 transition-colors',
+        'rounded-in-8 in-flex-v-stack-center in-tablet:py-6.5 w-full border border-dashed px-5 py-4 transition-colors',
         !disabled && FILE_UPLOADER_STYLES.HOVER,
         getStatusStyles(),
       )}
@@ -37,7 +38,11 @@ const FileUploader = ({
     >
       <input {...inputProps()} />
       <FileUploaderTitle disabled={disabled} />
-      <FileUploaderDescription accept={accept} max={max} />
+      <FileUploaderDescription
+        accept={accept}
+        description={description}
+        max={max}
+      />
       {!!rejectedFiles && (
         <Typography color='red-04' variant='body-12-m'>
           {DROPZONE_REJECT_MESSAGE[rejectedFiles.code]}
