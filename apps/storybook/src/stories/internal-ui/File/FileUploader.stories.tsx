@@ -65,6 +65,11 @@ const meta = {
       description: 'custom classname',
       type: 'string',
     },
+    description: {
+      control: 'text',
+      description: 'description',
+      type: 'string',
+    },
   },
 } satisfies Meta<typeof FileUploader>;
 
