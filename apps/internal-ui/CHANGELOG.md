@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.83
+
+### Patch Changes
+
+- 4352ca6: DOTOLI-188 FileUploader Component 문구 영역 추가
+  - @bbodek/utils@0.0.54
+  - @bbodek/hooks@0.0.57
+
 ## 0.0.82
 
 ### Patch Changes
