@@ -30,7 +30,7 @@ const FileUploader = ({
     <div
       className={clsx(
         className,
-        'rounded-in-8 in-flex-v-stack-center in-tablet:py-6.5 w-full border border-dashed px-5 py-4 transition-colors',
+        'rounded-in-8 in-flex-v-stack-center in-tablet:py-[1.625rem] w-full border border-dashed px-5 py-4 transition-colors',
         !disabled && FILE_UPLOADER_STYLES.HOVER,
         getStatusStyles(),
       )}
