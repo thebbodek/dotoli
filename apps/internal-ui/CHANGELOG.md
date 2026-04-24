@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.84
+
+### Patch Changes
+
+- ccc35fe: FileUploader padding update
+  - @bbodek/utils@0.0.55
+  - @bbodek/hooks@0.0.58
+
 ## 0.0.83
 
 ### Patch Changes
