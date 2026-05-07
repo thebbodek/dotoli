@@ -11,4 +11,4 @@ export interface FileUploaderProps
 
 export interface FileUploaderDescriptionProps
   extends Required<Pick<FileUploaderProps, 'accept' | 'max'>>,
-    Pick<FileUploaderProps, 'description'> {}
+    Pick<FileUploaderProps, 'description' | 'disabled'> {}

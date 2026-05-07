@@ -41,6 +41,7 @@ const FileUploader = ({
       <FileUploaderDescription
         accept={accept}
         description={description}
+        disabled={disabled}
         max={max}
       />
       {!!rejectedFiles && (
