@@ -5,13 +5,14 @@ const FileUploaderDescription = ({
   accept,
   max,
   description,
+  disabled,
 }: FileUploaderDescriptionProps) => {
   return (
     <>
       {description && (
         <Typography
           className='mb-0.5 text-center'
-          color='gray-07'
+          color={disabled ? 'gray-05' : 'gray-07'}
           variant='body-12-m'
         >
           {description}
