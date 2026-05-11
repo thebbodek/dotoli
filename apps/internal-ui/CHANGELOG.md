@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.85
+
+### Patch Changes
+
+- 3d6d6b7: DOTOLI-190 FileUploader 문구 disabled 스타일 수정
+  - @bbodek/utils@0.0.56
+  - @bbodek/hooks@0.0.59
+
 ## 0.0.84
 
 ### Patch Changes
