@@ -29,6 +29,7 @@ const DatePicker = ({
   holidays,
   disabledDays,
   externalDaysLabels,
+  format,
   onChange,
 }: DatePickerProps) => {
   const labelId = useId();
@@ -49,6 +50,7 @@ const DatePicker = ({
         controls={calendarId}
         disabled={disabled}
         feedback={feedback}
+        format={format}
         isError={isError}
         labelId={labelId}
         placeholder={placeholder}
