@@ -1,3 +1,4 @@
+import { DateToStringParams } from '@bbodek/utils';
 import { ReactNode } from 'react';
 
 import {
@@ -23,6 +24,7 @@ export interface DatePickerProps
       | 'placeholder'
       | 'className'
       | 'popoverOption'
+      | 'format'
     >,
     Pick<SelectBaseLabelProps, 'label' | 'badge'>,
     Pick<InputBaseProps, 'hiddenLabel'>,
@@ -34,19 +36,20 @@ export interface DatePickerProps
 
 export interface DatePickerWrapperProps
   extends Pick<
-    SelectBaseProps,
-    | 'disabled'
-    | 'feedback'
-    | 'required'
-    | 'isError'
-    | 'placeholder'
-    | 'className'
-    | 'type'
-    | 'controls'
-    | 'labelId'
-    | 'children'
-    | 'popoverOption'
-  > {
+      SelectBaseProps,
+      | 'disabled'
+      | 'feedback'
+      | 'required'
+      | 'isError'
+      | 'placeholder'
+      | 'className'
+      | 'type'
+      | 'controls'
+      | 'labelId'
+      | 'children'
+      | 'popoverOption'
+    >,
+    Pick<DateToStringParams, 'format'> {
   label: ReactNode;
 }
 

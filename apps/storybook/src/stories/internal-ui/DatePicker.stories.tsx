@@ -6,10 +6,12 @@ import {
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
+import { default as toStringMeta } from '../utils/date/toString.stories';
 import { default as calendarMeta } from './Calendar.stories';
 import { default as selectMeta } from './Select/Select.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
+const { format } = toStringMeta.argTypes;
 const { minDate, maxDate, holidays, disabledDays, externalDaysLabels } =
   calendarMeta.argTypes;
 const {
@@ -59,6 +61,7 @@ const meta = {
       description: 'DatePicker onChange',
       type: { name: 'function', required: true },
     },
+    format,
     minDate,
     maxDate,
     holidays,

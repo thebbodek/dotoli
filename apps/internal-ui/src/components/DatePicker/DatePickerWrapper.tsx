@@ -15,6 +15,7 @@ const DatePickerWrapper = ({
   controls,
   labelId,
   popoverOption,
+  format,
   children,
 }: DatePickerWrapperProps) => {
   const { setCalendarInternalValue } = useCalendarContext();
@@ -39,7 +40,7 @@ const DatePickerWrapper = ({
       placeholder={placeholder}
       popoverOption={_popoverOption}
       required={required}
-      trigger={<DatePickerTrigger />}
+      trigger={<DatePickerTrigger format={format} />}
       type={type}
     >
       {children}
