@@ -1,5 +1,12 @@
 # @bbodek/utils
 
+## 0.0.59
+
+### Patch Changes
+
+- bec8201: @bbodek/internal-ui 의존을 현재 게시본 ^0.0.88로 정합성 복구 (0.0.87 결번 대응, peer 불일치 해소)
+  - @bbodek/internal-ui@0.0.89
+
 ## 0.0.58
 
 ### Patch Changes

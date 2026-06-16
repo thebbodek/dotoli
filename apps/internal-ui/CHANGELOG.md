@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.89
+
+### Patch Changes
+
+- Updated dependencies [bec8201]
+  - @bbodek/utils@0.0.59
+  - @bbodek/hooks@0.0.62
+
 ## 0.0.88
 
 ### Patch Changes
