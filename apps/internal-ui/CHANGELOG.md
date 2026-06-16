@@ -1,5 +1,11 @@
 # @bbodek/internal-ui
 
+## 0.0.88
+
+### Patch Changes
+
+- b091650: DOTOLI-195 DynamicVirtualList 높이 재초기화 시 측정값 유실 이슈 수정
+
 ## 0.0.87
 
 ### Patch Changes
