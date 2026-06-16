@@ -1,4 +1,4 @@
-import { useFirstRenderEffect } from '@bbodek/hooks';
+import { useEffect } from 'react';
 
 import { UseVirtualItemsMetricsInitEffectParams } from '@/components/VirtualList/DynamicVirtualList/hooks/effects/types';
 
@@ -9,12 +9,12 @@ const useVirtualItemsMetricsInitEffect = ({
   heightsRef,
   updateOffsets,
 }: UseVirtualItemsMetricsInitEffectParams) => {
-  useFirstRenderEffect(() => {
-    const heights = new Array(itemsTotalCount).fill(initialItemHeight + gap);
-
-    heightsRef.current = heights;
+  useEffect(() => {
+    heightsRef.current = new Array(itemsTotalCount).fill(
+      initialItemHeight + gap,
+    );
     updateOffsets();
-  }, []);
+  }, [itemsTotalCount, initialItemHeight, gap, heightsRef, updateOffsets]);
 };
 
 export default useVirtualItemsMetricsInitEffect;

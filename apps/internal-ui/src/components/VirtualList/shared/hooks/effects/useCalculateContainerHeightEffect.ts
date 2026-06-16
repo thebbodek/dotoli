@@ -9,16 +9,16 @@ const useCalculateContainerHeightEffect = ({
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const { clientHeight } = containerRef.current;
+    const container = containerRef.current;
 
     const calculateContainerHeight = () => {
-      setContainerHeight(clientHeight);
+      setContainerHeight(container.clientHeight);
     };
 
     calculateContainerHeight();
 
     const observer = new ResizeObserver(calculateContainerHeight);
-    observer.observe(containerRef.current);
+    observer.observe(container);
 
     return () => observer.disconnect();
   }, [containerRef, setContainerHeight]);
