@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.87
+
+### Patch Changes
+
+- c924484: DOTOLI-194 DynamicVirtualList StrictMode 본문 미렌더 이슈 수정
+  - @bbodek/utils@0.0.58
+  - @bbodek/hooks@0.0.61
+
 ## 0.0.86
 
 ### Patch Changes
