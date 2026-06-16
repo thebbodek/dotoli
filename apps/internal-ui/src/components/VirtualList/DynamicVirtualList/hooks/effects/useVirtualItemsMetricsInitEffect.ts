@@ -10,8 +10,12 @@ const useVirtualItemsMetricsInitEffect = ({
   updateOffsets,
 }: UseVirtualItemsMetricsInitEffectParams) => {
   useEffect(() => {
-    heightsRef.current = new Array(itemsTotalCount).fill(
-      initialItemHeight + gap,
+    const prevHeights = heightsRef.current;
+    const estimatedItemHeight = initialItemHeight + gap;
+
+    heightsRef.current = Array.from(
+      { length: itemsTotalCount },
+      (_, index) => prevHeights[index] ?? estimatedItemHeight,
     );
     updateOffsets();
   }, [itemsTotalCount, initialItemHeight, gap, heightsRef, updateOffsets]);
