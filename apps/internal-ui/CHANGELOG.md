@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.91
+
+### Patch Changes
+
+- 1809f86: Add StepDialog slot props
+  - @bbodek/utils@0.0.61
+  - @bbodek/hooks@0.0.64
+
 ## 0.0.90
 
 ### Patch Changes
