@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.90
+
+### Patch Changes
+
+- bb5a1d3: DOTOLI-196 Table 다중 고정 및 배경, 글씨색 추가
+  - @bbodek/utils@0.0.60
+  - @bbodek/hooks@0.0.63
+
 ## 0.0.89
 
 ### Patch Changes
