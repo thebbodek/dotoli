@@ -4,12 +4,14 @@ import {
   HTMLAttributes,
   PropsWithChildren,
   ReactElement,
+  ReactNode,
 } from 'react';
 
 import { ButtonProps, IconButtonProps } from '@/components/Button';
 import { InputFieldProps } from '@/components/Input';
 import {
   TABLE_CELL_ROLES,
+  TABLE_CELL_TEXT_TONES,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
 
@@ -18,6 +20,9 @@ export type TableRowVariant =
 
 export type TableCellRole =
   (typeof TABLE_CELL_ROLES)[keyof typeof TABLE_CELL_ROLES];
+
+export type TableCellTextTone =
+  (typeof TABLE_CELL_TEXT_TONES)[keyof typeof TABLE_CELL_TEXT_TONES];
 
 export interface TableProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
@@ -45,6 +50,11 @@ export interface TableRowProps
   variant?: TableRowVariant;
 }
 
+export interface TableRowGroupProps
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  merged: ReactNode;
+}
+
 export interface TableLinkRowProps
   extends Omit<TableRowProps, 'variant' | 'onClick'>,
     LinkProps,
@@ -55,6 +65,8 @@ export interface TableCellProps
     Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   role?: TableCellRole;
   isFixedLeft?: boolean;
+  isHighlighted?: boolean;
+  textTone?: TableCellTextTone;
 }
 
 export interface TableInputCellProps

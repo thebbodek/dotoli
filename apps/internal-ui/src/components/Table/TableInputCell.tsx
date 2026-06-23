@@ -18,6 +18,10 @@ const TableInputCell = ({
   regCallback,
   className,
   maxLength = INPUT_DEFAULT_MAX_LENGTH,
+  role,
+  isFixedLeft,
+  isHighlighted,
+  textTone,
   ...rest
 }: TableInputCellProps) => {
   const feedbackId = useId();
@@ -32,6 +36,10 @@ const TableInputCell = ({
   return (
     <TableCell
       className={clsx(className, 'has-[input]:p-0', isError && 'error group')}
+      isFixedLeft={isFixedLeft}
+      isHighlighted={isHighlighted}
+      role={role}
+      textTone={textTone}
     >
       <Tooltip
         ariaLive='assertive'

@@ -15,6 +15,7 @@ import TableHead from '@/components/Table/TableHead';
 import TableInputCell from '@/components/Table/TableInputCell';
 import TableLinkRow from '@/components/Table/TableLinkRow';
 import TableRow from '@/components/Table/TableRow';
+import TableRowGroup from '@/components/Table/TableRowGroup';
 import { TableProps } from '@/components/Table/types';
 
 const Table = ({
@@ -45,6 +46,7 @@ Table.displayName = 'Table';
 Table.Head = TableHead;
 Table.Body = TableBody;
 Table.Row = TableRow;
+Table.RowGroup = TableRowGroup;
 Table.LinkRow = TableLinkRow;
 Table.Cell = TableCell;
 Table.InputCell = TableInputCell;

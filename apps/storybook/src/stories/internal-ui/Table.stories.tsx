@@ -351,6 +351,162 @@ export const WithFixedLeft: Story = {
   ),
 };
 
+const scheduleToday = now();
+const SCHEDULE_VISIBLE_DAYS = 14;
+const SCHEDULE_START_DATE = scheduleToday.subtract(5, 'day');
+
+const scheduleDates = Array.from({ length: SCHEDULE_VISIBLE_DAYS }).map(
+  (_, index) => SCHEDULE_START_DATE.add(index, 'day'),
+);
+
+const SCHEDULE_FIXED_COLUMNS = [
+  { key: 'client', label: '거래처', className: 'w-[120px]' },
+  { key: 'item', label: '품목', className: 'w-[140px]' },
+  { key: 'spec', label: '규격', className: 'w-[100px]' },
+] as const;
+
+const scheduleRows = Array.from({ length: 8 }).map((_, index) => ({
+  id: index,
+  client: `거래처 ${index + 1}`,
+  item: '멜라민 식판',
+  spec: '6P',
+}));
+
+const isWeekend = (date: ReturnType<typeof now>) =>
+  date.day() === 0 || date.day() === 6;
+
+export const ScheduleTable: Story = {
+  render: () => (
+    <Table caption='주간 발주 현황' className='h-[360px] w-[900px]'>
+      <Table.Head>
+        <Table.Row>
+          {SCHEDULE_FIXED_COLUMNS.map((column) => (
+            <Table.Cell
+              className={column.className}
+              key={column.key}
+              isFixedLeft
+            >
+              {column.label}
+            </Table.Cell>
+          ))}
+          {scheduleDates.map((date) => (
+            <Table.Cell
+              className='w-[96px]'
+              isHighlighted={date.isSame(scheduleToday, 'day')}
+              key={date.format('YYYY-MM-DD')}
+              textTone={isWeekend(date) ? 'danger' : 'default'}
+            >
+              {date.format('MM-DD(ddd)')}
+            </Table.Cell>
+          ))}
+        </Table.Row>
+      </Table.Head>
+
+      <Table.Body>
+        {scheduleRows.map((row) => (
+          <Table.Row key={row.id}>
+            {SCHEDULE_FIXED_COLUMNS.map((column) => (
+              <Table.Cell
+                className={column.className}
+                key={column.key}
+                isFixedLeft
+              >
+                {row[column.key]}
+              </Table.Cell>
+            ))}
+            {scheduleDates.map((date) => (
+              <Table.Cell
+                className='w-[96px]'
+                isHighlighted={date.isSame(scheduleToday, 'day')}
+                key={date.format('YYYY-MM-DD')}
+              >
+                {date.date()}
+              </Table.Cell>
+            ))}
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
+  ),
+};
+
+const MERGE_GROUPS = [
+  {
+    code: 'BD-01-0001',
+    company: '사우동전주웰빙부페식당효원연수원점2',
+    carriers: ['운송사A', '덕영로지스'],
+  },
+  { code: 'BD-01-0001', company: '삼성동뽀득부페2', carriers: ['운송사A'] },
+  {
+    code: 'BD-01-0001',
+    company: '삼성동뽀득부페3',
+    carriers: ['운송사C', '운송사B'],
+  },
+  { code: 'BD-01-0001', company: '삼성동뽀득부페4', carriers: ['운송사B'] },
+  { code: 'BD-01-0001', company: '삼성동뽀득부페5', carriers: ['운송사B'] },
+];
+
+export const MergedFixedColumns: Story = {
+  render: () => (
+    <Table caption='거래처별 운송사' className='h-[360px] w-[760px]'>
+      <Table.Head>
+        <Table.Row>
+          <Table.Cell className='w-[120px]' isFixedLeft>
+            거래처코드
+          </Table.Cell>
+          <Table.Cell className='w-[200px]' isFixedLeft>
+            업체명
+          </Table.Cell>
+          <Table.Cell className='w-[120px]'>운송사</Table.Cell>
+          {scheduleDates.map((date) => (
+            <Table.Cell
+              className='w-[96px]'
+              isHighlighted={date.isSame(scheduleToday, 'day')}
+              key={date.format('YYYY-MM-DD')}
+              textTone={isWeekend(date) ? 'danger' : 'default'}
+            >
+              {date.format('MM-DD(ddd)')}
+            </Table.Cell>
+          ))}
+        </Table.Row>
+      </Table.Head>
+
+      <Table.Body>
+        {MERGE_GROUPS.map((group, groupIndex) => (
+          <Table.RowGroup
+            merged={
+              <>
+                <Table.Cell className='w-[120px]' isFixedLeft>
+                  {group.code}
+                </Table.Cell>
+                <Table.Cell className='w-[200px]' isFixedLeft>
+                  {group.company}
+                </Table.Cell>
+              </>
+            }
+            key={groupIndex}
+          >
+            {group.carriers.map((carrier, carrierIndex) => (
+              <Table.Row key={carrierIndex}>
+                <Table.Cell className='w-[120px]'>{carrier}</Table.Cell>
+                {scheduleDates.map((date) => (
+                  <Table.Cell
+                    className='w-[96px]'
+                    isHighlighted={date.isSame(scheduleToday, 'day')}
+                    key={date.format('YYYY-MM-DD')}
+                  >
+                    {date.date()}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.RowGroup>
+        ))}
+      </Table.Body>
+    </Table>
+  ),
+};
+
 export const EmptyTable: Story = {
   render: () => {
     const [count, setCount] = useState(0);
