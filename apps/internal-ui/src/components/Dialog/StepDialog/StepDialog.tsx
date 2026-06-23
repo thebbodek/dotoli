@@ -21,8 +21,10 @@ const StepDialog = <T extends string>({
   isLoading,
   previousOptions,
   confirmOptions,
+  wrapperClassName,
   onCancel,
   children,
+  slot,
   goToStep,
 }: StepDialogProps<T>) => {
   const { onStepDialogConfirmModal } = useStepDialogConfirmModal();
@@ -34,7 +36,12 @@ const StepDialog = <T extends string>({
   };
 
   return (
-    <Dialog isOpen={isOpen} ref={ref}>
+    <Dialog
+      isOpen={isOpen}
+      ref={ref}
+      slot={slot}
+      wrapperClassName={wrapperClassName}
+    >
       <OverlayHeader className='flex items-center justify-between py-5 pr-[1.375rem] pl-[1.875rem]'>
         <OverlayTitle title={step ? titles[step] : ''} />
         <IconButton
