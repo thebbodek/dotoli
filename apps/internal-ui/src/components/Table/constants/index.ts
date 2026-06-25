@@ -23,7 +23,7 @@ export const TABLE_ROW_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]:
     'border-in-gray-03 border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&>.cell:last-child]:rounded-tr-in-8 h-8',
   [TABLE_ROW_VARIANTS.BODY]:
-    'hover:bg-in-gray-01 last:[&_.cell]:border-0 [&_.cell]:border-b',
+    'group hover:bg-in-gray-01 last:[&_.cell]:border-0 [&_.cell]:border-b',
 } as const;
 
 export const TABLE_CELL_ROLE_COMMON_STYLES = {
@@ -65,6 +65,9 @@ export const TABLE_CELL_TEXT_TONE_STYLES = {
 } as const;
 
 export const TABLE_CELL_HIGHLIGHT_BACKGROUND_STYLE = 'bg-in-primary-01';
+
+export const TABLE_CELL_HIGHLIGHT_HOVER_BACKGROUND_STYLE =
+  'group-hover:bg-in-primary-02';
 
 export const TABLE_CELL_FIXED_LEFT_BACKGROUND_STYLE = 'bg-in-gray-02';
 

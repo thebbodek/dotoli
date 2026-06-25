@@ -7,6 +7,7 @@ import {
   TABLE_CELL_FIXED_LEFT_BACKGROUND_STYLE,
   TABLE_CELL_FIXED_LEFT_BORDER_STYLE,
   TABLE_CELL_HIGHLIGHT_BACKGROUND_STYLE,
+  TABLE_CELL_HIGHLIGHT_HOVER_BACKGROUND_STYLE,
   TABLE_CELL_ROLES,
   TABLE_CELL_STYLES,
   TABLE_CELL_TEXT_TONE_STYLES,
@@ -27,9 +28,11 @@ const TableCell = ({
   children,
   className,
 }: TableCellProps) => {
+  const isHighlightedColumn =
+    isHighlighted && role !== TABLE_CELL_ROLES.COLUMN_HEADER;
+
   const resolveBackgroundClassName = () => {
-    if (isHighlighted && role !== TABLE_CELL_ROLES.COLUMN_HEADER)
-      return TABLE_CELL_HIGHLIGHT_BACKGROUND_STYLE;
+    if (isHighlightedColumn) return TABLE_CELL_HIGHLIGHT_BACKGROUND_STYLE;
 
     if (isFixedLeft) return TABLE_CELL_FIXED_LEFT_BACKGROUND_STYLE;
 
@@ -54,6 +57,7 @@ const TableCell = ({
         'cell shrink-0 pl-4 last:pr-4',
         TABLE_CELL_STYLES[role],
         backgroundClassName,
+        isHighlightedColumn && TABLE_CELL_HIGHLIGHT_HOVER_BACKGROUND_STYLE,
         borderClassName,
         textClassName,
       )}
