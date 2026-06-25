@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.92
+
+### Patch Changes
+
+- d939864: isHighlighted hover style 추가
+  - @bbodek/utils@0.0.62
+  - @bbodek/hooks@0.0.65
+
 ## 0.0.91
 
 ### Patch Changes
