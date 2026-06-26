@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.94
+
+### Patch Changes
+
+- 94d9fe6: Table 마지막 행 보더 처리 개선 (버추얼리스트/병합)
+  - @bbodek/utils@0.0.64
+  - @bbodek/hooks@0.0.67
+
 ## 0.0.93
 
 ### Patch Changes
