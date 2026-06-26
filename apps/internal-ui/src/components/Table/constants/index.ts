@@ -25,7 +25,7 @@ export const TABLE_ROW_STYLES = {
   [TABLE_ROW_VARIANTS.BODY]: 'group hover:bg-in-gray-01 [&_.cell]:border-b',
 } as const;
 
-export const TABLE_BODY_LAST_ROW_BORDER_STYLE =
+export const TABLE_LAST_ROW_BORDER_RESET_STYLE =
   '[&>[role=row]:last-child_.cell]:border-b-0';
 
 export const TABLE_CELL_ROLE_COMMON_STYLES = {
