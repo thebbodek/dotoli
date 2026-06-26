@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.93
+
+### Patch Changes
+
+- 910a8f2: Table 버추얼리스트에서 행 border-bottom 사라지는 문제 수정
+  - @bbodek/utils@0.0.63
+  - @bbodek/hooks@0.0.66
+
 ## 0.0.92
 
 ### Patch Changes
