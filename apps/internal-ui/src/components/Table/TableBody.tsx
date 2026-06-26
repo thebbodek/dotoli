@@ -4,6 +4,7 @@ import { Children, cloneElement, PropsWithChildren } from 'react';
 
 import { ChildrenElement } from '@/components/shared';
 import {
+  TABLE_BODY_LAST_ROW_BORDER_STYLE,
   TABLE_ROW_GROUP_COMMON_STYLE,
   TABLE_ROW_VARIANTS,
 } from '@/components/Table/constants';
@@ -41,6 +42,7 @@ const TableBody = ({
       className={clsx(
         className,
         TABLE_ROW_GROUP_COMMON_STYLE,
+        TABLE_BODY_LAST_ROW_BORDER_STYLE,
         'bg-in-white h-[calc(100%-2rem)]',
         isEmpty && 'sticky left-0',
       )}

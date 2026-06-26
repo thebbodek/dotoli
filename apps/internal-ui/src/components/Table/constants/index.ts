@@ -22,9 +22,11 @@ export const TABLE_FIXED_LEFT_GROUP_STYLE =
 export const TABLE_ROW_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]:
     'border-in-gray-03 border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&>.cell:last-child]:rounded-tr-in-8 h-8',
-  [TABLE_ROW_VARIANTS.BODY]:
-    'group hover:bg-in-gray-01 last:[&_.cell]:border-0 [&_.cell]:border-b',
+  [TABLE_ROW_VARIANTS.BODY]: 'group hover:bg-in-gray-01 [&_.cell]:border-b',
 } as const;
+
+export const TABLE_BODY_LAST_ROW_BORDER_STYLE =
+  '[&>[role=row]:last-child_.cell]:border-b-0';
 
 export const TABLE_CELL_ROLE_COMMON_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]: 'h-full py-1.5',
