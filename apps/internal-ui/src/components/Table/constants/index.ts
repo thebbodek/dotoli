@@ -92,3 +92,10 @@ export const TABLE_CELL_INPUT_STYLES = {
   [TABLE_CELL_INPUT_STATE.DISABLED]:
     'disabled:text-in-gray-05 disabled:border-in-gray-01 disabled:bg-in-gray-01 disabled:cursor-not-allowed disabled:placeholder-in-gray-05',
 } as const;
+
+/**
+ * TableInputCell 의 편집 input 을 식별하는 마커 속성.
+ * 화살표 키 네비게이션(handleTableCellInputArrowNavigation)이 같은 행에 섞여 있는
+ * 체크박스·토글·라디오 등 다른 input 과 구분해 InputCell 만 이동 대상으로 삼기 위해 사용한다.
+ */
+export const TABLE_INPUT_CELL_MARKER_ATTRIBUTE = 'data-table-input-cell';

@@ -2,7 +2,7 @@ import { useForm } from '@bbodek/hooks';
 import { Badge, Flex, Table, Toggle } from '@bbodek/internal-ui';
 import { now } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 const meta = {
   title: 'core/internal-ui/Table',
@@ -280,9 +280,11 @@ export const Default: Story = {
                         isError={isError}
                         placeholder='입력해주세요'
                         value={user.goodsCode}
-                        onChange={(e) =>
-                          onChange({ key, value: e.target.value })
-                        }
+                        onChange={(
+                          e: ChangeEvent<
+                            HTMLInputElement | HTMLTextAreaElement
+                          >,
+                        ) => onChange({ key, value: e.target.value })}
                       />
                     );
                   }
@@ -298,6 +300,114 @@ export const Default: Story = {
           })}
         </Table.Body>
       </Table>
+    );
+  },
+};
+
+const INPUT_GRID_COLUMNS = [
+  { key: 'name', label: '품목명', className: 'w-[180px] flex-1' },
+  { key: 'spec', label: '규격', className: 'w-[140px]' },
+  { key: 'price', label: '단가', className: 'w-[140px]' },
+  { key: 'quantity', label: '수량', className: 'w-[140px]' },
+  { key: 'memo', label: '비고', className: 'w-[180px]' },
+] as const;
+
+type InputGridColumnKey = (typeof INPUT_GRID_COLUMNS)[number]['key'];
+
+interface InputGridRow extends Record<InputGridColumnKey, string> {
+  checked: boolean;
+}
+
+const createInputGridRows = (length: number): InputGridRow[] =>
+  Array.from({ length }).map(() => ({
+    checked: false,
+    name: '',
+    spec: '',
+    price: '',
+    quantity: '',
+    memo: '',
+  }));
+
+export const InputCellGrid: Story = {
+  render: () => {
+    const { values, setValues } = useForm<InputGridRow[]>({
+      initialValues: createInputGridRows(20),
+    });
+
+    const isAllChecked = values.every((row) => row.checked);
+
+    return (
+      <Flex direction='column' gap='4'>
+        <p className='text-in-gray-06 in-text-body-02 whitespace-pre-wrap'>
+          {`화살표(↑ ↓ ← →)와 Tab으로 InputCell 사이를 이동합니다.\n체크박스·토글 등은 방향키 이동 대상에서 제외되며, 헤더 행도 이동 대상이 아닙니다.`}
+        </p>
+
+        <Table caption='입력 그리드' className='h-[500px] w-[900px]'>
+          <Table.Head>
+            <Table.Row>
+              <Table.Cell className='w-[80px]'>
+                <Table.Cell.Checkbox
+                  checked={isAllChecked}
+                  label='전체 선택'
+                  onChange={(e) =>
+                    setValues((prev) =>
+                      prev.map((row) => ({
+                        ...row,
+                        checked: e.target.checked,
+                      })),
+                    )
+                  }
+                />
+              </Table.Cell>
+              {INPUT_GRID_COLUMNS.map((column) => (
+                <Table.Cell className={column.className} key={column.key}>
+                  {column.label}
+                </Table.Cell>
+              ))}
+            </Table.Row>
+          </Table.Head>
+
+          <Table.Body>
+            {values.map((row, rowIndex) => (
+              <Table.Row key={rowIndex}>
+                <Table.Cell className='w-[80px]'>
+                  <Table.Cell.Checkbox
+                    checked={row.checked}
+                    onChange={(e) =>
+                      setValues((prev) =>
+                        prev.map((item, index) =>
+                          index === rowIndex
+                            ? { ...item, checked: e.target.checked }
+                            : item,
+                        ),
+                      )
+                    }
+                  />
+                </Table.Cell>
+                {INPUT_GRID_COLUMNS.map((column) => (
+                  <Table.InputCell
+                    className={column.className}
+                    key={column.key}
+                    placeholder='입력해주세요'
+                    value={row[column.key]}
+                    onChange={(
+                      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+                    ) =>
+                      setValues((prev) =>
+                        prev.map((item, index) =>
+                          index === rowIndex
+                            ? { ...item, [column.key]: e.target.value }
+                            : item,
+                        ),
+                      )
+                    }
+                  />
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Flex>
     );
   },
 };

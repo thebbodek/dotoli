@@ -3,9 +3,13 @@ import { useId } from 'react';
 
 import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
-import { TABLE_CELL_INPUT_STYLES } from '@/components/Table/constants';
+import {
+  TABLE_CELL_INPUT_STYLES,
+  TABLE_INPUT_CELL_MARKER_ATTRIBUTE,
+} from '@/components/Table/constants';
 import TableCell from '@/components/Table/TableCell';
 import { TableInputCellProps } from '@/components/Table/types';
+import { handleTableCellInputArrowNavigation } from '@/components/Table/utils/handleTableCellInputArrowNavigation';
 import { Tooltip } from '@/components/Tooltip';
 
 const TableInputCell = ({
@@ -62,6 +66,8 @@ const TableInputCell = ({
           type={type}
           value={inputValue ?? ''}
           onChange={handleChange}
+          onKeyDown={handleTableCellInputArrowNavigation}
+          {...{ [TABLE_INPUT_CELL_MARKER_ATTRIBUTE]: '' }}
           {...rest}
         />
       </Tooltip>
