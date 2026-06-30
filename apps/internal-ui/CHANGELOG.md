@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.95
+
+### Patch Changes
+
+- 93434ae: 테이블 Input Cell 방향키 이동 기능 추가
+  - @bbodek/utils@0.0.65
+  - @bbodek/hooks@0.0.68
+
 ## 0.0.94
 
 ### Patch Changes
