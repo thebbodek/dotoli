@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { MouseEvent, PropsWithChildren } from 'react';
+import { KeyboardEvent, MouseEvent, PropsWithChildren } from 'react';
 
 import { SelectBaseItemProps } from '@/components/Select/shared/types';
 
@@ -16,6 +16,13 @@ const SelectBaseItem = ({
     onClick();
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLLIElement>) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+
+    e.preventDefault();
+    onClick();
+  };
+
   return (
     <li
       className={clsx(
@@ -25,8 +32,10 @@ const SelectBaseItem = ({
       )}
       aria-selected={isSelected}
       role='option'
+      tabIndex={-1}
       title={label}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
     >
       {children}
     </li>

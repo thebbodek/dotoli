@@ -60,6 +60,7 @@ export interface InputDefaultProps<
       | 'readOnly'
       | 'name'
       | 'autoComplete'
+      | 'autoFocus'
     > {
   as?: T;
   addonEnd?: ReactNode;

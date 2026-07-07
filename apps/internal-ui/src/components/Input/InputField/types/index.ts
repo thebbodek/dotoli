@@ -27,6 +27,7 @@ export interface InputFieldProps
       | 'readOnly'
       | 'name'
       | 'autoComplete'
+      | 'autoFocus'
       | 'onChange'
       | 'ref'
       | 'maxLength'

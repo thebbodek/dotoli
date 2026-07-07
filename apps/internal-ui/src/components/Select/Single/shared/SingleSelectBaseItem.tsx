@@ -24,7 +24,7 @@ const SingleSelectBaseItem = <T extends SelectValue>({
   return (
     <SelectBaseItem
       className={clsx(
-        'text-in-body-16-r text-in-black hover:bg-in-primary-01 h-[2.5rem] truncate px-4 py-2',
+        'text-in-body-16-r text-in-black hover:bg-in-primary-01 focus:bg-in-primary-01/90 h-[2.5rem] truncate px-4 py-2 focus:outline-none',
         isSelected && 'bg-in-primary-01',
       )}
       isSelected={isSelected}

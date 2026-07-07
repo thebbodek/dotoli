@@ -1,7 +1,10 @@
 import clsx from 'clsx';
 import { PropsWithChildren, useId } from 'react';
 
-import { SelectBase } from '@/components/Select/shared';
+import {
+  SelectBase,
+  useSelectKeyboardNavigation,
+} from '@/components/Select/shared';
 import { SingleSelectListProvider } from '@/components/Select/Single/shared/context';
 import SingleSelectBaseTrigger from '@/components/Select/Single/shared/SingleSelectBaseTrigger';
 import {
@@ -30,6 +33,7 @@ const SingleSelectBase = <T extends SelectValue>({
 }: PropsWithChildren<SingleSelectBaseProps<T>>) => {
   const selectListId = useId();
   const labelId = useId();
+  const { focusContainerRef, onKeyDown } = useSelectKeyboardNavigation();
 
   return (
     <SelectBase
@@ -65,6 +69,9 @@ const SingleSelectBase = <T extends SelectValue>({
         >
           <SelectBase.PopoverWrapper
             className={clsx('in-flex-v-stack', popoverWrapperClassName)}
+            ref={focusContainerRef}
+            tabIndex={-1}
+            onKeyDown={onKeyDown}
           >
             {children}
           </SelectBase.PopoverWrapper>

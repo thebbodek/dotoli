@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { HTMLAttributes, ReactElement, ReactNode, Ref } from 'react';
 
 import { IconProps } from '@/components/Icon';
 import { InputBaseProps } from '@/components/Input';
@@ -46,8 +46,12 @@ export interface SelectBaseFeedbackProps
   extends Required<Pick<HTMLAttributes<HTMLDivElement>, 'id'>> {}
 
 export interface SelectBasePopoverWrapperProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends Pick<
+    HTMLAttributes<HTMLDivElement>,
+    'className' | 'onKeyDown' | 'tabIndex'
+  > {
   useMobile?: boolean;
+  ref?: Ref<HTMLDivElement>;
 }
 
 export interface SelectBaseAriaAttributes

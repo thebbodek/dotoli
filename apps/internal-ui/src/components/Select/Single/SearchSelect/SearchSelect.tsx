@@ -59,6 +59,7 @@ const SearchSelect = <T extends SelectValue>({
         label='검색'
         placeholder={inputPlaceholder}
         value={searchValue}
+        autoFocus
         hiddenLabel
       />
       <SingleSelectBaseList>

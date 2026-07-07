@@ -17,7 +17,7 @@ const MultiSearchSelectListItem = <T extends MultiSelectBaseValue>({
   return (
     <MultiSelectBaseListItem
       className={clsx(
-        'text-in-black hover:text-in-primary-06 h-[2rem] gap-x-2 px-3',
+        'text-in-black hover:text-in-primary-06 focus:text-in-primary-06 h-[2rem] gap-x-2 px-3',
         isSelected && 'text-in-primary-06',
       )}
       isSelected={isSelected}

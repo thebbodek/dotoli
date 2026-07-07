@@ -25,7 +25,7 @@ const MultiSelectBaseListItem = <T extends MultiSelectBaseValue>({
     <SelectBaseItem
       className={clsx(
         className,
-        'hover:bg-in-primary-02 flex items-center justify-between',
+        'hover:bg-in-primary-02 focus:bg-in-primary-02/90 flex items-center justify-between focus:outline-none',
         isSelected && 'bg-in-primary-02',
       )}
       isSelected={isSelected}
