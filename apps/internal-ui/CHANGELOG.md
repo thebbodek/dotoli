@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.96
+
+### Patch Changes
+
+- d38be77: Add SearchSelect input 자동 포커스, 방향키 이동
+  - @bbodek/utils@0.0.66
+  - @bbodek/hooks@0.0.69
+
 ## 0.0.95
 
 ### Patch Changes
