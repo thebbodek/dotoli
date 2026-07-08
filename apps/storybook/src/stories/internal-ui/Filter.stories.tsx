@@ -24104,3 +24104,74 @@ export const Default: Story = {
     );
   },
 };
+
+const optionTypeSelectOptions: FilterSelectOptions[] = [
+  {
+    label: '담당자',
+    key: 'assigned_to',
+    type: 'multi_select',
+    options: [
+      { displayValue: '강준영(플랫폼팀)', value: 'steve@bbodek.com' },
+      { displayValue: '김지혜(플랫폼팀)', value: 'jeje@bbodek.com' },
+    ],
+  },
+  {
+    label: '단가버전',
+    key: 'cost_version',
+    type: 'single_select',
+    options: [
+      { displayValue: 'V1', value: 'V1' },
+      { displayValue: 'V2', value: 'V2' },
+      { displayValue: 'V3', value: 'V3' },
+    ],
+  },
+  {
+    label: '할인율',
+    key: 'discount_rate',
+    type: 'numeric_input',
+    numericOption: { min: 0, max: 100, isDecimal: true },
+  },
+  {
+    label: '업체명',
+    key: 'q',
+    type: 'text_input',
+  },
+  {
+    label: '등록일',
+    key: 'created_at',
+    type: 'date_range',
+  },
+];
+
+export const OptionTypes: Story = {
+  decorators: [
+    (StoryComponent) => (
+      <div style={{ minHeight: '32rem', padding: '2.5rem' }}>
+        <StoryComponent />
+      </div>
+    ),
+  ],
+  render: (args) => {
+    const [selectValues, setSelectValues] =
+      useState<FilterProps['selectValues']>();
+    const [toggleValues, setToggleValues] =
+      useState<FilterProps['toggleValues']>();
+
+    const onChange = (value: FilterOnChangeParams) => {
+      setSelectValues(value.selectValues);
+      setToggleValues(value.toggleValues);
+    };
+
+    return (
+      <Filter
+        {...args}
+        label='Filter'
+        selectOptions={optionTypeSelectOptions}
+        selectValues={selectValues}
+        toggleOptions={[]}
+        toggleValues={toggleValues}
+        onChange={onChange}
+      />
+    );
+  },
+};

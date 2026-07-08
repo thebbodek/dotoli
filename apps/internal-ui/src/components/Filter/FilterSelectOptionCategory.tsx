@@ -1,8 +1,7 @@
-import { FILTER_STEPS, FILTER_TYPES } from '@/components/Filter/constants';
+import { FILTER_STEPS } from '@/components/Filter/constants';
 import { useFilterContext } from '@/components/Filter/context';
 import { useFilterPanelContext } from '@/components/Filter/context/useFilterPanelContext';
-import FilterCalendarSummary from '@/components/Filter/FilterCalendarSummary';
-import FilterMultiSelectOptionSummary from '@/components/Filter/FilterMultiSelectOptionSummary';
+import FilterOptionSummary from '@/components/Filter/FilterOptionSummary';
 import { FilterSelectOptionCategoryProps } from '@/components/Filter/types';
 import { Icon } from '@/components/Icon';
 import { Typography } from '@/components/Typography';
@@ -13,6 +12,7 @@ const FilterSelectOptionCategory = ({
   optionKey,
   options,
   type,
+  numericOption,
 }: FilterSelectOptionCategoryProps) => {
   const { selectValues } = useFilterContext();
   const { setFilterStep, setCurrentOptions } = useFilterPanelContext();
@@ -25,6 +25,7 @@ const FilterSelectOptionCategory = ({
       label,
       options,
       type,
+      numericOption,
     });
   };
 
@@ -41,15 +42,13 @@ const FilterSelectOptionCategory = ({
       >
         {label}
       </Typography>
-      {selectedValues &&
-        (type === FILTER_TYPES.MULTI_SELECT ? (
-          <FilterMultiSelectOptionSummary
-            optionKey={optionKey}
-            selectedValues={selectedValues}
-          />
-        ) : (
-          <FilterCalendarSummary selectedValues={selectedValues} type={type} />
-        ))}
+      {selectedValues && (
+        <FilterOptionSummary
+          optionKey={optionKey}
+          selectedValues={selectedValues}
+          type={type}
+        />
+      )}
       <Icon className='text-in-gray-05 text-[1rem]' iconKey='caret-right' />
     </li>
   );

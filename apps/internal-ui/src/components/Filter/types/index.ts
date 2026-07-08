@@ -24,11 +24,18 @@ export interface FilterSelectOption {
   value: FilterOptionValue;
 }
 
+export interface FilterNumericOption {
+  min?: number;
+  max?: number;
+  isDecimal?: boolean;
+}
+
 export interface FilterSelectOptions {
   type: FilterType;
   key: FilterOptionKey;
   label: FilterOptionLabel;
   options?: FilterSelectOption[];
+  numericOption?: FilterNumericOption;
 }
 
 export interface FilterProps
@@ -92,6 +99,21 @@ export interface FilterMultiSelectOptionSummaryProps {
 
 export interface FilterCalendarSummaryProps
   extends Pick<FilterSelectOptions, 'type'> {
+  selectedValues: FilterSelectOption['value'][];
+}
+
+export interface FilterSingleSelectSummaryProps {
+  selectedValues: FilterSelectOption['value'][];
+  optionKey: FilterSelectOptions['key'];
+}
+
+export interface FilterInputSummaryProps {
+  selectedValues: FilterSelectOption['value'][];
+}
+
+export interface FilterOptionSummaryProps
+  extends Pick<FilterSelectOptions, 'type'> {
+  optionKey: FilterSelectOptions['key'];
   selectedValues: FilterSelectOption['value'][];
 }
 
