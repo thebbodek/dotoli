@@ -17,6 +17,9 @@ const useSelectKeyboardNavigation = () => {
   const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
 
+    // 한글 IME 조합 중에 focus를 옮기면 조합 문자가 중복 입력되므로 조합이 끝난 뒤에만 이동한다
+    if (e.nativeEvent.isComposing || e.nativeEvent.keyCode === 229) return;
+
     const container = containerRef.current;
 
     if (!container) return;
