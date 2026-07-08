@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.97
+
+### Patch Changes
+
+- b96170e: DOTOLI-197 Filter option type 추가
+  - @bbodek/utils@0.0.67
+  - @bbodek/hooks@0.0.70
+
 ## 0.0.96
 
 ### Patch Changes
