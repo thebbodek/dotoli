@@ -1,5 +1,11 @@
 # @bbodek/hooks
 
+## 0.0.71
+
+### Patch Changes
+
+- @bbodek/utils@0.0.68
+
 ## 0.0.70
 
 ### Patch Changes

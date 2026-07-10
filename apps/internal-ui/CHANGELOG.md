@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.98
+
+### Patch Changes
+
+- a01f98c: Select 방향키 이동 버그 수정
+  - @bbodek/utils@0.0.68
+  - @bbodek/hooks@0.0.71
+
 ## 0.0.97
 
 ### Patch Changes
