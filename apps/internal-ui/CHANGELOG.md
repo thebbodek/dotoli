@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.99
+
+### Patch Changes
+
+- fef134a: DOTOLI-199 DatePicker > useWeekend 옵션 노출 (주말 선택 가능)
+  - @bbodek/utils@0.0.69
+  - @bbodek/hooks@0.0.72
+
 ## 0.0.98
 
 ### Patch Changes
