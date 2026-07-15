@@ -30,7 +30,12 @@ export interface DatePickerProps
     Pick<InputBaseProps, 'hiddenLabel'>,
     Pick<
       CalendarProps,
-      'minDate' | 'maxDate' | 'holidays' | 'disabledDays' | 'externalDaysLabels'
+      | 'minDate'
+      | 'maxDate'
+      | 'holidays'
+      | 'disabledDays'
+      | 'externalDaysLabels'
+      | 'useWeekend'
     >,
     CalendarContextProviderProps {}
 

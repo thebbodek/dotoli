@@ -1,0 +1,2 @@
+Summary,Issue Type,Description
+"DatePicker > useWeekend 옵션 노출 (주말 선택 가능)","Task","DatePicker가 useWeekend prop을 받아 내부 Calendar로 전달하도록 배선 연결. Calendar에는 이미 useWeekend(기본 false→주말 비활성)가 구현돼 있으나 DatePicker가 노출하지 않아 DatePicker로는 주말이 항상 막힘. 수정: (1) DatePickerProps의 Pick<CalendarProps>에 useWeekend 추가, (2) DatePicker.tsx에서 useWeekend 구조분해 후 Calendar로 전달, (3) Storybook에 useWeekend 컨트롤 추가, (4) @bbodek/internal-ui minor changeset 추가. 기본값 false 유지로 하위 호환. 공휴일은 라이브러리상 이미 선택 가능하므로 범위 외(사용처 disabledDays에서 제외로 해결)."

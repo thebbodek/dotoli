@@ -12,8 +12,14 @@ import { default as selectMeta } from './Select/Select.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { format } = toStringMeta.argTypes;
-const { minDate, maxDate, holidays, disabledDays, externalDaysLabels } =
-  calendarMeta.argTypes;
+const {
+  minDate,
+  maxDate,
+  holidays,
+  disabledDays,
+  externalDaysLabels,
+  useWeekend,
+} = calendarMeta.argTypes;
 const {
   label,
   disabled,
@@ -67,6 +73,7 @@ const meta = {
     holidays,
     disabledDays,
     externalDaysLabels,
+    useWeekend,
     badge,
     hiddenLabel,
     disabled,
@@ -188,6 +195,24 @@ export const WithDisabledDays: Story = {
 export const WithExternalDaysLabels: Story = {
   args: {
     externalDaysLabels: [{ dateValue: '2025-08-12', label: '라벨' }],
+  },
+  render: (args) => {
+    const [value, setValue] = useState<CalendarValue>(null);
+
+    return (
+      <DatePicker
+        {...args}
+        value={value}
+        variant={CALENDAR_VARIANTS.SINGLE}
+        onChange={setValue}
+      />
+    );
+  },
+};
+
+export const WithWeekend: Story = {
+  args: {
+    useWeekend: true,
   },
   render: (args) => {
     const [value, setValue] = useState<CalendarValue>(null);

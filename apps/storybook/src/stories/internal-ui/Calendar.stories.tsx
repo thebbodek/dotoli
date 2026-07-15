@@ -49,7 +49,7 @@ const meta = {
       },
     },
     useWeekend: {
-      description: 'Highlight weekends',
+      description: 'Allow weekend (Sat/Sun) selection',
       control: 'boolean',
       type: 'boolean',
       table: {

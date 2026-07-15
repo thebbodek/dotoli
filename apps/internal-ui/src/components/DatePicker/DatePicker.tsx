@@ -29,6 +29,7 @@ const DatePicker = ({
   holidays,
   disabledDays,
   externalDaysLabels,
+  useWeekend,
   format,
   onChange,
 }: DatePickerProps) => {
@@ -72,6 +73,7 @@ const DatePicker = ({
                 labelId={labelId}
                 maxDate={maxDate}
                 minDate={minDate}
+                useWeekend={useWeekend}
               />
               <DatePickerSelectButton close={close} />
             </Flex>
