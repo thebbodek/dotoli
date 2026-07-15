@@ -53,6 +53,7 @@ DatePicker가 `useWeekend`를 받아 내부 `Calendar`로 전달하도록 배선
 
 - 기본값은 반드시 `false`로 두어 기존 사용처 동작을 유지한다(하위 호환).
 - 공휴일이 주말과 겹치는 경우, `getDayVariant`에서 공휴일 분기(52–56행)가 주말 분기(58–68행)보다 먼저 평가되므로 `HOLIDAY_ENABLE`로 선택 가능 상태가 유지된다 — 별도 처리 불필요.
+- `useWeekend=true`여도 `disabledDays`/`minDate`·`maxDate`로 막은 주말 날짜는 선택 차단이 유지되어야 하므로, 주말 분기가 `useWeekend && !isDisabled`로 `isDisabled`를 함께 평가한다. (이 조건이 없으면 의도적으로 막은 주말이 다시 활성화됨)
 - 이 패키지는 changeset 기반 배포이므로 changeset을 누락하면 배포 파이프라인에 반영되지 않는다.
 
 **참고 위치**

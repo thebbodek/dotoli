@@ -56,15 +56,15 @@ export const getDayVariant = ({
   }
 
   if (isSunday) {
-    return !useWeekend
-      ? CALENDAR_DAY_VARIANTS.SUNDAY_DISABLED
-      : CALENDAR_DAY_VARIANTS.SUNDAY_ENABLE;
+    return useWeekend && !isDisabled
+      ? CALENDAR_DAY_VARIANTS.SUNDAY_ENABLE
+      : CALENDAR_DAY_VARIANTS.SUNDAY_DISABLED;
   }
 
   if (isSaturday) {
-    return !useWeekend
-      ? CALENDAR_DAY_VARIANTS.SATURDAY_DISABLED
-      : CALENDAR_DAY_VARIANTS.SATURDAY_ENABLE;
+    return useWeekend && !isDisabled
+      ? CALENDAR_DAY_VARIANTS.SATURDAY_ENABLE
+      : CALENDAR_DAY_VARIANTS.SATURDAY_DISABLED;
   }
 
   if (isToday) {
