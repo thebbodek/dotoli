@@ -25,6 +25,7 @@ const FormRepeater = ({
   onAllReset,
   changedRowsCount = 0,
   disabled = false,
+  addDisabled = false,
   className,
   children,
 }: PropsWithChildren<FormRepeaterProps>) => {
@@ -60,7 +61,7 @@ const FormRepeater = ({
         {onAdd && (
           <Button
             className='mt-3'
-            disabled={disabled}
+            disabled={disabled || addDisabled}
             iconOption={{ iconKey: 'plus' }}
             label='추가'
             size='sm'

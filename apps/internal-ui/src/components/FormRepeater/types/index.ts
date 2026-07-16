@@ -10,6 +10,7 @@ export interface FormRepeaterProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Partial<Pick<FormRepeaterContextProps, 'disabled'>> {
   changedRowsCount?: number;
+  addDisabled?: boolean;
   onAdd?: () => void;
   onAllReset?: () => void;
 }

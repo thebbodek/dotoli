@@ -40,6 +40,16 @@ const meta = {
         },
       },
     },
+    addDisabled: {
+      control: 'boolean',
+      description: "'추가' 버튼만 비활성화 (행 콘텐츠는 편집 가능 유지)",
+      type: 'boolean',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
     className: {
       description: 'className',
       control: 'text',
@@ -61,7 +71,7 @@ export default meta;
 type Story = StoryObj<typeof FormRepeater>;
 
 export const Default: Story = {
-  render: ({ disabled }) => {
+  render: ({ disabled, addDisabled }) => {
     interface Item {
       id: string;
       name: string | null;
@@ -119,6 +129,7 @@ export const Default: Story = {
 
     return (
       <FormRepeater
+        addDisabled={addDisabled}
         changedRowsCount={Object.keys(changedValues).length}
         disabled={disabled}
         onAdd={onAdd}
