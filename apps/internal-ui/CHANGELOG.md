@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.101
+
+### Patch Changes
+
+- db4d12f: FormRepeater addDisabled 옵션 추가
+  - @bbodek/utils@0.0.71
+  - @bbodek/hooks@0.0.74
+
 ## 0.0.100
 
 ### Patch Changes
