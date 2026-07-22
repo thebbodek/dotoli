@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.102
+
+### Patch Changes
+
+- 60aa521: DOTOLI-201 FormRepeater overflow 스타일 수정
+  - @bbodek/utils@0.0.72
+  - @bbodek/hooks@0.0.75
+
 ## 0.0.101
 
 ### Patch Changes
