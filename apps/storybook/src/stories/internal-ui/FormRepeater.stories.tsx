@@ -131,6 +131,7 @@ export const Default: Story = {
       <FormRepeater
         addDisabled={addDisabled}
         changedRowsCount={Object.keys(changedValues).length}
+        className='max-h-[100px] max-w-[500px]'
         disabled={disabled}
         onAdd={onAdd}
         onAllReset={onAllReset}
@@ -159,7 +160,7 @@ export const Default: Story = {
             required
           />
         </FormRepeater.Header>
-        <FormRepeater.List className='max-h-[250px]'>
+        <FormRepeater.List>
           {values.items.map((item) => {
             const { id, name, dispatchCenter, useOrderNotice, dispatchType } =
               item;

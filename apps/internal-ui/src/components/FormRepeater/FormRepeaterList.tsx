@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { Children, HTMLAttributes, PropsWithChildren } from 'react';
 
 import { useFormRepeaterContext } from '@/components/FormRepeater/context/FormRepeaterContext';
@@ -11,7 +10,7 @@ const FormRepeaterBody = ({
   const { listRef } = useFormRepeaterContext();
 
   return (
-    <ul className={clsx(className, 'overflow-y-auto')} ref={listRef}>
+    <ul className={className} ref={listRef}>
       <FormRepeaterListProvider itemsCount={Children.count(children)}>
         {children}
       </FormRepeaterListProvider>

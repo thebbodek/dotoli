@@ -51,13 +51,17 @@ const FormRepeater = ({
   return (
     <Flex className={className} direction='column' gap='8'>
       <div className='in-flex-v-stack border-in-gray-02 rounded-in-12 bg-in-white border p-2.5 pt-4'>
-        <FormRepeaterContextProvider
-          columns={columns as ChildrenElement<FormRepeaterHeaderContentProps>[]}
-          disabled={disabled}
-          listRef={listRef}
-        >
-          {children}
-        </FormRepeaterContextProvider>
+        <div className='min-h-0 flex-1 overflow-auto'>
+          <FormRepeaterContextProvider
+            columns={
+              columns as ChildrenElement<FormRepeaterHeaderContentProps>[]
+            }
+            disabled={disabled}
+            listRef={listRef}
+          >
+            {children}
+          </FormRepeaterContextProvider>
+        </div>
         {onAdd && (
           <Button
             className='mt-3'
