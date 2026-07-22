@@ -31,7 +31,7 @@ const FormRepeaterListItem = <T extends object>({
   return (
     <li
       className={clsx(
-        'in-flex-h-stack gap-x-3 px-4 py-2.5',
+        'in-flex-h-stack w-fit gap-x-3 px-4 py-2.5',
         isChanged && 'bg-in-primary-01',
       )}
     >
