@@ -13,6 +13,7 @@ const FilterSelectOptionCategory = ({
   options,
   type,
   numericOption,
+  placeholder,
 }: FilterSelectOptionCategoryProps) => {
   const { selectValues } = useFilterContext();
   const { setFilterStep, setCurrentOptions } = useFilterPanelContext();
@@ -26,6 +27,7 @@ const FilterSelectOptionCategory = ({
       options,
       type,
       numericOption,
+      placeholder,
     });
   };
 
