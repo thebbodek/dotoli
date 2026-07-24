@@ -16,7 +16,12 @@ const useFilterInputPanel = () => {
     operations: { handleChange },
   } = useFilterSelectOptionPanel();
   const { currentOptions } = useFilterPanelContext();
-  const { type, label, numericOption } = currentOptions!;
+  const {
+    type,
+    label,
+    numericOption,
+    placeholder: customPlaceholder,
+  } = currentOptions!;
   const { min, max, isDecimal = false } = numericOption ?? {};
   const isNumeric = type === FILTER_TYPES.NUMERIC_INPUT;
 
@@ -26,7 +31,10 @@ const useFilterInputPanel = () => {
   const numericPlaceholder = isDecimal
     ? NUMERIC_DECIMAL_INPUT_PLACEHOLDER
     : NUMERIC_INPUT_PLACEHOLDER;
-  const placeholder = isNumeric ? numericPlaceholder : TEXT_INPUT_PLACEHOLDER;
+  const defaultPlaceholder = isNumeric
+    ? numericPlaceholder
+    : TEXT_INPUT_PLACEHOLDER;
+  const placeholder = customPlaceholder ?? defaultPlaceholder;
 
   const regCallback = isNumeric
     ? (str: string) => parseNumericInput({ value: str, isDecimal, min, max })

@@ -36,6 +36,7 @@ export interface FilterSelectOptions {
   label: FilterOptionLabel;
   options?: FilterSelectOption[];
   numericOption?: FilterNumericOption;
+  placeholder?: string;
 }
 
 export interface FilterProps
