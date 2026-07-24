@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.104
+
+### Patch Changes
+
+- 8849e82: DOTOLI-202 Filter type 확장
+  - @bbodek/utils@0.0.74
+  - @bbodek/hooks@0.0.77
+
 ## 0.0.103
 
 ### Patch Changes
