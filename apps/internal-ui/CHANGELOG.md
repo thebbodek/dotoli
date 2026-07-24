@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.105
+
+### Patch Changes
+
+- 9dfd839: FilterSelecOption props 누락 수정
+  - @bbodek/utils@0.0.75
+  - @bbodek/hooks@0.0.78
+
 ## 0.0.104
 
 ### Patch Changes
