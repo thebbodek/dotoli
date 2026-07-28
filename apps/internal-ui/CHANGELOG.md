@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.106
+
+### Patch Changes
+
+- 08fbc18: DOTOLI-205 convertUrlToFileData MIME 타입 수정
+- Updated dependencies [08fbc18]
+  - @bbodek/utils@0.0.76
+  - @bbodek/hooks@0.0.79
+
 ## 0.0.105
 
 ### Patch Changes
