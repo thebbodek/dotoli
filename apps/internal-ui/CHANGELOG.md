@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.107
+
+### Patch Changes
+
+- a803443: tailwind 버전업 대응
+- a803443: DOTOLI-203 테이블 Body, Head, Row 스타일 수정
+  - @bbodek/utils@0.0.77
+  - @bbodek/hooks@0.0.80
+
 ## 0.0.106
 
 ### Patch Changes
