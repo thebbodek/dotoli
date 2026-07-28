@@ -8,6 +8,7 @@ export * from '@/fileDownload';
 export * from '@/executeFunction';
 export * from '@/extractDifferences';
 export * from '@/extractExt';
+export * from '@/extractMimeType';
 export * from '@/getUUID';
 export * from '@/hasUserAgent';
 export * from '@/highlightText';

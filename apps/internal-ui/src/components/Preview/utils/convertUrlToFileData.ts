@@ -1,4 +1,4 @@
-import { extractExt, getUUID } from '@bbodek/utils';
+import { extractMimeType, getUUID } from '@bbodek/utils';
 
 import {
   PREVIEW_FILE_NAME_FALLBACK,
@@ -12,7 +12,7 @@ export const convertUrlToFileData = async ({
   const id = getUUID();
   const [pathname] = url.split('?');
   const name = pathname.split('/').pop() ?? PREVIEW_FILE_NAME_FALLBACK;
-  const type = extractExt({ str: name });
+  const type = extractMimeType({ str: name });
 
   try {
     const response = await fetch(url);
