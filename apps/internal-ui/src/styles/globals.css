@@ -10,3 +10,5 @@
 @import './theme.css';
 @import './safelist.css';
 @import './utilities.css';
+
+@source '../../dist';
