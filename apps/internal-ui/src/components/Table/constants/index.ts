@@ -1,4 +1,4 @@
-export const TABLE_ROW_GROUP_COMMON_STYLE = 'w-full min-w-fit';
+export const TABLE_ROW_GROUP_COMMON_STYLE = 'w-full';
 
 export const TABLE_ROW_VARIANTS = {
   HEAD: 'head',
@@ -11,7 +11,7 @@ export const TABLE_CELL_ROLES = {
   ROW_HEADER: 'rowheader',
 } as const;
 
-export const TABLE_ROW_COMMON_STYLE = 'in-flex-h-stack min-w-fit';
+export const TABLE_ROW_COMMON_STYLE = 'in-flex-h-stack';
 
 export const TABLE_ROW_GROUP_MERGE_STYLE =
   'border-in-gray-03 border-b last:border-0';
