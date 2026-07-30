@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.108
+
+### Patch Changes
+
+- e026175: Table Loading Component length, export 추가
+  - @bbodek/utils@0.0.78
+  - @bbodek/hooks@0.0.81
+
 ## 0.0.107
 
 ### Patch Changes
