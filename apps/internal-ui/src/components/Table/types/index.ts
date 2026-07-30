@@ -42,6 +42,7 @@ export interface TableBodyProps
 export interface TableBodySkeletonProps<T extends string> {
   keys: T[];
   styles: Record<T, string>;
+  length?: number;
 }
 
 export interface TableRowProps

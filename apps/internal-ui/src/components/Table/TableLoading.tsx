@@ -4,9 +4,10 @@ import Skeleton from 'react-loading-skeleton';
 import { TABLE_ROW_GROUP_COMMON_STYLE } from '@/components/Table/constants';
 import { TableBodySkeletonProps } from '@/components/Table/types';
 
-const TableBodyLoading = <T extends string>({
+const TableLoading = <T extends string>({
   keys,
   styles,
+  length = 4,
 }: TableBodySkeletonProps<T>) => {
   return (
     <div
@@ -16,7 +17,7 @@ const TableBodyLoading = <T extends string>({
       )}
       role='rowgroup'
     >
-      {Array.from({ length: 4 }).map((_, index) => (
+      {Array.from({ length }).map((_, index) => (
         <div
           className='in-flex-h-stack w-full items-center'
           key={index}
@@ -37,4 +38,4 @@ const TableBodyLoading = <T extends string>({
   );
 };
 
-export default TableBodyLoading;
+export default TableLoading;
