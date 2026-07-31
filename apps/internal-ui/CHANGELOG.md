@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.111
+
+### Patch Changes
+
+- 4ca8b5b: TableInputCell bg color 변경
+  - @bbodek/utils@0.0.81
+  - @bbodek/hooks@0.0.84
+
 ## 0.0.110
 
 ### Patch Changes
