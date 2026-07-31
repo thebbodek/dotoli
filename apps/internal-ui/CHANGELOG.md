@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.109
+
+### Patch Changes
+
+- a29cf58: DOTOLI-206 FileUploader isPending props 추가
+  - @bbodek/utils@0.0.79
+  - @bbodek/hooks@0.0.82
+
 ## 0.0.108
 
 ### Patch Changes
