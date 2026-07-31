@@ -33,6 +33,11 @@ const meta = {
       description: 'disable uploader',
       type: 'boolean',
     },
+    isPending: {
+      control: 'boolean',
+      description: 'pending 상태 (disabled + loading icon)',
+      type: 'boolean',
+    },
     rejectedFiles: {
       control: 'object',
       description: 'rejected files',

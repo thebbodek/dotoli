@@ -17,11 +17,16 @@ const FileUploader = ({
   inputProps,
   className,
   description,
+  isPending = false,
 }: FileUploaderProps) => {
-  const getStatusStyles = () => {
-    if (rejectedFiles) return FILE_UPLOADER_STYLES.ERROR;
+  const isDisabled = disabled || isPending;
 
-    if (disabled) return FILE_UPLOADER_STYLES.DISABLED;
+  const hasError = !!rejectedFiles && !isPending;
+
+  const getStatusStyles = () => {
+    if (hasError) return FILE_UPLOADER_STYLES.ERROR;
+
+    if (isDisabled) return FILE_UPLOADER_STYLES.DISABLED;
 
     return FILE_UPLOADER_STYLES.DEFAULT;
   };
@@ -31,20 +36,22 @@ const FileUploader = ({
       className={clsx(
         className,
         'rounded-in-8 in-flex-v-stack-center in-tablet:py-[1.625rem] w-full border border-dashed px-5 py-4 transition-colors',
-        !disabled && FILE_UPLOADER_STYLES.HOVER,
+        !isDisabled && FILE_UPLOADER_STYLES.HOVER,
+        isPending && 'pointer-events-none',
         getStatusStyles(),
       )}
       {...rootProps()}
     >
       <input {...inputProps()} />
-      <FileUploaderTitle disabled={disabled} />
+      <FileUploaderTitle disabled={isDisabled} isPending={isPending} />
       <FileUploaderDescription
         accept={accept}
         description={description}
-        disabled={disabled}
+        disabled={isDisabled}
+        isPending={isPending}
         max={max}
       />
-      {!!rejectedFiles && (
+      {hasError && (
         <Typography color='red-04' variant='body-12-m'>
           {DROPZONE_REJECT_MESSAGE[rejectedFiles.code]}
         </Typography>

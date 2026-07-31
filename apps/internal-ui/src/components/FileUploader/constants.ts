@@ -5,3 +5,5 @@ export const FILE_UPLOADER_STYLES = {
   ERROR: 'border-in-red-04 bg-in-red-01 cursor-pointer',
   DISABLED: 'border-in-gray-03 bg-in-gray-02 cursor-not-allowed',
 } as const;
+
+export const FILE_UPLOADER_PENDING_ICON_KEY = 'circle-notch';

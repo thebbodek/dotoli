@@ -7,8 +7,12 @@ export interface FileUploaderProps
     Pick<DropzoneState, 'rejectedFiles'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   description?: ReactNode;
+  isPending?: boolean;
 }
+
+export interface FileUploaderTitleProps
+  extends Pick<FileUploaderProps, 'disabled' | 'isPending'> {}
 
 export interface FileUploaderDescriptionProps
   extends Required<Pick<FileUploaderProps, 'accept' | 'max'>>,
-    Pick<FileUploaderProps, 'description' | 'disabled'> {}
+    Pick<FileUploaderProps, 'description' | 'disabled' | 'isPending'> {}

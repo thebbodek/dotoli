@@ -6,10 +6,11 @@ const FileUploaderDescription = ({
   max,
   description,
   disabled,
+  isPending,
 }: FileUploaderDescriptionProps) => {
   return (
     <>
-      {description && (
+      {!isPending && description && (
         <Typography
           className='mb-0.5 text-center'
           color={disabled ? 'gray-05' : 'gray-07'}
