@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.110
+
+### Patch Changes
+
+- f156fc8: DOTOLI-207
+  - @bbodek/utils@0.0.80
+  - @bbodek/hooks@0.0.83
+
 ## 0.0.109
 
 ### Patch Changes
