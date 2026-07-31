@@ -31,6 +31,7 @@ const {
   popoverOption,
   badge,
   hiddenLabel,
+  useReset,
 } = selectMeta.argTypes;
 
 const meta = {
@@ -74,6 +75,7 @@ const meta = {
     disabledDays,
     externalDaysLabels,
     useWeekend,
+    useReset,
     badge,
     hiddenLabel,
     disabled,

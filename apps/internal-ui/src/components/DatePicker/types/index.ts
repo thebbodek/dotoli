@@ -25,6 +25,7 @@ export interface DatePickerProps
       | 'className'
       | 'popoverOption'
       | 'format'
+      | 'useReset'
     >,
     Pick<SelectBaseLabelProps, 'label' | 'badge'>,
     Pick<InputBaseProps, 'hiddenLabel'>,
@@ -56,6 +57,7 @@ export interface DatePickerWrapperProps
     >,
     Pick<DateToStringParams, 'format'> {
   label: ReactNode;
+  useReset?: boolean;
 }
 
 export interface DatePickerSelectButtonProps

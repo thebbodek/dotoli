@@ -31,6 +31,7 @@ const DatePicker = ({
   externalDaysLabels,
   useWeekend,
   format,
+  useReset,
   onChange,
 }: DatePickerProps) => {
   const labelId = useId();
@@ -57,6 +58,7 @@ const DatePicker = ({
         placeholder={placeholder}
         popoverOption={popoverOption}
         required={required}
+        useReset={useReset}
       >
         {({ close }) => (
           <SelectBase.PopoverWrapper useMobile>

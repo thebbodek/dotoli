@@ -13,11 +13,12 @@ import SelectBaseResetButton from '@/components/Select/shared/SelectBaseResetBut
 
 const DatePickTrigger = ({
   format,
-}: Pick<DatePickerWrapperProps, 'format'>) => {
+  useReset = true,
+}: Pick<DatePickerWrapperProps, 'format' | 'useReset'>) => {
   const { placeholder = '', disabled } = useSelectTriggerContext();
   const { value, variant, setInternalValue, onChange } = useCalendarContext();
   const hasValue = !!value && isValidDateOfVariant({ value, variant });
-  const showsResetButton = hasValue && !disabled;
+  const showsResetButton = useReset && hasValue && !disabled;
 
   const onReset = () => {
     setInternalValue(null);
