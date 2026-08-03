@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.113
+
+### Patch Changes
+
+- 27637fe: DOTOLI-209 DynamicVirtualList itemsTotalCount 증가 시 스크롤이 최상단으로 초기화되는 버그 수정
+  - @bbodek/utils@0.0.83
+  - @bbodek/hooks@0.0.86
+
 ## 0.0.112
 
 ### Patch Changes
