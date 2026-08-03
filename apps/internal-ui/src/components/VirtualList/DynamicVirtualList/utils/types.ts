@@ -21,3 +21,9 @@ export interface FindStartIndexParams extends FindIndexDefaultParams {}
 export interface FindEndIndexParams
   extends FindIndexDefaultParams,
     Pick<UseVirtualListReturnType['models'], 'containerHeight'> {}
+
+export interface GetEstimatedOffsetsParams
+  extends Pick<
+    DynamicVirtualListContextProps,
+    'offsets' | 'itemsTotalCount' | 'initialItemHeight' | 'gap'
+  > {}

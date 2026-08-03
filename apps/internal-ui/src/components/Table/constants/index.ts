@@ -90,7 +90,7 @@ export const TABLE_CELL_INPUT_STYLES = {
   [TABLE_CELL_INPUT_STATE.ERROR]:
     'group-[.error]:text-in-red-04 group-[.error]:border-in-red-04 group-[.error]:focus:border-in-red-04',
   [TABLE_CELL_INPUT_STATE.DISABLED]:
-    'disabled:text-in-gray-05 disabled:border-in-gray-01 disabled:bg-in-gray-02 disabled:cursor-not-allowed disabled:placeholder-in-gray-05',
+    'disabled:text-in-gray-05 disabled:border-in-gray-02 disabled:bg-in-gray-02 disabled:cursor-not-allowed disabled:placeholder-in-gray-05',
 } as const;
 
 /**

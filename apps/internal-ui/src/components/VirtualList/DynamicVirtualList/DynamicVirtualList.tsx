@@ -6,9 +6,13 @@ import { useVirtualItemsMetricsInitEffect } from '@/components/VirtualList/Dynam
 import useVirtualListUpdateOffsetsCancelAnimationFrameEffect from '@/components/VirtualList/DynamicVirtualList/hooks/effects/useVirtualListUpdateOffsetsCancelAnimationFrameEffect';
 import {
   DynamicVirtualListProps,
+  VirtualListItemHeights,
   VirtualListItemOffsets,
 } from '@/components/VirtualList/DynamicVirtualList/types';
-import { findDynamicVirtualListIndexes } from '@/components/VirtualList/DynamicVirtualList/utils';
+import {
+  findDynamicVirtualListIndexes,
+  getEstimatedOffsets,
+} from '@/components/VirtualList/DynamicVirtualList/utils';
 import {
   useVirtualList,
   VirtualListRootWrapper,
@@ -27,13 +31,23 @@ const DynamicVirtualList = <T extends ElementType, P extends ElementType>({
   children,
 }: DynamicVirtualListProps<T, P>) => {
   const rafIdRef = useRef(0);
-  const heightsRef = useRef<number[]>([]);
-  const [offsets, setOffsets] = useState<VirtualListItemOffsets>([]);
+  const heightsRef = useRef<VirtualListItemHeights>([]);
+  const [measuredOffsets, setMeasuredOffsets] =
+    useState<VirtualListItemOffsets>([]);
   const {
     models: { containerRef, scrollTop, containerHeight },
     operations: { onScroll },
   } = useVirtualList();
 
+  const hasMeasuredOffsets = measuredOffsets.length === itemsTotalCount + 1;
+  const offsets = hasMeasuredOffsets
+    ? measuredOffsets
+    : getEstimatedOffsets({
+        offsets: measuredOffsets,
+        itemsTotalCount,
+        initialItemHeight,
+        gap,
+      });
   const totalItemsHeight = offsets[itemsTotalCount] - gap;
   const { startIndex, endIndex } = findDynamicVirtualListIndexes({
     containerHeight,
@@ -47,15 +61,17 @@ const DynamicVirtualList = <T extends ElementType, P extends ElementType>({
     cancelAnimationFrame(rafIdRef.current);
 
     rafIdRef.current = requestAnimationFrame(() => {
+      const estimatedItemHeight = initialItemHeight + gap;
       const newOffsets = [0];
 
       for (let i = 0; i < itemsTotalCount; i++) {
-        newOffsets[i + 1] = newOffsets[i] + heightsRef.current[i];
+        newOffsets[i + 1] =
+          newOffsets[i] + (heightsRef.current[i] ?? estimatedItemHeight);
       }
 
-      setOffsets(newOffsets);
+      setMeasuredOffsets(newOffsets);
     });
-  }, [itemsTotalCount]);
+  }, [itemsTotalCount, initialItemHeight, gap]);
 
   useVirtualItemsMetricsInitEffect({
     heightsRef,
@@ -66,12 +82,14 @@ const DynamicVirtualList = <T extends ElementType, P extends ElementType>({
   });
   useVirtualListUpdateOffsetsCancelAnimationFrameEffect({ rafIdRef });
 
-  const renderer = () => {
-    if (offsets.length < itemsTotalCount + 1) {
-      return null;
-    }
-
-    return (
+  return (
+    <VirtualListRootWrapper
+      as={as}
+      className={className}
+      containerRef={containerRef}
+      ref={ref}
+      onScroll={onScroll}
+    >
       <VirtualListWrapper
         {...(listOptions ?? {})}
         totalItemsHeight={totalItemsHeight}
@@ -88,18 +106,6 @@ const DynamicVirtualList = <T extends ElementType, P extends ElementType>({
           {children({ startIndex, endIndex: endIndex + 1 })}
         </DynamicVirtualListContextProvider>
       </VirtualListWrapper>
-    );
-  };
-
-  return (
-    <VirtualListRootWrapper
-      as={as}
-      className={className}
-      containerRef={containerRef}
-      ref={ref}
-      onScroll={onScroll}
-    >
-      {renderer()}
     </VirtualListRootWrapper>
   );
 };

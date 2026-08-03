@@ -390,6 +390,7 @@ export const InputCellGrid: Story = {
                     key={column.key}
                     placeholder='입력해주세요'
                     value={row[column.key]}
+                    disabled
                     onChange={(
                       e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
                     ) =>
