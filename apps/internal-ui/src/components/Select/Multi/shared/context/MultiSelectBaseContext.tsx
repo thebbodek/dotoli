@@ -96,12 +96,10 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
     key,
   }: Pick<MultiSelectInternalOption<T>, 'key'>) => {
     onChange(
-      internalOptions
-        .filter((option) => option.key !== key && option.isSelected)
-        .map(({ value, label }) => ({
-          value,
-          label,
-        })),
+      value.filter(
+        (option) =>
+          getOptionKey({ value: option.value, label: option.label }) !== key,
+      ),
     );
   };
 

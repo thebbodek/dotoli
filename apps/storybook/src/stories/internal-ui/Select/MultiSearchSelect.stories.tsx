@@ -235,6 +235,30 @@ export const WithBadge = {
   },
 };
 
+export const WithInitialValue = {
+  render: () => {
+    const [value, setValue] = useState<
+      MultiSelectOption<MultiSelectBaseValue>[]
+    >(items.slice(1, 4).map((item) => ({ value: item, label: item })));
+
+    const onChange = (value: MultiSelectOption<MultiSelectBaseValue>[]) =>
+      setValue(value as MultiSelectOption<MultiSelectBaseValue>[]);
+
+    return (
+      <MultiSearchSelect
+        options={items.map((item) => ({
+          value: item,
+          label: item,
+        }))}
+        className='w-[15rem]'
+        label='Select Label'
+        value={value}
+        onChange={onChange}
+      />
+    );
+  },
+};
+
 export const Error: Story = {
   args: {
     isError: true,
