@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.112
+
+### Patch Changes
+
+- 9943d2a: DOTOLI-208 OverlayLoading 스크롤 있을 경우에도 전체 덮을 수 있도록 수정
+  - @bbodek/utils@0.0.82
+  - @bbodek/hooks@0.0.85
+
 ## 0.0.111
 
 ### Patch Changes
