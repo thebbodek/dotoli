@@ -384,13 +384,13 @@ export const InputCellGrid: Story = {
                     }
                   />
                 </Table.Cell>
-                {INPUT_GRID_COLUMNS.map((column) => (
+                {INPUT_GRID_COLUMNS.map((column, columnIndex) => (
                   <Table.InputCell
                     className={column.className}
+                    disabled={rowIndex === 1 && columnIndex === 2}
                     key={column.key}
                     placeholder='입력해주세요'
                     value={row[column.key]}
-                    disabled
                     onChange={(
                       e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
                     ) =>

@@ -14,11 +14,34 @@ const ARROW_KEY_DIRECTIONS: Record<string, ArrowDirection> = {
 const ROW_SELECTOR = '[role="row"]';
 // 헤더(별도 rowgroup)를 제외하고 본문 행만 탐색하기 위해 Body rowgroup 으로 범위를 한정한다.
 const ROW_GROUP_SELECTOR = '[role="rowgroup"]';
+// 고정 열은 별도 그룹 div 로 감싸이므로 직계 자식이 아닌 하위 전체에서 셀을 찾는다.
+const CELL_SELECTOR = '[role="cell"], [role="rowheader"]';
 // 체크박스·토글·라디오 등 다른 input 은 제외하고 TableInputCell 의 편집 input 만 이동 대상으로 한다.
 const ENABLED_INPUT_SELECTOR = `input[${TABLE_INPUT_CELL_MARKER_ATTRIBUTE}]:not([disabled])`;
 
 const getRowInputs = (row: Element) =>
   Array.from(row.querySelectorAll<HTMLInputElement>(ENABLED_INPUT_SELECTOR));
+
+const getRowCells = (row: Element) =>
+  Array.from(row.querySelectorAll<HTMLElement>(CELL_SELECTOR));
+
+/**
+ * 상/하 이동은 편집 가능한 input 순서가 아니라 실제 셀(열) 위치를 기준으로 삼는다.
+ * disabled InputCell 이 섞인 행은 편집 가능한 input 개수가 행마다 달라져,
+ * input 순서를 열 위치로 쓰면 다른 열로 이동하게 된다.
+ */
+const getColumnIndex = (row: Element, input: HTMLInputElement) => {
+  const cell = input.closest<HTMLElement>(CELL_SELECTOR);
+
+  if (!cell) return -1;
+
+  return getRowCells(row).indexOf(cell);
+};
+
+const getInputAtColumn = (row: Element, columnIndex: number) =>
+  getRowCells(row)[columnIndex]?.querySelector<HTMLInputElement>(
+    ENABLED_INPUT_SELECTOR,
+  ) ?? null;
 
 /**
  * 좌/우 이동은 캐럿이 텍스트 경계(맨 앞/맨 뒤)에 있을 때만 셀 이동으로 처리하고,
@@ -46,14 +69,12 @@ const getTargetInput = (input: HTMLInputElement, direction: ArrowDirection) => {
 
   if (!row) return null;
 
-  const rowInputs = getRowInputs(row);
-  const columnIndex = rowInputs.indexOf(input);
-
   // 좌/우 이동은 같은 행 안에서 순환(맨 끝에서 더 이동하면 반대편 끝)한다.
   if (direction === 'left' || direction === 'right') {
+    const rowInputs = getRowInputs(row);
+    const inputIndex = rowInputs.indexOf(input);
     const step = direction === 'left' ? -1 : 1;
-    const nextIndex =
-      (columnIndex + step + rowInputs.length) % rowInputs.length;
+    const nextIndex = (inputIndex + step + rowInputs.length) % rowInputs.length;
 
     return rowInputs[nextIndex] ?? null;
   }
@@ -62,22 +83,25 @@ const getTargetInput = (input: HTMLInputElement, direction: ArrowDirection) => {
 
   if (!body) return null;
 
-  const editableRows = Array.from(
-    body.querySelectorAll<HTMLElement>(ROW_SELECTOR),
-  ).filter((candidate) => candidate.querySelector(ENABLED_INPUT_SELECTOR));
-  const rowIndex = editableRows.indexOf(row);
+  const rows = Array.from(body.querySelectorAll<HTMLElement>(ROW_SELECTOR));
+  const rowIndex = rows.indexOf(row);
+  const columnIndex = getColumnIndex(row, input);
 
-  // 위/아래 이동도 같은 열에서 순환(맨 끝 행에서 더 이동하면 반대편 끝 행)한다.
+  if (rowIndex === -1 || columnIndex === -1) return null;
+
+  // 위/아래 이동은 항상 같은 열을 유지하며 순환(맨 끝 행에서 더 이동하면 반대편 끝 행)하고,
+  // 그 열이 비어 있거나 disabled 인 행은 건너뛰고 다음 행을 찾는다.
   const step = direction === 'up' ? -1 : 1;
-  const targetRow =
-    editableRows[(rowIndex + step + editableRows.length) % editableRows.length];
 
-  if (!targetRow) return null;
+  for (let offset = 1; offset < rows.length; offset += 1) {
+    const targetRowIndex =
+      (((rowIndex + step * offset) % rows.length) + rows.length) % rows.length;
+    const targetInput = getInputAtColumn(rows[targetRowIndex], columnIndex);
 
-  const targetInputs = getRowInputs(targetRow);
-  const clampedIndex = Math.min(columnIndex, targetInputs.length - 1);
+    if (targetInput) return targetInput;
+  }
 
-  return targetInputs[clampedIndex] ?? null;
+  return null;
 };
 
 /**
@@ -91,6 +115,10 @@ export const handleTableCellInputArrowNavigation = (
   const direction = ARROW_KEY_DIRECTIONS[e.key];
 
   if (!direction) return;
+
+  // 한글 등 IME 조합 중에 이동하면 조합 중이던 글자가 이동한 셀에 입력되므로,
+  // 조합이 끝난 뒤(다음 키 입력)에 이동하도록 한다.
+  if (e.nativeEvent.isComposing) return;
 
   const input = e.currentTarget;
 
