@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.115
+
+### Patch Changes
+
+- e43c542: DOTOLI-211 TableInputCell disabled, padding style 변경
+  - @bbodek/utils@0.0.85
+  - @bbodek/hooks@0.0.88
+
 ## 0.0.114
 
 ### Patch Changes
