@@ -1,5 +1,5 @@
 import { useForm } from '@bbodek/hooks';
-import { Badge, Flex, Table, Toggle } from '@bbodek/internal-ui';
+import { Badge, Checkbox, Flex, Table, Toggle } from '@bbodek/internal-ui';
 import { now } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChangeEvent, useState } from 'react';
@@ -71,9 +71,9 @@ const USER_LIST_COLUMNS_MAPPER: Record<UserListKeys, string> = {
 };
 
 const USER_LIST_STYLE_MAPPER: Record<UserListKeys, string> = {
-  [USER_LIST_MAPPER['CHECKED']]: 'w-[80px]',
-  [USER_LIST_MAPPER['ACTIVE']]: 'w-[150px] gap-x-2',
-  [USER_LIST_MAPPER['NAME']]: 'w-[100px] flex-1',
+  [USER_LIST_MAPPER['CHECKED']]: 'w-[50px] in-flex-h-stack-center',
+  [USER_LIST_MAPPER['ACTIVE']]: 'w-[140px] gap-x-2',
+  [USER_LIST_MAPPER['NAME']]: 'flex-1',
   [USER_LIST_MAPPER['USER_NAME']]: 'w-[6.5rem]',
   [USER_LIST_MAPPER['IS_APPROVED']]: 'w-[90px]',
   [USER_LIST_MAPPER['GOODS_CODE']]: 'w-[150px]',
@@ -104,7 +104,7 @@ export const Default: Story = {
     });
 
     return (
-      <Table caption='사용자 목록' className='h-[500px] w-[800px]'>
+      <Table caption='사용자 목록' className='h-[500px] w-[1100px]'>
         <Table.Head>
           <Table.Row>
             {Object.values(USER_LIST_MAPPER).map((key) => {
@@ -345,7 +345,7 @@ export const InputCellGrid: Story = {
         <Table caption='입력 그리드' className='h-[500px] w-[900px]'>
           <Table.Head>
             <Table.Row>
-              <Table.Cell className='w-[80px]'>
+              <Table.Cell className='in-flex-h-stack-center w-[50px]'>
                 <Table.Cell.Checkbox
                   checked={isAllChecked}
                   label='전체 선택'
@@ -370,7 +370,7 @@ export const InputCellGrid: Story = {
           <Table.Body>
             {values.map((row, rowIndex) => (
               <Table.Row key={rowIndex}>
-                <Table.Cell className='w-[80px]'>
+                <Table.Cell className='in-flex-h-stack-center w-[50px]'>
                   <Table.Cell.Checkbox
                     checked={row.checked}
                     onChange={(e) =>
@@ -489,8 +489,8 @@ const isWeekend = (date: ReturnType<typeof now>) =>
 export const ScheduleTable: Story = {
   render: () => (
     <Table caption='주간 발주 현황' className='h-[360px] w-[900px]'>
-      <Table.Head>
-        <Table.Row>
+      <Table.Head className='min-w-max'>
+        <Table.Row className='min-w-max'>
           {SCHEDULE_FIXED_COLUMNS.map((column) => (
             <Table.Cell
               className={column.className}
@@ -502,7 +502,7 @@ export const ScheduleTable: Story = {
           ))}
           {scheduleDates.map((date) => (
             <Table.Cell
-              className='w-[96px]'
+              className='w-[100px]'
               isHighlighted={date.isSame(scheduleToday, 'day')}
               key={date.format('YYYY-MM-DD')}
               textTone={isWeekend(date) ? 'danger' : 'default'}
@@ -513,9 +513,9 @@ export const ScheduleTable: Story = {
         </Table.Row>
       </Table.Head>
 
-      <Table.Body>
+      <Table.Body className='min-w-max'>
         {scheduleRows.map((row) => (
-          <Table.Row key={row.id}>
+          <Table.Row className='min-w-max' key={row.id}>
             {SCHEDULE_FIXED_COLUMNS.map((column) => (
               <Table.Cell
                 className={column.className}
@@ -527,7 +527,7 @@ export const ScheduleTable: Story = {
             ))}
             {scheduleDates.map((date) => (
               <Table.Cell
-                className='w-[96px]'
+                className='w-[100px]'
                 isHighlighted={date.isSame(scheduleToday, 'day')}
                 key={date.format('YYYY-MM-DD')}
               >
@@ -560,8 +560,8 @@ const MERGE_GROUPS = [
 export const MergedFixedColumns: Story = {
   render: () => (
     <Table caption='거래처별 운송사' className='h-[360px] w-[760px]'>
-      <Table.Head>
-        <Table.Row>
+      <Table.Head className='min-w-max'>
+        <Table.Row className='min-w-max'>
           <Table.Cell className='w-[120px]' isFixedLeft>
             거래처코드
           </Table.Cell>
@@ -571,7 +571,7 @@ export const MergedFixedColumns: Story = {
           <Table.Cell className='w-[120px]'>운송사</Table.Cell>
           {scheduleDates.map((date) => (
             <Table.Cell
-              className='w-[96px]'
+              className='w-[100px]'
               isHighlighted={date.isSame(scheduleToday, 'day')}
               key={date.format('YYYY-MM-DD')}
               textTone={isWeekend(date) ? 'danger' : 'default'}
@@ -582,7 +582,7 @@ export const MergedFixedColumns: Story = {
         </Table.Row>
       </Table.Head>
 
-      <Table.Body>
+      <Table.Body className='min-w-max'>
         {MERGE_GROUPS.map((group, groupIndex) => (
           <Table.RowGroup
             merged={
@@ -595,14 +595,15 @@ export const MergedFixedColumns: Story = {
                 </Table.Cell>
               </>
             }
+            className='min-w-max'
             key={groupIndex}
           >
             {group.carriers.map((carrier, carrierIndex) => (
-              <Table.Row key={carrierIndex}>
+              <Table.Row className='min-w-max' key={carrierIndex}>
                 <Table.Cell className='w-[120px]'>{carrier}</Table.Cell>
                 {scheduleDates.map((date) => (
                   <Table.Cell
-                    className='w-[96px]'
+                    className='w-[100px]'
                     isHighlighted={date.isSame(scheduleToday, 'day')}
                     key={date.format('YYYY-MM-DD')}
                   >
@@ -631,8 +632,8 @@ export const EmptyTable: Story = {
         />
 
         <Table caption='사용자 목록' className='w-[800px]'>
-          <Table.Head>
-            <Table.Row>
+          <Table.Head className='min-w-max'>
+            <Table.Row className='min-w-max'>
               <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
                 사용일
               </Table.Cell>
@@ -644,9 +645,9 @@ export const EmptyTable: Story = {
             </Table.Row>
           </Table.Head>
 
-          <Table.Body emptyComponent={<Table.Empty />}>
+          <Table.Body className='min-w-max' emptyComponent={<Table.Empty />}>
             {Array.from({ length: count }).map(() => (
-              <Table.Row>
+              <Table.Row className='min-w-max'>
                 <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
                   멜라민 식판
                 </Table.Cell>
@@ -677,11 +678,21 @@ export const LoadingTable: Story = {
         <Table caption='사용자 목록' className='h-[500px] w-fit'>
           <Table.Head>
             <Table.Row>
-              {Object.values(USER_LIST_MAPPER).map((key) => (
-                <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
-                  {USER_LIST_COLUMNS_MAPPER[key]}
-                </Table.Cell>
-              ))}
+              {Object.values(USER_LIST_MAPPER).map((key) => {
+                if (key === USER_LIST_MAPPER['CHECKED']) {
+                  return (
+                    <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                      <Checkbox checked={false} onChange={() => {}} />
+                    </Table.Cell>
+                  );
+                }
+
+                return (
+                  <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                    {USER_LIST_COLUMNS_MAPPER[key]}
+                  </Table.Cell>
+                );
+              })}
             </Table.Row>
           </Table.Head>
 
@@ -697,6 +708,14 @@ export const LoadingTable: Story = {
             {Array.from({ length: 10 }).map(() => (
               <Table.Row>
                 {Object.values(USER_LIST_MAPPER).map((key) => {
+                  if (key === USER_LIST_MAPPER['CHECKED']) {
+                    return (
+                      <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                        <Checkbox checked={false} onChange={() => {}} />
+                      </Table.Cell>
+                    );
+                  }
+
                   return (
                     <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
                       {key}

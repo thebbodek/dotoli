@@ -29,7 +29,7 @@ const TableLoading = <T extends string>({
               key={key}
               role='cell'
             >
-              <Skeleton height={12} width='90%' />
+              <Skeleton containerClassName='w-full' height={12} width='90%' />
             </div>
           ))}
         </div>

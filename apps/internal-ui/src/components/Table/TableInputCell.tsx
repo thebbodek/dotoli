@@ -39,7 +39,11 @@ const TableInputCell = ({
 
   return (
     <TableCell
-      className={clsx(className, 'has-[input]:p-0', isError && 'error group')}
+      className={clsx(
+        className,
+        'has-[input]:p-0 has-[input]:last:pr-0',
+        isError && 'error group',
+      )}
       isFixedLeft={isFixedLeft}
       isHighlighted={isHighlighted}
       role={role}
@@ -49,11 +53,11 @@ const TableInputCell = ({
         ariaLive='assertive'
         color='red-03'
         content={feedback}
-        hidden={!isError}
+        hidden={!isError || !feedback}
         id={feedbackId}
         placement='bottom-start'
         role='alert'
-        rootClassName='h-full'
+        rootClassName='h-full w-full'
         isKeepFloating
       >
         <input
