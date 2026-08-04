@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.116
+
+### Patch Changes
+
+- 3294ed1: DOTOLI-216 TableInputCell 방향키 이동 버그 수정
+  - @bbodek/utils@0.0.86
+  - @bbodek/hooks@0.0.89
+
 ## 0.0.115
 
 ### Patch Changes
