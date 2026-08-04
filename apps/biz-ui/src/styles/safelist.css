@@ -1,0 +1,11 @@
+/**
+  * @description: 런타임에 조합되는 클래스만 보존합니다. `hover:` / `focus:` / `active:` 같은
+  * variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔하므로 넣지 않습니다.
+  * 넣으면 생성 CSS가 3배가 됩니다 (minified 29KB → 99KB).
+  * */
+@source inline("{bg,text,fill,placeholder,border}-{biz}-{blue,red,yellow,green,gray}-{50,100,200,300,400,500,600,700,800,900}");
+@source inline("{text-biz-{heading-1,heading-2,heading-3,heading-4}{-bold,}}");
+@source inline("{text-biz-{heading-5,body-lg,body,body-semibold,body-bold,label,label-semibold,label-bold,caption}}");
+@source inline("{biz-flex-{v,h}-stack{-center,}}");
+@source inline("{biz-safe-area{-top,-bottom,-left,-right,-x,-y,}}");
+@source inline("{biz-{screen-h,min-screen-h,max-screen-h,touch-target,scroll-x,scroll-y}}");
