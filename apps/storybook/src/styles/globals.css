@@ -1,3 +1,4 @@
 @import 'tailwindcss';
 @import '@bbodek/internal-ui/styles';
+@import '@bbodek/biz-ui/styles';
 @config '@bbodek/internal-ui/tailwind-config';

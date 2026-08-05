@@ -17,14 +17,14 @@ Radius · Shadow · Breakpoint · Container는 아직 Figma에 정의되어 있�
 
 ### 확정 사항
 
-| 항목 | 결정 |
-|---|---|
-| 위치 / 패키지명 | `apps/biz-ui` / `@bbodek/biz-ui` (npm 배포) |
-| internal-ui 관계 | 완전 독립. `@bbodek/*` 워크스페이스 의존 없음 |
-| RN | 별도 레포. dotoli는 웹 DS만 |
-| Storybook | 기존 `apps/storybook`에 `core/biz-ui/*` 트리 추가 |
-| 디자인 토큰 | Figma에서 신규 정의 |
-| 토큰 prefix | `biz-` (internal-ui의 `in-`과 충돌 회피) |
+| 항목             | 결정                                              |
+| ---------------- | ------------------------------------------------- |
+| 위치 / 패키지명  | `apps/biz-ui` / `@bbodek/biz-ui` (npm 배포)       |
+| internal-ui 관계 | 완전 독립. `@bbodek/*` 워크스페이스 의존 없음     |
+| RN               | 별도 레포. dotoli는 웹 DS만                       |
+| Storybook        | 기존 `apps/storybook`에 `core/biz-ui/*` 트리 추가 |
+| 디자인 토큰      | Figma에서 신규 정의                               |
+| 토큰 prefix      | `biz-` (internal-ui의 `in-`과 충돌 회피)          |
 
 ### 제약
 
@@ -85,11 +85,11 @@ Storybook:
 
 ```
 apps/storybook/src/stories/biz-ui/
-├── Foundations/
-│   ├── Colors.mdx
-│   └── Typography.mdx
+├── Colors.mdx                  # meta.title: 'core/biz-ui/Colors'
 └── <Component>.stories.tsx     # meta.title: 'core/biz-ui/<Name>'
 ```
+
+타이포그래피는 별도 페이지를 두지 않습니다. internal-ui도 컴포넌트 스토리(`Typography.stories.tsx`)로만 다루며, biz-ui는 Typography 컴포넌트가 생길 때 같은 방식으로 붙입니다.
 
 ---
 
@@ -99,7 +99,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-213 biz-ui 패키지 생성 및 빌드 환경 구성
 - [x] DOTOLI-214 biz-ui 스타일 레이어 및 디자인 토큰 구성 (color · typography까지. radius/shadow/breakpoint/container는 Figma 정의 대기)
-- [ ] DOTOLI-215 biz-ui Storybook 연동 및 문서화
+- [x] DOTOLI-215 biz-ui Storybook 연동 및 문서화
 
 ---
 
@@ -111,25 +111,25 @@ apps/storybook/src/stories/biz-ui/
 
 **사전 점검 (작업 시작 전)**
 
-| 항목 | 확인 방법 | 상태 |
-|---|---|---|
-| `@bbodek/biz-ui` 이름 미점유 | `npm view @bbodek/biz-ui` → 404 | ✅ 확인 완료 (404) |
-| NPM_TOKEN이 `@bbodek` 스코프에 신규 패키지 publish 가능 | npm org 권한 (Automation 토큰 + write) | 미확인 |
-| 신규 스코프 패키지 public 배포 | `.changeset/config.json`의 `"access": "public"`이 커버 | ✅ 별도 설정 불필요 |
+| 항목                                                    | 확인 방법                                              | 상태                |
+| ------------------------------------------------------- | ------------------------------------------------------ | ------------------- |
+| `@bbodek/biz-ui` 이름 미점유                            | `npm view @bbodek/biz-ui` → 404                        | ✅ 확인 완료 (404)  |
+| NPM_TOKEN이 `@bbodek` 스코프에 신규 패키지 publish 가능 | npm org 권한 (Automation 토큰 + write)                 | 미확인              |
+| 신규 스코프 패키지 public 배포                          | `.changeset/config.json`의 `"access": "public"`이 커버 | ✅ 별도 설정 불필요 |
 
 **생성 파일**
 
-| 파일 | 내용 |
-|---|---|
-| `apps/biz-ui/package.json` | 아래 스펙 |
-| `apps/biz-ui/tsconfig.json` | `apps/internal-ui/tsconfig.json` 동일 |
-| `apps/biz-ui/tsconfig.build.json` | `apps/internal-ui/tsconfig.build.json` 동일 |
-| `apps/biz-ui/eslint.config.mjs` | `apps/internal-ui/eslint.config.mjs` 동일 |
-| `apps/biz-ui/rollup.config.mjs` | `createRollupConfig({ plugins: [postcss({extract:true,minimize:true,modules:false}), image(), json()], srcPath })` |
-| `apps/biz-ui/next.config.ts`, `.gitignore`, `.npmignore`, `LICENSE` | internal-ui 복사 |
-| `apps/biz-ui/tailwind.config.js` | content 글롭을 `@bbodek/biz-ui/dist`로 |
-| `apps/biz-ui/src/index.ts` | `export * from '@/components'; export * from '@/variants';` |
-| `apps/biz-ui/src/components/index.ts`, `src/variants/index.ts` | 빈 배럴로 시작 |
+| 파일                                                                | 내용                                                                                                               |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `apps/biz-ui/package.json`                                          | 아래 스펙                                                                                                          |
+| `apps/biz-ui/tsconfig.json`                                         | `apps/internal-ui/tsconfig.json` 동일                                                                              |
+| `apps/biz-ui/tsconfig.build.json`                                   | `apps/internal-ui/tsconfig.build.json` 동일                                                                        |
+| `apps/biz-ui/eslint.config.mjs`                                     | `apps/internal-ui/eslint.config.mjs` 동일                                                                          |
+| `apps/biz-ui/rollup.config.mjs`                                     | `createRollupConfig({ plugins: [postcss({extract:true,minimize:true,modules:false}), image(), json()], srcPath })` |
+| `apps/biz-ui/next.config.ts`, `.gitignore`, `.npmignore`, `LICENSE` | internal-ui 복사                                                                                                   |
+| `apps/biz-ui/tailwind.config.js`                                    | content 글롭을 `@bbodek/biz-ui/dist`로                                                                             |
+| `apps/biz-ui/src/index.ts`                                          | `export * from '@/components'; export * from '@/variants';`                                                        |
+| `apps/biz-ui/src/components/index.ts`, `src/variants/index.ts`      | 빈 배럴로 시작                                                                                                     |
 
 **package.json 스펙**
 
@@ -144,8 +144,8 @@ apps/storybook/src/stories/biz-ui/
 
 **수정 파일**
 
-| 파일 | 변경 |
-|---|---|
+| 파일                  | 변경                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------- |
 | `package.json` (루트) | `scripts`에 `"biz": "pnpm --filter=@bbodek/biz-ui"` 추가 (`in`/`ut`/`hooks` 컨벤션) |
 
 **주의사항**
@@ -180,35 +180,36 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 
 **생성 파일**
 
-| 파일 | 내용 |
-|---|---|
-| `src/styles/globals.css` | pretendard·phosphor 폰트 import + `./base.css`, `./theme.css`, `./safelist.css`, `./utilities.css` import + `@source '../../dist'` |
-| `src/styles/base.css` | `@layer base` 리셋 (internal-ui 기준 + 모바일 항목 추가) |
-| `src/styles/theme.css` | `@theme { }` — 골격 먼저, 값은 Figma 확정 후 |
-| `src/styles/safelist.css` | `@source inline(...)` — prefix를 `{biz}`로 |
-| `src/styles/utilities.css` | `@utility biz-*` |
-| `src/variants/{color,typography}/` | 각 디렉토리에 `variant.ts` + `types/index.ts` + `index.ts` |
+| 파일                               | 내용                                                                                                                               |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `src/styles/globals.css`           | pretendard·phosphor 폰트 import + `./base.css`, `./theme.css`, `./safelist.css`, `./utilities.css` import + `@source '../../dist'` |
+| `src/styles/base.css`              | `@layer base` 리셋 (internal-ui 기준 + 모바일 항목 추가)                                                                           |
+| `src/styles/theme.css`             | `@theme { }` — 골격 먼저, 값은 Figma 확정 후                                                                                       |
+| `src/styles/safelist.css`          | `@source inline(...)` — prefix를 `{biz}`로                                                                                         |
+| `src/styles/utilities.css`         | `@utility biz-*`                                                                                                                   |
+| `src/variants/{color,typography}/` | 각 디렉토리에 `variant.ts` + `types/index.ts` + `index.ts`                                                                         |
 
 `radius` / `shadow` / `container` variants는 Figma에 해당 토큰이 없어 생성하지 않았습니다.
 
 **모바일 / WebView 대응**
 
-| 항목 | 처리 |
-|---|---|
-| safe-area | `@utility biz-safe-area-{top,bottom,y,left,right}` — `env(safe-area-inset-*)` |
-| 뷰포트 높이 | `100vh` 금지, `100dvh` 기준 유틸 제공 |
-| 바운스 스크롤 | 루트 `overscroll-behavior: none` |
-| 탭 하이라이트 | `-webkit-tap-highlight-color: transparent` |
-| 터치 타겟 | 인터랙티브 요소 최소 44px 규칙을 컴포넌트 사이즈 토큰에 반영 |
-| 텍스트 확대 | `-webkit-text-size-adjust: 100%` |
-| breakpoint | mobile-first. `--breakpoint-biz-*` 를 모바일 기준으로 재설계 |
+| 항목          | 처리                                                                                                                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| safe-area     | `@utility biz-safe-area-{top,bottom,y,left,right}` — `env(safe-area-inset-*)`                                                                                                                                      |
+| 뷰포트 높이   | `100vh` 금지, `100dvh` 기준 유틸 제공                                                                                                                                                                              |
+| 바운스 스크롤 | 루트 `overscroll-behavior: none`                                                                                                                                                                                   |
+| 탭 하이라이트 | `-webkit-tap-highlight-color: transparent`                                                                                                                                                                         |
+| 터치 타겟     | 인터랙티브 요소 최소 44px 규칙을 컴포넌트 사이즈 토큰에 반영                                                                                                                                                       |
+| 텍스트 확대   | `-webkit-text-size-adjust: 100%`                                                                                                                                                                                   |
+| iOS 포커스 줌 | `@layer base`의 `input { font-size: 1rem }` 은 **쓰지 않습니다.** Storybook에서 internal-ui와 공존할 때 `InputSearch`(14px)를 16px로 밀어올립니다. biz-ui 인풋은 `text-biz-body`(=1rem)를 명시해 토큰으로 막습니다 |
+| breakpoint    | mobile-first. `--breakpoint-biz-*` 를 모바일 기준으로 재설계                                                                                                                                                       |
 
 **토큰 스케일** (Figma 확정분)
 
-| 그룹 | 토큰 | 개수 |
-|---|---|---|
-| Color | `--color-biz-{blue,red,yellow,green,gray}-{50,100,…,900}` | 50 |
-| Typography | `--text-biz-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 17 |
+| 그룹       | 토큰                                                                               | 개수 |
+| ---------- | ---------------------------------------------------------------------------------- | ---- |
+| Color      | `--color-biz-{blue,red,yellow,green,gray}-{50,100,…,900}`                          | 50   |
+| Typography | `--text-biz-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 17   |
 
 타이포그래피 이름은 internal-ui의 `body-16-m` 식이 아니라 Figma가 정의한 시맨틱 이름을 그대로 씁니다 — `heading-1`~`heading-4` (+ `-bold`), `heading-5`, `body-lg`, `body` / `body-semibold` / `body-bold`, `label` / `label-semibold` / `label-bold`, `caption`.
 
@@ -220,11 +221,11 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 
 **Figma 문서 텍스트와 실제 변수 값이 어긋나는 지점** — 셋 다 바인딩된 변수/렌더 결과를 따랐습니다.
 
-| 토큰 | 문서 텍스트 | 실제 변수 (채택) |
-|---|---|---|
-| `label` · `label-semibold` · `label-bold` | Letter -2% | `-0.03em` (14px에서 `tracking: -0.42px`) |
-| `caption` | Pretendard Medium | `font-weight: 600` (SemiBold) |
-| Heading 섹션 설명 | heading-1(28px)~heading-4(18px) 4단계 | 실제 heading-1(36px)~heading-5(18px) 5단계 |
+| 토큰                                      | 문서 텍스트                           | 실제 변수 (채택)                           |
+| ----------------------------------------- | ------------------------------------- | ------------------------------------------ |
+| `label` · `label-semibold` · `label-bold` | Letter -2%                            | `-0.03em` (14px에서 `tracking: -0.42px`)   |
+| `caption`                                 | Pretendard Medium                     | `font-weight: 600` (SemiBold)              |
+| Heading 섹션 설명                         | heading-1(28px)~heading-4(18px) 4단계 | 실제 heading-1(36px)~heading-5(18px) 5단계 |
 
 **주의사항**
 
@@ -249,9 +250,9 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 
 **수정 파일**
 
-| 파일 | 변경 |
-|---|---|
-| `apps/storybook/package.json` | `dependencies`에 `"@bbodek/biz-ui": "workspace:*"` 추가 |
+| 파일                                    | 변경                                                                    |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| `apps/storybook/package.json`           | `dependencies`에 `"@bbodek/biz-ui": "workspace:*"` 추가                 |
 | `apps/storybook/src/styles/globals.css` | `@import '@bbodek/biz-ui/styles';` 를 internal-ui import 다음 줄에 추가 |
 
 globals.css 최종 형태:
@@ -265,12 +266,11 @@ globals.css 최종 형태:
 
 **생성 파일**
 
-| 파일 | 내용 |
-|---|---|
-| `apps/storybook/src/stories/biz-ui/Foundations/Colors.mdx` | 컬러 토큰 확인용 |
-| `apps/storybook/src/stories/biz-ui/Foundations/Typography.mdx` | 타이포그래피 토큰 확인용 |
-| `apps/biz-ui/README.md` | npm 소비자용. 설치, peerDependencies, Tailwind 연결(standalone / monorepo), WebView 사용 시 viewport meta·safe-area 안내 |
-| `docs/biz-ui/frontend.md` | 세팅 완료 후 구현 현황 정리 |
+| 파일                                           | 내용                                                                                                                     |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `apps/storybook/src/stories/biz-ui/Colors.mdx` | 컬러 토큰 확인용. `Foundations/` 하위 폴더 없이 internal-ui와 같은 평면 구조                                             |
+| `apps/biz-ui/README.md`                        | npm 소비자용. 설치, peerDependencies, Tailwind 연결(standalone / monorepo), WebView 사용 시 viewport meta·safe-area 안내 |
+| `docs/biz-ui/frontend.md`                      | 세팅 완료 후 구현 현황 정리                                                                                              |
 
 **주의사항**
 

@@ -9,6 +9,7 @@
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {
+    "@bbodek/biz-ui": "workspace:*",
     "@bbodek/hooks": "workspace:*",
     "@bbodek/internal-ui": "workspace:*",
     "@bbodek/utils": "workspace:*",

@@ -35,15 +35,6 @@
   }
 
   /**
-    * @description: prevent ios safari from zooming in on focus
-    * */
-  input,
-  select,
-  textarea {
-    font-size: 1rem;
-  }
-
-  /**
     * @description: use default placeholder color from v3
     * @see: https://tailwindcss.com/docs/upgrade-guide#new-default-placeholder-color
     * */

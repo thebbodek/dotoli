@@ -254,6 +254,9 @@ importers:
 
   apps/storybook:
     dependencies:
+      '@bbodek/biz-ui':
+        specifier: workspace:*
+        version: link:../biz-ui
       '@bbodek/hooks':
         specifier: workspace:*
         version: link:../hooks

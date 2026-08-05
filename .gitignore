@@ -43,3 +43,6 @@ storybook-static
 
 # asdf
 .tool-versions
+
+# MCP (로컬 개발 도구 설정)
+.mcp.json

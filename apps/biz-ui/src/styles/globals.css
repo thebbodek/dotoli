@@ -1,9 +1,10 @@
+/**
+  * @description: Figma 아이콘 세트가 정의한 웨이트만 가져옵니다 (Regular · Bold · Fill).
+  * duotone / light / thin 은 디자인에 없는데 웨이트당 500KB 안팎의 폰트가 딸려옵니다.
+  * */
 @import '@phosphor-icons/web/bold';
-@import '@phosphor-icons/web/duotone';
 @import '@phosphor-icons/web/fill';
-@import '@phosphor-icons/web/light';
 @import '@phosphor-icons/web/regular';
-@import '@phosphor-icons/web/thin';
 @import 'pretendard/dist/web/variable/pretendardvariable.css';
 @import './base.css';
 @import './theme.css';
