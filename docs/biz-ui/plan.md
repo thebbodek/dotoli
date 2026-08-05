@@ -106,7 +106,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 컴포넌트
 
 - [x] DOTOLI-217 biz-ui 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
-- [ ] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
+- [x] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
 - [ ] DOTOLI-219 biz-ui CtaButton 구현
 
 ---
