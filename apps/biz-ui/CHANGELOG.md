@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.2
+
+### Patch Changes
+
+- 11f5326: DOTOLI-217 biz-ui 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
+- 11f5326: DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
+
 ## 0.0.1
 
 ### Patch Changes
