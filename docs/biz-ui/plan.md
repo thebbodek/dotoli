@@ -13,7 +13,9 @@ Figma:
 - [Color](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=2-397&m=dev) (`2:397`)
 - [Typography](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=78-2&m=dev) (`78:2`)
 
-Radius · Shadow · Breakpoint · Container는 아직 Figma에 정의되어 있지 않습니다 (파일 내 페이지가 `Color/Typography` 하나뿐).
+환경 세팅 시점 기준으로 Radius · Shadow · Breakpoint · Container는 Figma에 정의되어 있지 않았습니다 (당시 파일 내 페이지가 `Color/Typography` 하나뿐).
+
+이후 컴포넌트 페이지가 추가되면서 [Button](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=46-148&m=dev) (`46:148`) 섹션이 생겼고, 여기서 `corner radius/999` 변수가 확인됩니다. 다만 radius **스케일** 전체가 정의된 것은 아니라 토큰화는 스케일 확정 후로 미룹니다.
 
 ### 확정 사항
 
@@ -24,7 +26,7 @@ Radius · Shadow · Breakpoint · Container는 아직 Figma에 정의되어 있�
 | RN               | 별도 레포. dotoli는 웹 DS만                       |
 | Storybook        | 기존 `apps/storybook`에 `core/biz-ui/*` 트리 추가 |
 | 디자인 토큰      | Figma에서 신규 정의                               |
-| 토큰 prefix      | `biz-` (internal-ui의 `in-`과 충돌 회피)          |
+| 토큰 prefix      | 없음. `--color-blue-500` / `text-body` 형태       |
 
 ### 제약
 
@@ -60,9 +62,9 @@ apps/biz-ui/
     └── styles/
         ├── globals.css             # exports "./styles" 진입점
         ├── base.css                # @layer base 리셋
-        ├── theme.css               # @theme { --color-biz-*, --text-biz-*, ... }
+        ├── theme.css               # @theme { --color-*, --text-*, ... }
         ├── safelist.css            # @source inline(...) 동적 클래스 보존
-        └── utilities.css           # @utility biz-*
+        └── utilities.css           # @utility *
 ```
 
 컴포넌트 단위 구조 (internal-ui + `.frontend-rules` 컨벤션):
@@ -101,6 +103,12 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-214 biz-ui 스타일 레이어 및 디자인 토큰 구성 (color · typography까지. radius/shadow/breakpoint/container는 Figma 정의 대기)
 - [x] DOTOLI-215 biz-ui Storybook 연동 및 문서화
 
+### biz-ui 컴포넌트
+
+- [x] DOTOLI-217 biz-ui 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
+- [ ] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
+- [ ] DOTOLI-219 biz-ui CtaButton 구현
+
 ---
 
 ## 태스크 상세
@@ -114,7 +122,7 @@ apps/storybook/src/stories/biz-ui/
 | 항목                                                    | 확인 방법                                              | 상태                |
 | ------------------------------------------------------- | ------------------------------------------------------ | ------------------- |
 | `@bbodek/biz-ui` 이름 미점유                            | `npm view @bbodek/biz-ui` → 404                        | ✅ 확인 완료 (404)  |
-| NPM_TOKEN이 `@bbodek` 스코프에 신규 패키지 publish 가능 | npm org 권한 (Automation 토큰 + write)                 | 미확인              |
+| NPM_TOKEN이 `@bbodek` 스코프에 신규 패키지 publish 가능 | npm org 권한 (Automation 토큰 + write)                 | ✅ 확인 완료 (`0.0.1` 배포됨) |
 | 신규 스코프 패키지 public 배포                          | `.changeset/config.json`의 `"access": "public"`이 커버 | ✅ 별도 설정 불필요 |
 
 **생성 파일**
@@ -176,7 +184,7 @@ pnpm install && pnpm biz build && pnpm biz lint
 
 ### 2. 스타일 레이어 및 디자인 토큰 구성
 
-internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블록에 토큰을 정의하고 `in-` 대신 **`biz-`** prefix를 붙입니다.
+internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블록에 토큰을 정의하되 **프리픽스는 붙이지 않습니다.** internal-ui의 `in-`은 그쪽이 다른 디자인시스템과 공존하느라 구분용으로 붙인 것이라 biz-ui에는 해당하지 않습니다.
 
 **생성 파일**
 
@@ -186,7 +194,7 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 | `src/styles/base.css`              | `@layer base` 리셋 (internal-ui 기준 + 모바일 항목 추가)                                                                           |
 | `src/styles/theme.css`             | `@theme { }` — 골격 먼저, 값은 Figma 확정 후                                                                                       |
 | `src/styles/safelist.css`          | `@source inline(...)` — prefix를 `{biz}`로                                                                                         |
-| `src/styles/utilities.css`         | `@utility biz-*`                                                                                                                   |
+| `src/styles/utilities.css`         | `@utility *`                                                                                                                   |
 | `src/variants/{color,typography}/` | 각 디렉토리에 `variant.ts` + `types/index.ts` + `index.ts`                                                                         |
 
 `radius` / `shadow` / `container` variants는 Figma에 해당 토큰이 없어 생성하지 않았습니다.
@@ -195,29 +203,29 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 
 | 항목          | 처리                                                                                                                                                                                                               |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| safe-area     | `@utility biz-safe-area-{top,bottom,y,left,right}` — `env(safe-area-inset-*)`                                                                                                                                      |
+| safe-area     | `@utility safe-area-{top,bottom,y,left,right}` — `env(safe-area-inset-*)`                                                                                                                                      |
 | 뷰포트 높이   | `100vh` 금지, `100dvh` 기준 유틸 제공                                                                                                                                                                              |
 | 바운스 스크롤 | 루트 `overscroll-behavior: none`                                                                                                                                                                                   |
 | 탭 하이라이트 | `-webkit-tap-highlight-color: transparent`                                                                                                                                                                         |
 | 터치 타겟     | 인터랙티브 요소 최소 44px 규칙을 컴포넌트 사이즈 토큰에 반영                                                                                                                                                       |
 | 텍스트 확대   | `-webkit-text-size-adjust: 100%`                                                                                                                                                                                   |
-| iOS 포커스 줌 | `@layer base`의 `input { font-size: 1rem }` 은 **쓰지 않습니다.** Storybook에서 internal-ui와 공존할 때 `InputSearch`(14px)를 16px로 밀어올립니다. biz-ui 인풋은 `text-biz-body`(=1rem)를 명시해 토큰으로 막습니다 |
-| breakpoint    | mobile-first. `--breakpoint-biz-*` 를 모바일 기준으로 재설계                                                                                                                                                       |
+| iOS 포커스 줌 | `@layer base`의 `input { font-size: 1rem }` 은 **쓰지 않습니다.** Storybook에서 internal-ui와 공존할 때 `InputSearch`(14px)를 16px로 밀어올립니다. biz-ui 인풋은 `text-body`(=1rem)를 명시해 토큰으로 막습니다 |
+| breakpoint    | mobile-first. `--breakpoint-*` 를 모바일 기준으로 재설계                                                                                                                                                       |
 
 **토큰 스케일** (Figma 확정분)
 
 | 그룹       | 토큰                                                                               | 개수 |
 | ---------- | ---------------------------------------------------------------------------------- | ---- |
-| Color      | `--color-biz-{blue,red,yellow,green,gray}-{50,100,…,900}`                          | 50   |
-| Typography | `--text-biz-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 17   |
+| Color      | `--color-{blue,red,yellow,green,gray}-{50,100,…,900}`                          | 50   |
+| Typography | `--text-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 17   |
 
 타이포그래피 이름은 internal-ui의 `body-16-m` 식이 아니라 Figma가 정의한 시맨틱 이름을 그대로 씁니다 — `heading-1`~`heading-4` (+ `-bold`), `heading-5`, `body-lg`, `body` / `body-semibold` / `body-bold`, `label` / `label-semibold` / `label-bold`, `caption`.
 
 컬러 스케일 이름도 Figma의 `--blue-*` / `--gray-*` 규약을 따릅니다. Blue가 메인 컬러이지만 `primary`로 개명하지 않습니다.
 
-`--radius-biz-*`, `--shadow-biz-*`, `--breakpoint-biz-*`, `--container-biz-*`, `--animate-biz-*`는 Figma 정의를 기다립니다.
+`--radius-*`, `--shadow-*`, `--breakpoint-*`, `--container-*`, `--animate-*`는 Figma 정의를 기다립니다.
 
-`variants/`는 토큰의 TS 미러입니다. internal-ui의 `COLOR_VARIANTS`, `TYPOGRAPHY_VARIANTS` + `TYPOGRAPHY_PREFIX` / `TYPOGRAPHY_STYLES_MAPPER` 패턴을 따르되 prefix만 `text-biz-`로 바꿉니다.
+`variants/`는 토큰의 TS 미러입니다. internal-ui의 `COLOR_VARIANTS`, `TYPOGRAPHY_VARIANTS` + `TYPOGRAPHY_PREFIX` / `TYPOGRAPHY_STYLES_MAPPER` 패턴을 그대로 따릅니다 (prefix는 `text-`).
 
 **Figma 문서 텍스트와 실제 변수 값이 어긋나는 지점** — 셋 다 바인딩된 변수/렌더 결과를 따랐습니다.
 
@@ -231,12 +239,12 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 
 - internal-ui의 `in-safe-area-top` / `in-safe-area-bottom`에 오타가 있습니다 (`constant(in-safe-area-inset-top)`, `env(afe-area-inset-top)` — `apps/internal-ui/src/styles/utilities.css:21-31`). 복사 시 그대로 옮기지 않습니다. biz-ui는 WebView 안에서 동작하므로 이 부분이 실제로 깨집니다.
 - `@source '../../dist'` 상대경로는 배포 시 `node_modules/@bbodek/biz-ui/src/styles` → `../../dist`로 맞아떨어집니다. 경로를 그대로 유지합니다.
-- 토큰 prefix가 `in-`과 겹치면 Storybook 공존 시 충돌합니다. 모든 CSS 변수·유틸·safelist에 `biz-`를 빠짐없이 적용합니다.
+- 토큰에 프리픽스를 붙이지 않습니다. biz-ui 토큰은 Tailwind 기본 팔레트를 덮어씁니다(`--color-blue-500` 등). Storybook에서 internal-ui와 공존해도 그쪽은 `in-` 프리픽스라 충돌하지 않습니다.
 - 상수는 UPPER_SNAKE + `as const`. 매퍼는 `_MAPPER`, 스타일 묶음은 `_STYLES` 접미사를 씁니다.
 - 타입은 `variant.ts`에서 파생시킵니다 (`typeof X[keyof typeof X]`). 중복 선언하지 않습니다.
 - **Figma 미확정 시** 스타일 파일 골격까지만 진행하고 토큰 값 채우기는 뒤로 미룹니다. 파일이 분리되어 있어 이 단계만 지연 가능합니다.
-- `--text-biz-*`가 폰트 사이즈 토큰과 컬러 유틸(`text-biz-blue-500`)을 함께 쓰지만, 타이포 이름(`body`, `heading-1`…)과 컬러 이름(`blue-500`…)이 겹치지 않아 충돌하지 않습니다. 앞으로 토큰을 추가할 때 이 불변식을 깨지 않아야 합니다.
-- 단, `/` 수식어는 두 쪽에서 의미가 다릅니다. `text-biz-blue-500/50`은 투명도지만 `text-biz-body/50`은 **line-height 12.5rem**이 되고, `text-biz-body-bold/6`은 `font-weight`·`letter-spacing`을 통째로 버립니다. 경고 없이 컴파일되므로 타이포 클래스에는 `/`를 쓰지 않습니다.
+- `--text-*`가 폰트 사이즈 토큰과 컬러 유틸(`text-blue-500`)을 함께 쓰지만, 타이포 이름(`body`, `heading-1`…)과 컬러 이름(`blue-500`…)이 겹치지 않아 충돌하지 않습니다. 앞으로 토큰을 추가할 때 이 불변식을 깨지 않아야 합니다.
+- 단, `/` 수식어는 두 쪽에서 의미가 다릅니다. `text-blue-500/50`은 투명도지만 `text-body/50`은 **line-height 12.5rem**이 되고, `text-body-bold/6`은 `font-weight`·`letter-spacing`을 통째로 버립니다. 경고 없이 컴파일되므로 타이포 클래스에는 `/`를 쓰지 않습니다.
 - safelist에 `{hover:,focus:,active:,}` variant를 넣지 않습니다. variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔합니다 (internal-ui도 런타임 조합 사례가 0건). 넣으면 생성 CSS가 minified 27.5KB → 97KB로 3.5배가 됩니다.
 
 **참고 위치**
@@ -290,6 +298,143 @@ pnpm build && pnpm sb build
 
 ---
 
+### 4. 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
+
+환경 세팅 때 internal-ui를 참고하면서 토큰에 `biz-` 프리픽스를 붙였는데, internal-ui의 `in-`은 **그쪽이 다른 디자인시스템과 한 앱에서 공존**하느라 구분용으로 붙인 것이라 biz-ui엔 해당하지 않습니다. 전량 제거합니다.
+
+**수정 파일**
+
+| 파일                                     | 변경                                                                                     |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `src/styles/theme.css`                   | `--color-biz-*` → `--color-*`, `--text-biz-*` → `--text-*`                               |
+| `src/styles/utilities.css`               | `@utility biz-*` → `@utility *`                                                          |
+| `src/styles/safelist.css`                | `{biz}` 그룹 제거. `{biz-{...}}` 중첩 그룹은 평면 그룹으로 재작성                        |
+| `src/styles/base.css`                    | `var(--color-biz-gray-400)` → `var(--color-gray-400)`                                    |
+| `src/variants/color/variant.ts`          | `COLOR_TYPE_PREFIXES` 5종에서 `-biz` 제거                                                |
+| `src/variants/typography/variant.ts`     | `TYPOGRAPHY_PREFIX`를 `text-`로                                                          |
+| `README.md`                              | 유틸/클래스 예시 갱신                                                                    |
+| `docs/biz-ui/plan.md`, `frontend.md`     | 프리픽스 결정 뒤집기 반영. NPM_TOKEN 권한 "미확인" → 확인 완료(`0.0.1` 배포됨)           |
+
+**생성 파일**
+
+| 파일                        | 내용                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------ |
+| `docs/biz-ui/conventions.md` | 디자인팀 컨벤션 문서를 biz-ui 계약으로 채택. §1~7 원문 유지, §8에 biz-ui 차이(`size`·`theme`·`responsive`) 추가 |
+
+**주의사항**
+
+- `biz-ui`(패키지명 · `core/biz-ui/*` 스토리 경로 · `apps/biz-ui` 경로)는 **건드리지 않습니다.** 프리픽스 `biz-`만 제거합니다. 일괄 치환 시 `biz-(?!ui)` 형태로 막습니다.
+- 문서 산문에 백틱으로 감싼 `` `biz-` `` 표기가 있어 일괄 치환이 문장을 망가뜨립니다. 결정 사항을 서술하는 문장은 먼저 손으로 고친 뒤 나머지를 치환합니다.
+- 프리픽스를 떼면 biz-ui 토큰이 **Tailwind 기본 팔레트를 덮어씁니다**(`--color-blue-500` 등). 의도된 동작입니다. internal-ui는 `in-` 프리픽스라 Storybook 공존 시에도 충돌하지 않습니다.
+- `apps/storybook/src/stories/hooks/useForm.stories.tsx:60,68`이 생 Tailwind 클래스(`text-red-400`·`border-gray-600`)를 써서 이제 biz-ui 팔레트로 렌더됩니다. 훅 데모라 무해하지만 인지는 하고 갑니다.
+
+**검증**
+
+```bash
+pnpm biz build && pnpm biz lint && pnpm build
+```
+
+Storybook에서 `--color-blue-500`이 `#3182f6`, `--color-biz-blue-500`이 미정의, `text-body`가 16px/700, `touch-target`이 44px로 나오는지 확인합니다. `.biz-*` 셀렉터가 0건인지, internal-ui의 `in-flex-v-stack` · `--text-in-body-16-m`이 그대로인지도 함께 봅니다.
+
+---
+
+### 5. 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
+
+`src/components/index.ts`가 빈 배럴입니다. 뒤따라오는 모든 컴포넌트가 쓰는 프리미티브 3종을 먼저 세웁니다.
+
+**생성 파일**
+
+| 컴포넌트     | 구성                                                                | 비고                                                                              |
+| ------------ | ------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `Icon`       | `Icon.tsx` · `index.ts` · `types/index.ts`                          | Phosphor 웹폰트 클래스 조합(`ph-{key}` + `ph-{weight}`). 웨이트는 `regular`·`bold`·`fill` 3종만 |
+| `Typography` | `Typography.tsx` · `index.ts` · `types/index.ts`                    | `TYPOGRAPHY_STYLES_MAPPER`를 감싸고 `as` prop으로 태그 교체                        |
+| `Flex`       | `Flex.tsx` · `index.ts` · `types/index.ts`                          | `flex-{v,h}-stack` 유틸 기반 레이아웃 프리미티브                                   |
+
+**주의사항**
+
+- `apps/internal-ui/src/components/{Icon,Typography,Flex}`를 기준으로 삼되 `in-` 클래스는 프리픽스 없는 것으로 바꿉니다.
+- `Icon`은 `@phosphor-icons/core`의 `IconStyle` · `PhosphorIcon` 타입을 씁니다. 기본 웨이트는 internal-ui와 동일하게 `BOLD`.
+- `globals.css`가 이미 `@phosphor-icons/web`의 `bold` · `fill` · `regular` 3종만 import 합니다. `duotone`/`light`/`thin`을 쓰는 API를 노출하지 않습니다.
+- 서브 컴포넌트가 없으므로 **폴더 승격 없이** 파일 3개로 시작합니다.
+- 타입/상수는 `.tsx` 안에 직접 선언하지 않고 `types/`·`constants/`로 분리 후 `@/` 절대경로로 import 합니다.
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/`에 `Icon.stories.tsx` · `Typography.stories.tsx` · `Flex.stories.tsx`. `meta.title`은 `core/biz-ui/<Name>`.
+
+Typography 스토리가 생기면서 타이포 토큰 17종이 시각적으로 확인 가능해집니다 (별도 Foundations 페이지는 두지 않는다는 기존 결정 유지).
+
+---
+
+### 6. CtaButton 구현
+
+Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=46-148&m=dev) (`46:148`) → 컴포넌트 세트 `11:4337`. `294:1138`은 문서용 프레임입니다.
+
+**Variant 축**
+
+| 축             | 값                                          |
+| -------------- | ------------------------------------------- |
+| `theme`        | `primary` · `gray`                          |
+| `variant`      | `filled` · `outlined` · `tonal` · `text`    |
+| `size`         | `lg`(52px) · `md`(40px) · `sm`(32px)        |
+| `iconPosition` | `left` · `right`                            |
+| 상태           | `hover` · `pressed` · `disabled` (+ `isPending`) |
+
+**실측 스펙** (primary / filled / default / lg 기준, `11:4121`)
+
+| 항목      | 값                                                  |
+| --------- | ----------------------------------------------------- |
+| height    | 52px                                                  |
+| padding   | `px-[30px] py-[12px]`                                 |
+| gap       | 4px                                                   |
+| radius    | 8px → `rounded-lg` (md·sm은 6px → `rounded-md`)       |
+| 배경      | `blue/500` `#3182f6` → `bg-blue-500`                  |
+| 라벨      | Pretendard Bold 16px / lh 1.45 / ls -0.48px → `text-body-bold` |
+| 라벨 색   | `base/white` → `text-white`                           |
+| 아이콘    | 16px                                                  |
+
+**구현 구조** (internal-ui `components/Button` 패턴)
+
+```
+src/components/Button/
+├── CtaButton/
+│   ├── CtaButton.tsx
+│   ├── index.ts
+│   └── types/index.ts
+├── shared/
+│   ├── ButtonIcon.tsx
+│   ├── constants/index.ts        # SIZE/THEME/VARIANT 상수 + 스타일 매퍼
+│   ├── utils/generateButtonStyle.ts
+│   └── index.ts
+└── index.ts
+```
+
+**주의사항**
+
+- **`theme`을 컴포넌트 공통 union으로 만들지 않습니다.** CtaButton은 `primary|gray`인데 IconButton은 `default|filled|dark`로 값이 하나도 안 겹칩니다. 컴포넌트별로 따로 정의합니다.
+- **`theme='primary'`와 컬러 토큰 `blue`는 이름이 다른 게 정상입니다.** 토큰은 Figma 변수명, 컴포넌트 API는 역할입니다. 맞추려고 어느 한쪽을 바꾸지 않습니다 (`conventions.md` §8).
+- **`--radius-*` 토큰을 새로 만들지 않습니다.** Figma의 8px/6px가 Tailwind 기본 `rounded-lg`/`rounded-md`와 정확히 일치합니다. 디자인팀이 radius **스케일**을 내려주면 그때 `@theme`에 넣습니다.
+- **터치 타겟**: md(40px) · sm(32px)이 `touch-target` 유틸의 44px 하한을 못 넘깁니다. 시각 크기는 Figma대로 두고 히트 영역만 확보해야 합니다 (`::before` 확장 등). lg(52px)는 문제없습니다.
+- **`responsive` prop을 넣지 않습니다.** internal-ui의 `mobile/tablet/desktop` breakpoint override는 데스크톱 개념이고 biz-ui는 모바일 단일 타깃입니다.
+- **`hover`보다 `pressed`(`:active`)가 주력입니다.** 터치 기기에서 `hover`는 sticky hover 문제가 있으므로 `@media (hover: hover)`로 감쌉니다.
+- prop 명명은 `conventions.md` §2를 따릅니다 — `label`(필수), `disabled`, `isPending`, `onClick`, `iconOption.iconKey`.
+
+**디자이너 확인 필요**
+
+| 항목                | 내용                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| variant 개수        | 컴포넌트 설명은 `Filled/Outlined/Tonal` 3종인데 실제 심볼엔 `text`가 더 있음               |
+| `pending` 상태      | 설명엔 `State(...Pending)`이 있는데 실제 심볼엔 없음                                       |
+| 아이콘 속성명       | 설명은 `showIcon`(boolean), 실제 축은 `iconPosition`(left/right)                           |
+| `Fillter` 오타      | Filter 컴포넌트 레이어명이 `Fillter`                                                       |
+| `base/white` 토큰   | `theme.css`에 white/black 베이스 토큰 없음. 추가할지 Tailwind 기본 `text-white`로 갈지 결정 |
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/CtaButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/CtaButton`. theme × variant × size 매트릭스와 disabled · pending 스토리를 포함합니다.
+
+---
+
 ## 전체 검증
 
 ```bash
@@ -297,7 +442,7 @@ pnpm install && pnpm biz build && pnpm biz lint && pnpm build && pnpm sb build
 ```
 
 1. `apps/biz-ui/dist/`에 `index.es.js`, `index.d.ts` 생성
-2. `pnpm sb dev` → `core/biz-ui/Foundations/Colors`에서 `biz-` 토큰이 적용된 색상 확인
+2. `pnpm sb dev` → `core/biz-ui/Foundations/Colors`에서 `` 토큰이 적용된 색상 확인
 3. 같은 Storybook에서 `core/internal-ui/*` 기존 스토리 무변화 확인
 4. 모바일 뷰포트(375px)에서 safe-area / dvh 유틸 동작 확인
 5. main 머지 전 npm 이름·토큰 권한 확인 완료

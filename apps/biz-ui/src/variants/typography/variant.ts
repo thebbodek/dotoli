@@ -20,7 +20,7 @@ export const TYPOGRAPHY_VARIANTS = {
   CAPTION: 'caption',
 } as const;
 
-export const TYPOGRAPHY_PREFIX = 'text-biz-';
+export const TYPOGRAPHY_PREFIX = 'text-';
 
 export const TYPOGRAPHY_STYLES_MAPPER: Record<TypographyVariants, string> = {
   [TYPOGRAPHY_VARIANTS.HEADING_1_BOLD]: `${TYPOGRAPHY_PREFIX}${TYPOGRAPHY_VARIANTS.HEADING_1_BOLD}`,

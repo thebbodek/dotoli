@@ -1,80 +1,80 @@
-@utility biz-flex-v-stack {
+@utility flex-v-stack {
   @apply flex flex-col;
 }
 
-@utility biz-flex-h-stack {
+@utility flex-h-stack {
   @apply flex flex-row;
 }
 
-@utility biz-flex-v-stack-center {
-  @apply biz-flex-v-stack items-center justify-center;
+@utility flex-v-stack-center {
+  @apply flex-v-stack items-center justify-center;
 }
 
-@utility biz-flex-h-stack-center {
-  @apply biz-flex-h-stack items-center justify-center;
+@utility flex-h-stack-center {
+  @apply flex-h-stack items-center justify-center;
 }
 
 /* Safe area */
-@utility biz-safe-area-top {
+@utility safe-area-top {
   padding-top: constant(safe-area-inset-top);
   padding-top: env(safe-area-inset-top);
 }
 
-@utility biz-safe-area-bottom {
+@utility safe-area-bottom {
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-@utility biz-safe-area-left {
+@utility safe-area-left {
   padding-left: constant(safe-area-inset-left);
   padding-left: env(safe-area-inset-left);
 }
 
-@utility biz-safe-area-right {
+@utility safe-area-right {
   padding-right: constant(safe-area-inset-right);
   padding-right: env(safe-area-inset-right);
 }
 
-@utility biz-safe-area-y {
-  @apply biz-safe-area-top biz-safe-area-bottom;
+@utility safe-area-y {
+  @apply safe-area-top safe-area-bottom;
 }
 
-@utility biz-safe-area-x {
-  @apply biz-safe-area-right biz-safe-area-left;
+@utility safe-area-x {
+  @apply safe-area-right safe-area-left;
 }
 
-@utility biz-safe-area {
-  @apply biz-safe-area-top biz-safe-area-right biz-safe-area-bottom biz-safe-area-left;
+@utility safe-area {
+  @apply safe-area-top safe-area-right safe-area-bottom safe-area-left;
 }
 
 /* Viewport */
-@utility biz-screen-h {
+@utility screen-h {
   height: 100vh;
   height: 100dvh;
 }
 
-@utility biz-min-screen-h {
+@utility min-screen-h {
   min-height: 100vh;
   min-height: 100dvh;
 }
 
-@utility biz-max-screen-h {
+@utility max-screen-h {
   max-height: 100vh;
   max-height: 100dvh;
 }
 
 /* Touch */
-@utility biz-touch-target {
+@utility touch-target {
   @apply min-h-11 min-w-11;
 }
 
-@utility biz-scroll-y {
+@utility scroll-y {
   @apply overflow-y-auto overscroll-contain;
 
   -webkit-overflow-scrolling: touch;
 }
 
-@utility biz-scroll-x {
+@utility scroll-x {
   @apply overflow-x-auto overscroll-contain;
 
   -webkit-overflow-scrolling: touch;

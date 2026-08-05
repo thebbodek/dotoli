@@ -47,7 +47,7 @@ export default config;
 
 ### 3. Set viewport for WebView
 
-`biz-safe-area-*` utilities require `viewport-fit=cover`.
+`safe-area-*` utilities require `viewport-fit=cover`.
 
 ```tsx
 /* app/layout.tsx */
@@ -65,7 +65,7 @@ import { TYPOGRAPHY_STYLES_MAPPER } from '@bbodek/biz-ui';
 
 const Example = () => {
   return (
-    <p className={`${TYPOGRAPHY_STYLES_MAPPER['body']} text-biz-gray-900`}>
+    <p className={`${TYPOGRAPHY_STYLES_MAPPER['body']} text-gray-900`}>
       Click Me!
     </p>
   );

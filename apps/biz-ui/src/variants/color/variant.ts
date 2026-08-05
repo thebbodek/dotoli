@@ -62,11 +62,11 @@ export const COLOR_TYPES = {
 } as const;
 
 export const COLOR_TYPE_PREFIXES: Record<ColorTypes, string> = {
-  [COLOR_TYPES.TEXT]: 'text-biz-',
-  [COLOR_TYPES.BACKGROUND]: 'bg-biz-',
-  [COLOR_TYPES.BORDER]: 'border-biz-',
-  [COLOR_TYPES.FILL]: 'fill-biz-',
-  [COLOR_TYPES.PLACEHOLDER]: 'placeholder-biz-',
+  [COLOR_TYPES.TEXT]: 'text-',
+  [COLOR_TYPES.BACKGROUND]: 'bg-',
+  [COLOR_TYPES.BORDER]: 'border-',
+  [COLOR_TYPES.FILL]: 'fill-',
+  [COLOR_TYPES.PLACEHOLDER]: 'placeholder-',
 } as const;
 
 export const COLOR_STYLES_MAPPER: Record<

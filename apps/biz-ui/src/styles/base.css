@@ -40,7 +40,7 @@
     * */
   input::placeholder,
   textarea::placeholder {
-    color: var(--color-biz-gray-400);
+    color: var(--color-gray-400);
   }
 
   /**
