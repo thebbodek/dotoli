@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.117
+
+### Patch Changes
+
+- 795a261: DOTOLI-221 InputSearch onEnter시 돋보기 버튼 숨김
+  - @bbodek/utils@0.0.87
+  - @bbodek/hooks@0.0.90
+
 ## 0.0.116
 
 ### Patch Changes
