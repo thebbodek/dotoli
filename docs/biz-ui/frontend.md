@@ -4,7 +4,16 @@
 
 뽀득 비즈파트너용 신규 디자인시스템 `@bbodek/biz-ui`를 dotoli 모노레포에 추가한 작업입니다. 컴포넌트 구현 이전 단계인 **패키지 스캐폴딩 · 스타일 레이어 · 디자인 토큰 · Storybook 연동**까지를 범위로 합니다.
 
-작업 계획과 태스크 분해는 [plan.md](./plan.md)를, 컴포넌트 API 계약(명명 · prop · variant 축)은 [conventions.md](./conventions.md)를 참고합니다. 이 도메인은 제품 기능이 아닌 인프라 작업이라 `spec.md` / `api.md`는 두지 않습니다.
+이 문서는 **환경 세팅 범위(DOTOLI-213~218)** 까지만 다룹니다. 이후 컴포넌트 계열은 [`components/`](./components) 아래 계열별 문서에 기록합니다.
+
+| 문서                                                 | 성격                  |
+| ---------------------------------------------------- | --------------------- |
+| [apps/biz-ui/CLAUDE.md](../../apps/biz-ui/CLAUDE.md) | biz-ui 개발 규칙      |
+| [components/button.md](./components/button.md)       | Button 계열 구현 기록 |
+| frontend.md (이 문서)                                | 환경 세팅 기록        |
+| [plan.md](./plan.md)                                 | 티켓 계획             |
+
+이 도메인은 제품 기능이 아닌 인프라 작업이라 `spec.md` / `api.md`는 두지 않습니다.
 
 비즈파트너는 모바일 웹 기반이며 화면이 WebView 안에서 렌더링됩니다. safe-area · dvh · 터치 타겟 등 모바일 웹 제약을 스타일 베이스에 처음부터 반영했습니다.
 
@@ -48,7 +57,7 @@
 | `--animate-*`                              | Figma 모션 정의 대기                                                                                                                    |
 | `variants/{radius,shadow,container}`       | 위 토큰이 없어 디렉토리 미생성. 토큰 추가 시 함께 스캐폴딩                                                                              |
 | Typography 스토리                          | `internal-ui`와 동일하게 `Typography` 컴포넌트가 생기는 시점에 컴포넌트 스토리로 추가. 별도 Foundations 페이지는 두지 않음              |
-| `CtaButton`                                | DOTOLI-219. Figma 컴포넌트 세트 `11:4337`. 디자이너 확인 5건이 남아 착수 보류 (plan.md 태스크 상세 6번)                                 |
+| `CtaButton`                                | DOTOLI-219로 구현 완료. 이 문서 범위 밖입니다 → [components/button.md](./components/button.md)                                          |
 | `Portal` · `components/shared/`            | 오버레이(BottomSheet · Modal · Toast) 작업 시점에 생성. 쓰는 곳 없이 먼저 만들지 않음                                                   |
 | Figma 문서 텍스트 오기 3건                 | 디자이너 확인 필요 (아래 특이사항 참고)                                                                                                 |
 
@@ -74,11 +83,13 @@
 docs/
 └── biz-ui/
     ├── plan.md
-    ├── conventions.md         # 컴포넌트 · 속성 컨벤션 (디자인팀 문서 채택)
-    └── frontend.md
+    ├── frontend.md            # 환경 세팅 기록 (이 문서)
+    └── components/
+        └── button.md          # Button 계열 구현 기록
 
 apps/
 ├── biz-ui/
+│   ├── CLAUDE.md              # biz-ui 개발 규칙 · 문서 지도
 │   ├── README.md
 │   ├── package.json
 │   ├── rollup.config.mjs

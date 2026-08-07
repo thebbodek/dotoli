@@ -107,7 +107,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-217 biz-ui 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
 - [x] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
-- [ ] DOTOLI-219 biz-ui CtaButton 구현
+- [x] DOTOLI-219 biz-ui CtaButton 구현
 
 ---
 
@@ -319,7 +319,7 @@ pnpm build && pnpm sb build
 
 | 파일                        | 내용                                                                                             |
 | --------------------------- | ------------------------------------------------------------------------------------------------ |
-| `docs/biz-ui/conventions.md` | 디자인팀 컨벤션 문서를 biz-ui 계약으로 채택. §1~7 원문 유지, §8에 biz-ui 차이(`size`·`theme`·`responsive`) 추가 |
+| `apps/biz-ui/CLAUDE.md` | biz-ui 개발 규칙. 컴포넌트 API 축 · 스타일 · 패키징 규칙을 여기 한 곳에서 정의합니다 |
 
 **주의사항**
 
@@ -399,35 +399,33 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 src/components/Button/
 ├── CtaButton/
 │   ├── CtaButton.tsx
-│   ├── index.ts
-│   └── types/index.ts
-├── shared/
+│   ├── constants/index.ts        # CtaButton 고유 SIZE/THEME/VARIANT + 스타일 매퍼
+│   ├── types/index.ts
+│   ├── utils/generateCtaButtonStyle.ts
+│   └── index.ts
+├── shared/                       # 버튼 계열 공통만 (iconPosition · pending 아이콘 · 히트 영역)
 │   ├── ButtonIcon.tsx
-│   ├── constants/index.ts        # SIZE/THEME/VARIANT 상수 + 스타일 매퍼
-│   ├── utils/generateButtonStyle.ts
+│   ├── constants/index.ts
+│   ├── types/index.ts
 │   └── index.ts
 └── index.ts
 ```
 
+`SIZE`·`THEME`·`VARIANT`는 `shared`가 아니라 `CtaButton/` 아래에 둡니다. `shared`에 두면 `CTA_BUTTON_THEMES`를 공통 모듈이 내보내게 되어 컴포넌트별 정의 원칙과 어긋납니다.
+
 **주의사항**
 
-- **`theme`을 컴포넌트 공통 union으로 만들지 않습니다.** CtaButton은 `primary|gray`인데 IconButton은 `default|filled|dark`로 값이 하나도 안 겹칩니다. 컴포넌트별로 따로 정의합니다.
-- **`theme='primary'`와 컬러 토큰 `blue`는 이름이 다른 게 정상입니다.** 토큰은 Figma 변수명, 컴포넌트 API는 역할입니다. 맞추려고 어느 한쪽을 바꾸지 않습니다 (`conventions.md` §8).
-- **`--radius-*` 토큰을 새로 만들지 않습니다.** Figma의 8px/6px가 Tailwind 기본 `rounded-lg`/`rounded-md`와 정확히 일치합니다. 디자인팀이 radius **스케일**을 내려주면 그때 `@theme`에 넣습니다.
-- **터치 타겟**: md(40px) · sm(32px)이 `touch-target` 유틸의 44px 하한을 못 넘깁니다. 시각 크기는 Figma대로 두고 히트 영역만 확보해야 합니다 (`::before` 확장 등). lg(52px)는 문제없습니다.
-- **`responsive` prop을 넣지 않습니다.** internal-ui의 `mobile/tablet/desktop` breakpoint override는 데스크톱 개념이고 biz-ui는 모바일 단일 타깃입니다.
-- **`hover`보다 `pressed`(`:active`)가 주력입니다.** 터치 기기에서 `hover`는 sticky hover 문제가 있으므로 `@media (hover: hover)`로 감쌉니다.
-- prop 명명은 `conventions.md` §2를 따릅니다 — `label`(필수), `disabled`, `isPending`, `onClick`, `iconOption.iconKey`.
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+구현 결과와 결정 기록은 [`components/button.md`](./components/button.md)로 옮겼습니다.
 
 **디자이너 확인 필요**
 
-| 항목                | 내용                                                                                     |
-| ------------------- | ------------------------------------------------------------------------------------------ |
-| variant 개수        | 컴포넌트 설명은 `Filled/Outlined/Tonal` 3종인데 실제 심볼엔 `text`가 더 있음               |
-| `pending` 상태      | 설명엔 `State(...Pending)`이 있는데 실제 심볼엔 없음                                       |
-| 아이콘 속성명       | 설명은 `showIcon`(boolean), 실제 축은 `iconPosition`(left/right)                           |
-| `Fillter` 오타      | Filter 컴포넌트 레이어명이 `Fillter`                                                       |
-| `base/white` 토큰   | `theme.css`에 white/black 베이스 토큰 없음. 추가할지 Tailwind 기본 `text-white`로 갈지 결정 |
+Button 관련 항목은 [`components/button.md`](./components/button.md)의 「디자인 확인 필요」로 옮겼습니다. 나머지:
+
+| 항목           | 내용                                       |
+| -------------- | ------------------------------------------ |
+| `Fillter` 오타 | Filter 컴포넌트 레이어명이 `Fillter`       |
 
 **Storybook**
 
