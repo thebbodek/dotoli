@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.3
+
+### Patch Changes
+
+- 0cb0828: DOTOLI-219 biz-ui CtaButton 구현
+- 802c12f: DOTOLI-220 biz-ui 패키징 정리 — 의존성 external 처리 · 죽은 설정 제거
+
 ## 0.0.2
 
 ### Patch Changes
