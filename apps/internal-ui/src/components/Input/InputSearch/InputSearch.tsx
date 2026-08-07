@@ -1,5 +1,6 @@
 import { FormEvent, KeyboardEvent, useId, useState } from 'react';
 
+import { Icon } from '@/components/Icon';
 import { InputSearchProps } from '@/components/Input/InputSearch/types';
 import {
   Input,
@@ -57,6 +58,25 @@ const InputSearch = ({
     onSubmit!(e);
   };
 
+  const searchAddon =
+    onEnter || onSubmit ? (
+      <InputIconButton
+        aria-label='검색'
+        disabled={isDisabled}
+        iconKey='magnifying-glass'
+        type={onEnter ? 'button' : 'submit'}
+        weight='bold'
+        onClick={onEnter ? () => onEnter() : undefined}
+      />
+    ) : (
+      <Icon
+        className='text-in-gray-05 shrink-0 text-[1.125rem]'
+        iconKey='magnifying-glass'
+        weight='bold'
+        aria-hidden
+      />
+    );
+
   return (
     <InputBase
       badge={badge}
@@ -71,15 +91,7 @@ const InputSearch = ({
       onSubmit={onSubmit ? handleSubmit : undefined}
     >
       <Input
-        addonEnd={
-          <InputIconButton
-            aria-label='검색'
-            disabled={isDisabled}
-            iconKey='magnifying-glass'
-            type={onEnter ? 'button' : 'submit'}
-            weight='bold'
-          />
-        }
+        addonEnd={searchAddon}
         autoComplete={autoComplete}
         disabled={disabled}
         id={id}
