@@ -5,6 +5,12 @@ import postcss from 'rollup-plugin-postcss';
 import { fileURLToPath } from 'url';
 
 export default createRollupConfig({
+  external: [
+    '@floating-ui/react',
+    '@phosphor-icons/core',
+    'clsx',
+    'es-toolkit',
+  ],
   plugins: [
     postcss({
       extract: true,
