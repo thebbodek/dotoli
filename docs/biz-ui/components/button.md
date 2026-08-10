@@ -6,23 +6,15 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 
 ## 구현 현황
 
-### 구현 완료
-
 | 컴포넌트     | 티켓       | 설명                                                                                                                    |
 | ------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `CtaButton`  | DOTOLI-219 | `theme` 2 × `variant` 4 × `size` 3. 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측                                  |
 | `ButtonIcon` | DOTOLI-219 | 버튼 계열 공통 아이콘 래퍼. Phosphor는 아이콘 폰트라 글리프 크기가 `font-size`를 따르므로 크기를 따로 지정하지 않습니다 |
 | `Filter`     | DOTOLI-222 | `state` 2 × 아이콘 유무. 사이즈 축 없는 단일 칩                                                                          |
 | `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
+| `IconButton` | DOTOLI-224 | `theme` 3 × `size` 2. theme × state 13조합 전수 실측                                                                     |
 
-### 미구현
-
-| 컴포넌트     | 티켓       | 비고                                                                                                                                                                    |
-| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `IconButton` | DOTOLI-224 | `theme`(default·filled·dark) × `state` 5 × `size`(lg·sm). CtaButton과 `theme` 값이 안 겹칩니다. 전수 실측은 안 된 값이라 착수 시 Figma에서 다시 확인합니다. Figma `298:1024` |
-| `LinkButton` | —          | Figma 심볼 미확인                                                                                                                                                        |
-
-IconButton의 실측 스펙·주의사항·디자인 확인 필요 목록은 [`plan.md`](../plan.md)의 태스크 상세 9번에 있습니다. 구현 후 결과는 이 파일로 옮깁니다.
+Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다.
 
 ## 계열 공통 결정
 
@@ -215,6 +207,70 @@ Storybook 실측 대조 (Figma → 구현): navigate 129×50 → **132.87×50**,
 
 ---
 
+## IconButton
+
+Figma 문서 프레임 `298:1024` → 심볼 스트립 `81:210`. 착수 시점에는 샘플 8개뿐이었는데 디자이너가 **theme × state 매트릭스를 채워** 13개가 됐습니다.
+
+### Variant 축
+
+| 축      | 값                            |
+| ------- | ----------------------------- |
+| `theme` | `default` · `filled` · `dark` |
+| `size`  | `lg`(40px) · `sm`(24px)       |
+| 상태    | `hover` · `pressed` · `disabled` (+ `isPending`) |
+
+`theme` 값이 CtaButton(`primary` · `gray`)과 하나도 겹치지 않습니다. `dark`는 배경이 어두운 게 아니라 **어두운 면 위에 얹는** 테마입니다 — 세 상태 모두 배경이 없고 아이콘만 흰색 계열입니다.
+
+### 실측 스펙
+
+| 항목      | `lg`               | `sm`               |
+| --------- | ------------------ | ------------------ |
+| 버튼 크기 | 40 × 40            | 24 × 24            |
+| 아이콘    | 24px               | 16px               |
+| radius    | 6px → `rounded-md` | 6px → `rounded-md` |
+
+theme × state 전수 (심볼 `81:202`~`81:209` · `444:1095`~`444:1116`).
+
+| theme     | state    | 배경                             | 아이콘 색                    |
+| --------- | -------- | -------------------------------- | ---------------------------- |
+| `default` | default  | 없음                             | `gray/500` `#8a93a8`         |
+| `default` | hover    | `gray/100` `#f0f2f7`             | `gray/500`                   |
+| `default` | pressed  | `gray/100`                       | `gray/500`                   |
+| `default` | disabled | 없음                             | `gray/300` `#ced4e0`         |
+| `default` | loading  | 없음                             | `gray/500`                   |
+| `filled`  | default  | `base/white` `#ffffff`           | `gray/500`                   |
+| `filled`  | hover    | `gray/100`                       | `gray/500`                   |
+| `filled`  | pressed  | `gray/100`                       | `gray/500`                   |
+| `filled`  | disabled | **없음** (흰 배경이 사라집니다)  | `gray/300`                   |
+| `dark`    | default  | 없음                             | `base/white` `#ffffff`       |
+| `dark`    | hover    | 없음                             | `gray/200` `#e3e6ee`         |
+| `dark`    | pressed  | 없음                             | `gray/200`                   |
+| `dark`    | disabled | 없음                             | `gray/300`                   |
+
+색은 심볼 SVG에서 직접 뽑았습니다. 원본은 `IconButton/constants/index.ts`의 `ICON_BUTTON_STYLES`이고 여기에 옮겨 적은 건 대조용입니다.
+
+### 구현 결정
+
+- **`ButtonIcon`은 손대지 않았습니다.** 착수 전에는 "라벨이 없어 아이콘 크기를 IconButton이 직접 넘겨야 한다"고 봤는데, 사이즈 클래스(`text-[24px]` · `text-[16px]`)를 **버튼에** 걸면 Phosphor 아이콘 폰트가 `font-size`를 상속받습니다. `ButtonIcon`의 "버튼이 사이즈를 물고 있으므로 아이콘 크기를 지정하지 않는다"는 전제가 그대로 성립합니다.
+- **`state`를 prop으로 노출하지 않습니다.** `hover`·`pressed`는 CSS 상태, `disabled`는 HTML 속성, `loading`은 `isPending` boolean입니다. Figma의 `state` 축은 문서용 표현이라 union prop으로 열지 않았습니다 (CtaButton·Filter와 동일).
+- **`aria-label`을 필수 prop으로 받습니다.** 아이콘 전용이라 접근 가능한 이름이 없습니다. `Required<Pick<ButtonHTMLAttributes, 'aria-label'>>`로 강제합니다.
+- **`isPending`은 `disabled` 스타일을 탑니다.** `disabled || isPending`으로 묶어 `generateIconButtonStyle`에 넘기므로 `filled`의 pending도 흰 배경이 사라집니다. CtaButton과 같은 처리이고, Figma에 `filled`·`dark`의 loading 심볼이 없어 외삽한 부분입니다.
+- **히트 영역을 전 사이즈에 넓힙니다** (Figma 주석 `337:3548`). `BUTTON_TOUCH_TARGET_STYLE` + `relative`로 `lg` 40→52px, `sm` 24→36px. 시각 크기는 Figma 값 그대로입니다.
+- **아이콘 웨이트 기본값은 `bold`입니다.** 주석 `444:1136` "icon: outline - bold / fill 사용"에 맞춰 `Icon`의 기본값(`bold`)을 그대로 쓰고 `weight` prop으로 `fill`을 열어 둡니다.
+
+### 디자인 확인 필요
+
+| 항목                 | 내용                                                                                                        |
+| -------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `filled` disabled    | 흰 배경이 사라져 `default`/`dark`의 disabled와 시각적으로 구분되지 않습니다. 의도인지                          |
+| `hover` == `pressed` | 세 테마 모두 두 상태가 완전히 같습니다 (CtaButton도 8개 중 5개가 동일)                                        |
+| `loading` 범위       | `theme=default`에만 심볼이 있습니다. `filled`·`dark`는 disabled 스타일로 외삽했습니다                          |
+| `sm` 조합            | `default`/`default`만 정의돼 있습니다. 다른 theme·state의 `sm`은 `lg` 색을 그대로 씁니다                       |
+| `sm` 터치 타겟       | 24px + 12px = 36px로, 확장해도 권장 44px에 미달합니다                                                          |
+| 로딩 비주얼          | 스피너 심볼이 없어 `circle-notch`(internal-ui 차용)를 씁니다. 계열 공통 스피너를 정의해 주실지                 |
+
+---
+
 ## 파일 구조
 
 ```
@@ -235,6 +291,12 @@ apps/biz-ui/src/components/Button/
 │   ├── constants/index.ts              # FLOATING_PILL_VARIANTS + 베이스/variant 스타일
 │   ├── types/index.ts
 │   └── index.ts
+├── IconButton/
+│   ├── IconButton.tsx
+│   ├── constants/index.ts              # IconButton 고유 THEME/SIZE/STATE + 스타일 매퍼
+│   ├── types/index.ts
+│   ├── utils/generateIconButtonStyle.ts # 배럴에서 export 하지 않음 (내부 전용)
+│   └── index.ts
 ├── shared/                             # 버튼 계열 공통만
 │   ├── ButtonIcon.tsx
 │   ├── constants/index.ts
@@ -245,9 +307,12 @@ apps/biz-ui/src/components/Button/
 apps/storybook/src/stories/biz-ui/
 ├── CtaButton.stories.tsx               # core/biz-ui/Button/CtaButton, 스토리 7종
 ├── Filter.stories.tsx                  # core/biz-ui/Button/Filter, 스토리 3종
-└── FloatingPill.stories.tsx            # core/biz-ui/Button/FloatingPill, 스토리 2종
+├── FloatingPill.stories.tsx            # core/biz-ui/Button/FloatingPill, 스토리 2종
+└── IconButton.stories.tsx              # core/biz-ui/Button/IconButton, 스토리 6종
 ```
 
 CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
 
-`Filter/`·`FloatingPill/`에 `utils/`를 두지 않았습니다. 축이 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다.
+`Filter/`·`FloatingPill/`에 `utils/`를 두지 않았습니다. 축이 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다. IconButton은 theme × state 분기가 있어 CtaButton과 같이 `utils/`를 뒀습니다.
+
+IconButton의 `Matrix` 스토리는 theme × size에 disabled·pending을 붙여 깝니다. `hover`·`pressed`는 CSS 상태라 정적으로 못 깔고 직접 올려봐야 합니다. `dark` 테마는 흰 아이콘이라 스토리에서 어두운 판을 깔아 보여줍니다 (Figma 문서 프레임과 동일한 방식).

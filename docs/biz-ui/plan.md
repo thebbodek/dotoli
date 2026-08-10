@@ -110,7 +110,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-219 biz-ui CtaButton 구현
 - [x] DOTOLI-222 biz-ui Filter 구현
 - [x] DOTOLI-223 biz-ui FloatingPill 구현
-- [ ] DOTOLI-224 biz-ui IconButton 구현
+- [x] DOTOLI-224 biz-ui IconButton 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -597,26 +597,17 @@ src/components/Button/IconButton/
 
 **주의사항**
 
-- **`ButtonIcon`의 "크기 지정 안 함" 전제가 여기서 깨집니다.** 라벨이 없어 물고 갈 타이포 토큰이 없으므로 IconButton이 사이즈별 `font-size`를 직접 넘겨야 합니다 (`lg` 24px · `sm` 16px). `ButtonIcon`의 주석도 함께 갱신합니다.
-- **`state=loading` 심볼의 `ArrowClockwise`를 스피너 지정으로 읽지 않습니다.** 이 문서 프레임은 샘플마다 아이콘이 제각각입니다(default=`PencilSimple`, filled=`ArrowClockwise`, dark=`Bell`, hover·disabled=`Trash`, pressed·sm=`X`). `loading` 칸의 아이콘도 그 중 하나일 뿐 로딩 UI를 규정한 것으로 보기 어렵습니다. **`state=loading`은 상태 축 이름으로만 받고**, 스피너는 기존 `BUTTON_PENDING_ICON_KEY`(`circle-notch`)를 유지합니다. 로딩 비주얼을 따로 정의할지는 디자이너 확인 후 결정합니다.
-- **API는 `state='loading'`이 아니라 CtaButton과 같은 `isPending` boolean으로 통일합니다.** `hover`/`pressed`/`disabled`도 prop이 아니라 CSS 상태입니다. Figma의 `state` 축은 문서용 표현이지 API 축이 아닙니다 (CtaButton도 같은 판단).
-- 아이콘 전용이라 접근 가능한 이름이 없습니다. `aria-label`을 **필수 prop**으로 받습니다.
-- `isPending`일 때 `aria-busy` + `disabled`를 함께 겁니다 (CtaButton과 동일).
-- 히트 영역을 넓힐 때 시각 크기는 Figma 값 그대로 둡니다.
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+착수 후 디자이너가 theme × state 매트릭스를 채워 주셔서(심볼 8개 → 13개) 전수 실측이 가능해졌습니다. 실측 표와 결정 기록(`ButtonIcon` 유지 · `state` 미노출 · `aria-label` 필수 · `isPending`이 disabled 스타일 · 히트 영역 전 사이즈)은 [`components/button.md`](./components/button.md)의 「IconButton」으로 옮겼습니다.
 
 **디자인 확인 필요**
 
-| 항목                | 내용                                                                                                                    |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| 주석 적용 범위      | "\*IconButton, sm 버튼 일괄"이 IconButton 전 사이즈인지 `sm`만인지. CtaButton 주석(`337:3541`)이 "\*text, sm 버튼 일괄"로 대상 2개를 나열한 형식이라 **전 사이즈**로 읽는 게 자연스럽습니다 |
-| `sm` 터치 타겟      | 24px + 12px = 36px로, 확장해도 권장 44px에 미달합니다                                                                     |
-| 로딩 비주얼         | 두 컴포넌트 모두 로딩 스피너 심볼이 없습니다. IconButton `state=loading` 칸의 `ArrowClockwise`는 샘플 아이콘으로 보입니다. 계열 공통 스피너를 정의해 주실지 |
-| theme × state 매트릭스 | 문서 프레임이 `theme`은 default 상태만, `state`는 default 테마만 보여줍니다. 조합별 색이 세트에 다 정의돼 있는지 확인 필요 |
-| `sm` 상태·테마      | `sm`은 `theme=default, state=default` 하나만 노출돼 있습니다                                                              |
+[`components/button.md`](./components/button.md)의 「IconButton > 디자인 확인 필요」로 옮겼습니다 — `filled` disabled가 흰 배경을 잃음 · hover == pressed · `loading`이 default 테마에만 정의됨 · `sm` 조합 부족 · `sm` 터치 타겟 36px · 로딩 스피너 비주얼 미정의.
 
 **Storybook**
 
-`apps/storybook/src/stories/biz-ui/IconButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/IconButton`. theme × size 매트릭스와 disabled · pending 스토리를 포함합니다.
+`apps/storybook/src/stories/biz-ui/IconButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/IconButton`. 스토리 6종 (`Default` · `Themes` · `Sizes` · `Disabled` · `Pending` · `Matrix`).
 
 ---
 
