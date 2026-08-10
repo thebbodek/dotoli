@@ -1,5 +1,14 @@
 # @bbodek/biz-ui
 
+## 0.0.4
+
+### Patch Changes
+
+- 745f7c8: DOTOLI-224 biz-ui IconButton 구현
+- 745f7c8: DOTOLI-223 biz-ui FloatingPill 구현
+- 745f7c8: DOTOLI-222 biz-ui Filter 구현
+- 745f7c8: DOTOLI-225 biz-ui 접두어 규칙 추가 및 미반영건 수정
+
 ## 0.0.3
 
 ### Patch Changes
