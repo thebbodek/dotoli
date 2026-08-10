@@ -16,10 +16,7 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 
-/**
- * @description: `iconOption`을 컨트롤 패널에서 다루려고 `iconKey`를 최상위로 폅니다.
- * 렌더에서 다시 `iconOption`으로 묶습니다 (internal-ui Button 스토리와 동일).
- * */
+// 점 표기 argType('iconOption.iconKey')은 타입이 깨져서 iconKey를 최상위로 편다
 export interface CtaButtonArgs extends Omit<CtaButtonProps, 'iconOption'> {
   iconKey: NonNullable<CtaButtonProps['iconOption']>['iconKey'];
 }
@@ -30,7 +27,6 @@ const meta = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'CtaButton Label',
       type: {
         name: 'string',
         required: true,
@@ -39,7 +35,6 @@ const meta = {
     variant: {
       control: 'select',
       options: Object.values(CTA_BUTTON_VARIANTS),
-      description: 'CtaButton Variant',
       table: {
         defaultValue: { summary: CTA_BUTTON_VARIANTS.FILLED },
         type: {
@@ -52,7 +47,6 @@ const meta = {
     theme: {
       control: 'select',
       options: Object.values(CTA_BUTTON_THEMES),
-      description: 'CtaButton Theme',
       table: {
         defaultValue: { summary: CTA_BUTTON_THEMES.PRIMARY },
         type: {
@@ -65,7 +59,6 @@ const meta = {
     size: {
       control: 'select',
       options: Object.values(CTA_BUTTON_SIZES),
-      description: 'CtaButton Size',
       table: {
         defaultValue: { summary: CTA_BUTTON_SIZES.LG },
         type: {
@@ -78,7 +71,6 @@ const meta = {
     iconPosition: {
       control: 'inline-radio',
       options: Object.values(BUTTON_ICON_POSITIONS),
-      description: 'CtaButton Icon Position',
       table: {
         defaultValue: { summary: BUTTON_ICON_POSITIONS.LEFT },
         type: {
@@ -90,18 +82,15 @@ const meta = {
     },
     iconKey: {
       ...iconKeyArgType,
-      description: 'CtaButton Icon',
       type: { name: 'string', required: false },
       table: { subcategory: 'iconOption' },
     },
     isPending: {
       control: 'boolean',
-      description: 'CtaButton Pending',
       table: { defaultValue: { summary: 'false' } },
     },
     disabled: {
       control: 'boolean',
-      description: 'CtaButton Disabled',
       table: { defaultValue: { summary: 'false' } },
     },
   },
@@ -170,9 +159,6 @@ export const Sizes: Story = {
   ),
 };
 
-/**
- * @description: gap은 아이콘이 있을 때만 걸리므로 variant × size를 모두 깔아 둡니다.
- * */
 export const WithIcon: Story = {
   parameters: { controls: { disable: true } },
   render: ({ label }) => (
@@ -246,9 +232,6 @@ export const Pending: Story = {
   ),
 };
 
-/**
- * @description: theme × variant × size 전량. Figma 문서 프레임(`294:1138`)과 대조용입니다.
- * */
 export const Matrix: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: ({ label }) => (

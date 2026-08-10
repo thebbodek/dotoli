@@ -108,6 +108,13 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-217 biz-ui 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화
 - [x] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
 - [x] DOTOLI-219 biz-ui CtaButton 구현
+- [x] DOTOLI-222 biz-ui Filter 구현
+- [ ] DOTOLI-223 biz-ui FloatingPill 구현
+- [ ] DOTOLI-224 biz-ui IconButton 구현
+
+Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
+
+`base/white`는 Filter에서 **별도 토큰을 만들지 않고 Tailwind 기본 `white`를 쓰는 것으로 확정**했습니다 (Figma `base/white`가 `#ffffff`로 동일). FloatingPill · IconButton도 이 결정을 따릅니다 — [`components/button.md`](./components/button.md) 「계열 공통 결정」.
 
 ---
 
@@ -430,6 +437,192 @@ Button 관련 항목은 [`components/button.md`](./components/button.md)의 「�
 **Storybook**
 
 `apps/storybook/src/stories/biz-ui/CtaButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/CtaButton`. theme × variant × size 매트릭스와 disabled · pending 스토리를 포함합니다.
+
+---
+
+### 7. Filter 구현
+
+Figma: [Filter](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=295-946&m=dev) (`295:946`) — 문서용 프레임. 실제 심볼은 `179:602`(Default) · `179:603`(Selected).
+
+아이콘 + 라벨로 된 단일 사이즈 칩입니다. 사이즈 축도, hover/pressed/disabled 심볼도 없습니다.
+
+**Variant 축**
+
+| 축      | 값                     |
+| ------- | ---------------------- |
+| `state` | `default` · `selected` |
+| 아이콘  | 노출 여부 (boolean)    |
+
+**실측 스펙**
+
+| 항목    | 값                                                             |
+| ------- | -------------------------------------------------------------- |
+| 크기    | 69 × 33 (내용에 따라 가변)                                     |
+| padding | `px-[13px] py-[6px]`                                           |
+| gap     | 4px                                                            |
+| radius  | 6px → `rounded-md`                                             |
+| border  | 1px solid                                                      |
+| 라벨    | Pretendard SemiBold 14px / lh 1.5 / ls -0.14px → `text-gray-800` |
+| 아이콘  | 14px (`ListStar` `14:275`)                                     |
+
+| `state`    | 배경                  | 테두리                      |
+| ---------- | --------------------- | --------------------------- |
+| `default`  | `base/white` → `bg-white` | `gray/200` → `border-gray-200` |
+| `selected` | `blue/100` → `bg-blue-100` | `blue/300` → `border-blue-300` |
+
+바인딩된 변수에 `blue/600` · `gray/400`이 함께 잡힙니다. 아이콘 색이 상태별로 갈리는 것으로 보이므로 (`selected` → `blue-600`, `default` → `gray-400`) 착수 시 심볼에서 확인합니다.
+
+**구현 구조**
+
+```
+src/components/Button/Filter/
+├── Filter.tsx
+├── constants/index.ts        # FILTER_STATES + 상태별 스타일 매퍼
+├── types/index.ts
+└── index.ts
+```
+
+`state`는 값이 CtaButton과 겹치지 않으므로 `shared`가 아니라 `Filter/` 아래에 둡니다 (CLAUDE.md [컴포넌트 API]).
+
+**주의사항**
+
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+구현 결과와 결정 기록(라벨 타이포 토큰 채택 근거 · `base/white` 확정 · `selected` boolean API · `disabled` 미노출 · 높이 1.3px 차이)은 [`components/button.md`](./components/button.md)의 「Filter」로 옮겼습니다.
+
+**디자인 확인 필요**
+
+[`components/button.md`](./components/button.md)의 「Filter > 디자인 확인 필요」로 옮겼습니다 — 문서 라벨 뒤바뀜 · 상호작용 상태 부재 · 라벨 타이포 불일치 · `Fillter` 오타.
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/Filter.stories.tsx`, `meta.title`은 `core/biz-ui/Button/Filter`. 스토리 3종 (`Default` · `Interactive` · `States`).
+
+---
+
+### 8. FloatingPill 구현
+
+Figma: [FloatingPill](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=298-952&m=dev) (`298:952`) — 문서용 프레임. 실제 심볼은 `46:185`(navigate) · `46:184`(scrollToTop).
+
+**Variant 축**
+
+| 축        | 값                          |
+| --------- | --------------------------- |
+| `variant` | `navigate` · `scrollToTop`  |
+
+상태 축은 없습니다.
+
+**실측 스펙**
+
+| 항목    | 값                                                              |
+| ------- | ----------------------------------------------------------------- |
+| height  | 50px (두 variant 공통)                                            |
+| padding | `px-[26px] py-[12px]`                                             |
+| radius  | `corner radius/999` → `rounded-full`                              |
+| 라벨    | `heading-5` (Pretendard Bold 18px / lh 1.45 / ls **-1px**)        |
+
+| `variant`     | 배경                        | 라벨 색                       | 그 외                                                                    |
+| ------------- | --------------------------- | ----------------------------- | ------------------------------------------------------------------------ |
+| `navigate`    | `blue/500` → `bg-blue-500`  | `base/white` → `text-white`   | drop-shadow `0 6px 6px rgba(16,24,40,0.16)`                              |
+| `scrollToTop` | `base/white` → `bg-white`   | `gray/800` → `text-gray-800`  | `gray/100` 테두리(stroke 0.5625px) · shadow `0 6px 12px rgba(16,24,40,0.16)` · gap 4px · 18px 아이콘 |
+
+**구현 구조**
+
+```
+src/components/Button/FloatingPill/
+├── FloatingPill.tsx
+├── constants/index.ts        # FLOATING_PILL_VARIANTS + variant별 스타일 매퍼
+├── types/index.ts
+└── index.ts
+```
+
+**주의사항**
+
+- **biz-ui 첫 shadow 사용입니다.** Figma에 shadow 변수·스케일이 없어(생 effect 값 2종) `--shadow-*` 스케일을 만들 근거가 부족합니다. 임의값으로 갈지 컴포넌트 스코프 토큰을 둘지 결정하고 근거를 남깁니다. 스케일을 만든다면 `plan.md`의 "`--shadow-*`는 Figma 정의를 기다립니다" 문장도 함께 갱신합니다.
+- `navigate`는 `drop-shadow`(filter), `scrollToTop`은 `box-shadow`입니다. Figma가 실제로 다른 효과를 쓰는지 아니면 표현 차이인지 확인합니다.
+- `heading-5`의 letter-spacing이 Figma는 절대값 `-1px`인데 토큰은 `-0.01em`(18px에서 -0.18px)입니다. 차이가 커서 눈에 띕니다.
+- 테두리 두께가 0.5625px입니다. Tailwind `border`(1px)와 다르므로 그대로 갈지 1px로 맞출지 결정합니다.
+- **포지셔닝은 컴포넌트에 넣지 않는 쪽을 기본으로 합니다.** 이름은 floating이지만 심볼에는 위치 정보가 없고, `fixed` · `bottom` · safe-area는 화면마다 달라 소비자 몫입니다. 다르게 가려면 근거를 남깁니다.
+- `scrollToTop` 아이콘은 Phosphor `caret-up` 계열로 매칭합니다. 아이콘 폰트라 크기가 `font-size`를 따르는데 라벨이 18px이므로 `ButtonIcon`을 그대로 쓰면 18px이 나옵니다 (별도 지정 불필요).
+
+**디자인 확인 필요**
+
+| 항목               | 내용                                                              |
+| ------------------ | ------------------------------------------------------------------- |
+| 상호작용 상태      | `hover` · `pressed` · `disabled` 심볼이 없습니다                    |
+| shadow 스케일      | 토큰이 없어 컴포넌트마다 생값이 됩니다. 스케일 정의 요청 필요        |
+| `heading-5` ls     | Figma `-1px` vs 토큰 `-0.01em`                                      |
+| stroke 0.5625px    | 의도된 값인지                                                       |
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/FloatingPill.stories.tsx`, `meta.title`은 `core/biz-ui/Button/FloatingPill`.
+
+---
+
+### 9. IconButton 구현
+
+Figma: [IconButton](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=298-1024&m=dev) (`298:1024`) — 문서용 프레임. 심볼 `81:202`~`81:209`는 매트릭스 **샘플 8개**일 뿐이라 30조합은 컴포넌트 세트에서 직접 실측합니다.
+
+**Variant 축**
+
+| 축      | 값                                                        |
+| ------- | --------------------------------------------------------- |
+| `theme` | `default` · `filled` · `dark`                             |
+| `size`  | `lg`(40px) · `sm`(24px)                                   |
+| 상태    | `hover` · `pressed` · `disabled` · `loading`              |
+
+`theme` 값이 CtaButton(`primary` · `gray`)과 하나도 겹치지 않습니다. CtaButton 값을 옮기지 않습니다.
+
+**실측 스펙**
+
+| 항목      | `lg`                | `sm`                |
+| --------- | ------------------- | ------------------- |
+| 버튼 크기 | 40 × 40             | 24 × 24             |
+| 아이콘    | 24px                | 16px                |
+| radius    | 6px → `rounded-md`  | 6px → `rounded-md`  |
+
+`theme='filled'`는 `base/white` 배경입니다. 나머지 theme × state 배경·아이콘 색은 컴포넌트 세트에서 전수 실측해 `ICON_BUTTON_STYLES`에 넣습니다.
+
+**터치 영역 확장**
+
+Figma 주석 `337:3548` — "레이아웃 변동 없이 `::before` 가상 요소를 사용해 사방 6px 터치 영역 확장 / `position: relative` 기준 `::before`에 상하좌우 -6px 마진(inset) 처리".
+
+기존 `BUTTON_TOUCH_TARGET_STYLE`(`before:absolute before:-inset-1.5 before:content-['']`)이 그대로 맞습니다. 쓰는 쪽에서 `relative`를 함께 겁니다.
+
+**구현 구조**
+
+```
+src/components/Button/IconButton/
+├── IconButton.tsx
+├── constants/index.ts                  # ICON_BUTTON_THEMES/SIZES/STATES + 스타일 매퍼
+├── types/index.ts
+├── utils/generateIconButtonStyle.ts    # 배럴에서 export 하지 않음
+└── index.ts
+```
+
+**주의사항**
+
+- **`ButtonIcon`의 "크기 지정 안 함" 전제가 여기서 깨집니다.** 라벨이 없어 물고 갈 타이포 토큰이 없으므로 IconButton이 사이즈별 `font-size`를 직접 넘겨야 합니다 (`lg` 24px · `sm` 16px). `ButtonIcon`의 주석도 함께 갱신합니다.
+- **loading 아이콘이 CtaButton과 다릅니다.** Figma IconButton은 `ArrowClockwise`인데 `BUTTON_PENDING_ICON_KEY`는 `circle-notch`입니다 (CtaButton은 Figma에 심볼이 없어 internal-ui를 따라간 값). 상수를 갈라야 하는지, 아니면 CtaButton 쪽을 Figma에 맞춰야 하는지 디자이너에게 확인합니다.
+- **API는 `state='loading'`이 아니라 CtaButton과 같은 `isPending` boolean으로 통일합니다.** `hover`/`pressed`/`disabled`도 prop이 아니라 CSS 상태입니다. Figma의 `state` 축은 문서용 표현이지 API 축이 아닙니다 (CtaButton도 같은 판단).
+- 아이콘 전용이라 접근 가능한 이름이 없습니다. `aria-label`을 **필수 prop**으로 받습니다.
+- `isPending`일 때 `aria-busy` + `disabled`를 함께 겁니다 (CtaButton과 동일).
+- 히트 영역을 넓힐 때 시각 크기는 Figma 값 그대로 둡니다.
+
+**디자인 확인 필요**
+
+| 항목                | 내용                                                                                                                    |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 주석 적용 범위      | "\*IconButton, sm 버튼 일괄"이 IconButton 전 사이즈인지 `sm`만인지. CtaButton 주석(`337:3541`)이 "\*text, sm 버튼 일괄"로 대상 2개를 나열한 형식이라 **전 사이즈**로 읽는 게 자연스럽습니다 |
+| `sm` 터치 타겟      | 24px + 12px = 36px로, 확장해도 권장 44px에 미달합니다                                                                     |
+| loading 아이콘      | `arrow-clockwise`(IconButton) vs `circle-notch`(CtaButton)                                                                |
+| theme × state 매트릭스 | 문서 프레임이 `theme`은 default 상태만, `state`는 default 테마만 보여줍니다. 조합별 색이 세트에 다 정의돼 있는지 확인 필요 |
+| `sm` 상태·테마      | `sm`은 `theme=default, state=default` 하나만 노출돼 있습니다                                                              |
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/IconButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/IconButton`. theme × size 매트릭스와 disabled · pending 스토리를 포함합니다.
 
 ---
 
