@@ -95,7 +95,7 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 
 | 축         | 값                                       |
 | ---------- | ---------------------------------------- |
-| `selected` | boolean (Figma `State` = Default·Selected) |
+| `isSelected` | boolean (Figma `State` = Default·Selected) |
 | 아이콘     | `iconOption` 전달 여부                     |
 
 사이즈 축도 `hover` · `pressed` · `disabled` 심볼도 없고, **없는 게 맞다고 확인받았습니다** (아래 「구현 결정」).
@@ -124,7 +124,8 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 
 - **라벨 타이포는 `text-label-semibold` 토큰을 씁니다.** Figma는 lh 1.5 / ls -0.14px인데 토큰은 lh 1.45 / ls -0.42px입니다. 사이즈(14px)·웨이트(600)는 정확히 일치하고, **Figma 쪽 라벨이 타이포 스타일에 바인딩되지 않은 생 텍스트**라 새 스케일을 만들 근거로 보지 않았습니다. 어긋난 값은 아래 「디자인 확인 필요」에 남깁니다.
 - **높이가 Figma보다 1.3px 큽니다** (34.3 vs 33). 토큰 lh가 -0.7px, CSS 보더가 +2px입니다 — Figma는 inside stroke라 테두리가 프레임 크기에 더해지지 않지만 CSS는 더합니다. 패딩으로 보정하지 않았습니다.
-- **`selected`는 boolean prop이고 상태를 내부에 두지 않습니다.** 외부에서 제어하고 `aria-pressed`를 함께 겁니다. Figma의 `State` 축은 문서용 표현이라 `state` union prop으로 노출하지 않습니다 (CtaButton이 `disabled`·`isPending`을 다룬 방식과 동일). 스타일 맵 키로 쓰는 `FILTER_STATES`만 상수로 둡니다.
+- **`isSelected`는 boolean prop이고 상태를 내부에 두지 않습니다.** 외부에서 제어하고 `aria-pressed`를 함께 겁니다. Figma의 `State` 축은 문서용 표현이라 `state` union prop으로 노출하지 않습니다 (CtaButton이 `disabled`·`isPending`을 다룬 방식과 동일). 스타일 맵 키로 쓰는 `FILTER_STATES`만 상수로 둡니다.
+- **처음엔 `selected`로 냈다가 `isSelected`로 바꿨습니다.** 컴포넌트가 값을 읽기만 하고 클릭은 `onClick`으로 나가는 제어형이라 성격이 상태입니다. `disabled`가 접두어 없이 가는 건 HTML 기본 속성이라서인데 `<button>`에는 `selected`가 없어 그 예외에 해당하지 않습니다 (CLAUDE.md [컴포넌트 API]의 boolean 접두어 규칙). 0.0.x 대역이라 지금 바꿨습니다.
 - **아이콘은 `iconOption`으로 엽니다.** Figma는 `ListStar` 고정 + boolean 축이지만, CtaButton과 API를 맞추고 라벨마다 아이콘이 달라질 수 있어 `iconKey`를 받습니다. 안 넘기면 라벨만 렌더됩니다.
 - **`hover` · `pressed` · `disabled`를 넣지 않습니다 — 디자이너 확인 완료.** 필터는 탭하면 아래로 펼쳐지는 게 아니라 **바텀시트가 뜨는 형태**라 시트 등장 자체가 피드백이어서 hover·pressed가 필요 없고, 비활성 상황에서는 칩을 **아예 렌더하지 않는** 방식으로 갑니다. 따라서 `disabled` prop도 두지 않습니다.
 - **`Filter`는 바텀시트 트리거입니다.** 위 확인으로 성격이 확정됐습니다 — 옵션 하나짜리 토글 칩이 아닙니다. 적용된 필터 개수를 어떻게 표기할지는 아직 미정입니다.
@@ -196,7 +197,7 @@ Storybook 실측 대조 (Figma → 구현): navigate 129×50 → **132.87×50**,
 - **높이를 `h-[50px]`로 고정합니다.** hug로 두면 50.1px이고, Figma도 `scrollToTop`의 그림자 레이어를 50px로 못박아 뒀습니다.
 - **아이콘을 prop으로 열지 않고 `variant`에서 파생합니다.** `scrollToTop`은 역할이 고정이라 `caret-up` 말고 다른 아이콘을 받을 이유가 없습니다. CtaButton·Filter가 `iconOption`을 여는 것과 갈리는 지점인데, 그쪽은 아이콘이 스타일 선택지고 여기는 variant의 일부입니다.
 - **포지셔닝을 컴포넌트에 넣지 않습니다.** 이름은 floating이지만 심볼에 위치 정보가 없고 `fixed` · `bottom` · safe-area는 화면마다 달라 소비자 몫입니다.
-- **`transition-colors`를 걸지 않습니다.** 런타임에 바뀌는 색이 없습니다 (Filter는 `selected` 토글이 있어 걸었습니다).
+- **`transition-colors`를 걸지 않습니다.** 런타임에 바뀌는 색이 없습니다 (Filter는 `isSelected` 토글이 있어 걸었습니다).
 
 ### 디자인 확인 필요
 

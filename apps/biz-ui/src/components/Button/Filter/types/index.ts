@@ -14,6 +14,6 @@ export interface FilterProps
     >,
     RefAttributes<HTMLButtonElement> {
   label: string;
-  selected?: boolean;
+  isSelected?: boolean;
   iconOption?: ButtonIconOption;
 }

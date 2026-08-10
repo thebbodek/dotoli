@@ -55,6 +55,10 @@ components/<Group>/<Component>/
 | radius 토큰       | `--radius-in-*` 스케일                      | 새로 만들지 않음. Figma 8px/6px가 `rounded-lg`/`rounded-md`와 일치          |
 | Storybook 타이틀  | `core/internal-ui/…`                        | `core/biz-ui/…`                                                             |
 
+**컴포넌트 이름은 biz-ui Figma 심볼명을 따릅니다.** internal-ui의 `Button`이 여기선 `CtaButton`인 이유입니다. 파생 방식(`Multi`·`Search` 같은 수식어 스택, 용도 접두어 + 형태 접미어)은 internal-ui와 같으니 그쪽 트리를 먼저 봅니다.
+
+**Boolean prop은 `is`(상태) · `use`(기능 on/off) · `has`(존재) 중 하나를 붙입니다.** HTML 기본 속성만 접두어 없이 씁니다(`disabled` · `required`). 해당 요소에 없는 속성이면 기본 속성이 아닙니다 — `<button>`에 `selected`가 없으므로 Filter의 선택 상태는 `isSelected`입니다. internal-ui의 `visible` · `dimmed` · `possibleConfirm`은 이탈 사례라 따라가지 않습니다(오버레이 열림은 `isOpen`).
+
 **`theme` union은 컴포넌트별로 정의합니다.** 값이 컴포넌트마다 달라서입니다 — CtaButton은 `primary | gray`, internal-ui IconButton은 `hover-gray | hover-white | bg-white | white | dark`. internal-ui도 같은 방식이라 biz-ui만의 차이는 아닙니다. 버튼 계열 `shared`에는 `variant`·`theme`·`size`를 두지 않습니다.
 
 ### `theme='primary'` ↔ 컬러 토큰 `blue`

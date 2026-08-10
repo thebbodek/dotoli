@@ -490,7 +490,7 @@ src/components/Button/Filter/
 
 규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
 
-구현 결과와 결정 기록(라벨 타이포 토큰 채택 근거 · `base/white` 확정 · `selected` boolean API · `disabled` 미노출 · 높이 1.3px 차이)은 [`components/button.md`](./components/button.md)의 「Filter」로 옮겼습니다.
+구현 결과와 결정 기록(라벨 타이포 토큰 채택 근거 · `base/white` 확정 · `isSelected` boolean API · `disabled` 미노출 · 높이 1.3px 차이)은 [`components/button.md`](./components/button.md)의 「Filter」로 옮겼습니다.
 
 **디자인 확인 필요**
 

@@ -27,7 +27,7 @@ const meta = {
         required: true,
       },
     },
-    selected: {
+    isSelected: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
@@ -61,8 +61,8 @@ export const Interactive: Story = {
     return (
       <Filter
         iconOption={{ iconKey }}
+        isSelected={isSelected}
         label={label}
-        selected={isSelected}
         onClick={() => setIsSelected(!isSelected)}
       />
     );
@@ -85,8 +85,8 @@ export const States: Story = {
           </Typography>
           <Filter
             iconOption={{ iconKey }}
+            isSelected={state === FILTER_STATES.SELECTED}
             label={label}
-            selected={state === FILTER_STATES.SELECTED}
           />
         </Flex>
       ))}

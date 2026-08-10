@@ -10,7 +10,7 @@ import { ButtonIcon } from '@/components/Button/shared';
 
 const Filter = ({
   label,
-  selected = false,
+  isSelected = false,
   iconOption,
   type = 'button',
   className,
@@ -19,11 +19,11 @@ const Filter = ({
 }: FilterProps) => {
   const { iconKey, weight } = iconOption ?? {};
   const { CONTAINER, ICON } =
-    FILTER_STYLES[selected ? FILTER_STATES.SELECTED : FILTER_STATES.DEFAULT];
+    FILTER_STYLES[isSelected ? FILTER_STATES.SELECTED : FILTER_STATES.DEFAULT];
 
   return (
     <button
-      aria-pressed={selected}
+      aria-pressed={isSelected}
       className={clsx(className, FILTER_BASE_STYLE, CONTAINER)}
       ref={ref}
       type={type}
