@@ -36,7 +36,7 @@
 | 루트 스크립트     | 루트 `package.json`에 `biz` 필터 스크립트 추가 (`in` / `ut` / `hooks` 컨벤션)                                                                             |
 | 스타일 레이어     | `globals.css`가 폰트 import + `base` / `theme` / `safelist` / `utilities` 4개 레이어를 묶고 `@source '../../dist'`로 컴포넌트를 스캔                      |
 | 컬러 토큰         | Figma Color 페이지 기준 `--color-{blue,red,yellow,green,gray}-{50…900}` 50개                                                                          |
-| 타이포그래피 토큰 | Figma Typography 페이지 기준 `--text-*` 17개. 각 토큰이 `font-size` · `font-weight` · `line-height` · `letter-spacing`을 함께 실어 클래스 하나로 완성 |
+| 타이포그래피 토큰 | Figma Typography 페이지 기준 `--text-*` 18개. 각 토큰이 `font-size` · `font-weight` · `line-height` · `letter-spacing`을 함께 실어 클래스 하나로 완성 |
 | variants TS 미러  | `COLOR_VARIANTS` · `COLOR_STYLES_MAPPER` · `TYPOGRAPHY_VARIANTS` · `TYPOGRAPHY_STYLES_MAPPER`. `internal-ui`의 명시적 매퍼 패턴을 따름                    |
 | 모바일 유틸리티   | `safe-area-*`, `screen-h`(dvh), `touch-target`(44px), `scroll-{x,y}`, `flex-{v,h}-stack`                                              |
 | safelist          | 런타임 조합 클래스 267개 보존. `hover:` / `focus:` / `active:` variant는 제외                                                                             |
@@ -44,7 +44,7 @@
 | 컬러 스와치 문서  | `core/biz-ui/Colors` (`Colors.mdx`). `internal-ui`와 동일한 평면 구조                                                                                     |
 | npm 소비자 문서   | `apps/biz-ui/README.md`. 설치 · Tailwind 연결 · WebView viewport · 토큰/유틸 목록                                                                         |
 | `Icon`            | Phosphor 웹폰트 클래스 조합(`ph-{key}` + `ph-{weight}`). 웨이트는 `ICON_WEIGHTS`로 `regular` · `bold` · `fill` 3종만 노출. 기본값 `bold`                  |
-| `Typography`      | `as`로 태그 교체(26종), `variant`로 타이포 토큰 17종, `color`로 컬러 토큰 50종. `color` 미지정 시 `text-inherit`                                          |
+| `Typography`      | `as`로 태그 교체(26종), `variant`로 타이포 토큰 18종, `color`로 컬러 토큰 50종. `color` 미지정 시 `text-inherit`                                          |
 | `Flex`            | `direction` · `align` · `justify` · `gap` · `wrap` · `basis` · `shrink` · `grow` · `flex` · `order`. `gap`은 단일 값 또는 `{ column, row }` 객체         |
 | 프리미티브 스토리 | `core/biz-ui/{Icon,Typography,Flex}`. Icon `Weights` · Typography `Variants`로 토큰 전량을 시각 확인                                                      |
 
@@ -52,10 +52,11 @@
 
 | 항목                                       | 비고                                                                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `--radius-*` · `--shadow-*`                | Figma에 Button 섹션이 추가되면서 `corner radius/999`가 확인됨. 다만 전체 radius 스케일이 아니라 개별 값이라 **스케일 확정 후 일괄 추가**해야 함 |
+| `--radius-*`                               | Figma에 Button 섹션이 추가되면서 `corner radius/999`가 확인됨. 다만 전체 radius 스케일이 아니라 개별 값이라 **스케일 확정 후 일괄 추가**해야 함 |
+| `--shadow-*`                               | `shadow/shadow-20` 하나만 정의돼 DOTOLI-223에서 `--shadow-20` 추가. 나머지 단계는 Figma 정의 대기 |
 | `--breakpoint-*` · `--container-*`         | 모바일 기준 재설계 필요. 디바이스 매트릭스 확정 대기                                                                                    |
 | `--animate-*`                              | Figma 모션 정의 대기                                                                                                                    |
-| `variants/{radius,shadow,container}`       | 위 토큰이 없어 디렉토리 미생성. 토큰 추가 시 함께 스캐폴딩                                                                              |
+| `variants/{radius,shadow,container}`       | 컴포넌트가 prop으로 노출하지 않아 디렉토리 미생성. `--shadow-20`도 클래스로만 씀 (`variants/`는 prop union이 필요할 때만 만듦)          |
 | Typography 스토리                          | `internal-ui`와 동일하게 `Typography` 컴포넌트가 생기는 시점에 컴포넌트 스토리로 추가. 별도 Foundations 페이지는 두지 않음              |
 | `CtaButton`                                | DOTOLI-219로 구현 완료. 이 문서 범위 밖입니다 → [components/button.md](./components/button.md)                                          |
 | `Portal` · `components/shared/`            | 오버레이(BottomSheet · Modal · Toast) 작업 시점에 생성. 쓰는 곳 없이 먼저 만들지 않음                                                   |
@@ -104,7 +105,7 @@ apps/
 │       ├── styles/
 │       │   ├── globals.css         # exports "./styles" 진입점
 │       │   ├── base.css            # @layer base 리셋 + 모바일 대응
-│       │   ├── theme.css           # @theme 토큰 (color 50 / typography 17)
+│       │   ├── theme.css           # @theme 토큰 (color 50 / typography 18)
 │       │   ├── safelist.css        # @source inline
 │       │   └── utilities.css       # @utility *
 │       └── variants/

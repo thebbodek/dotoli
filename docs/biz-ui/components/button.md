@@ -13,16 +13,16 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 | `CtaButton`  | DOTOLI-219 | `theme` 2 × `variant` 4 × `size` 3. 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측                                  |
 | `ButtonIcon` | DOTOLI-219 | 버튼 계열 공통 아이콘 래퍼. Phosphor는 아이콘 폰트라 글리프 크기가 `font-size`를 따르므로 크기를 따로 지정하지 않습니다 |
 | `Filter`     | DOTOLI-222 | `state` 2 × 아이콘 유무. 사이즈 축 없는 단일 칩                                                                          |
+| `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
 
 ### 미구현
 
-| 컴포넌트       | 티켓       | 비고                                                                                                                                                                    |
-| -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `FloatingPill` | DOTOLI-223 | `variant`(navigate·scrollToTop). biz-ui 첫 shadow 사용. Figma `298:952`                                                                                                   |
-| `IconButton`   | DOTOLI-224 | `theme`(default·filled·dark) × `state` 5 × `size`(lg·sm). CtaButton과 `theme` 값이 안 겹칩니다. 전수 실측은 안 된 값이라 착수 시 Figma에서 다시 확인합니다. Figma `298:1024` |
-| `LinkButton`   | —          | Figma 심볼 미확인                                                                                                                                                        |
+| 컴포넌트     | 티켓       | 비고                                                                                                                                                                    |
+| ------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `IconButton` | DOTOLI-224 | `theme`(default·filled·dark) × `state` 5 × `size`(lg·sm). CtaButton과 `theme` 값이 안 겹칩니다. 전수 실측은 안 된 값이라 착수 시 Figma에서 다시 확인합니다. Figma `298:1024` |
+| `LinkButton` | —          | Figma 심볼 미확인                                                                                                                                                        |
 
-두 티켓의 실측 스펙·주의사항·디자인 확인 필요 목록은 [`plan.md`](../plan.md)의 태스크 상세 8~9번에 있습니다. 구현 후 결과는 이 파일로 옮깁니다.
+IconButton의 실측 스펙·주의사항·디자인 확인 필요 목록은 [`plan.md`](../plan.md)의 태스크 상세 9번에 있습니다. 구현 후 결과는 이 파일로 옮깁니다.
 
 ## 계열 공통 결정
 
@@ -106,7 +106,7 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 | `selected` | boolean (Figma `State` = Default·Selected) |
 | 아이콘     | `iconOption` 전달 여부                     |
 
-사이즈 축이 없고 `hover` · `pressed` · `disabled` 심볼도 없어 해당 축을 넣지 않았습니다.
+사이즈 축도 `hover` · `pressed` · `disabled` 심볼도 없고, **없는 게 맞다고 확인받았습니다** (아래 「구현 결정」).
 
 ### 실측 스펙
 
@@ -134,7 +134,8 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 - **높이가 Figma보다 1.3px 큽니다** (34.3 vs 33). 토큰 lh가 -0.7px, CSS 보더가 +2px입니다 — Figma는 inside stroke라 테두리가 프레임 크기에 더해지지 않지만 CSS는 더합니다. 패딩으로 보정하지 않았습니다.
 - **`selected`는 boolean prop이고 상태를 내부에 두지 않습니다.** 외부에서 제어하고 `aria-pressed`를 함께 겁니다. Figma의 `State` 축은 문서용 표현이라 `state` union prop으로 노출하지 않습니다 (CtaButton이 `disabled`·`isPending`을 다룬 방식과 동일). 스타일 맵 키로 쓰는 `FILTER_STATES`만 상수로 둡니다.
 - **아이콘은 `iconOption`으로 엽니다.** Figma는 `ListStar` 고정 + boolean 축이지만, CtaButton과 API를 맞추고 라벨마다 아이콘이 달라질 수 있어 `iconKey`를 받습니다. 안 넘기면 라벨만 렌더됩니다.
-- **`disabled`를 노출하지 않습니다.** Figma에 disabled 심볼이 없어 시각 정의가 없습니다. 지금 넣으면 눌리지 않는데 활성처럼 보입니다. 나중에 추가하는 건 비파괴 변경이라 디자인 확정 후로 미룹니다.
+- **`hover` · `pressed` · `disabled`를 넣지 않습니다 — 디자이너 확인 완료.** 필터는 탭하면 아래로 펼쳐지는 게 아니라 **바텀시트가 뜨는 형태**라 시트 등장 자체가 피드백이어서 hover·pressed가 필요 없고, 비활성 상황에서는 칩을 **아예 렌더하지 않는** 방식으로 갑니다. 따라서 `disabled` prop도 두지 않습니다.
+- **`Filter`는 바텀시트 트리거입니다.** 위 확인으로 성격이 확정됐습니다 — 옵션 하나짜리 토글 칩이 아닙니다. 적용된 필터 개수를 어떻게 표기할지는 아직 미정입니다.
 - **히트 영역을 넓히지 않습니다.** Figma 주석(`337:3541` · `337:3548`)이 지정한 대상은 CtaButton의 `text`·`sm`과 IconButton뿐입니다 (CLAUDE.md [히트 영역 확장]).
 - **`gap-1`을 조건 없이 겁니다.** 자식이 하나면 gap이 무효라 CtaButton처럼 `hasIcon`으로 가를 이유가 없습니다.
 
@@ -143,7 +144,7 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 | 항목             | 내용                                                                                               |
 | ---------------- | ---------------------------------------------------------------------------------------------------- |
 | 문서 라벨 뒤바뀜 | `295:946`의 설명 텍스트만 자리가 바뀌었습니다. 심볼 자체(`State=Selected`=파랑)는 정상입니다 — 아래 좌표 참고 |
-| 상호작용 상태    | `hover` · `pressed` · `disabled` 심볼이 없습니다. 터치 시 피드백이 없어 `pressed`만이라도 필요합니다 |
+| 적용 개수 표기   | 트리거로 확정됐으므로 적용된 필터 개수를 보여줄지, 보여준다면 뱃지인지 라벨 숫자인지 미정              |
 | 라벨 타이포      | lh 1.5 / ls -0.14px가 `label-semibold` 토큰(1.45 / -0.42px)과 불일치. 라벨이 스타일에 바인딩돼 있지 않습니다 |
 | `Fillter` 오타   | 컴포넌트 레이어명이 `Fillter`                                                                       |
 
@@ -157,6 +158,60 @@ Figma 심볼 `179:602`(Default) · `179:603`(Selected). `295:946`은 문서용 �
 | 텍스트 `295:966` "Selected"     | 270              | —    |
 
 "Default" 텍스트가 `State=Selected` 심볼 위에, "Selected" 텍스트가 `State=Default` 심볼 위에 있습니다.
+
+---
+
+## FloatingPill
+
+Figma 심볼 `46:185`(navigate) · `46:184`(scrollToTop). `298:952`는 문서용 프레임입니다.
+
+### Variant 축
+
+| 축        | 값                         |
+| --------- | -------------------------- |
+| `variant` | `navigate` · `scrollToTop` |
+
+상태 축이 없고, **없는 게 맞다고 확인받았습니다** — 비활성 상황에서는 UI를 아예 렌더하지 않는 방식으로 갑니다 (Filter와 동일).
+
+### 실측 스펙
+
+| 항목    | 값                                                |
+| ------- | ------------------------------------------------- |
+| height  | 50px (두 variant 공통)                            |
+| padding | `px-[26px] py-[12px]`                             |
+| gap     | 4px                                               |
+| radius  | `corner radius/999` → `rounded-full`              |
+| 라벨    | `heading-5` (Pretendard Bold 18px / lh 1.45)      |
+
+| `variant`     | 배경                       | 라벨 색                      | 테두리                                     |
+| ------------- | -------------------------- | ---------------------------- | ------------------------------------------ |
+| `navigate`    | `blue/500` → `bg-blue-500` | `base/white` → `text-white`  | 없음                                       |
+| `scrollToTop` | `base/white` → `bg-white`  | `gray/800` → `text-gray-800` | `gray/100` 0.5625px (`stroke weight/0_56`) |
+
+shadow는 두 variant가 같은 값이라 베이스 스타일에 둡니다 — `shadow/shadow-20` → `--shadow-20`.
+
+`scrollToTop`은 라벨 뒤에 18px `caret-up` 아이콘이 붙습니다. Figma에서는 Phosphor 인스턴스가 아니라 이름 없는 벡터(`46:181`)라 모양으로 매칭했습니다 — 채움 `#333c51`, 스트로크 두께로 보아 `bold` 웨이트.
+
+Storybook 실측 대조 (Figma → 구현): navigate 129×50 → **132.87×50**, scrollToTop 105×50 → **105.76×50**. 높이는 정확히 일치하고, 폭 차이는 `heading-5` letter-spacing이 Figma는 `-1px`, 토큰은 `-0.01em`이라 생기는 것입니다. hug 컴포넌트라 레이아웃에 영향은 없습니다.
+
+### 구현 결정
+
+- **shadow를 `--shadow-20` 토큰으로 둡니다.** Figma에 `shadow/shadow-20` 이펙트 스타일이 생겨서(`DROP_SHADOW · #333C5133 · offset (0,10) · radius 20 · spread 0`) 이름을 그대로 따랐습니다. biz-ui 첫 shadow 토큰입니다. 색 `#333C51`은 `gray/800`을 20%로 쓴 값인데 Figma에서도 변수 바인딩이 아니라 리터럴이라 `rgb(51 60 81 / 0.2)`로 그대로 적었습니다.
+- **두 variant가 같은 shadow를 씁니다.** 둘 다 `shadow/shadow-20` 하나에 물려 있어 베이스 스타일에 넣었습니다.
+- **`box-shadow`로 통일합니다.** Figma 코드젠이 `navigate`는 `drop-shadow(0 10px 10px)`(filter), `scrollToTop`은 `box-shadow(0 10px 20px)`로 뱉지만 원본 이펙트는 같은 스타일 하나입니다. filter 쪽 blur가 절반으로 나오는 건 코드젠의 변환 방식 차이라, 이펙트 시맨틱(offset·blur·spread·color)에 그대로 대응하는 box-shadow를 택했습니다.
+- **`scrollToTop`의 `Button:shadow` 레이어(`46:179`)를 별도 요소로 만들지 않습니다.** 컨테이너와 높이(50px)·radius가 같은 겹친 사각형이라 테두리와 그림자만 버튼 자체로 옮기면 동일합니다.
+- **테두리는 0.5625px 그대로 씁니다.** Figma에 `stroke weight/0_56` 변수로 잡혀 있어 의도된 값으로 봤습니다. biz-ui 첫 stroke-weight 사용인데 값이 하나뿐이라 토큰화는 보류합니다.
+- **높이를 `h-[50px]`로 고정합니다.** hug로 두면 50.1px이고, Figma도 `scrollToTop`의 그림자 레이어를 50px로 못박아 뒀습니다.
+- **아이콘을 prop으로 열지 않고 `variant`에서 파생합니다.** `scrollToTop`은 역할이 고정이라 `caret-up` 말고 다른 아이콘을 받을 이유가 없습니다. CtaButton·Filter가 `iconOption`을 여는 것과 갈리는 지점인데, 그쪽은 아이콘이 스타일 선택지고 여기는 variant의 일부입니다.
+- **포지셔닝을 컴포넌트에 넣지 않습니다.** 이름은 floating이지만 심볼에 위치 정보가 없고 `fixed` · `bottom` · safe-area는 화면마다 달라 소비자 몫입니다.
+- **`transition-colors`를 걸지 않습니다.** 런타임에 바뀌는 색이 없습니다 (Filter는 `selected` 토글이 있어 걸었습니다).
+
+### 디자인 확인 필요
+
+| 항목                        | 내용                                                                                                                              |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| shadow 스케일               | `shadow/shadow-20` 하나뿐입니다. 다른 단계가 생기면 알려주셔야 스케일로 정리할 수 있습니다                                           |
+| stroke 0.5625px             | 의도된 값인지. 변수로 잡혀 있긴 하나 이 컴포넌트에서만 쓰입니다                                                                     |
 
 ---
 
@@ -175,6 +230,11 @@ apps/biz-ui/src/components/Button/
 │   ├── constants/index.ts              # FILTER_STATES + 베이스/상태 스타일
 │   ├── types/index.ts
 │   └── index.ts
+├── FloatingPill/
+│   ├── FloatingPill.tsx
+│   ├── constants/index.ts              # FLOATING_PILL_VARIANTS + 베이스/variant 스타일
+│   ├── types/index.ts
+│   └── index.ts
 ├── shared/                             # 버튼 계열 공통만
 │   ├── ButtonIcon.tsx
 │   ├── constants/index.ts
@@ -184,9 +244,10 @@ apps/biz-ui/src/components/Button/
 
 apps/storybook/src/stories/biz-ui/
 ├── CtaButton.stories.tsx               # core/biz-ui/Button/CtaButton, 스토리 7종
-└── Filter.stories.tsx                  # core/biz-ui/Button/Filter, 스토리 3종
+├── Filter.stories.tsx                  # core/biz-ui/Button/Filter, 스토리 3종
+└── FloatingPill.stories.tsx            # core/biz-ui/Button/FloatingPill, 스토리 2종
 ```
 
-CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. Filter는 축이 작아 `States` 스토리 하나로 대조합니다.
+CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
 
-`Filter/`에 `utils/`를 두지 않았습니다. 상태가 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다.
+`Filter/`·`FloatingPill/`에 `utils/`를 두지 않았습니다. 축이 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다.

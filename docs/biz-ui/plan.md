@@ -100,7 +100,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 환경 세팅
 
 - [x] DOTOLI-213 biz-ui 패키지 생성 및 빌드 환경 구성
-- [x] DOTOLI-214 biz-ui 스타일 레이어 및 디자인 토큰 구성 (color · typography까지. radius/shadow/breakpoint/container는 Figma 정의 대기)
+- [x] DOTOLI-214 biz-ui 스타일 레이어 및 디자인 토큰 구성 (color · typography까지. radius/breakpoint/container는 Figma 정의 대기. shadow는 DOTOLI-223에서 `--shadow-20` 추가)
 - [x] DOTOLI-215 biz-ui Storybook 연동 및 문서화
 
 ### biz-ui 컴포넌트
@@ -109,7 +109,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-218 biz-ui 기반 프리미티브 컴포넌트 구현 (Icon · Typography · Flex)
 - [x] DOTOLI-219 biz-ui CtaButton 구현
 - [x] DOTOLI-222 biz-ui Filter 구현
-- [ ] DOTOLI-223 biz-ui FloatingPill 구현
+- [x] DOTOLI-223 biz-ui FloatingPill 구현
 - [ ] DOTOLI-224 biz-ui IconButton 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
@@ -224,13 +224,15 @@ internal-ui와 동일하게 Tailwind v4 CSS-first 방식입니다. `@theme` 블�
 | 그룹       | 토큰                                                                               | 개수 |
 | ---------- | ---------------------------------------------------------------------------------- | ---- |
 | Color      | `--color-{blue,red,yellow,green,gray}-{50,100,…,900}`                          | 50   |
-| Typography | `--text-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 17   |
+| Typography | `--text-*` (+ `--line-height` / `--font-weight` / `--letter-spacing` 서브프롭) | 18   |
 
-타이포그래피 이름은 internal-ui의 `body-16-m` 식이 아니라 Figma가 정의한 시맨틱 이름을 그대로 씁니다 — `heading-1`~`heading-4` (+ `-bold`), `heading-5`, `body-lg`, `body` / `body-semibold` / `body-bold`, `label` / `label-semibold` / `label-bold`, `caption`.
+타이포그래피 이름은 internal-ui의 `body-16-m` 식이 아니라 Figma가 정의한 시맨틱 이름을 그대로 씁니다 — `heading-1`~`heading-4` (+ `-bold`), `heading-5`, `body-lg` / `body-lg-semibold`, `body` / `body-semibold` / `body-bold`, `label` / `label-semibold` / `label-bold`, `caption`.
+
+`body-lg-semibold`는 DOTOLI-223 이후 디자이너 요청으로 추가했습니다 (`body-lg`에서 웨이트만 600). 그때 body 계열 letter-spacing을 -3%로 일괄 확인했고 전부 이미 -3%였습니다.
 
 컬러 스케일 이름도 Figma의 `--blue-*` / `--gray-*` 규약을 따릅니다. Blue가 메인 컬러이지만 `primary`로 개명하지 않습니다.
 
-`--radius-*`, `--shadow-*`, `--breakpoint-*`, `--container-*`, `--animate-*`는 Figma 정의를 기다립니다.
+`--radius-*`, `--breakpoint-*`, `--container-*`, `--animate-*`는 Figma 정의를 기다립니다. `--shadow-*`는 이후 Figma에 `shadow/shadow-20`이 생겨 DOTOLI-223에서 `--shadow-20` 하나를 추가했습니다.
 
 `variants/`는 토큰의 TS 미러입니다. internal-ui의 `COLOR_VARIANTS`, `TYPOGRAPHY_VARIANTS` + `TYPOGRAPHY_PREFIX` / `TYPOGRAPHY_STYLES_MAPPER` 패턴을 그대로 따릅니다 (prefix는 `text-`).
 
@@ -369,7 +371,7 @@ Storybook에서 `--color-blue-500`이 `#3182f6`, `--color-biz-blue-500`이 미�
 
 `apps/storybook/src/stories/biz-ui/`에 `Icon.stories.tsx` · `Typography.stories.tsx` · `Flex.stories.tsx`. `meta.title`은 `core/biz-ui/<Name>`.
 
-Typography 스토리가 생기면서 타이포 토큰 17종이 시각적으로 확인 가능해집니다 (별도 Foundations 페이지는 두지 않는다는 기존 결정 유지).
+Typography 스토리가 생기면서 타이포 토큰 전량이 시각적으로 확인 가능해집니다 (별도 Foundations 페이지는 두지 않는다는 기존 결정 유지).
 
 ---
 
@@ -523,8 +525,8 @@ Figma: [FloatingPill](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 | `variant`     | 배경                        | 라벨 색                       | 그 외                                                                    |
 | ------------- | --------------------------- | ----------------------------- | ------------------------------------------------------------------------ |
-| `navigate`    | `blue/500` → `bg-blue-500`  | `base/white` → `text-white`   | drop-shadow `0 6px 6px rgba(16,24,40,0.16)`                              |
-| `scrollToTop` | `base/white` → `bg-white`   | `gray/800` → `text-gray-800`  | `gray/100` 테두리(stroke 0.5625px) · shadow `0 6px 12px rgba(16,24,40,0.16)` · gap 4px · 18px 아이콘 |
+| `navigate`    | `blue/500` → `bg-blue-500`  | `base/white` → `text-white`   | `shadow/shadow-20`                                                       |
+| `scrollToTop` | `base/white` → `bg-white`   | `gray/800` → `text-gray-800`  | `gray/100` 테두리(stroke 0.5625px) · `shadow/shadow-20` · gap 4px · 18px 아이콘 |
 
 **구현 구조**
 
@@ -538,25 +540,17 @@ src/components/Button/FloatingPill/
 
 **주의사항**
 
-- **biz-ui 첫 shadow 사용입니다.** Figma에 shadow 변수·스케일이 없어(생 effect 값 2종) `--shadow-*` 스케일을 만들 근거가 부족합니다. 임의값으로 갈지 컴포넌트 스코프 토큰을 둘지 결정하고 근거를 남깁니다. 스케일을 만든다면 `plan.md`의 "`--shadow-*`는 Figma 정의를 기다립니다" 문장도 함께 갱신합니다.
-- `navigate`는 `drop-shadow`(filter), `scrollToTop`은 `box-shadow`입니다. Figma가 실제로 다른 효과를 쓰는지 아니면 표현 차이인지 확인합니다.
-- `heading-5`의 letter-spacing이 Figma는 절대값 `-1px`인데 토큰은 `-0.01em`(18px에서 -0.18px)입니다. 차이가 커서 눈에 띕니다.
-- 테두리 두께가 0.5625px입니다. Tailwind `border`(1px)와 다르므로 그대로 갈지 1px로 맞출지 결정합니다.
-- **포지셔닝은 컴포넌트에 넣지 않는 쪽을 기본으로 합니다.** 이름은 floating이지만 심볼에는 위치 정보가 없고, `fixed` · `bottom` · safe-area는 화면마다 달라 소비자 몫입니다. 다르게 가려면 근거를 남깁니다.
-- `scrollToTop` 아이콘은 Phosphor `caret-up` 계열로 매칭합니다. 아이콘 폰트라 크기가 `font-size`를 따르는데 라벨이 18px이므로 `ButtonIcon`을 그대로 쓰면 18px이 나옵니다 (별도 지정 불필요).
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+구현 결과와 결정 기록(`--shadow-20` 토큰 추가 · box-shadow 통일 · 0.5625px 테두리 · 아이콘을 variant에서 파생 · 포지셔닝 제외)은 [`components/button.md`](./components/button.md)의 「FloatingPill」로 옮겼습니다.
 
 **디자인 확인 필요**
 
-| 항목               | 내용                                                              |
-| ------------------ | ------------------------------------------------------------------- |
-| 상호작용 상태      | `hover` · `pressed` · `disabled` 심볼이 없습니다                    |
-| shadow 스케일      | 토큰이 없어 컴포넌트마다 생값이 됩니다. 스케일 정의 요청 필요        |
-| `heading-5` ls     | Figma `-1px` vs 토큰 `-0.01em`                                      |
-| stroke 0.5625px    | 의도된 값인지                                                       |
+[`components/button.md`](./components/button.md)의 「FloatingPill > 디자인 확인 필요」로 옮겼습니다 — shadow 스케일이 `shadow-20` 하나뿐 · stroke 0.5625px. 상호작용 상태는 확인 완료(비활성 시 UI를 렌더하지 않음)라 제외했습니다.
 
 **Storybook**
 
-`apps/storybook/src/stories/biz-ui/FloatingPill.stories.tsx`, `meta.title`은 `core/biz-ui/Button/FloatingPill`.
+`apps/storybook/src/stories/biz-ui/FloatingPill.stories.tsx`, `meta.title`은 `core/biz-ui/Button/FloatingPill`. 스토리 2종 (`Default` · `Variants`).
 
 ---
 
@@ -604,7 +598,7 @@ src/components/Button/IconButton/
 **주의사항**
 
 - **`ButtonIcon`의 "크기 지정 안 함" 전제가 여기서 깨집니다.** 라벨이 없어 물고 갈 타이포 토큰이 없으므로 IconButton이 사이즈별 `font-size`를 직접 넘겨야 합니다 (`lg` 24px · `sm` 16px). `ButtonIcon`의 주석도 함께 갱신합니다.
-- **loading 아이콘이 CtaButton과 다릅니다.** Figma IconButton은 `ArrowClockwise`인데 `BUTTON_PENDING_ICON_KEY`는 `circle-notch`입니다 (CtaButton은 Figma에 심볼이 없어 internal-ui를 따라간 값). 상수를 갈라야 하는지, 아니면 CtaButton 쪽을 Figma에 맞춰야 하는지 디자이너에게 확인합니다.
+- **`state=loading` 심볼의 `ArrowClockwise`를 스피너 지정으로 읽지 않습니다.** 이 문서 프레임은 샘플마다 아이콘이 제각각입니다(default=`PencilSimple`, filled=`ArrowClockwise`, dark=`Bell`, hover·disabled=`Trash`, pressed·sm=`X`). `loading` 칸의 아이콘도 그 중 하나일 뿐 로딩 UI를 규정한 것으로 보기 어렵습니다. **`state=loading`은 상태 축 이름으로만 받고**, 스피너는 기존 `BUTTON_PENDING_ICON_KEY`(`circle-notch`)를 유지합니다. 로딩 비주얼을 따로 정의할지는 디자이너 확인 후 결정합니다.
 - **API는 `state='loading'`이 아니라 CtaButton과 같은 `isPending` boolean으로 통일합니다.** `hover`/`pressed`/`disabled`도 prop이 아니라 CSS 상태입니다. Figma의 `state` 축은 문서용 표현이지 API 축이 아닙니다 (CtaButton도 같은 판단).
 - 아이콘 전용이라 접근 가능한 이름이 없습니다. `aria-label`을 **필수 prop**으로 받습니다.
 - `isPending`일 때 `aria-busy` + `disabled`를 함께 겁니다 (CtaButton과 동일).
@@ -616,7 +610,7 @@ src/components/Button/IconButton/
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | 주석 적용 범위      | "\*IconButton, sm 버튼 일괄"이 IconButton 전 사이즈인지 `sm`만인지. CtaButton 주석(`337:3541`)이 "\*text, sm 버튼 일괄"로 대상 2개를 나열한 형식이라 **전 사이즈**로 읽는 게 자연스럽습니다 |
 | `sm` 터치 타겟      | 24px + 12px = 36px로, 확장해도 권장 44px에 미달합니다                                                                     |
-| loading 아이콘      | `arrow-clockwise`(IconButton) vs `circle-notch`(CtaButton)                                                                |
+| 로딩 비주얼         | 두 컴포넌트 모두 로딩 스피너 심볼이 없습니다. IconButton `state=loading` 칸의 `ArrowClockwise`는 샘플 아이콘으로 보입니다. 계열 공통 스피너를 정의해 주실지 |
 | theme × state 매트릭스 | 문서 프레임이 `theme`은 default 상태만, `state`는 default 테마만 보여줍니다. 조합별 색이 세트에 다 정의돼 있는지 확인 필요 |
 | `sm` 상태·테마      | `sm`은 `theme=default, state=default` 하나만 노출돼 있습니다                                                              |
 

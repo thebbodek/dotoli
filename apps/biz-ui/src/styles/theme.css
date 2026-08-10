@@ -91,6 +91,10 @@
   --text-heading-5--font-weight: 700;
   --text-heading-5--letter-spacing: -0.01em;
 
+  --text-body-lg-semibold: 1.125rem;
+  --text-body-lg-semibold--line-height: 1.45;
+  --text-body-lg-semibold--font-weight: 600;
+  --text-body-lg-semibold--letter-spacing: -0.03em;
   --text-body-lg: 1.125rem;
   --text-body-lg--line-height: 1.45;
   --text-body-lg--font-weight: 500;
@@ -126,4 +130,6 @@
   --text-caption--line-height: 1.5;
   --text-caption--font-weight: 600;
   --text-caption--letter-spacing: -0.01em;
+
+  --shadow-20: 0 10px 20px 0 rgb(51 60 81 / 0.2);
 }
