@@ -15,25 +15,26 @@ import {
   INPUT_FIELD_INPUT_STYLE,
   INPUT_FIELD_LABEL_BASE_STYLE,
   INPUT_FIELD_LABEL_POSITION_STYLES,
-  INPUT_FIELD_LABEL_STATES,
   INPUT_FIELD_ROOT_STYLE,
   INPUT_FIELD_SELECT_PLACEHOLDER_STYLE,
   INPUT_FIELD_SELECT_POPUP_ROLE,
   INPUT_FIELD_SELECT_VALUE_STYLE,
-  INPUT_FIELD_STYLES,
   INPUT_FIELD_TYPES,
   INPUT_FIELD_VALUE_ROW_STYLE,
   INPUT_FIELD_VERIFY_LABEL,
 } from '@/components/Input/InputField/constants';
-import { useInitialInputFieldFocusEffect } from '@/components/Input/InputField/hooks/effects';
 import { InputFieldProps } from '@/components/Input/InputField/types';
-import { resolveInputFieldState } from '@/components/Input/InputField/utils';
 import { InputMessage } from '@/components/Input/shared';
 import {
   INPUT_BOX_BASE_STYLE,
   INPUT_BOX_STYLES,
   INPUT_DEFAULT_MAX_LENGTH,
+  INPUT_LABEL_STATES,
+  INPUT_PLACEHOLDER_STYLE,
+  INPUT_TEXT_STYLES,
 } from '@/components/Input/shared/constants';
+import { useInitialInputFocusEffect } from '@/components/Input/shared/hooks/effects';
+import { resolveInputState } from '@/components/Input/shared/utils';
 
 const InputField = ({
   label,
@@ -70,20 +71,18 @@ const InputField = ({
   const fieldId = id ?? generatedId;
   const messageId = `${fieldId}-message`;
 
-  useInitialInputFieldFocusEffect({ fieldId, setIsFocused });
+  useInitialInputFocusEffect({ fieldId, setIsFocused });
 
   const isSelect = type === INPUT_FIELD_TYPES.SELECT;
   const isPassword = type === INPUT_FIELD_TYPES.PASSWORD;
   const hasValue = value !== undefined && value !== '';
   const hasMessage = !!errorMessage || !!conditions?.length;
 
-  const state = resolveInputFieldState({ disabled, errorMessage });
-  const { LABEL, VALUE } = INPUT_FIELD_STYLES[state];
+  const state = resolveInputState({ disabled, readOnly, errorMessage });
+  const { LABEL, VALUE } = INPUT_TEXT_STYLES[state];
 
   const labelState =
-    hasValue || isFocused
-      ? INPUT_FIELD_LABEL_STATES.FLOATING
-      : INPUT_FIELD_LABEL_STATES.COLLAPSED;
+    hasValue || isFocused ? INPUT_LABEL_STATES.ACTIVE : INPUT_LABEL_STATES.IDLE;
 
   const boxClassName = clsx(
     INPUT_BOX_BASE_STYLE,
@@ -153,8 +152,12 @@ const InputField = ({
             </span>
           </span>
           <Icon
+            iconKey={
+              isOpen
+                ? INPUT_FIELD_ICON_KEYS.SELECT_OPEN
+                : INPUT_FIELD_ICON_KEYS.SELECT
+            }
             className={INPUT_FIELD_CARET_STYLE}
-            iconKey={INPUT_FIELD_ICON_KEYS.SELECT}
             weight={ICON_WEIGHTS.FILL}
             aria-hidden
           />
@@ -167,11 +170,15 @@ const InputField = ({
             </label>
             <div className={INPUT_FIELD_VALUE_ROW_STYLE}>
               <input
+                className={clsx(
+                  INPUT_FIELD_INPUT_STYLE,
+                  INPUT_PLACEHOLDER_STYLE,
+                  VALUE,
+                )}
                 aria-describedby={hasMessage ? messageId : undefined}
                 aria-invalid={!!errorMessage}
                 autoComplete={autoComplete}
                 autoFocus={autoFocus}
-                className={clsx(INPUT_FIELD_INPUT_STYLE, VALUE)}
                 disabled={disabled}
                 id={fieldId}
                 inputMode={inputMode}

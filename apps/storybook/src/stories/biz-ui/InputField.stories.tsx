@@ -12,7 +12,6 @@ import { ChangeEvent, useState } from 'react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-// Figma 문서 프레임이 300px이다. hug가 아니라 부모 폭을 채우는 컴포넌트라 스토리에서 폭을 준다
 const FIELD_WIDTH = 'w-[300px]';
 
 const PASSWORD_CONDITIONS = [
@@ -22,8 +21,7 @@ const PASSWORD_CONDITIONS = [
   { label: '8자 이상', isSatisfied: false },
 ];
 
-// default·focus는 CSS 상태라 정적으로 깔 수 없다. 값 유무로 갈리는 것만 나열한다
-const STATIC_STATES = [
+const CONSUMER_STATES = [
   { name: 'default', value: '' },
   { name: 'filled', value: '입력완료' },
   {
@@ -32,6 +30,10 @@ const STATIC_STATES = [
     errorMessage: '에러 메시지가 표시됩니다',
   },
   { name: 'disabled', value: '', disabled: true },
+] satisfies Array<{ name: string } & Partial<InputFieldProps>>;
+
+const FIGMA_STATES = [
+  ...CONSUMER_STATES,
   { name: 'filledDisabled', value: '입력완료', disabled: true },
 ] satisfies Array<{ name: string } & Partial<InputFieldProps>>;
 
@@ -71,9 +73,7 @@ const meta = {
       table: { defaultValue: { summary: 'false' } },
     },
     conditions: { control: 'object' },
-    // select이 여는 바텀시트의 열림 상태. 스타일이 아니라 aria-expanded에만 실린다
     isOpen: { control: 'boolean' },
-    // 순차 입력 전환(Figma 355:1307)은 화면 몫이고 컴포넌트는 이 셋만 열어 둔다
     autoFocus: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -140,7 +140,7 @@ export const States: Story = {
   parameters: { controls: { disable: true } },
   render: ({ label, placeholder }) => (
     <Flex align={{ items: 'start' }} gap='24' wrap='wrap'>
-      {STATIC_STATES.map(({ name, ...state }) => (
+      {CONSUMER_STATES.map(({ name, ...state }) => (
         <Flex direction='column' gap='12' key={name}>
           <Typography color='gray-500' variant='label-bold'>
             {name}
@@ -185,7 +185,7 @@ export const Matrix: Story = {
     <Flex direction='column' gap='24'>
       {Object.values(INPUT_FIELD_TYPES).map((type) => (
         <Flex align={{ items: 'start' }} gap='16' key={type} wrap='wrap'>
-          {STATIC_STATES.map(({ name, ...state }) => (
+          {FIGMA_STATES.map(({ name, ...state }) => (
             <Flex direction='column' gap='8' key={`${type}-${name}`}>
               <Typography color='gray-500' variant='caption'>
                 {type} / {name}

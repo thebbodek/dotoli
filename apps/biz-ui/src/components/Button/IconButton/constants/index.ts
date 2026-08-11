@@ -29,12 +29,12 @@ export const ICON_BUTTON_SIZE_STYLES: Record<
   [ICON_BUTTON_SIZES.LG]: {
     SIZE: 'size-[40px]',
     ICON: 'text-[24px]',
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
   },
   [ICON_BUTTON_SIZES.SM]: {
     SIZE: 'size-[24px]',
     ICON: 'text-[16px]',
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
   },
 };
 

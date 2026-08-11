@@ -9,4 +9,5 @@
 @source inline("{flex-{v,h}-stack{-center,}}");
 @source inline("{safe-area{-top,-bottom,-left,-right,-x,-y,}}");
 @source inline("{screen-h,min-screen-h,max-screen-h,touch-target,scroll-x,scroll-y}");
-@source inline("{shadow-20}");
+@source inline("{shadow-{4,8,12,20,24,30}}");
+@source inline("{rounded-{4,6,8,10,12,16,full}}");

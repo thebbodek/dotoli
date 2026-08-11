@@ -111,8 +111,8 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-222 biz-ui Filter 구현
 - [x] DOTOLI-223 biz-ui FloatingPill 구현
 - [x] DOTOLI-224 biz-ui IconButton 구현
-- [ ] DOTOLI-226 biz-ui InputField 구현
-- [ ] biz-ui TextArea 구현 — 티켓 미등록
+- [x] DOTOLI-226 biz-ui InputField 구현
+- [x] DOTOLI-227 biz-ui TextArea 구현 (+ shadow · radius 토큰 스케일)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -815,7 +815,6 @@ internal-ui는 `Input/InputField` · `Input/InputPassword`를 **별도 컴포넌
 
 | 항목                 | 내용                                                                                          |
 | -------------------- | ----------------------------------------------------------------------------------------------- |
-| 값 없는 `error`      | 심볼이 `error`(값 있음)만 있습니다. 값이 비어 있는데 에러인 경우(필수값 미입력)의 라벨 위치·색 미정 |
 | `verify` 확인 버튼   | `theme`·`variant`와 상태별(미검증/검증완료/비활성) 색을 컴포넌트 세트에서 전수 실측 필요        |
 | `select` 열림 표시   | `aria-expanded`는 받기로 확정. 시트가 열렸을 때 `CaretDown`을 뒤집는 등 **시각 표현**도 넣을지는 미정 |
 | 체크리스트 줄바꿈    | 항목이 여러 줄이 될 때 박스와의 간격(6px) 유지 여부                                             |
@@ -829,11 +828,15 @@ internal-ui는 `Input/InputField` · `Input/InputPassword`를 **별도 컴포넌
 
 ---
 
-### 11. TextArea 구현
+### 11. TextArea 구현 · shadow · radius 토큰
 
 Figma: [TextArea](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=454-1420&m=dev) (`454:1420`) — 문서용 프레임. 실제 컴포넌트 세트는 `455:1131`입니다. InputField 착수 후에 Figma에 추가됐습니다.
 
-**InputField와 별도 티켓입니다.** 별도 컴포넌트 세트이고, 이 레포는 세트 하나당 티켓 하나입니다 (Button 계열 4종이 4티켓). 겹치는 것도 아래 표대로 테두리 규칙과 하단 메시지 슬롯 둘뿐이라, DOTOLI-226을 먼저 세우고 그때 확정된 공통만 `Input/shared/`에서 가져다 씁니다.
+**InputField와 별도 티켓입니다** (DOTOLI-227). 별도 컴포넌트 세트이고, 이 레포는 세트 하나당 티켓 하나입니다.
+
+착수해 보니 **겹치는 범위가 계획보다 넓었습니다.** 색 매트릭스가 InputField와 완전히 동일해서 테두리·메시지 슬롯 외에 라벨·값 색, 상태 해석, 포커스 보정 훅까지 `Input/shared/`로 올렸습니다 — 계획이 "실제로 겹치는 것이 더 나오면 그때 올린다"고 했던 그대로입니다.
+
+Figma에 shadow·radius 스케일이 정리되면서 [frontend.md](./frontend.md)의 「미구현」에 있던 토큰도 이 티켓에서 함께 넣었습니다.
 
 **Variant 축**
 
@@ -860,10 +863,28 @@ Figma: [TextArea](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-sy
 
 **재사용**
 
-| `Input/shared/`에서 가져올 것 | 새로 만들 것                       |
-| ----------------------------- | ---------------------------------- |
-| 테두리 스타일 (`inset-ring`)  | 박스 치수 · 패딩 · `items-start`   |
-| 하단 메시지 슬롯 (에러 · 체크리스트) | 다중 행 값 영역 · `rows`/`maxLength` |
+| `Input/shared/`에서 가져오는 것                          | TextArea가 새로 만드는 것        |
+| -------------------------------------------------------- | -------------------------------- |
+| 테두리·배경 (`INPUT_BOX_STYLES`, `inset-ring`)           | 박스 치수 · 패딩 · `items-start` |
+| 라벨·값 색 (`INPUT_TEXT_STYLES`)                          | 라벨 위치(상단 고정)             |
+| 상태 해석 (`resolveInputState`)                           | 다중 행 값 영역 (`textarea`)     |
+| 포커스 보정 (`useInitialInputFocusEffect`)                | `maxLength` 기본 5000            |
+| 하단 메시지 슬롯 (`InputMessage` · 글자 수 카운터)         |                                  |
+
+**라벨 상태가 같습니다.** TextArea는 라벨이 안 움직이지만 색은 「값 있음 또는 포커스」에서 `gray-500`→`gray-600`으로 바뀝니다 — InputField가 라벨을 띄우는 조건과 동일합니다. 그래서 `INPUT_LABEL_STATES`(`active`/`idle`)를 공유하고 표현만 각자 정합니다.
+
+**토큰 (Figma [Shadow](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=450-1139&m=dev) · [Corner Radius](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=450-1178&m=dev))**
+
+| 그룹   | 토큰                                              | 비고                                        |
+| ------ | ------------------------------------------------- | ------------------------------------------- |
+| shadow | `--shadow-{4,8,12,20,24,30}`                      | 전부 `#333C51` 기반. `20`은 기존 값과 동일 |
+| radius | `--radius-{4,6,8,10,12,16}`                       | `999`는 Tailwind 기본 `rounded-full`로 커버 |
+
+문서 텍스트와 바인딩된 변수가 이번엔 **전부 일치**했습니다.
+
+**숫자 네이밍을 씁니다** — internal-ui가 이미 `--shadow-in-{4,8,12,20,24,30}` · `--radius-in-{4,6,8,12,16,20,24}`로 같은 방식이고, Figma 변수명도 숫자입니다. 기존 `rounded-md`/`rounded-lg` 10곳을 `rounded-6`/`rounded-8`로 옮겼습니다.
+
+**Tailwind 기본 radius 네임스페이스는 초기화하지 않습니다.** `--radius-*: initial`을 걸면 `rounded-md`·`rounded-lg`뿐 아니라 **`rounded`·`rounded-t`·`rounded-tr`·`rounded-tl`·`rounded-l`·`rounded-r`까지 사라집니다.** Storybook에서 공존하는 internal-ui가 그 유틸을 쓰고 있어 회귀가 납니다(`rounded-none`·`rounded-full`은 정적 유틸이라 무사). internal-ui도 초기화 없이 덧붙이는 방식입니다.
 
 **구현 구조**
 
@@ -879,20 +900,17 @@ src/components/Input/TextArea/
 
 규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
 
-- radius가 `var(--6,6px)` 변수로 잡혀 있습니다. InputField는 리터럴 6px이라 **Figma에서 radius 스케일이 정리되는 신호일 수 있습니다** — 착수 시 `--radius-*` 토큰화 여부를 다시 봅니다 ([frontend.md](./frontend.md) 「미구현」의 radius 항목).
-- 높이 150px이 고정인지 `rows` 기반 가변인지 확인이 필요합니다. 심볼은 하나뿐입니다.
+- radius가 `var(--6,6px)` 변수로 잡혀 있던 게 실제로 스케일 정리의 신호였습니다. 이 티켓에서 토큰화했습니다.
+- 높이는 `height` prop으로 열고 기본값을 Figma 값(150px)으로 둡니다 — 가변 여부 확인 완료. 런타임 값이라 Tailwind 클래스로는 못 만들어 인라인 스타일로 겁니다.
 
 **디자인 확인 필요**
 
 | 항목            | 내용                                                                   |
 | --------------- | ---------------------------------------------------------------------- |
-| 높이 가변 여부  | 150px 고정인지, 내용에 따라 늘어나는지, 늘어난다면 최대 높이           |
-| 글자 수 카운터  | `maxLength`가 붙는 화면이 있는지, 있다면 카운터 위치 (심볼에 없음)     |
-| 값 없는 `error` | InputField와 같은 공백 — 값이 비어 있는데 에러인 경우의 심볼이 없습니다 |
 
 **Storybook**
 
-`apps/storybook/src/stories/biz-ui/TextArea.stories.tsx`, `meta.title`은 `core/biz-ui/Input/TextArea`.
+`apps/storybook/src/stories/biz-ui/TextArea.stories.tsx`, `meta.title`은 `core/biz-ui/Input/TextArea`. 스토리 2종 (`Default` · `States`).
 
 ---
 

@@ -9,7 +9,7 @@ export const FILTER_STATES = {
 } as const;
 
 export const FILTER_BASE_STYLE =
-  'flex-h-stack-center cursor-pointer gap-1 rounded-md border px-[13px] py-[6px] text-gray-800 text-label-semibold transition-colors';
+  'flex-h-stack-center cursor-pointer gap-1 rounded-6 border px-[13px] py-[6px] text-gray-800 text-label-semibold transition-colors';
 
 export const FILTER_STYLES: Record<FilterState, FilterStateStyles> = {
   [FILTER_STATES.DEFAULT]: {

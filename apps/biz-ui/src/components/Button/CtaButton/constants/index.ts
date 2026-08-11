@@ -37,21 +37,21 @@ export const CTA_BUTTON_SIZE_STYLES: Record<
   [CTA_BUTTON_SIZES.LG]: {
     HEIGHT: 'h-[52px]',
     PADDING: 'px-[30px] py-[12px]',
-    ROUNDED: 'rounded-lg',
+    ROUNDED: 'rounded-8',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-bold',
   },
   [CTA_BUTTON_SIZES.MD]: {
     HEIGHT: 'h-[40px]',
     PADDING: 'px-[20px] py-[9px]',
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-semibold',
   },
   [CTA_BUTTON_SIZES.SM]: {
     HEIGHT: 'h-[32px]',
     PADDING: 'px-[12px] py-[5px]',
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-label-bold',
   },
@@ -65,17 +65,17 @@ export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   Record<'ROUNDED' | 'GAP' | 'TYPOGRAPHY', string>
 > = {
   [CTA_BUTTON_SIZES.LG]: {
-    ROUNDED: 'rounded-lg',
+    ROUNDED: 'rounded-8',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-heading-5',
   },
   [CTA_BUTTON_SIZES.MD]: {
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-semibold',
   },
   [CTA_BUTTON_SIZES.SM]: {
-    ROUNDED: 'rounded-md',
+    ROUNDED: 'rounded-6',
     GAP: 'gap-1',
     TYPOGRAPHY: 'text-label-bold',
   },

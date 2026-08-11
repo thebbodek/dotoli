@@ -53,10 +53,9 @@
 
 | 항목                                       | 비고                                                                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `--radius-*`                               | Figma에 Button 섹션이 추가되면서 `corner radius/999`가 확인됨. 다만 전체 radius 스케일이 아니라 개별 값이라 **스케일 확정 후 일괄 추가**해야 함 |
-| `--shadow-*`                               | `shadow/shadow-20` 하나만 정의돼 DOTOLI-223에서 `--shadow-20` 추가. 나머지 단계는 Figma 정의 대기 |
 | `--breakpoint-*` · `--container-*`         | 모바일 기준 재설계 필요. 디바이스 매트릭스 확정 대기                                                                                    |
 | `--animate-*`                              | Figma 모션 정의 대기                                                                                                                    |
+| `--radius-*` · `--shadow-*`                | **완료** — DOTOLI-227에서 Figma 스케일 확정분을 일괄 추가 (radius 6단계 + `rounded-full`, shadow 6단계) → [components/input.md](./components/input.md) |
 | `variants/{radius,shadow,container}`       | 컴포넌트가 prop으로 노출하지 않아 디렉토리 미생성. `--shadow-20`도 클래스로만 씀 (`variants/`는 prop union이 필요할 때만 만듦)          |
 | Typography 스토리                          | `internal-ui`와 동일하게 `Typography` 컴포넌트가 생기는 시점에 컴포넌트 스토리로 추가. 별도 Foundations 페이지는 두지 않음              |
 | `CtaButton`                                | DOTOLI-219로 구현 완료. 이 문서 범위 밖입니다 → [components/button.md](./components/button.md)                                          |
