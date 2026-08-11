@@ -10,6 +10,7 @@
 | ---------------------------------------------------- | --------------------- |
 | [apps/biz-ui/CLAUDE.md](../../apps/biz-ui/CLAUDE.md) | biz-ui 개발 규칙      |
 | [components/button.md](./components/button.md)       | Button 계열 구현 기록 |
+| [components/input.md](./components/input.md)         | Input 계열 구현 기록  |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획             |
 

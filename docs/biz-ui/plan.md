@@ -111,8 +111,12 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-222 biz-ui Filter 구현
 - [x] DOTOLI-223 biz-ui FloatingPill 구현
 - [x] DOTOLI-224 biz-ui IconButton 구현
+- [ ] DOTOLI-226 biz-ui InputField 구현
+- [ ] biz-ui TextArea 구현 — 티켓 미등록
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
+
+DOTOLI-224로 Figma Button 섹션이 전부 끝나고 DOTOLI-226부터 Input 계열입니다. InputField는 Button 계열 산출물을 그대로 물어 씁니다 — 트레일링 아이콘은 `IconButton`(`sm`=24px), `verify`의 확인 버튼은 `CtaButton`(`sm`=32px)이 크기까지 정확히 맞습니다.
 
 `base/white`는 Filter에서 **별도 토큰을 만들지 않고 Tailwind 기본 `white`를 쓰는 것으로 확정**했습니다 (Figma `base/white`가 `#ffffff`로 동일). FloatingPill · IconButton도 이 결정을 따릅니다 — [`components/button.md`](./components/button.md) 「계열 공통 결정」.
 
@@ -608,6 +612,287 @@ src/components/Button/IconButton/
 **Storybook**
 
 `apps/storybook/src/stories/biz-ui/IconButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/IconButton`. 스토리 6종 (`Default` · `Themes` · `Sizes` · `Disabled` · `Pending` · `Matrix`).
+
+---
+
+### 10. InputField 구현
+
+Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=294-2349&m=dev) (`294:2349`) — 문서용 프레임. 실제 컴포넌트 세트는 `51:1293`입니다.
+
+Button 계열이 아니라 **Input 계열 첫 컴포넌트**입니다. `src/components/Input/` 그룹을 새로 엽니다.
+
+**Variant 축**
+
+| 축      | 값                                                                           |
+| ------- | ---------------------------------------------------------------------------- |
+| `type`  | `text` · `password` · `verify` · `select`                                    |
+| `state` | `default` · `focus` · `typing` · `filled` · `error` · `disabled` · `filledDisabled` |
+
+**Figma `state` 7종은 축이 2개입니다.** 「스타일 상태 4종 × 값 유무」로 분해됩니다.
+
+| 스타일 상태 | 값 없음    | 값 있음                     |
+| ----------- | ---------- | --------------------------- |
+| 평상시      | `default`  | `filled`                    |
+| 포커스      | `focus`    | `typing`                    |
+| 에러        | (심볼 없음) | `error`                     |
+| 비활성      | `disabled` | `filledDisabled`            |
+
+값이 있으면 라벨이 상단으로 떠오르고(플로팅 라벨) 그 아래에 값이 붙습니다 — 세 쌍 모두 같은 규칙입니다. 따라서 `state`를 union prop으로 열지 않고 `disabled`(HTML 속성) · `errorMessage` 유무 · `:focus-within` · 값 유무로 파생시킵니다 (CtaButton · Filter · IconButton이 `state`를 노출하지 않은 것과 같은 판단).
+
+**실측 스펙 — 공통 박스**
+
+| 항목        | 값                                                    |
+| ----------- | ----------------------------------------------------- |
+| height      | 70px                                                  |
+| width       | 문서 프레임은 300px. 실제로는 fill                    |
+| padding     | `px-[18px] py-[12px]`                                 |
+| radius      | 6px → `rounded-md`                                    |
+| 테두리      | 정적 상태 1px / 주목 상태(`focus` · `typing` · `error`) **2px** |
+| 박스 ↔ 하단 | gap 6px                                               |
+
+**텍스트 3역할** — 기존 컴포넌트에 없던 구조입니다.
+
+| 역할          | 토큰                                            | 노출 조건            |
+| ------------- | ----------------------------------------------- | -------------------- |
+| 라벨(플로팅)  | `label` (Medium 14px / ls -0.42px)              | 값 있음 또는 포커스  |
+| 값            | `body-lg-semibold` (SemiBold 18px)              | 값 있음              |
+| 플레이스홀더  | `body-lg-semibold`                              | 값 없음              |
+
+`default`는 라벨이 플레이스홀더 자리(세로 중앙)에 있다가, 포커스되면 위로 올라가고 그 아래에 안내문구가 뜹니다.
+
+**상태별 색**
+
+| 스타일 상태      | 테두리              | 배경      | 라벨       | 값 / 플레이스홀더    |
+| ---------------- | ------------------- | --------- | ---------- | -------------------- |
+| `default`        | `gray/200` 1px      | `white`   | —          | ph `gray/500`        |
+| `focus`          | `blue/400` **2px**  | `white`   | `gray/600` | ph `gray/300`        |
+| `typing`         | `blue/400` **2px**  | `white`   | `gray/600` | `gray/800`           |
+| `filled`         | `gray/200` 1px      | `white`   | `gray/600` | `gray/800`           |
+| `error`          | `red/400` **2px**   | `white`   | `red/500`  | `gray/800`           |
+| `disabled`       | `gray/200` 1px      | `gray/50` | —          | ph `gray/400`        |
+| `filledDisabled` | `gray/200` 1px      | `gray/50` | `gray/400` | `gray/500`           |
+
+비활성은 평상시 색을 한 단계씩 흐리게 민 것입니다 (ph `gray/500`→`400`, 라벨 `600`→`400`, 값 `800`→`500`).
+
+테두리가 굵어지는 건 `error`만이 아니라 **포커스할 때마다**입니다. 아래 「테두리 — 레이아웃 시프트」 참고.
+
+**type별 트레일링 요소**
+
+| `type`     | 요소                                      | 재사용                          |
+| ---------- | ----------------------------------------- | ------------------------------- |
+| `text`     | 클리어 버튼 24px (`XCircle` 16px `gray/500`) | `IconButton` `size='sm'`        |
+| `password` | 눈 토글 24px                              | `IconButton` `size='sm'`        |
+| `verify`   | 확인 버튼 48×32                           | `CtaButton` `size='sm'`         |
+| `select`   | `CaretDown` 18px `fill` `gray/400`, 콘텐츠와 gap 8px | `Icon`                |
+
+크기가 기존 컴포넌트와 정확히 맞아떨어져 새로 만들 것이 없습니다. `verify`의 확인 버튼은 `bg-blue-500` + `label-bold` 14px + `h-32 px-12 py-5`로 **CtaButton `primary`/`filled`/`sm`과 완전히 일치**합니다.
+
+트레일링은 상태를 타지 않습니다 — 클리어는 `error`에서도 `gray/500`, 눈·캐럿은 전 상태 같은 에셋(`gray/400`)입니다. 예외는 확인 버튼으로, **`error`와 `disabled`에서 비활성**(`gray/100` 배경 + `gray/400` 라벨 = CtaButton disabled)이 됩니다.
+
+**하단 메시지 슬롯** — 박스 아래 6px 자리를 두 형태가 나눠 씁니다.
+
+| 형태            | 구성                                                                    |
+| --------------- | ------------------------------------------------------------------------ |
+| 에러 메시지     | `WarningCircle` 14px `red/300` + `caption` `red/400`, gap 2px            |
+| 조건 체크리스트 | `CheckCircle` 14px + `caption`, 항목 간 gap 6px / 아이콘↔텍스트 gap 2px  |
+
+체크리스트는 **아이콘과 텍스트 색이 다릅니다** — 충족 아이콘 `blue/400` / 텍스트 `blue/600`, 미충족 아이콘 `gray/400` / 텍스트 `gray/600`. Figma는 `password`/`typing`에만 6개를 깔아 뒀지만 **문구·개수는 소비처가 정합니다** — 저런 UI로 나열 가능하다는 예시일 뿐이라 `type`에 묶지 않고 범용 슬롯으로 둡니다. 항목이 길어지면 자연스럽게 줄바꿈되어야 하므로 `flex-wrap`을 겁니다.
+
+둘 다 오면 **에러 메시지가 이깁니다** — 조건 미충족보다 앞선 신호입니다.
+
+**플로팅 라벨 구현**
+
+라벨이 인풋 자리를 덮고 있다가 포커스되면 작아지면서 위로 올라가고 그 자리에 플레이스홀더가 뜨는 동작입니다.
+
+**라벨만 절대배치로 움직이고 인풋은 하단 행에 고정합니다.** 인풋이 레이아웃상 제자리에 있으니 라벨이 움직여도 커서·값이 튀지 않습니다.
+
+**포커스는 상태로 뺐습니다 — CSS만으로는 동작하지 않았습니다.** 착수 시점 계획은 「뜬 상태가 기본, 값 없음 AND 미포커스일 때만 가운데로 내림」으로 조건을 뒤집어 `group-[:not([data-filled]):not(:focus-within)]` 한 벌로 끝내는 것이었는데, 구현 후 실측에서 **포커스해도 라벨이 그대로**였습니다.
+
+원인은 셀렉터가 아니라 **브라우저의 스타일 무효화**입니다. `label.matches(...)`는 포커스 시 `false`(= 규칙 미적용이 맞음)를 돌려주는데 computed style은 접힌 값(`top: 23px` / 18px)을 유지했고, 강제 재계산을 걸자 `top: 0px`으로 바뀌었습니다. **중첩 `:is()`/`:not()` 안의 `:focus-within` 변화에 스타일 재계산이 트리거되지 않습니다.** 박스 테두리의 `focus-within:inset-ring-2`는 중첩이 없어 정상 동작합니다(같은 실측에서 1px→2px 확인).
+
+그래서 포커스만 `useState`로 빼고 나머지는 그대로 뒀습니다. controlled input이라 입력마다 어차피 리렌더되므로 포커스/블러 2회가 추가로 드는 비용은 사실상 없습니다.
+
+```
+// 라벨 위치·타이포는 상태로 고른다
+FLOATING:  'top-0 text-label'
+COLLAPSED: 'top-1/2 -translate-y-1/2 text-body-lg-semibold'
+```
+
+- **인풋은 항상 하단 행에 고정**하고 라벨만 절대배치로 움직입니다. 실측 결과 `default → focus → typing → filled` 전 구간에서 인풋·박스 좌표 변화가 **0px**입니다.
+- 라벨에 `pointer-events-none`을 걸어 탭이 인풋으로 통과하게 합니다.
+- **플레이스홀더는 별도 요소를 만들지 않습니다.** 포커스일 때만 `placeholder` 속성을 넘기고 색은 `placeholder:text-gray-300`으로 둡니다. `select`는 네이티브 placeholder가 없어 포커스일 때만 `<span>`을 렌더합니다.
+
+**테두리 — 레이아웃 시프트**
+
+테두리가 굵어지는 게 `error`만이 아니라 **포커스할 때마다**(1px→2px)라, `border`를 쓰면 포커스마다 콘텐츠가 1px 밀립니다. Figma는 inside stroke여서 안쪽 여백이 두께와 무관하게 18px 고정인데 CSS `border`는 19px/20px이 되어 값 자체도 어긋납니다.
+
+**`border` 대신 `inset-ring`을 씁니다** (Tailwind v4 유틸 = `box-shadow: inset 0 0 0 Npx`).
+
+| 항목                    | `border`              | `inset-ring`        |
+| ----------------------- | --------------------- | ------------------- |
+| 레이아웃 영향           | 있음 (콘텐츠 1px 이동) | 없음 (페인트만)     |
+| Figma inside stroke 재현 | 안 됨 (패딩 19/20px)  | 됨 (패딩 18px 고정) |
+| 높이 70px 유지          | 보정 필요             | 그대로              |
+
+```
+inset-ring inset-ring-gray-200
+focus-within:inset-ring-2 focus-within:inset-ring-blue-400
+```
+
+- 패딩으로 보정하는 대안(`border-2` + `px-[17px] py-[11px]`)은 상태마다 패딩 클래스를 같이 관리해야 해서 틀리기 쉽습니다. 채택하지 않습니다.
+- `outline`도 레이아웃에 영향이 없지만 포커스 링과 용도가 겹쳐 피합니다.
+- box-shadow 기반이라 `forced-colors` 모드에서 사라집니다. 모바일 WebView 타깃이라 감수하되 기록해 둡니다.
+- biz-ui 첫 `inset-ring` 사용입니다. `--shadow-20`(FloatingPill)과는 Tailwind가 `--tw-shadow` / `--tw-inset-ring-shadow`로 나눠 합성하므로 충돌하지 않습니다.
+
+위 클래스는 이 레포의 Tailwind 4.1.6에서 전부 컴파일되는 것을 확인했습니다.
+
+**API 초안**
+
+| prop                    | 비고                                                          |
+| ----------------------- | ------------------------------------------------------------- |
+| `type`                  | `text` · `password` · `verify` · `select`                     |
+| `label`                 | 플로팅 라벨. 필수                                             |
+| `placeholder`           | 포커스 시 노출되는 안내문구                                   |
+| `errorMessage`          | 있으면 에러 스타일. 별도 `isError`를 두지 않음                |
+| `conditions`            | `{ label, isSatisfied }[]`. 체크리스트 슬롯                   |
+| `onClear`               | `text` 전용. 넘겨야 클리어 버튼이 붙음                       |
+| `onVerify` · `verifyLabel` | `verify` 전용. 라벨 기본값 `확인`                          |
+| `onClick`               | `select` 전용. 바텀시트 열기                                 |
+| HTML 위임               | `value` · `onChange` · `onFocus` · `onBlur` · `disabled` · `readOnly` · `required` · `name` · `id` · `ref` · `autoFocus` · `autoComplete` · `tabIndex` · `inputMode` · `maxLength`(기본 200) |
+
+Boolean prop 접두어 규칙(`is`/`use`/`has`)은 CLAUDE.md [컴포넌트 API]를 따릅니다. `disabled` · `readOnly` · `autoFocus` · `tabIndex`는 HTML 기본 속성이라 접두어 없이 갑니다.
+
+**`select`에 선택 상태 prop을 두지 않습니다.** 선택 여부는 `value` 유무로 이미 나옵니다. Filter가 `isSelected`를 받은 건 값 없이 켜고 끄기만 하는 토글이라서고 `select`은 값을 갖습니다 — 다른 세 type의 「값 유무」 규칙을 그대로 씁니다.
+
+**시트 열림(`isOpen`)은 받되 스타일에 쓰지 않습니다.** 트리거의 시각 상태는 값 유무로 갈리고, 열림 여부는 `aria-expanded`로만 나갑니다. `aria-haspopup='dialog'`는 "누르면 시트가 뜬다"까지만 알려서 열림 상태를 못 전달합니다.
+
+**`ref`와 포커스 핸들러는 유니온으로 받습니다** (`HTMLInputElement | HTMLButtonElement`). `select`만 `<button>`을 렌더하기 때문입니다. 렌더 시점에는 어느 쪽인지 확정되므로 두 자리에서 단언합니다.
+
+**비밀번호 표시 토글은 내부 상태입니다.** 소비처가 제어할 이유가 없습니다.
+
+**순차 입력 전환 정책** — Figma 주석 `355:1307`.
+
+> 적용 범위: 순차 입력이 필요한 모든 화면 (비밀번호 변경, 연락처 인증 등) / 앞 단계 검증이 완료되면 다음 입력 필드가 활성화된다 / 검증 완료된 필드는 하단으로 내려가고 신규 입력 필드가 상단으로 올라간다 / 신규 필드에 자동 포커스 / 화면이 신규 필드 위치로 자동 스크롤
+
+**화면 몫이고 DS 몫이 아닙니다.** 필드 배열의 순서·활성화·스크롤은 필드를 들고 있는 쪽이 정합니다. 컴포넌트는 그게 가능하도록 `ref`를 실제 `<input>`까지 내려보내고 `autoFocus` · `tabIndex` · `disabled`를 열어 두는 것까지만 합니다.
+
+**구현 구조**
+
+```
+src/components/Input/
+├── InputField/
+│   ├── InputField.tsx
+│   ├── constants/index.ts                  # INPUT_FIELD_TYPES/LABEL_STATES + 상태별 스타일 매퍼
+│   ├── types/index.ts
+│   ├── hooks/effects/                      # 마운트 시 포커스 상태 보정
+│   ├── utils/resolveInputFieldState.ts     # disabled·errorMessage → 스타일 상태
+│   └── index.ts
+├── shared/                                 # TextArea와 실제로 공유하는 것만
+│   ├── InputMessage.tsx                    # 에러 메시지 · 조건 체크리스트 슬롯
+│   ├── constants/index.ts                  # INPUT_STATES + INPUT_BOX_STYLES(inset-ring)
+│   ├── types/index.ts
+│   └── index.ts
+└── index.ts
+```
+
+`utils/`에 스타일 생성 함수(`generateInputFieldStyle`)를 두려던 계획을 바꿔 상태 해석만 남겼습니다. 스타일은 CtaButton·IconButton처럼 조합할 분기가 아니라 상태로 조회하는 `Record`라 Filter와 같은 방식이 맞습니다. `utils/`가 남은 건 `no-nested-ternary`에 걸리는 3단 분기를 빼내기 위해서입니다.
+
+TextArea가 바로 뒤따르는 게 확정돼 `shared/`를 226에서 함께 엽니다 (Button 계열도 `ButtonIcon`을 CtaButton 티켓에서 같이 만들었습니다). 단 **두 컴포넌트가 실제로 같이 쓰는 것만** 넣습니다 — 테두리 스타일과 하단 메시지 슬롯 둘입니다. 박스 치수 · 플로팅 라벨 · 트레일링 요소는 InputField 고유라 넣지 않습니다 (CLAUDE.md [코드 규칙] 1).
+
+internal-ui는 `Input/InputField` · `Input/InputPassword`를 **별도 컴포넌트로** 쪼갰지만 biz-ui Figma는 `type`을 variant 축으로 갖습니다. CLAUDE.md [컴포넌트 API]에 따라 Figma 실제 축을 따르고 internal-ui 구조를 옮기지 않습니다.
+
+**주의사항**
+
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+- **`type='select'`는 `<input>`이 아니라 `<button>`입니다.** Filter와 같은 성격 — 값을 표시하고 탭하면 바텀시트가 뜨는 트리거입니다. Figma의 `select`/`focus`·`typing`은 매트릭스를 기계적으로 채운 것이라 그대로 옮기지 않습니다 (위 「API 초안」).
+- **`<button>`이 `text-align: center`를 물려줍니다.** 라벨을 `<span>`으로 넣으면 가운데로 몰려 `text-left`를 명시해야 합니다. 구현 중 실제로 걸렸습니다.
+- **루트에 `w-full`을 넣지 않습니다.** 블록 레벨 flex 컨테이너라 부모 폭을 그대로 채우는데, `w-full`을 넣으면 소비자가 `className`으로 주는 폭(`w-[300px]`)을 덮어씁니다. 이것도 구현 중 실제로 걸렸습니다.
+- **`@layer base`에 `input { font-size: 1rem }`을 두지 않는다는 기존 결정이 여기서 실물로 걸립니다.** 값 타이포가 `body-lg-semibold`(18px)라 iOS 포커스 줌 기준(16px)을 넘겨 안전하지만, 토큰을 명시하는 방식은 그대로 유지합니다 ([frontend.md](./frontend.md) 특이사항).
+- 트레일링 `IconButton`은 히트 영역이 자동으로 넓어집니다(`sm` 24→36px). 박스 안쪽이라 레이아웃에 영향이 없는지 확인합니다.
+
+**디자인 확인 필요**
+
+| 항목                 | 내용                                                                                          |
+| -------------------- | ----------------------------------------------------------------------------------------------- |
+| 값 없는 `error`      | 심볼이 `error`(값 있음)만 있습니다. 값이 비어 있는데 에러인 경우(필수값 미입력)의 라벨 위치·색 미정 |
+| `verify` 확인 버튼   | `theme`·`variant`와 상태별(미검증/검증완료/비활성) 색을 컴포넌트 세트에서 전수 실측 필요        |
+| `select` 열림 표시   | `aria-expanded`는 받기로 확정. 시트가 열렸을 때 `CaretDown`을 뒤집는 등 **시각 표현**도 넣을지는 미정 |
+| 체크리스트 줄바꿈    | 항목이 여러 줄이 될 때 박스와의 간격(6px) 유지 여부                                             |
+| `readOnly` 비주얼    | 「비활성」과 「값은 남기고 수정만 막음」은 성격이 다른데 Figma엔 회색 하나뿐입니다. 둘을 구분해 보여줄지 |
+
+`red` 3종(`300`/`400`/`500`)과 `disabled`/`filledDisabled` 구분은 확인 완료라 여기서 뺐습니다 — 전자는 아이콘/테두리/텍스트에 자리가 각각 있고(`typing`이 `blue/400` 테두리 + `blue/600` 조건 텍스트로 갈리는 것과 같은 구조), 후자는 값 유무 파생이라 별도 상태로 구현하지 않습니다.
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/InputField.stories.tsx`, `meta.title`은 `core/biz-ui/Input/InputField`. `type` × `state` 매트릭스로 문서 프레임(`294:2349`)과 대조합니다. `focus`·`typing`은 CSS 상태라 정적으로 깔 수 없어 직접 올려봅니다.
+
+---
+
+### 11. TextArea 구현
+
+Figma: [TextArea](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=454-1420&m=dev) (`454:1420`) — 문서용 프레임. 실제 컴포넌트 세트는 `455:1131`입니다. InputField 착수 후에 Figma에 추가됐습니다.
+
+**InputField와 별도 티켓입니다.** 별도 컴포넌트 세트이고, 이 레포는 세트 하나당 티켓 하나입니다 (Button 계열 4종이 4티켓). 겹치는 것도 아래 표대로 테두리 규칙과 하단 메시지 슬롯 둘뿐이라, DOTOLI-226을 먼저 세우고 그때 확정된 공통만 `Input/shared/`에서 가져다 씁니다.
+
+**Variant 축**
+
+| 축      | 값                                                                           |
+| ------- | ---------------------------------------------------------------------------- |
+| `state` | `default` · `focus` · `typing` · `filled` · `error` · `disabled` · `filledDisabled` |
+
+`type` 축이 없습니다. 상태 7종이 「스타일 4종 × 값 유무」로 접히는 것은 InputField와 같습니다.
+
+**InputField와의 차이**
+
+| 항목        | InputField                        | TextArea                     |
+| ----------- | --------------------------------- | ---------------------------- |
+| 크기        | 300×70                            | 300×150                      |
+| padding     | `px-[18px] py-[12px]`             | `px-[14px] py-[10px]`        |
+| 정렬        | `items-center`                    | `items-start`                |
+| 라벨        | 플로팅 (18px 중앙 ↔ 14px 상단)    | **항상 상단 14px 고정**      |
+| 라벨 색     | ph `gray/500` → 활성 `gray/600`   | `gray/500` → 활성 `gray/600` |
+| 트레일링    | `type`별 4종                      | 없음                         |
+| 테두리      | 정적 1px / 주목 2px               | **동일**                     |
+| 하단 메시지 | 6px gap + 18px (70→94)            | **동일** (150→174)           |
+
+**플로팅 라벨이 없습니다.** 라벨이 상단 14px에 고정이고 색만 바뀝니다 — InputField에서 가장 복잡한 부분(절대배치 + 조건 반전 + `data-filled`)이 여기엔 필요 없습니다. 값 유무는 라벨 위치가 아니라 값 노출 여부에만 관여합니다.
+
+**재사용**
+
+| `Input/shared/`에서 가져올 것 | 새로 만들 것                       |
+| ----------------------------- | ---------------------------------- |
+| 테두리 스타일 (`inset-ring`)  | 박스 치수 · 패딩 · `items-start`   |
+| 하단 메시지 슬롯 (에러 · 체크리스트) | 다중 행 값 영역 · `rows`/`maxLength` |
+
+**구현 구조**
+
+```
+src/components/Input/TextArea/
+├── TextArea.tsx
+├── constants/index.ts
+├── types/index.ts
+└── index.ts
+```
+
+**주의사항**
+
+규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
+
+- radius가 `var(--6,6px)` 변수로 잡혀 있습니다. InputField는 리터럴 6px이라 **Figma에서 radius 스케일이 정리되는 신호일 수 있습니다** — 착수 시 `--radius-*` 토큰화 여부를 다시 봅니다 ([frontend.md](./frontend.md) 「미구현」의 radius 항목).
+- 높이 150px이 고정인지 `rows` 기반 가변인지 확인이 필요합니다. 심볼은 하나뿐입니다.
+
+**디자인 확인 필요**
+
+| 항목            | 내용                                                                   |
+| --------------- | ---------------------------------------------------------------------- |
+| 높이 가변 여부  | 150px 고정인지, 내용에 따라 늘어나는지, 늘어난다면 최대 높이           |
+| 글자 수 카운터  | `maxLength`가 붙는 화면이 있는지, 있다면 카운터 위치 (심볼에 없음)     |
+| 값 없는 `error` | InputField와 같은 공백 — 값이 비어 있는데 에러인 경우의 심볼이 없습니다 |
+
+**Storybook**
+
+`apps/storybook/src/stories/biz-ui/TextArea.stories.tsx`, `meta.title`은 `core/biz-ui/Input/TextArea`.
 
 ---
 
