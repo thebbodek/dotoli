@@ -49,7 +49,8 @@ Order 섹션(DOTOLI-229~233)보다 먼저 넣었습니다. OrderInputCard(DOTOLI
 
 - **스케일 단이 theme마다 달라 규칙으로 유도하지 않고 Record에 전부 박았습니다.** tonal 배경이 `primary`·`gray`만 `100`이고 나머지는 `50`, filled 배경이 `red`만 `500`이고 나머지는 `600`, tonal 라벨이 `yellow`·`gray`만 `800`입니다. "tonal은 배경 50 / 라벨 700" 같은 규칙을 만들면 세 군데가 어긋납니다.
 - **`BADGE_STYLES`를 `variant` → `theme` 순으로 중첩했습니다.** CtaButton은 `theme` → `variant` 순인데 여기서만 뒤집은 이유는 두 가지입니다 — `variant`가 테두리 유무 자체를 가르고(`filled`는 테두리 클래스가 없음), internal-ui의 `BADGE_THEME_STYLES`도 같은 순서입니다.
-- **`CONTAINER`/`LABEL`로 쪼개지 않고 조합당 문자열 하나로 뒀습니다.** 서브 컴포넌트가 없어 라벨 색을 루트에 걸면 그대로 상속됩니다. internal-ui는 `BadgeLabel`이 따로 있어 쪼갠 것이라 따라가지 않았습니다. CtaButton의 `'bg-blue-500 text-white'` 방식과 같습니다.
+- **라벨은 `Typography`로 그리고 스타일을 `CONTAINER`/`LABEL`로 쪼갰습니다.** 처음엔 "서브 컴포넌트가 없으니 라벨 색을 루트에 걸어 상속시키면 된다"고 판단해 조합당 문자열 하나로 뒀는데, internal-ui가 콘텐츠 텍스트를 일관되게 `Typography`로 그리고 있어(`BadgeLabel` 포함) 맞췄습니다. `CONTAINER`는 배경·테두리 클래스 문자열, `LABEL`은 `ColorVariants` 값입니다.
+- **컨트롤 라벨과 콘텐츠 텍스트의 경계** — internal-ui는 `Chip`·`Filter`·`Tab`처럼 인터랙티브 컨트롤의 라벨은 raw 텍스트로 두고, `Alert`·`Toast`·`FileInfo`·`BadgeLabel` 같은 표시 텍스트는 `Typography`로 그립니다. Badge는 후자입니다. biz-ui의 CtaButton·Filter·FloatingPill이 raw인 것은 전자여서고 갈라진 게 아닙니다.
 - **`<span>` + `inline-flex`입니다.** 상호작용 요소가 아니라 `hover`·`pressed`·`disabled`를 두지 않았습니다(Figma에도 상태 축이 없습니다). `flex-h-stack-center` 유틸은 `display: flex`라 블록 레벨이 되어 쓰지 않았습니다 — 뱃지는 텍스트 흐름 안에 놓일 수 있어야 합니다.
 - **테두리를 `border`가 아니라 `inset-ring`으로 그립니다.** 처음엔 "두께가 상태별로 안 바뀌니 `border`로 충분하다"고 판단했는데 틀렸습니다. 문제는 두께 변화가 아니라 **`tonal`에만 테두리가 있다는 것**입니다 — `border`를 쓰면 `tonal`이 사방 1px씩 커져 24px이어야 할 높이가 26px이 되고, Storybook에서 `variant`를 토글할 때 레이아웃이 튑니다. Figma는 inside stroke라 두 variant가 모두 58×24입니다.
 

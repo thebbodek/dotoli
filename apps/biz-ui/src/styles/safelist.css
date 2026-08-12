@@ -4,6 +4,7 @@
   * 넣으면 생성 CSS가 3배가 됩니다 (minified 29KB → 99KB).
   * */
 @source inline("{bg,text,fill,placeholder,border}-{blue,red,yellow,green,gray}-{50,100,200,300,400,500,600,700,800,900}");
+@source inline("{bg,text,fill,placeholder,border}-white");
 @source inline("{text-{heading-1,heading-2,heading-3,heading-4}{-bold,}}");
 @source inline("{text-{heading-5,body-lg,body-lg-semibold,body,body-semibold,body-bold,label,label-semibold,label-bold,caption}}");
 @source inline("{flex-{v,h}-stack{-center,}}");

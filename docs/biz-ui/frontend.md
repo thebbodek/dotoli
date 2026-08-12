@@ -12,6 +12,7 @@
 | [components/button.md](./components/button.md)       | Button 계열 구현 기록 |
 | [components/input.md](./components/input.md)         | Input 계열 구현 기록  |
 | [components/badge.md](./components/badge.md)         | Badge 구현 기록       |
+| [components/order.md](./components/order.md)         | Order 계열 구현 기록  |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
@@ -67,6 +68,7 @@
 
 - **`internal-ui`와 완전 독립입니다.** `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 있어 hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. biz-ui는 서드파티만 직접 의존합니다.
 - **토큰에 프리픽스를 붙이지 않습니다.** 처음엔 internal-ui를 따라 `biz-`를 붙였다가 걷어냈습니다. internal-ui의 `in-`은 그쪽이 **다른 디자인시스템과 한 앱에서 공존**하느라 구분용으로 붙인 것이고, biz-ui는 그런 제약이 없습니다. 지금은 `--color-blue-500` · `text-body` · `safe-area-top`처럼 Tailwind 기본 토큰을 그대로 덮어쓰는 형태입니다. Storybook에서 internal-ui와 같이 로드돼도 그쪽은 `in-` 프리픽스라 충돌하지 않습니다.
+- **`COLOR_VARIANTS`에만 `white`가 있고 `--color-white` 토큰은 없습니다.** Figma `base/white`가 `#ffffff`라 Tailwind 기본값을 그대로 쓰고 토큰을 만들지 않는다는 결정은 유지합니다. 다만 `Typography`의 `color` prop이 `ColorVariants`만 받아서, `OrderBoxCell`의 `inverse`(흰 글자)를 표현하려면 variants 미러에 항목이 필요했습니다. DOTOLI-229에서 `COLOR_VARIANTS.WHITE`와 safelist(`{bg,text,fill,placeholder,border}-white`)만 추가했습니다. internal-ui도 `COLOR_VARIANTS`에 `WHITE`를 갖고 있습니다.
 - **컬러/타이포 이름은 Figma 명명을 그대로 씁니다.** `blue`가 메인 컬러지만 `primary`로 개명하지 않았고, 타이포는 `body-16-m` 식이 아닌 `heading-1` / `body-lg` 같은 시맨틱 이름입니다. 디자인 문서와 코드가 어긋나는 비용이 더 큽니다.
 - **Figma 페이지 설명 텍스트와 바인딩된 변수가 3곳 어긋납니다.** 셋 다 변수/렌더 결과를 따랐습니다. ① `label` 3종은 설명이 `-2%`지만 실제 `-0.03em` ② `caption`은 설명이 Medium이지만 실제 `font-weight: 600` ③ Heading 섹션 설명은 4단계라고 하지만 실제 heading-1(36px)~heading-5(18px) 5단계.
 - **`Blue 50`만 Figma 변수로 바인딩되어 있지 않습니다.** 스와치 렌더값 `#f1f6ff`를 넣었습니다. 디자이너에게 변수 바인딩 요청 필요.
@@ -89,7 +91,8 @@ docs/
     └── components/
         ├── button.md         # Button 계열 구현 기록
         ├── input.md          # Input 계열 구현 기록
-        └── badge.md          # Badge 구현 기록
+        ├── badge.md          # Badge 구현 기록
+        └── order.md          # Order 계열 구현 기록
 
 apps/
 ├── biz-ui/

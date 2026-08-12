@@ -1,4 +1,9 @@
-import { BadgeTheme, BadgeVariant } from '@/components/Badge/types';
+import {
+  BadgeTheme,
+  BadgeThemeStyles,
+  BadgeVariant,
+} from '@/components/Badge/types';
+import { COLOR_VARIANTS } from '@/variants';
 
 export const BADGE_THEMES = {
   PRIMARY: 'primary',
@@ -14,25 +19,54 @@ export const BADGE_VARIANTS = {
 } as const;
 
 export const BADGE_BASE_STYLE =
-  'inline-flex items-center justify-center rounded-6 px-[8px] py-[3px] text-caption';
+  'inline-flex items-center justify-center rounded-6 px-[8px] py-[3px]';
 
-export const BADGE_STYLES: Record<BadgeVariant, Record<BadgeTheme, string>> = {
+export const BADGE_STYLES: Record<
+  BadgeVariant,
+  Record<BadgeTheme, BadgeThemeStyles>
+> = {
   [BADGE_VARIANTS.TONAL]: {
-    [BADGE_THEMES.PRIMARY]:
-      'bg-blue-100 text-blue-700 inset-ring inset-ring-blue-200',
-    [BADGE_THEMES.YELLOW]:
-      'bg-yellow-50 text-yellow-800 inset-ring inset-ring-yellow-100',
-    [BADGE_THEMES.RED]: 'bg-red-50 text-red-700 inset-ring inset-ring-red-100',
-    [BADGE_THEMES.GREEN]:
-      'bg-green-50 text-green-700 inset-ring inset-ring-green-100',
-    [BADGE_THEMES.GRAY]:
-      'bg-gray-100 text-gray-800 inset-ring inset-ring-gray-200',
+    [BADGE_THEMES.PRIMARY]: {
+      CONTAINER: 'bg-blue-100 inset-ring inset-ring-blue-200',
+      LABEL: COLOR_VARIANTS.BLUE_700,
+    },
+    [BADGE_THEMES.YELLOW]: {
+      CONTAINER: 'bg-yellow-50 inset-ring inset-ring-yellow-100',
+      LABEL: COLOR_VARIANTS.YELLOW_800,
+    },
+    [BADGE_THEMES.RED]: {
+      CONTAINER: 'bg-red-50 inset-ring inset-ring-red-100',
+      LABEL: COLOR_VARIANTS.RED_700,
+    },
+    [BADGE_THEMES.GREEN]: {
+      CONTAINER: 'bg-green-50 inset-ring inset-ring-green-100',
+      LABEL: COLOR_VARIANTS.GREEN_700,
+    },
+    [BADGE_THEMES.GRAY]: {
+      CONTAINER: 'bg-gray-100 inset-ring inset-ring-gray-200',
+      LABEL: COLOR_VARIANTS.GRAY_800,
+    },
   },
   [BADGE_VARIANTS.FILLED]: {
-    [BADGE_THEMES.PRIMARY]: 'bg-blue-600 text-white',
-    [BADGE_THEMES.YELLOW]: 'bg-yellow-600 text-white',
-    [BADGE_THEMES.RED]: 'bg-red-500 text-white',
-    [BADGE_THEMES.GREEN]: 'bg-green-600 text-white',
-    [BADGE_THEMES.GRAY]: 'bg-gray-600 text-white',
+    [BADGE_THEMES.PRIMARY]: {
+      CONTAINER: 'bg-blue-600',
+      LABEL: COLOR_VARIANTS.WHITE,
+    },
+    [BADGE_THEMES.YELLOW]: {
+      CONTAINER: 'bg-yellow-600',
+      LABEL: COLOR_VARIANTS.WHITE,
+    },
+    [BADGE_THEMES.RED]: {
+      CONTAINER: 'bg-red-500',
+      LABEL: COLOR_VARIANTS.WHITE,
+    },
+    [BADGE_THEMES.GREEN]: {
+      CONTAINER: 'bg-green-600',
+      LABEL: COLOR_VARIANTS.WHITE,
+    },
+    [BADGE_THEMES.GRAY]: {
+      CONTAINER: 'bg-gray-600',
+      LABEL: COLOR_VARIANTS.WHITE,
+    },
   },
 };

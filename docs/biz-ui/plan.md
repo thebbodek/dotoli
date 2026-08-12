@@ -117,7 +117,7 @@ apps/storybook/src/stories/biz-ui/
 
 ### biz-ui Order 컴포넌트
 
-- [ ] DOTOLI-229 biz-ui OrderBoxCell 구현
+- [x] DOTOLI-229 biz-ui OrderBoxCell 구현
 - [ ] DOTOLI-230 biz-ui OrderBox 구현
 - [ ] DOTOLI-231 biz-ui OrderDateInfo 구현
 - [ ] DOTOLI-232 biz-ui QuantityStepper 구현
@@ -163,52 +163,9 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-226 | InputField (+ `Input/shared` · `InputMessage`) | [components/input.md](./components/input.md)                                    |
 | DOTOLI-227 | TextArea (+ shadow · radius 토큰 스케일)      | [components/input.md](./components/input.md)                                     |
 | DOTOLI-228 | Badge                                         | [components/badge.md](./components/badge.md)                                     |
+| DOTOLI-229 | OrderBoxCell                                  | [components/order.md](./components/order.md)                                     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
-
----
-
-### DOTOLI-229 · OrderBoxCell 구현
-
-Figma: [OrderBoxCell](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1434&m=dev) (`302:1434`) — 문서용 프레임. 컴포넌트 세트는 `169:530`, 심볼은 `169:529`(default) · `169:618`(inverse) · `179:640`(muted)입니다.
-
-Order 계열 첫 컴포넌트입니다. `src/components/Order/` 그룹을 새로 엽니다.
-
-**Variant 축**
-
-| 축     | 값                                 |
-| ------ | ---------------------------------- |
-| `tone` | `default` · `inverse` · `muted`    |
-
-**실측 스펙**
-
-| 항목      | 값                                                   |
-| --------- | ---------------------------------------------------- |
-| 폭        | `min-w-[92px] max-w-[110px]` (문서 프레임 92px)      |
-| 레이아웃  | `flex flex-col`                                      |
-| 1행 박스수 | `body-semibold` (SemiBold 16px)                     |
-| 2행 품목명 | `label` (Medium 14px)                               |
-| 행 간격   | `mb-[-2px]` — line-height 여백 상쇄용                |
-
-| `tone`    | 박스수       | 품목명       |
-| --------- | ------------ | ------------ |
-| `default` | `gray/900`   | `gray/600`   |
-| `inverse` | `base/white` | `base/white` |
-| `muted`   | `gray/600`   | `gray/400`   |
-
-**`inverse`는 어두운 배경 위에서 쓰는 tone입니다** — 사용처는 [고객 비즈 파일](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1239-18608&m=dev) (`1239:18608`). OrderBox는 `default`·`muted`만 쓰므로 이 tone은 OrderBox 밖 소비처 몫입니다. 배경은 컴포넌트가 그리지 않고 글자색만 바꿉니다.
-
-**주의사항**
-
-규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
-
-- **Figma 레이어명이 `OrderBoxSell`(Cell 오타)입니다.** 컴포넌트명은 `OrderBoxCell`로 갑니다 — Filter의 `Fillter` 오타와 같은 처리입니다.
-- 라벨 문자열(`4박스` · `4찬식판 A형 (20개)`)은 **소비처가 만들어 넘깁니다.** 단위·괄호 포맷이 도메인 규칙이라 DS가 조립하지 않습니다. Figma 레이어명을 따라 prop 이름은 `boxes` · `itemName`으로 둡니다.
-- 두 줄 모두 `w-full`이라 폭이 좁으면 품목명이 줄바꿈됩니다 (문서 프레임에서 실제로 2줄로 접힘). 높이를 고정하지 않습니다.
-
-**Storybook**
-
-`apps/storybook/src/stories/biz-ui/OrderBoxCell.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBoxCell`. `inverse`는 어두운 배경 데코레이터를 깔고 봅니다.
 
 ---
 
