@@ -81,6 +81,7 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 - **컬러·타이포 이름은 Figma 명명을 그대로** 씁니다. `blue`를 `primary`로 개명하지 않습니다.
 - **`text-*`에 `/` 수식어를 쓰지 않습니다.** 컬러(`text-blue-500/50`=투명도)와 타이포(`text-body/50`=line-height)에서 뜻이 다르고, 타이포 쪽은 `font-weight`·`letter-spacing`이 사라집니다. 경고 없이 컴파일되므로 규칙으로 막습니다.
 - **`Icon`의 `weight`는 `regular` · `bold` · `fill` 3종뿐입니다.** `globals.css`가 이 3종 웹폰트만 import 하므로 나머지를 넘기면 렌더되지 않습니다. `ICON_WEIGHTS`로 타입에서 막혀 있습니다.
+- **테두리는 `border`가 아니라 `inset-ring`으로 그립니다** (Tailwind v4 유틸 = `box-shadow: inset 0 0 0 Npx`). Figma stroke는 안쪽으로 그려져 박스를 안 키우는데 CSS `border`는 키웁니다. **두께가 상태별로 바뀌든(Input 1px↔2px) variant별로 있고 없든(Badge `tonal`만) 결과는 같습니다** — 콘텐츠가 밀리고 Figma 실측 크기가 어긋납니다. `filled`에 투명 `border`를 넣는 흔한 우회법은 시프트만 없앨 뿐 크기는 여전히 틀리고, `box-sizing: content-box`는 내용에 맞춰 늘어나는 요소에선 아예 무효입니다. `outline`도 레이아웃 영향은 없지만 포커스 링과 용도가 겹쳐 피합니다. box-shadow 기반이라 `forced-colors` 모드에서 사라지는 것은 모바일 WebView 타깃이라 감수합니다.
 - **safelist에 `hover:` / `focus:` / `active:`를 넣지 않습니다.** variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔합니다. 넣으면 생성 CSS가 3배가 됩니다.
 
 ## 패키징 규칙
@@ -98,6 +99,29 @@ pnpm --filter @bbodek/biz-ui build && pnpm --filter @bbodek/biz-ui lint
 Storybook은 `pnpm --filter storybook dev`(6006). 컴포넌트를 추가하면 `core/biz-ui/…` 스토리로 Figma와 대조합니다. 스토리 argTypes는 값을 하드코딩하지 말고 `Object.values(<상수>)`로 뽑습니다.
 
 `dist`는 gitignore 대상이지만 `@source '../../dist'`가 스캔하므로, 클래스가 안 먹으면 **빌드부터 다시** 합니다.
+
+**빌드만으로는 부족합니다 — 컴포넌트를 새로 export 했으면 Storybook 개발 서버를 재시작합니다.** webpack의 `snapshot.managedPaths` 기본값이 `node_modules` 아래를 프로세스 수명 동안 불변으로 간주하는데, pnpm 워크스페이스라 `@bbodek/biz-ui`가 거기 심볼릭 링크로 들어갑니다. 그래서 `dist`를 다시 빌드해도 실행 중인 서버는 **이전 dist를 계속 씁니다.** 증상은 스토리에서 신규 export가 `undefined`로 잡히는 것이고(`Object.values(...)` → `Cannot convert undefined or null to object`), 새로고침으로는 풀리지 않습니다. 벤더 청크(`biz-ui_dist_index_es_js-*`)에 신규 상수가 있는지 grep 하면 확인됩니다.
+
+## 문서 유지
+
+문서마다 맡는 범위가 다르고 **같은 사실을 두 곳에 쓰지 않습니다.**
+
+| 문서                               | 담는 것                                             | 수명                  |
+| ---------------------------------- | --------------------------------------------------- | --------------------- |
+| `docs/biz-ui/plan.md`              | 공통 결정 · Tasks 목록 · **미착수 티켓의 계획**      | 티켓이 끝나면 걷어냄  |
+| `docs/biz-ui/components/<계열>.md` | 컴포넌트 실측 스펙 · 결정 · 디자인 확인 필요        | 영구                  |
+| `docs/biz-ui/frontend.md`          | 환경 · 토큰 · 스타일 레이어 구현 현황               | 영구                  |
+| 이 파일                            | 개발 규칙                                           | 영구                  |
+
+**티켓을 끝내면 plan.md의 해당 태스크 상세를 걷어냅니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데 그때 진실은 구현 기록 쪽이고, 계획을 남겨 두면 볼 때마다 어느 쪽이 맞는지 대조해야 합니다. 순서는:
+
+1. 실측 스펙 · 결정 · 디자인 확인 필요를 `components/<계열>.md`로 옮깁니다 (환경 · 토큰이면 `frontend.md`).
+2. plan.md 「완료된 티켓」 표에 한 줄 추가하고 해당 태스크 상세 섹션을 통째로 지웁니다.
+3. Tasks 체크박스를 `[x]`로 바꿉니다.
+
+계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 옮기지 않고 버립니다 — 실물 코드가 진실입니다.
+
+**태스크 상세 제목에는 티켓 번호를 답니다** (`### DOTOLI-229 · OrderBoxCell 구현`). Tasks 체크리스트와 상세를 눈으로 대조할 수 있어야 3번에서 무엇을 지울지 헷갈리지 않습니다.
 
 ## 작성 후 검토
 

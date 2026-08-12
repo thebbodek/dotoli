@@ -11,8 +11,9 @@
 | [apps/biz-ui/CLAUDE.md](../../apps/biz-ui/CLAUDE.md) | biz-ui 개발 규칙      |
 | [components/button.md](./components/button.md)       | Button 계열 구현 기록 |
 | [components/input.md](./components/input.md)         | Input 계열 구현 기록  |
+| [components/badge.md](./components/badge.md)         | Badge 구현 기록       |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
-| [plan.md](./plan.md)                                 | 티켓 계획             |
+| [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
 이 도메인은 제품 기능이 아닌 인프라 작업이라 `spec.md` / `api.md`는 두지 않습니다.
 
@@ -83,10 +84,12 @@
 ```
 docs/
 └── biz-ui/
-    ├── plan.md
-    ├── frontend.md            # 환경 세팅 기록 (이 문서)
+    ├── plan.md               # 미착수 티켓의 계획. 끝난 티켓은 걷어냄
+    ├── frontend.md           # 환경 세팅 기록 (이 문서)
     └── components/
-        └── button.md          # Button 계열 구현 기록
+        ├── button.md         # Button 계열 구현 기록
+        ├── input.md          # Input 계열 구현 기록
+        └── badge.md          # Badge 구현 기록
 
 apps/
 ├── biz-ui/
@@ -129,3 +132,5 @@ apps/
                 ├── Typography.stories.tsx
                 └── Flex.stories.tsx
 ```
+
+위 `apps/` 트리는 **환경 세팅 범위(DOTOLI-213~218)** 시점의 것입니다. 이후 추가된 컴포넌트 계열은 각 계열 문서를 봅니다.
