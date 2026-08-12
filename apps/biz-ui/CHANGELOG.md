@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.6
+
+### Patch Changes
+
+- 4042ddd: DOTOLI-228 biz-ui Badge 구현
+- 4042ddd: DOTOLI-229 biz-ui OrderBoxCell 구현
+
 ## 0.0.5
 
 ### Patch Changes
