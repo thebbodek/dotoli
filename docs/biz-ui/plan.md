@@ -119,7 +119,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-229 biz-ui OrderBoxCell 구현
 - [x] DOTOLI-230 biz-ui OrderBox 구현
-- [ ] DOTOLI-231 biz-ui OrderDateInfo 구현
+- [x] DOTOLI-231 biz-ui OrderDateInfo 구현
 - [ ] DOTOLI-232 biz-ui QuantityStepper 구현
 - [ ] DOTOLI-233 biz-ui OrderInputCard 구현
 
@@ -165,63 +165,9 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-228 | Badge                                         | [components/badge.md](./components/badge.md)                                     |
 | DOTOLI-229 | OrderBoxCell                                  | [components/order.md](./components/order.md)                                     |
 | DOTOLI-230 | OrderBox                                      | [components/order.md](./components/order.md)                                     |
+| DOTOLI-231 | OrderDateInfo                                 | [components/order.md](./components/order.md)                                     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
-
----
-
-### DOTOLI-231 · OrderDateInfo 구현
-
-Figma: [OrderDateInfo](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1631&m=dev) (`302:1631`) — 문서용 프레임. 컴포넌트 세트는 `203:872`입니다.
-
-선행이 없어 DOTOLI-229·230과 병렬로 갈 수 있습니다.
-
-**Variant 축**
-
-| 축            | 값      |
-| ------------- | ------- |
-| `isHoliday`   | boolean |
-| `hasDelivery` | boolean |
-
-2×2 네 조합이 모두 심볼로 있습니다.
-
-**실측 스펙**
-
-| 역할           | 토큰                                  | 색                                        |
-| -------------- | ------------------------------------- | ----------------------------------------- |
-| 날짜 (1행)     | `body-lg-semibold` (SemiBold 18px)    | 평일 `gray/700` / 휴일 `red/600`          |
-| 배송정보 (2행) | `body` (Medium 16px)                  | 배송 있음 `blue/400` / 없음 `gray/400`    |
-
-| 조합                 | 1행            | 2행              |
-| -------------------- | -------------- | ---------------- |
-| 평일 · 배송 있음     | `3일(수)`      | `2일(화) 배송시작` |
-| 평일 · 배송 없음     | `3일(수)`      | `배송없음`       |
-| 휴일 · 배송 있음     | `3일(일) · 휴일` | `2일(화) 배송시작` |
-| 휴일 · 배송 없음     | `3일(일) · 휴일` | `배송없음`       |
-
-레이아웃은 `flex flex-col` + `mb-[-2px]`로 OrderBoxCell과 같습니다.
-
-**API 초안**
-
-| prop           | 비고                                                        |
-| -------------- | ----------------------------------------------------------- |
-| `dateLabel`    | `3일(수)`. 소비처가 포맷                                    |
-| `deliveryInfo` | `2일(화) 배송시작`. 넘기지 않으면 `배송없음`으로 대체       |
-| `isHoliday`    | 날짜 색을 `red/600`으로 바꾸고 `· 휴일` 접미어를 붙임       |
-
-**`hasDelivery`를 prop으로 열지 않고 `deliveryInfo` 유무로 파생시킬 것을 권합니다.** 배송 없음일 때 문구가 `배송없음` 하나로 고정이라 축을 따로 열 이유가 없습니다.
-
-**`· 휴일` 접미어는 컴포넌트가 붙입니다.** 네 심볼 전부 같은 형태이고 색과 함께 바뀌는 표현이라 소비처에 맡기면 어긋납니다. 반대로 `3일(수)` 같은 날짜 포맷은 도메인 규칙이라 받아서 그리기만 합니다.
-
-**주의사항**
-
-규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
-
-- OrderInputCard에도 「날짜 + 상태 문구」 2행 구조가 나오지만 **인스턴스가 아니라 별도 프레임입니다.** 토큰도 다릅니다(카드 쪽은 `body-semibold` 16px + `label` 14px). 공유 컴포넌트로 묶지 않습니다.
-
-**Storybook**
-
-`apps/storybook/src/stories/biz-ui/OrderDateInfo.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderDateInfo`. 2×2 매트릭스.
 
 ---
 

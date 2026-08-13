@@ -2,8 +2,6 @@ import clsx from 'clsx';
 
 import {
   ORDER_BOX_CELL_BASE_STYLE,
-  ORDER_BOX_CELL_BOXES_STYLE,
-  ORDER_BOX_CELL_ITEM_NAME_STYLE,
   ORDER_BOX_CELL_STYLES,
   ORDER_BOX_CELL_TONES,
 } from '@/components/Order/OrderBoxCell/constants';
@@ -22,14 +20,14 @@ const OrderBoxCell = ({
   return (
     <div className={clsx(className, ORDER_BOX_CELL_BASE_STYLE)}>
       <Typography
-        className={ORDER_BOX_CELL_BOXES_STYLE}
+        className='-mb-0.5 w-full'
         color={BOXES}
         variant={TYPOGRAPHY_VARIANTS.BODY_SEMIBOLD}
       >
         {boxes}
       </Typography>
       <Typography
-        className={ORDER_BOX_CELL_ITEM_NAME_STYLE}
+        className='w-full'
         color={ITEM_NAME}
         variant={TYPOGRAPHY_VARIANTS.LABEL}
       >

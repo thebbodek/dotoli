@@ -13,10 +13,6 @@ export const ORDER_BOX_CELL_TONES = {
 export const ORDER_BOX_CELL_BASE_STYLE =
   'flex-v-stack max-w-[110px] min-w-[92px]';
 
-export const ORDER_BOX_CELL_BOXES_STYLE = '-mb-0.5 w-full';
-
-export const ORDER_BOX_CELL_ITEM_NAME_STYLE = 'w-full';
-
 export const ORDER_BOX_CELL_STYLES: Record<
   OrderBoxCellTone,
   OrderBoxCellToneStyles

@@ -10,7 +10,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | ----------------- | ---------- | ----------------------------------------------------------- |
 | `OrderBoxCell`    | DOTOLI-229 | `tone` 3종. 박스수 + 품목명 2행                             |
 | `OrderBox`        | DOTOLI-230 | `variant` 3종. `OrderBoxCell`을 담는 wrap 컨테이너          |
-| `OrderDateInfo`   | DOTOLI-231 | 미구현                                                      |
+| `OrderDateInfo`   | DOTOLI-231 | 날짜 + 배송정보 2행. `isHoliday` · 배송 유무 2축            |
 | `QuantityStepper` | DOTOLI-232 | 미구현                                                      |
 | `OrderInputCard`  | DOTOLI-233 | 미구현                                                      |
 
@@ -146,3 +146,68 @@ Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). `Empty`는 `variant`를 타지 않아 하나만 둡니다. 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
+
+---
+
+## OrderDateInfo
+
+Figma: 컴포넌트 세트 `203:872`. 심볼은 `203:871`(평일·배송) · `203:870`(휴일·배송) · `203:868`(평일·무배송) · `203:869`(휴일·무배송)입니다.
+
+날짜와 배송정보 2행을 그리는 표시 전용 컴포넌트입니다. 상태 축이 없어 `<div>` + `Typography` 2개로 렌더합니다.
+
+### Variant 축
+
+| 축            | 값      |
+| ------------- | ------- |
+| `isHoliday`   | boolean |
+| `hasDelivery` | boolean |
+
+2×2 네 조합이 모두 심볼로 있습니다. `hasDelivery`는 prop이 아니라 `deliveryInfo` 유무로 파생시켰습니다 (아래 「결정」).
+
+### 실측 스펙
+
+| 행            | 타이포                              | 조건      | 색         |
+| ------------- | ----------------------------------- | --------- | ---------- |
+| 1행 날짜      | `body-lg-semibold` (SemiBold 18px)  | 평일      | `gray/700` |
+|               |                                     | 휴일      | `red/600`  |
+| 2행 배송정보  | `body` (Medium 16px)                | 배송 있음 | `blue/400` |
+|               |                                     | 배송 없음 | `gray/400` |
+
+| `isHoliday` | `hasDelivery` | 1행              | 2행                |
+| ----------- | ------------- | ---------------- | ------------------ |
+| false       | true          | `3일(수)`        | `2일(화) 배송시작` |
+| true        | true          | `3일(일) · 휴일` | `2일(화) 배송시작` |
+| false       | false         | `3일(수)`        | `배송없음`         |
+| true        | false         | `3일(일) · 휴일` | `배송없음`         |
+
+| 항목     | 값                                       |
+| -------- | ---------------------------------------- |
+| 레이아웃 | `flex-v-stack items-start`               |
+| 행 간격  | `-mb-0.5` (= -2px)                       |
+| 높이     | 심볼 47px (= 26.1 + 23.2 − 2)            |
+| 폭       | 고정 없음. 심볼이 104 / 56 / 101px로 제각각 |
+
+바인딩된 hex가 기존 토큰과 전부 일치해 신규 토큰이 없습니다 (`gray/700` `#4c566e` · `red/600` `#bd2222` · `blue/400` `#558ee1` · `gray/400` `#aeb5c6`).
+
+### 결정
+
+- **`hasDelivery`를 prop으로 열지 않고 `deliveryInfo` 유무로 파생시켰습니다.** 배송이 없을 때 문구가 `배송없음` 하나로 고정이라 축을 따로 열 이유가 없습니다. OrderBox가 `items` 유무로 빈 상태를 파생시킨 것과 같은 처리입니다.
+- **두 축이 서로를 참조하지 않습니다.** 1행은 `isHoliday`만, 2행은 `deliveryInfo` 유무만 봅니다. 네 심볼을 2×2 맵으로 펼치면 같은 값이 두 번씩 들어가므로 `ORDER_DATE_INFO_STYLES`에 색 4개만 두고 각 행에서 삼항으로 고릅니다.
+- **`· 휴일` 접미어는 컴포넌트가 붙입니다.** 네 심볼 전부 같은 형태이고 날짜 색과 함께 바뀌는 표현이라 소비처에 맡기면 어긋납니다. 반대로 `3일(수)` 같은 날짜 포맷은 도메인 규칙이라 받아서 그리기만 합니다 — `OrderBoxCell`의 `boxes` · `itemName`과 같은 기준입니다.
+- **`배송없음`은 DS가 고정합니다.** OrderBox의 `주문 없음`과 같은 처리입니다.
+- **행 간격이 음수인 것은 `OrderBoxCell`과 같은 이유입니다.** 심볼 높이 47px이 `26.1 + 23.2 - 2`로 맞습니다.
+- **폭을 고정하지 않습니다.** 심볼 폭이 내용에 따라 104 / 56 / 101px로 달라 hug입니다.
+- **OrderInputCard의 「날짜 + 상태 문구」 2행과 묶지 않습니다.** 겉모양은 닮았지만 심볼 `309:1957`의 그 블록(`94:758`)은 이 컴포넌트의 인스턴스가 아니라 별도 프레임이고, 1행 `body-semibold`(16px) `gray/800` · 2행 `label`(14px) `gray/400`로 토큰이 전부 다르며 행 간격 음수도 없습니다.
+
+### API
+
+| prop           | 필수 | 기본값  | 비고                                          |
+| -------------- | ---- | ------- | --------------------------------------------- |
+| `dateLabel`    | ✅   | —       | 1행. `3일(수)` — 소비처가 포맷                |
+| `deliveryInfo` |      | —       | 2행. 없으면 `배송없음`                        |
+| `isHoliday`    |      | `false` | 날짜를 `red/600`으로 바꾸고 `· 휴일`을 붙임   |
+| `className`    |      | —       | 담는 쪽의 정렬 보정용                         |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/OrderDateInfo.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderDateInfo`. 스토리 2종 (`Default` · `Matrix`). `Matrix`는 2×2 네 조합을 나열합니다.
