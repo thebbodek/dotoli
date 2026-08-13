@@ -120,7 +120,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-229 biz-ui OrderBoxCell 구현
 - [x] DOTOLI-230 biz-ui OrderBox 구현
 - [x] DOTOLI-231 biz-ui OrderDateInfo 구현
-- [ ] DOTOLI-232 biz-ui QuantityStepper 구현
+- [x] DOTOLI-232 biz-ui QuantityStepper 구현
 - [ ] DOTOLI-233 biz-ui OrderInputCard 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
@@ -166,86 +166,9 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-229 | OrderBoxCell                                  | [components/order.md](./components/order.md)                                     |
 | DOTOLI-230 | OrderBox                                      | [components/order.md](./components/order.md)                                     |
 | DOTOLI-231 | OrderDateInfo                                 | [components/order.md](./components/order.md)                                     |
+| DOTOLI-232 | QuantityStepper                               | [components/order.md](./components/order.md)                                     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
-
----
-
-### DOTOLI-232 · QuantityStepper 구현
-
-Figma: [QuantityStepper](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1573&m=dev) (`302:1573`) — 문서용 프레임. 컴포넌트 세트는 `199:823`입니다.
-
-Order 계열에서 **처음으로 상호작용이 있는 컴포넌트**입니다. 선행은 기구현 `IconButton`뿐입니다.
-
-**Variant 축**
-
-| 축      | 값                   |
-| ------- | -------------------- |
-| `state` | `empty` · `filled`   |
-
-**`state`를 prop으로 열지 않습니다.** 값 유무에서 파생합니다 — CtaButton · Filter · IconButton · InputField와 같은 판단입니다.
-
-**실측 스펙** (폭 312px는 문서 값, 실제로는 fill)
-
-| 영역            | 값                                                            |
-| --------------- | ------------------------------------------------------------- |
-| 상품 이미지     | `h-[80px]` · `w-full` · `rounded-8` · `object-contain`        |
-| 이미지 ↔ 상품명 | gap 2px                                                       |
-| 상품명          | `body-semibold` `gray/800` · 가운데 정렬                      |
-| 상품 블록 ↔ 스테퍼 | gap 12px                                                   |
-| 스테퍼 행       | gap 6px                                                       |
-| 감소 · 증가 버튼 | `IconButton` `lg`(40px) + `Minus` · `Plus` 아이콘 24px        |
-| 값 박스         | `flex-1` · `h-[46.67px]` · `bg-gray-50` · 테두리 1px `gray/200` · `rounded-6` · `px-[18px]` |
-| 값 텍스트       | `heading-5` — 값 있음 `gray/900` / 플레이스홀더 `gray/300`    |
-| 스테퍼 ↔ 총계   | gap 11px                                                      |
-| 총계 pill       | `rounded-full` · `px-[12px] py-[2px]` · `label-semibold`      |
-| 총계 색         | 값 있음 `bg-blue-50` `text-blue-500` / 없음 `bg-gray-50` `text-gray-300` |
-
-**Figma와 다르게 가는 지점 2개** — 둘 다 디자이너 확인 완료입니다.
-
-| 항목          | Figma                                          | 구현 (채택)                              |
-| ------------- | ---------------------------------------------- | ---------------------------------------- |
-| 값 텍스트     | `body/18_b` (Bold 18px / lh 1.5 / ls -0.18px) — 미등록 스타일 | `heading-5` (Bold 18px / lh 1.45 / ls -1px) |
-| 값 박스 테두리 | 0.667px                                        | 1px                                      |
-
-`body/18_b`는 biz-ui 타이포 토큰 18종 어디에도 없는 값이었습니다. 0.667px은 FloatingPill의 0.5625px과 같은 소수점 stroke 사례입니다.
-
-**비활성 규칙** — Figma 주석 `337:3554`.
-
-> 빈박스 수량이 0 일때 - 버튼 비활성화
-
-값이 0이면 감소 버튼을 `disabled`로 둡니다. `IconButton`이 `disabled`에서 `text-gray-300`으로 빠지는 게 `empty` 심볼의 흐린 `Minus`와 맞습니다.
-
-**API 초안**
-
-| prop          | 비고                                                    |
-| ------------- | ------------------------------------------------------- |
-| `value`       | 수량. 0이면 플레이스홀더 노출 + 감소 버튼 비활성        |
-| `onChange`    | 증감 결과를 숫자로 올려보냄                             |
-| `imageUrl` · `name` | 상품 이미지 · 상품명                              |
-| `placeholder` | 기본값 `얼마나 시킬까요`                                |
-| `total`       | 총계 pill 숫자. `총 {total}개` 형식은 컴포넌트가 조립   |
-| `max`         | 상한. 도달 시 증가 버튼 비활성                          |
-
-**주의사항**
-
-규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
-
-- 이미지는 `<img>`로 직접 그립니다. biz-ui에 이미지 프리미티브가 없고 이 컴포넌트만 쓰므로 새로 만들지 않습니다.
-- `IconButton`은 `aria-label`이 필수입니다. 감소·증가에 각각 넣습니다.
-- 값 박스 높이 46.67px은 Figma 실측값 그대로입니다. 소수점이 거슬리면 47px 반올림 여부를 디자이너에게 확인합니다.
-
-**디자인 확인 필요**
-
-| 항목            | 내용                                                                       |
-| --------------- | -------------------------------------------------------------------------- |
-| 직접 입력       | 값 박스가 플레이스홀더를 가진 인풋 형태입니다. 키보드로 직접 입력할 수 있는지, 버튼으로만 조절하는지 |
-| 상한            | 증가 버튼의 비활성 조건이 정의되어 있지 않습니다                            |
-| 총계 문구       | `총 {n}개` 형식이 고정인지 (단위가 품목마다 다를 수 있는지)                |
-
-**Storybook**
-
-`apps/storybook/src/stories/biz-ui/QuantityStepper.stories.tsx`, `meta.title`은 `core/biz-ui/Order/QuantityStepper`. 스토리 3종 (`Default` · `Interactive` · `States`).
 
 ---
 
