@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.8
+
+### Patch Changes
+
+- dd7f4e3: DOTOLI-232 biz-ui QuantityStepper 구현
+- dd7f4e3: DOTOLI-233 biz-ui OrderInputCard 구현
+
 ## 0.0.7
 
 ### Patch Changes
