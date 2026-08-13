@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.7
+
+### Patch Changes
+
+- 11c23c8: DOTOLI-231 biz-ui OrderDateInfo 구현
+- 11c23c8: DOTOLI-230 biz-ui OrderBox 구현
+
 ## 0.0.6
 
 ### Patch Changes
