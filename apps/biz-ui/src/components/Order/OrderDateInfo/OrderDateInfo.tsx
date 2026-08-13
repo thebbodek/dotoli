@@ -2,11 +2,11 @@ import clsx from 'clsx';
 
 import {
   ORDER_DATE_INFO_BASE_STYLE,
-  ORDER_DATE_INFO_HOLIDAY_SUFFIX,
   ORDER_DATE_INFO_NO_DELIVERY_LABEL,
   ORDER_DATE_INFO_STYLES,
 } from '@/components/Order/OrderDateInfo/constants';
 import { OrderDateInfoProps } from '@/components/Order/OrderDateInfo/types';
+import { ORDER_HOLIDAY_SUFFIX } from '@/components/Order/shared';
 import { Typography } from '@/components/Typography';
 import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
@@ -26,9 +26,7 @@ const OrderDateInfo = ({
         color={isHoliday ? HOLIDAY_DATE : DATE}
         variant={TYPOGRAPHY_VARIANTS.BODY_LG_SEMIBOLD}
       >
-        {isHoliday
-          ? `${dateLabel} ${ORDER_DATE_INFO_HOLIDAY_SUFFIX}`
-          : dateLabel}
+        {isHoliday ? `${dateLabel} ${ORDER_HOLIDAY_SUFFIX}` : dateLabel}
       </Typography>
       <Typography
         color={hasDelivery ? DELIVERY : NO_DELIVERY}

@@ -121,7 +121,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-230 biz-ui OrderBox 구현
 - [x] DOTOLI-231 biz-ui OrderDateInfo 구현
 - [x] DOTOLI-232 biz-ui QuantityStepper 구현
-- [ ] DOTOLI-233 biz-ui OrderInputCard 구현
+- [x] DOTOLI-233 biz-ui OrderInputCard 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -167,118 +167,9 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-230 | OrderBox                                      | [components/order.md](./components/order.md)                                     |
 | DOTOLI-231 | OrderDateInfo                                 | [components/order.md](./components/order.md)                                     |
 | DOTOLI-232 | QuantityStepper                               | [components/order.md](./components/order.md)                                     |
+| DOTOLI-233 | OrderInputCard (+ `Order/shared`)             | [components/order.md](./components/order.md)                                     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
-
----
-
-### DOTOLI-233 · OrderInputCard 구현
-
-Figma: [OrderInputCard](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1204&m=dev) (`302:1204`) — 문서용 프레임. 컴포넌트 세트는 `309:1965`입니다.
-
-Order 섹션에서 가장 큰 컴포넌트이고 **DOTOLI-228(Badge)이 선행**입니다.
-
-**Variant 축**
-
-| 축            | 값                                                          |
-| ------------- | ----------------------------------------------------------- |
-| `orderStatus` | `inputRequired` · `noOrder` · `completed` · `inputClosed`    |
-| `isHoliday`   | boolean                                                     |
-| 날짜 노출     | boolean (Figma `date` = `none` · `visible`)                 |
-
-**심볼 10개는 조합 예시입니다. 축 3개를 독립으로 구현합니다.**
-
-4×2×2 = 16 중 10개만 그려져 있습니다 (누락: `noOrder`+평일 2종, `completed`+휴일 2종, `inputClosed`+날짜없음 2종). 결손 조합을 별도 케이스로 만들지 않고 **각 축이 자기 몫의 스타일만 담당**하게 해서 소비처가 자유롭게 조합하도록 합니다. 실측 결과 축끼리 실제로 독립이라 이렇게 하면 그려지지 않은 6조합도 자동으로 나옵니다.
-
-| 축            | 담당하는 것                                                  |
-| ------------- | ------------------------------------------------------------ |
-| `orderStatus` | 카드 배경 · 테두리 · 우측 액션 · 요일 뱃지 색 계열           |
-| `isHoliday`   | 날짜 문구 `· 휴일` 접미어 · `inputRequired`일 때 요일 뱃지 색 |
-| 날짜 값 유무  | 날짜 문구 노출                                               |
-
-**실측 스펙 — 카드** (폭 340px는 문서 값, 실제로는 fill)
-
-| 항목    | 값                                    |
-| ------- | ------------------------------------- |
-| radius  | 16px → `rounded-16`                   |
-| padding | `px-[20px] py-[14px]`                 |
-| 테두리  | 1px                                   |
-
-| `orderStatus`   | 배경      | 테두리       | 우측 액션                                    |
-| --------------- | --------- | ------------ | -------------------------------------------- |
-| `inputRequired` | `white`   | `gray/100`   | `CtaButton` `primary`/`filled`/`sm` — 주문입력  |
-| `completed`     | `white`   | **`blue/300`** | `CtaButton` `primary`/`outlined`/`sm` — 주문수정 |
-| `noOrder`       | `gray/50` | `gray/100`   | `CtaButton` `gray`/`outlined`/`sm` — 주문수정   |
-| `inputClosed`   | `gray/50` | `gray/100`   | `Badge` `red`/`tonal` — 주문마감              |
-
-**CtaButton 3종이 기구현 스타일과 hex까지 일치합니다.** `primary`/`filled` = `bg-blue-500 text-white`, `primary`/`outlined` = `border-blue-400 bg-white text-blue-600`, `gray`/`outlined` = `border-gray-200 bg-white text-gray-800`. `sm`(`h-[32px] px-[12px] py-[5px] rounded-6 text-label-bold`)도 Figma 실측과 같습니다. 새로 만들 것이 없습니다.
-
-**요일 뱃지** — 40px `rounded-full`, `body-bold` 16px
-
-| 조건                      | 배경        | 글자        |
-| ------------------------- | ----------- | ----------- |
-| `completed`               | `blue/50`   | `blue/500`  |
-| `inputRequired` + 평일    | `gray/50`   | `gray/700`  |
-| `inputRequired` + 휴일    | `red/50`    | `red/400`   |
-| `noOrder` · `inputClosed` | `gray/300`  | `gray/50`   |
-
-**비활성 상태(`noOrder`·`inputClosed`)에서는 `isHoliday`가 뱃지 색에 반영되지 않습니다.** 휴일 강조는 `inputRequired`에서만 걸립니다 — 이미 회색으로 죽은 카드에 빨강을 얹지 않는다는 뜻이고, **의도된 동작임을 확인받았습니다.** 축 독립 구현이지만 요일 뱃지 색만 `(orderStatus, isHoliday)` 2축 매퍼로 두는 이유입니다.
-
-**날짜 · 상태 문구**
-
-| 역할      | 토큰              | 색                                                   |
-| --------- | ----------------- | ---------------------------------------------------- |
-| 날짜      | `body-semibold`   | 활성 `gray/800` / 비활성(`noOrder`·`inputClosed`) `gray/400` |
-| 상태 문구 | `label`           | `gray/400`                                           |
-
-- 날짜 값이 있으면 `1일` · `29일`, 휴일이면 `5일 · 휴일`. **날짜 값이 없고 휴일이면 `휴일`만** 뜹니다.
-- 상태 문구는 `orderStatus`에서 나옵니다 — `입력필요` · `주문없음` · `주문마감`. `completed`는 상태 문구 없이 날짜만 가로로 붙습니다(gap 8px).
-
-**`completed` 전용 — 주문내역 패널**
-
-| 항목      | 값                                                  |
-| --------- | --------------------------------------------------- |
-| 배경      | `bg-blue-50`                                        |
-| radius    | 10px → `rounded-10`                                 |
-| padding   | `px-[16px] py-[14px]`                               |
-| 카드와 gap | 10px · `w-full`                                    |
-| 행        | 품목명 `body` + 수량 `body-bold` · `justify-between` |
-| 행 간 gap | 2px                                                 |
-| 색        | 주문한 품목 `gray/800` / **주문없음 품목 `blue/200`** |
-
-**API 초안**
-
-| prop          | 비고                                                            |
-| ------------- | --------------------------------------------------------------- |
-| `orderStatus` | 4종                                                             |
-| `isHoliday`   | boolean                                                         |
-| `dayLabel`    | 요일 1글자 (`월` · `일`)                                        |
-| `dateLabel`   | `29일`. **넘기지 않으면 날짜 문구가 나오지 않음**               |
-| `items`       | `completed` 전용 주문내역 `{ name, quantity }[]`. 수량 없으면 `주문없음` |
-| `onAction`    | 주문입력 · 주문수정 클릭. `inputClosed`는 버튼이 없어 호출되지 않음 |
-
-Figma의 `date` 축을 union prop이 아니라 **`dateLabel` 유무로 파생**시킵니다. InputField가 `state` 7종을 값 유무로 접은 것과 같은 판단입니다.
-
-**주의사항**
-
-규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
-
-- **스타일 매퍼를 축별로 나눠 둡니다.** `orderStatus`→카드/액션, (`orderStatus`, `isHoliday`)→요일 뱃지, `orderStatus`→문구 색. 한 Record에 10조합을 나열하면 결손 6조합이 그대로 구멍이 됩니다.
-- `completed`만 세로 배치(`flex-col gap-[10px]`)이고 나머지는 가로 1행입니다. 주문내역 패널이 붙는 쪽만 축이 바뀝니다.
-- Badge를 쓰는 자리는 `inputClosed` 하나뿐입니다. DOTOLI-228이 끝나야 착수할 수 있습니다.
-
-**디자인 확인 필요**
-
-| 항목                       | 내용                                                                                   |
-| -------------------------- | -------------------------------------------------------------------------------------- |
-| `completed` + 휴일         | 심볼이 없습니다. 축 독립 구현이면 요일 뱃지가 `blue`를 유지하고 날짜에 `· 휴일`만 붙는데 이게 맞는지 |
-| `inputClosed` + 날짜 없음  | 심볼이 없습니다. 상태 문구 `주문마감`만 남는 형태로 갑니다                              |
-| `noOrder` + 평일           | 심볼이 없습니다. 요일 뱃지가 `gray/300`으로 동일한지                                    |
-| 액션 버튼 라벨             | `주문입력` · `주문수정`이 고정인지 소비처가 바꿀 수 있는지                              |
-
-**Storybook**
-
-`apps/storybook/src/stories/biz-ui/OrderInputCard.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderInputCard`. `orderStatus` × `isHoliday` × 날짜 유무 매트릭스로 문서 프레임(`302:1204`)과 대조하고, **Figma에 없는 6조합도 함께 깔아** 축 독립성을 눈으로 확인합니다.
 
 ---
 

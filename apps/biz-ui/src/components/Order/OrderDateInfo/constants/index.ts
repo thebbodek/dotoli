@@ -3,8 +3,6 @@ import { COLOR_VARIANTS } from '@/variants';
 
 export const ORDER_DATE_INFO_BASE_STYLE = 'flex-v-stack items-start';
 
-export const ORDER_DATE_INFO_HOLIDAY_SUFFIX = '· 휴일';
-
 export const ORDER_DATE_INFO_NO_DELIVERY_LABEL = '배송없음';
 
 export const ORDER_DATE_INFO_STYLES: OrderDateInfoStyles = {
