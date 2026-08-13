@@ -118,7 +118,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui Order 컴포넌트
 
 - [x] DOTOLI-229 biz-ui OrderBoxCell 구현
-- [ ] DOTOLI-230 biz-ui OrderBox 구현
+- [x] DOTOLI-230 biz-ui OrderBox 구현
 - [ ] DOTOLI-231 biz-ui OrderDateInfo 구현
 - [ ] DOTOLI-232 biz-ui QuantityStepper 구현
 - [ ] DOTOLI-233 biz-ui OrderInputCard 구현
@@ -164,69 +164,9 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-227 | TextArea (+ shadow · radius 토큰 스케일)      | [components/input.md](./components/input.md)                                     |
 | DOTOLI-228 | Badge                                         | [components/badge.md](./components/badge.md)                                     |
 | DOTOLI-229 | OrderBoxCell                                  | [components/order.md](./components/order.md)                                     |
+| DOTOLI-230 | OrderBox                                      | [components/order.md](./components/order.md)                                     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
-
----
-
-### DOTOLI-230 · OrderBox 구현
-
-Figma: [OrderBox](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1451&m=dev) (`302:1451`) — 문서용 프레임. 컴포넌트 세트는 `169:688`입니다.
-
-`OrderBoxCell` 인스턴스 4개를 담는 컨테이너라 **DOTOLI-229가 선행**입니다.
-
-**Variant 축**
-
-| 축        | 값                                            |
-| --------- | --------------------------------------------- |
-| `variant` | `noBg` · `default` · `empty` · `past`         |
-
-**심볼명이 `rest`인데 `past`로 바꿔 달라고 디자이너에게 요청 완료했습니다.** 문서 프레임 라벨(`past`)이 맞고 구현도 `past`로 갑니다. Figma 반영 전까지 심볼(`179:624`)은 `variant=rest`로 보입니다.
-
-**실측 스펙**
-
-| `variant` | 배경        | 테두리          | padding               | radius        | 내용                    |
-| --------- | ----------- | --------------- | --------------------- | ------------- | ----------------------- |
-| `noBg`    | 없음        | 없음            | `px-[16px] py-[14px]` | 없음          | Cell `tone='default'`   |
-| `default` | `white`     | `gray/100` 1px  | `px-[17px] py-[15px]` | 16px → `rounded-16` | Cell `tone='default'` |
-| `empty`   | `gray/100`  | `gray/100` 1px  | `px-[17px] py-[15px]` | `rounded-16`  | `주문 없음` 문구 · 중앙정렬 |
-| `past`    | `gray/100`  | `gray/100` 1px  | `px-[17px] py-[15px]` | `rounded-16`  | Cell `tone='muted'`     |
-
-| 항목        | 값                                                      |
-| ----------- | ------------------------------------------------------- |
-| 레이아웃    | `flex flex-wrap`, gap 12px                              |
-| 폭          | 문서 프레임 338px. 실제로는 fill                        |
-| Cell 배치   | `flex-[1_0_0] max-w-[110px] min-w-[92px]` → 338px에서 3열 |
-| `empty` 문구 | `label` `gray/400`                                     |
-
-**`noBg`만 padding이 1px 작습니다**(16/14 vs 17/15). 테두리 1px을 뺀 값이라 나란히 놓으면 콘텐츠 시작점이 맞습니다. 의도된 차이이니 통일하지 않습니다.
-
-**API 초안**
-
-| prop      | 비고                                                |
-| --------- | --------------------------------------------------- |
-| `variant` | `noBg` · `default` · `past` (아래 참고)             |
-| `items`   | `Pick<OrderBoxCellProps, 'boxes' \| 'itemName'>[]`  |
-
-**`empty`를 `variant`에서 빼고 `items` 유무로 파생시킬 것을 권합니다.** Figma가 `empty`를 `default`와 같은 박스에 문구만 바꿔 그린 것이라 축이 아니라 상태에 가깝고, 이 레포는 CtaButton·Filter·IconButton·InputField 전부 값 유무로 파생시켜 왔습니다. `tone`은 `variant`에서 유도하므로(`past`→`muted`, 나머지→`default`) 소비처에 노출하지 않습니다.
-
-**주의사항**
-
-규칙은 여기서 정의하지 않습니다. biz-ui 공통 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md)를 따릅니다.
-
-- `variant`는 `Order/OrderBox/` 아래 정의합니다. 값이 다른 컴포넌트와 겹치지 않습니다.
-- Cell이 4개를 넘으면 `flex-wrap`으로 다음 줄에 떨어집니다. 개수를 제한하지 않습니다.
-
-**디자인 확인 필요**
-
-| 항목              | 내용                                                                    |
-| ----------------- | ----------------------------------------------------------------------- |
-| `noBg` + 항목 없음 | 심볼이 없습니다. `empty`를 값 유무로 파생시키면 배경 없는 빈 상태가 생기는데 이때 `주문 없음` 문구를 어떻게 둘지 |
-| `past` + 항목 없음 | 위와 같은 조합 문제. `empty`와 `past`가 배경·테두리가 같아 문구만 남습니다 |
-
-**Storybook**
-
-`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. `variant` 4종과 항목 개수별(3개 이하 · 4개 이상 줄바꿈) 스토리.
 
 ---
 

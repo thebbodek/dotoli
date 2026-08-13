@@ -9,7 +9,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 컴포넌트          | 티켓       | 설명                                                        |
 | ----------------- | ---------- | ----------------------------------------------------------- |
 | `OrderBoxCell`    | DOTOLI-229 | `tone` 3종. 박스수 + 품목명 2행                             |
-| `OrderBox`        | DOTOLI-230 | 미구현                                                      |
+| `OrderBox`        | DOTOLI-230 | `variant` 3종. `OrderBoxCell`을 담는 wrap 컨테이너          |
 | `OrderDateInfo`   | DOTOLI-231 | 미구현                                                      |
 | `QuantityStepper` | DOTOLI-232 | 미구현                                                      |
 | `OrderInputCard`  | DOTOLI-233 | 미구현                                                      |
@@ -82,3 +82,67 @@ Figma: 컴포넌트 세트 `169:530`. 심볼은 `169:529`(default) · `169:618`(
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/OrderBoxCell.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBoxCell`. 스토리 2종 (`Default` · `Tones`). `inverse`는 `bg-gray-900` 데코레이터를 깔고 봅니다 — `Default`에서 컨트롤로 `inverse`를 골라도 배경이 따라붙습니다.
+
+---
+
+## OrderBox
+
+Figma: 컴포넌트 세트 `169:688`. 심볼은 `169:686`(noBg) · `169:687`(default) · `179:577`(empty) · `179:624`(past)입니다.
+
+`OrderBoxCell`을 인스턴스로 담는 wrap 컨테이너입니다. 상태 축이 없어 `<div>`로 렌더합니다.
+
+### Variant 축
+
+| 축        | 값                              |
+| --------- | ------------------------------- |
+| `variant` | `noBg` · `default` · `past`     |
+
+Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items` 유무로 파생시켰고, `variant`를 타지 않습니다** (아래 「결정」).
+
+**심볼명이 `rest`인데 `past`로 바꿔 달라고 디자이너에게 요청해 둔 상태입니다.** 문서 프레임 라벨(`past`)이 맞고 구현도 `past`입니다. Figma 반영 전까지 심볼 `179:624`는 `variant=rest`로 보입니다.
+
+### 실측 스펙
+
+| `variant` | 배경         | 테두리         | radius       | Cell `tone` |
+| --------- | ------------ | -------------- | ------------ | ----------- |
+| `noBg`    | 없음         | 없음           | 없음         | `default`   |
+| `default` | `base/white` | `gray/100` 1px | `rounded-16` | `default`   |
+| `past`    | `gray/100`   | `gray/100` 1px | `rounded-16` | `muted`     |
+
+빈 상태는 `variant`와 무관하게 하나입니다 — `gray/100` 배경 · `rounded-16` · `items-center justify-center`, 문구는 `주문 없음`(`label` · `gray/400`).
+
+| 항목      | 값                                                       |
+| --------- | -------------------------------------------------------- |
+| 레이아웃  | `flex flex-wrap` · gap 12px · `content-start items-start` |
+| padding   | `px-[16px] py-[14px]` — `variant` 공통 (아래 「결정」)   |
+| 폭        | 문서 프레임 338px. 실제로는 fill                         |
+| Cell 배치 | `flex-1` (폭 제약은 `OrderBoxCell`이 들고 있음)          |
+
+338px에서 3열(셀 폭 94)로 떨어지고 네 번째부터 줄바꿈됩니다.
+
+### 결정
+
+- **`empty`를 `variant`에서 빼고 `items` 유무로 파생시켰습니다.** Figma가 `empty`를 같은 박스에 문구만 바꿔 그린 것이라 축이 아니라 상태이고, 이 레포는 CtaButton · Filter · IconButton · InputField 전부 값 유무로 파생시켜 왔습니다. 소비처 코드도 `variant={isPast ? 'past' : 'default'} items={day.items}`로 끝나 3항 중첩이 사라집니다.
+- **빈 상태는 `variant`를 타지 않고 심볼 하나로 고정입니다.** 항목이 없으면 `variant`가 무엇이든 `gray/100` 배경 + `gray/400` 문구입니다. Figma에 `empty` 심볼이 하나뿐이라 그 이상을 만들지 않습니다 — variant별로 빈 상태를 따로 정의하면 심볼에 없는 조합(`noBg` + 항목 없음 등)의 생김새를 구현이 임의로 정하게 됩니다. 코드에서도 `variant`가 물고 있는 것은 `CONTAINER` 하나뿐이고 빈 상태 분기는 그것을 아예 쓰지 않습니다.
+- **`empty` · `past`의 stroke는 구현하지 않았습니다.** Figma에서 배경과 stroke가 둘 다 `gray/100`이라 렌더 결과가 배경만 칠한 것과 동일합니다. `default`만 `white` 배경 위 `gray/100` stroke라 실제로 보입니다.
+- **padding은 `variant` 공통 `px-[16px] py-[14px]`입니다.** Figma는 `noBg` 16/14 · 테두리 있는 쪽 17/15인데, 정확히 1px씩만 차이나는 것으로 보아 카드 쪽 프레임이 stroke를 레이아웃에 포함해 계산한 값입니다. `inset-ring`은 레이아웃을 차지하지 않아 되돌려 줄 1px이 없으므로 16/14 그대로 갑니다 — 링을 padding으로 보정하지 않는 것은 CLAUDE.md [스타일 규칙]을 따른 것입니다. 대신 테두리 있는 variant는 심볼보다 셀이 1px 넉넉합니다(폭 94 vs 93.33 · 빈 상태 높이 48 vs 50). 투명 `border`로 크기를 맞추는 우회법은 같은 규칙이 기각했고, 그렇게 해도 전 variant가 93.33이 되어 이번엔 `noBg` 심볼이 어긋납니다 — **두 심볼이 애초에 1px 다르므로 양쪽 다 맞는 답은 없습니다.**
+- **Cell에는 `flex-1`만 겁니다.** `min-w-[92px]` · `max-w-[110px]`는 `OrderBoxCell`이 컴포넌트 레벨에서 들고 있습니다(위 OrderBoxCell 「결정」). Figma 인스턴스는 `flex: 1 0 0`이지만 `min-w`가 축소를 막고 있어 `flex-1`(`1 1 0`)과 결과가 같고, Tailwind 기본 유틸 쪽을 골랐습니다.
+- **`tone`을 소비처에 노출하지 않습니다.** `variant`에서 유도합니다 (`past` → `muted`, 나머지 → `default`).
+- **개수를 제한하지 않습니다.** 4개를 넘으면 `flex-wrap`으로 다음 줄에 떨어집니다.
+- **`주문 없음`은 DS가 고정합니다.** Figma 텍스트가 하나로 고정이고, `InputField`의 `INPUT_FIELD_VERIFY_LABEL`(`확인`)과 같은 처리입니다.
+- **기본값은 `default`입니다.** Figma 컴포넌트 세트의 기본은 첫 심볼인 `noBg`지만, `noBg`는 배경을 담는 쪽이 그린다는 전제라 단독으로 쓰이지 않습니다.
+- **`key`는 `itemName`입니다.** 한 박스 안에서 같은 품목이 두 줄로 나오는 것은 데이터 오류라 인덱스를 쓰지 않았습니다.
+
+### API
+
+| prop        | 필수 | 기본값    | 비고                                              |
+| ----------- | ---- | --------- | ------------------------------------------------- |
+| `items`     | ✅   | —         | `OrderBoxItem[]`. 빈 배열이면 `주문 없음`         |
+| `variant`   |      | `default` | 3종                                               |
+| `className` |      | —         | 담는 쪽의 폭 보정용                               |
+
+`OrderBoxItem`은 `Pick<OrderBoxCellProps, 'boxes' | 'itemName'>`입니다.
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). `Empty`는 `variant`를 타지 않아 하나만 둡니다. 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
