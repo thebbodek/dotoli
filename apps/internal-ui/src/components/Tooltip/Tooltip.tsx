@@ -3,7 +3,6 @@ import {
   flip,
   FloatingPortal,
   offset,
-  safePolygon,
   shift,
   useFloating,
   useHover,
@@ -51,7 +50,6 @@ const Tooltip = ({
 
   const hover = useHover(context, {
     enabled: !hidden && !isKeepFloating,
-    handleClose: safePolygon({ blockPointerEvents: true }),
   });
   const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
 
@@ -80,7 +78,7 @@ const Tooltip = ({
             style={floatingStyles}
             {...getFloatingProps()}
             className={clsx(
-              'text-in-body-12-m rounded-in-4 bg-in-tooltip z-[10000] animate-[fade-in_.1s_ease-in-out_1] px-2.5 py-1 break-keep',
+              'text-in-body-12-m rounded-in-4 bg-in-tooltip pointer-events-none z-[10000] animate-[fade-in_.1s_ease-in-out_1] px-2.5 py-1 break-keep',
               COLOR_STYLES_MAPPER.TEXT[color],
               className,
             )}
