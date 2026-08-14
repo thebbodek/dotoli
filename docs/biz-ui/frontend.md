@@ -15,6 +15,7 @@
 | [components/order.md](./components/order.md)         | Order 계열 구현 기록  |
 | [components/icon-circle.md](./components/icon-circle.md) | IconCircle 구현 기록 |
 | [components/divider.md](./components/divider.md)     | Divider 구현 기록     |
+| [components/info.md](./components/info.md)           | Info 계열 구현 기록   |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
@@ -64,7 +65,8 @@
 | Typography 스토리                          | `internal-ui`와 동일하게 `Typography` 컴포넌트가 생기는 시점에 컴포넌트 스토리로 추가. 별도 Foundations 페이지는 두지 않음              |
 | `CtaButton`                                | DOTOLI-219로 구현 완료. 이 문서 범위 밖입니다 → [components/button.md](./components/button.md)                                          |
 | `Portal` · `components/shared/`            | 오버레이(BottomSheet · Modal · Toast) 작업 시점에 생성. 쓰는 곳 없이 먼저 만들지 않음                                                   |
-| Figma 문서 텍스트 오기 3건                 | 디자이너 확인 필요 (아래 특이사항 참고)                                                                                                 |
+| Figma 문서 텍스트 오기 2건                 | `label` 3종 letter-spacing · `caption` weight. 디자이너 확인 필요 (아래 특이사항 ①②). 셋째였던 Heading 단계 수는 해소됐습니다          |
+| `heading-1` 크기                           | **완료** — 36px → 34px로 정정 (2026-08-14, 아래 특이사항)                                                                                |
 
 ### 특이사항
 
@@ -74,7 +76,10 @@
 - **`base/black`은 토큰을 만들었고 `base/white`는 만들지 않았습니다.** 갈린 이유는 Tailwind 기본값과 같은지 하나뿐입니다 — Figma `base/white`는 `#ffffff`라 기본값 그대로면 되지만, `base/black`은 `#101828`이라 Tailwind `black`(`#000000`)과 다릅니다. DOTOLI-234에서 `--color-black`으로 **Tailwind 기본 토큰을 덮어썼습니다** (다른 컬러 스케일과 같은 방식). 부작용은 Storybook 하나입니다 — biz-ui 스타일을 로드하는 앱이 Storybook뿐이고, 거기서 internal-ui의 `FileThumbnailHoverOverlay`가 쓰는 `bg-black/40`이 `rgba(0,0,0,.4)` → `rgba(16,24,40,.4)`로 바뀝니다. 40% 반투명 오버레이라 눈에 띄지 않고, 실제 소비 앱에는 biz-ui 스타일이 들어가지 않아 영향이 없습니다. 이름을 `base-black` 식으로 피하면 충돌은 사라지지만 「컬러 이름은 Figma 명명 그대로」 규칙과 `white`의 처리에서 어긋납니다. **internal-ui는 같은 `#101828`을 `--color-in-black`으로 갖고 있습니다**(`apps/internal-ui/src/styles/theme.css:2`) — 같은 값을 프리픽스로 피해 간 셈인데, 그건 그쪽이 다른 DS와 한 앱에서 공존하느라 전 토큰에 `in-`을 붙인 결과지 이 문제를 따로 판단한 게 아닙니다. 덮어쓰기를 재검토하게 되면 이 선례부터 봅니다.
 - **`COLOR_VARIANTS.BLACK`은 소비처보다 먼저 넣었습니다.** `IconCircle`은 `'bg-black text-blue-400'` 리터럴을 쓰고 미러를 거치지 않으므로, 이 항목과 safelist의 `-black` 5종이 없어도 렌더에는 지장이 없습니다. 그래도 넣은 이유는 **토큰만 있고 미러가 없으면 `Typography`의 `color`로 도달할 수 없는 색이 생기기 때문**입니다 — `--color-black`은 CSS에 존재하는데 DS의 타입 API로는 못 쓰는 상태가 됩니다. `WHITE`(DOTOLI-229)는 반대 순서였습니다(소비처가 먼저 필요해서 추가). safelist 비용은 5개라 267개 대비 무시할 수준입니다.
 - **컬러/타이포 이름은 Figma 명명을 그대로 씁니다.** `blue`가 메인 컬러지만 `primary`로 개명하지 않았고, 타이포는 `body-16-m` 식이 아닌 `heading-1` / `body-lg` 같은 시맨틱 이름입니다. 디자인 문서와 코드가 어긋나는 비용이 더 큽니다.
-- **Figma 페이지 설명 텍스트와 바인딩된 변수가 3곳 어긋납니다.** 셋 다 변수/렌더 결과를 따랐습니다. ① `label` 3종은 설명이 `-2%`지만 실제 `-0.03em` ② `caption`은 설명이 Medium이지만 실제 `font-weight: 600` ③ Heading 섹션 설명은 4단계라고 하지만 실제 heading-1(36px)~heading-5(18px) 5단계.
+- **Figma 페이지 설명 텍스트와 바인딩된 변수가 어긋나는 곳이 있습니다.** 전부 변수/렌더 결과를 따랐습니다. ① `label` 3종은 설명이 `-2%`지만 실제 `-0.03em` ② `caption`은 설명이 Medium이지만 실제 `font-weight: 600` ③ Heading 섹션 설명이 4단계라고 했지만 실제 5단계 — **③은 해소됐습니다.** 지금 설명(`78:14`)은 5단계라고 적고 있습니다.
+- **타이포 토큰 18종을 Typography 페이지와 전수 재대조하고 `heading-1`을 36px → 34px로 고쳤습니다 (2026-08-14, DOTOLI-236 중).** `heading-4`의 letter-spacing을 확인하려고 페이지 메타데이터를 받은 김에 전부 맞춰 봤고, 어긋난 것은 `heading-1` 크기 하나였습니다. **바인딩 변수가 `fontSize/34`**입니다(샘플 텍스트 `146:558` · `146:564`) — 설명 텍스트가 낡은 게 아니라 **토큰이 뒤처진 것**이었고, 디자이너가 페이지를 2026-08-11경 편집한 것과 맞아떨어집니다. heading 2~5도 변수 레벨로 재확인해 전부 일치합니다(`fontSize/{28,24,20,18}`). body 계열 5종 · body-lg 2종도 일치하고, `label` 3종과 `caption`은 위 ①②로 이미 정리된 건입니다.
+- **`heading-1` 정정에 회귀 위험이 없었던 이유는 biz-ui 안에 쓰는 컴포넌트가 없어서입니다.** 토큰 · TS 미러 · safelist에만 있었습니다. **다만 `text-heading-1` 클래스는 npm으로 공개돼 있어, 소비 앱이 직접 쓰고 있었다면 36 → 34px로 바뀝니다.** 값 자체가 원래 틀렸던 것이라 되돌리지 않습니다.
+- **Figma 타이포 변수의 letter-spacing 숫자는 px가 아니라 %입니다.** heading 전 계열이 `letterSpacing/neg1`(= `-1`)을 물고 있고 토큰은 `-0.01em`이며, 렌더값이 폰트 크기의 정확히 1%입니다(34px → `-0.34px`, 20px → `-0.2px`). **Figma codegen이 이 숫자를 px로 잘못 찍어 내보내는 경우가 있으니**(`heading-4`를 쓰는 노드에서 `tracking-[-1px]` → [components/info.md](./components/info.md)) codegen 출력만 보고 토큰을 고치지 않습니다.
 - **`Blue 50`만 Figma 변수로 바인딩되어 있지 않습니다.** 스와치 렌더값 `#f1f6ff`를 넣었습니다. 디자이너에게 변수 바인딩 요청 필요.
 - **`text-*`에 `/` 수식어를 쓰지 않습니다.** 컬러(`text-blue-500/50` = 투명도)와 타이포(`text-body/50` = line-height)에서 뜻이 다르고, 타이포 쪽은 `font-weight`·`letter-spacing`이 사라집니다. 경고 없이 컴파일되므로 규칙으로 막습니다.
 - **safelist에 `hover:` / `focus:` / `active:` variant를 넣지 않습니다.** variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔합니다 (`internal-ui`도 런타임 조합 사례 0건). 넣으면 생성 CSS가 minified 27.5KB → 97KB로 3.5배가 됩니다.
