@@ -126,7 +126,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui Info 컴포넌트
 
 - [x] DOTOLI-234 biz-ui IconCircle 구현 (+ `--color-black` 토큰)
-- [ ] DOTOLI-235 biz-ui Divider 구현
+- [x] DOTOLI-235 biz-ui Divider 구현
 - [ ] DOTOLI-236 biz-ui InfoField 구현
 - [ ] DOTOLI-237 biz-ui InfoItem 구현
 - [ ] DOTOLI-238 biz-ui NotificationCard 구현
@@ -164,19 +164,6 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
-
-### DOTOLI-235 · Divider 구현
-
-Figma: 컴포넌트 세트 [`179:1226`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=179-1226&m=dev). 심볼은 `179:1227`(up) · `179:1231`(down) · `179:1235`(text) · `474:1168`(line)입니다.
-
-| 축     | 값                                     |
-| ------ | -------------------------------------- |
-| `type` | `up` · `down` · `text` · `line`        |
-
-- `up` · `down`은 선 가운데에 셰브론, `text`는 가운데에 문구, `line`은 순수 선입니다. 셰브론 아이콘명은 착수 시 심볼에서 확정합니다.
-- 폭 340px은 문서 값이고 실제로는 fill입니다 — `QuantityStepper` · `OrderInputCard`와 같습니다.
-- **확인 필요** — `474:1168`(line)은 높이가 0이고 주석 `474:1105`가 「\*일괄 순수 구분선」입니다. 나중에 덧붙은 심볼로 보여 의도를 확인해야 합니다.
-- 가운데 내용이 아이콘/문구/없음으로 갈리므로 `type` union으로 받을지 문구 유무로 파생시킬지는 심볼 실측 후 정합니다. 계열 선례는 값 유무 파생이지만(`OrderBox`의 `items` 등) 여기서는 `up`/`down`이 값으로 구분되지 않습니다.
 
 ### DOTOLI-236 · InfoField 구현
 
@@ -244,6 +231,7 @@ Figma: 심볼 [`132:470`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | DOTOLI-232 | QuantityStepper                               | [components/order.md](./components/order.md)                                     |
 | DOTOLI-233 | OrderInputCard (+ `Order/shared`)             | [components/order.md](./components/order.md)                                     |
 | DOTOLI-234 | IconCircle (+ `--color-black` 토큰)           | [components/icon-circle.md](./components/icon-circle.md) · [frontend.md](./frontend.md) |
+| DOTOLI-235 | Divider                                       | [components/divider.md](./components/divider.md)                                 |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

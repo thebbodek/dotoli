@@ -14,6 +14,7 @@
 | [components/badge.md](./components/badge.md)         | Badge 구현 기록       |
 | [components/order.md](./components/order.md)         | Order 계열 구현 기록  |
 | [components/icon-circle.md](./components/icon-circle.md) | IconCircle 구현 기록 |
+| [components/divider.md](./components/divider.md)     | Divider 구현 기록     |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
