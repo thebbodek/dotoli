@@ -123,6 +123,14 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-232 biz-ui QuantityStepper 구현
 - [x] DOTOLI-233 biz-ui OrderInputCard 구현
 
+### biz-ui Info 컴포넌트
+
+- [x] DOTOLI-234 biz-ui IconCircle 구현 (+ `--color-black` 토큰)
+- [ ] DOTOLI-235 biz-ui Divider 구현
+- [ ] DOTOLI-236 biz-ui InfoField 구현
+- [ ] DOTOLI-237 biz-ui InfoItem 구현
+- [ ] DOTOLI-238 biz-ui NotificationCard 구현
+
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
 DOTOLI-224로 Figma Button 섹션이 전부 끝나고 DOTOLI-226부터 Input 계열입니다. InputField는 Button 계열 산출물을 그대로 물어 씁니다 — 트레일링 아이콘은 `IconButton`(`sm`=24px), `verify`의 확인 버튼은 `CtaButton`(`sm`=32px)이 크기까지 정확히 맞습니다.
@@ -141,11 +149,78 @@ DOTOLI-227 다음은 Figma [Order 섹션](https://www.figma.com/design/IGi6n6Cz0
 
 Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계열이 아직 없어 `src/components/Badge/`에 단독으로 둡니다.
 
+DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=177-520&m=dev) (`177:520`)의 5종입니다. 의존은 한 갈래뿐이라 **IconCircle이 NotificationCard보다 먼저**고, `Divider` · `InfoField` · `InfoItem`은 선행이 없어 병렬로 가도 됩니다.
+
+| 컴포넌트           | 무엇을 물어 쓰는가                                            |
+| ------------------ | ------------------------------------------------------------- |
+| `NotificationCard` | `IconCircle` `md`(48px) — DOTOLI-234 · `CtaButton` `sm`(32px) — 기구현 |
+
+**폴더는 Figma 섹션이 아니라 이름 프리픽스를 따릅니다.** `Info/InfoField` · `Info/InfoItem`만 그룹으로 묶고 `Divider` · `IconCircle` · `NotificationCard`는 단독 폴더입니다. `Button/CtaButton` · `Input/InputField` · `Order/OrderBox`가 전부 「프리픽스 = 그룹명」이었고, 뒤의 3종은 Info 전용이 아니라 범용이라 섹션명을 따라가면 다른 계열에서 쓸 때 위치가 어색해집니다. 단독 폴더는 Badge 선례입니다.
+
 ---
 
 ## 태스크 상세
 
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
+
+아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
+
+### DOTOLI-235 · Divider 구현
+
+Figma: 컴포넌트 세트 [`179:1226`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=179-1226&m=dev). 심볼은 `179:1227`(up) · `179:1231`(down) · `179:1235`(text) · `474:1168`(line)입니다.
+
+| 축     | 값                                     |
+| ------ | -------------------------------------- |
+| `type` | `up` · `down` · `text` · `line`        |
+
+- `up` · `down`은 선 가운데에 셰브론, `text`는 가운데에 문구, `line`은 순수 선입니다. 셰브론 아이콘명은 착수 시 심볼에서 확정합니다.
+- 폭 340px은 문서 값이고 실제로는 fill입니다 — `QuantityStepper` · `OrderInputCard`와 같습니다.
+- **확인 필요** — `474:1168`(line)은 높이가 0이고 주석 `474:1105`가 「\*일괄 순수 구분선」입니다. 나중에 덧붙은 심볼로 보여 의도를 확인해야 합니다.
+- 가운데 내용이 아이콘/문구/없음으로 갈리므로 `type` union으로 받을지 문구 유무로 파생시킬지는 심볼 실측 후 정합니다. 계열 선례는 값 유무 파생이지만(`OrderBox`의 `items` 등) 여기서는 `up`/`down`이 값으로 구분되지 않습니다.
+
+### DOTOLI-236 · InfoField 구현
+
+Figma: 컴포넌트 세트 [`132:471`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=132-471&m=dev). 심볼은 `132:468`(horizontal, 304×27) · `132:469`(vertical, 292×54)입니다.
+
+| 축       | 값                        |
+| -------- | ------------------------- |
+| `layout` | `horizontal` · `vertical` |
+
+- 텍스트 프로퍼티는 `label`(「라벨」) · `value`(「값」) 둘뿐입니다 (문서 프레임 `302:1349` · `302:1350`).
+- `horizontal`은 라벨 좌 · 값 우, `vertical`은 2행입니다. **두 레이아웃에서 값의 타이포·색이 같은지 실측합니다** — 문서 프레임상 `vertical` 쪽 값이 더 굵어 보입니다.
+- 표시 전용이라 상태 축이 없습니다. `OrderBoxCell`처럼 `Typography` 2개로 그립니다.
+
+### DOTOLI-237 · InfoItem 구현
+
+Figma: 컴포넌트 세트 [`199:841`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=199-841&m=dev). 심볼은 `199:840`(gray) · `199:839`(primary), 각 275×23입니다.
+
+| 축      | 값                  |
+| ------- | ------------------- |
+| `theme` | `gray` · `primary`  |
+
+- 인포 아이콘 + 안내 문구 한 줄입니다. `theme`이 아이콘 색과 글자색을 함께 바꿉니다.
+- 문구는 소비처가 넘깁니다 (「한달 주문이 끝나면 거래명세서를 받습니다」는 자리표시자).
+- 아이콘이 고정이면 prop으로 열지 않습니다 — 심볼 둘의 아이콘이 같은지 확인합니다.
+
+### DOTOLI-238 · NotificationCard 구현
+
+Figma: 심볼 [`132:470`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=132-470&m=dev) (340×236). **variant 축이 없는 단일 컴포넌트**입니다.
+
+위에서부터 이렇게 쌓입니다.
+
+| 요소       | 노드                            | 비고                                   |
+| ---------- | ------------------------------- | -------------------------------------- |
+| 아이콘     | `179:605` — `IconCircle` 인스턴스 | 48px = `md`. **이 티켓의 선행**        |
+| 타이틀     | `94:343`                        | 「고정주문 시작」                       |
+| 본문       | `94:344`                        | 「텍스트 들어가는 영역」                |
+| 메타 행    | `94:345`                        | 시각 `94:347` · 세로 구분선 `466:1103` · 출처 `94:348` |
+| 액션       | `132:465` — `CtaButton` 인스턴스 | 76×32 = `sm`. 기구현                   |
+| 기간       | `177:536`                       | 「0000-00-00(월) ~ 0000-00-00금)」      |
+
+- **축이 없다고 해서 내용까지 고정은 아닙니다.** 아이콘 · `IconCircle` 테마 · 문구 · 버튼 라벨은 prop으로 받고, 배치와 타이포만 DS가 고정합니다.
+- **확인 필요** — 하단 회색 바 `174:704`(`173:703` 「Rectangle 679」 인스턴스, 131×14)의 정체. 스켈레톤 자리표시자인지 실제 요소인지 디자이너 확인 없이는 구현하지 않습니다.
+- **확인 필요** — 타이틀이 두 색으로 갈리는지. 문서 프레임에서 「고정주문」이 파랑, 「시작」이 회색으로 보입니다. 강조 구간을 소비처가 나눠 넘겨야 할 수 있습니다.
+- 기간 텍스트 원문의 닫는 괄호가 비대칭입니다(`~ 0000-00-00금)`). 자리표시자 오타로 보이며 포맷은 소비처가 만듭니다 — `OrderDateInfo`의 `dateLabel`과 같은 기준입니다.
 
 ### 완료된 티켓
 
@@ -168,6 +243,7 @@ Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계
 | DOTOLI-231 | OrderDateInfo                                 | [components/order.md](./components/order.md)                                     |
 | DOTOLI-232 | QuantityStepper                               | [components/order.md](./components/order.md)                                     |
 | DOTOLI-233 | OrderInputCard (+ `Order/shared`)             | [components/order.md](./components/order.md)                                     |
+| DOTOLI-234 | IconCircle (+ `--color-black` 토큰)           | [components/icon-circle.md](./components/icon-circle.md) · [frontend.md](./frontend.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

@@ -13,6 +13,7 @@
 | [components/input.md](./components/input.md)         | Input 계열 구현 기록  |
 | [components/badge.md](./components/badge.md)         | Badge 구현 기록       |
 | [components/order.md](./components/order.md)         | Order 계열 구현 기록  |
+| [components/icon-circle.md](./components/icon-circle.md) | IconCircle 구현 기록 |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
@@ -38,7 +39,7 @@
 | 빌드 파이프라인   | `@dotoli/rollup-config`의 `createRollupConfig` + `tsc` + `tsc-alias`. `dist/index.es.js` · `index.d.ts` 산출                                              |
 | 루트 스크립트     | 루트 `package.json`에 `biz` 필터 스크립트 추가 (`in` / `ut` / `hooks` 컨벤션)                                                                             |
 | 스타일 레이어     | `globals.css`가 폰트 import + `base` / `theme` / `safelist` / `utilities` 4개 레이어를 묶고 `@source '../../dist'`로 컴포넌트를 스캔                      |
-| 컬러 토큰         | Figma Color 페이지 기준 `--color-{blue,red,yellow,green,gray}-{50…900}` 50개                                                                          |
+| 컬러 토큰         | Figma Color 페이지 기준 `--color-{blue,red,yellow,green,gray}-{50…900}` 50개 + `--color-black` (DOTOLI-234)                                            |
 | 타이포그래피 토큰 | Figma Typography 페이지 기준 `--text-*` 18개. 각 토큰이 `font-size` · `font-weight` · `line-height` · `letter-spacing`을 함께 실어 클래스 하나로 완성 |
 | variants TS 미러  | `COLOR_VARIANTS` · `COLOR_STYLES_MAPPER` · `TYPOGRAPHY_VARIANTS` · `TYPOGRAPHY_STYLES_MAPPER`. `internal-ui`의 명시적 매퍼 패턴을 따름                    |
 | 모바일 유틸리티   | `safe-area-*`, `screen-h`(dvh), `touch-target`(44px), `scroll-{x,y}`, `flex-{v,h}-stack`                                              |
@@ -67,8 +68,10 @@
 ### 특이사항
 
 - **`internal-ui`와 완전 독립입니다.** `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 있어 hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. biz-ui는 서드파티만 직접 의존합니다.
-- **토큰에 프리픽스를 붙이지 않습니다.** 처음엔 internal-ui를 따라 `biz-`를 붙였다가 걷어냈습니다. internal-ui의 `in-`은 그쪽이 **다른 디자인시스템과 한 앱에서 공존**하느라 구분용으로 붙인 것이고, biz-ui는 그런 제약이 없습니다. 지금은 `--color-blue-500` · `text-body` · `safe-area-top`처럼 Tailwind 기본 토큰을 그대로 덮어쓰는 형태입니다. Storybook에서 internal-ui와 같이 로드돼도 그쪽은 `in-` 프리픽스라 충돌하지 않습니다.
+- **토큰에 프리픽스를 붙이지 않습니다.** 처음엔 internal-ui를 따라 `biz-`를 붙였다가 걷어냈습니다. internal-ui의 `in-`은 그쪽이 **다른 디자인시스템과 한 앱에서 공존**하느라 구분용으로 붙인 것이고, biz-ui는 그런 제약이 없습니다. 지금은 `--color-blue-500` · `text-body` · `safe-area-top`처럼 Tailwind 기본 토큰을 그대로 덮어쓰는 형태입니다. Storybook에서 internal-ui와 같이 로드돼도 **그쪽 토큰과는** 충돌하지 않습니다 — internal-ui는 자기 값을 전부 `in-`으로 갖습니다. 다만 internal-ui가 Tailwind 기본 토큰을 직접 쓰는 자리는 예외이고, DOTOLI-234의 `--color-black`이 실제로 그 사례입니다 (아래 참고).
 - **`COLOR_VARIANTS`에만 `white`가 있고 `--color-white` 토큰은 없습니다.** Figma `base/white`가 `#ffffff`라 Tailwind 기본값을 그대로 쓰고 토큰을 만들지 않는다는 결정은 유지합니다. 다만 `Typography`의 `color` prop이 `ColorVariants`만 받아서, `OrderBoxCell`의 `inverse`(흰 글자)를 표현하려면 variants 미러에 항목이 필요했습니다. DOTOLI-229에서 `COLOR_VARIANTS.WHITE`와 safelist(`{bg,text,fill,placeholder,border}-white`)만 추가했습니다. internal-ui도 `COLOR_VARIANTS`에 `WHITE`를 갖고 있습니다.
+- **`base/black`은 토큰을 만들었고 `base/white`는 만들지 않았습니다.** 갈린 이유는 Tailwind 기본값과 같은지 하나뿐입니다 — Figma `base/white`는 `#ffffff`라 기본값 그대로면 되지만, `base/black`은 `#101828`이라 Tailwind `black`(`#000000`)과 다릅니다. DOTOLI-234에서 `--color-black`으로 **Tailwind 기본 토큰을 덮어썼습니다** (다른 컬러 스케일과 같은 방식). 부작용은 Storybook 하나입니다 — biz-ui 스타일을 로드하는 앱이 Storybook뿐이고, 거기서 internal-ui의 `FileThumbnailHoverOverlay`가 쓰는 `bg-black/40`이 `rgba(0,0,0,.4)` → `rgba(16,24,40,.4)`로 바뀝니다. 40% 반투명 오버레이라 눈에 띄지 않고, 실제 소비 앱에는 biz-ui 스타일이 들어가지 않아 영향이 없습니다. 이름을 `base-black` 식으로 피하면 충돌은 사라지지만 「컬러 이름은 Figma 명명 그대로」 규칙과 `white`의 처리에서 어긋납니다. **internal-ui는 같은 `#101828`을 `--color-in-black`으로 갖고 있습니다**(`apps/internal-ui/src/styles/theme.css:2`) — 같은 값을 프리픽스로 피해 간 셈인데, 그건 그쪽이 다른 DS와 한 앱에서 공존하느라 전 토큰에 `in-`을 붙인 결과지 이 문제를 따로 판단한 게 아닙니다. 덮어쓰기를 재검토하게 되면 이 선례부터 봅니다.
+- **`COLOR_VARIANTS.BLACK`은 소비처보다 먼저 넣었습니다.** `IconCircle`은 `'bg-black text-blue-400'` 리터럴을 쓰고 미러를 거치지 않으므로, 이 항목과 safelist의 `-black` 5종이 없어도 렌더에는 지장이 없습니다. 그래도 넣은 이유는 **토큰만 있고 미러가 없으면 `Typography`의 `color`로 도달할 수 없는 색이 생기기 때문**입니다 — `--color-black`은 CSS에 존재하는데 DS의 타입 API로는 못 쓰는 상태가 됩니다. `WHITE`(DOTOLI-229)는 반대 순서였습니다(소비처가 먼저 필요해서 추가). safelist 비용은 5개라 267개 대비 무시할 수준입니다.
 - **컬러/타이포 이름은 Figma 명명을 그대로 씁니다.** `blue`가 메인 컬러지만 `primary`로 개명하지 않았고, 타이포는 `body-16-m` 식이 아닌 `heading-1` / `body-lg` 같은 시맨틱 이름입니다. 디자인 문서와 코드가 어긋나는 비용이 더 큽니다.
 - **Figma 페이지 설명 텍스트와 바인딩된 변수가 3곳 어긋납니다.** 셋 다 변수/렌더 결과를 따랐습니다. ① `label` 3종은 설명이 `-2%`지만 실제 `-0.03em` ② `caption`은 설명이 Medium이지만 실제 `font-weight: 600` ③ Heading 섹션 설명은 4단계라고 하지만 실제 heading-1(36px)~heading-5(18px) 5단계.
 - **`Blue 50`만 Figma 변수로 바인딩되어 있지 않습니다.** 스와치 렌더값 `#f1f6ff`를 넣었습니다. 디자이너에게 변수 바인딩 요청 필요.
