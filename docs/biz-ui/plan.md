@@ -128,7 +128,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-234 biz-ui IconCircle 구현 (+ `--color-black` 토큰)
 - [x] DOTOLI-235 biz-ui Divider 구현
 - [x] DOTOLI-236 biz-ui InfoField 구현
-- [ ] DOTOLI-237 biz-ui InfoItem 구현
+- [x] DOTOLI-237 biz-ui InfoItem 구현
 - [ ] DOTOLI-238 biz-ui NotificationCard 구현 — **디자인 대기**. 속성 정의가 더 필요하다고 확인받았습니다 (2026-08-14)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
@@ -164,18 +164,6 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
-
-### DOTOLI-237 · InfoItem 구현
-
-Figma: 컴포넌트 세트 [`199:841`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=199-841&m=dev). 심볼은 `199:840`(gray) · `199:839`(primary), 각 275×23입니다.
-
-| 축      | 값                  |
-| ------- | ------------------- |
-| `theme` | `gray` · `primary`  |
-
-- 인포 아이콘 + 안내 문구 한 줄입니다. `theme`이 아이콘 색과 글자색을 함께 바꿉니다.
-- 문구는 소비처가 넘깁니다 (「한달 주문이 끝나면 거래명세서를 받습니다」는 자리표시자).
-- 아이콘이 고정이면 prop으로 열지 않습니다 — 심볼 둘의 아이콘이 같은지 확인합니다.
 
 ### DOTOLI-238 · NotificationCard 구현
 
@@ -221,6 +209,7 @@ Figma: 심볼 [`132:470`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | DOTOLI-234 | IconCircle (+ `--color-black` 토큰)           | [components/icon-circle.md](./components/icon-circle.md) · [frontend.md](./frontend.md) |
 | DOTOLI-235 | Divider                                       | [components/divider.md](./components/divider.md)                                 |
 | DOTOLI-236 | InfoField (+ `Info/` 그룹)                    | [components/info.md](./components/info.md)                                       |
+| DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
