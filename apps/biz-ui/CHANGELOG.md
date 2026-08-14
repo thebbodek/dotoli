@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.9
+
+### Patch Changes
+
+- f05f58f: DOTOLI-235 biz-ui Divider 구현
+- f05f58f: DOTOLI-234 biz-ui IconCircle 구현
+
 ## 0.0.8
 
 ### Patch Changes
