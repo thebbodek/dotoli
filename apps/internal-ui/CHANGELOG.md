@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.118
+
+### Patch Changes
+
+- 85d8892: DOTOLI-240 internal-ui Tooltip hover 반응 지연 개선
+  - @bbodek/utils@0.0.88
+  - @bbodek/hooks@0.0.91
+
 ## 0.0.117
 
 ### Patch Changes
