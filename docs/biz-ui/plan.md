@@ -129,7 +129,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-235 biz-ui Divider 구현
 - [x] DOTOLI-236 biz-ui InfoField 구현
 - [x] DOTOLI-237 biz-ui InfoItem 구현
-- [ ] DOTOLI-238 biz-ui NotificationCard 구현 — **디자인 대기**. 속성 정의가 더 필요하다고 확인받았습니다 (2026-08-14)
+- [x] DOTOLI-238 biz-ui NotificationCard 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -165,26 +165,6 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
 
-### DOTOLI-238 · NotificationCard 구현
-
-Figma: 심볼 [`132:470`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=132-470&m=dev) (340×236). **variant 축이 없는 단일 컴포넌트**입니다.
-
-위에서부터 이렇게 쌓입니다.
-
-| 요소       | 노드                            | 비고                                   |
-| ---------- | ------------------------------- | -------------------------------------- |
-| 아이콘     | `179:605` — `IconCircle` 인스턴스 | 48px = `md`. **이 티켓의 선행**        |
-| 타이틀     | `94:343`                        | 「고정주문 시작」                       |
-| 본문       | `94:344`                        | 「텍스트 들어가는 영역」                |
-| 메타 행    | `94:345`                        | 시각 `94:347` · 세로 구분선 `466:1103` · 출처 `94:348` |
-| 액션       | `132:465` — `CtaButton` 인스턴스 | 76×32 = `sm`. 기구현                   |
-| 기간       | `177:536`                       | 「0000-00-00(월) ~ 0000-00-00금)」      |
-
-- **축이 없다고 해서 내용까지 고정은 아닙니다.** 아이콘 · `IconCircle` 테마 · 문구 · 버튼 라벨은 prop으로 받고, 배치와 타이포만 DS가 고정합니다.
-- **확인 필요** — 하단 회색 바 `174:704`(`173:703` 「Rectangle 679」 인스턴스, 131×14)의 정체. 스켈레톤 자리표시자인지 실제 요소인지 디자이너 확인 없이는 구현하지 않습니다.
-- **확인 필요** — 타이틀이 두 색으로 갈리는지. 문서 프레임에서 「고정주문」이 파랑, 「시작」이 회색으로 보입니다. 강조 구간을 소비처가 나눠 넘겨야 할 수 있습니다.
-- 기간 텍스트 원문의 닫는 괄호가 비대칭입니다(`~ 0000-00-00금)`). 자리표시자 오타로 보이며 포맷은 소비처가 만듭니다 — `OrderDateInfo`의 `dateLabel`과 같은 기준입니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                          | 기록                                                                             |
@@ -210,6 +190,7 @@ Figma: 심볼 [`132:470`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | DOTOLI-235 | Divider                                       | [components/divider.md](./components/divider.md)                                 |
 | DOTOLI-236 | InfoField (+ `Info/` 그룹)                    | [components/info.md](./components/info.md)                                       |
 | DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
+| DOTOLI-238 | NotificationCard                              | [components/notification-card.md](./components/notification-card.md)             |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

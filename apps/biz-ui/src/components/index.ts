@@ -6,5 +6,6 @@ export * from './Icon';
 export * from './IconCircle';
 export * from './Info';
 export * from './Input';
+export * from './NotificationCard';
 export * from './Order';
 export * from './Typography';
