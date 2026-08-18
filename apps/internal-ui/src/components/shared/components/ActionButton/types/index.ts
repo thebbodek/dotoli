@@ -10,8 +10,14 @@ export type ActionButtonElement =
 
 export interface ActionButtonProps extends ButtonPrimitiveProps {
   as?: ActionButtonElement;
-  buttonOption?: Omit<ButtonProps, keyof ButtonPrimitiveProps>;
-  linkOption?: Omit<LinkButtonProps, keyof ButtonPrimitiveProps>;
+  buttonOption?: Omit<
+    ButtonProps,
+    keyof Omit<ButtonPrimitiveProps, 'className'>
+  >;
+  linkOption?: Omit<
+    LinkButtonProps,
+    keyof Omit<ButtonPrimitiveProps, 'className'>
+  >;
 }
 
 export interface UseActionButtonPropsValidationEffect

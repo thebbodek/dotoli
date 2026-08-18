@@ -7,7 +7,7 @@ const AlertActionButton = ({ className }: AlertActionButtonProps) => {
 
   if (!actionOption) return null;
 
-  const { label, ...rest } = actionOption!;
+  const { label, ...rest } = actionOption;
 
   return (
     <ActionButton
