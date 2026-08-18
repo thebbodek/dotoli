@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.121
+
+### Patch Changes
+
+- a69cbd2: DOTOLI-252 Datepicker 모바일 레이아웃 틀어짐 수정
+  - @bbodek/utils@0.0.91
+  - @bbodek/hooks@0.0.94
+
 ## 0.0.120
 
 ### Patch Changes
