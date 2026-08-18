@@ -149,7 +149,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [ ] DOTOLI-248 biz-ui NavigationListItem 구현
 - [ ] DOTOLI-249 biz-ui BottomTab 구현
-- [ ] DOTOLI-250 biz-ui HeaderBar 구현
+- [x] DOTOLI-250 biz-ui HeaderBar 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -239,22 +239,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 safe-area 하단 유틸(`safe-area-bottom`)이 실제로 쓰이는 첫 컴포넌트입니다.
 
-### DOTOLI-250 · HeaderBar 구현
-
-[HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4551&m=dev) (`75:4551`). 축 `type × theme × useProgress`이고 **조합이 전부 차 있지 않습니다** — 정의된 심볼은 5개뿐입니다.
-
-| type         | theme        | useProgress   |
-| ------------ | ------------ | ------------- |
-| `home`       | light · dark | false만       |
-| `navigation` | light만      | false · true  |
-| `bottomSheet`| light만      | false만       |
-
-- `home` — 업체명 + 드롭다운 화살표 + 알림 벨. **화살표는 조건부**입니다(정책 `514:1741` COM-002 — 마스터 권한 + 소속 업체 2개 이상일 때만). 벨의 미읽음 표시는 **점(dot)이고 개수를 적지 않습니다**(주석 `514:1717`).
-- `navigation` — 좌 「뒤로」 · 우 「닫기」. 정책 `524:20`(COM-007)이 **둘의 동작을 다르게** 정의합니다(뒤로 = 스택 pop, 닫기 = 플로우 전체 이탈). DS는 콜백 2개를 분리해 받고 판단은 소비자에게 둡니다.
-- `useProgress` — 하단 진행 바. 적용 대상 목록은 정책 `524:23`. 별도 ProgressBar 베이스 없이 인라인으로 충분한지 실측에서 확인합니다.
-
-`theme=dark`가 나오는 유일한 컴포넌트라 **다크 배경용 색 조합이 토큰으로 커버되는지** 확인이 필요합니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                          | 기록                                                                             |
@@ -284,6 +268,7 @@ safe-area 하단 유틸(`safe-area-bottom`)이 실제로 쓰이는 첫 컴포넌
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`) | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md) |
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)              |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리) | [components/checkbox.md](./components/checkbox.md)                       |
+| DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                 | [components/header-bar.md](./components/header-bar.md)                           |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

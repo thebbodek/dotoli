@@ -3,6 +3,7 @@ export * from './Button';
 export * from './Checkbox';
 export * from './Divider';
 export * from './Flex';
+export * from './HeaderBar';
 export * from './Icon';
 export * from './IconCircle';
 export * from './Info';

@@ -10,6 +10,7 @@ import {
 } from '@/components/ItemCheckbox/constants';
 import { ItemCheckboxProps } from '@/components/ItemCheckbox/types';
 import { Typography } from '@/components/Typography';
+import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const ItemCheckbox = ({ label, className, ...props }: ItemCheckboxProps) => {
   const { checked } = props;
@@ -25,7 +26,12 @@ const ItemCheckbox = ({ label, className, ...props }: ItemCheckboxProps) => {
         ],
       )}
     >
-      <Typography as='span' className={ITEM_CHECKBOX_LABEL_STYLE}>
+      <Typography
+        as='span'
+        className={ITEM_CHECKBOX_LABEL_STYLE}
+        color={COLOR_VARIANTS.GRAY_900}
+        variant={TYPOGRAPHY_VARIANTS.BODY_LG}
+      >
         {label}
       </Typography>
       <CheckboxIcon checked={checked} />

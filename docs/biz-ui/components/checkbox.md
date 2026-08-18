@@ -154,6 +154,12 @@ Storybook 렌더의 계산값으로 4조합을 전수 대조했고 박스·radiu
 
 - **`disabled`를 prop에서 뺐습니다.** Figma에 축이 없어 스타일을 정의할 수 없습니다. `Omit<CheckboxProps, 'disabled' | 'aria-label' | 'aria-labelledby'>`로 좁혔고, 접근성 이름은 `label`이 지므로 `aria-*`도 닫았습니다 — 라벨이 있는 컨트롤이라 CLAUDE.md 「폼 컨트롤 공통」 6번의 반대편 사례입니다.
 
+- **라벨 색·타이포는 `className`이 아니라 `Typography`의 `color` · `variant` prop으로 넘깁니다.** 처음엔 `ITEM_CHECKBOX_LABEL_STYLE`에 `text-gray-900`을 넣었는데 **화면에는 `gray/900`이 아니라 순수 검정이 나오고 있었습니다.** `Typography`는 `color` prop이 없으면 `text-inherit`을 붙이고, 둘 다 `color` 속성이라 생성 CSS 순서에서 `text-inherit`이 이깁니다. 클래스는 양쪽 다 붙어 있어 DOM만 봐서는 정상으로 보입니다 — DOTOLI-250에서 같은 함정을 만나 발견했고, 그때 biz-ui의 `<Typography>` 사용처를 전수로 확인해 **`color`를 안 넘기던 곳은 여기 하나뿐**이었습니다.
+
+  `clsx` 인자 순서를 바꾸는 것으로는 안 고쳐집니다. 지금도 `className`이 첫 번째 인자인데 지고 있습니다 — 승부는 클래스 문자열 순서가 아니라 CSS 규칙 순서에서 갈립니다. `Typography` 쪽 폴백을 없애는 방법도 있지만 **internal-ui의 `Typography.tsx`가 한 글자도 다르지 않게 같아** 여기만 고치면 두 DS가 갈라지고, `TYPOGRAPHY_ELEMENTS`의 `mark`처럼 UA 기본색이 있는 요소에서 동작이 바뀝니다. 호출부에서 prop을 쓰는 쪽으로 정리했습니다.
+
+  constants에 남은 다른 `text-*` 색 상수들은 `<button>` · `<span>` · `<input>` · `Icon`에 붙어 폴백이 없으므로 무관합니다. **이 함정은 `Typography`에만 있습니다.**
+
 ### API
 
 | prop                    | 필수 | 비고                                    |
@@ -174,6 +180,7 @@ Storybook 렌더로 확인한 것들입니다.
 | ---------------- | --------------------------------------------------- |
 | 카드 크기        | 340 × 60 — Figma와 일치 (`border`가 2px을 채움)      |
 | 테두리 · 배경    | `rgb(227,230,238)`→`rgb(151,190,250)` · `white`→`rgb(235,243,255)` |
+| 라벨 색          | `rgb(26,34,51)` = `gray/900` (`color` prop 전환 후 재측정) |
 | `<label>` 중첩   | **0건**                                             |
 | 텍스트 클릭 토글 | 체크박스가 아닌 라벨 텍스트를 눌러도 토글됨          |
 | 다중 선택        | 3개 중 2개 동시 선택 유지                            |
