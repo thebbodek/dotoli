@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.12
+
+### Patch Changes
+
+- c2db678: DOTOLI-250 biz-ui HeaderBar 구현
+- c2db678: DOTOLI-249 biz-ui BottomTab 구현
+
 ## 0.0.11
 
 ### Patch Changes
