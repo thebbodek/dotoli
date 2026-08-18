@@ -1,5 +1,13 @@
 # @bbodek/biz-ui
 
+## 0.0.10
+
+### Patch Changes
+
+- d06eabf: DOTOLI-236 biz-ui InfoField 구현
+- d06eabf: DOTOLI-237 biz-ui InfoItem 구현
+- d06eabf: DOTOLI-238 biz-ui NotificationCard 구현
+
 ## 0.0.9
 
 ### Patch Changes
