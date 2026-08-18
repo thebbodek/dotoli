@@ -47,6 +47,21 @@ components/<Group>/<Component>/
 
 **4. 타입 중복 금지.** 같은 계열에 비슷한 타입이 있으면 재선언하지 말고 `Pick`·`Omit`·`Partial`·`extends`로 재사용합니다. HTML 속성은 직접 나열하지 말고 `Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'disabled' | …>` 형태로 가져옵니다.
 
+**선언 형태는 internal-ui를 따릅니다** — 객체 타입은 `interface`, `type`은 `interface`로 표현할 수 없을 때만 씁니다.
+
+```ts
+// 유니온 → type (다른 방법이 없음)
+export type CheckboxState = (typeof CHECKBOX_STATES)[keyof typeof CHECKBOX_STATES];
+
+// 파생 props → interface + extends Pick (internal-ui `GenerateButtonStyleProps` 형태)
+export interface ResolveCheckboxStateProps
+  extends Pick<CheckboxProps, 'checked' | 'disabled'> {}
+```
+
+**`export type X = Y;` 같은 순수 별칭은 만들지 않습니다.** 이름만 하나 늘고 찾아 들어가야 할 곳이 생깁니다. 원시 타입에 도메인 이름을 붙이는 경우(`type CalendarYear = number`)만 예외입니다.
+
+> `src/`에 아직 이 형태를 안 따르는 곳이 남아 있습니다 — `Order/*`의 `type Resolve*Props = Pick<…>` 5건과, prop을 다시 나열한 `GenerateCtaButtonStyleProps`입니다. 손대는 김에 함께 고칩니다.
+
 **5. 주석은 최대한 지양.** 코드를 읽으면 알 수 있는 것은 쓰지 않습니다. 예외 상황 — 코드에 드러나지 않는 판단 근거, 피해 간 함정, 일부러 하지 않은 것 — 에만 답니다. 실측값·결정 기록은 주석이 아니라 `docs/biz-ui/components/<name>.md`가 맡습니다.
 
 쓰더라도 **화면에 노출되지 않는 진짜 주석**으로 씁니다. Storybook은 스토리 위 JSDoc 블록과 `argTypes.description`을 Docs 페이지에 그대로 렌더하므로 스토리 파일에는 둘 다 쓰지 않고, 남길 게 있으면 `//`로 답니다.

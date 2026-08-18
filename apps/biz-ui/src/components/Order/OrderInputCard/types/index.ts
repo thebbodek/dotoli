@@ -18,9 +18,8 @@ export interface OrderInputCardStatusStyles {
   DATE: ColorVariants;
 }
 
-export type OrderInputCardButtonStyles = Required<
-  Pick<CtaButtonProps, 'theme' | 'variant'>
->;
+export interface OrderInputCardButtonStyles
+  extends Required<Pick<CtaButtonProps, 'theme' | 'variant'>> {}
 
 export type OrderInputCardItemStyles = Record<
   'ORDERED' | 'EMPTY',
@@ -42,16 +41,11 @@ export interface OrderInputCardProps
   onAction?: CtaButtonProps['onClick'];
 }
 
-export type OrderInputCardItemsProps = Required<
-  Pick<OrderInputCardProps, 'items'>
->;
+export interface OrderInputCardItemsProps
+  extends Required<Pick<OrderInputCardProps, 'items'>> {}
 
-export type ResolveOrderInputCardDayStyleProps = Pick<
-  OrderInputCardProps,
-  'orderStatus' | 'isHoliday'
->;
+export interface ResolveOrderInputCardDayStyleProps
+  extends Pick<OrderInputCardProps, 'orderStatus' | 'isHoliday'> {}
 
-export type GenerateOrderInputCardDateLabelProps = Pick<
-  OrderInputCardProps,
-  'dateLabel' | 'isHoliday'
->;
+export interface GenerateOrderInputCardDateLabelProps
+  extends Pick<OrderInputCardProps, 'dateLabel' | 'isHoliday'> {}

@@ -18,11 +18,8 @@ export type IconButtonState =
 
 export type IconButtonStyles = Record<IconButtonState, string>;
 
-export interface GenerateIconButtonStyleProps {
-  theme?: IconButtonTheme;
-  size?: IconButtonSize;
-  disabled?: boolean;
-}
+export interface GenerateIconButtonStyleProps
+  extends Pick<IconButtonProps, 'theme' | 'size' | 'disabled'> {}
 
 export interface IconButtonProps
   extends Pick<

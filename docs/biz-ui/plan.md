@@ -138,7 +138,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 폼 컨트롤
 
 - [x] DOTOLI-241 biz-ui Checkbox 구현
-- [ ] DOTOLI-242 biz-ui ItemCheckbox 구현
+- [x] DOTOLI-242 biz-ui ItemCheckbox 구현 (+ `CheckboxBase` · `CheckboxIcon` 분리)
 - [ ] DOTOLI-243 biz-ui Toggle 구현
 - [ ] DOTOLI-244 biz-ui ToggleListItem 구현
 - [ ] DOTOLI-245 biz-ui Chip 구현
@@ -183,7 +183,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 | 컴포넌트           | 무엇을 물어 쓰는가                                                        |
 | ------------------ | -------------------------------------------------------------------------- |
-| `ItemCheckbox`     | `Checkbox` — DOTOLI-241                                                    |
+| `ItemCheckbox`     | `Checkbox`의 `CheckboxBase` · `CheckboxIcon` — DOTOLI-241 · 242            |
 | `ToggleListItem`   | `Toggle` — DOTOLI-243                                                      |
 | `SearchInput`      | `Input/shared`(`resolveInputState` · `InputMessage`) · `IconButton` — 기구현 |
 
@@ -198,12 +198,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
-
-### DOTOLI-242 · ItemCheckbox 구현
-
-[Checkbox 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4686&m=dev) (`75:4686`) 프레임 `75:4771`. 축은 `isSelected` 하나(340×60)이고 **카드 전체가 선택 영역**입니다(주석 `355:1270`).
-
-`Checkbox`(DOTOLI-241)를 물어 쓰되 **히트 영역 확장은 끕니다** — 카드가 이미 탭 타깃이라 컨트롤의 `::before`까지 넓히면 영역이 겹칩니다.
 
 ### DOTOLI-243 · Toggle 구현
 
@@ -288,7 +282,8 @@ safe-area 하단 유틸(`safe-area-bottom`)이 실제로 쓰이는 첫 컴포넌
 | DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
 | DOTOLI-238 | NotificationCard                              | [components/notification-card.md](./components/notification-card.md)             |
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`) | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md) |
-| DOTOLI-241 | Checkbox                                      | [components/checkbox.md](./components/checkbox.md)                               |
+| DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)              |
+| DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리) | [components/checkbox.md](./components/checkbox.md)                       |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

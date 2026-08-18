@@ -25,12 +25,11 @@ export type CtaButtonState =
 
 export type CtaButtonStyles = Record<CtaButtonState, string>;
 
-export interface GenerateCtaButtonStyleProps {
-  variant?: CtaButtonVariant;
-  theme?: CtaButtonTheme;
-  size?: CtaButtonSize;
-  disabled?: boolean;
-  iconPosition?: ButtonIconPosition;
+export interface GenerateCtaButtonStyleProps
+  extends Pick<
+    CtaButtonProps,
+    'variant' | 'theme' | 'size' | 'disabled' | 'iconPosition'
+  > {
   hasIcon?: boolean;
 }
 

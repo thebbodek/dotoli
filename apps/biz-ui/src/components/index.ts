@@ -7,6 +7,7 @@ export * from './Icon';
 export * from './IconCircle';
 export * from './Info';
 export * from './Input';
+export * from './ItemCheckbox';
 export * from './NotificationCard';
 export * from './Order';
 export * from './Portal';

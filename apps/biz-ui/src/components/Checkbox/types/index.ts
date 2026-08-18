@@ -5,10 +5,11 @@ import { CHECKBOX_STATES } from '@/components/Checkbox/constants';
 export type CheckboxState =
   (typeof CHECKBOX_STATES)[keyof typeof CHECKBOX_STATES];
 
-export type ResolveCheckboxStateProps = Pick<
-  CheckboxProps,
-  'checked' | 'disabled'
->;
+export interface ResolveCheckboxStateProps
+  extends Pick<CheckboxProps, 'checked' | 'disabled'> {}
+
+export interface CheckboxIconProps
+  extends Pick<CheckboxProps, 'checked' | 'disabled'> {}
 
 export interface CheckboxProps
   extends Pick<

@@ -9,7 +9,8 @@ import {
 export type OrderBoxVariant =
   (typeof ORDER_BOX_VARIANTS)[keyof typeof ORDER_BOX_VARIANTS];
 
-export type OrderBoxItem = Pick<OrderBoxCellProps, 'boxes' | 'itemName'>;
+export interface OrderBoxItem
+  extends Pick<OrderBoxCellProps, 'boxes' | 'itemName'> {}
 
 export interface OrderBoxVariantStyles {
   CONTAINER?: string;

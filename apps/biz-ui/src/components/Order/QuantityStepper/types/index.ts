@@ -30,13 +30,9 @@ export interface QuantityStepperProps
   placeholder?: string;
 }
 
-export type ResolveQuantityStepperStateProps = Pick<
-  QuantityStepperProps,
-  'value'
-> &
-  Required<Pick<QuantityStepperProps, 'max'>>;
+export interface ResolveQuantityStepperStateProps
+  extends Pick<QuantityStepperProps, 'value'>,
+    Required<Pick<QuantityStepperProps, 'max'>> {}
 
-export type GenerateQuantityStepperTotalLabelProps = Pick<
-  QuantityStepperProps,
-  'value' | 'unitsPerBox'
->;
+export interface GenerateQuantityStepperTotalLabelProps
+  extends Pick<QuantityStepperProps, 'value' | 'unitsPerBox'> {}
