@@ -18,7 +18,7 @@ const CalendarDay = ({ day, label, variant, onClick }: CalendarDayProps) => {
   return (
     <button
       className={clsx(
-        'in-flex-v-stack overflow-hidden pt-3',
+        'in-flex-v-stack items-center overflow-hidden pt-3',
         isDisabled && 'cursor-not-allowed',
         BACKGROUND,
         ROUNDED,
