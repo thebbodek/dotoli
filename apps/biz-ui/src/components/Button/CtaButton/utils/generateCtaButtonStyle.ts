@@ -10,10 +10,8 @@ import {
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton/constants';
 import { GenerateCtaButtonStyleProps } from '@/components/Button/CtaButton/types';
-import {
-  BUTTON_ICON_POSITIONS,
-  BUTTON_TOUCH_TARGET_STYLE,
-} from '@/components/Button/shared/constants';
+import { BUTTON_ICON_POSITIONS } from '@/components/Button/shared/constants';
+import { TOUCH_TARGET_STYLE } from '@/components/shared/constants';
 
 export const generateCtaButtonStyle = ({
   variant = CTA_BUTTON_VARIANTS.FILLED,
@@ -45,7 +43,7 @@ export const generateCtaButtonStyle = ({
       CTA_BUTTON_SIZE_STYLES[size].HEIGHT,
       CTA_BUTTON_SIZE_STYLES[size].PADDING,
     ],
-    shouldExpandTouchTarget && BUTTON_TOUCH_TARGET_STYLE,
+    shouldExpandTouchTarget && TOUCH_TARGET_STYLE,
     variant === CTA_BUTTON_VARIANTS.OUTLINED && 'border',
     disabled
       ? [disabledStyle, 'cursor-not-allowed']

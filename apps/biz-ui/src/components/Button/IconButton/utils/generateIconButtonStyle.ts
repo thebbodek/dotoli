@@ -8,7 +8,7 @@ import {
   ICON_BUTTON_THEMES,
 } from '@/components/Button/IconButton/constants';
 import { GenerateIconButtonStyleProps } from '@/components/Button/IconButton/types';
-import { BUTTON_TOUCH_TARGET_STYLE } from '@/components/Button/shared/constants';
+import { TOUCH_TARGET_STYLE } from '@/components/shared/constants';
 
 export const generateIconButtonStyle = ({
   theme = ICON_BUTTON_THEMES.DEFAULT,
@@ -24,7 +24,7 @@ export const generateIconButtonStyle = ({
     SIZE,
     ICON,
     ROUNDED,
-    BUTTON_TOUCH_TARGET_STYLE,
+    TOUCH_TARGET_STYLE,
     disabled
       ? [disabledStyle, 'cursor-not-allowed']
       : [Object.values(stateStyles), 'cursor-pointer'],

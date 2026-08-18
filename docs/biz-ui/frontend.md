@@ -18,6 +18,7 @@
 | [components/info.md](./components/info.md)           | Info 계열 구현 기록   |
 | [components/notification-card.md](./components/notification-card.md) | NotificationCard 구현 기록 |
 | [components/overlay.md](./components/overlay.md)     | Overlay · Portal 구현 기록 |
+| [components/checkbox.md](./components/checkbox.md)   | Checkbox 구현 기록    |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 

@@ -18,7 +18,7 @@ Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다.
 
 ## 계열 공통 결정
 
-- **`SIZE`·`THEME`·`VARIANT`를 `shared`가 아니라 각 컴포넌트 폴더 아래에 둡니다.** `shared`에 두면 공통 모듈이 `CTA_BUTTON_THEMES`를 내보내게 되어 컴포넌트별 정의 원칙과 어긋납니다. `shared`에는 계열이 실제로 공유하는 것만 둡니다 — `ButtonIcon` · `BUTTON_ICON_POSITIONS` · `BUTTON_PENDING_ICON_KEY` · `BUTTON_TOUCH_TARGET_STYLE`.
+- **`SIZE`·`THEME`·`VARIANT`를 `shared`가 아니라 각 컴포넌트 폴더 아래에 둡니다.** `shared`에 두면 공통 모듈이 `CTA_BUTTON_THEMES`를 내보내게 되어 컴포넌트별 정의 원칙과 어긋납니다. `shared`에는 계열이 실제로 공유하는 것만 둡니다 — `ButtonIcon` · `BUTTON_ICON_POSITIONS` · `BUTTON_PENDING_ICON_KEY`. 히트 영역 상수는 DOTOLI-241에서 `components/shared`로 옮겼습니다 (아래 각주).
 - **`base/white`는 별도 토큰을 만들지 않고 Tailwind 기본 `white`를 씁니다.** Figma `base/white`가 `#ffffff`로 Tailwind 기본값과 같아 토큰을 새로 정의할 이유가 없습니다. CtaButton(`text-white`)과 Filter(`bg-white`)가 같은 판단이고, FloatingPill·IconButton도 이 결정을 따릅니다.
 - **Storybook `iconOption`은 `iconKey`를 최상위로 펴서 받습니다.** 점 표기 argType(`'iconOption.iconKey'`)은 런타임은 되지만 타입이 깨져서, internal-ui Button 스토리처럼 `<Component>Args`로 펴고 render에서 다시 묶습니다.
 
@@ -256,7 +256,7 @@ theme × state 전수 (심볼 `81:202`~`81:209` · `444:1095`~`444:1116`).
 - **`state`를 prop으로 노출하지 않습니다.** `hover`·`pressed`는 CSS 상태, `disabled`는 HTML 속성, `loading`은 `isPending` boolean입니다. Figma의 `state` 축은 문서용 표현이라 union prop으로 열지 않았습니다 (CtaButton·Filter와 동일).
 - **`aria-label`을 필수 prop으로 받습니다.** 아이콘 전용이라 접근 가능한 이름이 없습니다. `Required<Pick<ButtonHTMLAttributes, 'aria-label'>>`로 강제합니다.
 - **`isPending`은 `disabled` 스타일을 탑니다.** `disabled || isPending`으로 묶어 `generateIconButtonStyle`에 넘기므로 `filled`의 pending도 흰 배경이 사라집니다. CtaButton과 같은 처리이고, Figma에 `filled`·`dark`의 loading 심볼이 없어 외삽한 부분입니다.
-- **히트 영역을 전 사이즈에 넓힙니다** (Figma 주석 `337:3548`). `BUTTON_TOUCH_TARGET_STYLE` + `relative`로 `lg` 40→52px, `sm` 24→36px. 시각 크기는 Figma 값 그대로입니다.
+- **히트 영역을 전 사이즈에 넓힙니다** (Figma 주석 `337:3548`). `TOUCH_TARGET_STYLE` + `relative`로 `lg` 40→52px, `sm` 24→36px. 시각 크기는 Figma 값 그대로입니다. **상수는 DOTOLI-241에서 `Button/shared` → `components/shared`로 옮겼습니다** — `Checkbox`가 세 번째 소비처가 되면서 버튼 계열 전용이 아니게 됐고, 이름도 `BUTTON_TOUCH_TARGET_STYLE` → `TOUCH_TARGET_STYLE`입니다. 옮기면서 **공개 API에서 빠졌습니다**(`components/shared`는 루트 배럴에 없음) — 자세한 건 [checkbox.md](./checkbox.md) 「결정」.
 - **아이콘 웨이트 기본값은 `bold`입니다.** 주석 `444:1136` "icon: outline - bold / fill 사용"에 맞춰 `Icon`의 기본값(`bold`)을 그대로 쓰고 `weight` prop으로 `fill`을 열어 둡니다.
 
 ### 디자인 확인 필요

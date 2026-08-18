@@ -135,7 +135,23 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-239 biz-ui 공통 Overlay 구현 (+ `Portal` · `--color-dim` · `--animate-*`)
 
-Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
+### biz-ui 폼 컨트롤
+
+- [x] DOTOLI-241 biz-ui Checkbox 구현
+- [ ] DOTOLI-242 biz-ui ItemCheckbox 구현
+- [ ] DOTOLI-243 biz-ui Toggle 구현
+- [ ] DOTOLI-244 biz-ui ToggleListItem 구현
+- [ ] DOTOLI-245 biz-ui Chip 구현
+- [ ] DOTOLI-246 biz-ui SelectionItem 구현
+- [ ] DOTOLI-247 biz-ui SearchInput 구현
+
+### biz-ui 리스트 · 네비게이션
+
+- [ ] DOTOLI-248 biz-ui NavigationListItem 구현
+- [ ] DOTOLI-249 biz-ui BottomTab 구현
+- [ ] DOTOLI-250 biz-ui HeaderBar 구현
+
+Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
 DOTOLI-224로 Figma Button 섹션이 전부 끝나고 DOTOLI-226부터 Input 계열입니다. InputField는 Button 계열 산출물을 그대로 물어 씁니다 — 트레일링 아이콘은 `IconButton`(`sm`=24px), `verify`의 확인 버튼은 `CtaButton`(`sm`=32px)이 크기까지 정확히 맞습니다.
 
@@ -161,6 +177,18 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 
 DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 끝냈고([`components/overlay.md`](./components/overlay.md)) **다음은 BottomSheet · ConfirmModal 실물 2종**입니다. 둘 사이에 의존이 없어 병렬로 가도 됩니다. `Overlay`는 **비공개**(`components/shared/`)라 소비자의 진입점이 이 둘뿐이고, 그래서 두 티켓이 시각 검증(스토리)까지 함께 집니다. Overlay는 배경 탭에서 `onClose` 콜백만 넘기므로 **정책 COM-008(이탈 방지) · 물리 뒤로가기 · ESC 처리는 각 컴포넌트 티켓이 맡습니다.** 그 티켓에서 `overlay-kit`을 peerDependency로 넣을지도 함께 올라오는데, 판단 기준과 실측 근거는 [`components/overlay.md`](./components/overlay.md) 「후속 티켓 판단 기준」에 있습니다.
 
+**BottomSheet · ConfirmModal은 아직 티켓이 없고, 먼저 나간 것이 DOTOLI-241~250입니다.** Figma `component` 페이지에서 미구현 섹션 20개 중 **오버레이에 의존하지 않는 8개 섹션을 뽑았고**, 나머지 12개(BottomSheet · ConfirmModal · Toast · CollapseButton · FaqAccordion · OrderNotiCollapse · InfoBanner · StatusAlertBanner · Notification · Tag · MenuItem · Calendar 계열 5종)는 다음 배치입니다. 10개 전부 **DOTOLI-239와 병렬로 가도 되고**, 새로 만들 베이스 컴포넌트도 없습니다.
+
+의존은 두 갈래뿐이고 나머지 6개는 선행이 없습니다.
+
+| 컴포넌트           | 무엇을 물어 쓰는가                                                        |
+| ------------------ | -------------------------------------------------------------------------- |
+| `ItemCheckbox`     | `Checkbox` — DOTOLI-241                                                    |
+| `ToggleListItem`   | `Toggle` — DOTOLI-243                                                      |
+| `SearchInput`      | `Input/shared`(`resolveInputState` · `InputMessage`) · `IconButton` — 기구현 |
+
+**Figma 심볼명이 그대로 컴포넌트명이 아닌 곳이 한 군데 있습니다.** Chip 섹션의 레이어는 `Chip`(`useIcon=false`) · `ChipCheck`(`useIcon=true`) 둘로 나뉘어 있지만 **variant 축이 `isSelected × useIcon`으로 동일**합니다. DOTOLI-245를 하나로 잡은 이유이고, 실측에서 두 세트의 다른 축이 나오면 그때 쪼갭니다.
+
 **폴더는 Figma 섹션이 아니라 이름 프리픽스를 따릅니다.** `Info/InfoField` · `Info/InfoItem`만 그룹으로 묶고 `Divider` · `IconCircle` · `NotificationCard`는 단독 폴더입니다. `Button/CtaButton` · `Input/InputField` · `Order/OrderBox`가 전부 「프리픽스 = 그룹명」이었고, 뒤의 3종은 Info 전용이 아니라 범용이라 섹션명을 따라가면 다른 계열에서 쓸 때 위치가 어색해집니다. 단독 폴더는 Badge 선례입니다.
 
 ---
@@ -170,6 +198,68 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
+
+### DOTOLI-242 · ItemCheckbox 구현
+
+[Checkbox 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4686&m=dev) (`75:4686`) 프레임 `75:4771`. 축은 `isSelected` 하나(340×60)이고 **카드 전체가 선택 영역**입니다(주석 `355:1270`).
+
+`Checkbox`(DOTOLI-241)를 물어 쓰되 **히트 영역 확장은 끕니다** — 카드가 이미 탭 타깃이라 컨트롤의 `::before`까지 넓히면 영역이 겹칩니다.
+
+### DOTOLI-243 · Toggle 구현
+
+[Toggle 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-465&m=dev) (`129:465`) 프레임 `131:482`. 축은 `checked`(52×30)뿐이고 `disabled`가 없습니다 — Checkbox와 갈리는 지점이라 실측으로 확인합니다.
+
+트랙·노브 전환에 `transition`이 필요한데 **Figma에 duration이 없습니다.** 오버레이에서 쓴 `cubic-bezier(0, 0, 0.5, 1)`을 따를지 정하고 「디자인 확인 필요」에 남깁니다.
+
+### DOTOLI-244 · ToggleListItem 구현
+
+같은 섹션 프레임 `131:495`. 축 `checked`(320×51). 라벨 + `Toggle` 조합이고 `Toggle`(DOTOLI-243) 선행입니다.
+
+### DOTOLI-245 · Chip 구현
+
+[Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4739&m=dev) (`75:4739`). 축 `isSelected × useIcon` — `useIcon=true`는 체크 아이콘 포함 다중 선택(80×32), `false`는 단일 선택(64×32).
+
+레이어가 `Chip` · `ChipCheck` 둘로 나뉜 건은 위 Tasks 항의 판단 기준을 따릅니다.
+
+### DOTOLI-246 · SelectionItem 구현
+
+[SelectionItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-718&m=dev) (`129:718`). 축 `isSelected`(340×56), **카드 전체가 선택 영역**(주석 `355:1277`).
+
+`ItemCheckbox`와 겉모습이 겹치는지 실측으로 대조합니다 — 겹치면 둘 중 하나가 다른 하나의 variant일 수 있고, 그 판단은 이 티켓에서 합니다.
+
+### DOTOLI-247 · SearchInput 구현
+
+[SearchInput 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=179-651&m=dev) (`179:651`). 축 `state` — `default` · `typing` · `fill` · `error`(300×48, error만 72).
+
+트레일링 아이콘이 상태별로 갈립니다 — `default` · `fill`은 돋보기, `typing` · `error`는 클리어 버튼(`IconButton`). `error`의 메시지 행은 `Input/shared`의 `InputMessage`를 그대로 씁니다. **상태 판정은 `resolveInputState`를 재사용할 수 있는지 먼저 봅니다** — InputField는 `disabled` · `readOnly` · `errorMessage`로 판정하는데 여기엔 `typing`(포커스)이 축으로 들어옵니다.
+
+### DOTOLI-248 · NavigationListItem 구현
+
+[NavigationListItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-658&m=dev) (`129:658`). 축 `type` — `default` · `withValue`(340×52). 값 표기 규칙은 섹션 내 정책 프레임 `524:5`.
+
+### DOTOLI-249 · BottomTab 구현
+
+[BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4565&m=dev) (`75:4565`). 축 `value` — `transactionHistory` · `order` · `myInfo`(380×61).
+
+정책 `524:2`(COM-001)가 **3개 탭 고정 · 순서 거래내역 → 주문 → 내정보 · 주문이 기본 진입 탭 · 운영중지/해지 상태에서도 노출 유지**를 못박습니다. 탭 목록을 소비자가 넘기는 API가 아니라 **DS가 3개를 들고 있는 형태**가 맞는지 이 티켓에서 정합니다.
+
+safe-area 하단 유틸(`safe-area-bottom`)이 실제로 쓰이는 첫 컴포넌트입니다.
+
+### DOTOLI-250 · HeaderBar 구현
+
+[HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4551&m=dev) (`75:4551`). 축 `type × theme × useProgress`이고 **조합이 전부 차 있지 않습니다** — 정의된 심볼은 5개뿐입니다.
+
+| type         | theme        | useProgress   |
+| ------------ | ------------ | ------------- |
+| `home`       | light · dark | false만       |
+| `navigation` | light만      | false · true  |
+| `bottomSheet`| light만      | false만       |
+
+- `home` — 업체명 + 드롭다운 화살표 + 알림 벨. **화살표는 조건부**입니다(정책 `514:1741` COM-002 — 마스터 권한 + 소속 업체 2개 이상일 때만). 벨의 미읽음 표시는 **점(dot)이고 개수를 적지 않습니다**(주석 `514:1717`).
+- `navigation` — 좌 「뒤로」 · 우 「닫기」. 정책 `524:20`(COM-007)이 **둘의 동작을 다르게** 정의합니다(뒤로 = 스택 pop, 닫기 = 플로우 전체 이탈). DS는 콜백 2개를 분리해 받고 판단은 소비자에게 둡니다.
+- `useProgress` — 하단 진행 바. 적용 대상 목록은 정책 `524:23`. 별도 ProgressBar 베이스 없이 인라인으로 충분한지 실측에서 확인합니다.
+
+`theme=dark`가 나오는 유일한 컴포넌트라 **다크 배경용 색 조합이 토큰으로 커버되는지** 확인이 필요합니다.
 
 ### 완료된 티켓
 
@@ -198,6 +288,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
 | DOTOLI-238 | NotificationCard                              | [components/notification-card.md](./components/notification-card.md)             |
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`) | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md) |
+| DOTOLI-241 | Checkbox                                      | [components/checkbox.md](./components/checkbox.md)                               |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

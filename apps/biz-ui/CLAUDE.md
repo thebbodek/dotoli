@@ -82,7 +82,29 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 **디자이너가 Figma 주석으로 지정한 대상만 확장합니다.** 시각 크기는 Figma 값 그대로 두고 히트 영역만 넓힙니다 — 레이아웃이 밀리면 안 되기 때문입니다. 지정되지 않은 컴포넌트·사이즈에 임의로 넣지 않습니다.
 
-구현은 `BUTTON_TOUCH_TARGET_STYLE`(`::before`를 `inset: -6px`로 확장)이고 쓰는 쪽에서 `position: relative`를 함께 겁니다.
+구현은 `components/shared/constants`의 `TOUCH_TARGET_STYLE`(`::before`를 `inset: -6px`로 확장)이고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox`가 함께 씁니다.
+
+### 폼 컨트롤 공통
+
+`Checkbox` · `Toggle` · `Chip` · `SelectionItem` · `SearchInput`처럼 **사용자가 값을 바꾸는 컴포넌트**에 공통으로 적용합니다. 아래 대부분은 DOTOLI-241에서 internal-ui와 대조하며 정한 것이고, 실측 근거는 [`docs/biz-ui/components/checkbox.md`](../../docs/biz-ui/components/checkbox.md)에 있습니다.
+
+**1. 네이티브 컨트롤을 쓰고 `sr-only`로 숨깁니다.** `hidden`(`display: none`)은 화면뿐 아니라 **접근성 트리에서도 요소를 들어내고 포커스도 막습니다.** 시각 박스는 보통 `aria-hidden`이라, 둘이 겹치면 보조기술에 컨트롤이 아예 존재하지 않게 됩니다. internal-ui `Checkbox`가 그 상태이므로 따라가지 않습니다.
+
+**2. 상태는 CSS variant가 아니라 JS로 풉니다.** `resolve<Name>State`가 상태 키 하나를 돌려주고 `Record<State, string>`에서 클래스 한 줄을 고릅니다 (`Input/shared`의 `resolveInputState` 선례). 값이 이미 제어 prop이라 `peer-checked:` 같은 variant를 겹쳐 쌓을 이유가 없고, 「런타임 조합만 safelist에 보존」 규칙과도 결이 맞습니다.
+
+**3. 시각 상태를 색으로만 가리지 않습니다.** 글리프를 항상 렌더해 두고 배경과 같은 색으로 숨기는 방식은, **배경색이 바뀌는 상태가 추가되는 순간 그대로 드러납니다.** internal-ui `Checkbox`의 `disabled` + `unchecked`가 실제로 그렇습니다(회색 배경 위에 흰 체크가 보임). 조건부 렌더로 없앱니다.
+
+**4. 제어 전용입니다.** 값과 변경 핸들러를 `Required<Pick<…>>`로 묶습니다. 시각 상태를 JS로 푸는 구조라 비제어와 공존하면 표시와 실제 값이 갈립니다.
+
+**5. 네이티브 통로는 열고, 결정은 열지 않습니다.** `ref` · `id` · `name` · `value`처럼 **소비자가 판단할 것이 없는 HTML 통로**는 `Pick`으로 그대로 엽니다. 막으면 외부 `<label for>` 연결 · 검증 실패 시 포커스 이동 · `indeterminate`(속성이 아니라 DOM 프로퍼티라 `ref` 외에는 도달 불가) 같은 것을 소비자가 **아예 할 수 없습니다.**
+
+반대로 **소비자가 매번 기억하고 정해야 하는 스위치는 만들지 않습니다.** DOTOLI-241의 `useTouchTarget`이 그 사례입니다 — 끌 필요가 있는 쪽이 DS 내부 컴포넌트 하나뿐인데 공개 prop으로 열면 모든 소비자의 결정거리가 됩니다. DS 내부에서만 필요한 분기는 context 같은 비공개 수단으로 풉니다.
+
+**6. 접근성 이름은 소비자가 붙입니다.** 라벨 텍스트가 없는 컨트롤은 이름을 스스로 만들 수 없으므로 `aria-label` · `aria-labelledby`만 열어 둡니다. **라벨이 붙는 형태는 별도 컴포넌트입니다** — Figma가 이미 그렇게 나눠 놨습니다(`Checkbox` ↔ `ItemCheckbox`, `Toggle` ↔ `ToggleListItem`). 그쪽이 자기 라벨의 id를 `aria-labelledby`로 내려 줍니다.
+
+**7. Figma에 없는 시각은 만들지 않습니다 — 포커스 링도 포함입니다.** 1번 때문에 실제 컨트롤이 화면에 없어 **키보드 포커스가 아무 데도 보이지 않는 상태**인데, 지정되지 않은 시각을 임의로 채우지 않고 각 컴포넌트 문서의 「디자인 확인 필요」에 남깁니다. 모션도 같습니다.
+
+**8. 상태 전환에 `transition-colors`를 겁니다** (`Filter` · `CtaButton` · `IconButton` 선례). `box-shadow`는 여기 포함되지 않아 `inset-ring`으로 그린 테두리는 즉시 바뀝니다 — `Input`의 포커스 링도 같으므로 맞춘 것이고, 바꾸려면 계열 전체를 함께 봅니다.
 
 ## 스타일 규칙
 
