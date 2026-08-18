@@ -1,5 +1,12 @@
 # @bbodek/hooks
 
+## 0.0.93
+
+### Patch Changes
+
+- Updated dependencies [c149947]
+  - @bbodek/utils@0.0.90
+
 ## 0.0.92
 
 ### Patch Changes

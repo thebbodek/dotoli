@@ -1,5 +1,12 @@
 # @bbodek/utils
 
+## 0.0.90
+
+### Patch Changes
+
+- c149947: DOTOLI-253 로컬 서버 ip 접속 시 getUUID 에러 수정
+  - @bbodek/internal-ui@0.0.120
+
 ## 0.0.89
 
 ### Patch Changes
