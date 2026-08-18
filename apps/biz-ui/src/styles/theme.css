@@ -50,6 +50,7 @@
   --color-gray-800: #333c51;
   --color-gray-900: #1a2233;
   --color-black: #101828;
+  --color-dim: color-mix(in srgb, var(--color-gray-700) 60%, transparent);
 
   --text-heading-1-bold: 2.125rem;
   --text-heading-1-bold--line-height: 1.4;
@@ -145,4 +146,40 @@
   --radius-10: 0.625rem;
   --radius-12: 0.75rem;
   --radius-16: 1rem;
+
+  --animate-fade-in: fade-in 0.25s cubic-bezier(0, 0, 0.5, 1);
+  --animate-popup: popup 0.25s cubic-bezier(0, 0, 0.5, 1);
+  --animate-bottom-sheet: bottom-sheet 0.25s cubic-bezier(0, 0, 0.5, 1);
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes popup {
+    0% {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bottom-sheet {
+    0% {
+      transform: translateY(100%);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
 }

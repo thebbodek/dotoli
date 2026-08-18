@@ -8,4 +8,5 @@ export * from './Info';
 export * from './Input';
 export * from './NotificationCard';
 export * from './Order';
+export * from './Portal';
 export * from './Typography';

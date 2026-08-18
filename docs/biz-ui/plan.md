@@ -131,6 +131,10 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-237 biz-ui InfoItem 구현
 - [x] DOTOLI-238 biz-ui NotificationCard 구현
 
+### biz-ui 오버레이 계열
+
+- [x] DOTOLI-239 biz-ui 공통 Overlay 구현 (+ `Portal` · `--color-dim` · `--animate-*`)
+
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `BUTTON_TOUCH_TARGET_STYLE`이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
 DOTOLI-224로 Figma Button 섹션이 전부 끝나고 DOTOLI-226부터 Input 계열입니다. InputField는 Button 계열 산출물을 그대로 물어 씁니다 — 트레일링 아이콘은 `IconButton`(`sm`=24px), `verify`의 확인 버튼은 `CtaButton`(`sm`=32px)이 크기까지 정확히 맞습니다.
@@ -154,6 +158,8 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 | 컴포넌트           | 무엇을 물어 쓰는가                                            |
 | ------------------ | ------------------------------------------------------------- |
 | `NotificationCard` | `IconCircle` `md`(48px) — DOTOLI-234 · `CtaButton` `sm`(32px) — 기구현 |
+
+DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 끝냈고([`components/overlay.md`](./components/overlay.md)) **다음은 BottomSheet · ConfirmModal 실물 2종**입니다. 둘 사이에 의존이 없어 병렬로 가도 됩니다. `Overlay`는 **비공개**(`components/shared/`)라 소비자의 진입점이 이 둘뿐이고, 그래서 두 티켓이 시각 검증(스토리)까지 함께 집니다. Overlay는 배경 탭에서 `onClose` 콜백만 넘기므로 **정책 COM-008(이탈 방지) · 물리 뒤로가기 · ESC 처리는 각 컴포넌트 티켓이 맡습니다.** 그 티켓에서 `overlay-kit`을 peerDependency로 넣을지도 함께 올라오는데, 판단 기준과 실측 근거는 [`components/overlay.md`](./components/overlay.md) 「후속 티켓 판단 기준」에 있습니다.
 
 **폴더는 Figma 섹션이 아니라 이름 프리픽스를 따릅니다.** `Info/InfoField` · `Info/InfoItem`만 그룹으로 묶고 `Divider` · `IconCircle` · `NotificationCard`는 단독 폴더입니다. `Button/CtaButton` · `Input/InputField` · `Order/OrderBox`가 전부 「프리픽스 = 그룹명」이었고, 뒤의 3종은 Info 전용이 아니라 범용이라 섹션명을 따라가면 다른 계열에서 쓸 때 위치가 어색해집니다. 단독 폴더는 Badge 선례입니다.
 
@@ -191,6 +197,7 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 | DOTOLI-236 | InfoField (+ `Info/` 그룹)                    | [components/info.md](./components/info.md)                                       |
 | DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
 | DOTOLI-238 | NotificationCard                              | [components/notification-card.md](./components/notification-card.md)             |
+| DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`) | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

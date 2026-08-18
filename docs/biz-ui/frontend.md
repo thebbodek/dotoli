@@ -17,6 +17,7 @@
 | [components/divider.md](./components/divider.md)     | Divider 구현 기록     |
 | [components/info.md](./components/info.md)           | Info 계열 구현 기록   |
 | [components/notification-card.md](./components/notification-card.md) | NotificationCard 구현 기록 |
+| [components/overlay.md](./components/overlay.md)     | Overlay · Portal 구현 기록 |
 | frontend.md (이 문서)                                | 환경 세팅 기록        |
 | [plan.md](./plan.md)                                 | 티켓 계획 (미착수분)  |
 
@@ -60,12 +61,14 @@
 | 항목                                       | 비고                                                                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | `--breakpoint-*` · `--container-*`         | 모바일 기준 재설계 필요. 디바이스 매트릭스 확정 대기                                                                                    |
-| `--animate-*`                              | Figma 모션 정의 대기                                                                                                                    |
+| `--animate-*`                              | **완료** — DOTOLI-239에서 `fade-in` · `popup` · `bottom-sheet` 3종 추가 (Figma 주석의 250ms 기준) → [components/overlay.md](./components/overlay.md) |
+| `--color-dim`                              | **완료** — DOTOLI-239에서 추가. 팔레트가 아닌 역할 토큰이라 `COLOR_VARIANTS`에는 넣지 않음 → [components/overlay.md](./components/overlay.md) |
 | `--radius-*` · `--shadow-*`                | **완료** — DOTOLI-227에서 Figma 스케일 확정분을 일괄 추가 (radius 6단계 + `rounded-full`, shadow 6단계) → [components/input.md](./components/input.md) |
 | `variants/{radius,shadow,container}`       | 컴포넌트가 prop으로 노출하지 않아 디렉토리 미생성. `--shadow-20`도 클래스로만 씀 (`variants/`는 prop union이 필요할 때만 만듦)          |
 | Typography 스토리                          | `internal-ui`와 동일하게 `Typography` 컴포넌트가 생기는 시점에 컴포넌트 스토리로 추가. 별도 Foundations 페이지는 두지 않음              |
 | `CtaButton`                                | DOTOLI-219로 구현 완료. 이 문서 범위 밖입니다 → [components/button.md](./components/button.md)                                          |
-| `Portal` · `components/shared/`            | 오버레이(BottomSheet · Modal · Toast) 작업 시점에 생성. 쓰는 곳 없이 먼저 만들지 않음                                                   |
+| `Portal`                                   | **완료** — DOTOLI-239. `Overlay`가 쓰는 시점에 생성. 루트 배럴로 **공개** → [components/overlay.md](./components/overlay.md)            |
+| `components/shared/`                       | **완료** — DOTOLI-239에서 `Overlay`를 담으며 생성. **배럴에서 내보내지 않는 비공개 배선**이고, 계열 안의 `<Group>/shared`(공개)와 성격이 다릅니다 → [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) 「코드 규칙 1」 |
 | Figma 문서 텍스트 오기 2건                 | `label` 3종 letter-spacing · `caption` weight. 디자이너 확인 필요 (아래 특이사항 ①②). 셋째였던 Heading 단계 수는 해소됐습니다          |
 | `heading-1` 크기                           | **완료** — 36px → 34px로 정정 (2026-08-14, 아래 특이사항)                                                                                |
 
