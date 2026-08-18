@@ -148,7 +148,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 리스트 · 네비게이션
 
 - [ ] DOTOLI-248 biz-ui NavigationListItem 구현
-- [ ] DOTOLI-249 biz-ui BottomTab 구현
+- [x] DOTOLI-249 biz-ui BottomTab 구현
 - [x] DOTOLI-250 biz-ui HeaderBar 구현
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
@@ -161,18 +161,18 @@ DOTOLI-227 다음은 Figma [Order 섹션](https://www.figma.com/design/IGi6n6Cz0
 
 의존 관계는 두 갈래뿐입니다.
 
-| 컴포넌트          | 무엇을 물어 쓰는가                                        |
-| ----------------- | --------------------------------------------------------- |
-| `OrderBox`        | `OrderBoxCell` (인스턴스 4개)                             |
-| `QuantityStepper` | `IconButton` `lg`(40px) — 기구현                          |
+| 컴포넌트          | 무엇을 물어 쓰는가                                          |
+| ----------------- | ----------------------------------------------------------- |
+| `OrderBox`        | `OrderBoxCell` (인스턴스 4개)                               |
+| `QuantityStepper` | `IconButton` `lg`(40px) — 기구현                            |
 | `OrderInputCard`  | `CtaButton` `sm`(32px) — 기구현 · `Badge` — **이번에 신규** |
 
 Order 계열은 `src/components/Order/` 그룹을 새로 엽니다. Badge는 계열이 아직 없어 `src/components/Badge/`에 단독으로 둡니다.
 
 DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=177-520&m=dev) (`177:520`)의 5종입니다. 의존은 한 갈래뿐이라 **IconCircle이 NotificationCard보다 먼저**고, `Divider` · `InfoField` · `InfoItem`은 선행이 없어 병렬로 가도 됩니다.
 
-| 컴포넌트           | 무엇을 물어 쓰는가                                            |
-| ------------------ | ------------------------------------------------------------- |
+| 컴포넌트           | 무엇을 물어 쓰는가                                                     |
+| ------------------ | ---------------------------------------------------------------------- |
 | `NotificationCard` | `IconCircle` `md`(48px) — DOTOLI-234 · `CtaButton` `sm`(32px) — 기구현 |
 
 DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 끝냈고([`components/overlay.md`](./components/overlay.md)) **다음은 BottomSheet · ConfirmModal 실물 2종**입니다. 둘 사이에 의존이 없어 병렬로 가도 됩니다. `Overlay`는 **비공개**(`components/shared/`)라 소비자의 진입점이 이 둘뿐이고, 그래서 두 티켓이 시각 검증(스토리)까지 함께 집니다. Overlay는 배경 탭에서 `onClose` 콜백만 넘기므로 **정책 COM-008(이탈 방지) · 물리 뒤로가기 · ESC 처리는 각 컴포넌트 티켓이 맡습니다.** 그 티켓에서 `overlay-kit`을 peerDependency로 넣을지도 함께 올라오는데, 판단 기준과 실측 근거는 [`components/overlay.md`](./components/overlay.md) 「후속 티켓 판단 기준」에 있습니다.
@@ -181,11 +181,11 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 의존은 두 갈래뿐이고 나머지 6개는 선행이 없습니다.
 
-| 컴포넌트           | 무엇을 물어 쓰는가                                                        |
-| ------------------ | -------------------------------------------------------------------------- |
-| `ItemCheckbox`     | `Checkbox`의 `CheckboxBase` · `CheckboxIcon` — DOTOLI-241 · 242            |
-| `ToggleListItem`   | `Toggle` — DOTOLI-243                                                      |
-| `SearchInput`      | `Input/shared`(`resolveInputState` · `InputMessage`) · `IconButton` — 기구현 |
+| 컴포넌트         | 무엇을 물어 쓰는가                                                           |
+| ---------------- | ---------------------------------------------------------------------------- |
+| `ItemCheckbox`   | `Checkbox`의 `CheckboxBase` · `CheckboxIcon` — DOTOLI-241 · 242              |
+| `ToggleListItem` | `Toggle` — DOTOLI-243                                                        |
+| `SearchInput`    | `Input/shared`(`resolveInputState` · `InputMessage`) · `IconButton` — 기구현 |
 
 **Figma 심볼명이 그대로 컴포넌트명이 아닌 곳이 한 군데 있습니다.** Chip 섹션의 레이어는 `Chip`(`useIcon=false`) · `ChipCheck`(`useIcon=true`) 둘로 나뉘어 있지만 **variant 축이 `isSelected × useIcon`으로 동일**합니다. DOTOLI-245를 하나로 잡은 이유이고, 실측에서 두 세트의 다른 축이 나오면 그때 쪼갭니다.
 
@@ -231,44 +231,37 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 [NavigationListItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-658&m=dev) (`129:658`). 축 `type` — `default` · `withValue`(340×52). 값 표기 규칙은 섹션 내 정책 프레임 `524:5`.
 
-### DOTOLI-249 · BottomTab 구현
-
-[BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4565&m=dev) (`75:4565`). 축 `value` — `transactionHistory` · `order` · `myInfo`(380×61).
-
-정책 `524:2`(COM-001)가 **3개 탭 고정 · 순서 거래내역 → 주문 → 내정보 · 주문이 기본 진입 탭 · 운영중지/해지 상태에서도 노출 유지**를 못박습니다. 탭 목록을 소비자가 넘기는 API가 아니라 **DS가 3개를 들고 있는 형태**가 맞는지 이 티켓에서 정합니다.
-
-safe-area 하단 유틸(`safe-area-bottom`)이 실제로 쓰이는 첫 컴포넌트입니다.
-
 ### 완료된 티켓
 
-| 티켓       | 작업                                          | 기록                                                                             |
-| ---------- | --------------------------------------------- | -------------------------------------------------------------------------------- |
-| DOTOLI-213 | 패키지 생성 및 빌드 환경 구성                 | [frontend.md](./frontend.md)                                                     |
-| DOTOLI-214 | 스타일 레이어 및 디자인 토큰 (color · typography) | [frontend.md](./frontend.md)                                                  |
-| DOTOLI-215 | Storybook 연동 및 문서화                      | [frontend.md](./frontend.md)                                                     |
-| DOTOLI-217 | 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화  | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md)          |
-| DOTOLI-218 | 기반 프리미티브 (Icon · Typography · Flex)    | [frontend.md](./frontend.md)                                                     |
-| DOTOLI-219 | CtaButton (+ `ButtonIcon`)                    | [components/button.md](./components/button.md)                                   |
-| DOTOLI-222 | Filter                                        | [components/button.md](./components/button.md)                                   |
-| DOTOLI-223 | FloatingPill (+ `--shadow-20`)                | [components/button.md](./components/button.md)                                   |
-| DOTOLI-224 | IconButton                                    | [components/button.md](./components/button.md)                                   |
-| DOTOLI-226 | InputField (+ `Input/shared` · `InputMessage`) | [components/input.md](./components/input.md)                                    |
-| DOTOLI-227 | TextArea (+ shadow · radius 토큰 스케일)      | [components/input.md](./components/input.md)                                     |
-| DOTOLI-228 | Badge                                         | [components/badge.md](./components/badge.md)                                     |
-| DOTOLI-229 | OrderBoxCell                                  | [components/order.md](./components/order.md)                                     |
-| DOTOLI-230 | OrderBox                                      | [components/order.md](./components/order.md)                                     |
-| DOTOLI-231 | OrderDateInfo                                 | [components/order.md](./components/order.md)                                     |
-| DOTOLI-232 | QuantityStepper                               | [components/order.md](./components/order.md)                                     |
-| DOTOLI-233 | OrderInputCard (+ `Order/shared`)             | [components/order.md](./components/order.md)                                     |
-| DOTOLI-234 | IconCircle (+ `--color-black` 토큰)           | [components/icon-circle.md](./components/icon-circle.md) · [frontend.md](./frontend.md) |
-| DOTOLI-235 | Divider                                       | [components/divider.md](./components/divider.md)                                 |
-| DOTOLI-236 | InfoField (+ `Info/` 그룹)                    | [components/info.md](./components/info.md)                                       |
-| DOTOLI-237 | InfoItem                                      | [components/info.md](./components/info.md)                                       |
-| DOTOLI-238 | NotificationCard                              | [components/notification-card.md](./components/notification-card.md)             |
-| DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`) | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md) |
-| DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)              |
-| DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리) | [components/checkbox.md](./components/checkbox.md)                       |
-| DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                 | [components/header-bar.md](./components/header-bar.md)                           |
+| 티켓       | 작업                                                           | 기록                                                                                    |
+| ---------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| DOTOLI-213 | 패키지 생성 및 빌드 환경 구성                                  | [frontend.md](./frontend.md)                                                            |
+| DOTOLI-214 | 스타일 레이어 및 디자인 토큰 (color · typography)              | [frontend.md](./frontend.md)                                                            |
+| DOTOLI-215 | Storybook 연동 및 문서화                                       | [frontend.md](./frontend.md)                                                            |
+| DOTOLI-217 | 토큰 프리픽스 제거 및 컴포넌트 컨벤션 문서화                   | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md)                 |
+| DOTOLI-218 | 기반 프리미티브 (Icon · Typography · Flex)                     | [frontend.md](./frontend.md)                                                            |
+| DOTOLI-219 | CtaButton (+ `ButtonIcon`)                                     | [components/button.md](./components/button.md)                                          |
+| DOTOLI-222 | Filter                                                         | [components/button.md](./components/button.md)                                          |
+| DOTOLI-223 | FloatingPill (+ `--shadow-20`)                                 | [components/button.md](./components/button.md)                                          |
+| DOTOLI-224 | IconButton                                                     | [components/button.md](./components/button.md)                                          |
+| DOTOLI-226 | InputField (+ `Input/shared` · `InputMessage`)                 | [components/input.md](./components/input.md)                                            |
+| DOTOLI-227 | TextArea (+ shadow · radius 토큰 스케일)                       | [components/input.md](./components/input.md)                                            |
+| DOTOLI-228 | Badge                                                          | [components/badge.md](./components/badge.md)                                            |
+| DOTOLI-229 | OrderBoxCell                                                   | [components/order.md](./components/order.md)                                            |
+| DOTOLI-230 | OrderBox                                                       | [components/order.md](./components/order.md)                                            |
+| DOTOLI-231 | OrderDateInfo                                                  | [components/order.md](./components/order.md)                                            |
+| DOTOLI-232 | QuantityStepper                                                | [components/order.md](./components/order.md)                                            |
+| DOTOLI-233 | OrderInputCard (+ `Order/shared`)                              | [components/order.md](./components/order.md)                                            |
+| DOTOLI-234 | IconCircle (+ `--color-black` 토큰)                            | [components/icon-circle.md](./components/icon-circle.md) · [frontend.md](./frontend.md) |
+| DOTOLI-235 | Divider                                                        | [components/divider.md](./components/divider.md)                                        |
+| DOTOLI-236 | InfoField (+ `Info/` 그룹)                                     | [components/info.md](./components/info.md)                                              |
+| DOTOLI-237 | InfoItem                                                       | [components/info.md](./components/info.md)                                              |
+| DOTOLI-238 | NotificationCard                                               | [components/notification-card.md](./components/notification-card.md)                    |
+| DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`)           | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md)         |
+| DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-249 | BottomTab (+ `BottomTabItem` · `safe-area-bottom` 첫 사용)     | [components/bottom-tab.md](./components/bottom-tab.md)                                  |
+| DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                                  | [components/header-bar.md](./components/header-bar.md)                                  |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
