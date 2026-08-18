@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.119
+
+### Patch Changes
+
+- 4727252: DOTOLI-251 Add Alert button option className
+  - @bbodek/utils@0.0.89
+  - @bbodek/hooks@0.0.92
+
 ## 0.0.118
 
 ### Patch Changes
