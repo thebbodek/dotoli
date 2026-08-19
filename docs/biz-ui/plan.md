@@ -147,7 +147,7 @@ apps/storybook/src/stories/biz-ui/
 
 ### biz-ui 리스트 · 네비게이션
 
-- [ ] DOTOLI-248 biz-ui NavigationListItem 구현
+- [x] DOTOLI-248 biz-ui NavigationListItem 구현
 - [x] DOTOLI-249 biz-ui BottomTab 구현
 - [x] DOTOLI-250 biz-ui HeaderBar 구현
 
@@ -227,10 +227,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 트레일링 아이콘이 상태별로 갈립니다 — `default` · `fill`은 돋보기, `typing` · `error`는 클리어 버튼(`IconButton`). `error`의 메시지 행은 `Input/shared`의 `InputMessage`를 그대로 씁니다. **상태 판정은 `resolveInputState`를 재사용할 수 있는지 먼저 봅니다** — InputField는 `disabled` · `readOnly` · `errorMessage`로 판정하는데 여기엔 `typing`(포커스)이 축으로 들어옵니다.
 
-### DOTOLI-248 · NavigationListItem 구현
-
-[NavigationListItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-658&m=dev) (`129:658`). 축 `type` — `default` · `withValue`(340×52). 값 표기 규칙은 섹션 내 정책 프레임 `524:5`.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                                           | 기록                                                                                    |
@@ -260,6 +256,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`)           | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md)         |
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-248 | NavigationListItem                                             | [components/navigation-list-item.md](./components/navigation-list-item.md)              |
 | DOTOLI-249 | BottomTab (+ `BottomTabItem` · `safe-area-bottom` 첫 사용)     | [components/bottom-tab.md](./components/bottom-tab.md)                                  |
 | DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                                  | [components/header-bar.md](./components/header-bar.md)                                  |
 
