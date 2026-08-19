@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.20
+
+### Patch Changes
+
+- c508e93: DOTOLI-258 biz-ui MenuItem 구현
+
 ## 0.0.19
 
 ### Patch Changes
