@@ -141,7 +141,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-242 biz-ui ItemCheckbox 구현 (+ `CheckboxBase` · `CheckboxIcon` 분리)
 - [ ] DOTOLI-243 biz-ui Toggle 구현
 - [ ] DOTOLI-244 biz-ui ToggleListItem 구현
-- [ ] DOTOLI-245 biz-ui Chip 구현
+- [x] DOTOLI-245 biz-ui Chip 구현
 - [ ] DOTOLI-246 biz-ui SelectionItem 구현
 - [x] DOTOLI-247 biz-ui SearchInput 구현
 
@@ -209,12 +209,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 같은 섹션 프레임 `131:495`. 축 `checked`(320×51). 라벨 + `Toggle` 조합이고 `Toggle`(DOTOLI-243) 선행입니다.
 
-### DOTOLI-245 · Chip 구현
-
-[Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4739&m=dev) (`75:4739`). 축 `isSelected × useIcon` — `useIcon=true`는 체크 아이콘 포함 다중 선택(80×32), `false`는 단일 선택(64×32).
-
-레이어가 `Chip` · `ChipCheck` 둘로 나뉜 건은 위 Tasks 항의 판단 기준을 따릅니다.
-
 ### DOTOLI-246 · SelectionItem 구현
 
 [SelectionItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-718&m=dev) (`129:718`). 축 `isSelected`(340×56), **카드 전체가 선택 영역**(주석 `355:1277`).
@@ -250,6 +244,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`)           | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md)         |
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-245 | Chip                                                           | [components/chip.md](./components/chip.md)                                              |
 | DOTOLI-247 | SearchInput (+ `resolveSearchInputState`)                       | [components/input.md](./components/input.md)                                            |
 | DOTOLI-248 | NavigationListItem                                             | [components/navigation-list-item.md](./components/navigation-list-item.md)              |
 | DOTOLI-249 | BottomTab (+ `BottomTabItem` · `safe-area-bottom` 첫 사용)     | [components/bottom-tab.md](./components/bottom-tab.md)                                  |

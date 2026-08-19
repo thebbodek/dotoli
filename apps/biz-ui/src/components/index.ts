@@ -2,6 +2,7 @@ export * from './Badge';
 export * from './BottomTab';
 export * from './Button';
 export * from './Checkbox';
+export * from './Chip';
 export * from './Divider';
 export * from './Flex';
 export * from './HeaderBar';

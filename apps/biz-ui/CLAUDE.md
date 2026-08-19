@@ -97,7 +97,14 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 **디자이너가 Figma 주석으로 지정한 대상만 확장합니다.** 시각 크기는 Figma 값 그대로 두고 히트 영역만 넓힙니다 — 레이아웃이 밀리면 안 되기 때문입니다. 지정되지 않은 컴포넌트·사이즈에 임의로 넣지 않습니다.
 
-구현은 `components/shared/constants`의 `TOUCH_TARGET_STYLE`(`::before`를 `inset: -6px`로 확장)이고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox`가 함께 씁니다.
+구현은 `components/shared/constants`에 있고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox` · `HeaderBar` · `Chip`이 함께 씁니다.
+
+| 상수                        | 확장  | 쓰는 곳                                             |
+| --------------------------- | ----- | --------------------------------------------------- |
+| `TOUCH_TARGET_STYLE`        | 6px   | 기본값. 단독으로 놓이는 컨트롤                       |
+| `TOUCH_TARGET_NARROW_STYLE` | 4px   | **여러 개가 나열되는 컨트롤** — 확장분이 서로 겹칠 때 |
+
+**나열되는 컴포넌트는 이웃과의 간격을 먼저 봅니다.** 확장은 양쪽으로 퍼지므로 두 요소 사이에서 `확장 × 2`가 간격보다 크면 히트 영역이 겹쳐 **엉뚱한 쪽이 눌립니다.** `Chip`이 그 사례입니다 — 그룹 gap이 10px이라 6px(=12px)는 겹치고 4px(=8px)는 안 겹칩니다.
 
 ### 폼 컨트롤 공통
 

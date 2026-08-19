@@ -25,6 +25,7 @@ import {
   INPUT_PLACEHOLDER_STYLE,
 } from '@/components/Input/shared/constants';
 import { useInitialInputFocusEffect } from '@/components/Input/shared/hooks/effects';
+import { preventInputBlur } from '@/components/Input/shared/utils';
 
 const SearchInput = ({
   value,
@@ -110,6 +111,7 @@ const SearchInput = ({
             size={ICON_BUTTON_SIZES.SM}
             weight={ICON_WEIGHTS.FILL}
             onClick={onClear}
+            onMouseDown={preventInputBlur}
           />
         ) : (
           <Icon
