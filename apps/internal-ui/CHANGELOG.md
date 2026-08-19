@@ -1,5 +1,14 @@
 # @bbodek/internal-ui
 
+## 0.0.122
+
+### Patch Changes
+
+- d51c5b1: DOTOLI-255 Calendar 5주 이상의 일자 미렌더링 버그 수정
+- d51c5b1: DOTOLI-254 Calendar 날짜 선택·연도 이동 반응 지연 개선
+  - @bbodek/utils@0.0.92
+  - @bbodek/hooks@0.0.95
+
 ## 0.0.121
 
 ### Patch Changes
