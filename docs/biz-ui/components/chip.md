@@ -155,7 +155,7 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 | 높이 · radius | 24 · `rounded-in-full` | 32 · `rounded-full` |
 | 그룹 | `ChipGroup`(`<ul>`) | 없음 — 소비자가 배치 |
 
-이름만 겹치는 사례입니다. **internal-ui `Chip`에 해당하는 것은 biz-ui에서 `Tag`로 따로 나옵니다**(plan.md 「다음 배치」 목록). 그때 두 구현을 대조하면 됩니다.
+이름만 겹치는 사례입니다. **internal-ui `Chip`에 해당하는 것은 biz-ui에서 `Tag`로 따로 나왔습니다**(DOTOLI-257). 두 구현 대조는 [tag.md](./tag.md) 「internal-ui와 갈린 지점」에 있습니다.
 
 ## 디자인 확인 필요
 
