@@ -19,6 +19,7 @@ const IconButton = ({
   type = 'button',
   className,
   onClick,
+  onMouseDown,
   ref,
   'aria-label': ariaLabel,
 }: IconButtonProps) => {
@@ -36,6 +37,7 @@ const IconButton = ({
       ref={ref}
       type={type}
       onClick={onClick}
+      onMouseDown={onMouseDown}
     >
       {isPending ? (
         <ButtonIcon

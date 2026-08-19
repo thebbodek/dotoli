@@ -24,7 +24,7 @@ export interface GenerateIconButtonStyleProps
 export interface IconButtonProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
-      'className' | 'disabled' | 'onClick' | 'type'
+      'className' | 'disabled' | 'onClick' | 'onMouseDown' | 'type'
     >,
     Required<Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>>,
     Pick<IconProps, 'iconKey' | 'weight'>,

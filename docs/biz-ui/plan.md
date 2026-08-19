@@ -143,7 +143,7 @@ apps/storybook/src/stories/biz-ui/
 - [ ] DOTOLI-244 biz-ui ToggleListItem 구현
 - [ ] DOTOLI-245 biz-ui Chip 구현
 - [ ] DOTOLI-246 biz-ui SelectionItem 구현
-- [ ] DOTOLI-247 biz-ui SearchInput 구현
+- [x] DOTOLI-247 biz-ui SearchInput 구현
 
 ### biz-ui 리스트 · 네비게이션
 
@@ -221,12 +221,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 `ItemCheckbox`와 겉모습이 겹치는지 실측으로 대조합니다 — 겹치면 둘 중 하나가 다른 하나의 variant일 수 있고, 그 판단은 이 티켓에서 합니다.
 
-### DOTOLI-247 · SearchInput 구현
-
-[SearchInput 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=179-651&m=dev) (`179:651`). 축 `state` — `default` · `typing` · `fill` · `error`(300×48, error만 72).
-
-트레일링 아이콘이 상태별로 갈립니다 — `default` · `fill`은 돋보기, `typing` · `error`는 클리어 버튼(`IconButton`). `error`의 메시지 행은 `Input/shared`의 `InputMessage`를 그대로 씁니다. **상태 판정은 `resolveInputState`를 재사용할 수 있는지 먼저 봅니다** — InputField는 `disabled` · `readOnly` · `errorMessage`로 판정하는데 여기엔 `typing`(포커스)이 축으로 들어옵니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                                           | 기록                                                                                    |
@@ -256,6 +250,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`)           | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md)         |
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-247 | SearchInput (+ `resolveSearchInputState`)                       | [components/input.md](./components/input.md)                                            |
 | DOTOLI-248 | NavigationListItem                                             | [components/navigation-list-item.md](./components/navigation-list-item.md)              |
 | DOTOLI-249 | BottomTab (+ `BottomTabItem` · `safe-area-bottom` 첫 사용)     | [components/bottom-tab.md](./components/bottom-tab.md)                                  |
 | DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                                  | [components/header-bar.md](./components/header-bar.md)                                  |

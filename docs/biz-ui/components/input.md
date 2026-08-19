@@ -6,11 +6,12 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 ## 구현 현황
 
-| 컴포넌트       | 티켓       | 설명                                                                |
-| -------------- | ---------- | ------------------------------------------------------------------- |
+| 컴포넌트       | 티켓       | 설명                                                                 |
+| -------------- | ---------- | -------------------------------------------------------------------- |
 | `InputField`   | DOTOLI-226 | `type` 4종 × `state` 7종. 상태 7종을 「스타일 3종 × 값 유무」로 분해 |
-| `InputMessage` | DOTOLI-226 | 박스 아래 슬롯. 에러 메시지와 조건 체크리스트가 한 자리를 나눠 씀   |
+| `InputMessage` | DOTOLI-226 | 박스 아래 슬롯. 에러 메시지와 조건 체크리스트가 한 자리를 나눠 씀    |
 | `TextArea`     | DOTOLI-227 | `state` 7종. `type` 축 없음. 라벨이 안 움직이고 색만 바뀜            |
+| `SearchInput`  | DOTOLI-247 | `state` 4종. 라벨 축 없음. `disabled` 축도 없음                      |
 
 ## 계열 공통 결정
 
@@ -26,9 +27,9 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 ### Variant 축
 
-| 축      | 값                                                                                 |
-| ------- | ---------------------------------------------------------------------------------- |
-| `type`  | `text` · `password` · `verify` · `select`                                          |
+| 축      | 값                                                                                  |
+| ------- | ----------------------------------------------------------------------------------- |
+| `type`  | `text` · `password` · `verify` · `select`                                           |
 | `state` | `default` · `focus` · `typing` · `filled` · `error` · `disabled` · `filledDisabled` |
 
 **Figma의 state 7종은 축이 2개입니다.**
@@ -44,23 +45,23 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 ### 실측 스펙 — 공통 박스
 
-| 항목        | 값                                                              |
-| ----------- | ----------------------------------------------------------------- |
-| height      | 70px                                                            |
-| width       | 문서 프레임 300px. 실제로는 부모 폭을 채움                      |
-| padding     | `px-[18px] py-[12px]`                                           |
-| radius      | 6px → `rounded-6`                                               |
-| 테두리      | 정적 1px / 주목(`focus` · `typing` · `error`) 2px                |
-| 콘텐츠 높이 | 46px (라벨 20 + 값 26). 70 − 상하 패딩 12씩                     |
-| 박스 ↔ 하단 | gap 6px                                                         |
+| 항목         | 값                                                |
+| ------------ | ------------------------------------------------- |
+| height       | 70px                                              |
+| width        | 문서 프레임 300px. 실제로는 부모 폭을 채움        |
+| padding      | `px-[18px] py-[12px]`                             |
+| radius       | 6px → `rounded-6`                                 |
+| 테두리       | 정적 1px / 주목(`focus` · `typing` · `error`) 2px |
+| 콘텐츠 높이  | 46px (라벨 20 + 값 26). 70 − 상하 패딩 12씩       |
+| 박스 ↔ 하단 | gap 6px                                           |
 
 ### 텍스트 3역할
 
-| 역할         | 토큰                                | 노출 조건           |
-| ------------ | ----------------------------------- | ------------------- |
-| 라벨(플로팅) | `label` (Medium 14px / ls -0.42px)  | 값 있음 또는 포커스 |
-| 값           | `body-lg-semibold` (SemiBold 18px)  | 값 있음             |
-| 플레이스홀더 | `body-lg-semibold`                  | 값 없음             |
+| 역할         | 토큰                               | 노출 조건           |
+| ------------ | ---------------------------------- | ------------------- |
+| 라벨(플로팅) | `label` (Medium 14px / ls -0.42px) | 값 있음 또는 포커스 |
+| 값           | `body-lg-semibold` (SemiBold 18px) | 값 있음             |
+| 플레이스홀더 | `body-lg-semibold`                 | 값 없음             |
 
 ### 상태별 색
 
@@ -80,12 +81,12 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 ### type별 트레일링
 
-| `type`     | 요소                                        | 재사용                   |
-| ---------- | ------------------------------------------- | ------------------------ |
-| `text`     | `XCircle` 16px `gray/500`, 값 행 안쪽       | `IconButton` `size='sm'` |
-| `password` | `EyeSlash`/`Eye` 16px `gray/500`, 박스 레벨 gap 8px | `IconButton` `size='sm'` |
-| `verify`   | `확인` 48×32                                | `CtaButton` `size='sm'`  |
-| `select`   | `CaretDown`(열림 시 `CaretUp`) 18px `fill` `gray/400` gap 8px | `Icon`     |
+| `type`     | 요소                                                          | 재사용                   |
+| ---------- | ------------------------------------------------------------- | ------------------------ |
+| `text`     | `XCircle` 16px `gray/500`, 값 행 안쪽                         | `IconButton` `size='sm'` |
+| `password` | `EyeSlash`/`Eye` 16px `gray/500`, 박스 레벨 gap 8px           | `IconButton` `size='sm'` |
+| `verify`   | `확인` 48×32                                                  | `CtaButton` `size='sm'`  |
+| `select`   | `CaretDown`(열림 시 `CaretUp`) 18px `fill` `gray/400` gap 8px | `Icon`                   |
 
 크기가 기존 컴포넌트와 정확히 맞아 새로 만든 것이 없습니다. 확인 버튼은 `bg-blue-500` + `label-bold` 14px + `h-32 px-12 py-5`로 CtaButton `primary`/`filled`/`sm`과 완전히 일치합니다.
 
@@ -93,11 +94,11 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 ### 하단 메시지 슬롯
 
-| 형태            | 구성                                                                   |
-| --------------- | ---------------------------------------------------------------------- |
-| 에러 메시지     | `WarningCircle` 14px `red/300` + `caption` `red/400`, gap 2px          |
+| 형태            | 구성                                                                     |
+| --------------- | ------------------------------------------------------------------------ |
+| 에러 메시지     | `WarningCircle` 14px `red/300` + `caption` `red/400`, gap 2px            |
 | 조건 체크리스트 | `CheckCircle` 14px + `caption`, 항목 간 gap 6px / 아이콘↔텍스트 gap 2px |
-| 글자 수 카운터  | `caption`. 현재 수 `gray/800` + `/최대` `gray/300`. 우측 정렬          |
+| 글자 수 카운터  | `caption`. 현재 수 `gray/800` + `/최대` `gray/300`. 우측 정렬            |
 
 카운터는 같은 행의 **오른쪽 끝**에 붙습니다 — 에러 메시지가 있으면 그 오른쪽, 없으면 단독으로 우측 정렬입니다. 색은 에러 상태에서도 바뀌지 않습니다. 현재는 TextArea만 씁니다 (Figma InputField엔 없음).
 
@@ -128,11 +129,11 @@ Figma: [InputField](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-
 
 Figma 주석 `355:1307`의 「검증 완료 시 다음 필드 활성화 · 신규 필드 자동 포커스 · 자동 스크롤」은 필드 배열을 들고 있는 **화면 몫**입니다. 컴포넌트는 그게 가능하도록 세 가지만 열어 둡니다.
 
-| prop        | 배선                                                                 |
-| ----------- | -------------------------------------------------------------------- |
+| prop        | 배선                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------ |
 | `ref`       | 래퍼가 아니라 실제 `<input>` / `<button>`에 직접. `focus()`·`scrollIntoView()`가 그대로 먹습니다 |
-| `autoFocus` | 네 type 모두. `select`의 `<button>`에도 겁니다                        |
-| `tabIndex`  | 네 type 모두                                                          |
+| `autoFocus` | 네 type 모두. `select`의 `<button>`에도 겁니다                                                   |
+| `tabIndex`  | 네 type 모두                                                                                     |
 
 `disabled`도 HTML 속성 그대로라 「앞 단계 검증 전까지 비활성」을 소비처가 제어합니다.
 
@@ -141,6 +142,7 @@ Figma 주석 `355:1307`의 「검증 완료 시 다음 필드 활성화 · 신�
   초기값(`useState(!!autoFocus)`)과 보정 효과(`useInitialInputFocusEffect`)를 함께 씁니다. 초기값만 쓰면 포커스를 다른 요소에 뺏긴 경우를 못 잡고, 효과만 쓰면 첫 페인트가 한 프레임 어긋납니다. 효과는 `document.activeElement?.id === fieldId`로 확인하므로 **ref 병합이 필요 없습니다** — 이미 `id`가 실제 엘리먼트에 걸려 있습니다.
 
   `useLayoutEffect`가 아니라 `useEffect`를 씁니다. biz-ui는 Next.js 소비처에서 SSR되므로 레이아웃 효과는 서버 경고가 납니다. 초기값이 흔한 경우를 이미 맞춰 주기 때문에 페인트 이후 보정으로 충분합니다.
+
 - 스토리에서 `autoFocus`·`tabIndex`를 컨트롤로 노출해 이 축을 바로 눌러 볼 수 있게 했습니다.
 
 ### 접근성
@@ -171,10 +173,10 @@ Figma는 inside stroke라 안쪽 여백이 두께와 무관하게 18px인데 CSS
 
 ### 디자인 확인 필요
 
-| 항목                | 내용                                                                                                       |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 클리어 노출 조건    | `filled`에만 없습니다. 「편집 중에만」이 의도인지, 심볼 누락인지                                             |
-| `verify` 확인 버튼  | `error`에서 비활성인 게 의도인지 (에러를 고치기 전엔 재검증 불가)                                            |
+| 항목               | 내용                                                              |
+| ------------------ | ----------------------------------------------------------------- |
+| 클리어 노출 조건   | `filled`에만 없습니다. 「편집 중에만」이 의도인지, 심볼 누락인지  |
+| `verify` 확인 버튼 | `error`에서 비활성인 게 의도인지 (에러를 고치기 전엔 재검증 불가) |
 
 ---
 
@@ -188,19 +190,19 @@ Figma 심볼 세트 `455:1131`. `454:1420`은 문서용 프레임입니다.
 
 ### 실측 스펙
 
-| 항목        | TextArea              | InputField (대조)     |
-| ----------- | --------------------- | --------------------- |
-| height      | 150px (`height`로 변경 가능) | 70px           |
-| padding     | `px-[14px] py-[10px]` | `px-[18px] py-[12px]` |
-| 정렬        | `items-start`         | `items-center`        |
-| radius      | 6px → `rounded-6`     | 동일                  |
-| 테두리      | 정적 1px / 주목 2px   | 동일                  |
-| 라벨        | **상단 14px 고정**    | 플로팅                |
-| 라벨 색     | 상태만 따름 (`gray/600` 고정) | 포커스·값 유무로 `gray/500`↔`gray/600` |
-| 안내문구    | **항상 노출** (`disabled` 제외) | 포커스일 때만        |
-| 라벨 ↔ 값   | gap 0                 | gap 0 (20+26=46 밀착) |
-| 트레일링    | 없음                  | `type`별 4종          |
-| 박스 ↔ 하단 | gap 6px               | 동일                  |
+| 항목         | TextArea                        | InputField (대조)                       |
+| ------------ | ------------------------------- | --------------------------------------- |
+| height       | 150px (`height`로 변경 가능)    | 70px                                    |
+| padding      | `px-[14px] py-[10px]`           | `px-[18px] py-[12px]`                   |
+| 정렬         | `items-start`                   | `items-center`                          |
+| radius       | 6px → `rounded-6`               | 동일                                    |
+| 테두리       | 정적 1px / 주목 2px             | 동일                                    |
+| 라벨         | **상단 14px 고정**              | 플로팅                                  |
+| 라벨 색      | 상태만 따름 (`gray/600` 고정)   | 포커스·값 유무로 `gray/500`↔`gray/600` |
+| 안내문구     | **항상 노출** (`disabled` 제외) | 포커스일 때만                           |
+| 라벨 ↔ 값   | gap 0                           | gap 0 (20+26=46 밀착)                   |
+| 트레일링     | 없음                            | `type`별 4종                            |
+| 박스 ↔ 하단 | gap 6px                         | 동일                                    |
 
 **색 값 자체는 InputField와 동일합니다.** 테두리·배경·라벨·값 전부 같아 `INPUT_TEXT_STYLES` / `INPUT_BOX_STYLES`를 그대로 씁니다. 다만 라벨 색을 고르는 **조건**은 다릅니다 — TextArea는 항상 `ACTIVE`입니다.
 
@@ -218,18 +220,166 @@ Figma 심볼 세트 `455:1131`. `454:1420`은 문서용 프레임입니다.
 
 ---
 
+## SearchInput
+
+Figma: [SearchInput 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=179-651&m=dev) (`179:651`). 실제 값은 컴포넌트 세트 `179:1502`의 심볼 4개에서 실측했습니다. 사용 예시는 「고객 비즈」 파일의 [CSC-101 자주 묻는 질문 검색](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1439-17949&m=dev) (`1439:17949`)입니다.
+
+### Variant 축
+
+| 축      | 값                                      |
+| ------- | --------------------------------------- |
+| `state` | `default` · `typing` · `fill` · `error` |
+
+**`disabled` 축이 없습니다** — InputField · TextArea에는 있습니다. `state`는 prop이 아니라 파생이라는 계열 공통 결정은 그대로 따르고, `resolveSearchInputState`가 `error` → `typing`(포커스) → `fill`(값 있음) → `default` 순으로 판정합니다.
+
+### 실측 스펙
+
+| 항목           | 값                                                                       |
+| -------------- | ------------------------------------------------------------------------ |
+| 박스           | 300 × 48 → `h-[48px] w-full`. 300은 문서 폭(사용 예시는 284)             |
+| 루트           | `w-full` **없음** — 계열이 이미 기록한 함정(위 「레이아웃 시프트」 아래) |
+| radius         | 6 → `rounded-6`                                                          |
+| 배경           | `gray/50` → `bg-gray-50`. **InputField · TextArea는 `base/white`**       |
+| padding        | `px-[18px]`                                                              |
+| gap            | 8 → `gap-[8px]`                                                          |
+| 텍스트         | `body-lg-semibold` — placeholder `gray/300` · 값 `gray/800`              |
+| 박스 ↔ 메시지 | gap 6px. `error`만 300 × 72 = 48 + 6 + 18                                |
+
+| 상태      | 테두리         | 트레일링    |
+| --------- | -------------- | ----------- |
+| `default` | 1px `gray/200` | 돋보기      |
+| `fill`    | 1px `gray/200` | 돋보기      |
+| `typing`  | 2px `blue/400` | 지우기 버튼 |
+| `error`   | 2px `red/400`  | 지우기 버튼 |
+
+테두리는 계열 공통대로 `inset-ring`입니다 — 1px↔2px로 바뀌는 전형적인 경우입니다.
+
+### 아이콘
+
+| 자리   | 글리프             | 웨이트 | 크기                           | 색         |
+| ------ | ------------------ | ------ | ------------------------------ | ---------- |
+| 돋보기 | `magnifying-glass` | `bold` | 24 → `text-[24px]`             | `gray/400` |
+| 지우기 | `x-circle`         | `fill` | 16 (`IconButton` `sm` 24 박스) | `gray/500` |
+| 에러   | `warning-circle`   | `fill` | 14                             | `red/300`  |
+
+**지우기 · 에러 아이콘은 기존 구현과 값이 정확히 같습니다.** Figma가 내보낸 SVG의 `fill`이 `#8A93A8` · `#F08585`인데, `IconButton` `default` 테마의 `text-gray-500`과 `InputMessage`의 `INPUT_ERROR_MESSAGE_STYLES.ICON`(`text-red-300`)이 그 값입니다. `IconButton` `sm`도 24 박스 · 16 글리프 · `rounded-6`로 Figma와 일치해 그대로 물어 씁니다.
+
+돋보기 웨이트는 Figma 아이콘 컴포넌트의 `weight` variant가 `Bold`라고 직접 알려줍니다. 나머지 둘은 서브패스 개수로 확인했습니다(`x-circle` — `regular` 3 ↔ `fill` 2, Figma export 2). **`regular` ↔ `fill`은 글리프 바운딩과 path 시작점이 같아 그 방법으로만 갈립니다** — 근거는 [bottom-tab.md](./bottom-tab.md) 「웨이트」.
+
+### 결정
+
+- **`resolveInputState`를 재사용하지 않습니다.** plan.md가 착수 전에 남긴 검토 항목이었고, 결론은 「못 쓴다」입니다. 두 판정의 입력과 출력이 모두 다릅니다.
+
+  |      | `resolveInputState`                      | `resolveSearchInputState`                 |
+  | ---- | ---------------------------------------- | ----------------------------------------- |
+  | 입력 | `disabled` · `readOnly` · `errorMessage` | `errorMessage` · `isFocused` · `hasValue` |
+  | 출력 | `default` · `error` · `disabled`         | `default` · `typing` · `fill` · `error`   |
+
+  InputField는 포커스·값 유무를 **라벨 위치**로만 쓰고 박스 스타일에는 안 씁니다. SearchInput은 그 둘이 **박스 테두리와 트레일링 아이콘을 바꾸는 축**이라 상태 자체에 들어갑니다. 억지로 합치면 `disabled`(SearchInput에 없음)와 `typing`·`fill`(InputField에 없음)이 서로의 유니온에 섞입니다.
+
+- **`default`와 `fill`을 합치지 않았습니다.** 박스 스타일이 `inset-ring-gray-200`으로 같고 차이는 placeholder냐 값이냐뿐인데, 그건 `<input>`이 알아서 합니다. 그래도 Figma 축을 그대로 두는 이유는 **두 상태가 갈라질 때 여기부터 보게 하려는 것**이고, `SEARCH_INPUT_BOX_STATE_STYLES`에 같은 값이 두 번 들어가는 것이 그 표시입니다.
+
+- **`onClear`가 필수입니다.** `typing` · `error`의 정의 자체에 지우기 버튼이 들어 있어, 안 받으면 아무 일도 안 하는 버튼이 렌더됩니다. InputField는 `onClear` 유무로 버튼을 켜고 끄지만(`type='text'`일 때만 뜨는 선택 요소) 여기서는 상태의 일부입니다.
+
+- **돋보기는 버튼이 아닙니다.** Figma에서 지우기만 `IconButton` 인스턴스이고 돋보기는 벡터입니다. 사용 예시 설명도 **실시간 필터링**이라 제출 동작이 없어 `onSearch`를 열지 않았습니다.
+
+- **`type='search'`입니다.** 역할이 `searchbox`로 잡혀 보조기술이 검색 필드로 읽습니다. 대신 WebKit이 붙이는 기본 지우기 버튼을 `[&::-webkit-search-cancel-button]:appearance-none`으로 없앱니다 — 두면 우리 `IconButton`과 같은 자리에 두 개가 겹칩니다.
+
+- **지우기 라벨은 `검색어 지우기`입니다.** InputField의 `입력 지우기`(`INPUT_FIELD_ARIA_LABELS.CLEAR`)를 `shared`로 끌어올리지 않았습니다. 문구가 실제로 갈리는 게 맞고(지우는 대상이 다름), 아이콘 키는 `SEARCH_INPUT_ICON_KEYS`에 돋보기와 함께 두는 편이 읽기 쉽습니다.
+
+- **제어 전용입니다** — `value` · `onChange`를 `Required<Pick<…>>`로 묶습니다. CLAUDE.md 「폼 컨트롤 공통」 4가 `SearchInput`을 대상으로 직접 지목합니다. InputField가 `value`를 optional로 둔 것과 갈리는 지점입니다.
+
+- **접근성 이름은 소비자가 붙입니다.** 보이는 라벨이 없어 `aria-label` · `aria-labelledby`만 엽니다(공통 규칙 6). `placeholder`는 이름이 되지 못합니다 — 값을 넣으면 사라집니다.
+
+- **`InputMessage` · `useInitialInputFocusEffect` · `INPUT_BOX_BASE_STYLE` · `INPUT_PLACEHOLDER_STYLE` · `INPUT_DEFAULT_MAX_LENGTH`를 그대로 씁니다.** `shared`에 이미 있는 것들이고 값이 전부 맞아 새로 만들지 않았습니다.
+
+- **지우기 버튼에 `hasValue` 조건을 하나 더 겁니다.** 상태만으로 고르면 **포커스만 하고 아직 안 친 빈 필드에 지우기 버튼이 뜹니다** — Figma의 `typing` 심볼에는 값이 들어 있어 이 조합이 그려져 있지 않습니다. 테두리는 포커스를 따라 파랗게 두고(빈 필드에 포커스 표시가 아예 없으면 안 되므로, InputField의 `focus` 심볼과 같은 방향) 트레일링만 값에 따릅니다. 사용 예시 설명의 「미입력 — 돋보기 / 입력 — IconButton(초기화)」과도 맞습니다.
+
+  그래서 `state` 하나로 전부 결정되지 않는 자리가 여기 하나 생겼습니다.
+
+- **`fill`에는 지우기 버튼을 두지 않습니다 — InputField와 갈리는 지점입니다.** 검토하고 Figma 쪽으로 정했습니다.
+
+  |                       | Figma      | 지우기 버튼 | 근거                                                                                                      |
+  | --------------------- | ---------- | ----------- | --------------------------------------------------------------------------------------------------------- |
+  | `InputField` `filled` | 없음       | **넣음**    | 「터치 기기에서 포커스가 쉽게 빠져 그대로 따르면 클리어를 못 쓰게 됨」(위 InputField 「type별 트레일링」) |
+  | `SearchInput` `fill`  | **돋보기** | 안 넣음     | Figma가 이 조합을 **명시적으로 그려 뒀음**                                                                |
+
+  갈린 이유는 Figma의 상태가 다르기 때문입니다 — InputField는 `filled`에 트레일링이 **아예 안 그려져** 있어 채울 여지가 있었지만, SearchInput의 `fill`은 돋보기가 **그려져 있습니다.** 「Figma에 없는 시각은 만들지 않는다」(공통 규칙 7)의 반대편, 즉 **있는 시각을 지우지 않는다**에 해당합니다.
+
+  대가는 있습니다 — 검색어를 지우려면 필드를 다시 탭해 포커스를 잡아야 합니다. 모바일에서 포커스가 쉽게 빠지는 것은 여기도 같으므로 아래 「디자인 확인 필요」에 올려 둡니다.
+
+- **`autoComplete` 기본값이 `off`입니다.** internal-ui `InputSearch` · `InputPassword`가 같은 기본값을 갖고, `type='search'`는 브라우저가 이전 검색어 제안 드롭다운을 검색창 위에 띄웁니다. 실시간 필터링이 이 컴포넌트의 용도라 그 드롭다운이 결과를 가립니다. 소비자가 필요하면 덮어쓸 수 있습니다.
+
+- **`onKeyDown` · `enterKeyHint`를 엽니다.** 「폼 컨트롤 공통」 5의 「소비자가 판단할 것이 없는 HTML 통로」입니다. 돋보기를 버튼으로 만들지 않은 것(위)과 별개로, **Enter로 키보드를 내리거나 검색을 확정하는 경로가 아예 없으면 안 됩니다.** internal-ui `InputSearch`는 `onEnter` · `onSubmit`을 여는데, 그쪽은 이름을 새로 만든 것이고 여기서는 네이티브 이름 그대로 둡니다. **InputField · TextArea는 아직 `onKeyDown`을 안 여는데**, 막을 근거가 있어서가 아니라 필요가 없었기 때문으로 보입니다.
+
+- **`value ?? ''` 방어를 넣지 않습니다.** 계열의 다른 둘은 넣습니다(위 InputField 「구현 결정」). 여기서는 `value`가 `Required<Pick<…>>`라 타입에서 이미 막혀 uncontrolled로 시작할 수 없습니다.
+
+- **`transition-colors`를 걸지 않았습니다.** 「폼 컨트롤 공통」 8이 `SearchInput`을 지목하지만, 상태별로 바뀌는 것이 `inset-ring-*`(= `box-shadow`)뿐이라 `transition-colors`가 잡지 못합니다 — 규칙 8 자신이 「`box-shadow`는 여기 포함되지 않아 `Input`의 포커스 링도 같다」고 계열을 명시적으로 인정합니다. 넣어도 no-op이라 뺐습니다.
+
+- **`aria-label`을 필수로 만들지 않습니다.** `IconButton`은 `Required<Pick<…>>`로 강제하지만 그쪽은 **아이콘만 있어 이름이 될 것이 하나도 없는** 경우입니다. 여기는 `placeholder`가 화면에 보여 완전히 이름이 없지는 않고, 같은 폼 컨트롤인 `Checkbox`도 강제하지 않습니다.
+
+### 디자인 확인 필요
+
+| 항목                | 내용                                                                                                                                                                                                                                |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default` ↔ `fill` | 박스 시각이 완전히 같습니다. 축을 나눈 의도가 있는지, 아니면 값 유무 표기용인지                                                                                                                                                     |
+| 포커스 + 값 없음    | 심볼이 없습니다. InputField는 `focus`(값 없음)와 `typing`(값 있음)을 나눠 두었는데 여기선 합쳤습니다                                                                                                                                |
+| `error` + 포커스    | 두 상태가 겹칠 때 Figma에 정의가 없습니다. 구현은 `error`를 우선합니다(테두리 빨강 유지)                                                                                                                                            |
+| 상호작용 상태       | hover · pressed 정의가 없습니다. Input 계열 전체가 같은 상태입니다                                                                                                                                                                  |
+| 돋보기 탭           | 벡터라 버튼이 아닌데, 실제로 눌러 검색을 실행하고 싶은 자리가 있는지                                                                                                                                                                |
+| `fill`의 지우기     | **`fill`에 돋보기를 그린 것이 의도인지.** 모바일에서 포커스가 쉽게 빠지는데 그때마다 지우기 버튼이 사라져, 검색어를 지우려면 필드를 다시 탭해야 합니다. 같은 이유로 `InputField`는 `filled`에 지우기를 넣어 Figma를 벗어나 있습니다 |
+
+### 지우기 버튼의 블러를 막습니다 — `preventInputBlur`
+
+**증상은 두 컴포넌트가 달랐고, SearchInput 쪽은 버튼이 아예 동작하지 않았습니다.**
+
+| | 고치기 전 |
+| --- | --- |
+| `InputField` | 값은 지워지지만 포커스가 `<body>`로 떨어짐 |
+| `SearchInput` | **`onClear`가 호출되지 않음** — 값이 그대로 남음 |
+
+원인은 같은 `mousedown` 블러인데 결과가 갈린 이유는 **`hasClearButton`이 포커스에 물려 있는지**입니다. SearchInput은 `SEARCH_INPUT_CLEAR_STATES = [typing, error]`라 블러로 `typing` → `fill`이 되면서 **`mouseup` 전에 버튼이 언마운트돼 `click`이 성립하지 않았습니다.** InputField의 조건(`type === text && hasValue && !!onClear && !disabled && !readOnly`)에는 포커스가 없어 버튼이 남고 클릭은 성립했습니다.
+
+`error` 상태의 SearchInput은 무사했습니다 — `resolveSearchInputState`가 포커스보다 먼저 `error`를 돌려줘 블러에도 상태가 안 바뀝니다. **즉 깨진 것은 에러 없는 일반 경로 하나뿐인데, 그게 사용자가 실제로 지우기를 누르는 경로입니다.**
+
+**해결은 `Input/shared/utils/preventInputBlur`를 트레일링 버튼의 `onMouseDown`에 거는 것입니다.** `mousedown` 기본 동작(포커스 이동)을 막으면 입력이 블러되지 않아 상태 전환·언마운트·포커스 이탈이 한꺼번에 사라집니다.
+
+- `IconButton`에 `onMouseDown`을 **네이티브 통로로** 엽니다 — CLAUDE.md 「폼 컨트롤 공통」 5의 「네이티브 통로는 열고, 결정은 열지 않습니다」에 해당합니다. optional prop 하나 추가라 기존 소비처(`QuantityStepper` · `InputField` · `SearchInput`)에 영향이 없습니다.
+- **상태 판정은 건드리지 않았습니다.** `hasClearButton`에서 포커스를 떼는 방법도 있었지만 그러면 `fill`에 돋보기 대신 ✕가 떠서 Figma와 어긋납니다. 이쪽은 시각이 그대로라 디자인 확인이 필요 없습니다.
+- 지우고 나서 포커스가 남으므로 **모바일에서 키보드가 내려가지 않습니다.** 바로 다시 칠 수 있어 검색 필드에서는 의도한 동작입니다.
+
+**`InputField`의 비밀번호 표시/숨기기 버튼도 같은 처리를 했습니다.** 이쪽은 증상이 또 달랐습니다 — 버튼이 `focus-within`을 가진 박스 **안**에 있어서 **파란 테두리는 그대로 남는데 커서만 버튼으로 옮겨가** 타이핑이 안 됐습니다. 테두리가 멀쩡해 포커스가 살아 있는 것처럼 보이는 탓에 눈으로는 잡기 어려운 형태입니다.
+
+Storybook에서 실제 클릭으로 확인했습니다 — 지우기는 두 컴포넌트 모두 값이 비고, 비밀번호 토글은 토글 후 이어서 타이핑이 됩니다. 셋 다 `document.activeElement`가 입력에 남습니다.
+
+`verify` 타입의 확인 버튼(`CtaButton`)은 같은 처리를 하지 않았습니다. `CtaButton`에 `onMouseDown` 통로를 여는 별도 변경이 필요하고, **인라인 보조 장치가 아니라 액션 버튼이라 누른 뒤 포커스가 옮겨가는 것이 이상하지 않습니다.** 필요해지면 그때 엽니다.
+
+### 포커스 상태 조립이 세 번 복제돼 있습니다 — 계열 공통
+
+`InputField` · `TextArea` · `SearchInput`이 아래를 글자 단위로 똑같이 갖고 있습니다. 다른 것은 이벤트 제네릭 인자뿐입니다.
+
+```
+useState(!!autoFocus) → useId() → fieldId = id ?? generatedId
+→ messageId = `${fieldId}-message` → useInitialInputFocusEffect
+→ handleFocus / handleBlur
+```
+
+`useInitialInputFocusEffect`는 이미 `shared`로 뽑혀 있는데 **그것을 감싸는 조립만 남아 매번 복제되는 모양**입니다. `shared/hooks/useInputFocusState`가 `{ fieldId, messageId, isFocused, handleFocus, handleBlur }`를 돌려주면 세 곳이 함께 줄어듭니다. 3회 반복이라 코드 규칙 1의 「진짜 공통」 기준을 넘겼지만, **기존 두 컴포넌트를 함께 고쳐야 해 이 티켓에서는 하지 않았습니다.**
+
+---
+
 ## 토큰 (DOTOLI-227)
 
 Figma [Shadow](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=450-1139&m=dev) · [Corner Radius](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=450-1178&m=dev) 페이지가 정리되면서 [frontend.md](../frontend.md)에 「스케일 확정 후 일괄 추가」로 미뤄 뒀던 토큰을 넣었습니다.
 
-| 토큰         | offset-y | blur | color                  |
-| ------------ | -------- | ---- | ---------------------- |
-| `shadow-4`   | 1        | 4    | `#333C51` 12%          |
-| `shadow-8`   | 4        | 8    | `#333C51` 12%          |
-| `shadow-12`  | 6        | 12   | `#333C51` 10%          |
-| `shadow-20`  | 10       | 20   | `#333C51` 20%          |
-| `shadow-24`  | 8        | **20** | `#333C51` 30%        |
-| `shadow-30`  | 11       | 30   | `#333C51` 30%          |
+| 토큰        | offset-y | blur   | color         |
+| ----------- | -------- | ------ | ------------- |
+| `shadow-4`  | 1        | 4      | `#333C51` 12% |
+| `shadow-8`  | 4        | 8      | `#333C51` 12% |
+| `shadow-12` | 6        | 12     | `#333C51` 10% |
+| `shadow-20` | 10       | 20     | `#333C51` 20% |
+| `shadow-24` | 8        | **20** | `#333C51` 30% |
+| `shadow-30` | 11       | 30     | `#333C51` 30% |
 
 radius는 `--radius-{4,6,8,10,12,16}` 6개입니다. Figma의 `999`는 Tailwind 기본 `rounded-full`이 이미 덮습니다.
 
@@ -252,20 +402,30 @@ apps/biz-ui/src/components/Input/
 │   ├── constants/index.ts       # 박스 치수 · 라벨/필드 스타일 · maxLength 5000
 │   ├── types/index.ts
 │   └── index.ts
-├── shared/                      # 두 컴포넌트가 실제로 같이 쓰는 것만
+├── SearchInput/
+│   ├── SearchInput.tsx
+│   ├── constants/index.ts       # 상태 · 아이콘 키 · 박스/필드 스타일 · placeholder
+│   ├── types/index.ts
+│   ├── utils/resolveSearchInputState.ts
+│   └── index.ts                 # utils는 배럴에서 export 하지 않음 (내부 전용)
+├── shared/                      # 세 컴포넌트가 실제로 같이 쓰는 것만
 │   ├── InputMessage.tsx
 │   ├── constants/index.ts       # INPUT_STATES · LABEL_STATES · BOX/TEXT 스타일 · 메시지
 │   ├── types/index.ts
 │   ├── hooks/effects/useInitialInputFocusEffect.ts
+│   ├── utils/preventInputBlur.ts       # 트레일링 버튼 mousedown 블러 차단
 │   ├── utils/resolveInputState.ts
 │   └── index.ts                 # utils · hooks는 배럴에서 export 하지 않음 (내부 전용)
 └── index.ts
 
 apps/storybook/src/stories/biz-ui/
 ├── InputField.stories.tsx       # core/biz-ui/Input/InputField, 스토리 5종
+├── SearchInput.stories.tsx      # core/biz-ui/Input/SearchInput, 스토리 2종
 └── TextArea.stories.tsx         # core/biz-ui/Input/TextArea, 스토리 2종
 ```
 
-InputField 스토리는 `Default`(제어형) · `Types` · `States` · `PasswordConditions` · `Matrix`, TextArea는 `Default` · `States`입니다. `focus`·`typing`은 상태라 정적으로 깔 수 없어 `Default`에서 직접 올려봅니다.
+InputField 스토리는 `Default`(제어형) · `Types` · `States` · `PasswordConditions` · `Matrix`, TextArea는 `Default` · `States`, SearchInput은 `Default`(제어형) · `States`입니다. `focus`·`typing`은 상태라 정적으로 깔 수 없어 `Default`에서 직접 올려봅니다.
+
+**SearchInput의 `States`만 예외로 `typing`을 깔아 둡니다** — 4종 중 하나에 `autoFocus`를 줘서 실제 포커스를 잡습니다. 다른 칸을 클릭하면 그 인스턴스는 `fill`로 떨어지므로, 처음 렌더 상태가 Figma와 같습니다.
 
 **`States`와 `Matrix`가 다른 목록을 씁니다.** `filledDisabled`는 소비처가 주는 상태가 아니라 `disabled`에 값이 있는 경우일 뿐이라, 소비처 관점인 `States`에서는 뺐습니다. 다만 **비활성일 때의 값 색(`gray/500`)이 그 조합에서만 보이므로** Figma 문서 프레임 대조용인 `Matrix`에는 남겼습니다. TextArea는 `Matrix`가 없어 아예 빠집니다.

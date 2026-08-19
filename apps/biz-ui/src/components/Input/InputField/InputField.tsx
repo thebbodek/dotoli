@@ -34,7 +34,10 @@ import {
   INPUT_TEXT_STYLES,
 } from '@/components/Input/shared/constants';
 import { useInitialInputFocusEffect } from '@/components/Input/shared/hooks/effects';
-import { resolveInputState } from '@/components/Input/shared/utils';
+import {
+  preventInputBlur,
+  resolveInputState,
+} from '@/components/Input/shared/utils';
 
 const InputField = ({
   label,
@@ -203,6 +206,7 @@ const InputField = ({
                   size={ICON_BUTTON_SIZES.SM}
                   weight={ICON_WEIGHTS.FILL}
                   onClick={onClear}
+                  onMouseDown={preventInputBlur}
                 />
               )}
             </div>
@@ -223,6 +227,7 @@ const InputField = ({
               size={ICON_BUTTON_SIZES.SM}
               weight={ICON_WEIGHTS.BOLD}
               onClick={() => setIsPasswordVisible((isVisible) => !isVisible)}
+              onMouseDown={preventInputBlur}
             />
           )}
           {type === INPUT_FIELD_TYPES.VERIFY && (
