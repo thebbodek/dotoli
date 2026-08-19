@@ -208,6 +208,9 @@ export interface GetWeekIndexParams {
   index: number;
 }
 
+export interface GetIsEmptyMonthlyRowParams
+  extends Pick<CalendarMonthlyRowProps, 'daysOfMonth' | 'daysIndex'> {}
+
 export interface GetStringDateParams
   extends Pick<GenerateMonthDaysParams, 'year' | 'month'> {
   day: CalendarDay;

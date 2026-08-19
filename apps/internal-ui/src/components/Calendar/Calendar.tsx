@@ -15,6 +15,7 @@ import {
   useCalendarInitialScrollEffect,
 } from '@/components/Calendar/hooks/effects';
 import { CalendarProps } from '@/components/Calendar/types';
+import { getIsEmptyMonthlyRow } from '@/components/Calendar/utils';
 
 const Calendar = ({
   id,
@@ -71,16 +72,22 @@ const Calendar = ({
                 setRef={(el) => (monthlyRefs.current[month] = el)}
               >
                 <CalendarMonth month={month} />
-                {CALENDAR_DAYS_ARRAY.map((daysIndex) => (
-                  <CalendarMonthlyRow
-                    daysIndex={daysIndex}
-                    daysOfMonth={daysOfMonth}
-                    handleClick={handleClick}
-                    key={`${month}-${daysIndex}`}
-                    month={month}
-                    useWeekend={useWeekend}
-                  />
-                ))}
+                {CALENDAR_DAYS_ARRAY.map((daysIndex) => {
+                  if (getIsEmptyMonthlyRow({ daysOfMonth, daysIndex })) {
+                    return null;
+                  }
+
+                  return (
+                    <CalendarMonthlyRow
+                      daysIndex={daysIndex}
+                      daysOfMonth={daysOfMonth}
+                      handleClick={handleClick}
+                      key={`${month}-${daysIndex}`}
+                      month={month}
+                      useWeekend={useWeekend}
+                    />
+                  );
+                })}
               </CalendarMonthly>
             );
           })}

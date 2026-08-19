@@ -239,7 +239,7 @@ export const CALENDAR_WEEKS_META_DATA: Record<
 
 export const WEEKS = Object.values(CALENDAR_WEEKS);
 export const CALENDAR_MONTHLY_COUNT = 12;
-export const CALENDAR_DAYS_ROW_COUNT = 5;
+export const CALENDAR_DAYS_ROW_COUNT = 6;
 export const CALENDAR_WEEKS_COUNT = WEEKS.length;
 export const CALENDAR_DAYS_COUNT =
   CALENDAR_WEEKS_COUNT * CALENDAR_DAYS_ROW_COUNT;
