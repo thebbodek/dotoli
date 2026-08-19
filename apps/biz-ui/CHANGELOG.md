@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.15
+
+### Patch Changes
+
+- 2bef543: DOTOLI-245 biz-ui Chip 구현
+
 ## 0.0.14
 
 ### Patch Changes
