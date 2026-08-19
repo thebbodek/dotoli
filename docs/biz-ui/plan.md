@@ -139,8 +139,8 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-241 biz-ui Checkbox 구현
 - [x] DOTOLI-242 biz-ui ItemCheckbox 구현 (+ `CheckboxBase` · `CheckboxIcon` 분리)
-- [ ] DOTOLI-243 biz-ui Toggle 구현
-- [ ] DOTOLI-244 biz-ui ToggleListItem 구현
+- [x] DOTOLI-243 biz-ui Toggle 구현
+- [x] DOTOLI-244 biz-ui ToggleListItem 구현 (+ `ToggleBase` · `ToggleTrack` 분리)
 - [x] DOTOLI-245 biz-ui Chip 구현
 - [x] DOTOLI-246 biz-ui SelectionItem 구현
 - [x] DOTOLI-247 biz-ui SearchInput 구현
@@ -199,16 +199,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
 
-### DOTOLI-243 · Toggle 구현
-
-[Toggle 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-465&m=dev) (`129:465`) 프레임 `131:482`. 축은 `checked`(52×30)뿐이고 `disabled`가 없습니다 — Checkbox와 갈리는 지점이라 실측으로 확인합니다.
-
-트랙·노브 전환에 `transition`이 필요한데 **Figma에 duration이 없습니다.** 오버레이에서 쓴 `cubic-bezier(0, 0, 0.5, 1)`을 따를지 정하고 「디자인 확인 필요」에 남깁니다.
-
-### DOTOLI-244 · ToggleListItem 구현
-
-같은 섹션 프레임 `131:495`. 축 `checked`(320×51). 라벨 + `Toggle` 조합이고 `Toggle`(DOTOLI-243) 선행입니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                                           | 기록                                                                                    |
@@ -238,6 +228,8 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-239 | Overlay (+ `Portal` · `--color-dim` · `--animate-*`)           | [components/overlay.md](./components/overlay.md) · [frontend.md](./frontend.md)         |
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
+| DOTOLI-243 | Toggle                                                         | [components/toggle.md](./components/toggle.md)                                          |
+| DOTOLI-244 | ToggleListItem (+ `ToggleBase` · `ToggleTrack` 분리)           | [components/toggle.md](./components/toggle.md)                                          |
 | DOTOLI-245 | Chip                                                           | [components/chip.md](./components/chip.md)                                              |
 | DOTOLI-246 | SelectionItem                                                  | [components/selection-item.md](./components/selection-item.md)                          |
 | DOTOLI-247 | SearchInput (+ `resolveSearchInputState`)                       | [components/input.md](./components/input.md)                                            |

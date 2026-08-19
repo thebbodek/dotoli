@@ -5,8 +5,11 @@ export const TOGGLE_STATES = {
   CHECKED: 'checked',
 } as const;
 
-export const TOGGLE_LABEL_STYLE =
-  'flex-h-stack-center relative w-fit cursor-pointer';
+export const TOGGLE_BASE_STYLE = 'cursor-pointer select-none';
+
+export const TOGGLE_INPUT_STYLE = 'sr-only';
+
+export const TOGGLE_LABEL_STYLE = 'flex-h-stack-center relative w-fit';
 
 export const TOGGLE_TRACK_STYLE =
   'flex-h-stack h-[30px] w-[52px] items-center rounded-full p-[3px] transition-colors';
