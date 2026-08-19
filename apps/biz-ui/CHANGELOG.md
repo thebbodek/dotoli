@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.16
+
+### Patch Changes
+
+- 325b8e3: DOTOLI-246 biz-ui SelectionItem 구현
+
 ## 0.0.15
 
 ### Patch Changes
