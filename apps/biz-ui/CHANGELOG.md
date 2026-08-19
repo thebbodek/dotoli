@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.17
+
+### Patch Changes
+
+- 92c89ce: DOTOLI-243 biz-ui Toggle 구현
+
 ## 0.0.16
 
 ### Patch Changes
