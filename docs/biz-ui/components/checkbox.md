@@ -148,7 +148,7 @@ Storybook 렌더의 계산값으로 4조합을 전수 대조했고 박스·radiu
 
 - **이 구조라 「ItemCheckbox에서 히트 영역 확장을 꺼야 하나」 문제가 사라졌습니다.** DOTOLI-241 때 남긴 숙제였는데, 히트 영역은 `Checkbox`가 자기 껍데기에만 얹는 스타일이라 `ItemCheckbox`에는 애초에 붙지 않습니다. 카드 전체가 이미 탭 타깃이라 필요하지도 않습니다.
 
-- **prop 이름은 Figma 축(`isSelected`)이 아니라 `checked`입니다.** CLAUDE.md 「Boolean prop」은 **해당 요소에 있는 HTML 기본 속성이면 접두어를 붙이지 않는다**고 하고, 이 컴포넌트는 실제로 `<input type="checkbox">`를 렌더하므로 `checked`가 기본 속성입니다. `Filter`·`SelectionItem`이 `isSelected`인 것은 그쪽이 `<button>`이라 네이티브 `selected`가 없기 때문이라 사례가 다릅니다. `Checkbox`와 이름이 같아 둘을 바꿔 끼우기도 쉽습니다.
+- **prop 이름은 Figma 축(`isSelected`)이 아니라 `checked`입니다.** CLAUDE.md 「Boolean prop」은 **해당 요소에 있는 HTML 기본 속성이면 접두어를 붙이지 않는다**고 하고, 이 컴포넌트는 실제로 `<input type="checkbox">`를 렌더하므로 `checked`가 기본 속성입니다. `Filter`가 `isSelected`인 것은 그쪽이 `<button>`이라 네이티브 `selected`가 없기 때문이라 사례가 다릅니다. `Checkbox`와 이름이 같아 둘을 바꿔 끼우기도 쉽습니다.
 
 - **테두리만 `inset-ring`이 아니라 `border`입니다.** CLAUDE.md 「스타일 규칙」의 근거는 「Figma stroke는 박스를 안 키우는데 CSS border는 키운다」인데, **여기서는 Figma 프레임 60px 자체가 stroke를 포함한 값**입니다 — 패딩 15 + 콘텐츠 28 + 15 = 58이고 나머지 2px이 위아래 1px stroke입니다. `inset-ring`으로 그리면 58px이 되어 **오히려 실측과 어긋납니다.** 두께가 상태별로 바뀌지 않고 색만 바뀌는 것도 규칙이 막으려던 상황(콘텐츠 밀림)에 해당하지 않습니다. `Filter`도 같은 이유로 `border`입니다.
 

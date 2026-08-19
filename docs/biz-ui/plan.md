@@ -142,7 +142,7 @@ apps/storybook/src/stories/biz-ui/
 - [ ] DOTOLI-243 biz-ui Toggle 구현
 - [ ] DOTOLI-244 biz-ui ToggleListItem 구현
 - [x] DOTOLI-245 biz-ui Chip 구현
-- [ ] DOTOLI-246 biz-ui SelectionItem 구현
+- [x] DOTOLI-246 biz-ui SelectionItem 구현
 - [x] DOTOLI-247 biz-ui SearchInput 구현
 
 ### biz-ui 리스트 · 네비게이션
@@ -209,12 +209,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 같은 섹션 프레임 `131:495`. 축 `checked`(320×51). 라벨 + `Toggle` 조합이고 `Toggle`(DOTOLI-243) 선행입니다.
 
-### DOTOLI-246 · SelectionItem 구현
-
-[SelectionItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-718&m=dev) (`129:718`). 축 `isSelected`(340×56), **카드 전체가 선택 영역**(주석 `355:1277`).
-
-`ItemCheckbox`와 겉모습이 겹치는지 실측으로 대조합니다 — 겹치면 둘 중 하나가 다른 하나의 variant일 수 있고, 그 판단은 이 티켓에서 합니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                                           | 기록                                                                                    |
@@ -245,6 +239,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-241 | Checkbox (+ `TOUCH_TARGET_STYLE`을 `components/shared`로 이동) | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-242 | ItemCheckbox (+ `CheckboxBase` · `CheckboxIcon` 분리)          | [components/checkbox.md](./components/checkbox.md)                                      |
 | DOTOLI-245 | Chip                                                           | [components/chip.md](./components/chip.md)                                              |
+| DOTOLI-246 | SelectionItem                                                  | [components/selection-item.md](./components/selection-item.md)                          |
 | DOTOLI-247 | SearchInput (+ `resolveSearchInputState`)                       | [components/input.md](./components/input.md)                                            |
 | DOTOLI-248 | NavigationListItem                                             | [components/navigation-list-item.md](./components/navigation-list-item.md)              |
 | DOTOLI-249 | BottomTab (+ `BottomTabItem` · `safe-area-bottom` 첫 사용)     | [components/bottom-tab.md](./components/bottom-tab.md)                                  |

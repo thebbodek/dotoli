@@ -15,4 +15,5 @@ export * from './NavigationListItem';
 export * from './NotificationCard';
 export * from './Order';
 export * from './Portal';
+export * from './SelectionItem';
 export * from './Typography';
