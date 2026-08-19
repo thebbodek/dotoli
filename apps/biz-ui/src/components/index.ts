@@ -11,6 +11,7 @@ export * from './IconCircle';
 export * from './Info';
 export * from './Input';
 export * from './ItemCheckbox';
+export * from './MenuItem';
 export * from './NavigationListItem';
 export * from './NotificationCard';
 export * from './Order';
