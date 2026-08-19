@@ -97,7 +97,9 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 **디자이너가 Figma 주석으로 지정한 대상만 확장합니다.** 시각 크기는 Figma 값 그대로 두고 히트 영역만 넓힙니다 — 레이아웃이 밀리면 안 되기 때문입니다. 지정되지 않은 컴포넌트·사이즈에 임의로 넣지 않습니다.
 
-구현은 `components/shared/constants`에 있고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox` · `HeaderBar` · `Chip`이 함께 씁니다.
+구현은 `components/shared/constants`에 있고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox` · `HeaderBar` · `Chip` · `Toggle`이 함께 씁니다.
+
+**`cursor`도 확장을 얹은 요소에 겁니다.** `::before`가 음수 `inset`으로 시각 박스를 통째로 덮으므로 **커서와 히트 판정이 전부 그 요소 것으로 잡힙니다.** 안쪽 자식에 `cursor-pointer`를 두면 확장부는 물론 **시각 박스 위에서도 기본 화살표가 나옵니다.** `Toggle`이 실제로 그랬고(트랙에 걸었다가 라벨로 옮김), `Checkbox` · `Chip` · `SelectionItem` · `ItemCheckbox`는 처음부터 라벨에 두고 있습니다.
 
 | 상수                        | 확장  | 쓰는 곳                                             |
 | --------------------------- | ----- | --------------------------------------------------- |
