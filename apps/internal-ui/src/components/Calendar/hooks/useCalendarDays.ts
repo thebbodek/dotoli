@@ -1,13 +1,4 @@
-import {
-  date,
-  day,
-  endOf,
-  now,
-  timezone,
-  toPaddedString,
-  toParseDateType,
-  toString,
-} from '@bbodek/utils';
+import { date, day, endOf, now, timezone, toString } from '@bbodek/utils';
 import { useCallback, useMemo } from 'react';
 
 import {
@@ -15,40 +6,65 @@ import {
   CALENDAR_DEFAULT_LABELS,
   CALENDAR_MONTHLY_ARRAY,
 } from '@/components/Calendar/constants';
-import { useCalendarContext } from '@/components/Calendar/context';
 import useCalendarHolidays from '@/components/Calendar/hooks/useCalendarHolidays';
-import useCalendarValidUtils from '@/components/Calendar/hooks/useCalendarValidUtils';
 import {
   GenerateMonthDaysParams,
   GetLabelParams,
-  GetStringDateParams,
   UseCalendarDaysProps,
   UseCalendarDaysReturn,
 } from '@/components/Calendar/types';
-import { getDayVariant } from '@/components/Calendar/utils';
+import {
+  getIsDisabledDate,
+  getStringDate,
+  getWeekIndex,
+} from '@/components/Calendar/utils';
 
 const useCalendarDays = ({
   year,
   holidays,
   externalDaysLabels,
-  useWeekend = false,
   minDate,
   maxDate,
   disabledDays,
 }: UseCalendarDaysProps): UseCalendarDaysReturn => {
-  const { variant } = useCalendarContext();
-  const { isHoliday, isStart, isEnd, isDisabled, isSelected } =
-    useCalendarValidUtils();
   const { holidaysSet } = useCalendarHolidays({ holidays });
 
-  const getLabel = useCallback(
-    ({ dateValue, isToday, isHoliday }: GetLabelParams) => {
-      const dateString = toString({ date: dateValue });
-      const foundLabel = externalDaysLabels?.find(
-        (label) => label.dateValue === dateString,
-      );
+  const minDateString = useMemo(
+    () => (minDate ? toString({ date: minDate }) : null),
+    [minDate],
+  );
 
-      if (foundLabel) return foundLabel.label;
+  const maxDateString = useMemo(
+    () => (maxDate ? toString({ date: maxDate }) : null),
+    [maxDate],
+  );
+
+  const disabledDaysSet = useMemo(
+    () =>
+      new Set(
+        (disabledDays ?? []).map((disabledDay) =>
+          toString({ date: disabledDay }),
+        ),
+      ),
+    [disabledDays],
+  );
+
+  const externalDaysLabelsMap = useMemo(
+    () =>
+      new Map(
+        (externalDaysLabels ?? []).map(({ dateValue, label }) => [
+          toString({ date: dateValue }),
+          label,
+        ]),
+      ),
+    [externalDaysLabels],
+  );
+
+  const getLabel = useCallback(
+    ({ dateString, isToday, isHoliday }: GetLabelParams) => {
+      const externalLabel = externalDaysLabelsMap.get(dateString);
+
+      if (externalLabel) return externalLabel;
 
       if (isToday) return CALENDAR_DEFAULT_LABELS.TODAY;
 
@@ -56,15 +72,12 @@ const useCalendarDays = ({
 
       return null;
     },
-    [externalDaysLabels],
+    [externalDaysLabelsMap],
   );
 
-  const getStringDate = ({ year, month, day }: GetStringDateParams) =>
-    `${year}-${toPaddedString({ number: month, length: 2 })}-${toPaddedString({ number: day, length: 2 })}`;
-
   const generateMonthDays = useCallback(
-    ({ year, month, variant: _variant }: GenerateMonthDaysParams) => {
-      const todayToString = toString({ date: now() });
+    ({ year, month }: GenerateMonthDaysParams) => {
+      const todayString = toString({ date: now() });
       const firstDayOfMonth = timezone({
         date: getStringDate({ year, month, day: 1 }),
       });
@@ -76,67 +89,36 @@ const useCalendarDays = ({
       const lastDay = date({ date: lastDayOfMonth });
       const firstDayWeekday = day({ date: firstDayOfMonth });
 
-      const daysOfMonth = Array.from(
-        { length: CALENDAR_DAYS_COUNT },
-        (_, index) => {
-          const dayIndex = index - firstDayWeekday + firstDay;
-          const isExcluded = dayIndex < firstDay || dayIndex > lastDay;
+      return Array.from({ length: CALENDAR_DAYS_COUNT }, (_, index) => {
+        const dayIndex = index - firstDayWeekday + firstDay;
+        const isExcluded = dayIndex < firstDay || dayIndex > lastDay;
 
-          if (isExcluded) {
-            return null;
-          }
+        if (isExcluded) {
+          return null;
+        }
 
-          const _dateValue = toParseDateType({
-            date: getStringDate({ year, month, day: dayIndex }),
-            type: 'dayjs',
-          });
-          const dateToString = toString({ date: _dateValue });
-          const isToday = dateToString === todayToString;
+        const dateString = getStringDate({ year, month, day: dayIndex });
+        const isHoliday = holidaysSet.has(dateString);
+        const isToday = dateString === todayString;
 
-          return {
-            key: dateToString,
-            day: dayIndex,
-            dateValue: _dateValue,
-            label: getLabel({
-              dateValue: _dateValue,
-              isToday,
-              isHoliday: isHoliday({ dateValue: _dateValue, holidaysSet }),
-            }),
-            variant: getDayVariant({
-              week: day({ date: _dateValue }),
-              useWeekend,
-              variant: _variant,
-              isDisabled: isDisabled({
-                dateValue: _dateValue,
-                minDate,
-                maxDate,
-                disabledDays,
-              }),
-              isHoliday: isHoliday({ dateValue: _dateValue, holidaysSet }),
-              isSelected: isSelected({ dateValue: _dateValue }),
-              isToday,
-              isStart: isStart({ dateValue: _dateValue }),
-              isEnd: isEnd({ dateValue: _dateValue }),
-            }),
-          };
-        },
-      );
-
-      return daysOfMonth;
+        return {
+          key: dateString,
+          day: dayIndex,
+          dateString,
+          week: getWeekIndex({ index }),
+          isHoliday,
+          isToday,
+          isDisabled: getIsDisabledDate({
+            dateString,
+            minDateString,
+            maxDateString,
+            disabledDaysSet,
+          }),
+          label: getLabel({ dateString, isToday, isHoliday }),
+        };
+      });
     },
-    [
-      getLabel,
-      isDisabled,
-      isHoliday,
-      isSelected,
-      isStart,
-      isEnd,
-      holidaysSet,
-      useWeekend,
-      minDate,
-      maxDate,
-      disabledDays,
-    ],
+    [getLabel, holidaysSet, disabledDaysSet, minDateString, maxDateString],
   );
 
   const days = useMemo(
@@ -144,10 +126,10 @@ const useCalendarDays = ({
       new Map(
         CALENDAR_MONTHLY_ARRAY.map((month) => [
           month,
-          generateMonthDays({ year, month: month + 1, variant }),
+          generateMonthDays({ year, month: month + 1 }),
         ]),
       ),
-    [generateMonthDays, year, variant],
+    [generateMonthDays, year],
   );
 
   return { days };

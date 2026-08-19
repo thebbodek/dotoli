@@ -16,7 +16,6 @@ const useCalendar = ({
   holidays,
   disabledDays,
   externalDaysLabels,
-  useWeekend = false,
 }: UseCalendarProps): UseCalendarReturn => {
   const monthlyRefs = useRef<CalendarMonthlyRefs>({});
   const monthlyWrapperRef = useRef<HTMLDivElement>(null);
@@ -28,7 +27,6 @@ const useCalendar = ({
   const { days } = useCalendarDays({
     holidays,
     externalDaysLabels,
-    useWeekend,
     year,
     minDate,
     maxDate,

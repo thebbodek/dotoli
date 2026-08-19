@@ -36,7 +36,6 @@ const Calendar = ({
     holidays,
     disabledDays,
     externalDaysLabels,
-    useWeekend,
   });
 
   useCalendarInitialInternalValueEffect();
@@ -79,6 +78,7 @@ const Calendar = ({
                     handleClick={handleClick}
                     key={`${month}-${daysIndex}`}
                     month={month}
+                    useWeekend={useWeekend}
                   />
                 ))}
               </CalendarMonthly>

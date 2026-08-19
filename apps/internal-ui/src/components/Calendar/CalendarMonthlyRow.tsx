@@ -7,14 +7,21 @@ import {
   CALENDAR_WEEKS_ARRAY,
   CALENDAR_WEEKS_COUNT,
 } from '@/components/Calendar/constants';
+import { useCalendarContext } from '@/components/Calendar/context';
+import useCalendarValidUtils from '@/components/Calendar/hooks/useCalendarValidUtils';
 import { CalendarMonthlyRowProps } from '@/components/Calendar/types';
+import { getDayVariant } from '@/components/Calendar/utils';
 
 const CalendarMonthlyRow = ({
   month,
   daysIndex,
   daysOfMonth,
   handleClick,
+  useWeekend = false,
 }: CalendarMonthlyRowProps) => {
+  const { variant } = useCalendarContext();
+  const { isSelected, isStart, isEnd } = useCalendarValidUtils();
+
   return (
     <CalendarWeekly className='grid-rows-[2.8125rem]'>
       {CALENDAR_WEEKS_ARRAY.map((weekIndex) => {
@@ -25,12 +32,32 @@ const CalendarMonthlyRow = ({
           return <CalendarEmptyDay key={`${month}-${dayIndex}`} />;
         }
 
-        const { dateValue, key, ...rest } = snapshot;
+        const {
+          key,
+          dateString,
+          week,
+          isDisabled,
+          isHoliday,
+          isToday,
+          ...rest
+        } = snapshot;
 
         return (
           <CalendarDay
+            variant={getDayVariant({
+              week,
+              useWeekend,
+              variant,
+              isDisabled,
+              isHoliday,
+              isToday,
+              isSelected: isSelected({ dateString }),
+              isStart: isStart({ dateString }),
+              isEnd: isEnd({ dateString }),
+            })}
+            dateString={dateString}
             key={key}
-            onClick={() => handleClick({ dateValue })}
+            onClick={handleClick}
             {...rest}
           />
         );

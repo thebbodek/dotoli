@@ -1,136 +1,58 @@
-import { isAfter, isBefore, isBetween, isSame, toString } from '@bbodek/utils';
 import { useCallback } from 'react';
 
 import { CALENDAR_VARIANTS } from '@/components/Calendar/constants';
 import { useCalendarContext } from '@/components/Calendar/context';
-import {
-  CalendarDateValue,
-  CalendarDaysOfMonth,
-  CalendarProps,
-} from '@/components/Calendar/types';
+import { CalendarDateStringParams } from '@/components/Calendar/types';
 
 const useCalendarValidUtils = () => {
-  const { internalValue, variant } = useCalendarContext();
-  const { startDate = null, endDate = null } = internalValue ?? {};
-
-  const isHoliday = useCallback(
-    ({
-      dateValue,
-      holidaysSet,
-    }: Pick<CalendarDaysOfMonth, 'dateValue'> & {
-      holidaysSet: Set<CalendarDateValue>;
-    }) => holidaysSet.has(toString({ date: dateValue })),
-    [],
-  );
+  const { internalValueStrings, variant } = useCalendarContext();
+  const { startDateString, endDateString } = internalValueStrings;
 
   const isStart = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) =>
-      startDate !== null
-        ? isSame({ date: dateValue, target: startDate })
-        : false,
-    [startDate],
+    ({ dateString }: CalendarDateStringParams) =>
+      startDateString !== null && dateString === startDateString,
+    [startDateString],
   );
 
   const isEnd = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) =>
-      endDate !== null ? isSame({ date: dateValue, target: endDate }) : false,
-    [endDate],
+    ({ dateString }: CalendarDateStringParams) =>
+      endDateString !== null && dateString === endDateString,
+    [endDateString],
   );
 
   const isSelected = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
-      if (!startDate && !endDate) return false;
+    ({ dateString }: CalendarDateStringParams) => {
+      if (startDateString === null && endDateString === null) return false;
 
-      if (variant === CALENDAR_VARIANTS.SINGLE && startDate && endDate) {
-        return (
-          isSame({ date: dateValue, target: startDate }) &&
-          isSame({ date: dateValue, target: endDate })
-        );
+      if (variant === CALENDAR_VARIANTS.SINGLE) {
+        return dateString === startDateString && dateString === endDateString;
       }
 
       if (variant === CALENDAR_VARIANTS.RANGE) {
-        if (startDate && endDate === null) {
-          return isSame({ date: dateValue, target: startDate });
+        if (startDateString !== null && endDateString === null) {
+          return dateString === startDateString;
         }
 
-        if (startDate && endDate) {
-          return isBetween({
-            date: dateValue,
-            from: startDate,
-            to: endDate,
-          });
+        if (startDateString !== null && endDateString !== null) {
+          return dateString >= startDateString && dateString <= endDateString;
         }
 
         return false;
       }
 
-      if (variant === CALENDAR_VARIANTS.UNBOUNDED && startDate) {
-        return isAfter({
-          date: dateValue,
-          target: startDate,
-          isInclude: true,
-        });
+      if (variant === CALENDAR_VARIANTS.UNBOUNDED && startDateString !== null) {
+        return dateString >= startDateString;
       }
 
       return false;
     },
-    [startDate, endDate, variant],
-  );
-
-  const isDisabled = useCallback(
-    ({
-      dateValue,
-      minDate,
-      maxDate,
-      disabledDays,
-    }: Pick<CalendarDaysOfMonth, 'dateValue'> &
-      Pick<CalendarProps, 'minDate' | 'maxDate' | 'disabledDays'>) => {
-      let isDisabled =
-        disabledDays?.includes(toString({ date: dateValue })) ?? false;
-
-      if (!isDisabled) {
-        if (minDate && maxDate) {
-          isDisabled = !isBetween({
-            date: dateValue,
-            from: minDate,
-            to: maxDate,
-          });
-        }
-
-        if (
-          minDate &&
-          !maxDate &&
-          isBefore({
-            date: dateValue,
-            target: minDate,
-          })
-        ) {
-          isDisabled = true;
-        }
-
-        if (
-          maxDate &&
-          !minDate &&
-          isAfter({
-            date: dateValue,
-            target: maxDate,
-          })
-        ) {
-          isDisabled = true;
-        }
-      }
-
-      return isDisabled;
-    },
-    [],
+    [startDateString, endDateString, variant],
   );
 
   return {
-    isHoliday,
     isStart,
     isEnd,
     isSelected,
-    isDisabled,
   };
 };
 

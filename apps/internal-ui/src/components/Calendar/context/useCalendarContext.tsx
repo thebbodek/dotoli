@@ -4,6 +4,7 @@ import {
   PropsWithChildren,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from 'react';
 
@@ -52,6 +53,16 @@ export const CalendarProvider = ({
     onChange(value());
   };
 
+  const internalValueStrings = useMemo(() => {
+    const { startDate = null, endDate = null } = internalValue ?? {};
+
+    return {
+      startDateString:
+        startDate !== null ? toString({ date: startDate }) : null,
+      endDateString: endDate !== null ? toString({ date: endDate }) : null,
+    };
+  }, [internalValue]);
+
   const setCalendarInternalValue = useCallback(() => {
     const normalizedValue =
       value === null
@@ -71,6 +82,7 @@ export const CalendarProvider = ({
   const contextValue = {
     value,
     internalValue,
+    internalValueStrings,
     variant,
     onChange,
     handleChange,

@@ -1,4 +1,4 @@
-import { isBefore } from '@bbodek/utils';
+import { toString } from '@bbodek/utils';
 import { useCallback, useMemo } from 'react';
 
 import {
@@ -6,81 +6,73 @@ import {
   CALENDAR_VARIANTS,
 } from '@/components/Calendar/constants';
 import { useCalendarContext } from '@/components/Calendar/context';
-import useCalendarValidUtils from '@/components/Calendar/hooks/useCalendarValidUtils';
 import {
-  CalendarDaysOfMonth,
+  CalendarDateStringParams,
   CalendarYearChangeParams,
   UseCalendarHandlersProps,
   UseCalendarHandlersReturn,
 } from '@/components/Calendar/types';
+import { getDateValue, getIsSameStartDate } from '@/components/Calendar/utils';
 
 const useCalendarHandlers = ({
   monthlyWrapperRef,
   setYear,
 }: UseCalendarHandlersProps): UseCalendarHandlersReturn => {
-  const { internalValue, setInternalValue, variant } = useCalendarContext();
-  const { isStart, isDisabled, isEnd } = useCalendarValidUtils();
+  const { setInternalValue, variant } = useCalendarContext();
 
   const handleSingleClick = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
-      if (isStart({ dateValue })) return;
+    ({ dateString }: CalendarDateStringParams) => {
+      setInternalValue((prev) => {
+        if (getIsSameStartDate({ dateString, internalValue: prev })) {
+          return prev;
+        }
 
-      setInternalValue({ startDate: dateValue, endDate: dateValue });
+        const dateValue = getDateValue({ dateString });
+
+        return { startDate: dateValue, endDate: dateValue };
+      });
     },
-    [isStart],
+    [setInternalValue],
   );
 
   const handleRangeClick = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
-      if (!internalValue) {
-        return setInternalValue({
-          startDate: dateValue,
-          endDate: null,
-        });
-      }
+    ({ dateString }: CalendarDateStringParams) => {
+      setInternalValue((prev) => {
+        const dateValue = getDateValue({ dateString });
 
-      const { startDate, endDate } = internalValue;
+        if (!prev) return { startDate: dateValue, endDate: null };
 
-      if (startDate && !endDate) {
-        if (isStart({ dateValue })) {
-          return setInternalValue({ startDate: dateValue, endDate: dateValue });
+        const { startDate, endDate } = prev;
+
+        if (startDate !== null && endDate === null) {
+          const startDateString = toString({ date: startDate });
+
+          if (dateString === startDateString) {
+            return { startDate: dateValue, endDate: dateValue };
+          }
+
+          return dateString < startDateString
+            ? { startDate: dateValue, endDate: startDate }
+            : { startDate, endDate: dateValue };
         }
 
-        const isBeforeStartDate = isBefore({
-          date: dateValue,
-          target: startDate,
-        });
-
-        return setInternalValue(() =>
-          isBeforeStartDate
-            ? { startDate: dateValue, endDate: startDate }
-            : { startDate, endDate: dateValue },
-        );
-      }
-
-      if (
-        startDate &&
-        endDate &&
-        (isEnd({ dateValue }) || isStart({ dateValue }))
-      ) {
-        return setInternalValue({ startDate: dateValue, endDate: null });
-      }
-
-      return setInternalValue({
-        startDate: dateValue,
-        endDate: null,
+        return { startDate: dateValue, endDate: null };
       });
     },
-    [internalValue, isStart, isEnd],
+    [setInternalValue],
   );
 
   const handleUnboundedClick = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
-      if (isStart({ dateValue })) return;
+    ({ dateString }: CalendarDateStringParams) => {
+      setInternalValue((prev) => {
+        if (getIsSameStartDate({ dateString, internalValue: prev })) {
+          return prev;
+        }
 
-      setInternalValue({ startDate: dateValue, endDate: null });
+        return { startDate: getDateValue({ dateString }), endDate: null };
+      });
     },
-    [isStart],
+    [setInternalValue],
   );
 
   const handleDateClick = useMemo(
@@ -93,12 +85,10 @@ const useCalendarHandlers = ({
   );
 
   const handleClick = useCallback(
-    ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => {
-      if (isDisabled({ dateValue })) return;
-
-      handleDateClick[variant]({ dateValue });
+    ({ dateString }: CalendarDateStringParams) => {
+      handleDateClick[variant]({ dateString });
     },
-    [variant, handleDateClick, isDisabled],
+    [variant, handleDateClick],
   );
 
   const onYearChange = useCallback(
@@ -116,7 +106,7 @@ const useCalendarHandlers = ({
         behavior: 'instant',
       });
     },
-    [monthlyWrapperRef.current],
+    [monthlyWrapperRef, setYear],
   );
 
   return {

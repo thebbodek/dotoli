@@ -9,11 +9,19 @@ import {
 import { CalendarDayProps } from '@/components/Calendar/types';
 import { Typography } from '@/components/Typography';
 
-const CalendarDay = ({ day, label, variant, onClick }: CalendarDayProps) => {
+const CalendarDay = ({
+  day,
+  label,
+  dateString,
+  variant,
+  onClick,
+}: CalendarDayProps) => {
   const { COLOR, BACKGROUND, VARIANT, ROUNDED } = CALENDAR_DAY_STYLES[variant];
   const isSelected = CALENDAR_DAY_SELECTED_VARIANTS.includes(variant);
   const isDisabled = CALENDAR_DAY_DISABLED_VARIANTS.includes(variant);
   const showsLabel = !!label && !isSelected;
+
+  const onDayClick = () => onClick({ dateString });
 
   return (
     <button
@@ -26,7 +34,7 @@ const CalendarDay = ({ day, label, variant, onClick }: CalendarDayProps) => {
       aria-selected={isSelected}
       disabled={isDisabled}
       role='gridcell'
-      onClick={!isDisabled ? onClick : undefined}
+      onClick={!isDisabled ? onDayClick : undefined}
     >
       <Typography color={COLOR} variant={VARIANT}>
         {day}

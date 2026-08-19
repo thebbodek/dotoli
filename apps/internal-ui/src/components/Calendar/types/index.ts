@@ -33,13 +33,19 @@ export interface CalendarNavigatorProps extends CalendarYearProps {
 export type CalendarYear = number;
 export type CalendarMonth = number;
 export type CalendarDay = number;
-export type CalendarDaysOfMonth = {
+export interface CalendarDaysOfMonth {
   key: string;
   day: CalendarDay;
-  dateValue: DateValue;
+  dateString: CalendarDateValue;
+  week: CalendarWeeksValues;
   label: CalendarDayLabel | null;
-  variant: CalendarDayVariants;
-};
+  isDisabled: boolean;
+  isHoliday: boolean;
+  isToday: boolean;
+}
+
+export interface CalendarDateStringParams
+  extends Pick<CalendarDaysOfMonth, 'dateString'> {}
 
 export interface CalendarYearProps {
   year: CalendarYear;
@@ -57,18 +63,18 @@ export interface CalendarMonthlyProps {
   setRef: (el: HTMLDivElement) => void;
 }
 
-export interface CalendarMonthlyRowProps {
+export interface CalendarMonthlyRowProps
+  extends Required<Pick<CalendarProps, 'useWeekend'>> {
   month: CalendarMonth;
   daysIndex: number;
   daysOfMonth: (CalendarDaysOfMonth | null)[];
-  handleClick: ({ dateValue }: { dateValue: DateValue }) => void;
+  handleClick: (params: CalendarDateStringParams) => void;
 }
 
-export interface CalendarDayProps {
-  day: CalendarDay;
-  label: CalendarDayLabel | null;
+export interface CalendarDayProps
+  extends Pick<CalendarDaysOfMonth, 'day' | 'label' | 'dateString'> {
   variant: CalendarDayVariants;
-  onClick: () => void;
+  onClick: (params: CalendarDateStringParams) => void;
 }
 
 export interface GetDayVariantParams {
@@ -94,6 +100,7 @@ export interface CalendarContextProviderProps
   extends Omit<
     CalendarContextValue,
     | 'internalValue'
+    | 'internalValueStrings'
     | 'setInternalValue'
     | 'handleChange'
     | 'setCalendarInternalValue'
@@ -104,9 +111,15 @@ export interface CalendarInternalValue {
   endDate: DateValue | null;
 }
 
+export interface CalendarInternalValueStrings {
+  startDateString: CalendarDateValue | null;
+  endDateString: CalendarDateValue | null;
+}
+
 export interface CalendarContextValue {
   value: CalendarValue;
   internalValue: CalendarInternalValue | null;
+  internalValueStrings: CalendarInternalValueStrings;
   variant: CalendarVariants;
   onChange: (value: CalendarValue) => void;
   handleChange: () => void;
@@ -132,10 +145,10 @@ export interface CalendarProps
 }
 
 export interface UseCalendarProps
-  extends Omit<CalendarProps, 'labelId' | 'id'> {}
+  extends Omit<CalendarProps, 'labelId' | 'id' | 'className' | 'useWeekend'> {}
 
 export interface UseCalendarDaysProps
-  extends Omit<CalendarProps, 'labelId' | 'id'> {
+  extends Omit<CalendarProps, 'labelId' | 'id' | 'className' | 'useWeekend'> {
   year: CalendarYear;
 }
 
@@ -150,7 +163,7 @@ export interface UseCalendarHandlersProps {
 
 export interface UseCalendarHandlersReturn {
   onYearChange: (params: CalendarYearChangeParams) => void;
-  handleClick: ({ dateValue }: Pick<CalendarDaysOfMonth, 'dateValue'>) => void;
+  handleClick: (params: CalendarDateStringParams) => void;
 }
 
 export type CalendarMonthlyRefs = Record<CalendarMonth, HTMLDivElement | null>;
@@ -179,8 +192,21 @@ export interface UseCalendarHolidaysProps
   extends Pick<CalendarProps, 'holidays'> {}
 
 export interface GetLabelParams
-  extends Pick<CalendarDaysOfMonth, 'dateValue'>,
-    Pick<GetDayVariantParams, 'isToday' | 'isHoliday'> {}
+  extends Pick<CalendarDaysOfMonth, 'dateString' | 'isToday' | 'isHoliday'> {}
+
+export interface GetIsDisabledDateParams extends CalendarDateStringParams {
+  minDateString: CalendarDateValue | null;
+  maxDateString: CalendarDateValue | null;
+  disabledDaysSet: Set<CalendarDateValue>;
+}
+
+export interface GetIsSameStartDateParams extends CalendarDateStringParams {
+  internalValue: CalendarInternalValue | null;
+}
+
+export interface GetWeekIndexParams {
+  index: number;
+}
 
 export interface GetStringDateParams
   extends Pick<GenerateMonthDaysParams, 'year' | 'month'> {
@@ -189,7 +215,6 @@ export interface GetStringDateParams
 
 export interface GenerateMonthDaysParams
   extends Pick<UseCalendarDaysProps, 'year'>,
-    Pick<CalendarContextValue, 'variant'>,
     Pick<CalendarMonthProps, 'month'> {}
 
 export interface ScrollToMonthParams {
