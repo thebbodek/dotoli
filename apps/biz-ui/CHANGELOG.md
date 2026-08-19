@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.14
+
+### Patch Changes
+
+- d71c5bf: DOTOLI-247 biz-ui SearchInput 구현
+
 ## 0.0.13
 
 ### Patch Changes
