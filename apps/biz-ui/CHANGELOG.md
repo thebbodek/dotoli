@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.19
+
+### Patch Changes
+
+- 13ccdb8: DOTOLI-257 biz-ui Tag 구현
+
 ## 0.0.18
 
 ### Patch Changes
