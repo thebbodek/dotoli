@@ -95,9 +95,13 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 ### 히트 영역 확장
 
-**디자이너가 Figma 주석으로 지정한 대상만 확장합니다.** 시각 크기는 Figma 값 그대로 두고 히트 영역만 넓힙니다 — 레이아웃이 밀리면 안 되기 때문입니다. 지정되지 않은 컴포넌트·사이즈에 임의로 넣지 않습니다.
+**디자이너가 Figma 주석으로 지정한 대상, 그리고 WCAG 2.5.8 미달인 대상을 확장합니다.** 시각 크기는 Figma 값 그대로 두고 히트 영역만 넓힙니다 — 레이아웃이 밀리면 안 되기 때문입니다. 이 둘 중 어디에도 안 걸리면 임의로 넣지 않습니다.
 
-구현은 `components/shared/constants`에 있고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox` · `HeaderBar` · `Chip` · `Toggle`이 함께 씁니다.
+**WCAG 2.5.8(Target Size Minimum, AA)은 24×24 CSS px입니다.** 주석이 없어도 **실측 히트 영역이 어느 한 축이라도 24 미만이면 확장합니다.** 접근성 최소치는 디자인 판단이 아니라 지켜야 하는 선이고, 시각 크기를 안 건드리므로 Figma와 어긋나지도 않습니다. `StatusAlertBanner`가 첫 사례입니다 — 닫기 14×14 · 보기 23.38×20.3이라 둘 다 미달이었고 6px을 걸어 26×26 · 35.38×32.3으로 올렸습니다.
+
+**넣고 나면 컴포넌트 문서의 「디자인 확인 필요」에 올립니다.** 주석 없이 DS가 판단한 것이므로 디자이너가 되돌릴 여지를 남겨 둡니다 — 되돌린다면 확장을 빼는 게 아니라 **Figma에서 대상을 키우는 쪽**입니다.
+
+구현은 `components/shared/constants`에 있고 쓰는 쪽에서 `position: relative`를 함께 겁니다. **버튼 계열 전용이 아닙니다** — `CtaButton` · `IconButton` · `Checkbox` · `HeaderBar` · `Chip` · `Toggle` · `InfoBanner` · `StatusAlertBanner`가 함께 씁니다.
 
 **`cursor`도 확장을 얹은 요소에 겁니다.** `::before`가 음수 `inset`으로 시각 박스를 통째로 덮으므로 **커서와 히트 판정이 전부 그 요소 것으로 잡힙니다.** 안쪽 자식에 `cursor-pointer`를 두면 확장부는 물론 **시각 박스 위에서도 기본 화살표가 나옵니다.** `Toggle`이 실제로 그랬고(트랙에 걸었다가 라벨로 옮김), `Checkbox` · `Chip` · `SelectionItem` · `ItemCheckbox`는 처음부터 라벨에 두고 있습니다.
 
@@ -107,6 +111,10 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 | `TOUCH_TARGET_NARROW_STYLE` | 4px   | **여러 개가 나열되는 컨트롤** — 확장분이 서로 겹칠 때 |
 
 **나열되는 컴포넌트는 이웃과의 간격을 먼저 봅니다.** 확장은 양쪽으로 퍼지므로 두 요소 사이에서 `확장 × 2`가 간격보다 크면 히트 영역이 겹쳐 **엉뚱한 쪽이 눌립니다.** `Chip`이 그 사례입니다 — 그룹 gap이 10px이라 6px(=12px)는 겹치고 4px(=8px)는 안 겹칩니다.
+
+`확장 × 2`가 간격과 **정확히 같으면 겹치지 않고 맞닿기만 합니다.** 판정이 뒤집히지는 않지만 경계의 dead zone이 0이라 오탭이 늘 수 있으니, 알고 고르는 값이어야 합니다. `StatusAlertBanner`가 그렇습니다 — 버튼 사이 gap이 12라 6px이 딱 맞닿습니다.
+
+**둘이 부딪치면 WCAG가 이깁니다.** 좁은 값으로 낮췄더니 24×24를 못 넘긴다면, 미달을 감수하지 말고 **맞닿는 쪽을 택합니다.** `StatusAlertBanner`에서 `TOUCH_TARGET_NARROW_STYLE`을 쓰면 닫기가 22×22에서 멈춰 `TOUCH_TARGET_STYLE`로 올린 것이 이 경우입니다. 그래도 못 넘기면 확장으로 풀 수 있는 문제가 아니므로 Figma 쪽을 고쳐야 합니다.
 
 ### 폼 컨트롤 공통
 

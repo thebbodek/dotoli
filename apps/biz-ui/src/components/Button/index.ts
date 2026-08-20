@@ -1,3 +1,4 @@
+export * from './CollapseButton';
 export * from './CtaButton';
 export * from './Filter';
 export * from './FloatingPill';

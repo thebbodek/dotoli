@@ -13,8 +13,9 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 | `Filter`     | DOTOLI-222 | `state` 2 × 아이콘 유무. 사이즈 축 없는 단일 칩                                                                          |
 | `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
 | `IconButton` | DOTOLI-224 | `theme` 3 × `size` 2. theme × state 13조합 전수 실측                                                                     |
+| `CollapseButton` | DOTOLI-262 | `isOpen` 1축. 접기/펼치기 토글. 라벨을 DS가 소유                                                                     |
 
-Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다.
+Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다. **`CollapseButton`만 섹션 밖(`129:521`)에 따로 있는데**, 형태가 「라벨 + caret」이라 계열 안에서 `Filter`와 가장 가깝고 `ButtonIcon`을 그대로 물어 씁니다.
 
 ## 계열 공통 결정
 
@@ -349,3 +350,109 @@ CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Fig
 `Filter/`·`FloatingPill/`에 `utils/`를 두지 않았습니다. 축이 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다. IconButton은 theme × state 분기가 있어 CtaButton과 같이 `utils/`를 뒀습니다.
 
 IconButton의 `Matrix` 스토리는 theme × size에 disabled·pending을 붙여 깝니다. `hover`·`pressed`는 CSS 상태라 정적으로 못 깔고 직접 올려봐야 합니다. `dark` 테마는 흰 아이콘이라 스토리에서 어두운 판을 깔아 보여줍니다 (Figma 문서 프레임과 동일한 방식).
+
+---
+
+## CollapseButton
+
+Figma: [CollapseButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=129-521&m=dev) (`129:521`), 심볼 `97:296`(false) · `97:300`(true).
+
+목록을 접고 펼치는 토글 버튼입니다. 사용예시는 소비 앱의 [Component 7](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1217-10875&m=dev) (`1217:10875`)이고, 카드 안에서 `InfoField` 목록 아래에 놓입니다.
+
+### Variant 축
+
+| 축       | 값                |
+| -------- | ----------------- |
+| `isOpen` | `false` · `true`  |
+
+**`isOpen`이 바꾸는 것은 라벨과 caret 방향 둘뿐**이고 박스 · 색 · 크기는 완전히 같습니다.
+
+### 실측 스펙
+
+| 항목      | 값                                                   |
+| --------- | ---------------------------------------------------- |
+| 높이      | 38 → `h-[38px]` 고정 (아래 「결정」)                  |
+| 폭        | 심볼 320이지만 **fill** → `w-full`                    |
+| padding   | 좌우 25 → `px-[25px]`. 상하 8은 높이로 대체           |
+| gap       | 4 → `gap-1`                                           |
+| radius    | 6 → `rounded-6`                                       |
+| 배경      | `base/white` → `bg-white`                             |
+| 테두리    | 1px `gray/200` → `inset-ring inset-ring-gray-200`     |
+| 라벨      | `gray/800`                                            |
+| caret     | `CaretDown` 14px · weight `fill` · `gray/400` · `isOpen`이면 180° 회전 |
+
+**폭이 fill인 근거는 사용예시입니다.** 카드 폭 340에서 좌우 마진 20을 뺀 **300**으로 들어가 있어(`1217:10883`), 심볼의 320은 문서 프레임 값입니다. `MenuItem` 420 · `InfoBanner` 380과 같은 성격입니다.
+
+바인딩된 hex가 기존 토큰과 전부 일치해 **신규 토큰이 없습니다.**
+
+### 결정
+
+- **caret은 아이콘을 바꾸지 않고 회전시킵니다.** Figma가 `CaretDown` 하나를 `rotate-180`으로 뒤집습니다(`97:302`가 회전 래퍼). 계열 안에 두 방식이 다 있는데 — `InputField`는 `caret-down`/`caret-up` 두 키, `HeaderBar`·`FloatingPill`은 한 방향만 — **Figma가 회전으로 그렸으므로 그대로 옮겼습니다.**
+
+- **타이포를 `label` 토큰으로 바꿨습니다 — Figma 실측값을 그대로 옮기지 않은 유일한 항목입니다.** 이 심볼의 텍스트에는 **타이포 변수가 바인딩돼 있지 않습니다**(같은 배치의 `InfoBanner`는 `label`, `StatusAlertBanner`는 `label-bold`가 걸려 있습니다). 그래서 영문 더미가 Figma 기본 폰트로 남아 실측이 `Inter / lh 1.5 / ls -0.01em`으로 나오는데, 크기·굵기(14 / Medium)는 `label`과 같습니다.
+
+  | | Figma 실측 | `label` 토큰 |
+  | --- | --- | --- |
+  | 폰트 | Inter | **Pretendard** |
+  | 크기 · 굵기 | 14 / Medium | 14 / Medium |
+  | line-height | 1.5 | **1.45** |
+  | letter-spacing | -0.01em | **-0.03em** |
+
+  실제 문구가 한글이고 패키지 전체 폰트가 Pretendard라 `Inter`를 옮기는 것은 무의미합니다. **디자이너 확인을 받고 `label`로 확정했습니다.**
+
+- **라벨을 DS가 소유합니다 — `더보기` · `접기`.** Figma 심볼의 `Expand`/`Collapse`는 영문 더미이고, 사용예시(`1217:10875`)와 Calendar 섹션의 초기 버전 프레임(`90:358`, 같은 320×38에 「더보기」)이 모두 한글입니다. `isOpen`에 종속된 문구라 소비자가 매번 두 개를 넘길 이유가 없습니다 — `Divider`의 `DIVIDER_ICON_KEYS` · `BottomTab`의 `BOTTOM_TAB_ITEMS`와 같이 **DS가 텍스트까지 소유하는 쪽**입니다 ([menu-item.md](./menu-item.md) 「결정」의 갈림 기준에서 반대편).
+
+  상수 키는 Figma 사용예시의 심볼명(`State=Collapsed` · `State=Expanded`)을 따라 `COLLAPSED` · `EXPANDED`입니다. 「누르면 일어날 일」이 아니라 **현재 상태** 기준이라 `isOpen=true` → `EXPANDED` → 「접기」입니다.
+
+- **높이를 고정합니다 — `h-[38px]`, `py-[8px]` 없음.** 테두리를 `inset-ring`으로 그리면 레이아웃을 차지하지 않아 패딩만으로는 `8 + 20.3 + 8 = 36.3`이 되어 Figma 38과 어긋납니다. Figma의 38이 **stroke 2px를 포함한 값**이기 때문입니다. `MenuItem`(82) · `Chip`(32) · `SelectionItem`(56)과 같은 처리입니다.
+
+- **테두리는 `inset-ring`입니다.** CLAUDE.md 「스타일 규칙」 그대로입니다. 같은 계열의 `Filter`가 `border`인 것과 갈리는데, **그쪽은 높이를 고정하지 않아 `border`가 커져도 드러나지 않습니다.** 여기는 38을 고정해서 `border`로 그리면 40이 됩니다.
+
+- **`aria-expanded`를 붙이고 `aria-controls`를 엽니다.** disclosure 버튼이라 상태를 보조기술에 알려야 하고, `Filter`가 `aria-pressed`를 붙인 선례와 같은 자리입니다. `aria-controls`는 **접히는 영역의 id를 소비자만 알 수 있어** 통로만 열었습니다 — CLAUDE.md 「네이티브 통로는 열고, 결정은 열지 않습니다」.
+
+- **`isOpen`·`onClick` 둘 다 필수입니다.** 상태를 못 받으면 항상 「더보기」로 굳고, 누를 수 없으면 토글이 성립하지 않습니다. `MenuItem` · `NavigationListItem` · `Tag`와 같은 형태(`Required<Pick<…, 'onClick'>>` + `type='button'` 하드코딩)입니다.
+
+- **`transition`을 걸지 않았습니다.** 회전을 택했으니 전환 애니메이션을 붙일 자리가 생기지만, **Figma에 모션 정의가 없습니다.** CLAUDE.md 「Figma에 없는 시각은 만들지 않습니다 — 모션도 같습니다」에 따라 아래 「디자인 확인 필요」에 올렸습니다. `hover`·`pressed` 축도 없어 `transition-colors`도 없습니다(`Tag` · `MenuItem`과 같은 판단, `Filter`와 갈리는 지점).
+
+- **caret weight를 `fill`로 명시해 넘깁니다.** `ButtonIcon`은 `weight`를 안 주면 `ICON_DEFAULT_WEIGHT`(=`bold`)로 떨어져 **라인 캐럿이 나옵니다.** 이 심볼은 Figma가 fill이라 `COLLAPSE_BUTTON_ICON_WEIGHT`로 넘깁니다 — `TAG_ICON_WEIGHT` · `CHIP_ICON_WEIGHT` · `MENU_ITEM_ICON_WEIGHT`와 같은 상수 형태입니다.
+
+  **처음엔 이걸 빠뜨려 `bold`로 나갔습니다.** 넘기지 않아도 타입·빌드·린트가 전부 통과하고 기본값이 조용히 채워지기 때문입니다. 계열 안의 다른 caret(`NavigationListItem` · `Notification` · `InfoBanner` · `HeaderBar` · `FloatingPill`)도 전부 `weight`를 안 넘겨 `bold`로 도는데, **그중 실측 기록이 있는 것은 `Divider`(SVG 기하로 판정) · `SearchInput`(Figma variant 표기)뿐입니다.** 나머지는 확인된 적이 없습니다.
+
+- **아이콘 크기를 지정하지 않습니다.** `ButtonIcon`이 크기를 안 걸고 버튼의 `font-size`를 따르는데, `text-label`이 14px이라 Figma의 caret 14px와 **정확히 맞습니다.** 계열 공통 래퍼가 의도대로 동작하는 자리입니다.
+
+### internal-ui와 갈린 지점
+
+`apps/internal-ui/src/components/Alert/AlertCollapseButton.tsx`가 같은 목적(caret + 라벨 disclosure 토글)의 기존 구현입니다. 세 지점에서 갈리는데 **전부 Figma 실측이 근거**입니다.
+
+| 항목            | `AlertCollapseButton`                       | `CollapseButton`                         | 갈린 근거                                    |
+| --------------- | ------------------------------------------- | ---------------------------------------- | -------------------------------------------- |
+| caret           | `caret-down` / `caret-up` 두 키를 교체       | `caret-down` 하나를 `rotate-180`          | Figma가 회전 래퍼(`97:302`)로 그림           |
+| 문구            | `펼치기` / `접기`                            | `더보기` / `접기`                         | 사용예시 `1217:10875` · 초기 프레임 `90:358` |
+| `aria-expanded` | 버튼이 아니라 `AlertBox`에 부착              | **버튼에 부착**                           | 상태를 가진 컨트롤이 버튼 자신               |
+
+**라벨을 상수로 뺀 것도 갈린 지점입니다** — internal-ui는 JSX에 삼항으로 직접 박습니다. CLAUDE.md 코드 규칙 3(「문자열 리터럴도 매직 값」)을 따라 `COLLAPSE_BUTTON_LABELS`로 묶었습니다.
+
+`AlertCollapseButton`은 `Alert` 컨텍스트에 묶여 있어(`useAlertContext`로 상태를 직접 읽음) 단독으로 쓸 수 없는 구조라, 제어 prop을 받는 이쪽과 애초에 층이 다릅니다.
+
+### API
+
+| prop            | 필수 | 기본값 | 비고                                     |
+| --------------- | ---- | ------ | ---------------------------------------- |
+| `isOpen`        | ✅   | —      | 라벨과 caret 방향을 결정                  |
+| `onClick`       | ✅   | —      | 토글 핸들러                               |
+| `aria-controls` |      | —      | 접히는 영역의 id                          |
+| `className`     |      | —      | 담는 쪽의 폭·여백 보정용                  |
+
+`ref`는 `<button>`을 가리킵니다. 라벨은 prop이 아니라 `COLLAPSE_BUTTON_LABELS`가 소유합니다.
+
+### 디자인 확인 필요
+
+| 항목        | 내용                                                                             |
+| ----------- | ---------------------------------------------------------------------------------- |
+| 회전 모션   | caret을 회전으로 그렸는데 duration · easing 정의가 없습니다. 지금은 즉시 전환입니다 |
+| 상호작용    | `hover` · `pressed` · `focus` · `disabled` 축이 없습니다                            |
+| 타이포 바인딩 | 심볼 텍스트에 타이포 변수가 안 걸려 있습니다. `label`로 확정했으나 원본도 정리 필요 |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/CollapseButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/CollapseButton`. 데코레이터로 **사용예시의 실제 폭인 `w-[300px]`**을 겁니다(문서 프레임 320이 아니라). 스토리 3종이고, `Interactive`가 `useState`로 회전과 문구 전환을 함께 보여주는 유일한 자리입니다 (`Filter`의 같은 이름 스토리와 같은 형태).
