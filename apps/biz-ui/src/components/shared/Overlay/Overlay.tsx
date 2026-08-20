@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useRef } from 'react';
 
 import { Portal } from '@/components/Portal';
 import {
@@ -10,7 +10,11 @@ import {
   OVERLAY_DIM_STYLE,
   OVERLAY_POSITION_STYLES,
 } from '@/components/shared/Overlay/constants';
-import { useScrollLockEffect } from '@/components/shared/Overlay/hooks/effects';
+import {
+  useEscapeCloseEffect,
+  useInitialFocusEffect,
+  useScrollLockEffect,
+} from '@/components/shared/Overlay/hooks/effects';
 import { OverlayProps } from '@/components/shared/Overlay/types';
 
 const Overlay = ({
@@ -24,7 +28,11 @@ const Overlay = ({
   onClose,
   ...rest
 }: PropsWithChildren<OverlayProps>) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useScrollLockEffect({ isLocked: isOpen });
+  useEscapeCloseEffect({ isOpen, dialogRef, onClose });
+  useInitialFocusEffect({ isOpen, dialogRef });
 
   if (!isOpen) return null;
 
@@ -41,7 +49,10 @@ const Overlay = ({
           OVERLAY_BASE_STYLE,
           OVERLAY_POSITION_STYLES[variant],
         )}
+        data-overlay=''
         open={isOpen}
+        ref={dialogRef}
+        tabIndex={-1}
         {...rest}
       >
         {onClose ? (

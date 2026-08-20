@@ -3,6 +3,7 @@ export * from './BottomTab';
 export * from './Button';
 export * from './Checkbox';
 export * from './Chip';
+export * from './ConfirmModal';
 export * from './Divider';
 export * from './FaqAccordion';
 export * from './Flex';

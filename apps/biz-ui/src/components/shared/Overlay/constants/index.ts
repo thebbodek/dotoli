@@ -5,6 +5,12 @@ export const OVERLAY_VARIANTS = {
   BOTTOM_SHEET: 'bottom-sheet',
 } as const;
 
+export const OVERLAY_ESCAPE_KEY = 'Escape';
+
+export const OVERLAY_DIALOG_ATTRIBUTE = 'data-overlay';
+
+export const OVERLAY_DIALOG_SELECTOR = `dialog[${OVERLAY_DIALOG_ATTRIBUTE}]`;
+
 export const OVERLAY_BASE_STYLE =
   'fixed inset-0 z-[1000] m-0 h-full max-h-none w-full max-w-none overflow-hidden bg-transparent p-0';
 

@@ -113,7 +113,9 @@ DS 심볼은 접힘 66 · 펼침 188인데, **검색 결과 화면의 인스턴�
 
   **덕분에 `aria-controls`가 항상 실재하는 id를 가리킵니다.** 언마운트하던 때는 닫힌 동안 없는 id를 가리켰고 「`aria-expanded='false'`면 표준상 허용」이라는 근거로 두고 있었는데, 이제 그 예외가 필요 없어졌습니다.
 
-- **질문에 heading을 씌우지 않았습니다.** WAI-ARIA APG accordion은 각 헤더 버튼을 `<h3>` 등으로 감싸 **제목 이동으로 목록을 훑을 수 있게** 하라고 권하고, FAQ는 그 이동이 실제로 유용한 대표 사례입니다. 그런데 **레벨은 소비자 화면의 제목 위계에 달린 값**이라 DS가 정할 수 없고, biz-ui 전체에 heading 사용처가 아직 0건입니다. 여는 형태(`headingLevel` prop)까지는 아래 「남은 API 결정」에 올렸습니다.
+- **질문에 heading을 씌우지 않았습니다.** WAI-ARIA APG accordion은 각 헤더 버튼을 `<h3>` 등으로 감싸 **제목 이동으로 목록을 훑을 수 있게** 하라고 권하고, FAQ는 그 이동이 실제로 유용한 대표 사례입니다. 그런데 **레벨은 소비자 화면의 제목 위계에 달린 값**이라 DS가 정할 수 없습니다. 여는 형태는 아래 「남은 API 결정」에 올렸습니다.
+
+  **DOTOLI-265에서 [`ConfirmModal`](./confirm-modal.md)이 같은 문제에 먼저 답을 냈습니다 — 기본값은 heading이 아닌 요소, 레벨은 `titleAs` prop으로 소비자가.** 여기도 열게 되면 그 형태를 따르는 것이 맞습니다. 다만 **FAQ는 heading 탐색이 실제로 쓸모 있는 쪽**이라(확인 모달은 제목 한 줄이라 얻는 게 없었습니다) 기본값을 어디에 둘지는 함께 볼 값입니다.
 
 - **열림/닫힘과 caret 회전에 `transition`을 겁니다 — 250ms · `cubic-bezier(0, 0, 0.5, 1)`.** Figma에 모션 정의가 없어 처음에는 안 걸었는데, 자매 DS인 `@bbodek/internal-ui`의 `Alert`가 같은 접기/펼치기를 이미 애니메이션하고 있어 넣는 쪽으로 뒤집었습니다(아래 「internal-ui와 갈린 지점」).
 
@@ -198,7 +200,7 @@ DS 심볼은 접힘 66 · 펼침 188인데, **검색 결과 화면의 인스턴�
 
 | 항목            | 내용                                                                                                     |
 | --------------- | ---------------------------------------------------------------------------------------------------------- |
-| heading 위계    | 질문 버튼을 `<h3>` 등으로 감쌀지. 열면 `headingLevel` prop이 되고, 안 열면 스크린리더의 제목 이동이 없습니다 |
+| heading 위계    | 질문 버튼을 heading으로 감쌀지. 안 열면 스크린리더의 제목 이동이 없습니다. 여는 형태는 [`ConfirmModal`](./confirm-modal.md)의 `titleAs`(기본 heading 아님 · 레벨은 소비자)를 따릅니다 |
 | `onToggle` 타입 | `() => void`입니다. 같은 disclosure인 `CollapseButton`은 `Required<Pick<ButtonHTMLAttributes, 'onClick'>>`이라 `MouseEvent`가 넘어옵니다. 이름을 바꾼 콜백은 `() => void`라는 `HeaderBar`·`NotificationCard` 쪽 규칙을 따랐는데, 둘 중 하나로 계열을 정리할 필요가 있습니다 |
 
 ## Storybook

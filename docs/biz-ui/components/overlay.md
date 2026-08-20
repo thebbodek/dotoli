@@ -12,9 +12,11 @@ Figma에는 `Overlay`라는 심볼이 없습니다. **딤 · 위치 · 스크롤
 | 컴포넌트  | 티켓       | 위치                          | 공개    | 설명                                                          |
 | --------- | ---------- | ----------------------------- | ------- | ------------------------------------------------------------- |
 | `Portal`  | DOTOLI-239 | `components/Portal/`          | ✅ 공개 | `#portal` 컨테이너로 보내는 래퍼. 없으면 `document.body` 폴백 |
-| `Overlay` | DOTOLI-239 | `components/shared/Overlay/`  | ❌ 비공개 | 딤 · 위치 · 스크롤 잠금 · 배경 탭                            |
+| `Overlay` | DOTOLI-239 | `components/shared/Overlay/`  | ❌ 비공개 | 딤 · 위치 · 스크롤 잠금 · 배경 탭 · **ESC** · **초기 포커스**(DOTOLI-265) |
 
-BottomSheet · ConfirmModal 실물은 이 티켓 범위가 아닙니다. 여기서는 **둘이 공유하는 껍데기만** 만들었습니다.
+BottomSheet · ConfirmModal 실물은 이 티켓 범위가 아니었습니다. 여기서는 **둘이 공유하는 껍데기만** 만들었습니다.
+
+**DOTOLI-265에서 [`ConfirmModal`](./confirm-modal.md)이 첫 실물로 나왔고, 그때 ESC 처리(`useEscapeCloseEffect`)가 이 폴더에 추가됐습니다** — BottomSheet도 같은 동작이 필요해 실물이 아니라 껍데기에 뒀습니다. BottomSheet는 아직 없습니다.
 
 ## Variant 축
 
@@ -58,7 +60,7 @@ BottomSheet · ConfirmModal 실물은 이 티켓 범위가 아닙니다. 여기�
 - **딤이 없어도 배경 레이어는 항상 깔립니다.** `isDimmed=false`일 때 색만 빠지고 `absolute inset-0`은 남습니다. 뒤 페이지와의 상호작용을 막아야 하는 건 딤 여부와 무관하고, **배경 탭으로 닫는 동작도 `dimmed=false`인 짧은 바텀시트에 똑같이 필요**하기 때문입니다 (Figma 정책 `524:28` COM-008).
 - **배경 탭은 `onClose`만 부르고 무엇을 할지는 정하지 않습니다.** 주석 `526:1725`는 「dimmed 영역 탭도 닫기와 동일하게 진행한다」지만, COM-008은 **입력값이 하나라도 있으면 닫는 대신 이탈 모달을 띄우라**고 합니다. 두 판정 축(딤 = 화면 점유율, 이탈 모달 = 입력값 유무)이 분리돼 있어 **Overlay가 닫기를 직접 수행하면 이탈 방지를 구현할 수 없습니다.** 콜백만 넘기고 판단은 BottomSheet/ConfirmModal 쪽에 둡니다.
 - **배경 레이어는 `onClose`가 있을 때만 `<button>`입니다.** 없으면 `<div aria-hidden>`입니다. 항상 버튼으로 두면 아무 동작도 없는 「닫기」 버튼이 스크린리더에 읽힙니다.
-- **`<dialog>`를 씁니다 — internal-ui와 같습니다.** `open` 속성만 준 non-modal이라 top layer · ESC · 포커스 트랩은 없고, 얻는 건 암묵 `role="dialog"`뿐입니다. 대신 UA 기본 스타일을 전부 되돌려야 해서 `m-0 max-h-none max-w-none bg-transparent p-0`이 붙습니다 (`base.css`가 v3 호환으로 `dialog { margin: auto }`를 되살려 둔 것도 포함). 자매 DS와 마크업이 갈리는 비용이 이 클래스 5개보다 크다고 봤습니다.
+- **`<dialog>`를 씁니다 — internal-ui와 같습니다.** `open` 속성만 준 non-modal이라 top layer · 포커스 트랩이 없고(**ESC도 UA가 주지 않아 DOTOLI-265에서 직접 답니다**), 얻는 건 암묵 `role="dialog"`뿐입니다. 대신 UA 기본 스타일을 전부 되돌려야 해서 `m-0 max-h-none max-w-none bg-transparent p-0`이 붙습니다 (`base.css`가 v3 호환으로 `dialog { margin: auto }`를 되살려 둔 것도 포함). 자매 DS와 마크업이 갈리는 비용이 이 클래스 5개보다 크다고 봤습니다.
 - **`aria-modal`을 붙이지 않습니다.** 전면 배경 레이어가 뒤를 막는 건 **포인터 입력뿐**입니다 — non-modal `<dialog>`라 top layer도 `inert`도 없어서 **Tab 포커스는 배경 페이지로 그대로 빠져나갑니다.** 여기에 `aria-modal`을 붙이면 보조기술이 바깥을 읽기 대상에서 제외하므로 「포커스는 가 있는데 읽히지는 않는 요소」가 생깁니다. ARIA는 `aria-modal` 사용 시 바깥을 실제로 inert로 만들 것을 요구하므로, **포커스 트랩이 생기기 전까지는 붙이지 않는 쪽이 맞습니다.** internal-ui도 오버레이 계열 전체에 `aria-modal`이 없습니다.
 - **접근성 이름은 소비자가 붙입니다.** `<dialog>`가 암묵 `role="dialog"`를 갖는데 이름이 없으면 스크린리더가 "dialog"만 읽습니다. 이름은 BottomSheet · ConfirmModal이 가진 제목에서 나와야 하므로 Overlay가 정하지 않고, `aria-label` · `aria-labelledby`만 `Pick`으로 열어 `<dialog>`에 그대로 넘깁니다. internal-ui는 `...rest` 전체를 스프레드해서 같은 통로가 열려 있지만 **실제로 쓰는 곳이 한 군데도 없습니다** — biz-ui는 두 속성으로 좁혀 무엇을 넘기라는 건지 타입에서 보이게 했습니다.
 - **children을 `cloneElement`로 건드리지 않습니다.** internal-ui `Overlay`는 자식의 `className`에 variant 스타일을 주입하는데, 자식이 반드시 단일 엘리먼트여야 하고 주입 사실이 호출부에서 안 보입니다. biz-ui는 **콘텐츠 래퍼 `<div>`를 Overlay가 직접 렌더**하고 필요하면 `contentClassName`으로 엽니다. internal-ui의 같은 자리 이름은 `wrapperClassName`인데, 그쪽은 **주입 대상이 호출부가 넘긴 자식**이라 "감싸는 것"이라는 뜻이 맞습니다. 여기서는 Overlay가 만든 래퍼 자신이라 `content` 쪽이 정확합니다.
@@ -80,7 +82,7 @@ BottomSheet · ConfirmModal 실물은 이 티켓 범위가 아닙니다. 여기�
 | `isOpen`           | ✅   | —          | `false`면 언마운트                              |
 | `isDimmed`         |      | `true`     | `false`여도 배경 레이어는 남음                  |
 | `target`           |      | `'portal'` | `Portal`로 전달                                 |
-| `onClose`          |      | —          | 배경 탭. 없으면 배경이 `<div aria-hidden>`      |
+| `onClose`          |      | —          | **배경 탭 · ESC**. 없으면 배경이 `<div aria-hidden>` |
 | `aria-label`       |      | —          | `<dialog>`로 전달. 제목이 있으면 `aria-labelledby` 쪽 |
 | `aria-labelledby`  |      | —          | `<dialog>`로 전달                               |
 | `className`        |      | —          | `<dialog>`에 적용                               |
@@ -103,7 +105,7 @@ BottomSheet · ConfirmModal 실물은 이 티켓 범위가 아닙니다. 여기�
 
 ## 후속 티켓 판단 기준 — `overlay-kit`을 peerDependency로 넣을지
 
-biz-ui는 지금 `overlay-kit`에 의존하지 않습니다. BottomSheet · ConfirmModal 티켓에서 다시 올라올 안건이라 **판단 기준만** 남깁니다. 결정은 그때 합니다.
+biz-ui는 `overlay-kit`에 의존하지 않습니다. **DOTOLI-265에서 「넣지 않는다」로 결정됐습니다** — 아래 기준 1번(「biz-ui 컴포넌트가 자기 안에서 다른 오버레이를 여는가」)에 `ConfirmModal`이 해당하지 않고, 따라서 기준 2번도 성립하지 않습니다. BottomSheet에서 다시 볼 수 있으므로 기준은 그대로 둡니다.
 
 ### 「많이 쓰인다」는 근거가 되지 않습니다
 
@@ -138,16 +140,32 @@ DS가 `openConfirm(...) => Promise<boolean>` 같은 걸 제공하는 안은 별�
 
 ## 확인 필요 (구현)
 
-- **비공개인 동안 Overlay의 클래스는 CSS에 생성되지 않습니다 — 정상이고 고치지 않습니다.** 배럴에서 빠지면 런타임 코드가 `dist/index.es.js`에서 트리셰이킹되고, `@source '../../dist'`가 스캔할 리터럴도 함께 사라집니다. Storybook CSSOM으로 확인한 결과 `.bg-dim` · `.animate-fade-in` · `.animate-popup` · `.animate-bottom-sheet` · `.z-[1000]` **전부 0건**입니다. `--color-dim` 토큰과 키프레임 3종은 `theme.css`에서 나오므로 그대로 있습니다.
+- **~~비공개인 동안 Overlay의 클래스는 CSS에 생성되지 않습니다~~ — DOTOLI-265에서 해소됐습니다.** `ConfirmModal`이 `Overlay`를 import 하면서 `bg-dim` · `animate-fade-in` · `animate-popup` · `animate-bottom-sheet` · `z-[1000]` 5개가 전부 `dist`로 복귀한 것을 확인했습니다([confirm-modal.md](./confirm-modal.md) 「검증」). 아래는 당시 기록입니다.
+
+  **비공개인 동안 Overlay의 클래스는 CSS에 생성되지 않습니다 — 정상이고 고치지 않습니다.** 배럴에서 빠지면 런타임 코드가 `dist/index.es.js`에서 트리셰이킹되고, `@source '../../dist'`가 스캔할 리터럴도 함께 사라집니다. Storybook CSSOM으로 확인한 결과 `.bg-dim` · `.animate-fade-in` · `.animate-popup` · `.animate-bottom-sheet` · `.z-[1000]` **전부 0건**입니다. `--color-dim` 토큰과 키프레임 3종은 `theme.css`에서 나오므로 그대로 있습니다.
 
   **BottomSheet · ConfirmModal이 Overlay를 import 하면 저절로 풀립니다.** 임시로 `components/shared`를 배럴에 넣고 재빌드해 4개 리터럴이 전부 `index.es.js`로 복귀하는 것을 확인했습니다.
 
   못 쓰는 컴포넌트의 스타일이 없는 것이라 **상태가 어긋난 게 아닙니다.** safelist로 막지 않습니다 — 「런타임에 조합되는 클래스만 보존」 규칙에 어긋나고, npm 소비 앱이 쓸 수 없는 CSS를 받게 됩니다.
 
   `.d.ts`에는 일부 리터럴이 타입으로 남지만(`OVERLAY_DIM_STYLE`처럼 타입 주석 없는 `const`) **Tailwind가 그것으로 유틸리티를 만들지는 않습니다.** 위 0건이 그 증거입니다.
-- **포커스 트랩이 없습니다.** 배경 레이어가 포인터만 막고 Tab은 뒤 페이지로 빠집니다. 그래서 `aria-modal`을 붙이지 않았고(위 「결정」), 트랩을 넣게 되면 `aria-modal`도 같이 붙입니다. 초기 포커스 이동도 없습니다. internal-ui도 같은 상태입니다.
+- **포커스 트랩이 없습니다.** 배경 레이어가 포인터만 막고 Tab은 뒤 페이지로 빠집니다. 그래서 `aria-modal`을 붙이지 않았고(위 「결정」), 트랩을 넣게 되면 `aria-modal`도 같이 붙입니다. internal-ui도 같은 상태입니다.
+
+  **초기 포커스는 DOTOLI-265에서 넣었습니다.** `<dialog>`에 `tabIndex={-1}`을 주고 열릴 때 포커스를 옮기며, 닫히면 직전 요소로 되돌립니다. non-modal이라 UA가 해 주지 않는데, **그대로 두면 스크린리더가 다이얼로그가 열린 사실을 통지받지 못한 채** 배경을 계속 읽습니다. 배경을 inert로 만드는 주장이 아니라서 `aria-modal` 미부착 결정과 충돌하지 않습니다.
 - **iOS WebView 스크롤 잠금.** `body { overflow: hidden }` 방식이라 iOS Safari 계열에서 완전히 막히지 않을 수 있습니다. `base.css`의 `overscroll-behavior: none`과 함께 실기기에서 확인이 필요하고, 새면 `position: fixed` + 스크롤 위치 복원으로 바꿉니다.
-- **Android 물리 뒤로가기 · ESC.** COM-008이 「뒤로 · 물리 뒤로가기 · 닫기 · 배경 탭」을 동일 처리하라고 하지만, 지금 Overlay는 **배경 탭만** 처리합니다. non-modal `<dialog>`라 ESC도 오지 않습니다. 나머지는 BottomSheet · ConfirmModal 티켓에서 다룹니다.
+- **ESC는 DOTOLI-265에서 처리했습니다 — 요구가 아니라 구현 판단입니다.** COM-008이 나열한 것은 「뒤로 · 물리 뒤로가기 · 닫기 · 배경 탭」 **4개뿐이고 ESC는 없습니다**(모바일 WebView 타깃). Figma 주석에도 없고, `@bbodek/internal-ui`도 오버레이 계열에 **ESC 처리가 0건**입니다. 그 「동일하게 처리」 원칙을 ESC까지 **확장 적용**한 것이고, 판단 근거와 빼는 비용은 [confirm-modal.md](./confirm-modal.md) 「결정」에 있습니다.
+
+  non-modal `<dialog>`라 UA가 ESC를 주지 않으므로 `document`에 리스너를 답니다(`useEscapeCloseEffect`). 배경 탭과 같은 `onClose`로 흘려 「동일 처리」와 결을 맞췄습니다.
+
+  **중첩에서는 최상단만 닫힙니다 — 판정 기준은 DOM 순서입니다.** 열린 `<dialog>`에 `data-overlay`를 달고, keydown 때 `document.querySelectorAll('dialog[data-overlay]')`의 **마지막 요소가 자기일 때만** `onClose`를 부릅니다. 그렇게 하지 않으면 「바텀시트 위 이탈 ConfirmModal」에서 ESC 한 번에 둘 다 닫힙니다.
+
+  **모듈 스코프 스택으로 짰다가 버렸습니다.** 토큰을 `useEffect`에서 push 하면 순서가 「연 순서」가 아니라 **effect flush 순서**가 되는데, React는 자식 effect를 부모보다 먼저 실행하므로 두 오버레이가 **한 커밋에서 같이 열리면** 스택이 뒤집혀 아래쪽이 닫힙니다. 딥링크 복원처럼 두 `isOpen`이 한 번에 켜지는 경로가 실제로 있습니다. **DOM 순서는 z-index가 같을 때 실제로 위에 그려지는 순서와 일치**하므로 「시각적 최상단」과 판정이 어긋나지 않습니다.
+
+  `onClose`는 ref로 들어 effect 의존성에서 뺐습니다 — 인라인 화살표를 받으면 렌더마다 identity가 바뀌어 리스너가 매번 재등록됩니다. **`onClose`가 없어도 리스너는 등록합니다.** 닫히면 안 되는 오버레이가 위에 있을 때 ESC가 아래쪽으로 새지 않게 하려는 것이고, 이 경우 최상단 판정만 통과하고 아무 일도 일어나지 않습니다.
+
+  **IME 조합 중에는 무시합니다**(`event.isComposing`). 한글 입력 중 ESC는 조합 취소가 기대 동작인데 그대로 잡으면 오버레이가 닫힙니다.
+
+- **Android 물리 뒤로가기는 여전히 없고, DS가 하지 않기로 했습니다.** `history.pushState` + `popstate` 외에 방법이 없는데 **라우팅 히스토리를 DS가 건드리는 것**이라 소비 앱의 뒤로가기 흐름과 충돌합니다. 근거는 [confirm-modal.md](./confirm-modal.md) 「결정」에 있습니다.
 
 ## Storybook
 
