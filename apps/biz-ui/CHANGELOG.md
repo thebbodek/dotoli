@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.21
+
+### Patch Changes
+
+- 098c2db: DOTOLI-259 biz-ui Notification 구현
+
 ## 0.0.20
 
 ### Patch Changes
