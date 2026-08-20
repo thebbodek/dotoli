@@ -13,6 +13,7 @@ export * from './Input';
 export * from './ItemCheckbox';
 export * from './MenuItem';
 export * from './NavigationListItem';
+export * from './Notification';
 export * from './NotificationCard';
 export * from './Order';
 export * from './Portal';

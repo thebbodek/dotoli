@@ -156,6 +156,14 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-257 biz-ui Tag 구현
 - [x] DOTOLI-258 biz-ui MenuItem 구현
 
+### biz-ui 알림
+
+- [x] DOTOLI-259 biz-ui Notification 구현 (+ `CtaButton` `text`/`sm` gap 2px 수정)
+
+### biz-ui 후속 수정
+
+- [ ] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
+
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
 DOTOLI-224로 Figma Button 섹션이 전부 끝나고 DOTOLI-226부터 Input 계열입니다. InputField는 Button 계열 산출물을 그대로 물어 씁니다 — 트레일링 아이콘은 `IconButton`(`sm`=24px), `verify`의 확인 버튼은 `CtaButton`(`sm`=32px)이 크기까지 정확히 맞습니다.
@@ -182,7 +190,7 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 
 DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 끝냈고([`components/overlay.md`](./components/overlay.md)) **다음은 BottomSheet · ConfirmModal 실물 2종**입니다. 둘 사이에 의존이 없어 병렬로 가도 됩니다. `Overlay`는 **비공개**(`components/shared/`)라 소비자의 진입점이 이 둘뿐이고, 그래서 두 티켓이 시각 검증(스토리)까지 함께 집니다. Overlay는 배경 탭에서 `onClose` 콜백만 넘기므로 **정책 COM-008(이탈 방지) · 물리 뒤로가기 · ESC 처리는 각 컴포넌트 티켓이 맡습니다.** 그 티켓에서 `overlay-kit`을 peerDependency로 넣을지도 함께 올라오는데, 판단 기준과 실측 근거는 [`components/overlay.md`](./components/overlay.md) 「후속 티켓 판단 기준」에 있습니다.
 
-**BottomSheet · ConfirmModal은 아직 티켓이 없고, 먼저 나간 것이 DOTOLI-241~250입니다.** Figma `component` 페이지에서 미구현 섹션 20개 중 **오버레이에 의존하지 않는 8개 섹션을 뽑았고**, 나머지 10개(BottomSheet · ConfirmModal · Toast · CollapseButton · FaqAccordion · OrderNotiCollapse · InfoBanner · StatusAlertBanner · Notification · Calendar 계열 5종)는 다음 배치입니다. **Tag · MenuItem은 여기서 먼저 빠져나가 DOTOLI-257 · 258로 끝났습니다.** 10개 전부 **DOTOLI-239와 병렬로 가도 되고**, 새로 만들 베이스 컴포넌트도 없습니다.
+**BottomSheet · ConfirmModal은 아직 티켓이 없고, 먼저 나간 것이 DOTOLI-241~250입니다.** Figma `component` 페이지에서 미구현 섹션 20개 중 **오버레이에 의존하지 않는 8개 섹션을 뽑았고**, 나머지 10개(BottomSheet · ConfirmModal · Toast · CollapseButton · FaqAccordion · OrderNotiCollapse · InfoBanner · StatusAlertBanner · Notification · Calendar 계열 5종)는 다음 배치입니다. **Tag · MenuItem · Notification이 여기서 먼저 빠져나가 DOTOLI-257 · 258 · 259로 끝났습니다.** 남은 9개 전부 **DOTOLI-239와 병렬로 가도 되고**, 새로 만들 베이스 컴포넌트도 없습니다.
 
 의존은 두 갈래뿐이고 나머지 6개는 선행이 없습니다.
 
@@ -202,7 +210,27 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
-아래 값은 전부 **문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
+아래 값은 **출처를 따로 적지 않았으면 문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
+
+### DOTOLI-256 · CtaButton 아이콘 색 분리
+
+[CtaButton 명세판](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=294-1138&m=dev) (`294:1138`). **아래 값은 심볼에서 직접 실측한 것**이라 위 단서의 예외입니다.
+
+Figma는 아이콘 색을 라벨과 **따로** 정의하는데 기구현은 글리프가 컨테이너 색을 상속합니다(`ButtonIcon` → Phosphor 웹폰트). DOTOLI-259에서 발견했고 그 티켓 범위 밖이라 분리했습니다 — 근거는 [components/notification.md](./components/notification.md) 「디자인 확인 필요」.
+
+| 조합                        | 라벨         | 아이콘        |
+| --------------------------- | ------------ | ------------- |
+| `primary`/`filled`          | `base/white` | 같음 (white)  |
+| `primary`/`outlined`        | `blue/600`   | `blue/500`    |
+| `primary`/`text`            | `blue/600`   | `blue/500`    |
+| `primary`/`text`/`disabled` | `gray/400`   | `gray/300`    |
+| `gray`/`text`               | `gray/800`   | `gray/500`    |
+
+**차이가 한 단계 고정이 아니라**(`gray`/`text`는 세 단계) 규칙으로 뽑을 수 없습니다. 위 5칸은 표본이고, `CTA_BUTTON_STYLES`와 짝이 되는 **theme × variant × state 32칸**을 전부 실측해야 합니다. 배경이 있는 `filled`만 라벨과 같으므로 거기서 갈리는 축을 먼저 확인하면 표본이 줄 수 있습니다.
+
+거는 것 자체는 `ButtonIcon`이 이미 `className`을 받아 어렵지 않습니다. `CtaButton` 외에 `Filter` · `IconButton` · `FloatingPill`도 같은 형태인지 함께 봅니다.
+
+**`outlined`/`sm`의 gap도 이 티켓에서 확인합니다.** 같은 `sm`인데 `filled` · `tonal`은 4, `outlined` · `text`만 2입니다. `outlined`/`sm`/`right`(`28:261`)만 폭이 2 좁은데(92, 기대 94) 다른 사이즈는 테두리 2px가 정상 반영돼 있어 **작성 실수로 보입니다.** `text`/`sm`은 의도가 확인돼 DOTOLI-259에서 이미 `gap-0.5`로 고쳤습니다.
 
 ### 완료된 티켓
 
@@ -243,6 +271,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-250 | HeaderBar (+ 비공개 조각 4종)                                  | [components/header-bar.md](./components/header-bar.md)                                  |
 | DOTOLI-257 | Tag                                                            | [components/tag.md](./components/tag.md)                                                |
 | DOTOLI-258 | MenuItem (`IconCircle` 재사용)                                 | [components/menu-item.md](./components/menu-item.md)                                    |
+| DOTOLI-259 | Notification (+ `CtaButton` `text`/`sm` gap 2px 수정)          | [components/notification.md](./components/notification.md)                              |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

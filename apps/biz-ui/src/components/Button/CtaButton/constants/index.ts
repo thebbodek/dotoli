@@ -76,7 +76,7 @@ export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   },
   [CTA_BUTTON_SIZES.SM]: {
     ROUNDED: 'rounded-6',
-    GAP: 'gap-1',
+    GAP: 'gap-0.5',
     TYPOGRAPHY: 'text-label-bold',
   },
 };
