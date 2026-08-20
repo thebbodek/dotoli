@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.25
+
+### Patch Changes
+
+- e4cc56a: DOTOLI-262 biz-ui CollapseButton 구현
+
 ## 0.0.24
 
 ### Patch Changes
