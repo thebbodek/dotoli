@@ -8,7 +8,7 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 
 | 컴포넌트     | 티켓       | 설명                                                                                                                    |
 | ------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `CtaButton`  | DOTOLI-219 | `theme` 2 × `variant` 4 × `size` 3. 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측                                  |
+| `CtaButton`  | DOTOLI-219 · 256 | `theme` 2 × `variant` 4 × `size` 3. 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측. **아이콘 색은 라벨과 따로 정의돼 있어 DOTOLI-256에서 32칸을 다시 실측해 분리**했습니다 |
 | `ButtonIcon` | DOTOLI-219 | 버튼 계열 공통 아이콘 래퍼. Phosphor는 아이콘 폰트라 글리프 크기가 `font-size`를 따르므로 크기를 따로 지정하지 않습니다 |
 | `Filter`     | DOTOLI-222 | `state` 2 × 아이콘 유무. 사이즈 축 없는 단일 칩                                                                          |
 | `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
@@ -20,6 +20,7 @@ Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다.
 
 - **`SIZE`·`THEME`·`VARIANT`를 `shared`가 아니라 각 컴포넌트 폴더 아래에 둡니다.** `shared`에 두면 공통 모듈이 `CTA_BUTTON_THEMES`를 내보내게 되어 컴포넌트별 정의 원칙과 어긋납니다. `shared`에는 계열이 실제로 공유하는 것만 둡니다 — `ButtonIcon` · `BUTTON_ICON_POSITIONS` · `BUTTON_PENDING_ICON_KEY`. 히트 영역 상수는 DOTOLI-241에서 `components/shared`로 옮겼습니다 (아래 각주).
 - **`base/white`는 별도 토큰을 만들지 않고 Tailwind 기본 `white`를 씁니다.** Figma `base/white`가 `#ffffff`로 Tailwind 기본값과 같아 토큰을 새로 정의할 이유가 없습니다. CtaButton(`text-white`)과 Filter(`bg-white`)가 같은 판단이고, FloatingPill·IconButton도 이 결정을 따릅니다.
+- **아이콘 색을 라벨과 분리해야 하는 것은 `CtaButton`뿐입니다** (DOTOLI-256에서 계열 전체 확인). `Filter`는 이미 `FILTER_STYLES[state].ICON`으로 분리돼 있고, `FloatingPill`의 `scrollToTop` 캐럿은 Figma 채움이 `#333c51`로 라벨(`text-gray-800`)과 같아 분리할 것이 없으며, `IconButton`은 아이콘이 곧 버튼이라 분리 개념이 없습니다.
 - **Storybook `iconOption`은 `iconKey`를 최상위로 펴서 받습니다.** 점 표기 argType(`'iconOption.iconKey'`)은 런타임은 되지만 타입이 깨져서, internal-ui Button 스토리처럼 `<Component>Args`로 펴고 render에서 다시 묶습니다.
 
 ---
@@ -55,10 +56,37 @@ primary / filled / default / lg 기준 (`11:4121`).
 
 나머지 31개 조합은 `CtaButton/constants/index.ts`의 `CTA_BUTTON_STYLES` · `CTA_BUTTON_SIZE_STYLES`가 원본입니다. 여기에 옮겨 적지 않습니다.
 
+### 아이콘 색 (DOTOLI-256)
+
+**아이콘은 라벨 색을 상속하지 않습니다.** Figma가 둘을 따로 정의하고 있는데 구현이 컨테이너 색을 글리프에 물려주고 있어 어긋나 있었습니다. [Notification](./notification.md)이 `text`/`sm`을 처음 실사용하면서 드러났습니다.
+
+명세판(`294:1138`)의 **theme × variant × state 32칸을 전부 실측**했고, 결과가 세 갈래로 접힙니다.
+
+| 조건                                | 아이콘 색                                       |
+| ----------------------------------- | ------------------------------------------------- |
+| `disabled`                          | `gray/300` — theme · variant 무관                  |
+| `filled` (비 `disabled`)            | `base/white` — 라벨과 같음                        |
+| `outlined` · `tonal` · `text` (비 `disabled`) | `primary` → `blue/500` · `gray` → `gray/500` |
+
+**축이 32개가 아니라 8 + 1개입니다.** `hover` · `pressed`는 배경만 바꾸고 아이콘 색을 건드리지 않아 상태 축이 `default` ↔ `disabled` 둘로 접히고, `size`(`31:230` lg ↔ `31:278` sm)와 `iconPosition`(`31:206` left ↔ `31:278` right)은 아이콘 색에 영향이 없습니다. 그래서 `CTA_BUTTON_ICON_STYLES`는 theme × variant 8칸이고 `disabled`만 `CTA_BUTTON_DISABLED_ICON_STYLE`로 뺐습니다.
+
+`filled`의 `text-white`는 라벨색과 같아 실효가 없지만, **맵에서 빠지면 「측정 안 함」과 구분되지 않아** 명시적으로 둡니다.
+
+실측 방법은 두 가지를 섞었습니다. 아이콘 SVG를 직접 받아 `fill`을 읽은 것이 확정적이고(`primary/filled` `#ffffff` · `primary/text` `#3182f6` · `primary/text/disabled` `#ced4e0` · `gray/text` `#8a93a8` 등), 나머지는 `get_variable_defs`가 심볼별로 돌려주는 변수 집합에서 **배경 · 테두리 · 라벨로 설명되지 않는 색 하나**를 아이콘으로 특정했습니다. 두 방법의 결과가 겹치는 지점에서 서로 일치합니다.
+
+**`CTA_BUTTON_STYLES` 안에 `ICON` 키로 넣지 않고 평행 맵으로 뒀습니다.** 계열 선례는 `Filter`(`FILTER_STYLES[state].ICON`)처럼 기존 스타일 레코드에 키를 얹는 쪽인데, 여기서는 그렇게 하면 **아이콘 색이 컨테이너 클래스로 샙니다** — `generateCtaButtonStyle`이 `CTA_BUTTON_STYLES[theme][variant]`에서 `disabled`만 떼고 `Object.values(stateStyles)`로 나머지를 통째로 펴 쓰기 때문입니다. `CtaButtonStyles`가 `Record<CtaButtonState, string>`이라 타입도 안 맞습니다. `Filter`는 `Record<FilterState, { CONTAINER, ICON }>`이라 스프레드 구조가 아니어서 그 함정이 없습니다.
+
+두 맵을 같은 `Record<CtaButtonTheme, Record<CtaButtonVariant, …>>` 꼴로 맞춘 것은 의도적입니다 — theme이나 variant가 늘면 **양쪽이 동시에 컴파일 에러**를 내서 한쪽만 갱신되는 것을 타입이 막습니다.
+
+**`isPending`에는 이 색을 씌우지 않습니다.** Figma에 pending 심볼이 없어 아이콘 색도 실측값이 없고(아래 「구현 결정」), `disabled` 분기에 묻어가면 스피너가 `gray/300`으로 나가 `gray/100` 배경 위에서 라벨(`gray/400`)보다도 안 보입니다. 반대로 비-disabled 색을 쓰면 `filled`에서 흰 스피너가 `gray/100` 위에 놓여 더 나쁩니다. **실측이 없는 상태는 만들지 않는다**는 원칙대로 스피너는 라벨 색을 그대로 상속합니다 (변경 전 동작과 같습니다).
+
 ### 구현 결정
 
 - **`text` variant는 사이즈 스타일을 따로 둡니다.** 배경·높이·패딩이 없어 `CTA_BUTTON_TEXT_SIZE_STYLES`에 radius와 타이포만 정의합니다.
 - **`lg`에서 `text` variant만 18px(`heading-5`)인 것은 디자이너 확인 완료(의도됨)입니다.** 버튼 상자 없이 타이포만으로 서는 버튼이라 사이즈를 키운 것입니다. filled·outlined·tonal의 `lg`는 16px(`body-bold`), `md`(16px)·`sm`(14px)은 네 variant가 같습니다. 심볼 높이로도 확인됩니다 (lh 1.45 고정) — `31:302` text/lg 26px→18px, `31:326` text/md 23px→16px, `31:350` text/sm 20px→14px.
+- **gap은 `variant × size` 축입니다** — `outlined`/`sm`과 `text`/`sm`만 2px이고 나머지 10조합은 4px입니다. 명세판 48조합을 `iconPosition=none` ↔ `right` 폭 차이로 계산했고(아이콘 크기 = 그 조합의 타이포 크기), 두 테마 · 네 상태가 전부 같은 값이라 그 두 축은 접힙니다.
+
+  `sm`에서만 variant별로 갈리는 게 어색해 보이지만 **디자이너 확인 결과 Figma 값이 맞습니다.** 사이즈 맵에 두면 `outlined`와 `filled`·`tonal`이 같은 `sm`을 공유해 표현할 수 없어, `GAP`을 `CTA_BUTTON_SIZE_STYLES`·`CTA_BUTTON_TEXT_SIZE_STYLES`에서 떼어 `CTA_BUTTON_GAP_STYLES`로 옮겼습니다 (DOTOLI-259에서 `text`/`sm`, DOTOLI-256에서 `outlined`/`sm`).
 - **히트 영역은 `text`와 `sm`만 넓힙니다** (Figma 주석 `337:3538`). 대상 지정 원칙은 CLAUDE.md [히트 영역 확장] 참고.
 - **`isPending`은 Figma에 심볼이 없어** internal-ui와 같은 `circle-notch` 스피너로 맞췄습니다. `aria-busy`를 함께 겁니다.
 
@@ -71,7 +99,7 @@ primary / filled / default / lg 기준 (`11:4121`).
 | `hover` == `pressed` | 8개 조합 중 5개가 두 상태 색이 같습니다 (primary/tonal, gray 전 variant). 의도인지 확인 필요                              |
 | `disabled` 색 불일치 | primary는 `gray-100`/`text-gray-400`, gray는 `gray-200`. gray 안에서도 filled만 `text-gray-400`, 나머지는 `text-gray-500` |
 
-`text`/`lg` 타이포는 확인 완료되어 「구현 결정」으로 옮겼습니다.
+`text`/`lg` 타이포와 `sm`의 variant별 gap은 확인 완료되어 「구현 결정」으로 옮겼습니다.
 
 **설명 ↔ 심볼 불일치** — 컴포넌트 세트(`11:4337`)의 Figma description과 실제 variant 축이 어긋납니다. description 원문은 이렇습니다.
 
@@ -278,9 +306,11 @@ theme × state 전수 (심볼 `81:202`~`81:209` · `444:1095`~`444:1116`).
 apps/biz-ui/src/components/Button/
 ├── CtaButton/
 │   ├── CtaButton.tsx
-│   ├── constants/index.ts              # CtaButton 고유 SIZE/THEME/VARIANT + 스타일 매퍼
+│   ├── constants/index.ts              # CtaButton 고유 SIZE/THEME/VARIANT + 스타일 · gap · 아이콘 색 매퍼
 │   ├── types/index.ts
-│   ├── utils/generateCtaButtonStyle.ts # 배럴에서 export 하지 않음 (내부 전용)
+│   ├── utils/                          # 배럴에서 export 하지 않음 (내부 전용)
+│   │   ├── generateCtaButtonStyle.ts     # 버튼 컨테이너
+│   │   └── generateCtaButtonIconStyle.ts # 아이콘 색 (DOTOLI-256)
 │   └── index.ts
 ├── Filter/
 │   ├── Filter.tsx
@@ -306,13 +336,15 @@ apps/biz-ui/src/components/Button/
 └── index.ts
 
 apps/storybook/src/stories/biz-ui/
-├── CtaButton.stories.tsx               # core/biz-ui/Button/CtaButton, 스토리 7종
+├── CtaButton.stories.tsx               # core/biz-ui/Button/CtaButton, 스토리 8종
 ├── Filter.stories.tsx                  # core/biz-ui/Button/Filter, 스토리 3종
 ├── FloatingPill.stories.tsx            # core/biz-ui/Button/FloatingPill, 스토리 2종
 └── IconButton.stories.tsx              # core/biz-ui/Button/IconButton, 스토리 6종
 ```
 
 CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
+
+**`IconColors`는 DOTOLI-256에서 추가했습니다.** 기존 `WithIcon`은 `iconPosition` × `variant` × `size`를 깔되 **theme이 `primary` 고정**이고 `Themes` · `Disabled`에는 아이콘이 없어서, 아이콘 색이 갈리는 축(theme × variant × `disabled`)을 볼 스토리가 없었습니다. `hover` · `pressed`는 아이콘 색을 바꾸지 않아 상태를 둘만 깝니다.
 
 `Filter/`·`FloatingPill/`에 `utils/`를 두지 않았습니다. 축이 2개뿐이라 스타일 조합이 `clsx` 한 줄이고, CtaButton처럼 별도 생성 함수를 둘 만큼 분기가 없습니다. IconButton은 theme × state 분기가 있어 CtaButton과 같이 `utils/`를 뒀습니다.
 

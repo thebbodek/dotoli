@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import {
+  CTA_BUTTON_GAP_STYLES,
   CTA_BUTTON_SIZE_STYLES,
   CTA_BUTTON_SIZES,
   CTA_BUTTON_STATES,
@@ -36,7 +37,7 @@ export const generateCtaButtonStyle = ({
   return clsx(
     'flex-h-stack-center relative transition-colors',
     iconPosition === BUTTON_ICON_POSITIONS.RIGHT && 'flex-row-reverse',
-    hasIcon && sizeStyle.GAP,
+    hasIcon && CTA_BUTTON_GAP_STYLES[variant][size],
     sizeStyle.ROUNDED,
     sizeStyle.TYPOGRAPHY,
     !isText && [

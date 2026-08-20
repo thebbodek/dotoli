@@ -33,6 +33,9 @@ export interface GenerateCtaButtonStyleProps
   hasIcon?: boolean;
 }
 
+export interface GenerateCtaButtonIconStyleProps
+  extends Pick<CtaButtonProps, 'variant' | 'theme' | 'disabled'> {}
+
 export interface CtaButtonProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,

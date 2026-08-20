@@ -162,7 +162,7 @@ apps/storybook/src/stories/biz-ui/
 
 ### biz-ui 후속 수정
 
-- [ ] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
+- [x] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -212,26 +212,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 아래 값은 **출처를 따로 적지 않았으면 문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
 
-### DOTOLI-256 · CtaButton 아이콘 색 분리
-
-[CtaButton 명세판](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=294-1138&m=dev) (`294:1138`). **아래 값은 심볼에서 직접 실측한 것**이라 위 단서의 예외입니다.
-
-Figma는 아이콘 색을 라벨과 **따로** 정의하는데 기구현은 글리프가 컨테이너 색을 상속합니다(`ButtonIcon` → Phosphor 웹폰트). DOTOLI-259에서 발견했고 그 티켓 범위 밖이라 분리했습니다 — 근거는 [components/notification.md](./components/notification.md) 「디자인 확인 필요」.
-
-| 조합                        | 라벨         | 아이콘        |
-| --------------------------- | ------------ | ------------- |
-| `primary`/`filled`          | `base/white` | 같음 (white)  |
-| `primary`/`outlined`        | `blue/600`   | `blue/500`    |
-| `primary`/`text`            | `blue/600`   | `blue/500`    |
-| `primary`/`text`/`disabled` | `gray/400`   | `gray/300`    |
-| `gray`/`text`               | `gray/800`   | `gray/500`    |
-
-**차이가 한 단계 고정이 아니라**(`gray`/`text`는 세 단계) 규칙으로 뽑을 수 없습니다. 위 5칸은 표본이고, `CTA_BUTTON_STYLES`와 짝이 되는 **theme × variant × state 32칸**을 전부 실측해야 합니다. 배경이 있는 `filled`만 라벨과 같으므로 거기서 갈리는 축을 먼저 확인하면 표본이 줄 수 있습니다.
-
-거는 것 자체는 `ButtonIcon`이 이미 `className`을 받아 어렵지 않습니다. `CtaButton` 외에 `Filter` · `IconButton` · `FloatingPill`도 같은 형태인지 함께 봅니다.
-
-**`outlined`/`sm`의 gap도 이 티켓에서 확인합니다.** 같은 `sm`인데 `filled` · `tonal`은 4, `outlined` · `text`만 2입니다. `outlined`/`sm`/`right`(`28:261`)만 폭이 2 좁은데(92, 기대 94) 다른 사이즈는 테두리 2px가 정상 반영돼 있어 **작성 실수로 보입니다.** `text`/`sm`은 의도가 확인돼 DOTOLI-259에서 이미 `gap-0.5`로 고쳤습니다.
-
 ### 완료된 티켓
 
 | 티켓       | 작업                                                           | 기록                                                                                    |
@@ -272,6 +252,7 @@ Figma는 아이콘 색을 라벨과 **따로** 정의하는데 기구현은 글�
 | DOTOLI-257 | Tag                                                            | [components/tag.md](./components/tag.md)                                                |
 | DOTOLI-258 | MenuItem (`IconCircle` 재사용)                                 | [components/menu-item.md](./components/menu-item.md)                                    |
 | DOTOLI-259 | Notification (+ `CtaButton` `text`/`sm` gap 2px 수정)          | [components/notification.md](./components/notification.md)                              |
+| DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

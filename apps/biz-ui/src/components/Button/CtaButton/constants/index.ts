@@ -32,27 +32,24 @@ export const CTA_BUTTON_STATES = {
 
 export const CTA_BUTTON_SIZE_STYLES: Record<
   CtaButtonSize,
-  Record<'HEIGHT' | 'PADDING' | 'ROUNDED' | 'GAP' | 'TYPOGRAPHY', string>
+  Record<'HEIGHT' | 'PADDING' | 'ROUNDED' | 'TYPOGRAPHY', string>
 > = {
   [CTA_BUTTON_SIZES.LG]: {
     HEIGHT: 'h-[52px]',
     PADDING: 'px-[30px] py-[12px]',
     ROUNDED: 'rounded-8',
-    GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-bold',
   },
   [CTA_BUTTON_SIZES.MD]: {
     HEIGHT: 'h-[40px]',
     PADDING: 'px-[20px] py-[9px]',
     ROUNDED: 'rounded-6',
-    GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-semibold',
   },
   [CTA_BUTTON_SIZES.SM]: {
     HEIGHT: 'h-[32px]',
     PADDING: 'px-[12px] py-[5px]',
     ROUNDED: 'rounded-6',
-    GAP: 'gap-1',
     TYPOGRAPHY: 'text-label-bold',
   },
 };
@@ -62,24 +59,75 @@ export const CTA_BUTTON_SIZE_STYLES: Record<
  * */
 export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   CtaButtonSize,
-  Record<'ROUNDED' | 'GAP' | 'TYPOGRAPHY', string>
+  Record<'ROUNDED' | 'TYPOGRAPHY', string>
 > = {
   [CTA_BUTTON_SIZES.LG]: {
     ROUNDED: 'rounded-8',
-    GAP: 'gap-1',
     TYPOGRAPHY: 'text-heading-5',
   },
   [CTA_BUTTON_SIZES.MD]: {
     ROUNDED: 'rounded-6',
-    GAP: 'gap-1',
     TYPOGRAPHY: 'text-body-semibold',
   },
   [CTA_BUTTON_SIZES.SM]: {
     ROUNDED: 'rounded-6',
-    GAP: 'gap-0.5',
     TYPOGRAPHY: 'text-label-bold',
   },
 };
+
+/**
+ * @description: `sm`에서만 variant별로 갈립니다. 실측 근거는
+ * docs/biz-ui/components/button.md [구현 결정]에 있습니다.
+ * */
+export const CTA_BUTTON_GAP_STYLES: Record<
+  CtaButtonVariant,
+  Record<CtaButtonSize, string>
+> = {
+  [CTA_BUTTON_VARIANTS.FILLED]: {
+    [CTA_BUTTON_SIZES.LG]: 'gap-1',
+    [CTA_BUTTON_SIZES.MD]: 'gap-1',
+    [CTA_BUTTON_SIZES.SM]: 'gap-1',
+  },
+  [CTA_BUTTON_VARIANTS.OUTLINED]: {
+    [CTA_BUTTON_SIZES.LG]: 'gap-1',
+    [CTA_BUTTON_SIZES.MD]: 'gap-1',
+    [CTA_BUTTON_SIZES.SM]: 'gap-0.5',
+  },
+  [CTA_BUTTON_VARIANTS.TONAL]: {
+    [CTA_BUTTON_SIZES.LG]: 'gap-1',
+    [CTA_BUTTON_SIZES.MD]: 'gap-1',
+    [CTA_BUTTON_SIZES.SM]: 'gap-1',
+  },
+  [CTA_BUTTON_VARIANTS.TEXT]: {
+    [CTA_BUTTON_SIZES.LG]: 'gap-1',
+    [CTA_BUTTON_SIZES.MD]: 'gap-1',
+    [CTA_BUTTON_SIZES.SM]: 'gap-0.5',
+  },
+};
+
+/**
+ * @description: 아이콘은 라벨 색을 상속하지 않고 조합별로 따로 정의됩니다. 실측 근거와
+ * 상태 축이 접히는 이유는 docs/biz-ui/components/button.md [아이콘 색]에 있습니다.
+ * */
+export const CTA_BUTTON_ICON_STYLES: Record<
+  CtaButtonTheme,
+  Record<CtaButtonVariant, string>
+> = {
+  [CTA_BUTTON_THEMES.PRIMARY]: {
+    [CTA_BUTTON_VARIANTS.FILLED]: 'text-white',
+    [CTA_BUTTON_VARIANTS.OUTLINED]: 'text-blue-500',
+    [CTA_BUTTON_VARIANTS.TONAL]: 'text-blue-500',
+    [CTA_BUTTON_VARIANTS.TEXT]: 'text-blue-500',
+  },
+  [CTA_BUTTON_THEMES.GRAY]: {
+    [CTA_BUTTON_VARIANTS.FILLED]: 'text-white',
+    [CTA_BUTTON_VARIANTS.OUTLINED]: 'text-gray-500',
+    [CTA_BUTTON_VARIANTS.TONAL]: 'text-gray-500',
+    [CTA_BUTTON_VARIANTS.TEXT]: 'text-gray-500',
+  },
+};
+
+export const CTA_BUTTON_DISABLED_ICON_STYLE = 'text-gray-300';
 
 /**
  * @description: `hover:` 래핑 정책은 CLAUDE.md [hover / pressed]를 따릅니다.

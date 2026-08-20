@@ -1,6 +1,7 @@
 import {
   BUTTON_ICON_POSITIONS,
   CTA_BUTTON_SIZES,
+  CTA_BUTTON_STATES,
   CTA_BUTTON_THEMES,
   CTA_BUTTON_VARIANTS,
   CtaButton,
@@ -15,6 +16,12 @@ import { default as IconMeta } from '@/stories/biz-ui/Icon.stories';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
+
+// hover · pressed는 아이콘 색을 바꾸지 않아 두 상태만 나열한다
+const ICON_COLOR_STATES = [
+  CTA_BUTTON_STATES.DEFAULT,
+  CTA_BUTTON_STATES.DISABLED,
+];
 
 // 점 표기 argType('iconOption.iconKey')은 타입이 깨져서 iconKey를 최상위로 편다
 export interface CtaButtonArgs extends Omit<CtaButtonProps, 'iconOption'> {
@@ -184,6 +191,44 @@ export const WithIcon: Story = {
                   key={size}
                   label={label}
                   size={size}
+                  variant={variant}
+                />
+              ))}
+            </Flex>
+          ))}
+        </Flex>
+      ))}
+    </Flex>
+  ),
+};
+
+// 아이콘 색은 라벨과 따로 정의돼 있다 (docs/biz-ui/components/button.md 「아이콘 색」).
+// filled만 라벨과 같고, disabled는 theme·variant와 무관하게 gray-300이다
+export const IconColors: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ label }) => (
+    <Flex direction='column' gap='24'>
+      {Object.values(CTA_BUTTON_THEMES).map((theme) => (
+        <Flex direction='column' gap='12' key={theme}>
+          <Typography color='gray-500' variant='label-bold'>
+            theme = {theme}
+          </Typography>
+          {ICON_COLOR_STATES.map((state) => (
+            <Flex align={{ items: 'center' }} gap='8' key={state} wrap='wrap'>
+              <Typography
+                className='w-20 shrink-0'
+                color='gray-500'
+                variant='label'
+              >
+                {state}
+              </Typography>
+              {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
+                <CtaButton
+                  disabled={state === CTA_BUTTON_STATES.DISABLED}
+                  iconOption={{ iconKey: 'plus' }}
+                  key={variant}
+                  label={label}
+                  theme={theme}
                   variant={variant}
                 />
               ))}
