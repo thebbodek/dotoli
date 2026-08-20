@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.22
+
+### Patch Changes
+
+- 2a226d5: DOTOLI-256 biz-ui CtaButton 수정
+
 ## 0.0.21
 
 ### Patch Changes
