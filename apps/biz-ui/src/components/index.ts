@@ -4,6 +4,7 @@ export * from './Button';
 export * from './Checkbox';
 export * from './Chip';
 export * from './Divider';
+export * from './FaqAccordion';
 export * from './Flex';
 export * from './HeaderBar';
 export * from './Icon';
