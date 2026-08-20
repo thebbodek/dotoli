@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.24
+
+### Patch Changes
+
+- c923caa: DOTOLI-261 biz-ui StatusAlertBanner 구현
+
 ## 0.0.23
 
 ### Patch Changes
