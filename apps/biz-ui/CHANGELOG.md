@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.26
+
+### Patch Changes
+
+- b951128: DOTOLI-263 biz-ui FaqAccordion 구현
+
 ## 0.0.25
 
 ### Patch Changes
