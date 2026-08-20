@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.23
+
+### Patch Changes
+
+- c7ff07b: DOTOLI-260 biz-ui InfoBanner 구현
+
 ## 0.0.22
 
 ### Patch Changes
