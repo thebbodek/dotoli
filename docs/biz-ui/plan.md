@@ -163,6 +163,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 배너
 
 - [x] DOTOLI-260 biz-ui InfoBanner 구현
+- [x] DOTOLI-261 biz-ui StatusAlertBanner 구현
 
 ### biz-ui 후속 수정
 
@@ -257,6 +258,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-258 | MenuItem (`IconCircle` 재사용)                                 | [components/menu-item.md](./components/menu-item.md)                                    |
 | DOTOLI-259 | Notification (+ `CtaButton` `text`/`sm` gap 2px 수정)          | [components/notification.md](./components/notification.md)                              |
 | DOTOLI-260 | InfoBanner (`theme` 5종 · `isSticky`)                          | [components/info.md](./components/info.md)                                              |
+| DOTOLI-261 | StatusAlertBanner (`theme` 4종 · 꼬리 clip-path)               | [components/status-alert-banner.md](./components/status-alert-banner.md)                |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.

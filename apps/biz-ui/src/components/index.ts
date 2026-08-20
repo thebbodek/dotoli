@@ -18,6 +18,7 @@ export * from './NotificationCard';
 export * from './Order';
 export * from './Portal';
 export * from './SelectionItem';
+export * from './StatusAlertBanner';
 export * from './Tag';
 export * from './Toggle';
 export * from './ToggleListItem';
