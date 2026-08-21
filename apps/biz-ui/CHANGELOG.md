@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.34
+
+### Patch Changes
+
+- 416c59e: DOTOLI-272 biz-ui StickyCalendar 구현
+
 ## 0.0.33
 
 ### Patch Changes
