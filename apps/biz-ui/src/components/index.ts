@@ -6,6 +6,7 @@ export * from './Chip';
 export * from './ConfirmModal';
 export * from './Divider';
 export * from './FaqAccordion';
+export * from './FeedbackToast';
 export * from './Flex';
 export * from './HeaderBar';
 export * from './Icon';

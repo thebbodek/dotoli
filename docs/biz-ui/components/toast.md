@@ -1,16 +1,15 @@
 # Toast 구현 기록
 
-`apps/biz-ui/src/components/Toast` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 이 컴포넌트 고유 사실만 둡니다.
+`apps/biz-ui/src/components/Toast` · `apps/biz-ui/src/components/FeedbackToast` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 두 컴포넌트 고유 사실만 둡니다.
 
-Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4643&m=dev) (`75:4643`), 컴포넌트 세트 `116:478`.
-
-같은 섹션 아래쪽의 **`FeedbackToast`(`587:1806`)는 DOTOLI-267 범위**입니다. `type`이 `success` · `info` · `warning` · `error` 4종으로 축부터 다릅니다.
+Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4643&m=dev) (`75:4643`), 컴포넌트 세트 `116:478`(Toast) · `587:1806`(FeedbackToast).
 
 ## 구현 현황
 
-| 컴포넌트 | 티켓       | 설명                                                          |
-| -------- | ---------- | ------------------------------------------------------------- |
-| `Toast`  | DOTOLI-266 | `status` 2종. `useDismiss` · `useAction`은 prop 유무로 흡수. 단독 폴더 |
+| 컴포넌트         | 티켓       | 설명                                                          |
+| ---------------- | ---------- | ------------------------------------------------------------- |
+| `Toast`          | DOTOLI-266 | `status` 2종. `useDismiss` · `useAction`은 prop 유무로 흡수. 단독 폴더 |
+| `FeedbackToast`  | DOTOLI-267 | `type` 4종. 아이콘·색을 `type`이 정함. 버튼 없음. 단독 폴더    |
 
 **시각 표면만 담당합니다.** 화면 하단 배치 · 자동 소멸 타이머 · 동시 노출 우선순위는 넣지 않았고, 근거와 판단 기준은 아래 「후속 판단 기준」에 있습니다.
 
@@ -67,6 +66,8 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 섹션 안 주석이 소멸 규칙과 동시 노출 우선순위를 정의합니다. **컴포넌트가 아니라 컨테이너의 몫이라 코드로 옮기지 않았고**, 여기 옮겨 적어 후속 티켓이 참조할 수 있게 둡니다.
 
+주석 `337:4097` · `337:4101`이 「토스트 공통」이라 **두 컴포넌트에 함께 걸립니다.** `FeedbackToast`는 버튼이 없어 언제나 A입니다.
+
 | 케이스 | 조건                        | 소멸                          |
 | ------ | --------------------------- | ----------------------------- |
 | A      | 버튼 없음                   | 5000ms 후 자동 (`337:4099`)   |
@@ -76,7 +77,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 - **동시 노출 우선순위** (`337:4118`) — A 중 새 A는 이전 것 제거 후 최신만, A 중 D는 A 즉시 제거 후 D, D 중 새 D는 큐에 순차 적재.
 - **배치** (`337:4105` · `587:1813`) — 화면 아래 가운데. D는 영역 내 하단이고 **CTA가 있으면 CTA 상단**입니다.
 - **문구** (`337:4118`) — 줄 수 제한 없음, 말줄임표 미사용, 최대 2줄 20자 이내 **권장**(기획 규칙이고 개발에서 강제하지 않음). 필수값 미입력 안내는 전체 나열이 우선이라 20자 제한 대상이 아닙니다.
-- **용례** (`352:1145`) — `status='loading'`은 비즈파트너 특수 로딩 안내이고, 필수값 미입력은 `FeedbackToast`(DOTOLI-267)가 맡습니다.
+- **용례** (`352:1145`) — `status='loading'`은 비즈파트너 특수 로딩 안내이고, 필수값 미입력은 `FeedbackToast`가 맡습니다(「{필수값}을 입력해주세요」 = `type='info'` 심볼의 문구).
 
 ## 결정
 
@@ -110,7 +111,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **닫기 버튼에 히트 영역 확장을 넣지 않았습니다.** `IconButton size='sm'`이 24×24라 WCAG 2.5.8(24×24)을 정확히 만족합니다. `StatusAlertBanner`는 14×14라 확장이 필요했던 것이고, 기준을 넘기면 임의로 넣지 않습니다 (CLAUDE.md 「히트 영역 확장」).
 
-- **폴더는 단독입니다.** `FeedbackToast`가 뒤에 오지만 프리픽스가 다릅니다 — `Checkbox` ↔ `ItemCheckbox`, `Toggle` ↔ `ToggleListItem`처럼 각자 최상위 폴더를 갖습니다. 문서는 계열 단위라 DOTOLI-267도 이 파일에 씁니다.
+- **폴더는 단독입니다.** `FeedbackToast`와 각자 최상위 폴더를 갖습니다 — 근거는 아래 「FeedbackToast」 「결정」에 있습니다. 문서만 계열 단위로 묶어 DOTOLI-267도 이 파일에 씁니다.
 
 ## API
 
@@ -142,6 +143,74 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 <Toast message='잠시만 기다려주세요' status={TOAST_STATUSES.LOADING} />
 ```
 
+## FeedbackToast
+
+같은 섹션의 두 번째 세트(`587:1806`)입니다. **`Toast`와 겹치는 것은 표면 4값(배경 · 테두리 · 그림자 · 흰 글자)뿐이고 나머지는 전부 다릅니다** — 알약 모양이고 버튼이 없으며 아이콘이 `IconCircle`이 아니라 맨 `Icon`입니다.
+
+### Variant 축
+
+| Figma 축 | 값                                          | 구현          |
+| -------- | ------------------------------------------- | ------------- |
+| `type`   | `success` · `info` · `warning` · `error`    | `type` 그대로 |
+
+`Toast`의 `status`와 값이 겹치지 않습니다(`info`만 이름이 같고 아이콘·색이 다릅니다). 축을 합치지 않은 이유입니다.
+
+### 실측 스펙
+
+| 항목      | 값                                                          |
+| --------- | ------------------------------------------------------------ |
+| 컨테이너  | `bg-gray-900` · radius 999 → `rounded-full` · `px-[14px] py-[8px]` · `gap-[6px]` |
+| 테두리    | 1px `gray/800` → `inset-ring inset-ring-gray-800`             |
+| 그림자    | `Toast`와 같은 값 → `shadow-8`                                |
+| 폭        | 심볼마다 다름(80 ~ 221). 문구가 정함 → `w-fit max-w-full`     |
+| 높이      | 39 = `8 + 23.2 + 8`                                           |
+| 아이콘    | 18px · `fill` → `text-[18px]`                                 |
+| 메시지    | `body-semibold` (SemiBold 16 / lh 1.45 / ls -3%) · `base/white` |
+
+| `type`    | 아이콘           | 색           |
+| --------- | ---------------- | ------------ |
+| `success` | `check-circle`   | `green/300`  |
+| `info`    | `info`           | `blue/300`   |
+| `warning` | `warning-circle` | `yellow/300` |
+| `error`   | `x-circle`       | `red/300`    |
+
+네 색 전부 기존 스케일과 hex가 일치해 신규 토큰이 없습니다. **`Toast`와 달리 타이포가 `body`가 아니라 `body-semibold`입니다.**
+
+### 결정
+
+- **폴더를 `Toast`와 나눴습니다.** 프리픽스가 다르고(`Feedback…`) 공유하는 것은 표면 4값뿐입니다. `Toast/shared`를 만들면 두 컴포넌트가 서로의 변경에 묶이는데, 지금 공유할 것은 클래스 문자열 몇 개라 묶을 값이 못 됩니다 — `Checkbox` ↔ `ItemCheckbox`와 같은 판단입니다.
+
+- **`type` 기본값은 `success`입니다.** Figma 세트의 첫 심볼(`587:1805`)을 따랐습니다 — [`IconCircle`](./icon-circle.md)이 같은 기준으로 기본값을 정했습니다.
+
+- **아이콘과 색을 열지 않았습니다.** `type` 하나가 둘을 함께 정합니다(`Record<FeedbackToastType, { ICON_KEY, ICON }>`). [`StatusAlertBanner`](./status-alert-banner.md)와 같은 구조이고, `Toast`가 `iconKey`를 여는 것과 갈리는 이유는 **이쪽은 Figma가 type마다 아이콘을 못 박아 뒀기 때문**입니다.
+
+- **`whitespace-nowrap`을 옮기지 않았습니다.** Figma 텍스트가 auto-width라 코드젠에 붙어 나온 값입니다. 문구 규격(`337:4118`)이 **줄 수 제한 없음**이고 필수값 미입력 안내는 전체 나열이 우선이라 한 줄을 넘기는 것이 정상 경로인데, nowrap이면 알약이 화면 밖으로 나갑니다. `w-fit max-w-full`로 두고 접히게 했습니다.
+
+- **버튼이 없어 항상 A 케이스입니다.** 「토스트 공통」 주석(`337:4097` · `337:4101`)이 소멸 규칙과 200ms 모션을 두 컴포넌트에 함께 겁니다. `animate-toast`를 그대로 쓰고 5000ms 자동 소멸은 컨테이너 몫입니다.
+
+- **`role='status'`가 기본값입니다.** `error` · `warning`도 마찬가지입니다. **type별로 role을 갈라 두지 않은 이유**는 같은 문구를 얼마나 급하게 읽어야 하는지는 화면 맥락이 정하지 색이 정하지 않기 때문입니다. 즉시 알려야 하면 소비자가 `role='alert'`로 덮습니다.
+
+- **`FeedbackToastTypeStyles`를 `StatusAlertBanner`와 공유하지 않았습니다.** 필드 2개가 우연히 같을 뿐 계열이 다르고, 공유하려면 최상위 `shared`에 타입을 올려야 하는데 그러면 서로 무관한 두 컴포넌트가 한 타입에 묶입니다. 「타입 중복 금지」는 **같은 계열** 안의 규칙입니다.
+
+### API
+
+| prop        | 필수 | 기본값      | 비고                                        |
+| ----------- | ---- | ----------- | ------------------------------------------- |
+| `message`   | ✅   | —           | `<p>`로 렌더. 길면 접힘                      |
+| `type`      |      | `'success'` | 아이콘과 색을 함께 정함                      |
+| `role`      |      | `'status'`  | 즉시 알려야 하면 `'alert'`                   |
+| `aria-live` |      | —           | `role`을 덮을 때만                           |
+| `className` |      | —           | 컨테이너에 적용. **배치는 이 통로로 소비자가 함** |
+
+```tsx
+<FeedbackToast message='6월 5주 - 7월 1주 주문 완료' />
+
+<FeedbackToast
+  message='상호명, 사업자등록번호를 입력해주세요'
+  type={FEEDBACK_TOAST_TYPES.INFO}
+/>
+```
+
 ## 후속 판단 기준 — 컨테이너를 무엇으로 만들 것인가
 
 자동 소멸 · 큐 · 화면 하단 배치를 담을 자리가 아직 없습니다. **자매 DS는 이 층이 DS 밖에 있습니다.**
@@ -159,7 +228,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 2. **자체 컨테이너** — Figma 정책의 A/D 우선순위는 라이브러리 기본 동작이 아닙니다. `react-hot-toast`로도 「A 노출 중 D 발생 시 A 즉시 제거」는 직접 짜야 하고, 마감 경과 예외는 무한 duration으로 따로 다뤄야 합니다.
 3. **소비 앱 책임** — 배치가 「CTA가 있으면 CTA 상단」이라 **레이아웃을 아는 쪽이 앱**이라는 점은 이 안을 지지합니다.
 
-셋 중 무엇이든 이 컴포넌트는 그대로 씁니다. 컨테이너가 생기면 함께 볼 것은 두 가지입니다 — 소멸 모션을 위한 `isOpen` 계열 prop(internal-ui의 `visible` 자리)과, 큐에 쌓인 토스트의 `role` 기본값입니다.
+셋 중 무엇이든 두 컴포넌트는 그대로 씁니다. **컨테이너 하나가 둘을 함께 실어야 합니다** — 「토스트 공통」 소멸 규칙이 둘에 같이 걸리므로 A/D 판정과 큐가 갈리면 안 됩니다. 컨테이너가 생기면 함께 볼 것은 두 가지입니다 — 소멸 모션을 위한 `isOpen` 계열 prop(internal-ui의 `visible` 자리)과, 큐에 쌓인 토스트의 `role` 기본값입니다.
 
 ## 디자인 확인 필요
 
@@ -168,7 +237,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 등장 모션        | 명시된 것은 소멸 「페이드 아웃」과 200ms뿐입니다. 등장도 페이드로 뒀습니다                     |
 | 회전 속도        | 「360도 회전」만 있고 duration이 없습니다. Tailwind 기본값(1s linear)을 씁니다                |
 | 아이콘 없는 토스트 | 심볼 5개 모두 아이콘이 있습니다. 아이콘 없이 쓰는 것이 허용되는지                           |
-| 2줄 이상         | 정책은 줄 수 제한이 없는데 심볼은 1줄뿐입니다. 3줄 이상에서 버튼 정렬(현재 세로 가운데)이 맞는지 |
+| 여러 줄 버튼 정렬 | 문구가 3줄 이상일 때 `action` · 닫기 버튼이 지금처럼 **세로 가운데**가 맞는지. 줄 수 자체는 정책이 제한하지 않습니다 |
 
 **gap 11px · `IconCircle` 테마 개방 · 닫기 `pressed` 3건은 DOTOLI-266에서 확정돼 위 표에서 내렸습니다.** 판단 근거는 「결정」에 있습니다.
 
@@ -182,5 +251,13 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | `Combinations` | Figma 세트와 같은 배치 — `onDismiss` × `action` 4조합            |
 | `Loading`      | `status='loading'` — 아이콘 고정과 회전                          |
 | `LongMessage`  | 380 폭에서 2줄로 접히는 것 (말줄임이 아닌 것)                     |
+
+`apps/storybook/src/stories/biz-ui/FeedbackToast.stories.tsx`, `meta.title`은 `core/biz-ui/FeedbackToast`.
+
+| 스토리        | 보는 것                                                       |
+| ------------- | ------------------------------------------------------------- |
+| `Default`     | 기본형 + 컨트롤                                                |
+| `Types`       | 4종을 문서 프레임과 같은 순서로. **문구도 심볼에 적힌 것을 그대로** 씁니다 |
+| `LongMessage` | 필수값 전체 나열로 길어져 알약이 접히는 것                       |
 
 `iconKey` · `weight` argType은 `Icon.stories`에서 가져와 `description`만 걷어냅니다 — `IconCircle` · `NotificationCard`와 같은 방식입니다.
