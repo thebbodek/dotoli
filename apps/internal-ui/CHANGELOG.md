@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.123
+
+### Patch Changes
+
+- e46aaf1: DOTOLI-276 InputFieldBase className props 전달 누락 건 수정
+  - @bbodek/utils@0.0.93
+  - @bbodek/hooks@0.0.96
+
 ## 0.0.122
 
 ### Patch Changes
