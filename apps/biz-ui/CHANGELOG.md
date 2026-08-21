@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.28
+
+### Patch Changes
+
+- 297b2e2: 패키지 버전 수정
+
 ## 0.0.27
 
 ### Patch Changes
