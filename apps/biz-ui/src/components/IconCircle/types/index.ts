@@ -22,4 +22,5 @@ export interface IconCircleProps
     Pick<IconProps, 'iconKey' | 'weight'> {
   size?: IconCircleSize;
   theme?: IconCircleTheme;
+  iconClassName?: IconProps['className'];
 }

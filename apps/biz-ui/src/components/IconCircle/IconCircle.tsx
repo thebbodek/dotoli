@@ -16,6 +16,7 @@ const IconCircle = ({
   size = ICON_CIRCLE_SIZES.MD,
   theme = ICON_CIRCLE_THEMES.PRIMARY,
   className,
+  iconClassName,
 }: IconCircleProps) => {
   const { CONTAINER, ICON } = ICON_CIRCLE_SIZE_STYLES[size];
 
@@ -29,7 +30,12 @@ const IconCircle = ({
         ICON_CIRCLE_THEME_STYLES[theme],
       )}
     >
-      <Icon iconKey={iconKey} weight={weight} aria-hidden />
+      <Icon
+        className={iconClassName}
+        iconKey={iconKey}
+        weight={weight}
+        aria-hidden
+      />
     </div>
   );
 };

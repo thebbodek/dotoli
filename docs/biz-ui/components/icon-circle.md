@@ -50,6 +50,7 @@ Storybook 렌더의 계산값으로 12조합을 전수 대조했고 박스·radi
 - **표시 전용이라 `<div>`입니다.** Figma에 상태 축(hover·pressed·disabled)이 없습니다. 누르는 자리는 `IconButton`이 이미 맡고 있어 여기서 상호작용을 열지 않았습니다.
 - **`shrink-0`은 Figma에 없고 제가 더한 유일한 클래스입니다.** 심볼 컨테이너에는 없지만, 고정 48px 박스가 flex row의 자식이 되면 기본값 `shrink: 1`로 찌그러져 **실측 크기가 오히려 깨집니다.** 계열 선례도 같습니다 — `OrderInputCard`의 요일 뱃지(`size-[40px] shrink-0`) · `INPUT_MESSAGE_ICON_STYLE` · `INPUT_FIELD_CARET_STYLE`이 전부 `shrink-0`입니다.
 - **아이콘에 `aria-hidden`을 고정하고 `title`을 열지 않았습니다.** 이 컴포넌트는 **접근성 이름을 가질 수 없습니다** — 의미는 옆 텍스트가 집니다. biz-ui에서 `Icon`을 직접 쓰는 자리가 전부 이 전제입니다(`InputMessage` · `InputField`의 리딩 아이콘은 버튼이 아닌데도 `aria-hidden`입니다). 첫 소비처인 `NotificationCard`도 아이콘 아래 타이틀·본문이 있어 맞습니다. **아이콘이 유일한 의미 전달자인 자리가 나오면 그때 `title`을 여는 게 아니라 이 결정부터 다시 봅니다.**
+- **`iconClassName`은 DOTOLI-266에서 열었습니다.** [`Toast`](./toast.md)의 `status='loading'`이 **글리프만 360도 회전**시켜야 하는데, radius 10의 라운드 사각형이라 컨테이너째 돌리면 배경 모서리가 같이 돕니다. 기존 `className`은 컨테이너용이라 `Icon`에 도달할 수단이 없었습니다. 내부 노드로 가는 className 통로라 [`Overlay`](./overlay.md)의 `contentClassName`과 같은 성격이고 이름 규칙(`<대상>ClassName`)도 그쪽을 따랐습니다.
 - **`theme` 값을 `IconCircle/` 아래 따로 정의합니다.** `IconButton`의 `theme`(`default`·`filled`·`dark`)과 값이 전혀 겹치지 않고, `Badge`의 5종과는 겹치되 `black`이 추가로 있습니다 (CLAUDE.md 「컴포넌트 API」).
 - **이름은 `IconCircle`이지만 원이 아닙니다.** radius가 16/10이라 실제로는 라운드 사각형입니다. Figma 심볼명을 따르는 규칙대로 그대로 뒀습니다 — `OrderBoxCell`(Figma 오타 `OrderBoxSell`)처럼 **오기가 아니라 디자이너가 의도한 이름**이라 바로잡을 대상이 아닙니다.
 
@@ -62,6 +63,7 @@ Storybook 렌더의 계산값으로 12조합을 전수 대조했고 박스·radi
 | `size`      |      | `md`      | 2종                                     |
 | `theme`     |      | `primary` | 6종                                     |
 | `className` |      | —         | 담는 쪽의 레이아웃 보정용               |
+| `iconClassName` |  | —         | 글리프에만 거는 클래스 (DOTOLI-266)     |
 
 ## 디자인 확인 필요
 

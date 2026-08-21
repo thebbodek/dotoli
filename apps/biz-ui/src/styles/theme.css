@@ -150,6 +150,7 @@
   --animate-fade-in: fade-in 0.25s cubic-bezier(0, 0, 0.5, 1);
   --animate-popup: popup 0.25s cubic-bezier(0, 0, 0.5, 1);
   --animate-bottom-sheet: bottom-sheet 0.25s cubic-bezier(0, 0, 0.5, 1);
+  --animate-toast: fade-in 0.2s cubic-bezier(0, 0, 0.5, 1);
 
   @keyframes fade-in {
     0% {
