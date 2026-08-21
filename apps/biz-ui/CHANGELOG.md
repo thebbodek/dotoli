@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.31
+
+### Patch Changes
+
+- 51fb313: DOTOLI-269 biz-ui BottomActionBar 구현
+
 ## 0.0.30
 
 ### Patch Changes
