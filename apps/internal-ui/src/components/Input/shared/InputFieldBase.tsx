@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { PropsWithChildren, useId } from 'react';
 
 import { InputFieldBaseProvider } from '@/components/Input/shared/context/InputFieldBaseContext';
@@ -12,12 +13,13 @@ const InputFieldBase = ({
   children,
   disabled = false,
   feedback = '',
+  className,
   onChange,
 }: PropsWithChildren<InputFieldBaseProps>) => {
   const feedbackId = useId();
 
   return (
-    <fieldset className='in-flex-v-stack gap-y-0.5'>
+    <fieldset className={clsx(className, 'in-flex-v-stack gap-y-0.5')}>
       <legend className='sr-only'>{label}</legend>
       <InputLabel hidden={hiddenLabel} required={required} aria-hidden>
         {label}
