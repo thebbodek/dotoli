@@ -62,7 +62,7 @@
 | 항목                                       | 비고                                                                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
 | `--breakpoint-*` · `--container-*`         | 모바일 기준 재설계 필요. 디바이스 매트릭스 확정 대기                                                                                    |
-| `--animate-*`                              | **완료** — DOTOLI-239에서 `fade-in` · `popup` · `bottom-sheet` 3종 추가 (Figma 주석의 250ms 기준) → [components/overlay.md](./components/overlay.md). DOTOLI-266에서 `toast` 추가 — 등장 200ms라 `fade-in` 키프레임을 duration만 바꿔 재사용 → [components/toast.md](./components/toast.md) |
+| `--animate-*`                              | **완료** — DOTOLI-239에서 `fade-in` · `popup` · `bottom-sheet` 3종 추가 (Figma 주석의 250ms 기준) → [components/overlay.md](./components/overlay.md). DOTOLI-266에서 `toast` 추가 — 등장 200ms라 `fade-in` 키프레임을 duration만 바꿔 재사용. DOTOLI-268에서 `toast-out` + `fade-out` 키프레임 추가(`forwards`) → [components/toast.md](./components/toast.md) |
 | `--color-dim`                              | **완료** — DOTOLI-239에서 추가. 팔레트가 아닌 역할 토큰이라 `COLOR_VARIANTS`에는 넣지 않음 → [components/overlay.md](./components/overlay.md) |
 | `--radius-*` · `--shadow-*`                | **완료** — DOTOLI-227에서 Figma 스케일 확정분을 일괄 추가 (radius 6단계 + `rounded-full`, shadow 6단계) → [components/input.md](./components/input.md) |
 | `variants/{radius,shadow,container}`       | 컴포넌트가 prop으로 노출하지 않아 디렉토리 미생성. `--shadow-20`도 클래스로만 씀 (`variants/`는 prop union이 필요할 때만 만듦)          |

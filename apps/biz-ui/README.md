@@ -58,6 +58,27 @@ export const viewport = {
 };
 ```
 
+### 4. Mount `Toaster` (only if you use `toast`)
+
+Render it once at the app root. `toast.*` calls do nothing without it.
+
+```tsx
+/* app/layout.tsx */
+import { Toaster } from '@bbodek/biz-ui';
+
+<body>
+  {children}
+  <div id='portal' />
+  <Toaster />
+</body>;
+```
+
+Screens with a fixed CTA set `--toast-offset` so toasts float above it.
+
+```ts
+document.documentElement.style.setProperty('--toast-offset', '84px');
+```
+
 ## Example
 
 ```tsx

@@ -1,6 +1,6 @@
 # Toast 구현 기록
 
-`apps/biz-ui/src/components/Toast` · `apps/biz-ui/src/components/FeedbackToast` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 두 컴포넌트 고유 사실만 둡니다.
+`apps/biz-ui/src/components/Toast` · `apps/biz-ui/src/components/FeedbackToast` · `apps/biz-ui/src/components/Toaster` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 토스트 계열 고유 사실만 둡니다.
 
 Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4643&m=dev) (`75:4643`), 컴포넌트 세트 `116:478`(Toast) · `587:1806`(FeedbackToast).
 
@@ -10,8 +10,9 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | ---------------- | ---------- | ------------------------------------------------------------- |
 | `Toast`          | DOTOLI-266 | `status` 2종. `useDismiss` · `useAction`은 prop 유무로 흡수. 단독 폴더 |
 | `FeedbackToast`  | DOTOLI-267 | `type` 4종. 아이콘·색을 `type`이 정함. 버튼 없음. 단독 폴더    |
+| `Toaster` · `toast` | DOTOLI-268 | 노출 관리(단일 슬롯 큐 · 자동 소멸 · 하단 배치). 서드파티 없음 |
 
-**시각 표면만 담당합니다.** 화면 하단 배치 · 자동 소멸 타이머 · 동시 노출 우선순위는 넣지 않았고, 근거와 판단 기준은 아래 「후속 판단 기준」에 있습니다.
+**`Toast` · `FeedbackToast`는 시각 표면만 담당합니다.** 화면 하단 배치 · 자동 소멸 타이머 · 동시 노출 우선순위는 두 컴포넌트에 넣지 않았고 DOTOLI-268의 「toast 유틸」이 맡습니다. 왜 컴포넌트가 아닌지는 아래 「결정」에 있습니다.
 
 ## Variant 축
 
@@ -30,7 +31,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 컨테이너    | `bg-gray-900` · `rounded-16` · `p-[12px]` · `gap-[10px]`          |
 | 테두리      | 1px `gray/800` → `inset-ring inset-ring-gray-800`                 |
 | 그림자      | `shadow/shadow-8` → `shadow-8`                                    |
-| 폭          | 문서 프레임 380. **글자수에 따라 유동** (주석 `587:1813`) → `w-fit max-w-full` |
+| 폭          | **담는 영역을 꽉 채움** (fill) → `w-full`. 세트 380(프레임 420) · 인터렉션 340(프레임 380) 전부 「프레임 − 좌우 20」 |
 | 높이        | 54 (버튼 없음) · 56 (액션 버튼 있음). 고정하지 않음               |
 | 아이콘      | `IconCircle` `size='sm'`(30px) — `info`는 `theme='black'`, `loading`은 `theme='primary'` |
 | 메시지      | `body` (Medium 16 / lh 1.45 / ls -3%) · `base/white` · `flex-1`   |
@@ -57,14 +58,14 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 항목        | 값                                                      |
 | ----------- | ------------------------------------------------------- |
 | 등장        | 200ms (주석 `337:3984`) → `--animate-toast`             |
-| 자동 소멸   | 5000ms 후 페이드 아웃 (주석 `337:4087`) — **구현 안 함** |
+| 자동 소멸   | 5000ms 후 페이드 아웃 (주석 `337:4087`) → DOTOLI-268 `Toaster` · `--animate-toast-out` |
 | 로딩 아이콘 | 360도 회전 (주석 `355:1202`) → `animate-spin`           |
 
 `--animate-toast`는 기존 `fade-in` 키프레임을 duration만 0.2s로 바꿔 씁니다. `--animate-fade-in`은 바텀시트 250ms에 맞춰져 있어 그대로 쓰면 50ms가 어긋납니다.
 
 ## 정책
 
-섹션 안 주석이 소멸 규칙과 동시 노출 우선순위를 정의합니다. **컴포넌트가 아니라 컨테이너의 몫이라 코드로 옮기지 않았고**, 여기 옮겨 적어 후속 티켓이 참조할 수 있게 둡니다.
+섹션 안 주석이 소멸 규칙과 동시 노출 우선순위를 정의합니다. **컴포넌트가 아니라 컨테이너의 몫이라 DOTOLI-266 · 267에서는 코드로 옮기지 않았고**, DOTOLI-268이 이 표를 그대로 물려받았습니다. 규칙별 구현 대조는 아래 「정책을 코드로 옮긴 방식」에 있습니다.
 
 주석 `337:4097` · `337:4101`이 「토스트 공통」이라 **두 컴포넌트에 함께 걸립니다.** `FeedbackToast`는 버튼이 없어 언제나 A입니다.
 
@@ -95,11 +96,11 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **gap을 10px로 통일했습니다.** 버튼이 있는 심볼 2종은 10인데 **버튼이 없는 2종(`116:457` · `352:1172`)만 11**입니다(아이콘 오른쪽 끝 42, 텍스트 시작 53). 컨테이너 바깥 gap도 10이고 두 값이 갈릴 이유가 없어 **Figma 슬립으로 보고 10으로 확정했습니다.**
 
-- **`w-fit max-w-full`입니다.** 심볼 폭 380은 문서 프레임 폭(420 - 좌우 20)이고, 주석 `587:1813`이 「글자수에 따라 유동적으로 넓이 지정」이라고 단정합니다. 말줄임은 넣지 않았습니다 — 정책이 말줄임표 미사용이라 `StatusAlertBanner`의 `truncate`와 반대입니다.
+- **`w-full`입니다 — 담는 영역을 꽉 채웁니다.** 처음에는 주석 `587:1813`(「글자수에 따라 유동적으로 넓이 지정」)을 근거로 `w-fit max-w-full`로 뒀는데, **그 주석은 `FeedbackToast` 밴드(`587:1806`, y 790~871)에 붙은 것**이라 `Toast`에 걸 근거가 아니었습니다. `Toast`의 폭은 문구가 아니라 **담는 영역**을 따릅니다 — 같은 심볼이 세트에서 380(프레임 420) · 인터렉션 프레임에서 340(프레임 380)으로 달라지고 둘 다 「프레임 − 좌우 20」입니다. 심볼 그림에서도 문구가 짧은데 액션·닫기 버튼이 오른쪽 끝에 붙어 있습니다. `w-fit`이면 그 여백이 사라져 `flex-1` 메시지가 밀어낼 것이 없고 버튼이 글자 옆에 붙습니다. 말줄임은 넣지 않았습니다 — 정책이 말줄임표 미사용이라 `StatusAlertBanner`의 `truncate`와 반대입니다.
 
 - **자동 소멸 타이머를 컴포넌트에 두지 않았습니다.** 「버튼이 없으면 5000ms」로 단순화할 수 없습니다 — **주문 마감 경과 예외(`542:68`)가 버튼도 없고 자동 소멸도 하지 않습니다.** 컴포넌트가 타이머를 들면 이 케이스를 위해 다시 끄는 스위치가 필요해지고, 그 스위치는 소비자가 매번 판단해야 하는 값이 됩니다. 소멸 시점은 노출을 관리하는 쪽(컨테이너)이 아는 사실입니다.
 
-- **등장 모션만 넣고 소멸 모션은 넣지 않았습니다.** 마운트되면 `animate-toast`로 200ms 페이드 인합니다. 소멸은 종료 상태를 들고 있어야 하는데 그것을 드는 주체가 아직 없습니다 — [`Overlay`](./overlay.md)의 「닫힘 애니메이션은 없습니다」와 같은 이유입니다. internal-ui `Toast`는 `visible` prop으로 in/out 클래스를 바꾸는데, 그 prop을 넣어 주는 것이 `react-hot-toast`입니다.
+- **컴포넌트에는 등장 모션만 넣었습니다.** 마운트되면 `animate-toast`로 200ms 페이드 인합니다. 소멸은 종료 상태를 들고 있어야 하는데 컴포넌트에는 그것을 드는 주체가 없습니다 — [`Overlay`](./overlay.md)의 「닫힘 애니메이션은 없습니다」와 같은 이유입니다. internal-ui `Toast`는 `visible` prop으로 in/out 클래스를 바꾸는데, 그 prop을 넣어 주는 것이 `react-hot-toast`입니다. **상태를 드는 주체가 DOTOLI-268의 스토어라 소멸 모션도 거기서 붙었습니다** — 컴포넌트가 아니라 감싸는 래퍼에 거는 이유는 아래 「toast 유틸」 「결정」에 있습니다.
 
 - **등장 모션의 종류는 페이드로 봤습니다.** 주석에 명시된 것은 소멸 쪽 「페이드 아웃」과 duration 200ms뿐이고 등장은 프로토타입 플로우로만 있습니다(키프레임 데이터 없음). 짝을 맞춰 페이드로 뒀고 「디자인 확인 필요」에 올렸습니다.
 
@@ -162,7 +163,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 컨테이너  | `bg-gray-900` · radius 999 → `rounded-full` · `px-[14px] py-[8px]` · `gap-[6px]` |
 | 테두리    | 1px `gray/800` → `inset-ring inset-ring-gray-800`             |
 | 그림자    | `Toast`와 같은 값 → `shadow-8`                                |
-| 폭        | 심볼마다 다름(80 ~ 221). 문구가 정함 → `w-fit max-w-full`     |
+| 폭        | 심볼마다 다름(80 · 190 · 201 · 221). **문구가 정함** (주석 `587:1813`) → `w-fit max-w-full` |
 | 높이      | 39 = `8 + 23.2 + 8`                                           |
 | 아이콘    | 18px · `fill` → `text-[18px]`                                 |
 | 메시지    | `body-semibold` (SemiBold 16 / lh 1.45 / ls -3%) · `base/white` |
@@ -211,24 +212,156 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 />
 ```
 
-## 후속 판단 기준 — 컨테이너를 무엇으로 만들 것인가
+## toast 유틸 (DOTOLI-268)
 
-자동 소멸 · 큐 · 화면 하단 배치를 담을 자리가 아직 없습니다. **자매 DS는 이 층이 DS 밖에 있습니다.**
+`Toast` · `FeedbackToast`는 시각만 담당하고, **언제 뜨고 언제 사라지는지는 이 층이 정합니다.** 서드파티 없이 모듈 스코프 스토어 하나로 만들었습니다 — 근거는 아래 「react-hot-toast를 쓰지 않기로 한 근거」.
 
-| 층        | internal-ui                                | biz-ui                     |
-| --------- | ------------------------------------------ | -------------------------- |
-| 시각      | `Toast` (`visible` prop으로 in/out 클래스만 바꿈) | `Toast` — 이번 티켓    |
-| 노출 관리 | `@bbodek/utils`의 `toast` + `Toaster` (`react-hot-toast`) | **없음**    |
+```
+components/Toaster/
+├── Toaster.tsx       # 컨테이너. 현재 토스트 하나를 Portal로 렌더
+├── toast.ts          # 공개 명령형 API
+├── store/            # 큐 · 타이머 · 우선순위. 배럴에서 내보내지 않음
+├── constants/ · types/ · utils/
+└── index.ts          # 배럴. store는 내보내지 않음
+```
 
-`@bbodek/utils`의 실측입니다 — `react-hot-toast`가 peerDependency(`^2.6.0`), `position: 'top-center'`, 기본 `duration: 2000`, `ariaProps`는 `role: 'alert'` · `aria-live: 'assertive'` 고정입니다.
+### 정책을 코드로 옮긴 방식
 
-**biz-ui는 `@bbodek/utils`를 물 수 없습니다.** `utils` → `internal-ui` 의존 체인이 있어 DS 전체가 딸려옵니다 ([frontend.md](../frontend.md) 「특이사항」). 선택지는 셋입니다.
+**판정 축을 「버튼 유무」가 아니라 `duration`으로 잡았습니다.** 정책은 A(버튼 없음) · D(버튼 있음)로 말하지만, **마감 경과 예외가 「버튼 없는데 안 사라지는」 A라서** 버튼으로 판정하면 새 A가 예외 토스트를 밀어냅니다. `duration`이 숫자면 교체 가능, `null`이면 유지로 보면 네 규칙이 전부 한 축으로 떨어집니다.
 
-1. **`react-hot-toast`를 biz-ui peerDependency로 추가** — 따라오는 것은 [overlay.md](./overlay.md) 「넣기로 했을 때 따라오는 것」과 같습니다(`external` 등록 · README 안내 · 버전 범위 · 뺄 때 소비 앱이 깨짐).
-2. **자체 컨테이너** — Figma 정책의 A/D 우선순위는 라이브러리 기본 동작이 아닙니다. `react-hot-toast`로도 「A 노출 중 D 발생 시 A 즉시 제거」는 직접 짜야 하고, 마감 경과 예외는 무한 duration으로 따로 다뤄야 합니다.
-3. **소비 앱 책임** — 배치가 「CTA가 있으면 CTA 상단」이라 **레이아웃을 아는 쪽이 앱**이라는 점은 이 안을 지지합니다.
+| 정책 (`337:4118` · `542:68`)      | 구현                                                    |
+| --------------------------------- | -------------------------------------------------------- |
+| A 노출 중 새 A → 최신만           | 현재가 `duration ≠ null` → 즉시 버리고 새 것을 앞에 넣음   |
+| A 노출 중 D → A 즉시 제거          | 위와 같은 분기 (새 것이 D여도 동일)                        |
+| D 노출 중 새 D → 큐에 순차 적재    | 현재가 `duration === null` → 큐 뒤에 붙임                  |
+| 예외(마감 경과) → 유지             | `duration: null`을 직접 넘김. 버튼이 없어도 안 밀림        |
+| A는 5000ms 후 자동 소멸            | 버튼이 없으면 `duration` 기본값이 `5000`                   |
+| D는 조작해야 소멸                  | `action` · `useDismiss`가 있으면 기본값이 `null`           |
 
-셋 중 무엇이든 두 컴포넌트는 그대로 씁니다. **컨테이너 하나가 둘을 함께 실어야 합니다** — 「토스트 공통」 소멸 규칙이 둘에 같이 걸리므로 A/D 판정과 큐가 갈리면 안 됩니다. 컨테이너가 생기면 함께 볼 것은 두 가지입니다 — 소멸 모션을 위한 `isOpen` 계열 prop(internal-ui의 `visible` 자리)과, 큐에 쌓인 토스트의 `role` 기본값입니다.
+**정책에 없어서 정한 것 3가지입니다.**
+
+- **D 노출 중 A 발생** — 규칙에 없습니다. **큐에 넣습니다**(버리지 않음). D가 사용자 조작을 기다리는 중이라 A가 밀어낼 수 없고, 「확인 전까지 제거되지 않음」과 결이 같습니다.
+- **큐에 A가 둘 이상 쌓였을 때** — 「A 중 새 A는 최신만」은 **노출 중인** A에만 걸립니다. 큐 안에서는 서로 밀어내지 않고 **넣은 순서대로 전부 뜹니다.** 위에서 「버리지 않음」으로 정해 놓고 큐 안에서만 버리면 규칙이 갈리기 때문입니다. D를 오래 열어 두면 뒤에 쌓인 A가 순서대로 5초씩 지나가므로 「디자인 확인 필요」에 올렸습니다.
+- **`toast.loading()`의 기본 소멸** — A 규칙대로면 5초 뒤 사라지는데 **로딩은 작업이 끝나야 끝납니다.** 기본 `duration`을 `null`로 두고 호출부가 `toast.dismiss({ id })`로 끝냅니다.
+
+### API
+
+| 메서드                                  | 렌더            | 기본 `duration`                     |
+| --------------------------------------- | --------------- | ----------------------------------- |
+| `toast.show({ message, iconKey, weight, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
+| `toast.loading({ message, duration })`  | `Toast` `loading` | `null`                            |
+| `toast.success` · `info` · `warning` · `error` `({ message, duration })` | `FeedbackToast` | `5000`      |
+| `toast.dismiss({ id })`                 | —               | `id` 없으면 현재 것. 큐에 있는 id면 큐에서만 제거 |
+| `toast.dismissAll()`                    | —               | 큐를 비우고 현재 것을 닫음           |
+
+전부 **id 문자열을 돌려줍니다.** 로딩처럼 나중에 닫아야 하는 것은 이 값을 들고 있어야 합니다.
+
+```tsx
+// 앱 루트에 한 번
+<Toaster />
+
+// A — 5초 후 자동
+toast.success({ message: '6월 5주 주문 완료' });
+
+// D — 조작해야 사라짐. 액션을 누르면 콜백 실행 후 닫힘
+toast.show({
+  action: { label: '보기', onClick: goOrder },
+  iconKey: 'check-circle',
+  message: '주문이 등록되었어요',
+  useDismiss: true,
+});
+
+// 예외 — 버튼 없이 유지
+toast.show({ duration: null, iconKey: 'warning-circle', message: '이번 주 주문 마감이 지났어요' });
+
+// 로딩 — 끝나면 직접 닫음
+const id = toast.loading({ message: '잠시만 기다려주세요' });
+await submit();
+toast.dismiss({ id });
+```
+
+### 결정
+
+- **`useDismiss`가 유틸 층에서 되살아납니다.** 컴포넌트는 Figma 축을 `onDismiss` 핸들러로 흡수했지만, **유틸에서는 닫는 주체가 스토어라서** 소비자가 넘길 것이 핸들러가 아니라 스위치입니다. 「기능 on/off는 `use`」 규칙 그대로입니다.
+
+- **액션을 누르면 토스트도 닫힙니다.** D의 정의가 「사용자 본인 조작 전까지 유지」라 조작이 일어나면 유지할 이유가 없습니다. `onClick`을 먼저 부르고 닫습니다.
+
+- **라이브 리전은 컨테이너가 집니다.** 컨테이너가 `role='status'`(= `aria-live='polite'` · `aria-atomic='true'`)를 들고 토스트가 없어도 언마운트하지 않습니다. **리전이 변화 전에 이미 DOM에 있어야** 보조기술이 안에 들어온 것을 읽기 때문입니다 — `role='status'`를 단 엘리먼트를 통째로 새로 꽂는 방식은 낭독이 보장되지 않고, 타깃이 iOS WebView(VoiceOver)라 특히 그렇습니다. `react-hot-toast`가 토스트마다 role을 다는 쪽인데 따라가지 않았습니다.
+
+- **컨테이너 안의 토스트는 `role='none'`으로 내립니다.** `Toast` · `FeedbackToast`의 기본값이 `'status'`라 그대로 두면 **리전이 겹쳐** 보조기술에 따라 두 번 읽힙니다. 두 컴포넌트를 단독으로 쓸 때는 스스로 리전이어야 하므로 기본값은 그대로 두고, **`Toaster`가 쓰는 자리에서만** `TOASTER_ITEM_ROLE`로 덮습니다. `role='none'`은 `<div>`의 암묵 role이 없어 사실상 기본값 취소만 합니다.
+
+- **소멸 모션은 래퍼가 겁니다.** 컴포넌트 자신이 `animate-toast`(등장)를 들고 있어서 같은 엘리먼트에 `animate-toast-out`을 얹으면 `animation` 선언이 부딪힙니다. 컨테이너가 감싸는 `<div>`에 걸면 서로 다른 엘리먼트라 충돌이 없고, 래퍼의 `opacity`가 서브트리 전체에 적용됩니다.
+
+- **`key={id}`로 재마운트합니다.** 토스트가 교체될 때 엘리먼트 타입이 같으면 React가 DOM 노드를 재사용해 **등장 애니메이션이 다시 돌지 않습니다.** 「A 중 새 A」가 정확히 그 경로입니다.
+
+- **`TOAST_EXIT_MS`(200)와 `--animate-toast-out`의 duration이 짝입니다.** 스토어가 이 시간만큼 기다렸다가 다음 것을 꺼냅니다. 한쪽만 바꾸면 모션이 잘리거나 빈 화면이 그만큼 늘어납니다.
+
+- **래퍼가 폭을 정하고 컴포넌트가 그 안에서 채우거나 뭉칩니다.** 래퍼는 `w-full` + `justify-center`라 화면 폭에서 좌우 20을 뺀 만큼입니다. `Toast`는 `w-full`이라 그대로 꽉 차고(Figma의 「프레임 − 좌우 20」), `FeedbackToast`는 `w-fit`이라 가운데 정렬됩니다(주석 `587:1813`의 「화면의 아래 가운데」). **두 폭 규칙이 다른 근거는 각 「실측 스펙」에 있습니다.**
+
+- **배치는 `--toast-offset` 하나로 엽니다.** 컨테이너는 `fixed inset-x-0 bottom-0` + `safe-area-bottom`이고, 화면 하단에서 `20px + var(--toast-offset, 0px)`만큼 띄웁니다. **CTA가 있는 화면이 `:root`에 이 값을 세팅**하면 CTA 위로 올라갑니다. 포털을 타고 나가므로 화면 안쪽 엘리먼트에 걸어서는 닿지 않습니다. 컨테이너 자체를 다른 곳에 붙여야 하면 `target`(→ `Portal`)이 열려 있습니다.
+
+- **`z-[1100]`입니다.** `Overlay`가 `z-[1000]`이라 **바텀시트·모달 위에** 뜹니다. 오버레이 안에서 한 조작의 결과를 알리는 경우가 정상 경로라 가려지면 안 됩니다.
+
+- **스토어 구독 함수만 위치 인자입니다.** `useSyncExternalStore(subscribe, ...)`가 `subscribe(listener)` 형태로 호출하는 계약이라 객체 구조 분해를 쓸 수 없습니다. 나머지(`enqueueToast` · `dismissToast`)는 규칙대로 객체를 받습니다.
+
+- **스토어는 배럴에서 내보내지 않습니다.** 소비자의 진입점은 `toast`와 `<Toaster />` 둘뿐입니다 — `components/shared`를 비공개로 두는 것과 같은 기준입니다.
+
+### 검증
+
+**스토어만 따로 번들해서 정책을 헤드리스로 돌렸습니다** (`esbuild` → node). React 없이 순수 로직만 도는 파일이라 가능합니다.
+
+| 확인한 것 | 결과 |
+| --------- | ---- |
+| A 중 새 A는 최신만 · A 중 D는 A를 밀어냄 | 통과 |
+| D 중 새 D는 큐에 적재 · D 중 A도 밀어내지 못함 | 통과 |
+| 닫는 동안 `isClosing`으로 남아 있다 200ms 뒤 다음 것 | 통과 |
+| 큐에 있는 id를 지우면 그 항목만 사라짐 | 통과 |
+| 현재 것도 큐에도 없는 id로 `dismiss` 하면 아무것도 안 닫힘 | 통과 |
+| `duration` 뒤 자동 소멸 · `duration: null`은 유지 | 통과 |
+| 예외 토스트는 새 A에 밀리지 않음 | 통과 |
+| 소멸 진행 중에 들어온 것은 교체가 아니라 큐 | 통과 |
+| 큐에 쌓인 A 둘은 서로 밀어내지 않고 넣은 순서대로 | 통과 |
+
+## `react-hot-toast`를 쓰지 않기로 한 근거 (DOTOLI-268)
+
+노출 관리 층(자동 소멸 · 큐 · 하단 배치)을 **자체 구현**했습니다. 자매 DS를 따라 `react-hot-toast`(이하 rht)를 무는 안을 먼저 검토했고, 아래가 그때 실측한 것입니다.
+
+### 자매 DS는 rht를 「고른」 적이 없습니다
+
+| 시점       | 일                                                                            |
+| ---------- | ------------------------------------------------------------------------------- |
+| 2024-01-07 | `bbodek-internal` 저장소 생성                                                    |
+| 2024-01-24 | `(#0) added react-hot-toast on email & sms template page` — **한 페이지 때문에 앱에 추가** |
+| 2025-07-15 | `DOTOLO-88 Toast Component` — internal-ui `Toast` + `@bbodek/utils` `toast`·`Toaster`가 한 커밋에서 생김 |
+
+**rht가 DS 토스트보다 1년 반 먼저 앱에 있었습니다.** utils 래퍼는 이미 깔려 있고 이미 마운트된 라이브러리를 감싼 것이지 요구사항을 보고 고른 것이 아닙니다. 그리고 **`internal-ui` 자신은 rht에 의존하지 않습니다** — 라이브러리는 끝까지 앱 층에 있었습니다. 「internal-ui처럼」을 따르면 **DS는 토스트 라이브러리를 물지 않는 쪽**입니다.
+
+### 소비 앱 실측 (`bbodek-internal`)
+
+| 항목                          | 실측                                                        |
+| ----------------------------- | ------------------------------------------------------------ |
+| `@bbodek/utils`의 toast 사용  | **76개 파일**                                                |
+| `react-hot-toast` 직접 import | **63개 파일** — `toast.success('케어존 등록 성공')` 형태      |
+| 호출 분포                     | `success` 127 · `error` 116 · `info` 5 · `dismiss` 4 · `dismissAll` 3 · `warning` 1 |
+| 옵션 사용                     | `duration` 1곳 · `toast.promise` · `toast.custom` · `id` **0곳** |
+| DS `Toast`의 `useClose` · `actionOption` | **0곳** — 2년 동안 호출부가 한 번도 안 씀           |
+| `toasterId`                   | 6곳. 카카오맵 모달 안에 **두 번째 `<Toaster>`**를 `position: absolute`로 띄움 |
+
+직접 import 하는 63개 파일은 **rht 기본 토스트 UI가 그대로 뜹니다.** DS 컴포넌트를 안 거칩니다.
+
+### 그래서 넣지 않았습니다
+
+1. **peerDep은 우회 경로를 같이 깝니다.** 앱 `node_modules`에 rht가 들어가는 순간 `import toast from 'react-hot-toast'`가 열리고, 자매 앱에서 그게 63개 파일로 실현됐습니다. DS 토스트와 라이브러리 기본 토스트가 한 앱에 공존합니다.
+2. **정책이 rht 모델이 아닙니다.** 비즈는 단일 슬롯 + 우선순위 큐인데 rht는 동시 노출 리스트입니다. `toastLimit`은 스토어 기본값 20으로 박혀 있고 `ToasterProps`에 없으며(2.6.0 실측), 줄여도 초과분을 **큐잉이 아니라 `slice`로 버립니다**(`store.ts:69`). 「D 노출 중 새 D는 순차 적재」가 그대로 깨집니다.
+3. **어드민에는 지킬 정책이 없었습니다.** mutation 성공/실패 알림 250여 곳이라 동시 노출·우선순위 요구가 없어서 라이브러리 기본 동작으로 충분했습니다. 비즈는 반대입니다.
+4. **rht가 실제로 주는 것 중 비즈에 남는 게 적습니다.** 타이머는 20줄이고 **hover 일시정지는 터치 WebView에서 의미가 없습니다.** 마운트 컨테이너는 [`Portal`](./overlay.md)이 이미 있고, `t.visible` lifecycle은 스토어를 우리가 가지면 우리 상태입니다. `ToastBar`·기본 아이콘·기본 애니메이션은 `toast.custom`만 쓸 거라 전부 미사용입니다.
+5. 넣었을 때 따라오는 것은 [overlay.md](./overlay.md) 「넣기로 했을 때 따라오는 것」과 같습니다 — `external` 등록 · README 안내 · 버전 범위 잠금 · **뺄 때 소비 앱이 깨짐**. 「반반이면 안 넣는 쪽이 되돌리기 쌉니다」도 같은 문서의 판단입니다.
+
+### 대신 배워 온 것
+
+어드민이 결국 `toasterId` + `absolute` 컨테이너로 **두 번째 Toaster**를 띄운 것이 유일하게 라이브러리가 이겼던 지점입니다. 비즈도 「영역 내 하단 · CTA 상단」이 있어 같은 문제를 만납니다. 그래서 `Toaster`가 처음부터 **오프셋(`--toast-offset`)과 `Portal` 타깃을 받는 형태**로 열려 있습니다 — 나중에 컨테이너를 하나 더 띄우는 우회를 하지 않으려는 것입니다.
+
+**뒤집힐 조건** — 소비 앱(비즈파트너)이 이미 rht를 쓰고 있다면 peerDep 비용이 사실상 사라집니다. 그 경우에도 **유틸이 biz-ui가 아니라 앱에 있는 쪽**(어드민의 실제 구조)이 자연스럽습니다. 그 레포는 확인하지 못했습니다.
 
 ## 디자인 확인 필요
 
@@ -238,6 +371,10 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 회전 속도        | 「360도 회전」만 있고 duration이 없습니다. Tailwind 기본값(1s linear)을 씁니다                |
 | 아이콘 없는 토스트 | 심볼 5개 모두 아이콘이 있습니다. 아이콘 없이 쓰는 것이 허용되는지                           |
 | 여러 줄 버튼 정렬 | 문구가 3줄 이상일 때 `action` · 닫기 버튼이 지금처럼 **세로 가운데**가 맞는지. 줄 수 자체는 정책이 제한하지 않습니다 |
+| 하단 여백        | 화면 아래에서 `20px`(+ safe area) 띄웠습니다. Figma에 수치가 없어 **화면 좌우 여백과 같은 값**을 썼습니다 |
+| 로딩 소멸        | A 규칙대로면 5초 뒤 사라지는데 로딩은 작업이 끝나야 끝납니다. `dismiss` 호출 전까지 유지로 뒀습니다 |
+| D 중 A 발생      | 정책에 없습니다. 버리지 않고 큐에 넣어 D를 닫은 뒤 뜨게 했습니다 |
+| 큐에 쌓인 A 여러 개 | 위와 이어집니다. 큐 안에서는 서로 밀어내지 않아 D를 닫으면 **전부 순서대로** 지나갑니다. 최신 하나만 남기는 편이 나은지 |
 
 **gap 11px · `IconCircle` 테마 개방 · 닫기 `pressed` 3건은 DOTOLI-266에서 확정돼 위 표에서 내렸습니다.** 판단 근거는 「결정」에 있습니다.
 
@@ -259,5 +396,18 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | `Default`     | 기본형 + 컨트롤                                                |
 | `Types`       | 4종을 문서 프레임과 같은 순서로. **문구도 심볼에 적힌 것을 그대로** 씁니다 |
 | `LongMessage` | 필수값 전체 나열로 길어져 알약이 접히는 것                       |
+
+`apps/storybook/src/stories/biz-ui/Toaster.stories.tsx`, `meta.title`은 `core/biz-ui/Toaster`. **전부 버튼을 눌러서 띄웁니다** — 자동으로 뜨면 Docs 페이지에서 스토리들이 서로의 토스트를 덮습니다([`ConfirmModal`](./confirm-modal.md)과 같은 이유).
+
+| 스토리      | 보는 것                                                               |
+| ----------- | ----------------------------------------------------------------------- |
+| `Default`   | A · D · 로딩 · 예외(마감 경과) · 전부 닫기                              |
+| `Feedback`  | `FeedbackToast` 4종                                                     |
+| `Priority`  | A 중 새 A · A 중 D · D 세 번 연속 — **정책 우선순위가 눈에 보이는 자리** |
+| `CtaOffset` | `:root`에 `--toast-offset`을 걸었을 때 CTA 위로 올라가는 것              |
+
+**토스트는 스토리 프레임이 아니라 캔버스 하단에 뜹니다.** 컨테이너가 `fixed`고 `Portal`이 `#portal`을 못 찾으면 `document.body`로 폴백하기 때문이며, 실제 동작 그대로라 프레임 안에 가두지 않았습니다.
+
+**Docs 페이지에서는 `Toaster`가 스토리 수만큼(4개) 마운트됩니다.** 데코레이터가 스토리마다 하나씩 렌더하고 `preview.tsx`가 `tags: ['autodocs']`라 네 스토리가 동시에 삽니다. 스토어는 모듈 스코프 하나라 **같은 토스트가 같은 자리에 네 겹으로 그려집니다** — 테두리·그림자가 진해 보이고 보조기술은 네 번 읽습니다. **정책 확인은 Canvas 탭에서 합니다.** 겹침을 없애려면 스토리마다 iframe(`docs.story.inline: false`)을 쓰거나 `Toaster`를 싱글턴으로 만들어야 하는데, 앞은 Docs 로딩이 네 배가 되고 뒤는 「앱 루트에 한 번」이라는 전제를 코드로 방어하는 것이라 **이 티켓에서는 넣지 않았습니다.**
 
 `iconKey` · `weight` argType은 `Icon.stories`에서 가져와 `description`만 걷어냅니다 — `IconCircle` · `NotificationCard`와 같은 방식입니다.

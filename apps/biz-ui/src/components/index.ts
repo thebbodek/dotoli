@@ -24,6 +24,7 @@ export * from './SelectionItem';
 export * from './StatusAlertBanner';
 export * from './Tag';
 export * from './Toast';
+export * from './Toaster';
 export * from './Toggle';
 export * from './ToggleListItem';
 export * from './Typography';
