@@ -1,5 +1,6 @@
 export * from './Badge';
 export * from './BottomActionBar';
+export * from './BottomSheet';
 export * from './BottomTab';
 export * from './Button';
 export * from './Checkbox';
