@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.32
+
+### Patch Changes
+
+- 3a0d866: DOTOLI-270 biz-ui BottomSheet 구현
+
 ## 0.0.31
 
 ### Patch Changes
