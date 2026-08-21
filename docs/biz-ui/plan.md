@@ -178,6 +178,10 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-267 biz-ui FeedbackToast 구현
 - [x] DOTOLI-268 biz-ui toast 유틸 구현 (+ `Toaster` · `--animate-toast-out`)
 
+### biz-ui 하단 액션
+
+- [x] DOTOLI-269 biz-ui BottomActionBar 구현 (두 DS 통틀어 첫 그라디언트)
+
 ### biz-ui 후속 수정
 
 - [x] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
@@ -279,6 +283,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-266 | Toast (`status` 2종 · `IconCircle` `iconClassName` 개방)       | [components/toast.md](./components/toast.md) · [icon-circle.md](./components/icon-circle.md) |
 | DOTOLI-267 | FeedbackToast (`type` 4종 · 단독 폴더)                          | [components/toast.md](./components/toast.md)                                            |
 | DOTOLI-268 | toast 유틸 (`Toaster` · 단일 슬롯 큐 · 서드파티 없음)          | [components/toast.md](./components/toast.md) · [frontend.md](./frontend.md)             |
+| DOTOLI-269 | BottomActionBar (`variant` 2종 · `actions` 축을 prop 유무로 흡수) | [components/bottom-action-bar.md](./components/bottom-action-bar.md)                  |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
