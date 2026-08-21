@@ -119,7 +119,9 @@ DS 심볼은 접힘 66 · 펼침 188인데, **검색 결과 화면의 인스턴�
 
   **값은 지어내지 않았습니다.** `--animate-fade-in` · `--animate-popup` · `--animate-bottom-sheet` 3종이 전부 `0.25s cubic-bezier(0, 0, 0.5, 1)`이고, DOTOLI-239가 **Figma 주석의 250ms를 근거로** 넣은 값입니다([frontend.md](../frontend.md)). 그 값을 그대로 씁니다.
 
-  **다만 토큰으로는 못 씁니다.** 그 셋은 `animation` 단축 속성이라 `transition`에 재사용할 수 없고, `--ease-*` · `--duration-*` 토큰은 없습니다. 지금은 값을 인라인으로 맞춰 두고, **두 번째 소비처가 생기면 토큰으로 뺍니다** — `TOUCH_TARGET_STYLE`이 세 번째 소비처에서 `Button/shared` → `components/shared`로 옮겨진 것과 같은 순서입니다.
+  **다만 CSS 토큰으로는 못 씁니다.** 그 셋은 `animation` 단축 속성이라 `transition`에 재사용할 수 없고, `--ease-*` · `--duration-*` 토큰은 없습니다. 그래서 클래스 문자열을 `components/shared/constants`의 **`MOTION_TIMING_STYLE`**(duration + easing)로 두고, `transition-*`은 쓰는 쪽에서 겁니다.
+
+  처음에는 이 파일 안에 인라인으로 두고 「두 번째 소비처가 생기면 뺀다」고 남겼는데, **DOTOLI-264의 [`OrderNotiCollapse`](./order.md)가 같은 캐럿을 같은 값으로 돌리면서 그 시점이 왔습니다.** `TOUCH_TARGET_STYLE`이 소비처가 늘며 `Button/shared` → `components/shared`로 옮겨간 것과 같은 자리입니다.
 
   `prefers-reduced-motion` 대응은 넣지 않았습니다. `Overlay`의 `--animate-*`도 안 걸고 있어 계열을 맞춘 것이고, 열려면 셋을 함께 봐야 합니다.
 

@@ -54,9 +54,6 @@ export const CTA_BUTTON_SIZE_STYLES: Record<
   },
 };
 
-/**
- * @description: text variant는 배경·높이·패딩이 없어 radius와 타이포만 사이즈별로 둡니다.
- * */
 export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   CtaButtonSize,
   Record<'ROUNDED' | 'TYPOGRAPHY', string>
@@ -75,10 +72,6 @@ export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   },
 };
 
-/**
- * @description: `sm`에서만 variant별로 갈립니다. 실측 근거는
- * docs/biz-ui/components/button.md [구현 결정]에 있습니다.
- * */
 export const CTA_BUTTON_GAP_STYLES: Record<
   CtaButtonVariant,
   Record<CtaButtonSize, string>
@@ -105,10 +98,6 @@ export const CTA_BUTTON_GAP_STYLES: Record<
   },
 };
 
-/**
- * @description: 아이콘은 라벨 색을 상속하지 않고 조합별로 따로 정의됩니다. 실측 근거와
- * 상태 축이 접히는 이유는 docs/biz-ui/components/button.md [아이콘 색]에 있습니다.
- * */
 export const CTA_BUTTON_ICON_STYLES: Record<
   CtaButtonTheme,
   Record<CtaButtonVariant, string>
@@ -129,9 +118,6 @@ export const CTA_BUTTON_ICON_STYLES: Record<
 
 export const CTA_BUTTON_DISABLED_ICON_STYLE = 'text-gray-300';
 
-/**
- * @description: `hover:` 래핑 정책은 CLAUDE.md [hover / pressed]를 따릅니다.
- * */
 export const CTA_BUTTON_STYLES: Record<
   CtaButtonTheme,
   Record<CtaButtonVariant, CtaButtonStyles>

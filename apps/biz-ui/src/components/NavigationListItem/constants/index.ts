@@ -1,7 +1,3 @@
-/**
- * @description: `last:border-b-0`은 형제로 나열될 때만 걸립니다. 목록 컴포넌트를 두지 않은
- * 이유는 docs/biz-ui/components/navigation-list-item.md 「결정」에 있습니다.
- * */
 export const NAVIGATION_LIST_ITEM_BASE_STYLE =
   'flex-h-stack w-full cursor-pointer items-center justify-between gap-[6px] border-b border-gray-100 bg-white px-[13px] py-[14px] last:border-b-0';
 

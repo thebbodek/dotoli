@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import { ICON_WEIGHTS, IconProps } from '@/components/Icon';
+import { MOTION_TIMING_STYLE } from '@/components/shared/constants';
 
 export const FAQ_ACCORDION_OPEN_MODES = {
   SINGLE: 'single',
@@ -22,23 +23,16 @@ export const FAQ_ACCORDION_QUESTION_TEXT_STYLE = 'min-w-0 flex-1 text-left';
 export const FAQ_ACCORDION_CARET_WRAPPER_STYLE =
   'flex-h-stack-center size-[24px] shrink-0';
 
-/**
- * @description: `--animate-*` 3종이 쓰는 값과 같습니다. 그쪽은 keyframe 단축 속성이라
- * transition에 재사용할 수 없어 값만 맞췄습니다. 두 번째 소비처가 생기면 토큰으로 뺍니다.
- * */
-const FAQ_ACCORDION_MOTION_STYLE =
-  'duration-[250ms] ease-[cubic-bezier(0,0,0.5,1)]';
-
 export const FAQ_ACCORDION_CARET_STYLE = clsx(
   'text-[16px] text-gray-400 transition-transform',
-  FAQ_ACCORDION_MOTION_STYLE,
+  MOTION_TIMING_STYLE,
 );
 
 export const FAQ_ACCORDION_OPEN_CARET_STYLE = 'rotate-180';
 
 export const FAQ_ACCORDION_ANSWER_GRID_STYLE = clsx(
   'grid w-full transition-[grid-template-rows]',
-  FAQ_ACCORDION_MOTION_STYLE,
+  MOTION_TIMING_STYLE,
 );
 
 export const FAQ_ACCORDION_OPEN_ANSWER_GRID_STYLE = 'grid-rows-[1fr]';

@@ -165,10 +165,11 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-260 biz-ui InfoBanner 구현
 - [x] DOTOLI-261 biz-ui StatusAlertBanner 구현
 
-### biz-ui 접기 버튼
+### biz-ui 접기
 
 - [x] DOTOLI-262 biz-ui CollapseButton 구현
 - [x] DOTOLI-263 biz-ui FaqAccordion 구현 (+ `FaqAccordionList`)
+- [x] DOTOLI-264 biz-ui OrderNotiCollapse 구현
 
 ### biz-ui 후속 수정
 
@@ -200,7 +201,7 @@ DOTOLI-233 다음은 Figma [Info 섹션](https://www.figma.com/design/IGi6n6Cz0b
 
 DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 끝냈고([`components/overlay.md`](./components/overlay.md)) **다음은 BottomSheet · ConfirmModal 실물 2종**입니다. 둘 사이에 의존이 없어 병렬로 가도 됩니다. `Overlay`는 **비공개**(`components/shared/`)라 소비자의 진입점이 이 둘뿐이고, 그래서 두 티켓이 시각 검증(스토리)까지 함께 집니다. Overlay는 배경 탭에서 `onClose` 콜백만 넘기므로 **정책 COM-008(이탈 방지) · 물리 뒤로가기 · ESC 처리는 각 컴포넌트 티켓이 맡습니다.** 그 티켓에서 `overlay-kit`을 peerDependency로 넣을지도 함께 올라오는데, 판단 기준과 실측 근거는 [`components/overlay.md`](./components/overlay.md) 「후속 티켓 판단 기준」에 있습니다.
 
-**BottomSheet · ConfirmModal은 아직 티켓이 없고, 먼저 나간 것이 DOTOLI-241~250입니다.** Figma `component` 페이지에서 미구현 섹션 20개 중 **오버레이에 의존하지 않는 8개 섹션을 뽑았고**, 나머지 10개(BottomSheet · ConfirmModal · Toast · CollapseButton · FaqAccordion · OrderNotiCollapse · InfoBanner · StatusAlertBanner · Notification · Calendar 계열 5종)는 다음 배치입니다. **Tag · MenuItem · Notification · InfoBanner · StatusAlertBanner · CollapseButton이 여기서 먼저 빠져나가 DOTOLI-257 · 258 · 259 · 260 · 261 · 262로 끝났습니다.** 남은 8개 전부 **DOTOLI-239와 병렬로 가도 되고**, 새로 만들 베이스 컴포넌트도 없습니다.
+**BottomSheet · ConfirmModal은 아직 티켓이 없고, 먼저 나간 것이 DOTOLI-241~250입니다.** Figma `component` 페이지에서 미구현 섹션 20개 중 **오버레이에 의존하지 않는 8개 섹션을 뽑았고**, 나머지 10개(BottomSheet · ConfirmModal · Toast · CollapseButton · FaqAccordion · OrderNotiCollapse · InfoBanner · StatusAlertBanner · Notification · Calendar 계열 5종)는 다음 배치입니다. **Tag · MenuItem · Notification · InfoBanner · StatusAlertBanner · CollapseButton · FaqAccordion · OrderNotiCollapse가 여기서 먼저 빠져나가 DOTOLI-257~264로 끝났습니다.** 남은 8개 전부 **DOTOLI-239와 병렬로 가도 되고**, 새로 만들 베이스 컴포넌트도 없습니다.
 
 의존은 두 갈래뿐이고 나머지 6개는 선행이 없습니다.
 
@@ -266,6 +267,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-261 | StatusAlertBanner (`theme` 4종 · 꼬리 clip-path)               | [components/status-alert-banner.md](./components/status-alert-banner.md)                |
 | DOTOLI-262 | CollapseButton (라벨 DS 소유 · caret 회전)                     | [components/button.md](./components/button.md)                                          |
 | DOTOLI-263 | FaqAccordion (+ `FaqAccordionList` · 열림 집합 소유)           | [components/faq-accordion.md](./components/faq-accordion.md)                            |
+| DOTOLI-264 | OrderNotiCollapse (헤더 전용 · `type` 4종)                     | [components/order.md](./components/order.md)                                            |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.

@@ -412,7 +412,18 @@ Figma: [CollapseButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivI
 
 - **`isOpen`·`onClick` 둘 다 필수입니다.** 상태를 못 받으면 항상 「더보기」로 굳고, 누를 수 없으면 토글이 성립하지 않습니다. `MenuItem` · `NavigationListItem` · `Tag`와 같은 형태(`Required<Pick<…, 'onClick'>>` + `type='button'` 하드코딩)입니다.
 
-- **`transition`을 걸지 않았습니다.** 회전을 택했으니 전환 애니메이션을 붙일 자리가 생기지만, **Figma에 모션 정의가 없습니다.** CLAUDE.md 「Figma에 없는 시각은 만들지 않습니다 — 모션도 같습니다」에 따라 아래 「디자인 확인 필요」에 올렸습니다. `hover`·`pressed` 축도 없어 `transition-colors`도 없습니다(`Tag` · `MenuItem`과 같은 판단, `Filter`와 갈리는 지점).
+- **caret 회전에 `transition`을 걸지 않았습니다 — 접기 계열 셋 중 여기만 안 겁니다.** [`FaqAccordion`](./faq-accordion.md) · [`OrderNotiCollapse`](./order.md)는 250ms로 돌리는데, **「Figma에 모션 정의가 없다」는 그 둘에도 똑같이 해당하므로 구별 근거가 되지 못합니다.** 갈리는 진짜 이유는 **caret이 제자리에서 돌지 못한다**는 것입니다.
+
+  | | caret 수평 위치 | 컴포넌트 수직 위치 |
+  | --- | --- | --- |
+  | `CollapseButton` | **5.8px 이동** — 라벨이 「더보기」↔「접기」로 바뀌는데 중앙 정렬이라 폭 변화가 caret을 민다 | **콘텐츠 아래**라 펼칠 때 그 높이만큼 밀림 |
+  | `FaqAccordion` · `OrderNotiCollapse` | 고정 — `size-[24px]` 슬롯이고 텍스트가 상태에 안 묶임 | 헤더가 위라 제자리 |
+
+  두 이동 모두 레이아웃 리플로우라 **전환 없이 순간이동**합니다. 250ms 회전을 얹으면 caret이 옆으로 텔레포트하면서 천천히 도는 그림이 되고, 수직 이동은 콘텐츠 높이 전체라 회전이 아예 묻힙니다. **눈은 회전보다 위치 변화를 먼저 쫓으므로 부드러워지는 게 아니라 어긋나 보입니다.**
+
+  **되돌아볼 조건은 소비 앱이 접히는 영역에 높이 전환을 붙이는 때입니다.** 그러면 버튼이 부드럽게 따라 내려와 수직 점프가 사라지고, 남는 5.8px은 라벨 슬롯 폭을 「더보기」 기준으로 고정하면 없앨 수 있습니다 — 다만 Figma가 hug + 중앙 정렬이라 시각이 바뀌므로 디자이너 확인이 필요합니다.
+
+  `hover`·`pressed` 축도 없어 `transition-colors`도 없습니다(`Tag` · `MenuItem`과 같은 판단, `Filter`와 갈리는 지점).
 
 - **caret weight를 `fill`로 명시해 넘깁니다.** `ButtonIcon`은 `weight`를 안 주면 `ICON_DEFAULT_WEIGHT`(=`bold`)로 떨어져 **라인 캐럿이 나옵니다.** 이 심볼은 Figma가 fill이라 `COLLAPSE_BUTTON_ICON_WEIGHT`로 넘깁니다 — `TAG_ICON_WEIGHT` · `CHIP_ICON_WEIGHT` · `MENU_ITEM_ICON_WEIGHT`와 같은 상수 형태입니다.
 
@@ -449,7 +460,7 @@ Figma: [CollapseButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivI
 
 | 항목        | 내용                                                                             |
 | ----------- | ---------------------------------------------------------------------------------- |
-| 회전 모션   | caret을 회전으로 그렸는데 duration · easing 정의가 없습니다. 지금은 즉시 전환입니다 |
+| 회전 모션   | 접기 계열 다른 둘과 달리 **일부러 뺐습니다** — caret이 라벨 길이 변화로 5.8px 밀리고 버튼 자체도 콘텐츠 아래라 수직으로 뜁니다. 라벨 슬롯 폭을 고정해 수평 이동을 없앨지 (Figma는 hug + 중앙 정렬) |
 | 상호작용    | `hover` · `pressed` · `focus` · `disabled` 축이 없습니다                            |
 | 타이포 바인딩 | 심볼 텍스트에 타이포 변수가 안 걸려 있습니다. `label`로 확정했으나 원본도 정리 필요 |
 

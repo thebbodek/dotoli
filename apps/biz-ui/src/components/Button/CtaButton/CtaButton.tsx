@@ -33,10 +33,6 @@ const CtaButton = ({
   const { iconKey, weight } = iconOption ?? {};
   const hasIcon = isPending || !!iconKey;
   const isDisabled = disabled || isPending;
-  /**
-   * @description: `isPending`은 Figma에 심볼이 없어 아이콘 색도 실측값이 없습니다. 스피너에
-   * 이 색을 씌우지 않고 라벨 색을 그대로 상속시킵니다 (docs/biz-ui/components/button.md).
-   * */
   const iconStyle = generateCtaButtonIconStyle({
     variant,
     theme,

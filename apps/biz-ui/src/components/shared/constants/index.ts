@@ -7,3 +7,6 @@ export const TOUCH_TARGET_STYLE =
 
 export const TOUCH_TARGET_NARROW_STYLE =
   "before:absolute before:-inset-1 before:content-['']";
+
+export const MOTION_TIMING_STYLE =
+  'duration-[250ms] ease-[cubic-bezier(0,0,0.5,1)]';

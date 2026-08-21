@@ -28,10 +28,6 @@ export const generateCtaButtonStyle = ({
   const sizeStyle = isText
     ? CTA_BUTTON_TEXT_SIZE_STYLES[size]
     : CTA_BUTTON_SIZE_STYLES[size];
-  /**
-   * @description: 확장 대상은 Figma 주석 `337:3538`이 지정한 `text`와 `sm` 뿐입니다
-   * (docs/biz-ui/components/button.md).
-   * */
   const shouldExpandTouchTarget = isText || size === CTA_BUTTON_SIZES.SM;
 
   return clsx(

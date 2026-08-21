@@ -22,10 +22,6 @@ import { NotificationProps } from '@/components/Notification/types';
 import { Typography } from '@/components/Typography';
 import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
-/**
- * @description: 카드가 `<button>`이 아닌 이유와 `CtaButton`에 `onClick`을 넘기지 않는 이유는
- * docs/biz-ui/components/notification.md 「카드 전체가 탭 영역입니다」에 있습니다.
- * */
 const Notification = ({
   iconKey,
   companyName,

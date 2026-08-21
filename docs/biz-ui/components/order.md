@@ -13,6 +13,9 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | `OrderDateInfo`   | DOTOLI-231 | 날짜 + 배송정보 2행. `isHoliday` · 배송 유무 2축            |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
+| `OrderNotiCollapse` | DOTOLI-264 | `type` 4종 × `isOpen`. **헤더만** 그리고 접히는 내용은 소비 앱이 형제로 둠 |
+
+`OrderNotiCollapse`만 Order 섹션 밖([`205:4063`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=205-4063&m=dev))에 있습니다.
 
 ## 계열 공통 결정
 
@@ -362,3 +365,125 @@ Figma: 컴포넌트 세트 `309:1965`. 심볼 10개가 있고 이름은 `orderSt
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/OrderInputCard.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderInputCard`. 스토리 2종 (`Default` · `Matrix`). `Matrix`는 `orderStatus` 4 × 휴일 2 × 날짜 유무 2 = **16조합을 전부 깔아** Figma에 없는 6조합까지 눈으로 확인합니다.
+
+---
+
+## OrderNotiCollapse
+
+Figma: [OrderNotiCollapse 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=205-4063&m=dev) (`205:4063`), 컴포넌트 세트 `179:1158`.
+
+주문 이력 카드의 **헤더**입니다. 사용예시는 소비 앱의 [ORD-301 주문 내역](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1426-12990&m=dev) (`1426:12990`)이고 인스턴스가 14개 있습니다.
+
+### `useDetail` 축은 구현하지 않습니다
+
+Figma 심볼은 9개(`type` 3 × `isOpen` 2 × `useDetail` 2 중 `isOpen=false·useDetail=true`는 없음)인데, **디자이너가 「디자인상에만 추가해 둔 것이니 개발에서 제외해 달라」고 확인해 줬습니다.**
+
+빼고 나면 남는 6개 심볼에서 **`isOpen`은 caret 방향만 바꿉니다** — 박스 · 색 · 텍스트 · 높이(62)가 전부 같습니다. `isOpen=true·useDetail=false`(`179:1296`)가 같은 헤더를 `flex-col` 래퍼로 한 겹 더 감싸는데, **상세 블록을 담으려고 만든 자리**라 내용이 없으면 아무 일도 하지 않습니다. 구현에서는 걷어냈습니다.
+
+**실사용이 이 결정과 맞습니다.** ORD-301의 인스턴스 14개가 전부 **62 높이**이고, 접히는 내용(`OrderBox` · 사유 · 기간)은 인스턴스 안이 아니라 **형제 `Container` 프레임**에 있습니다. 주석 `355:1286`도 「선택영역 헤더 전체(**콘텐츠 영역 외**)」입니다. 즉 이 컴포넌트는 **자기가 접는 것을 담지 않습니다** — [`CollapseButton`](./button.md)과 같은 계약입니다.
+
+### Variant 축
+
+| 축       | 값                                                          |
+| -------- | ----------------------------------------------------------- |
+| `type`   | `orderStop` · `orderEdit` · `fixedOrder` · `weeklyOrder`     |
+| `isOpen` | `false` · `true` — caret 방향만                              |
+
+### 실측 스펙
+
+| 항목        | 값                                                    |
+| ----------- | ------------------------------------------------------ |
+| 높이        | 62 → `h-[62px]` 고정 (아래 「결정」)                    |
+| 폭          | 심볼 380이지만 **fill** → `w-full`                      |
+| 구분선      | **상단** 1px `gray/100` — `border-t`                    |
+| padding     | 좌우 20 → `px-[20px]`. 상하 12는 높이로 대체            |
+| 배치        | `justify-between`                                       |
+| 유형명      | `label-bold` · `type`별 색                              |
+| 등록일시    | `label` · `gray/600`                                    |
+| 등록자      | `label` · `gray/600` · caret과 `gap-[4px]`              |
+| caret       | 24px 박스 안 16px · weight `fill` · `gray/400`           |
+
+**구분선이 `border-b`가 아니라 `border-t`입니다.** 카드가 세로로 붙어 쌓이는 형태라 헤더 위쪽에 선이 그어집니다.
+
+| `type`        | 배경        | 유형명 색   | 문구      |
+| ------------- | ----------- | ----------- | --------- |
+| `orderStop`   | `red/50`    | `red/700`   | 주문 중지 |
+| `orderEdit`   | `yellow/50` | `yellow/700`| 주문 수정 |
+| `fixedOrder`  | **`gray/50`** | `blue/700`| 고정주문  |
+| `weeklyOrder` | **`gray/50`** | `blue/700`| 주간주문  |
+
+바인딩된 hex가 기존 토큰과 전부 일치해 **신규 토큰이 없습니다.**
+
+### 결정
+
+- **`weeklyOrder`는 DS 섹션이 아니라 사용예시에서 왔습니다.** Figma 컴포넌트 세트에는 `type` 3종뿐인데, ORD-301 인스턴스 2개(`1217:12860` · `1217:12899`)가 **「주간주문」**을 렌더하고 기획 패널(`1506:18895`)도 고정주문과 주간주문을 **서로 다른 유형**으로 나열합니다(본문에 담는 내용이 다름).
+
+  렌더를 확대해 보니 **배경 · 유형명 색이 `fixedOrder`와 완전히 같고 문구만 다릅니다.** 값을 지어낸 것이 아니라 디자인 파일에서 읽은 것이라 4번째 타입으로 넣었고, **DS 심볼에 추가해 달라는 요청은 「디자인 확인 필요」에 올렸습니다.** 넣지 않으면 소비 앱이 배포 직후부터 우회해야 합니다.
+
+- **유형명 문구를 DS가 소유합니다.** `type`에 1:1로 묶인 값이라 소비자가 정할 것이 없습니다 — [`CollapseButton`](./button.md)의 `COLLAPSE_BUTTON_LABELS`과 같은 판단입니다. `registeredAtLabel` · `registrant`만 소비자 값입니다.
+
+- **Figma의 `badge` prop을 `registrant`로 바꿨습니다.** 담기는 값이 등록자(「뽀득」 또는 계정명)인데 `badge`는 내용을 설명하지 못하고, **같은 패키지의 `Badge` 컴포넌트와 이름이 겹쳐** 읽는 사람을 헷갈리게 합니다. Figma 이름을 그대로 따르는 규칙은 컴포넌트명에 걸리는 것이고, prop 이름은 [`MenuItem`](./menu-item.md)이 `label` · `description`을 새로 붙인 선례가 있습니다.
+
+- **caret은 아이콘 교체가 아니라 회전입니다.** Figma는 `CaretUp`/`CaretDown` 교체인데, 같은 배치의 [`CollapseButton`](./button.md) · [`FaqAccordion`](./faq-accordion.md)과 회전으로 통일하기로 확인받았습니다.
+
+  **weight는 `fill`이고 명시해 넘깁니다.** `Icon`은 `weight`를 안 주면 `ICON_DEFAULT_WEIGHT`(=`bold`)로 떨어져 라인 캐럿이 나옵니다. 접기 계열 셋이 같은 캐럿을 쓰므로 값도 같습니다 — **셋 다 처음에 이걸 빠뜨렸습니다.** 안 넘겨도 타입·빌드·린트가 전부 통과하고 기본값이 조용히 채워집니다.
+
+- **헤더 전체가 `<button>`이고 caret은 장식입니다.** Figma는 안에 `IconButton` 인스턴스를 넣어 버튼이 중첩되는데, caret에 독립된 동작이 없어 `aria-hidden` `Icon`으로 내렸습니다. `InfoBanner` · `CollapseButton` · `FaqAccordion`과 같은 처리입니다.
+
+- **높이를 고정합니다 — `h-[62px]`, `py-[12px]` 없음.** Figma 두 텍스트가 `mb-[-2px]`로 겹쳐 있는데 [`MenuItem`](./menu-item.md)과 같은 폰트 메트릭 아티팩트라 음수 마진을 옮기지 않았습니다. 패딩으로 쌓으면 `12 + 40.6 + 12 = 64.6`이 되어 Figma 62와 어긋나므로 높이를 고정합니다.
+
+- **`aria-expanded`를 붙이고 `aria-controls`는 통로로 엽니다.** 접히는 영역이 **소비 앱 것**이라 id를 DS가 알 수 없습니다 — [`CollapseButton`](./button.md)과 같고, 영역을 자기가 가진 [`FaqAccordion`](./faq-accordion.md)이 `useId`로 직접 배선한 것과 갈립니다.
+
+- **행에 `gap-[8px]`을 넣었습니다.** `justify-between`은 **여유 공간이 있을 때만** 두 그룹을 벌리므로, 좌측이 줄어들어 말줄임이 걸리는 순간에는 여유가 0이라 `…`와 등록자가 맞닿습니다. 아래 가드가 실제로 성립하려면 필요한 한 줄입니다 — `NavigationListItem`(`gap-[6px]`) · `FaqAccordion`(`gap-[8px]`)이 같은 이유로 갖고 있습니다.
+
+- **좌측 텍스트에 `min-w-0 truncate`를 겁니다 — Figma는 양쪽 다 `shrink-0`입니다.** `registrant`가 계정명이라 길이가 변합니다(기획 `1436:12308`의 등록자 유형 4종). Figma대로 두면 긴 이름에서 헤더가 넘치므로, **우측(등록자 + caret)을 `shrink-0`으로 지키고 좌측만 줄어들게** 했습니다. `NavigationListItem`의 「라벨만 잘리고 값은 안 잘린다」와 같은 구조입니다.
+
+- **문구는 `ORDER_NOTI_COLLAPSE_LABELS`로 스타일 맵과 분리했습니다.** 한 레코드에 텍스트·클래스·토큰을 섞으면 계열 선례와 어긋납니다 — `OrderInputCard`가 `*_STYLES` / `*_ACTION_LABELS` / `*_STATUS_LABELS`를 같은 union 키로 각각 두고, `CollapseButton`도 `COLLAPSE_BUTTON_LABELS`를 따로 둡니다.
+
+- **prop 이름이 `registeredAt`이 아니라 `registeredAtLabel`입니다.** 받는 값이 `Date`나 타임스탬프가 아니라 **이미 포맷된 표시 문자열**(`2026-00-00 16:30 등록`)입니다. Order 계열이 `OrderDateInfo.dateLabel` · `OrderInputCard.dayLabel`로 같은 접미어를 쓰고 있어 맞췄습니다.
+
+- **`ref`를 엽니다.** 「펼친 뒤 헤더로 스크롤」처럼 소비자가 잡을 이유가 실제로 있는 자리이고, 형제인 `CollapseButton` · `MenuItem`이 `RefAttributes<HTMLButtonElement>`를 엽니다.
+
+- **caret 회전에 `transition`을 겁니다 — `MOTION_TIMING_STYLE`.** Figma에 모션 정의는 없지만, 같은 접기 계열인 [`FaqAccordion`](./faq-accordion.md)이 이미 같은 캐럿을 250ms로 돌립니다. 맞추지 않으면 **한 DS 안에서 어떤 caret은 부드럽게 돌고 어떤 건 튑니다.** 값의 출처와 판단 근거는 [`faq-accordion.md`](./faq-accordion.md) 「결정」에 있습니다.
+
+  caret 말고는 전환할 것이 없습니다 — `isOpen`이 caret 방향만 바꾸고, 접히는 내용은 이 컴포넌트가 담지 않습니다.
+
+  **접기 계열에서 [`CollapseButton`](./button.md)만 회전 모션이 없는데, 그건 누락이 아니라 결정입니다** — 그쪽은 라벨이 상태에 따라 바뀌어 caret이 수평으로 밀리고 버튼 자체도 콘텐츠 아래라 수직으로 뜁니다. 여기 caret은 `size-[24px]` 슬롯에 고정돼 제자리에서 돕니다.
+
+- **2행 겹침을 `-mb-0.5` 대신 높이 고정으로 처리한 것은 계열 안에서 갈립니다.** 같은 「2행 스택」인 `OrderBoxCell` · `OrderDateInfo`는 Figma의 2px 겹침을 `-mb-0.5`로 그대로 옮겼고, 여기는 `MenuItem` 선례를 따라 높이를 고정했습니다. **총 높이는 62로 같고 행 간격만 2.6px 넓습니다.** 계열을 손볼 때 한쪽으로 모으는 것이 맞습니다.
+
+  `h-[62px]`는 `border-box`라 **`border-t` 1px을 포함**합니다. 콘텐츠 박스가 61이 되어 상하 여백이 12가 아니라 10.2로 계산되는데, Figma도 자식 좌표가 `12 + 38 + 12 = 62`로 딱 닫혀 stroke 몫이 따로 없으므로 **총 높이가 맞는 쪽**을 택했습니다. 카드가 세로로 붙어 쌓이는 형태라 총 높이가 어긋나는 편이 비쌉니다.
+
+### API
+
+| prop            | 필수 | 기본값 | 비고                                     |
+| --------------- | ---- | ------ | ---------------------------------------- |
+| `type`          | ✅   | —      | 4종. 배경 · 유형명 색 · 문구를 함께 정함 |
+| `registeredAtLabel` | ✅ | —    | 등록일시 **표시 문자열**. 길면 말줄임      |
+| `registrant`    | ✅   | —      | 등록자. 줄어들지 않음                     |
+| `isOpen`        | ✅   | —      | caret 방향                                |
+| `onClick`       | ✅   | —      | 헤더 전체 탭                              |
+| `aria-controls` |      | —      | 접히는 영역의 id                          |
+| `ref`           |      | —      | `<button>`을 가리킴                        |
+| `className`     |      | —      | 담는 쪽의 여백 보정용                     |
+
+### 디자인 확인 필요
+
+| 항목                | 내용                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------- |
+| `weeklyOrder` 심볼  | 사용예시에만 있고 DS 세트에는 없습니다. **`type`에 추가가 필요합니다** (구현은 사용예시 값으로 이미 반영). **반려되면 published union에서 값을 빼는 breaking change**가 되므로 우선순위가 높습니다 |
+| `fixedOrder` 배경   | 자기 계열의 `blue/50`(#f1f6ff)이 토큰에 있는데도 `gray/50`을 씁니다. 의도인지                            |
+| 상호작용            | `hover` · `pressed` · `focus` 축이 없습니다                                                              |
+| caret 회전 모션     | Figma에 지정이 없는데 **넣었습니다** — `FaqAccordion`과 같은 250ms · `cubic-bezier(0, 0, 0.5, 1)`         |
+| 등록자 길이         | 계정명 길이 가이드가 없습니다. 구현은 등록자를 지키고 좌측을 말줄임합니다                                 |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/OrderNotiCollapse.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderNotiCollapse`. 데코레이터로 화면 폭과 같은 `w-[380px]`을 겁니다.
+
+| 스토리        | 보는 것                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| `Default`     | 컨트롤 패널                                                       |
+| `Types`       | 4종을 붙여 쌓아 **`border-t`가 카드 사이를 가르는 것**까지 확인    |
+| `Interactive` | `useState`로 caret 회전                                           |
+| `LongText`    | 긴 등록일시 · 등록자에서 **좌측만 말줄임되고 우측이 유지되는 것**  |
