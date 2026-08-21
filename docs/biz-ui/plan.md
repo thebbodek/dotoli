@@ -186,6 +186,7 @@ apps/storybook/src/stories/biz-ui/
 ### biz-ui 캘린더
 
 - [x] DOTOLI-271 biz-ui CalendarDayButton 구현 (계열 `Calendar/` 그룹 신규)
+- [x] DOTOLI-272 biz-ui StickyCalendar 구현 (격자가 아니라 격자 위 머리 — 연도 이동 · 요일 헤더)
 
 ### biz-ui 후속 수정
 
@@ -291,6 +292,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-269 | BottomActionBar (`variant` 2종 · `actions` 축을 prop 유무로 흡수) | [components/bottom-action-bar.md](./components/bottom-action-bar.md)                  |
 | DOTOLI-270 | BottomSheet (`Overlay` 두 번째 실물 · `overlay-kit` 미도입 확정)  | [components/bottom-sheet.md](./components/bottom-sheet.md) · [overlay.md](./components/overlay.md) |
 | DOTOLI-271 | CalendarDayButton (`Calendar/` 그룹 · `selectedType` 5종)       | [components/calendar.md](./components/calendar.md)                                      |
+| DOTOLI-272 | StickyCalendar (연도 이동 · 요일 헤더 · `sticky top-0 z-10`)    | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.

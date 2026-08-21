@@ -15,8 +15,8 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 | 노드        | 무엇                                                         |
 | ----------- | ------------------------------------------------------------ |
-| `485:2344`  | StickyCalendar — 요일만(`dayOnly`). 월 · 수가 선택된 상태     |
-| `485:1210`  | StickyCalendar — 요일 + 날짜(`dayDate`)                       |
+| `485:2344`  | 요일만 고른 줄(`CalendarDayButton` `dayOnly`). 월 · 수가 선택된 상태 |
+| `485:1210`  | 요일 + 날짜 줄(`CalendarDayButton` `dayDate`)                 |
 | `205:4115`  | 월 그리드 연속 스크롤(`dateOnly`)                             |
 | `485:1818`  | 고정주문 변경 화면 — 단일 선택                                |
 | `485:1516`  | 날짜 선택 바텀시트 — **범위 선택**(`start` · `middle` · `end`) |
@@ -26,10 +26,26 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | 컴포넌트            | 티켓       | 설명                                                        |
 | ------------------- | ---------- | ----------------------------------------------------------- |
 | `CalendarDayButton` | DOTOLI-271 | 계열의 잎. `type` 축을 `day` · `date` 유무로 파생. 48 × 48  |
+| `StickyCalendar`    | DOTOLI-272 | 격자 위에 붙는 머리. 연도 이동 + 요일 헤더. `CalendarDayButton`을 **쓰지 않음** |
 
-**계열 폴더 `components/Calendar/`를 이 티켓이 엽니다.** 나머지 3종이 뒤따라 들어옵니다 — 셋 다 이 버튼을 물어 씁니다.
+**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었습니다.** `CalendarBottomSheet` · `DateBottomSheet`가 남아 있고, 둘은 [`BottomSheet`](./bottom-sheet.md) 위에 이 둘을 얹습니다.
 
-## Variant 축
+## 정책
+
+섹션 안 주석 `524:11`이 **COM-009 휴일 판정 · 날짜 표기**를 정의합니다. **계열 전체에 걸립니다.**
+
+> **`isHoliday` 판정** — 토요일 · 일요일 · 한국 법정 공휴일. **판정 데이터는 서버에서 제공한다. 앱이 자체 판정하지 않는다.**
+> 의도 — 고정주문의 공휴일 자동 생성 제외 정책이 서버 판정을 전제로 하므로, 화면 표기도 동일 데이터를 사용해야 어긋나지 않는다.
+>
+> **`disabled` 판정** — 과거 날짜 · 주문 마감(사용일 D-2 영업일 18:00) 경과일 · 주문 중지 기간 · 1년(365일) 초과 미래
+>
+> **주차 표기** — 해당 월 1일이 속한 주를 1주차로 한다. 표기는 `N월 N주`
+
+---
+
+## CalendarDayButton
+
+### Variant 축
 
 | 축             | Figma 값                                        | 구현                              |
 | -------------- | ----------------------------------------------- | --------------------------------- |
@@ -40,7 +56,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 세트에 심볼이 **19개**뿐이라 4축의 전체 조합(3 × 5 × 2 × 2 = 60)이 다 그려져 있지 않습니다. 빠진 것은 아래 「그려지지 않은 조합」에 정리했습니다.
 
-## 실측 스펙
+### 실측 스펙
 
 | 항목   | 값                                                        |
 | ------ | --------------------------------------------------------- |
@@ -48,7 +64,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | 정렬   | `flex-v-stack-center`                                      |
 | 두 줄 간격 | 요일 아래 **-2** → `mb-[-2px]` (`dayDate`에서만)        |
 
-### 타이포 — 마지막 줄만 굵어집니다
+#### 타이포 — 마지막 줄만 굵어집니다
 
 | 조합           | 요일                | 날짜                |
 | -------------- | ------------------- | ------------------- |
@@ -59,7 +75,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 **`dayDate`에서 선택돼도 요일은 `label` Medium 그대로입니다** — 날짜만 Bold로 갑니다(`106:415`). 반면 `dayOnly`는 요일이 유일한 줄이라 그것이 Bold가 됩니다(`106:411`). 구현은 「**값 줄**(날짜, 없으면 요일)이 굵어진다」 한 규칙으로 둘을 함께 만족시킵니다.
 
-### 배경 · 모서리
+#### 배경 · 모서리
 
 | `selectedType` | 배경         | 모서리         | 비고                          |
 | -------------- | ------------ | -------------- | ----------------------------- |
@@ -71,7 +87,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 `middle`이 유일하게 `rounded`를 안 받습니다. 연속된 `middle`이 끊기지 않는 하나의 띠로 보여야 하기 때문이고, 실제 조합은 사용 예시 `485:1516`에 있습니다.
 
-### 글자색
+#### 글자색
 
 | 상태               | 색         | 조건                                        |
 | ------------------ | ---------- | ------------------------------------------- |
@@ -83,7 +99,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 바인딩된 hex가 전부 기존 토큰과 일치해 **신규 토큰이 없습니다** — `#101828` `black` · `#bd2222` `red-600` · `#aeb5c6` `gray-400` · `#f6aeae` `red-200` · `#3182f6` `blue-500` · `#ebf3ff` `blue-100` · `--radius-6`.
 
-### 그려지지 않은 조합
+#### 그려지지 않은 조합
 
 | 빠진 것                            | 어떻게 했는가                                                     |
 | ---------------------------------- | ----------------------------------------------------------------- |
@@ -91,22 +107,11 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `start` · `end` + 비활성            | 비활성 날짜는 범위의 끝점이 될 수 없어 도달하지 않습니다. `middle`은 비활성이 그려져 있습니다(`205:1713` · `205:2999`) |
 | `start` · `middle` · `end` + `dayOnly` · `dayDate` | 범위 선택은 `dateOnly` 화면(`485:1516`)에만 있습니다. 타입으로 막지는 않았습니다 |
 
-## 정책
-
-섹션 안 주석 `524:11`이 **COM-009 휴일 판정 · 날짜 표기**를 정의합니다.
-
-> **`isHoliday` 판정** — 토요일 · 일요일 · 한국 법정 공휴일. **판정 데이터는 서버에서 제공한다. 앱이 자체 판정하지 않는다.**
-> 의도 — 고정주문의 공휴일 자동 생성 제외 정책이 서버 판정을 전제로 하므로, 화면 표기도 동일 데이터를 사용해야 어긋나지 않는다.
->
-> **`disabled` 판정** — 과거 날짜 · 주문 마감(사용일 D-2 영업일 18:00) 경과일 · 주문 중지 기간 · 1년(365일) 초과 미래
->
-> **주차 표기** — 해당 월 1일이 속한 주를 1주차로 한다. 표기는 `N월 N주`
-
-## 결정
+### 결정
 
 - **`type` 축을 `day` · `date` 유무로 흡수했습니다.** 세 값이 「무엇을 렌더하는가」와 정확히 1:1이라 축이 하나입니다 — `type='dayDate'`인데 `date`가 없으면 성립하지 않고, `date`를 주고 `type`을 안 바꾸면 조용히 무시됩니다. [`ConfirmModal`](./confirm-modal.md)의 `btn` → `cancel`, [`BottomActionBar`](./bottom-action-bar.md)의 `actions` → `cancel` · `info`와 같은 기준입니다.
 
-  **`day`·`date` 중 하나는 있어야 합니다.** 「정확히 하나 이상」을 유니온 타입으로 강제해 봤다가 **되돌렸습니다** — `Meta<CalendarDayButtonProps>`가 유니온이 되면서 Storybook `render`의 인자 추론이 깨졌습니다(`ArgsStoryFn`이 유니온으로 갈라짐). DS 소비자가 `<CalendarDayButton date={5} />`처럼 쓸 때는 문제가 없지만 **props 타입 위에 제네릭을 얹는 쪽이 전부 같은 마찰을 받습니다.** CLAUDE.md의 「`type`은 `interface`로 표현할 수 없을 때만」 기준에서 값이 안 나와 단일 `interface` + 문서 계약으로 갔습니다.
+  **`day`·`date` 중 하나는 있어야 합니다.** 「하나 이상」을 유니온 타입으로 강제해 봤다가 **되돌렸습니다** — `Meta<CalendarDayButtonProps>`가 유니온이 되면서 Storybook `render`의 인자 추론이 깨졌습니다(`ArgsStoryFn`이 유니온으로 갈라짐). DS 소비자가 `<CalendarDayButton date={5} />`처럼 쓸 때는 문제가 없지만 **props 타입 위에 제네릭을 얹는 쪽이 전부 같은 마찰을 받습니다.** CLAUDE.md의 「`type`은 `interface`로 표현할 수 없을 때만」 기준에서 값이 안 나와 단일 `interface` + 문서 계약으로 갔습니다.
 
 - **`isHoliday`를 DS가 계산하지 않습니다.** COM-009가 「앱이 자체 판정하지 않는다」로 못박았고, 요일에서 토·일을 유추하는 것도 **법정 공휴일을 놓치므로 반쪽짜리**입니다. 서버 판정 결과를 그대로 받는 `boolean` prop 하나로 둡니다. `disabled`도 같습니다 — 마감 시각 · 주문 중지 기간은 DS가 알 수 없습니다.
 
@@ -116,7 +121,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 - **상태를 CSS variant가 아니라 JS로 풉니다.** `resolveCalendarDayButtonState`가 상태 키 하나를 돌려주고 `Record<State, ColorVariants>`에서 색을 고릅니다 — CLAUDE.md 「폼 컨트롤 공통 2」의 `resolveInputState` 선례이고, 4축이 겹치는 이 컴포넌트에서 특히 값이 큽니다.
 
-- **`role='gridcell'`을 붙이지 않고 `aria-pressed`를 씁니다.** internal-ui `CalendarDay`는 `role='gridcell'` + `aria-selected`인데, **`gridcell`은 조상에 `role='grid'` · `row`가 있어야 성립합니다.** 이 버튼은 잎이고 격자를 만드는 것은 아직 없는 StickyCalendar · CalendarBottomSheet라, 보장할 수 없는 조상을 전제하는 대신 **버튼 단독으로 유효한 `aria-pressed`**를 씁니다. 격자 시맨틱은 계열의 다음 티켓이 자기 층에서 얹습니다.
+- **`role='gridcell'`을 붙이지 않고 `aria-pressed`를 씁니다.** internal-ui `CalendarDay`는 `role='gridcell'` + `aria-selected`인데, **`gridcell`은 조상에 `role='grid'` · `row`가 있어야 성립합니다.** 이 버튼은 잎이고 격자를 만드는 것은 아직 없는 `CalendarBottomSheet`라, 보장할 수 없는 조상을 전제하는 대신 **버튼 단독으로 유효한 `aria-pressed`**를 씁니다. 격자 시맨틱은 계열의 다음 티켓이 자기 층에서 얹습니다.
 
   `middle`도 `aria-pressed=true`입니다 — 범위 안에 들어온 날이라 선택의 일부입니다.
 
@@ -124,9 +129,9 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 - **`transition-colors`를 겁니다.** 선택 · 해제가 색으로만 바뀌므로 CLAUDE.md 「폼 컨트롤 공통 8」을 따랐습니다.
 
-- **크기를 `size-[48px]`로 고정했습니다.** 380 폭에서 7열이면 `48 × 7 = 336`이라 좌우 20 여백(340)에 들어맞습니다. 열을 늘려야 하는 화면이 나오면 `className`으로 덮습니다 — 계열의 다음 티켓이 판단할 자리입니다.
+- **크기를 `size-[48px]`로 고정했습니다.** 380 폭에서 7열이면 `48 × 7 = 336`이라 좌우 20 여백(340)에 들어맞습니다. [`StickyCalendar`](#stickycalendar)의 요일 셀도 같은 48이라 열이 맞습니다.
 
-## API
+### API
 
 | prop           | 필수 | 기본값     | 비고                                                    |
 | -------------- | ---- | ---------- | ------------------------------------------------------- |
@@ -139,7 +144,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `className`    |      | —          | 버튼에 적용                                              |
 
 ```tsx
-// dayOnly — 요일 선택 (StickyCalendar)
+// dayOnly — 요일 선택
 <CalendarDayButton day='월' selectedType='selected' onClick={select} />
 
 // dayDate — 요일 + 날짜
@@ -154,7 +159,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 <CalendarDayButton date={15} selectedType='end' onClick={select} />
 ```
 
-## 디자인 확인 필요
+### 디자인 확인 필요
 
 | 항목                        | 내용                                                                                                                        |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -165,7 +170,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | 포커스 링                   | 정의가 없습니다 — 계열 전체가 같은 상태입니다 (CLAUDE.md 「폼 컨트롤 공통 7」)                                                  |
 | 오늘 날짜                   | `today` 표기가 축에 없습니다. internal-ui에는 `TODAY` variant가 있습니다                                                       |
 
-## Storybook
+### Storybook
 
 `apps/storybook/src/stories/biz-ui/CalendarDayButton.stories.tsx`, `meta.title`은 `core/biz-ui/CalendarDayButton`.
 
@@ -175,3 +180,118 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `Types`   | `day` · `date` 유무가 만드는 세 모양 × (`none` · `selected`)             |
 | `States`  | `selectedType` 5행 × (비활성 · 휴일) 4열. **비활성 + 휴일이 타입마다 갈리는 자리** |
 | `Range`   | 7일을 붙여 놓고 **`start`~`end` 띠가 끊기지 않는지** — `middle`만 각진 이유 |
+
+---
+
+## StickyCalendar
+
+**이름과 달리 캘린더 격자가 아니라 격자 위에 붙는 머리입니다.** 연도 이동 줄과 요일 헤더 줄로만 이루어져 있고 **`CalendarDayButton`을 쓰지 않습니다.** 날짜 격자는 `CalendarBottomSheet` 쪽이 만듭니다.
+
+### Variant 축
+
+| 축              | Figma 값             | 구현                                |
+| --------------- | -------------------- | ----------------------------------- |
+| `useDateSelect` | `true`(기본) · `false` | **`dateSelectOption` 유무로 흡수** |
+| `useWeekday`    | `true`(기본) · `false` | 그대로 prop                        |
+
+심볼이 **3개**입니다 — 둘 다 `false`인 조합은 그려져 있지 않습니다(빈 바가 됨).
+
+| 심볼        | 조합                                | 높이 |
+| ----------- | ----------------------------------- | ---- |
+| `673:3071`  | `useDateSelect` · `useWeekday`      | 82   |
+| `693:3198`  | `useDateSelect`만                    | 54   |
+| `693:3136`  | `useWeekday`만                       | 36   |
+
+### 실측 스펙
+
+| 항목      | 값                                                                    |
+| --------- | --------------------------------------------------------------------- |
+| 바        | `w-full` · `bg-white` · `px-[20px] pt-[6px] pb-[10px]` · `gap-[8px]`  |
+| 위치      | 주석 `337:3561` 「\*영역 내 상단에 Sticky」 → `sticky top-0 z-10`      |
+| 연도 줄   | `w-full` · `justify-between` · `px-[10px] py-[6px]`                    |
+| 요일 줄   | 셀 `w-[48px]` 7개 · **gap 없음**                                       |
+| 요일 글자 | `label-bold` · 일 · 토 `red/400` · 월~금 `gray/600`                    |
+
+**높이를 고정하지 않습니다.** 세 심볼의 82 · 54 · 36이 전부 자연 높이로 설명됩니다 — `6 + 38.1 + 8 + 20.3 + 10 = 82.4`, `6 + 38.1 + 10 = 54.1`, `6 + 20.3 + 10 = 36.3`.
+
+요일 셀이 **48**이라 [`CalendarDayButton`](#calendardaybutton)과 열 폭이 같습니다. `48 × 7 = 336`이 좌우 20 여백(340)에 들어갑니다.
+
+#### 세 버튼이 전부 `CtaButton` `variant='text'` `theme='gray'`입니다
+
+| 버튼   | Figma                                                | `CtaButton`                          |
+| ------ | ---------------------------------------------------- | ------------------------------------ |
+| 작년   | `rounded 6` · 14 Bold `gray/800` · gap 2 · caret 14 왼쪽   | `size='sm'` `iconPosition='left'`   |
+| `26년` | `rounded 8` · 18 Bold `gray/800` · gap 4 · caret 18 오른쪽 | `size='lg'` `iconPosition='right'`  |
+| 내년   | `rounded 6` · 14 Bold `gray/800` · gap 2 · caret 14 오른쪽 | `size='sm'` `iconPosition='right'`  |
+
+`CTA_BUTTON_TEXT_SIZE_STYLES`의 `sm`(`rounded-6` · `label-bold`) · `lg`(`rounded-8` · `heading-5`)와 **네 값이 전부 맞습니다.** gap도 `CTA_BUTTON_GAP_STYLES.text`의 `sm`=`gap-0.5`(2) · `lg`=`gap-1`(4)와 일치합니다.
+
+**아이콘 크기를 지정하지 않았는데 14 · 18이 맞습니다.** `ButtonIcon`이 Phosphor 아이콘 폰트라 글리프가 `font-size`를 따르고, 버튼이 이미 사이즈별 타이포 토큰(14 · 18)을 물고 있어서입니다.
+
+`variant='text'`는 높이 · 좌우 패딩이 없고 `TOUCH_TARGET_STYLE`(6px)이 자동으로 붙습니다 — 작년 · 내년이 확장 후 약 56 × 32로 WCAG 2.5.8을 넘습니다. `justify-between` 줄이라 이웃과 겹칠 여지도 없습니다.
+
+### 결정
+
+- **`useDateSelect` 축을 `dateSelectOption` 유무로 흡수했습니다.** 연도 값과 핸들러 3개가 축과 항상 같이 움직입니다 — [`HeaderBar`](./header-bar.md)의 `progressOption`이 정확히 같은 모양이고, 그쪽도 `{isNavigation && !!progressOption && <HeaderBarProgress {...progressOption} />}`로 씁니다.
+
+- **`useWeekday`는 흡수하지 않았습니다.** **딸린 데이터가 없어서** 흡수할 대상이 없습니다 — 요일 7개는 고정 상수입니다. 이름은 Figma 축 그대로이고 CLAUDE.md의 「`use`(기능 on/off)」 규칙과도 맞습니다. 같은 컴포넌트에서 한 축은 흡수하고 한 축은 prop으로 두는 것이 비대칭으로 보이지만, **기준은 「값이 함께 움직이는가」 하나**라 갈리는 게 맞습니다.
+
+- **`shrink-0`이 `sticky`와 한 짝입니다.** 붙는 자리가 **컬럼 flex 스크롤 컨테이너**인데(`scroll-y flex-v-stack`, [`BottomSheet`](./bottom-sheet.md)의 바디가 정확히 그 모양입니다) 콘텐츠가 컨테이너 높이를 넘기는 순간 flex가 자식들을 줄입니다. 기본값 `flex-shrink: 1`이면 **바가 82 → 16으로 찌그러진 채 상단에 붙어 있어** 붙긴 붙었는데 아무것도 안 보입니다. `position`을 고쳐도 안 풀리고 `shrink-0`이라야 풀립니다 — [`IconCircle`](./icon-circle.md)이 같은 이유로 `shrink-0`을 단 선례이고, 거기와 달리 **여기는 스크롤이 생겨야만 드러나서** 한 달치 격자만 깐 스토리에서는 보이지 않았습니다.
+
+- **`sticky top-0`에 `z-10`을 함께 겁니다.** [`BottomActionBar`](./bottom-action-bar.md)의 `floating`은 스크롤 영역의 **마지막** 자식이라 쌓임 순서로 이미 위였는데, 이쪽은 **첫 자식**이라 뒤따르는 날짜 격자가 그냥 덮습니다. `position: sticky`만으로는 stacking context가 생기지 않아 `z-index`가 필요합니다.
+
+- **연도를 2자리로 줄여 표기합니다.** Figma가 `26년`이고 `formatStickyCalendarYear`가 `year % 100`을 2자리로 채웁니다. **소비자가 완성된 문자열을 넘기게 하지 않았습니다** — 연도는 `onPrevYear` · `onNextYear`로 이 컴포넌트가 움직이는 값이라 표기까지 여기서 책임지는 것이 맞습니다.
+
+- **요일 글자색이 `red/400`이라 휴일색과 다릅니다.** `CalendarDayButton`의 휴일은 `red/600`인데 여기 일 · 토는 `red/400`으로 한 단계 옅습니다. 헤더는 「이 열이 주말」이라는 표시일 뿐 실제 휴일 판정(COM-009)과 무관해서로 보이지만, 값이 갈리는 지점이라 「디자인 확인 필요」에 올렸습니다.
+
+- **`gap`을 조건 없이 겁니다.** 줄이 하나면 gap이 렌더에 드러나지 않습니다 — `ConfirmModal` · `BottomActionBar`와 같은 판단입니다. Figma codegen은 조합마다 gap을 껐다 켜지만 결과가 같습니다.
+
+- **요일 줄에 표 시맨틱을 넣지 않았습니다.** `<th scope='col'>`이 맞으려면 날짜 격자까지 한 `<table>` 안에 있어야 하는데 **격자를 만드는 것은 이 컴포넌트가 아닙니다.** `CalendarDayButton`에서 `role='gridcell'`을 미룬 것과 같은 이유이고, 둘을 함께 감싸는 `CalendarBottomSheet` 티켓이 판단할 자리입니다.
+
+- **폴더는 계열 안입니다.** `components/Calendar/StickyCalendar/`. 연도 줄은 서브 컴포넌트(`StickyCalendarDateSelect`)로 갈랐습니다 — `HeaderBar`가 `HeaderBarProgress` · `HeaderBarHomeTitle`로 가른 것과 같은 층입니다.
+
+### API
+
+| prop               | 필수 | 기본값 | 비고                                                     |
+| ------------------ | ---- | ------ | -------------------------------------------------------- |
+| `dateSelectOption` |      | —      | `{ year, onPrevYear, onNextYear, onYearClick }`. 주면 연도 줄이 생김 |
+| `useWeekday`       |      | `true` | 요일 헤더 줄                                              |
+| `className`        |      | —      | 바에 적용                                                 |
+
+```tsx
+// 연도 이동 + 요일 헤더
+<StickyCalendar
+  dateSelectOption={{ year, onPrevYear, onNextYear, onYearClick: openYearSheet }}
+  useWeekday
+/>
+
+// 요일 헤더만 — 연도가 필요 없는 화면
+<StickyCalendar useWeekday />
+
+// 스크롤 영역의 첫 자식으로 두면 상단에 붙습니다
+<div className='scroll-y'>
+  <StickyCalendar dateSelectOption={dateSelectOption} useWeekday />
+  <MonthGrid />
+</div>
+```
+
+### 디자인 확인 필요
+
+| 항목             | 내용                                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------ |
+| 요일색 ↔ 휴일색  | 헤더 일 · 토는 `red/400`, `CalendarDayButton`의 휴일은 `red/600`입니다. 한 단계 차이가 의도인지                |
+| 주 시작 요일     | 일요일 시작으로 고정했습니다. 월요일 시작이 필요한 화면이 생길 수 있는지                                      |
+| 둘 다 `false`    | 심볼이 없습니다. 구현은 빈 바(높이 16)가 렌더됩니다 — 막아야 하는지                                            |
+| 연도 표기 자릿수 | `26년`이라 2자리로 줄였습니다. 2100년이 `00년`이 되는데 서비스 수명상 무시해도 되는지                          |
+| 연도 이동 한계   | COM-009가 「1년(365일) 초과 미래」를 비활성으로 규정하는데 **작년 · 내년 버튼에는 비활성 상태가 없습니다.** 끝에 닿으면 어떻게 보일지 |
+| 상호작용         | `hover` · `pressed`는 `CtaButton`이 갖고 있고, 바 자체의 그림자 · 경계는 정의가 없습니다 (스크롤 시 격자와 맞닿음) |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/StickyCalendar.stories.tsx`, `meta.title`은 `core/biz-ui/StickyCalendar`.
+
+| 스토리         | 보는 것                                                              |
+| -------------- | -------------------------------------------------------------------- |
+| `Default`      | 컨트롤로 `useWeekday`를 끄고 켠다. 작년 · 내년이 실제로 연도를 바꾼다  |
+| `Combinations` | 그려져 있는 세 조합                                                   |
+| `Sticky`       | 날짜 격자를 밑에 깔고 **바가 상단에 붙어 있는지** — `sticky` · `z-10` · `shrink-0`이 드러나는 유일한 자리. **격자를 3개월치 깝니다** — 한 달치(5주)로는 420px 컨테이너를 못 넘겨 스크롤 자체가 안 생깁니다 |
