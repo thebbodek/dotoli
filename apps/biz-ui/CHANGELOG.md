@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.27
+
+### Patch Changes
+
+- c50678b: DOTOLI-264 biz-ui OrderNotiCollapse 구현
+
 ## 0.0.26
 
 ### Patch Changes
