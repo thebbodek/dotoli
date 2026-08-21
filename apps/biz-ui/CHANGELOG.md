@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.29
+
+### Patch Changes
+
+- fa7d2d3: DOTOLI-265 biz-ui ConfirmModal 구현
+
 ## 0.0.28
 
 ### Patch Changes
