@@ -9,6 +9,7 @@ export default createRollupConfig({
     '@floating-ui/react',
     '@phosphor-icons/core',
     'clsx',
+    'dayjs',
     'es-toolkit',
   ],
   plugins: [

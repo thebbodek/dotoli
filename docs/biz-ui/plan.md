@@ -30,7 +30,7 @@ Figma:
 
 ### 제약
 
-- `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 존재합니다(`apps/utils/package.json`의 `"@bbodek/internal-ui": "^0.0.115"`). hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. 독립성을 실제로 지키기 위해 biz-ui는 서드파티(`clsx`, `es-toolkit`, `@floating-ui/react`, `@phosphor-icons/*`, `pretendard`)만 직접 의존합니다.
+- `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 존재합니다(`apps/utils/package.json`의 `"@bbodek/internal-ui": "^0.0.115"`). hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. 독립성을 실제로 지키기 위해 biz-ui는 서드파티(`clsx`, `es-toolkit`, `@floating-ui/react`, `@phosphor-icons/*`, `pretendard`, `dayjs`)만 직접 의존합니다. `dayjs`는 DOTOLI-273에서 추가됐습니다 — [`components/calendar.md`](./components/calendar.md) 「결정」.
 - `^0.0.115`는 0.0.x 대역에서 정확히 `0.0.115`만 매칭됩니다. 이 캐럿 함정이 릴리즈 데드락의 원인이므로 biz-ui는 이 체인에 들어가지 않습니다.
 - `.githooks/post-commit`이 `apps/*` 변경마다 patch changeset을 자동 생성하고, main 머지 즉시 `changeset publish`가 실행됩니다. 스캐폴딩 커밋 하나만으로도 실제 npm publish가 시도되므로 **패키지명·토큰 권한을 사전에 확보**해야 합니다.
 
@@ -187,6 +187,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-271 biz-ui CalendarDayButton 구현 (계열 `Calendar/` 그룹 신규)
 - [x] DOTOLI-272 biz-ui StickyCalendar 구현 (격자가 아니라 격자 위 머리 — 연도 이동 · 요일 헤더)
+- [x] DOTOLI-273 biz-ui Calendar 구현 (+ `Calendar/shared/` · **`dayjs` 의존성 추가**)
 
 ### biz-ui 후속 수정
 
@@ -293,6 +294,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-270 | BottomSheet (`Overlay` 두 번째 실물 · `overlay-kit` 미도입 확정)  | [components/bottom-sheet.md](./components/bottom-sheet.md) · [overlay.md](./components/overlay.md) |
 | DOTOLI-271 | CalendarDayButton (`Calendar/` 그룹 · `selectedType` 5종)       | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-272 | StickyCalendar (연도 이동 · 요일 헤더 · `sticky top-0 z-10`)    | [components/calendar.md](./components/calendar.md)                                      |
+| DOTOLI-273 | Calendar (월 격자 · `Calendar/shared/` · `dayjs` 도입)          | [components/calendar.md](./components/calendar.md) · [frontend.md](./frontend.md)        |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.

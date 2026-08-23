@@ -19,6 +19,3 @@ export interface StickyCalendarProps
   dateSelectOption?: StickyCalendarDateSelectOption;
   useWeekday?: boolean;
 }
-
-export interface FormatStickyCalendarYearProps
-  extends Pick<StickyCalendarDateSelectOption, 'year'> {}

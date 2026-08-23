@@ -27,8 +27,11 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | ------------------- | ---------- | ----------------------------------------------------------- |
 | `CalendarDayButton` | DOTOLI-271 | 계열의 잎. `type` 축을 `day` · `date` 유무로 파생. 48 × 48  |
 | `StickyCalendar`    | DOTOLI-272 | 격자 위에 붙는 머리. 연도 이동 + 요일 헤더. `CalendarDayButton`을 **쓰지 않음** |
+| `Calendar`          | DOTOLI-273 | 월 격자. `CalendarDayButton`을 깔고 **날짜 계산을 소유**. `dayjs` 도입 |
 
-**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었습니다.** `CalendarBottomSheet` · `DateBottomSheet`가 남아 있고, 둘은 [`BottomSheet`](./bottom-sheet.md) 위에 이 둘을 얹습니다.
+**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** `CalendarBottomSheet`(DOTOLI-274) · `DateBottomSheet`(DOTOLI-275)가 남아 있고, 둘은 [`BottomSheet`](./bottom-sheet.md) 위에 위 셋을 얹습니다.
+
+`Calendar/shared/`에는 **계열 안에서 두 번 이상 쓰이는 것만** 둡니다. 지금은 연도 2자리 표기(`formatCalendarYear` — `StickyCalendar`의 `26년`과 `Calendar`의 `26년 6월`이 함께 씁니다)와 날짜 포맷 · 요일 수 상수입니다. CLAUDE.md 「코드 규칙 1」의 표대로 `<Group>/shared/`라 **공개**입니다.
 
 ## 정책
 
@@ -113,7 +116,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
   **`day`·`date` 중 하나는 있어야 합니다.** 「하나 이상」을 유니온 타입으로 강제해 봤다가 **되돌렸습니다** — `Meta<CalendarDayButtonProps>`가 유니온이 되면서 Storybook `render`의 인자 추론이 깨졌습니다(`ArgsStoryFn`이 유니온으로 갈라짐). DS 소비자가 `<CalendarDayButton date={5} />`처럼 쓸 때는 문제가 없지만 **props 타입 위에 제네릭을 얹는 쪽이 전부 같은 마찰을 받습니다.** CLAUDE.md의 「`type`은 `interface`로 표현할 수 없을 때만」 기준에서 값이 안 나와 단일 `interface` + 문서 계약으로 갔습니다.
 
-- **`isHoliday`를 DS가 계산하지 않습니다.** COM-009가 「앱이 자체 판정하지 않는다」로 못박았고, 요일에서 토·일을 유추하는 것도 **법정 공휴일을 놓치므로 반쪽짜리**입니다. 서버 판정 결과를 그대로 받는 `boolean` prop 하나로 둡니다. `disabled`도 같습니다 — 마감 시각 · 주문 중지 기간은 DS가 알 수 없습니다.
+- **`CalendarDayButton`은 `isHoliday`를 계산하지 않습니다.** 이 컴포넌트는 `date` 숫자만 알고 연·월을 모르므로 요일조차 알 수 없습니다. 받은 `boolean`을 그대로 그립니다. `disabled`도 같습니다 — 마감 시각 · 주문 중지 기간은 DS가 알 수 없습니다. **토·일을 요일에서 판정하는 것은 연·월을 아는 [`Calendar`](#calendar)가 맡습니다**(DOTOLI-273 「결정」).
 
 - **`disabled`가 `isHoliday`를 이기지만 `dateOnly`만 예외입니다.** `dateOnly` 비활성 휴일은 `red/200`이라 **빨강 계열을 유지**하고, `dayOnly` · `dayDate`는 `gray/400`으로 **빨강이 사라집니다.** 같은 축 조합인데 타입에 따라 규칙이 갈리는 것이라 아래 「디자인 확인 필요」에 올렸습니다. 자매 DS `@bbodek/internal-ui`는 `HOLIDAY_DISABLED`를 **타입 구분 없이 하나**로 갖고 있어 그쪽과도 갈립니다.
 
@@ -294,4 +297,113 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | -------------- | -------------------------------------------------------------------- |
 | `Default`      | 컨트롤로 `useWeekday`를 끄고 켠다. 작년 · 내년이 실제로 연도를 바꾼다  |
 | `Combinations` | 그려져 있는 세 조합                                                   |
-| `Sticky`       | 날짜 격자를 밑에 깔고 **바가 상단에 붙어 있는지** — `sticky` · `z-10` · `shrink-0`이 드러나는 유일한 자리. **격자를 3개월치 깝니다** — 한 달치(5주)로는 420px 컨테이너를 못 넘겨 스크롤 자체가 안 생깁니다 |
+| `Sticky`       | 밑에 **실제 `Calendar`를 3개월치** 깔고 **바가 상단에 붙어 있는지** — `sticky` · `z-10` · `shrink-0`이 드러나는 유일한 자리. 한 달치로는 420px 컨테이너를 못 넘겨 스크롤 자체가 안 생깁니다. DOTOLI-273 전에는 손으로 그린 격자였고 273에서 실물로 바꿨습니다 |
+
+---
+
+## Calendar
+
+월 격자입니다. Figma에서는 `CalendarBottomSheet`(`205:4587`) 안의 인스턴스 `205:4148`로만 등장하고 독립 프레임이 없습니다 — **컴포넌트 세트가 아니라 조립된 인스턴스**라 variant 축이 없습니다.
+
+### 실측 스펙
+
+| 항목          | 값                                                                |
+| ------------- | ----------------------------------------------------------------- |
+| 월 블록       | `pt-[8px]` · `items-start` · 블록 사이 `gap-[14px]`                |
+| 월 라벨       | `heading-5` (18 Bold / ls -1%) · `gray/800`                        |
+| 주 행         | `gap-[2px]`                                                        |
+| 열            | `CalendarDayButton` 48 × 7 = **336** (열 간격 0)                   |
+| 빈 칸         | 앞 달 · 뒷 달 날짜를 그리지 않고 **48 × 48 빈 박스**               |
+
+`282 = 8 + 26 + 248`이고 `248 = 48 × 5 + 2 × 4`입니다(2026년 6월 = 5주). 월 블록 사이는 `296 - 282 = 14`입니다.
+
+**주 수를 고정하지 않습니다.** internal-ui는 42칸(6주 × 7) 고정 배열에 `null`을 채우는데, Figma 6월 격자는 **5주(248)**라 6주를 그리면 빈 줄이 하나 더 생깁니다. 그 달에 필요한 만큼만 만듭니다.
+
+### 결정
+
+- **`dayjs`를 dependency로 추가했습니다.** 대안 세 가지를 비교했습니다.
+
+  | 안              | 문제                                                                             |
+  | --------------- | -------------------------------------------------------------------------------- |
+  | `@bbodek/utils` | 그 패키지가 `@bbodek/internal-ui`를 dependency로 갖고 있어 **어드민 DS가 통째로 딸려옵니다** ([frontend.md](../frontend.md) 첫 항목) |
+  | native `Date`   | 가능은 합니다 — 필요한 건 `getDay()` · 말일 둘뿐입니다. 다만 계열이 커질 때 포맷 · 비교가 손으로 쌓입니다 |
+  | **`dayjs` 직접** | 선택. internal-ui도 결국 같은 라이브러리를 쓰므로 **한 겹 없이 같은 것을 뭅니다**  |
+
+  **플러그인은 얹지 않았습니다** — `utc` · `timezone`이 필요한 것은 「오늘」 판정인데 `today` 축이 없고 `disabled` · `isHoliday`는 COM-009가 서버 판정으로 못박았습니다. `rollup.config.mjs` `external` 등록까지 마쳤고 `dist`에 인라인되지 않은 것을 확인했습니다.
+
+- **날짜 계산은 DS가, 판정은 소비 앱이 합니다.** 격자 배치(1일의 요일 · 말일 · 주 나누기)는 순수 달력 계산이라 DS가 하고, `holidays` · `disabledDates`는 배열로 받습니다 — **internal-ui `useCalendarDays`와 같은 분업**입니다.
+
+- **주말은 `Calendar`가 스스로 붉게 칠합니다.** COM-009가 「토요일 · 일요일 · 한국 법정 공휴일」을 휴일로 정의하는데, 그중 **토·일은 날짜에서 결정되는 사실**이라 서버 판정을 기다릴 이유가 없습니다. `CALENDAR_WEEKEND_DAYS`로 `dayjs().day()`를 보고 `isWeekend`를 셀에 실어, `isWeekend || holidays.has(...)`로 `CalendarDayButton`에 넘깁니다.
+
+  **「앱이 자체 판정하지 않는다」에 어긋나지 않습니다.** 그 조항이 막는 것은 **법정 공휴일**을 앱이 추측하는 것이고, 그쪽은 여전히 `holidays`로만 들어옵니다. 소비자가 매달 모든 토·일을 배열에 나열하지 않아도 되고, 요일 헤더(`StickyCalendar`)가 이미 일·토를 무조건 붉게 그리고 있어 **머리와 격자의 색이 어긋나던 것도 함께 맞습니다.**
+
+  `holidays`에는 이제 **평일 공휴일만** 넣으면 됩니다. 주말을 중복해 넣어도 결과는 같습니다.
+
+- **`selectedType` 5종을 `selectedDates` 하나로 풉니다.** `CalendarDayButton`의 축을 소비자가 셀마다 지정하게 하면 범위의 `start` · `middle` · `end`를 매번 계산해 넣어야 합니다. `resolveCalendarSelectedType`이 대신 정합니다.
+
+  | 입력                              | 결과                                              |
+  | --------------------------------- | ------------------------------------------------- |
+  | `useRange=false`                  | 배열에 든 날짜가 전부 `selected` (다중 선택 포함) |
+  | `useRange=true` · 1개             | `selected`                                        |
+  | `useRange=true` · 2개 이상        | 최소 = `start` · 최대 = `end` · 사이 = `middle`   |
+
+  **정렬은 문자열 비교로 합니다.** `YYYY-MM-DD`는 사전순이 곧 시간순이라 `dayjs` 비교가 필요 없습니다.
+
+  **`useRange`는 축이 아니라 계산 스위치입니다.** Figma에 없는 prop이고, 「고른 날짜만 칠할지 사이를 이을지」는 **화면 정책**이라 DS가 정할 수 없습니다 — 실제로 사용 예시 `485:1210`(주문 요일 다중 선택)과 `485:1516`(기간 선택)이 갈립니다.
+
+- **`month`는 1-indexed입니다.** `dayjs`가 0-indexed지만 그것은 라이브러리 사정이고, `{ year: 2026, month: 6 }`이 6월이어야 소비자가 헷갈리지 않습니다. 변환은 `CALENDAR_MONTH_INDEX_OFFSET`이 한 곳에서 흡수합니다.
+
+- **`months`를 소비자가 넘깁니다.** internal-ui는 `year` 하나로 12개월을 통째로 만드는데, biz-ui는 사용 예시가 전부 **몇 달치만 이어 붙인 연속 스크롤**입니다(`205:4115`는 6 · 7 · 8 · 9월). 어디부터 어디까지 보여줄지는 COM-009의 「1년 초과 미래」 같은 정책이 정하므로 소비 앱이 넘깁니다.
+
+- **빈 칸을 `<div>`로 둡니다.** 앞뒤 달 날짜를 회색으로 그리지 않는 것이 Figma이고(6월 격자 첫 줄이 한 칸 비어 있습니다), 버튼이 아니라 자리만 차지하면 되므로 `CalendarDayButton`을 쓰지 않습니다. internal-ui도 `CalendarEmptyDay`로 갈라 뒀습니다.
+
+- **격자 시맨틱(`role='grid'`)을 아직 넣지 않았습니다.** [`CalendarDayButton`](#calendardaybutton)에서 미룬 자리인데, **여기서도 넣지 않았습니다** — `role='grid'`는 `row` · `gridcell`과 함께 가야 하고 그러면 `CalendarDayButton`의 `aria-pressed`를 `aria-selected`로 바꿔야 합니다. 요일 헤더를 가진 [`StickyCalendar`](#stickycalendar)까지 한 격자에 들어와야 열 머리가 성립하는데 **그 셋을 함께 감싸는 것은 `CalendarBottomSheet`(DOTOLI-274)**라, 거기서 세 컴포넌트를 한 번에 보고 정합니다.
+
+### API
+
+| prop            | 필수 | 기본값  | 비고                                                        |
+| --------------- | ---- | ------- | ----------------------------------------------------------- |
+| `months`        | ✅   | —       | `[{ year, month }]`. `month`는 **1-indexed**. 배열 순서가 표시 순서 |
+| `selectedDates` |      | —       | `'YYYY-MM-DD'` 배열                                          |
+| `useRange`      |      | `false` | `true`면 최소~최대를 범위로 이음                             |
+| `holidays`      |      | —       | `'YYYY-MM-DD'` 배열. **평일 공휴일만** — 주말은 컴포넌트가 스스로 칠함 |
+| `disabledDates` |      | —       | `'YYYY-MM-DD'` 배열                                          |
+| `onDateClick`   |      | —       | `({ dateString }) => void`                                   |
+| `className`     |      | —       | 바깥 스택에 적용                                              |
+
+```tsx
+// 단일 선택
+<Calendar
+  months={[{ year: 2026, month: 6 }]}
+  selectedDates={['2026-06-29']}
+  holidays={holidays}
+  onDateClick={({ dateString }) => setDate(dateString)}
+/>
+
+// 범위 선택 — 사이가 middle로 이어집니다
+<Calendar
+  months={[{ year: 2026, month: 6 }, { year: 2026, month: 7 }]}
+  selectedDates={[start, end]}
+  useRange
+/>
+```
+
+### 디자인 확인 필요
+
+| 항목            | 내용                                                                                                     |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
+| 격자 폭         | `48 × 7 = 336`인데 인스턴스 폭은 **340**입니다. 남는 4가 의도인지, 셀을 늘려 채워야 하는지                    |
+| 빈 칸           | 앞뒤 달 날짜를 아예 안 그립니다. 회색으로 보여 주는 안이 있었는지                                            |
+| 월 블록 간격    | 14인데 월 라벨 위 `pt-8`이 따로 있어 실제 시각 간격은 22입니다. 둘 중 하나로 합쳐야 하는지                      |
+| 숨은 8월 블록   | 인스턴스에 `738:1868`(8월)이 **`hidden`으로** 들어 있습니다. 연속 스크롤 예시를 만들다 남긴 것으로 보이는지     |
+| 범위 + 비활성   | 범위 안에 비활성 날짜가 끼면 `middle` + `disabled`가 됩니다(심볼 `205:1713`은 있음). 범위를 끊어야 하는지        |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/Calendar.stories.tsx`, `meta.title`은 `core/biz-ui/Calendar`.
+
+| 스토리               | 보는 것                                                                |
+| -------------------- | ---------------------------------------------------------------------- |
+| `Default`            | 컨트롤로 `months` · `selectedDates` · `holidays` · `disabledDates`를 직접 넣어 본다 |
+| `Range`              | 같은 `selectedDates`에 `useRange`만 켜고 끈다 — **띠가 이어지는 자리**   |
+| `WithStickyCalendar` | `StickyCalendar` 아래 월이 이어 스크롤되고, 탭으로 다중 선택이 쌓인다     |

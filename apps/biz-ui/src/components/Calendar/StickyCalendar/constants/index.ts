@@ -14,10 +14,6 @@ export const STICKY_CALENDAR_NEXT_YEAR_ICON_KEY: IconProps['iconKey'] =
 
 export const STICKY_CALENDAR_YEAR_ICON_KEY: IconProps['iconKey'] = 'caret-down';
 
-export const STICKY_CALENDAR_YEAR_SUFFIX = '년';
-
-export const STICKY_CALENDAR_YEAR_DIGITS = 2;
-
 export const STICKY_CALENDAR_WEEKDAYS: readonly StickyCalendarWeekday[] = [
   { label: '일', color: COLOR_VARIANTS.RED_400 },
   { label: '월', color: COLOR_VARIANTS.GRAY_600 },

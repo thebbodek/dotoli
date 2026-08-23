@@ -1,5 +1,5 @@
 import {
-  CalendarDayButton,
+  Calendar,
   StickyCalendar,
   StickyCalendarProps,
   Typography,
@@ -18,21 +18,12 @@ const GROUP_STYLE = 'flex-v-stack gap-[8px]';
 const SCROLL_PAGE_STYLE =
   'scroll-y flex-v-stack h-[420px] w-[380px] bg-white outline outline-gray-200';
 
-const GRID_STYLE = 'flex-h-stack shrink-0 flex-wrap px-[20px]';
+const BODY_STYLE = 'shrink-0 px-[20px]';
 
-const WEEK_COUNT = 5;
+const START_MONTH = 6;
 
-// 한 달치(5주)로는 420px 컨테이너를 못 넘겨 sticky가 드러나지 않는다
+// 한 달치로는 420px 컨테이너를 못 넘겨 sticky가 드러나지 않는다
 const MONTH_COUNT = 3;
-
-const WEEKDAY_COUNT = 7;
-
-const HOLIDAY_WEEKDAYS = [0, 6];
-
-const DATES = Array.from(
-  { length: WEEK_COUNT * WEEKDAY_COUNT },
-  (_, index) => index + 1,
-);
 
 const meta = {
   title: 'core/biz-ui/StickyCalendar',
@@ -125,23 +116,17 @@ export const Sticky: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
     const dateSelectOption = useYear();
+    const months = Array.from({ length: MONTH_COUNT }, (_, index) => ({
+      year: dateSelectOption.year,
+      month: START_MONTH + index,
+    }));
 
     return (
       <div className={SCROLL_PAGE_STYLE}>
         <StickyCalendar dateSelectOption={dateSelectOption} useWeekday />
-        {Array.from({ length: MONTH_COUNT }, (_, monthIndex) => (
-          <div className={GRID_STYLE} key={monthIndex}>
-            {DATES.map((date) => (
-              <CalendarDayButton
-                isHoliday={HOLIDAY_WEEKDAYS.includes(
-                  (date - 1) % WEEKDAY_COUNT,
-                )}
-                date={date}
-                key={date}
-              />
-            ))}
-          </div>
-        ))}
+        <div className={BODY_STYLE}>
+          <Calendar months={months} />
+        </div>
       </div>
     );
   },

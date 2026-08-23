@@ -5,6 +5,7 @@ import {
   CtaButton,
 } from '@/components/Button';
 import { BUTTON_ICON_POSITIONS } from '@/components/Button/shared/constants';
+import { formatCalendarYear } from '@/components/Calendar/shared';
 import {
   STICKY_CALENDAR_DATE_SELECT_STYLE,
   STICKY_CALENDAR_NEXT_YEAR_ICON_KEY,
@@ -14,7 +15,6 @@ import {
   STICKY_CALENDAR_YEAR_ICON_KEY,
 } from '@/components/Calendar/StickyCalendar/constants';
 import { StickyCalendarDateSelectOption } from '@/components/Calendar/StickyCalendar/types';
-import { formatStickyCalendarYear } from '@/components/Calendar/StickyCalendar/utils';
 
 const StickyCalendarDateSelect = ({
   year,
@@ -36,7 +36,7 @@ const StickyCalendarDateSelect = ({
       <CtaButton
         iconOption={{ iconKey: STICKY_CALENDAR_YEAR_ICON_KEY }}
         iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
-        label={formatStickyCalendarYear({ year })}
+        label={formatCalendarYear({ year })}
         size={CTA_BUTTON_SIZES.LG}
         theme={CTA_BUTTON_THEMES.GRAY}
         variant={CTA_BUTTON_VARIANTS.TEXT}
