@@ -22,9 +22,9 @@ export interface QuantityStepperProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   name: string;
   imageUrl: string;
-  value: number;
+  value: number | null;
   unitsPerBox: number;
-  onChange: (value: number) => void;
+  onChange: (value: number | null) => void;
   errorMessage?: string;
   max?: number;
   placeholder?: string;

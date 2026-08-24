@@ -195,6 +195,7 @@ apps/storybook/src/stories/biz-ui/
 
 - [x] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
 - [x] DOTOLI-277 biz-ui BottomActionBar text CTA 개방 (`variant`·`theme`·`size`·아이콘 + `confirm`·`cancel` → `action`·`subAction`, 시트 `actionOption` → `actionBarOption` 개명)
+- [x] DOTOLI-284 biz-ui QuantityStepper `value` `number | null` — 미주문(`null`)과 의도적 0 주문(`0`) 구분. 스토리북 테스트 인프라 제거 동반
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 

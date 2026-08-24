@@ -20,6 +20,13 @@ const ERROR_MESSAGE = `주문 가능 수량은 ${STOCK}개입니다`;
 
 const STEPPER_WIDTH_STYLE = 'w-[312px]';
 
+const STATE_CASES: { label: string; value: number | null }[] = [
+  { label: 'null (미주문)', value: null },
+  { label: '0 (의도적 0 주문)', value: 0 },
+  { label: '2 (주문)', value: 2 },
+  { label: `${STOCK + 1} (초과 · error)`, value: STOCK + 1 },
+];
+
 const StatefulStepper = ({
   value: initialValue,
   onChange,
@@ -27,7 +34,7 @@ const StatefulStepper = ({
 }: QuantityStepperProps) => {
   const [value, setValue] = useState(initialValue);
 
-  const handleChange = (next: number) => {
+  const handleChange = (next: number | null) => {
     setValue(next);
     onChange(next);
   };
@@ -80,19 +87,20 @@ export const Default: Story = {
   render: (args) => <StatefulStepper {...args} key={args.value} />,
 };
 
+// null(미주문·empty)과 0(의도적 0 주문·filled)이 구분되는 것을 본다
 export const States: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: (args) => (
     <Flex align={{ items: 'start' }} gap='40'>
-      {[0, 2, STOCK + 1].map((value) => (
+      {STATE_CASES.map(({ label, value }) => (
         <Flex
           align={{ items: 'start' }}
           direction='column'
           gap='12'
-          key={value}
+          key={label}
         >
           <Typography color='gray-500' variant='label-bold'>
-            value = {value}
+            {label}
           </Typography>
           <StatefulStepper {...args} value={value} />
         </Flex>

@@ -241,11 +241,11 @@ Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이�
 | 총계 pill        | `rounded-full` · `px-[12px] py-[2px]` · `label-semibold` · `총 {value × unitsPerBox}개` |
 | 에러 메시지      | `caption` · `red/400` · pill 아래 같은 컬럼(gap 11px)                     |
 
-| state    | 인풋 링                        | pill 배경  | pill 글자  |
-| -------- | ------------------------------ | ---------- | ---------- |
-| `empty`  | `inset-ring` 1px `gray/200`    | `gray/50`  | `gray/300` |
-| `filled` | `inset-ring` 1px `gray/200`    | `blue/50`  | `blue/500` |
-| `error`  | `inset-ring-2` `red/400`       | `red/50`   | `red/500`  |
+| state    | `value`         | 인풋 링                        | pill 배경  | pill 글자  |
+| -------- | --------------- | ------------------------------ | ---------- | ---------- |
+| `empty`  | `null` (미주문) | `inset-ring` 1px `gray/200`    | `gray/50`  | `gray/300` |
+| `filled` | `0` ~ `max`     | `inset-ring` 1px `gray/200`    | `blue/50`  | `blue/500` |
+| `error`  | `> max`         | `inset-ring-2` `red/400`       | `red/50`   | `red/500`  |
 
 312px에서 감소 버튼 `x=0`, 값 박스 `x=46 w=220`, 증가 버튼 `x=272`입니다 (심볼은 46.33 / 219.33 / 272).
 
@@ -253,10 +253,16 @@ Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이�
 
 - **값 박스의 소수점 실측치를 반올림했습니다.** 심볼은 높이 `46.668px` · 테두리 `0.667px` · 좌우 padding `18.334px`인데, 세 값 모두 ×1.5 하면 `70` · `1` · `27.5`로 떨어집니다 — 블록 하나가 2/3로 축소된 스케일 아티팩트입니다. 각각 `h-[47px]` · `inset-ring`(1px) · `px-[18px]`로 갑니다. **소수점 px는 쓰지 않습니다.** 테두리를 `inset-ring`으로 그리는 것 자체는 CLAUDE.md [스타일 규칙].
 - **루트에 폭을 선언하지 않습니다.** 심볼의 312px은 문서 값이고 실제로는 fill입니다. 루트에 `w-full`을 넣었더니 소비처가 `className`으로 준 `w-[312px]`과 충돌해 폭이 240px로 줄었습니다 — 이 레포는 `clsx`만 쓰고 tailwind-merge가 없어서 두 클래스가 동시에 나오면 CSS 순서에 맡겨집니다. 안쪽 블록들만 `w-full`을 갖습니다.
-- **값 박스는 `<input>`이고 정수만 받습니다.** 버튼으로도, 키보드로도 조절합니다. `type='text'` + `inputMode='numeric'`이고(모바일 숫자 키패드, `type='number'`의 스피너·`e`·`-` 허용 문제 회피) `parseQuantityInput`이 `\D`를 전부 걷어냅니다 — 소수점도 걸러지므로 **소수 입력이 불가능**합니다. 빈 문자열은 `0`으로 정규화해 플레이스홀더로 돌아갑니다.
+- **값 박스는 `<input>`이고 정수만 받습니다.** 버튼으로도, 키보드로도 조절합니다. `type='text'` + `inputMode='numeric'`이고(모바일 숫자 키패드, `type='number'`의 스피너·`e`·`-` 허용 문제 회피) `parseQuantityInput`이 `\D`를 전부 걷어냅니다 — 소수점도 걸러지므로 **소수 입력이 불가능**합니다. 빈 문자열은 `null`로 정규화해 플레이스홀더로 돌아갑니다.
+
+- **미주문(`null`)과 의도적 `0` 주문을 구분합니다 (DOTOLI-284).** 소비 도메인이 「주문을 등록하지 않은 상태」와 「수량을 0으로 정한 상태」를 다르게 다뤄야 해서 `value`를 `number | null`로 엽니다. `null`은 `empty`(회색 pill · 플레이스홀더), `0`은 `filled`(파란 pill · 숫자 `0`)입니다 — 둘 다 감소 버튼은 비활성이지만 pill 색과 인풋 표시로 갈립니다.
+
+  **전에는 `0`과 미주문이 같은 것이었습니다.** `parseQuantityInput`이 빈 입력을 `0`으로 내리고 인풋을 `value > 0`일 때만 렌더해서, `0`을 치면 빈칸으로 튕겨 미주문과 구분이 불가능했습니다. 파서를 `null` 반환으로, 인풋 표시를 `value !== null`로 바꿔 `0`이 살아남게 했습니다. **`0`의 시각은 Figma에 심볼이 없어 `filled`로 정했습니다** — pill 색이 「이 행에 결정이 있다」는 신호라 미주문(회색)과 갈려야 합니다. 아래 「디자인 확인 필요」에 올렸습니다.
+
+  **별도 `isOrdered` boolean을 두지 않았습니다.** 두 prop이면 `isOrdered=false`인데 `value=5`처럼 어긋난 상태가 생깁니다 — 값이 항상 같이 움직이므로 하나로 흡수합니다(이 계열의 축 흡수 기준과 같음).
 - **입력 파서는 internal-ui `Filter/utils/parseNumericInput`의 축소판입니다.** 거기서 `isDecimal=false`일 때 하는 `\D` 제거가 필요한 전부입니다. 정수만 쓰므로 소수 분기를 두지 않았고, biz-ui는 internal-ui에 의존하지 않으므로 코드를 가져오지 않고 `QuantityStepper/utils/`에 따로 뒀습니다.
 - **입력값을 상한으로 절단하지 않습니다.** `parseNumericInput`은 `max` 초과 시 `max`로 잘라내는데, 그렇게 하면 초과 상태가 만들어지지 않아 **에러 심볼(`534:1727`)이 영원히 렌더되지 않습니다.** 초과를 표현할 UI가 생겼으므로 값은 그대로 통과시키고 소비처가 `errorMessage`로 알립니다.
-- **`0`일 때 감소 버튼을 비활성합니다.** Figma 주석 `337:3554`(「빈박스 수량이 0 일때 - 버튼 비활성화」) 그대로이고, `IconButton`의 `disabled`가 `gray/300`으로 빠지는 것이 `empty` 심볼의 흐린 `Minus`와 일치합니다(활성은 `gray/500`).
+- **감소 버튼은 `value`가 `null`이거나 `0`일 때 비활성합니다.** 둘 다 「더 내릴 곳이 없는」 상태입니다 — `0` 아래로는 못 가고 `null`은 아직 값이 없습니다. Figma 주석 `337:3554`(「빈박스 수량이 0 일때 - 버튼 비활성화」)가 근거인데, **미주문(`null`)이 새 상태로 갈라지면서 주석 문구가 이 둘을 함께 가리키지 못하게 됐습니다** — 아래 「디자인 확인 필요」. `IconButton`의 `disabled`가 `gray/300`으로 빠지는 것이 `empty` 심볼의 흐린 `Minus`와 일치합니다(활성은 `gray/500`).
 - **에러 링을 `inset-ring-2`로 그려서 높이가 안 변합니다.** Figma는 정상 1px / 에러 2px인데 심볼 높이가 47 → 46으로 어긋납니다(stroke가 레이아웃에 포함된 값). `inset-ring`은 레이아웃을 차지하지 않아 두 상태 모두 47px로 유지되고, 에러가 떴다 사라져도 행이 튀지 않습니다 — CLAUDE.md [스타일 규칙]이 `Input` 1px↔2px 사례로 든 바로 그 상황입니다.
 - **에러 메시지 문구는 소비처가 넘깁니다.** Figma 텍스트가 `에러 메시지가 표시됩니다`라는 자리표시자이고, 실제 문구는 재고·마감 등 도메인 사유마다 달라집니다. `aria-invalid`와 `aria-describedby`도 함께 겁니다 (`InputField`와 같은 처리).
 - **`max`는 「몇 개부터 에러인지」를 정합니다.** 기본값 `100`. `value > max`면 에러 상태가 되고, 절단하거나 버튼을 막지 않습니다. 상한 장치를 `max`와 `errorMessage` 둘로 나누면 판정 기준이 두 군데로 흩어지므로 **기준은 `max` 하나, 문구만 `errorMessage`**로 갈랐습니다.
@@ -272,19 +278,26 @@ Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이�
 | -------------- | ---- | ----------------- | ------------------------------------------------------- |
 | `name`         | ✅   | —                 | 상품명 · 이미지 `alt`. `10입` 같은 표기는 표시용         |
 | `imageUrl`     | ✅   | —                 | 상품 이미지                                             |
-| `value`        | ✅   | —                 | 박스 수량. `0`이면 플레이스홀더 + 감소 비활성           |
+| `value`        | ✅   | —                 | 박스 수량 `number \| null`. `null`=미주문(empty), `0`=의도적 0 주문(filled) |
 | `unitsPerBox`  | ✅   | —                 | 상자당 갯수. 총계 = `value × unitsPerBox`               |
-| `onChange`     | ✅   | —                 | `(value: number) => void`. 버튼·입력 모두 이걸로 올라옴 |
+| `onChange`     | ✅   | —                 | `(value: number \| null) => void`. 버튼·입력 모두 이걸로 올라옴. 비우면 `null` |
 | `errorMessage` |      | —                 | 초과했을 때 pill 아래에 띄울 문구                       |
 | `max`          |      | `100`             | 넘으면 에러 상태. 절단도 버튼 잠금도 하지 않음          |
-| `placeholder`  |      | `얼마나 시킬까요` | 값이 `0`일 때 문구                                      |
+| `placeholder`  |      | `얼마나 시킬까요` | 값이 `null`일 때 문구                                   |
 | `className`    |      | —                 | 담는 쪽의 폭 지정용                                     |
+
+### 디자인 확인 필요
+
+| 항목 | 내용 |
+| --- | --- |
+| `0` 주문의 시각 | Figma에 「의도적 0 주문」 심볼이 없습니다. `filled`(파란 pill + 숫자 `0`)로 정해 미주문(`null`·회색)과 갈랐습니다 (DOTOLI-284). 별도 시각을 원하면 심볼 필요 |
+| 주석 `337:3554` 문구 | 「빈박스 수량이 0 일때 - 버튼 비활성화」가 이제 `null`·`0` 두 상태를 함께 가리킵니다. 감소 버튼은 둘 다 비활성이라 동작은 맞지만 문구 갱신이 필요합니다 |
 
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/QuantityStepper.stories.tsx`, `meta.title`은 `core/biz-ui/Order/QuantityStepper`. 스토리 3종 (`Default` · `States` · `UnitsPerBox`).
 
-**controlled 컴포넌트라 스토리마다 상태를 들려 줍니다.** `value`를 arg로 고정해 두면 버튼과 입력이 아무 반응도 없어 컴포넌트가 고장난 것처럼 보입니다. 파일 안의 `StatefulStepper`가 `useState`로 값을 들고, `Default`는 `key={args.value}`로 remount 해서 `value` 컨트롤을 바꿨을 때 다시 seed 되게 합니다. `States`는 재고 20개(`max=20`)를 가정하고 `0` · `2` · `21`로 세 state를 나열하며, `UnitsPerBox`는 상자당 갯수 `10` · `20` · `30`에서 총계가 각각 달라지는 것을 봅니다.
+**controlled 컴포넌트라 스토리마다 상태를 들려 줍니다.** `value`를 arg로 고정해 두면 버튼과 입력이 아무 반응도 없어 컴포넌트가 고장난 것처럼 보입니다. 파일 안의 `StatefulStepper`가 `useState`로 값을 들고, `Default`는 `key={args.value}`로 remount 해서 `value` 컨트롤을 바꿨을 때 다시 seed 되게 합니다. `States`는 재고 20개(`max=20`)를 가정하고 `null`(미주문) · `0`(의도적 0) · `2` · `21`(초과)로 네 state를 나열하며 — **`null`과 `0`이 갈리는 자리** — `UnitsPerBox`는 상자당 갯수 `10` · `20` · `30`에서 총계가 각각 달라지는 것을 봅니다.
 
 ---
 

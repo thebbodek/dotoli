@@ -5,9 +5,9 @@ export const resolveQuantityStepperState = ({
   value,
   max,
 }: ResolveQuantityStepperStateProps) => {
+  if (value === null) return QUANTITY_STEPPER_STATES.EMPTY;
+
   if (value > max) return QUANTITY_STEPPER_STATES.ERROR;
 
-  if (value > 0) return QUANTITY_STEPPER_STATES.FILLED;
-
-  return QUANTITY_STEPPER_STATES.EMPTY;
+  return QUANTITY_STEPPER_STATES.FILLED;
 };

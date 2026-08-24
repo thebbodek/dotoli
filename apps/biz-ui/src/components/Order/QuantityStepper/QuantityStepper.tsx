@@ -47,13 +47,14 @@ const QuantityStepper = ({
   const state = resolveQuantityStepperState({ value, max });
   const { INPUT, TOTAL, TOTAL_LABEL } = QUANTITY_STEPPER_STATE_STYLES[state];
 
-  const hasValue = value > 0;
+  const hasValue = value !== null;
   const hasError = state === QUANTITY_STEPPER_STATES.ERROR;
   const hasMessage = hasError && !!errorMessage;
+  const isDecreaseDisabled = !hasValue || value === 0;
 
-  const handleDecrease = () => onChange(value - 1);
+  const handleDecrease = () => onChange((value ?? 0) - 1);
 
-  const handleIncrease = () => onChange(value + 1);
+  const handleIncrease = () => onChange((value ?? 0) + 1);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) =>
     onChange(parseQuantityInput({ value: event.target.value }));
@@ -78,7 +79,7 @@ const QuantityStepper = ({
         <div className={QUANTITY_STEPPER_ROW_STYLE}>
           <IconButton
             aria-label={QUANTITY_STEPPER_ARIA_LABELS.DECREASE}
-            disabled={!hasValue}
+            disabled={isDecreaseDisabled}
             iconKey={QUANTITY_STEPPER_ICON_KEYS.DECREASE}
             onClick={handleDecrease}
           />

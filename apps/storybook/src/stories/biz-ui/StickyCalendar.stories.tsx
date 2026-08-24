@@ -26,8 +26,16 @@ const START_MONTH = 6;
 const MONTH_COUNT = 3;
 
 const YEAR_LIMIT_CASES = [
-  { label: 'isNextYearDisabled', isNextYearDisabled: true },
-  { label: 'isPrevYearDisabled', isPrevYearDisabled: true },
+  {
+    label: 'isNextYearDisabled',
+    isPrevYearDisabled: false,
+    isNextYearDisabled: true,
+  },
+  {
+    label: 'isPrevYearDisabled',
+    isPrevYearDisabled: true,
+    isNextYearDisabled: false,
+  },
   {
     label: '둘 다',
     isPrevYearDisabled: true,

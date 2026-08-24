@@ -3,5 +3,5 @@ import { ParseQuantityInputParams } from '@/components/Order/QuantityStepper/typ
 export const parseQuantityInput = ({ value }: ParseQuantityInputParams) => {
   const digits = value.replace(/\D/g, '');
 
-  return digits ? Number(digits) : 0;
+  return digits ? Number(digits) : null;
 };

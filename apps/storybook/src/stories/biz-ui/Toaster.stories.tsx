@@ -180,7 +180,9 @@ export const CtaOffset: Story = {
         style.removeProperty('--toast-offset');
       }
 
-      return () => style.removeProperty('--toast-offset');
+      return () => {
+        style.removeProperty('--toast-offset');
+      };
     }, [hasCta]);
 
     return (

@@ -3,4 +3,5 @@ import { GenerateQuantityStepperTotalLabelProps } from '@/components/Order/Quant
 export const generateQuantityStepperTotalLabel = ({
   value,
   unitsPerBox,
-}: GenerateQuantityStepperTotalLabelProps) => `총 ${value * unitsPerBox}개`;
+}: GenerateQuantityStepperTotalLabelProps) =>
+  `총 ${(value ?? 0) * unitsPerBox}개`;
