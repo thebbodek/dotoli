@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.39
+
+### Patch Changes
+
+- 977cbc3: DOTOLI-284 biz-ui QuantityStepper 0 입력 수정
+
 ## 0.0.38
 
 ### Patch Changes
