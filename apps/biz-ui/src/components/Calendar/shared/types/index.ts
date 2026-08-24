@@ -5,3 +5,7 @@ export interface CalendarMonthValue {
 
 export interface FormatCalendarYearProps
   extends Pick<CalendarMonthValue, 'year'> {}
+
+export interface FormatCalendarDateLabelProps extends CalendarMonthValue {
+  date: number;
+}

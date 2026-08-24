@@ -25,6 +25,16 @@ const START_MONTH = 6;
 // 한 달치로는 420px 컨테이너를 못 넘겨 sticky가 드러나지 않는다
 const MONTH_COUNT = 3;
 
+const YEAR_LIMIT_CASES = [
+  { label: 'isNextYearDisabled', isNextYearDisabled: true },
+  { label: 'isPrevYearDisabled', isPrevYearDisabled: true },
+  {
+    label: '둘 다',
+    isPrevYearDisabled: true,
+    isNextYearDisabled: true,
+  },
+] as const;
+
 const meta = {
   title: 'core/biz-ui/StickyCalendar',
   component: StickyCalendar,
@@ -106,6 +116,38 @@ export const Combinations: Story = {
             <StickyCalendar useWeekday />
           </div>
         </div>
+      </div>
+    );
+  },
+};
+
+// COM-009의 「1년 초과 미래」 같은 한계는 소비 앱이 계산해서 넘긴다
+export const YearLimit: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const dateSelectOption = useYear();
+
+    return (
+      <div className={LIST_STYLE}>
+        {YEAR_LIMIT_CASES.map(
+          ({ label, isPrevYearDisabled, isNextYearDisabled }) => (
+            <div className={GROUP_STYLE} key={label}>
+              <Typography color='gray-500' variant='label-bold'>
+                {label}
+              </Typography>
+              <div className={SCREEN_WIDTH_STYLE}>
+                <StickyCalendar
+                  dateSelectOption={{
+                    ...dateSelectOption,
+                    isPrevYearDisabled,
+                    isNextYearDisabled,
+                  }}
+                  useWeekday={false}
+                />
+              </div>
+            </div>
+          ),
+        )}
       </div>
     );
   },

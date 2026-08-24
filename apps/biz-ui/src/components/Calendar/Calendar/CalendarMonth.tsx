@@ -13,6 +13,7 @@ import {
 import { CalendarDayButton } from '@/components/Calendar/CalendarDayButton';
 import {
   CALENDAR_MONTH_SUFFIX,
+  formatCalendarDateLabel,
   formatCalendarYear,
 } from '@/components/Calendar/shared';
 import { Typography } from '@/components/Typography';
@@ -43,6 +44,11 @@ const CalendarMonth = ({
             {week.map((cell, cellIndex) =>
               cell ? (
                 <CalendarDayButton
+                  aria-label={formatCalendarDateLabel({
+                    year,
+                    month,
+                    date: cell.date,
+                  })}
                   selectedType={resolveCalendarSelectedType({
                     dateString: cell.dateString,
                     selectedDates,

@@ -18,6 +18,8 @@ import { StickyCalendarDateSelectOption } from '@/components/Calendar/StickyCale
 
 const StickyCalendarDateSelect = ({
   year,
+  isPrevYearDisabled,
+  isNextYearDisabled,
   onPrevYear,
   onNextYear,
   onYearClick,
@@ -25,6 +27,7 @@ const StickyCalendarDateSelect = ({
   return (
     <div className={STICKY_CALENDAR_DATE_SELECT_STYLE}>
       <CtaButton
+        disabled={isPrevYearDisabled}
         iconOption={{ iconKey: STICKY_CALENDAR_PREV_YEAR_ICON_KEY }}
         iconPosition={BUTTON_ICON_POSITIONS.LEFT}
         label={STICKY_CALENDAR_PREV_YEAR_LABEL}
@@ -43,6 +46,7 @@ const StickyCalendarDateSelect = ({
         onClick={onYearClick}
       />
       <CtaButton
+        disabled={isNextYearDisabled}
         iconOption={{ iconKey: STICKY_CALENDAR_NEXT_YEAR_ICON_KEY }}
         iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
         label={STICKY_CALENDAR_NEXT_YEAR_LABEL}

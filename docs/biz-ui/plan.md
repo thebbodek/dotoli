@@ -189,6 +189,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-272 biz-ui StickyCalendar 구현 (격자가 아니라 격자 위 머리 — 연도 이동 · 요일 헤더)
 - [x] DOTOLI-273 biz-ui Calendar 구현 (+ `Calendar/shared/` · **`dayjs` 의존성 추가**)
 - [x] DOTOLI-274 biz-ui CalendarBottomSheet 구현 (`BottomSheet` + `StickyCalendar` + `Calendar` 조립)
+- [x] DOTOLI-275 biz-ui DateBottomSheet 구현 (`type` 2종 · `Chip` 단일 선택 · 제어 전용 + DOTOLI-271 `aria-label` 후속)
 
 ### biz-ui 후속 수정
 
@@ -298,6 +299,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-272 | StickyCalendar (연도 이동 · 요일 헤더 · `sticky top-0 z-10`)    | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-273 | Calendar (월 격자 · `Calendar/shared/` · `dayjs` 도입)          | [components/calendar.md](./components/calendar.md) · [frontend.md](./frontend.md)        |
 | DOTOLI-274 | CalendarBottomSheet (조립 전용 · 축 없음)                       | [components/calendar.md](./components/calendar.md) · [bottom-sheet.md](./components/bottom-sheet.md) |
+| DOTOLI-275 | DateBottomSheet (`type` 2종 · 제어 전용 · `basis-0 grow` 4열) + `CalendarDayButton` `aria-label` 후속 | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 | DOTOLI-277 | BottomActionBar text CTA 개방 (폭 배분 파생 · **`action`·`subAction`·`actionBarOption` 개명**) + 스토리 `argTypes` 필수 표시 보완(BottomActionBar · Calendar · CalendarBottomSheet) | [components/bottom-action-bar.md](./components/bottom-action-bar.md) · [bottom-sheet.md](./components/bottom-sheet.md) |
 

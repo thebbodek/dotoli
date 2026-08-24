@@ -9,6 +9,8 @@ export interface StickyCalendarWeekday {
 
 export interface StickyCalendarDateSelectOption {
   year: number;
+  isPrevYearDisabled?: boolean;
+  isNextYearDisabled?: boolean;
   onPrevYear: () => void;
   onNextYear: () => void;
   onYearClick: () => void;

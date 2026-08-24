@@ -14,7 +14,7 @@ export type CalendarDayButtonState =
 export interface CalendarDayButtonProps
   extends Pick<
     ButtonHTMLAttributes<HTMLButtonElement>,
-    'className' | 'disabled' | 'onClick'
+    'className' | 'disabled' | 'onClick' | 'aria-label'
   > {
   day?: string;
   date?: number;

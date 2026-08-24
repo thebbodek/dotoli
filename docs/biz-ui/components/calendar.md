@@ -29,8 +29,9 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `StickyCalendar`    | DOTOLI-272 | 격자 위에 붙는 머리. 연도 이동 + 요일 헤더. `CalendarDayButton`을 **쓰지 않음** |
 | `Calendar`          | DOTOLI-273 | 월 격자. `CalendarDayButton`을 깔고 **날짜 계산을 소유**. `dayjs` 도입 |
 | `CalendarBottomSheet` | DOTOLI-274 | 위 셋을 [`BottomSheet`](./bottom-sheet.md) 안에 조립. **자체 시각이 없음** |
+| `DateBottomSheet`   | DOTOLI-275 | 연 · 월 선택 시트. `Chip` 단일 선택 + **제어 전용** |
 
-**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** `DateBottomSheet`(DOTOLI-275)가 남아 있습니다.
+**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** **계열 5종이 이 티켓으로 끝났습니다.** DOTOLI-275는 [`CalendarDayButton`](#calendardaybutton)의 `aria-label` 누락도 함께 고쳤습니다 — 아래 「후속 수정」.
 
 `Calendar/shared/`에는 **계열 안에서 두 번 이상 쓰이는 것만** 둡니다. 지금은 연도 2자리 표기(`formatCalendarYear` — `StickyCalendar`의 `26년`과 `Calendar`의 `26년 6월`이 함께 씁니다)와 날짜 포맷 · 요일 수 상수입니다. CLAUDE.md 「코드 규칙 1」의 표대로 `<Group>/shared/`라 **공개**입니다.
 
@@ -248,6 +249,12 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 - **요일 글자색이 `red/400`이라 휴일색과 다릅니다.** `CalendarDayButton`의 휴일은 `red/600`인데 여기 일 · 토는 `red/400`으로 한 단계 옅습니다. 헤더는 「이 열이 주말」이라는 표시일 뿐 실제 휴일 판정(COM-009)과 무관해서로 보이지만, 값이 갈리는 지점이라 「디자인 확인 필요」에 올렸습니다.
 
+- **연도 이동 한계는 `isPrevYearDisabled` · `isNextYearDisabled`로 소비자가 넘깁니다** (DOTOLI-275에서 추가). COM-009가 「1년(365일) 초과 미래」를 비활성으로 규정하는데 **DS는 그 기준일을 모릅니다** — `options`를 소비자가 만드는 것과 같은 이유입니다.
+
+  **비활성 시각은 `CtaButton`이 이미 갖고 있어 새로 그리지 않았습니다.** 작년 · 내년은 처음부터 `CtaButton` `variant='text'` + 캐럿 아이콘이라 `disabled`를 통과시키기만 하면 됩니다. Figma에 비활성 심볼이 없던 항목인데, **버튼이 DS 컴포넌트라 그 컴포넌트의 상태를 쓰는 것으로 정리했습니다.** `onYearClick`(연도 표기)에는 두지 않았습니다 — 연도 시트를 여는 버튼이라 한계와 무관합니다. `StickyCalendar.stories`의 `YearLimit`가 세 조합을 보여 줍니다.
+
+  이름에 `is` 접두어를 붙인 것은 **한 옵션 객체 안에 비활성이 둘**이라 `disabled` 하나로 구분되지 않아서입니다. HTML 기본 속성을 그대로 쓰는 자리가 아니므로 CLAUDE.md의 「`is`(상태)」를 따랐고, 이웃한 `onPrevYear` · `onNextYear`와 대상이 맞아떨어집니다.
+
 - **`gap`을 조건 없이 겁니다.** 줄이 하나면 gap이 렌더에 드러나지 않습니다 — `ConfirmModal` · `BottomActionBar`와 같은 판단입니다. Figma codegen은 조합마다 gap을 껐다 켜지만 결과가 같습니다.
 
 - **요일 줄에 표 시맨틱을 넣지 않았습니다.** `<th scope='col'>`이 맞으려면 날짜 격자까지 한 `<table>` 안에 있어야 하는데 **격자를 만드는 것은 이 컴포넌트가 아닙니다.** `CalendarDayButton`에서 `role='gridcell'`을 미룬 것과 같은 이유이고, 둘을 함께 감싸는 `CalendarBottomSheet` 티켓이 판단할 자리입니다.
@@ -258,7 +265,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 | prop               | 필수 | 기본값 | 비고                                                     |
 | ------------------ | ---- | ------ | -------------------------------------------------------- |
-| `dateSelectOption` |      | —      | `{ year, onPrevYear, onNextYear, onYearClick }`. 주면 연도 줄이 생김 |
+| `dateSelectOption` |      | —      | `{ year, onPrevYear, onNextYear, onYearClick }` + 선택 `isPrevYearDisabled` · `isNextYearDisabled`. 주면 연도 줄이 생김 |
 | `useWeekday`       |      | `true` | 요일 헤더 줄                                              |
 | `className`        |      | —      | 바에 적용                                                 |
 
@@ -287,7 +294,6 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | 주 시작 요일     | 일요일 시작으로 고정했습니다. 월요일 시작이 필요한 화면이 생길 수 있는지                                      |
 | 둘 다 `false`    | 심볼이 없습니다. 구현은 빈 바(높이 16)가 렌더됩니다 — 막아야 하는지                                            |
 | 연도 표기 자릿수 | `26년`이라 2자리로 줄였습니다. 2100년이 `00년`이 되는데 서비스 수명상 무시해도 되는지                          |
-| 연도 이동 한계   | COM-009가 「1년(365일) 초과 미래」를 비활성으로 규정하는데 **작년 · 내년 버튼에는 비활성 상태가 없습니다.** 끝에 닿으면 어떻게 보일지 |
 | 상호작용         | `hover` · `pressed`는 `CtaButton`이 갖고 있고, 바 자체의 그림자 · 경계는 정의가 없습니다 (스크롤 시 격자와 맞닿음) |
 
 ### Storybook
@@ -298,6 +304,8 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | -------------- | -------------------------------------------------------------------- |
 | `Default`      | 컨트롤로 `useWeekday`를 끄고 켠다. 작년 · 내년이 실제로 연도를 바꾼다  |
 | `Combinations` | 그려져 있는 세 조합                                                   |
+| `YearLimit`    | `isPrevYearDisabled` · `isNextYearDisabled` · 둘 다 — `CtaButton`의 비활성 시각 |
+| `YearLimit`    | `isPrevYearDisabled` · `isNextYearDisabled` — 끝에 닿았을 때 `CtaButton`의 비활성 시각 |
 | `Sticky`       | 밑에 **실제 `Calendar`를 3개월치** 깔고 **바가 상단에 붙어 있는지** — `sticky` · `z-10` · `shrink-0`이 드러나는 유일한 자리. 한 달치로는 420px 컨테이너를 못 넘겨 스크롤 자체가 안 생깁니다. DOTOLI-273 전에는 손으로 그린 격자였고 273에서 실물로 바꿨습니다 |
 
 ---
@@ -504,7 +512,6 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | --------------- | ------------------------------------------------------------------------------------------------------ |
 | 시트 높이       | 심볼은 615 고정인데 구현은 내용에 따라 자랍니다(최대 화면 높이). 짧은 달 하나만 보여 줄 때 시트가 낮아져도 되는지 |
 | 액션 바 없는 형태 | 심볼에는 항상 `확인`이 있습니다. 탭 즉시 확정되는 화면이 있는지 (`actionBarOption`을 선택으로 열어 뒀습니다) |
-| 연도 시트 연결  | `26년▼`이 [`DateBottomSheet`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1997&m=dev)를 여는 것으로 보이는데 연결 정의가 없습니다. DOTOLI-275에서 확인 |
 | 보여 줄 달 범위 | 심볼은 3개월이고 사용 예시 `205:4115`는 4개월입니다. COM-009의 「1년 초과 미래」와 어떻게 맞물리는지 |
 
 ### Storybook
@@ -518,3 +525,164 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | `WithoutAction` | `actionBarOption` 없이 — 액션 바가 빠졌을 때 바디 하단                 |
 
 세 스토리 모두 트리거 버튼으로 엽니다 (`confirm-modal.md` 「Storybook」과 같은 이유).
+
+---
+
+## DateBottomSheet
+
+연 · 월을 칩으로 고르는 시트입니다. Figma 세트 `687:2505`, 심볼 `687:2486`(`type=month`) · `687:2495`(`type=year`).
+
+**요구사항 출처가 두 곳입니다.** biz-ui 심볼은 모양만 있고 조건이 없어서, 고객 비즈 파일의 [BIL-002 / BIL-003 날짜 · 년도 선택](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1404-39228&m=dev) (`1404:39228`) 스펙 패널을 함께 봤습니다.
+
+> ② **연도 네비게이션** — 좌우 캐럿 탭 → 작년/내년 이동. 연도 표기 탭 → BIL-003 년도선택 바텀시트 노출
+> ③ **월 선택 칩** — Chip 12개, 한 행에 4개, 3행 배치. 단일 선택, 현재 조회 중인 월이 활성. **이용시작 전 월 미노출**
+> ②b **년도 칩 목록** — Chip, 한 행에 4개. **노출 개수는 사용자 가입일 등 이용 연수에 따라 가변**. 최신 연도 내림차순. **칩 탭은 즉시 선택되지 않고 하단 선택 버튼으로 확정**. 이용시작 전 년도 미노출
+> ④ **하단 액션부** — [선택] 탭 → 해당 연월로 거래내역 조회, 바텀시트 닫힘
+
+### Variant 축
+
+| 축     | Figma 값           | 구현        |
+| ------ | ------------------ | ----------- |
+| `type` | `month`(기본) · `year` | 그대로 prop |
+
+`type`이 **네 가지를 함께 정합니다** — 제목 · 칩 라벨 형식 · 배치 · 연도 네비게이션 유무. 파생시킬 다른 prop이 없어 축으로 둡니다.
+
+### 실측 스펙
+
+| 항목            | `month`                                      | `year`                          |
+| --------------- | -------------------------------------------- | ------------------------------- |
+| 제목            | `날짜 선택`                                   | `년도 선택`                      |
+| 연도 네비게이션 | `StickyCalendar` (`useWeekday=false`)         | **없음**                         |
+| 콘텐츠 여백     | `px-[20px] py-[24px]`                         | 같음                             |
+| 배치            | 4열 균등 · `gap-[10px]`                       | **같음** (아래 「결정」)          |
+| 칩 라벨         | `1월` ~ `12월`                                | `26년` (2자리)                   |
+| 하단            | `BottomActionBar` (`전체 거래명세서 보기` + `선택`) | `BottomActionBar` (`확인`)  |
+
+칩 자체는 [`Chip`](./chip.md)과 정확히 일치합니다 — `px-[20px] py-[6px]`(= 높이 32) · `rounded-full` · 선택 `gray/900` + 흰 글자 · 기본 흰 배경 + `gray/200` 테두리. **신규 토큰이 없습니다.**
+
+### 결정
+
+- **제어 전용입니다 — internal-ui의 하이브리드를 따르지 않았습니다.**
+
+  internal-ui `CalendarProvider`는 외부 `value` 위에 **내부 초안(`internalValue`)을 따로 들고** 확정 시점에만 `onChange`를 발사합니다. 스펙의 「칩 탭은 즉시 선택되지 않고 하단 버튼으로 확정한다」와 같은 모양이라 그대로 옮길지 검토했습니다.
+
+  **옮기지 않은 이유는 그쪽이 초안을 든 진짜 이유가 여기 없기 때문입니다.** internal-ui는 **범위 선택**이라 시작만 찍힌 `{ startDate, endDate: null }`이라는 **유효하지 않은 중간 상태**가 생깁니다. 탭마다 `onChange`를 쏘면 미완성 범위가 소비자에게 넘어가므로 초안이 필요했습니다. 이 시트는 **월 하나 · 연도 하나**라 한 번의 탭이 곧 완성된 값입니다.
+
+  **더 결정적인 것은 확정 버튼의 주인입니다.** [`CalendarBottomSheet`](#calendarbottomsheet)와 같이 `actionBarOption`을 통과시키는 구조라 **확정 버튼의 `onClick`이 이미 소비자 것**입니다. 시트가 초안을 들면 확정 경로가 둘(시트의 `onConfirm` + 소비자의 `action.onClick`)로 갈라지고, 소비자의 핸들러는 초안 값을 알 수 없습니다. CLAUDE.md 「폼 컨트롤 공통 4」의 「제어 전용」과도 결이 맞습니다.
+
+  **초안이 필요한 화면은 소비 앱이 `useState` 하나로 만듭니다** — 시트를 열 때 확정값을 초안에 넣고, `action.onClick`에서 초안을 확정값으로 올리면 됩니다.
+
+- **`options`를 소비자가 넘깁니다.** 스펙이 「이용시작 전 연/월 미노출」 · 「노출 개수는 이용 연수에 따라 가변」이라고 못박아 **가입일을 아는 쪽만 목록을 만들 수 있습니다.** 월도 같은 규칙이라 함께 열었고, 1~12월 기본 목록은 `DATE_BOTTOM_SHEET_MONTH_OPTIONS`로 내보냅니다.
+
+  **연도 정렬도 소비자 몫입니다** — 「최신 연도 내림차순」은 배열 순서로 표현되고, DS가 다시 정렬하면 소비자가 뒤집을 수단이 없어집니다.
+
+- **연도도 월과 같은 4열 균등 그리드입니다 — DS 심볼이 아니라 소비 앱 스펙을 따랐습니다.** biz-ui `687:2495`는 연도 칩이 hug로 그려져 있어 처음엔 `flex-wrap`으로 옮겼는데, **BIL-003이 연도도 「Chip, 한 행에 4개」로 못박고 있습니다.** wrap은 폭에 따라 개수가 바뀌어 380에서는 4+3이지만 [`BottomSheet`](./bottom-sheet.md)의 상한 480에서 **5+2**가 됐습니다(실측). 380 프레임만 보면 두 방식이 같아 갈리지 않던 자리이고, **DS 심볼 쪽이 작게 잡힌 실수로 확인받았습니다.**
+
+  `type` 분기가 사라져 `DateBottomSheetOptions`가 배치를 하나만 갖습니다. 상수도 `DATE_BOTTOM_SHEET_OPTION_*`로 합쳤고, 쓰이지 않던 `DATE_BOTTOM_SHEET_MONTH_COLUMN_COUNT`는 지웠습니다 — `grid-cols-4`는 Tailwind가 소스에서 스캔해야 해서 상수가 클래스를 만들 수 없습니다.
+
+- **`Chip`을 수정하지 않고 `basis-0 grow`로 4열을 채웁니다.** 월 칩은 Figma가 `flex-[1_0_0] min-w-px`인데 `Chip`은 `w-fit shrink-0`입니다. `flex-1`을 className으로 얹으면 **같은 프로퍼티(`flex-shrink` · 사실상 `width`)를 두 번 지정**해 결과가 클래스 순서가 아니라 **CSS 생성 순서**로 정해집니다. `basis-0 grow`는 `flex-basis` · `flex-grow`만 건드려 충돌이 없고, 주 축 크기가 `flex-basis`로 정해지므로 `w-fit`이 무력화됩니다.
+
+  실측상 가장 긴 `10월`이 약 69px이고 열 몫이 77.5px(`(380 - 40 - 30) / 4`)이라 `shrink-0`이 걸릴 일도 없습니다.
+
+  **그리드 칸마다 `flex` 래퍼를 하나 둡니다.** `grid`에서는 `grow`가 무효라 칸을 flex 컨테이너로 만들어야 칩이 늘어납니다. 래퍼 없이 `flex-wrap`으로 하면 **`options`가 걸러져 마지막 줄이 짧을 때 남은 칩이 늘어나 열이 어긋납니다.**
+
+- **`year`는 연도 네비게이션이 없습니다.** `dateSelectOption`을 선택으로 두고 준 경우에만 그립니다 — 심볼이 `month`에만 갖고 있고, 연도 시트에서 또 연도를 넘기는 것은 순환입니다.
+
+- **라디오 그룹 이름을 `useId`로 만듭니다.** `Chip`의 `selectMode='single'`이 `<input type="radio">`라 같은 `name`으로 묶여야 화살표 키 이동과 단일 선택이 성립합니다. 시트가 두 개 열릴 수 있어(월 → 연도) 이름이 겹치면 안 됩니다.
+
+- **월 ↔ 연도 연결은 DS가 아니라 소비 앱이 배선합니다.** [`CalendarBottomSheet`](#calendarbottomsheet)의 「연도 시트 연결 — DOTOLI-275에서 확인」 항목이 여기로 닫힙니다. **연결에 필요한 것이 전부 공개 API로 이미 있습니다** — `dateSelectOption.onYearClick`으로 연도 시트를 열고, `isOpen` 두 개를 소비자가 들고, 연도 쪽 `action.onClick`과 `onClose`가 월 시트로 되돌립니다. `Linked` 스토리가 그 배선을 그대로 보여 줍니다.
+
+  **연결 동작은 확인받았고 계약으로 둡니다** (DOTOLI-275). 코드로 강제하지 않으므로 소비 앱이 지킵니다.
+
+  | 트리거 | 동작 |
+  | --- | --- |
+  | 월 시트의 `26년▼` 탭 | 연도 시트 열기 (월 시트는 닫음) |
+  | 연도 시트에서 연도 선택 후 확정 버튼 | 연도를 적용하고 **월 시트로 복귀** |
+  | 연도 시트의 닫기 · 배경 탭 | **월 시트로 복귀** (둘 다 닫지 않음) |
+
+  **묶은 컴포넌트를 만들지 않았습니다.** 동작이 정해진 것과 「컴포넌트가 하나여야 한다」는 다른 문제입니다 — **묶인 형태에 대응하는 Figma 심볼이 없어** 이름과 API를 DS가 지어내야 하고, 연도 시트의 확정 버튼이 DS 소유로 넘어와 `actionBarOption`의 뜻이 「월 시트 것만」으로 바뀝니다. [`FaqAccordionList`](./faq-accordion.md)처럼 열림 상태만 든 래퍼로 묶는 것 자체는 이 DS에서 성립하지만, **그쪽은 Figma에 리스트 심볼이 있었습니다.** 공개는 되돌리기 비대칭이라 **두 번째 화면이 같은 흐름을 요구할 때** 묶습니다.
+
+- **하단 왼쪽 링크(`전체 거래명세서 보기`)는 소비자가 `subAction`으로 넣습니다.** 착수 시점에는 [`BottomActionBar`](./bottom-action-bar.md)가 좌측을 tonal gray로 고정하고 있어 **아이콘 달린 text 버튼을 표현할 수단이 없었고**, 이 문서의 「디자인 확인 필요」에 「액션 바 API를 넓힐지 판단 필요」로 올라가 있었습니다. **DOTOLI-277이 그 슬롯을 열어 해소됐습니다** — 시트는 `actionBarOption`을 그대로 통과시키므로 여기서 더 할 것이 없습니다. 거래내역 화면 전용 문구라 DS가 소유하지 않는 것은 그대로입니다.
+
+### 후속 수정 — `CalendarDayButton`의 `aria-label` (DOTOLI-271)
+
+이 티켓에 함께 넣었습니다. [`Calendar`](#calendar)가 그리는 날짜 버튼의 접근성 이름이 `15`처럼 **숫자뿐이라 몇 월인지 읽히지 않았습니다.** `CalendarDayButton`이 `aria-label`을 열어 두지 않아 채울 수가 없었고, 이는 CLAUDE.md 「폼 컨트롤 공통 6」(접근성 이름은 소비자가 붙인다 — `aria-label` · `aria-labelledby`만 열어 둔다)을 빠뜨린 것입니다.
+
+| 파일 | 변경 |
+| --- | --- |
+| `CalendarDayButton/types` | `Pick<…, 'aria-label'>` 추가 |
+| `CalendarDayButton.tsx`   | `<button>`에 통과 |
+| `Calendar/shared/utils/formatCalendarDateLabel.ts` | 신규 — `2026년 6월 15일` |
+| `Calendar/CalendarMonth.tsx` | 날짜 버튼마다 전달 |
+
+**표기용 `formatCalendarYear`(`26년`)와 달리 연도를 줄이지 않습니다.** 버튼 이름은 앞뒤 맥락 없이 혼자 읽히기 때문입니다.
+
+### API
+
+| prop               | 필수 | 기본값             | 비고                                              |
+| ------------------ | ---- | ------------------ | ------------------------------------------------- |
+| `isOpen`           | ✅   | —                  | `BottomSheet`로 전달                               |
+| `options`          | ✅   | —                  | 노출할 월(1~12) 또는 연도 목록. **순서가 표시 순서** |
+| `value`            | ✅   | —                  | 선택된 월 또는 연도                                |
+| `onChange`         | ✅   | —                  | `({ value }) => void`. **탭 즉시 발사**            |
+| `type`             |      | `'month'`          | `'month'` · `'year'`                               |
+| `title`            |      | type별 기본값       | `'날짜 선택'` · `'년도 선택'`                       |
+| `dateSelectOption` |      | —                  | 주면 연도 네비게이션 줄이 생김 (`month`용)          |
+| `actionBarOption`  |      | —                  | `BottomActionBarProps` 그대로                      |
+| `isDimmed`         |      | `true`             | `BottomSheet` 기본값                                |
+| `onClose`          |      | —                  | 헤더 닫기 · 배경 탭 · ESC                           |
+| `target`           |      | `'portal'`         |                                                    |
+| `className`        |      | —                  | 시트에 적용                                         |
+
+```tsx
+// 월 선택 — 확정은 소비자가 action에서, 왼쪽 링크는 subAction
+const [draft, setDraft] = useState(month);
+
+<DateBottomSheet
+  isOpen={isOpen}
+  options={DATE_BOTTOM_SHEET_MONTH_OPTIONS}
+  value={draft}
+  onChange={({ value }) => setDraft(value)}
+  dateSelectOption={{ year, onPrevYear, onNextYear, onYearClick: openYearSheet }}
+  actionBarOption={{
+    subAction: {
+      label: '전체 거래명세서 보기',
+      size: 'sm',
+      variant: 'text',
+      iconOption: { iconKey: 'receipt' },
+      onClick: goList,
+    },
+    action: { label: '선택', onClick: () => commit(draft) },
+  }}
+  onClose={close}
+/>
+
+// 연도 선택 — 목록은 가입 연수로 소비자가 만든다
+<DateBottomSheet
+  type='year'
+  isOpen={isOpen}
+  options={[2026, 2025, 2024, 2023, 2022]}
+  value={year}
+  onChange={({ value }) => setYear(value)}
+  actionBarOption={{ action: { label: '확인', onClick: commit } }}
+/>
+```
+
+### 디자인 확인 필요
+
+| 항목                  | 내용                                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 헤더가 variant마다 다름 | `year`는 진짜 `HeaderBar`(h-55 · 닫기 Bold `gray/800` + X 14)인데 `month`는 일회성 헤더(닫기 **SemiBold** `gray/700` + X **16**)입니다. `HeaderBar`로 통일했습니다 |
+| 연도 줄 여백 2px      | `StickyCalendar`는 위 12 · 아래 16인데 여기 심볼은 위 10 · 아래 14입니다. 같은 요소를 두 번 그린 것으로 보고 재사용했습니다 |
+| 월 칩 폰트            | 심볼이 `Inter:Medium`으로 잡혀 있습니다(연도 칩은 `Pretendard:SemiBold`). Figma 폴백으로 보고 `label-semibold`로 통일했습니다 |
+| 이용시작 전 미노출    | 목록을 소비자가 만들게 했습니다. DS가 최소 연/월을 받아 거르는 편이 나은지                                          |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/DateBottomSheet.stories.tsx`, `meta.title`은 `core/biz-ui/DateBottomSheet`.
+
+| 스토리   | 보는 것                                                                     |
+| -------- | --------------------------------------------------------------------------- |
+| `Month`  | 12칩 4×3 격자 + 연도 네비게이션 + 하단 `전체 거래명세서 보기` text CTA. 컨트롤로 `type` · `title` · `options`를 바꾼다 |
+| `Year`   | 7칩 wrap 배치 — 한 행 4개, 둘째 줄 3개                                        |
+| `Linked` | **월 시트의 `26년▼` → 연도 시트**. Figma에 연결 정의가 없어 구현으로 확인하는 자리 |

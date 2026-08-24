@@ -21,6 +21,7 @@ const CalendarDayButton = ({
   isHoliday = false,
   disabled = false,
   className,
+  'aria-label': ariaLabel,
   onClick,
 }: CalendarDayButtonProps) => {
   const hasDay = !!day;
@@ -47,6 +48,7 @@ const CalendarDayButton = ({
           ? CALENDAR_DAY_BUTTON_CURSOR_STYLES.DISABLED
           : CALENDAR_DAY_BUTTON_CURSOR_STYLES.ENABLED,
       )}
+      aria-label={ariaLabel}
       aria-pressed={selectedType !== CALENDAR_DAY_SELECTED_TYPES.NONE}
       disabled={disabled}
       type='button'

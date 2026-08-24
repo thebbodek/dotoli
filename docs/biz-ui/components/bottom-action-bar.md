@@ -98,7 +98,9 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   `fixed`가 아니라 `sticky`인 것은 주석이 「**영역 내**」라고 못박아서입니다. 스크롤 컨테이너의 마지막 자식으로 두면 그대로 동작하고, 컨테이너가 없으면 문서 스크롤 기준으로 붙습니다. `z-index`는 걸지 않았습니다 — 마지막 자식이라 쌓임 순서로 이미 위입니다.
 
-- **`pb-[28px]`을 그대로 두고 `safe-area-bottom`을 얹지 않았습니다.** [`BottomTab`](./bottom-tab.md) · `Toaster`가 그 유틸을 쓰는 것과 갈리는데, **그쪽은 Figma 하단 여백이 0**이라 더할 것이 명확했습니다. 여기는 12/28 비대칭이 이미 홈 인디케이터를 비켜 간 값으로 보이고, 두 클래스를 같이 걸면 `padding-bottom` 승자가 클래스 순서가 아니라 **CSS 소스 순서**로 정해져 예측이 안 됩니다. 아래 「디자인 확인 필요」에 올렸습니다.
+- **`pb-[28px]`을 그대로 두고 `safe-area-bottom`을 얹지 않았습니다.** [`BottomTab`](./bottom-tab.md) · `Toaster`가 그 유틸을 쓰는 것과 갈리는데, **그쪽은 Figma 하단 여백이 0**이라 더할 것이 명확했습니다. 여기는 12/28 비대칭이 이미 홈 인디케이터를 비켜 간 값으로 보이고, 두 클래스를 같이 걸면 `padding-bottom` 승자가 클래스 순서가 아니라 **CSS 소스 순서**로 정해져 예측이 안 됩니다.
+
+  iOS 홈 인디케이터(`env(safe-area-inset-bottom)` = 34)보다 6 작지만 **디자이너가 지정한 것이 없어 「디자인 확인 필요」로 올리지 않습니다** (DOTOLI-275에서 확인). 실기기에서 문제가 드러나면 그때 맞춥니다.
 
 - **`gap`을 조건 없이 겁니다.** `single`은 자식이 하나라 gap이 렌더에 드러나지 않습니다 — `ConfirmModal` · `FloatingPill`과 같은 판단입니다. 값만 `info` 유무로 갈립니다(10 ↔ 14).
 
@@ -107,6 +109,8 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 - **랜드마크를 만들지 않고 `<div>`입니다.** `<footer>`는 `<body>` 직계에서 `contentinfo`가 되는데 이 바는 문서 정보가 아니라 액션이고, `role='toolbar'`는 화살표 키 이동 기대가 따라붙습니다. [`BottomTab`](./bottom-tab.md)이 `<nav aria-label>`인 것은 그쪽이 실제로 내비게이션이라서입니다.
 
 - **폴더는 단독입니다.** 이름이 `Bottom…`으로 겹치지만 `BottomTab`과 공유하는 조각이 없습니다 — `Badge` · `ConfirmModal` · `StatusAlertBanner` 선례입니다.
+
+- **text 버튼 높이는 `CtaButton`이 정합니다.** 월 시트 인스턴스(`774:637`)의 박스가 52인데 구현은 글자 높이(20)입니다. **Figma 오토레이아웃이 늘린 값이고 그 자리에 별도 의도가 없다는 것을 확인받았습니다** — 같은 `CtaButton` text가 다른 곳에서도 그대로 쓰이므로 여기만 다른 높이를 둘 이유가 없습니다. 바 높이 92는 어느 쪽이든 같습니다.
 
 ### DOTOLI-277 · 버튼 모양을 소비자에게 엽니다
 
@@ -174,10 +178,8 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | 항목                     | 내용                                                                                                                         |
 | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
 | `withInfo` × `solid`     | 심볼이 없습니다. 구현은 조합이 되는데 그라디언트 없이 흰 배경 위에 정보 + 버튼이 놓입니다. 쓰지 않을 조합인지 확인 필요        |
-| 하단 safe area           | `pb-[28px]`이 iOS 홈 인디케이터(`env(safe-area-inset-bottom)` = 34)보다 작습니다. `BottomTab` · `Toaster`처럼 `safe-area-bottom`을 얹을지, 28로 충분한지 |
 | `withInfo` 숨은 아이콘   | 마스터(`197:757`)에 `Leading icon / plus` 프레임이 **`hidden`으로** 들어 있습니다. 살릴 계획이 있는지                          |
 | 긴 `info`                | 라벨이 `shrink-0`(Figma 그대로)이라 문구가 길면 버튼이 밀립니다. 상한을 둘지 말줄임할지                                       |
-| text 버튼 높이           | 월 시트 인스턴스(`774:637`)의 박스가 52인데 구현은 글자 높이(20)입니다. Figma 오토레이아웃이 늘린 값으로 봤고 **바 높이 92는 같습니다.** 배경이 없어 눈에 안 띄지만 의도가 52면 별도 값이 필요합니다 |
 | 긴 버튼 라벨             | `two`에서 버튼 하나가 165px이고 `CtaButton lg`의 `px-[30px]`을 빼면 라벨 공간이 105px입니다. `h-[52px]` 고정이라 긴 라벨은 넘칩니다 |
 | 상호작용 · 모션          | `hover` · `pressed`는 `CtaButton`이 갖고 있고, 바 자체의 등장/퇴장 모션은 정의가 없습니다                                      |
 
