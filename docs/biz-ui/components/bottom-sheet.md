@@ -110,6 +110,12 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
 - **접근성 이름은 `aria-label`로 붙입니다.** `ConfirmModal`은 `useId` + `aria-labelledby`인데, 여기 제목은 `HeaderBar` 안에 있고 `HeaderBar`가 제목 id를 밖으로 내주지 않습니다. `title`이 이미 문자열로 들어오므로 `aria-label`이면 충분하고, 그 하나 때문에 `HeaderBar` API를 넓히지 않았습니다.
 
+- **`max-w-[480px] mx-auto`로 넓은 화면에서 가운데에 세웁니다.** biz-ui는 모바일 단일 타깃이지만 **바텀시트는 PC에서 열릴 수 있다**는 요구가 들어왔습니다(DOTOLI-274). 상한이 없으면 시트가 화면 폭을 그대로 먹고, `Overlay`의 바텀시트 배치가 `flex-h-stack items-end`(가로 정렬은 기본값 `flex-start`)라 **좁히기만 하면 왼쪽에 붙습니다.**
+
+  **`Overlay`는 건드리지 않았습니다.** 시트 엘리먼트가 곧 `Overlay`의 content div(`contentClassName`으로 들어감)이고 그것이 `w-full` flex 아이템이라, **`mx-auto`의 auto 마진이 남는 공간을 양쪽으로 나눠 가져** 가운데로 갑니다. 배치 상수를 고치면 `ConfirmModal`까지 딸려 오는데 그쪽은 이미 `flex-h-stack-center`라 손댈 이유가 없습니다.
+
+  **480인 이유** — 현행 최대 폭 단말(iPhone Pro Max 430)보다 커야 **실기기에서는 지금처럼 꽉 찹니다.** Figma 문서 프레임 380을 그대로 상한으로 쓰면 큰 폰에서 좌우가 비어 오히려 회귀입니다. 375 · 980에서 실측해 각각 「폭 꽉 참」 · 「480 가운데」를 확인했습니다. `--container-*` 스케일이 아직 없어 임의값이고 「디자인 확인 필요」에 올렸습니다.
+
 - **폴더는 단독입니다.** `BottomTab` · `BottomActionBar`와 이름만 겹치고 공유 조각이 없습니다.
 
 ## API
@@ -170,6 +176,7 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 | 닫힘 모션            | 등장만 정의돼 있습니다(250ms). `Overlay`에 닫힘 모션이 없는 것과 같은 상태 — [overlay.md](./overlay.md) 「닫힘 애니메이션은 없습니다」 |
 | `dimmed=false` 그림자 | `dimmed=true` 심볼에는 그림자가 없습니다(딤이 대신). 구현은 두 경우 모두 `shadow-30`인데, 딤 위에서는 보이지 않아 그대로 뒀습니다 |
 | 드래그 핸들          | 두 심볼 모두 손잡이(grabber)가 없습니다. 드래그로 닫는 동작도 정의가 없습니다                                              |
+| 시트 최대 폭 `480`   | PC에서 열릴 수 있다는 요구로 넣은 상한입니다. Figma에 수치가 없어 **최대 폭 단말(430)보다 크게** 잡은 임의값이라 확인 필요 |
 
 ## Storybook
 

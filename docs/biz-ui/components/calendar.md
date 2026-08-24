@@ -28,8 +28,9 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `CalendarDayButton` | DOTOLI-271 | 계열의 잎. `type` 축을 `day` · `date` 유무로 파생. 48 × 48  |
 | `StickyCalendar`    | DOTOLI-272 | 격자 위에 붙는 머리. 연도 이동 + 요일 헤더. `CalendarDayButton`을 **쓰지 않음** |
 | `Calendar`          | DOTOLI-273 | 월 격자. `CalendarDayButton`을 깔고 **날짜 계산을 소유**. `dayjs` 도입 |
+| `CalendarBottomSheet` | DOTOLI-274 | 위 셋을 [`BottomSheet`](./bottom-sheet.md) 안에 조립. **자체 시각이 없음** |
 
-**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** `CalendarBottomSheet`(DOTOLI-274) · `DateBottomSheet`(DOTOLI-275)가 남아 있고, 둘은 [`BottomSheet`](./bottom-sheet.md) 위에 위 셋을 얹습니다.
+**계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** `DateBottomSheet`(DOTOLI-275)가 남아 있습니다.
 
 `Calendar/shared/`에는 **계열 안에서 두 번 이상 쓰이는 것만** 둡니다. 지금은 연도 2자리 표기(`formatCalendarYear` — `StickyCalendar`의 `26년`과 `Calendar`의 `26년 6월`이 함께 씁니다)와 날짜 포맷 · 요일 수 상수입니다. CLAUDE.md 「코드 규칙 1」의 표대로 `<Group>/shared/`라 **공개**입니다.
 
@@ -407,3 +408,113 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `Default`            | 컨트롤로 `months` · `selectedDates` · `holidays` · `disabledDates`를 직접 넣어 본다 |
 | `Range`              | 같은 `selectedDates`에 `useRange`만 켜고 끈다 — **띠가 이어지는 자리**   |
 | `WithStickyCalendar` | `StickyCalendar` 아래 월이 이어 스크롤되고, 탭으로 다중 선택이 쌓인다     |
+
+---
+
+## CalendarBottomSheet
+
+계열 셋을 [`BottomSheet`](./bottom-sheet.md) 안에 조립합니다. 섹션 주석 `302:1716`이 「**단일 컴포넌트 (속성 없음)**」이라고 적어 둔 대로 **variant 축이 없고, 자기 시각도 없습니다** — 여백 두 값 외에는 전부 남의 것입니다.
+
+### 실측 스펙
+
+심볼 `205:4587` (380 × 615)의 자식은 넷입니다.
+
+| 자식               | 위치 · 크기       | 어디서 오는가                              |
+| ------------------ | ----------------- | ------------------------------------------ |
+| `HeaderBar`        | `0, 0` · 380 × 55 | `BottomSheet`가 `title` · `onClose`로 그림  |
+| `StickyCalendar`   | `0, 55` · 380 × 82 | DOTOLI-272                                 |
+| `middleBody`       | `0, 55` · 380 × 560 | **이 티켓** — `px-[20px] pt-[94px] pb-[24px]` |
+| `BottomActionBar`  | `0, 523` · 380 × 92 | `BottomSheet`의 `actionOption`             |
+
+`615 = 55 + 560`이고 `523 + 92 = 615`라 **액션 바가 바디 위에 겹칩니다.** 바디가 스크롤하고 바가 바닥에 붙는 `floating`의 모양 그대로입니다.
+
+#### `pt-[94px]`이 `pt-[12px]`이 되는 이유
+
+Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 놨습니다(둘 다 `y=55`). 그래서 바디가 자기 위쪽에 바 높이만큼 패딩을 비워 둡니다 — `94 = 82 + 12`입니다.
+
+구현은 [`StickyCalendar`](#stickycalendar)가 `sticky top-0`이라 **흐름 안에서 82를 차지합니다.** 겹치지 않으므로 남는 것은 12뿐입니다. `94`를 그대로 옮기면 바 아래가 두 번 비게 됩니다.
+
+### 결정
+
+- **`BottomSheet`의 `actionOption`을 그대로 통과시킵니다.** DOTOLI-270이 액션 바를 시트가 소유하도록 정했으므로 여기서 다시 그리지 않습니다. `variant`도 `BottomActionBarProps`에 딸려 와서 `floating`(기본)이면 Figma대로 바닥에 붙고 `solid`면 콘텐츠 끝에 붙습니다.
+
+- **`calendarOption`으로 `CalendarProps`를 통째로 받습니다.** 필드를 다시 나열하면 `Calendar`에 축이 늘 때마다 두 곳을 고쳐야 합니다 — 「타입 중복 금지」이고, `BottomSheet`가 `BottomActionBarProps`를 통째로 받는 것과 같은 형태입니다.
+
+- **`dateSelectOption`이 필수입니다.** 연도 이동은 앱 상태(현재 연도 · 이동 핸들러 · 연도 시트 열기)가 있어야 성립하고, Figma 인스턴스도 항상 켜져 있습니다. `useWeekday`는 기본 `true`로 두되 열어 뒀습니다.
+
+- **바디가 격자를 가운데로 세웁니다(`items-center`).** [`Calendar`](#calendar)가 `w-fit`(7 × 48 = 336)이라 바디보다 좁을 수 있는데, **PC에서 열릴 수 있다는 요구로 시트에 `max-w-[480px]`이 생기면서** 그 차이가 실제로 벌어졌습니다(480 − 40 = 440 안의 336). `items-start`면 격자만 왼쪽에 몰리는데, [`StickyCalendar`](#stickycalendar)의 요일 헤더는 바가 이미 `items-center`라 가운데 있어서 **머리와 격자의 열이 어긋납니다.**
+
+  980 폭에서 실측해 요일 헤더와 격자의 열이 `322~370 … 610~658`로 **완전히 일치**하는 것을 확인했습니다. 375 폭에서는 바디 안쪽이 335이고 격자가 336이라 0.5px씩 넘치는데, `items-start`일 때 오른쪽으로만 1px 넘치던 것이 양쪽으로 나뉜 것이라 오히려 대칭입니다.
+
+- **`title` 기본값은 `'날짜 선택'`입니다.** 심볼(`I205:4132;146:586`)의 문구이고 이 컴포넌트의 용도 그 자체라 기본값으로 두되, 화면마다 다를 수 있어 덮어쓸 수 있게 열었습니다.
+
+- **높이를 고정하지 않았습니다.** 심볼은 615인데 `BottomSheet`가 `max-h-full` + 바디 `flex-1 scroll-y`라 **내용이 길면 화면 높이까지 자라고 그 안에서 스크롤**합니다. 달을 몇 개 넘기느냐로 높이가 정해지는 것이 실제 동작에 맞고, 615라는 값도 특정 기기 기준이라 일반화할 근거가 없습니다. 아래 「디자인 확인 필요」에 올렸습니다.
+
+- **격자 시맨틱(`role='grid'`)을 결국 넣지 않기로 했습니다 — 계열 3티켓이 미뤄 온 결정입니다.**
+
+  [`CalendarDayButton`](#calendardaybutton)과 [`Calendar`](#calendar)에서 「셋을 함께 감싸는 `CalendarBottomSheet`에서 보겠다」고 미뤄 뒀고, 여기서 셋을 다 보고 내린 결론은 **이 디자인에는 단일 격자가 맞지 않는다**입니다.
+
+  | 걸림돌 | 내용 |
+  | --- | --- |
+  | 열 머리의 위치 | `role='columnheader'`가 성립하려면 요일 줄이 격자 **안의 첫 `row`**여야 합니다. 그런데 요일 줄은 `sticky`로 떠 있고 여러 달이 그 아래를 지나갑니다 — 한 격자의 머리가 아니라 **여러 격자의 공용 머리**입니다 |
+  | 달이 여럿 | 월 라벨(`26년 6월`)이 주 행 사이에 끼어 있어 `row`가 아닌 것이 격자 안에 섞입니다. 달마다 격자를 쪼개면 요일 머리가 달마다 필요해지는데 Figma에는 하나뿐입니다 |
+  | 끝 행이 짧음 | 마지막 주가 3칸이라 열 수가 행마다 다릅니다. `aria-colcount`를 맞추려면 빈 칸까지 `gridcell`로 만들어야 합니다 |
+
+  **그래서 지금 형태를 유지합니다** — 날짜는 각자 `<button aria-pressed>`이고 격자 role은 없습니다. `role='grid'`를 어중간하게 얹으면 보조기술이 격자 탐색(방향키 이동)을 기대하는데 구현이 없어 **없는 것보다 나쁩니다.**
+
+  **대신 남은 진짜 구멍은 이름입니다.** 날짜 버튼의 접근성 이름이 `15`처럼 숫자뿐이라 몇 월인지 읽히지 않습니다. `CalendarDayButton`이 `aria-label`을 열어 두지 않아 여기서 채울 수 없고, 그건 CLAUDE.md 「폼 컨트롤 공통 6」(접근성 이름은 소비자가 붙인다)에 비추면 **DOTOLI-271이 빠뜨린 것**입니다. 아래 「디자인 확인 필요」가 아니라 **후속 수정 티켓** 감입니다.
+
+- **폴더는 계열 안입니다.** `components/Calendar/CalendarBottomSheet/`. 서브 컴포넌트를 만들지 않았습니다 — 조립뿐이라 가를 것이 없습니다.
+
+### API
+
+| prop               | 필수 | 기본값        | 비고                                                       |
+| ------------------ | ---- | ------------- | ---------------------------------------------------------- |
+| `isOpen`           | ✅   | —             | `BottomSheet`로 전달                                        |
+| `calendarOption`   | ✅   | —             | `CalendarProps` 그대로                                      |
+| `dateSelectOption` | ✅   | —             | `StickyCalendar`의 연도 이동                                |
+| `actionOption`     |      | —             | `BottomActionBarProps` 그대로. 없으면 액션 바를 안 그림      |
+| `title`            |      | `'날짜 선택'` | 헤더 제목이자 시트의 접근성 이름                             |
+| `useWeekday`       |      | `true`        | 요일 헤더 줄                                                 |
+| `isDimmed`         |      | `true`        | `BottomSheet` 기본값                                         |
+| `onClose`          |      | —             | 헤더 닫기 · 배경 탭 · ESC 공통                               |
+| `target`           |      | `'portal'`    | `Portal`로 전달                                              |
+| `className`        |      | —             | 시트에 적용                                                  |
+
+```tsx
+<CalendarBottomSheet
+  isOpen={isOpen}
+  onClose={close}
+  dateSelectOption={{ year, onPrevYear, onNextYear, onYearClick: openYearSheet }}
+  calendarOption={{
+    months: [6, 7, 8].map((month) => ({ year, month })),
+    selectedDates,
+    holidays,          // 서버 판정 (COM-009)
+    disabledDates,
+    useRange: true,
+    onDateClick: ({ dateString }) => toggle(dateString),
+  }}
+  actionOption={{ confirm: { label: '확인', onClick: submit } }}
+/>
+```
+
+### 디자인 확인 필요
+
+| 항목            | 내용                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------ |
+| 시트 높이       | 심볼은 615 고정인데 구현은 내용에 따라 자랍니다(최대 화면 높이). 짧은 달 하나만 보여 줄 때 시트가 낮아져도 되는지 |
+| 액션 바 없는 형태 | 심볼에는 항상 `확인`이 있습니다. 탭 즉시 확정되는 화면이 있는지 (`actionOption`을 선택으로 열어 뒀습니다) |
+| 연도 시트 연결  | `26년▼`이 [`DateBottomSheet`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1997&m=dev)를 여는 것으로 보이는데 연결 정의가 없습니다. DOTOLI-275에서 확인 |
+| 보여 줄 달 범위 | 심볼은 3개월이고 사용 예시 `205:4115`는 4개월입니다. COM-009의 「1년 초과 미래」와 어떻게 맞물리는지 |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/CalendarBottomSheet.stories.tsx`, `meta.title`은 `core/biz-ui/CalendarBottomSheet`.
+
+| 스토리          | 보는 것                                                            |
+| --------------- | ------------------------------------------------------------------ |
+| `Default`       | 단일 선택. 컨트롤로 `title` · `useWeekday` · `isDimmed`를 바꾼다     |
+| `Range`         | `useRange` — 두 날짜를 고르면 사이가 이어지고, 셋째를 고르면 다시 시작 |
+| `WithoutAction` | `actionOption` 없이 — 액션 바가 빠졌을 때 바디 하단                 |
+
+세 스토리 모두 트리거 버튼으로 엽니다 (`confirm-modal.md` 「Storybook」과 같은 이유).
