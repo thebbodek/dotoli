@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.37
+
+### Patch Changes
+
+- d7f14c5: DOTOLI-277 biz-ui BottomActionBar text CTA 개방
+
 ## 0.0.36
 
 ### Patch Changes
