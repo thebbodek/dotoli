@@ -36,7 +36,7 @@ const meta = {
       control: 'boolean',
       table: { defaultValue: { summary: 'true' } },
     },
-    actionOption: { control: 'object' },
+    actionBarOption: { control: 'object' },
   },
   args: {
     title: TITLE,
@@ -60,7 +60,7 @@ export const Default: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={() => setIsOpen(true)} />
         <BottomSheet
-          actionOption={{ confirm: { label: CONFIRM_LABEL, onClick: close } }}
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
           isDimmed={isDimmed}
           isOpen={isOpen}
           title={title}
@@ -88,7 +88,7 @@ export const Undimmed: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={() => setIsOpen(true)} />
         <BottomSheet
-          actionOption={{ confirm: { label: CONFIRM_LABEL, onClick: close } }}
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
           isDimmed={false}
           isOpen={isOpen}
           title={title}
@@ -105,7 +105,7 @@ export const Undimmed: Story = {
   },
 };
 
-// 액션 바가 없는 시트. actionOption을 안 넘기면 바디만 남는다
+// 액션 바가 없는 시트. actionBarOption을 안 넘기면 바디만 남는다
 export const WithoutAction: Story = {
   parameters: { controls: { disable: true } },
   render: ({ title }) => {
@@ -138,7 +138,7 @@ export const Scroll: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={() => setIsOpen(true)} />
         <BottomSheet
-          actionOption={{ confirm: { label: CONFIRM_LABEL, onClick: close } }}
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
           isOpen={isOpen}
           title={title}
           isDimmed
@@ -166,8 +166,8 @@ export const SolidAction: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={() => setIsOpen(true)} />
         <BottomSheet
-          actionOption={{
-            confirm: { label: CONFIRM_LABEL, onClick: close },
+          actionBarOption={{
+            action: { label: CONFIRM_LABEL, onClick: close },
             variant: BOTTOM_ACTION_BAR_VARIANTS.SOLID,
           }}
           isOpen={isOpen}

@@ -2,17 +2,25 @@ import {
   BOTTOM_ACTION_BAR_VARIANTS,
   BottomActionBar,
   BottomActionBarProps,
+  CTA_BUTTON_SIZES,
+  CTA_BUTTON_VARIANTS,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const CONFIRM_LABEL = '확인';
+const ACTION_LABEL = '확인';
 
-const CANCEL_LABEL = '취소';
+const SUB_ACTION_LABEL = '취소';
 
 const INFO = '{조건}, {선택값}\n텍스트 영역';
+
+const SELECT_LABEL = '선택';
+
+const LINK_LABEL = '전체 거래명세서 보기';
+
+const LINK_ICON_KEY = 'receipt';
 
 const SCREEN_WIDTH_STYLE = 'w-[380px] outline outline-gray-200';
 
@@ -33,6 +41,15 @@ const meta = {
   title: 'core/biz-ui/BottomActionBar',
   component: BottomActionBar,
   argTypes: {
+    action: {
+      control: 'object',
+      type: { name: 'object', required: true, value: {} },
+      table: { type: { summary: 'BottomActionBarAction' } },
+    },
+    subAction: {
+      control: 'object',
+      table: { type: { summary: 'BottomActionBarAction' } },
+    },
     info: { control: 'text' },
     variant: {
       control: 'inline-radio',
@@ -48,7 +65,7 @@ const meta = {
     },
   },
   args: {
-    confirm: { label: CONFIRM_LABEL, onClick: () => {} },
+    action: { label: ACTION_LABEL, onClick: () => {} },
     variant: BOTTOM_ACTION_BAR_VARIANTS.FLOATING,
   },
 } satisfies Meta<BottomActionBarProps>;
@@ -67,14 +84,14 @@ export const Default: Story = {
 
 export const Actions: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ confirm, variant }) => (
+  render: ({ action, variant }) => (
     <div className={LIST_STYLE}>
       <div className={GROUP_STYLE}>
         <Typography color='gray-500' variant='label-bold'>
           single
         </Typography>
         <div className={SCREEN_WIDTH_STYLE}>
-          <BottomActionBar confirm={confirm} variant={variant} />
+          <BottomActionBar action={action} variant={variant} />
         </div>
       </div>
       <div className={GROUP_STYLE}>
@@ -83,8 +100,8 @@ export const Actions: Story = {
         </Typography>
         <div className={SCREEN_WIDTH_STYLE}>
           <BottomActionBar
-            cancel={{ label: CANCEL_LABEL, onClick: () => {} }}
-            confirm={confirm}
+            action={action}
+            subAction={{ label: SUB_ACTION_LABEL, onClick: () => {} }}
             variant={variant}
           />
         </div>
@@ -94,16 +111,36 @@ export const Actions: Story = {
           withInfo
         </Typography>
         <div className={SCREEN_WIDTH_STYLE}>
-          <BottomActionBar confirm={confirm} info={INFO} variant={variant} />
+          <BottomActionBar action={action} info={INFO} variant={variant} />
         </div>
       </div>
     </div>
   ),
 };
 
+// 월 선택 바텀시트 하단 (Figma 687:2475) — 왼쪽 text 버튼은 내용만큼만, 오른쪽이 나머지
+export const TextAction: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ action, variant }) => (
+    <div className={SCREEN_WIDTH_STYLE}>
+      <BottomActionBar
+        subAction={{
+          label: LINK_LABEL,
+          size: CTA_BUTTON_SIZES.SM,
+          variant: CTA_BUTTON_VARIANTS.TEXT,
+          iconOption: { iconKey: LINK_ICON_KEY },
+          onClick: () => {},
+        }}
+        action={{ ...action, label: SELECT_LABEL }}
+        variant={variant}
+      />
+    </div>
+  ),
+};
+
 export const Variants: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ confirm }) => (
+  render: ({ action }) => (
     <div className={LIST_STYLE}>
       {Object.values(BOTTOM_ACTION_BAR_VARIANTS).map((variant) => (
         <div className={GROUP_STYLE} key={variant}>
@@ -112,8 +149,8 @@ export const Variants: Story = {
           </Typography>
           <div className={SCREEN_WIDTH_STYLE}>
             <BottomActionBar
-              cancel={{ label: CANCEL_LABEL, onClick: () => {} }}
-              confirm={confirm}
+              action={action}
+              subAction={{ label: SUB_ACTION_LABEL, onClick: () => {} }}
               variant={variant}
             />
           </div>
@@ -126,7 +163,7 @@ export const Variants: Story = {
 // 그라디언트와 sticky는 스크롤되는 콘텐츠 위에서만 드러난다
 export const Sticky: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ confirm }) => (
+  render: ({ action }) => (
     <div className={LIST_STYLE}>
       {Object.values(BOTTOM_ACTION_BAR_VARIANTS).map((variant) => (
         <div className={GROUP_STYLE} key={variant}>
@@ -139,7 +176,7 @@ export const Sticky: Story = {
                 <div className={SCROLL_BLOCK_STYLE} key={index} />
               ))}
             </div>
-            <BottomActionBar confirm={confirm} variant={variant} />
+            <BottomActionBar action={action} variant={variant} />
           </div>
         </div>
       ))}

@@ -8,5 +8,5 @@ export interface BottomSheetProps
   extends Pick<OverlayProps, 'isOpen' | 'isDimmed' | 'target' | 'onClose'>,
     Pick<HeaderBarProps, 'title'>,
     Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
-  actionOption?: BottomActionBarProps;
+  actionBarOption?: BottomActionBarProps;
 }

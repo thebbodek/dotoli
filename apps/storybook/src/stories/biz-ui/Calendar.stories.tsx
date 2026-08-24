@@ -36,7 +36,15 @@ const meta = {
   title: 'core/biz-ui/Calendar',
   component: Calendar,
   argTypes: {
-    months: { control: 'object' },
+    months: {
+      control: 'object',
+      type: {
+        name: 'array',
+        required: true,
+        value: { name: 'object', value: {} },
+      },
+      table: { type: { summary: 'CalendarMonthValue[]' } },
+    },
     selectedDates: { control: 'object' },
     holidays: { control: 'object' },
     disabledDates: { control: 'object' },

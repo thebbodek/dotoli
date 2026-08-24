@@ -98,7 +98,9 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
   `max-h-full`이라 긴 시트는 화면 꼭대기까지 찹니다. Figma 심볼은 위에 79를 남기는데(619 중 540) 그 값을 일반화할 근거가 없어 넣지 않고 「디자인 확인 필요」에 올렸습니다.
 
-- **`BottomActionBar`는 시트가 소유하고 `actionOption`으로 받습니다.** Figma 심볼 안에 인스턴스가 들어 있는 것(`155:851` · `334:3375`)을 그대로 옮긴 것입니다. **스위치가 아니라 데이터 뭉치라 소비자의 결정거리를 늘리지 않습니다** — 넘기면 그리고 안 넘기면 안 그립니다. `HeaderBar`의 `progressOption` · `CtaButton`의 `iconOption`과 같은 형태이고, 소비 방식(`{...actionOption}` 스프레드)도 `HeaderBarProgress`를 따랐습니다.
+- **`BottomActionBar`는 시트가 소유하고 `actionBarOption`으로 받습니다.** Figma 심볼 안에 인스턴스가 들어 있는 것(`155:851` · `334:3375`)을 그대로 옮긴 것입니다. **스위치가 아니라 데이터 뭉치라 소비자의 결정거리를 늘리지 않습니다** — 넘기면 그리고 안 넘기면 안 그립니다. `HeaderBar`의 `progressOption` · `CtaButton`의 `iconOption`과 같은 형태이고, 소비 방식(`{...actionBarOption}` 스프레드)도 `HeaderBarProgress`를 따랐습니다.
+
+  **DOTOLI-277에서 `actionOption` → `actionBarOption`으로 개명했습니다 — 파괴적 변경입니다.** 같은 티켓이 바의 슬롯을 `action`으로 개명하면서 `actionOption={{ action: … }}`가 됐는데, `<접두어>Option` 패턴에서 접두어는 **슬롯의 이름**입니다(`progressOption` → `HeaderBarProgress`, `calendarOption` → `Calendar`). 여기 담기는 것은 액션 하나가 아니라 `BottomActionBarProps` 전부라 슬롯은 「액션」이 아니라 **「액션 바」**입니다. `internal-ui`가 `Toast` · `Alert`에서 `actionOption`을 **액션 하나**(`{ label, onClick }`)를 담는 데 쓰고 있어, 같은 이름이 두 DS에서 다른 크기를 뜻하던 것도 함께 풀립니다.
 
   **타입은 `BottomActionBarProps`를 그대로 씁니다.** 필드를 다시 나열하면 `variant` 같은 축이 늘 때마다 두 곳을 고쳐야 합니다 — 「타입 중복 금지」 그대로입니다. `variant`가 여기로 딸려 오는 것도 그래서고, 시트 안에서 두 값의 차이가 실제로 갈립니다(아래).
 
@@ -125,7 +127,7 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 | `isOpen`    | ✅   | —          | `false`면 언마운트                                          |
 | `title`     | ✅   | —          | 헤더 제목이자 접근성 이름                                   |
 | `children`  |      | —          | 바디. 스크롤 영역                                           |
-| `actionOption` |   | —          | `BottomActionBarProps` 그대로. 넘기면 바디 끝에 액션 바를 그림 |
+| `actionBarOption` |   | —          | `BottomActionBarProps` 그대로. 넘기면 바디 끝에 액션 바를 그림 |
 | `isDimmed`  |      | `true`     | 화면 절반 이하 짧은 시트면 `false`로 내림                   |
 | `onClose`   |      | —          | 헤더 닫기 · 배경 탭 · ESC 공통. 없으면 헤더 닫기 버튼이 안 그려짐 |
 | `target`    |      | `'portal'` | `Portal`로 전달                                             |
@@ -139,7 +141,7 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
 // 긴 바텀시트 + 하단 액션
 <BottomSheet
-  actionOption={{ confirm: { label: '확인', onClick: submit } }}
+  actionBarOption={{ action: { label: '확인', onClick: submit } }}
   isOpen={isOpen}
   title='주문 상세'
   onClose={close}
@@ -149,8 +151,8 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
 // 액션 바가 콘텐츠와 함께 밀려 올라가야 하면 solid
 <BottomSheet
-  actionOption={{
-    confirm: { label: '확인', onClick: submit },
+  actionBarOption={{
+    action: { label: '확인', onClick: submit },
     variant: BOTTOM_ACTION_BAR_VARIANTS.SOLID,
   }}
   isOpen={isOpen}
@@ -184,9 +186,9 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
 | 스토리    | 보는 것                                                            |
 | --------- | ------------------------------------------------------------------ |
-| `Default`       | 기본값(`dimmed=true`) 그대로. 컨트롤로 `isDimmed` · `actionOption`을 바꿔 볼 수 있다 |
+| `Default`       | 기본값(`dimmed=true`) 그대로. 컨트롤로 `isDimmed` · `actionBarOption`을 바꿔 볼 수 있다 |
 | `Undimmed`      | `dimmed=false` — 절반 이하 짧은 시트가 딤을 내린 모습               |
-| `WithoutAction` | `actionOption`을 안 넘겼을 때 바디만 남는 것                        |
+| `WithoutAction` | `actionBarOption`을 안 넘겼을 때 바디만 남는 것                        |
 | `Scroll`        | 긴 바디에서 **헤더가 남고 바디만 스크롤되는 것**, 그리고 **`floating` 액션 바가 바닥에 붙어 따라오는 것** — 이번 구조의 검증 자리 |
 | `SolidAction`   | `solid`는 반대로 **콘텐츠와 함께 밀려 올라가는 것** — `variant` 두 값의 차이가 보이는 자리 |
 

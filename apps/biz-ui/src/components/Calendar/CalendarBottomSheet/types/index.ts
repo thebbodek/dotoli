@@ -11,5 +11,5 @@ export interface CalendarBottomSheetProps
     Partial<Pick<BottomSheetProps, 'title'>>,
     Pick<StickyCalendarProps, 'dateSelectOption' | 'useWeekday'> {
   calendarOption: CalendarProps;
-  actionOption?: BottomActionBarProps;
+  actionBarOption?: BottomActionBarProps;
 }

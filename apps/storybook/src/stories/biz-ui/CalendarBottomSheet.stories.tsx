@@ -37,9 +37,13 @@ const meta = {
     title: { control: 'text' },
     useWeekday: { control: 'boolean' },
     isDimmed: { control: 'boolean' },
-    calendarOption: { control: false },
+    calendarOption: {
+      control: false,
+      type: { name: 'object', required: true, value: {} },
+      table: { type: { summary: 'CalendarProps' } },
+    },
     dateSelectOption: { control: false },
-    actionOption: { control: false },
+    actionBarOption: { control: false },
   },
   args: {
     useWeekday: true,
@@ -99,7 +103,7 @@ export const Default: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={open} />
         <CalendarBottomSheet
-          actionOption={{ confirm: { label: CONFIRM_LABEL, onClick: close } }}
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
           calendarOption={calendarOption}
           dateSelectOption={dateSelectOption}
           isDimmed={isDimmed}
@@ -124,7 +128,7 @@ export const Range: Story = {
       <div className={PAGE_STYLE}>
         <CtaButton label={TRIGGER_LABEL} onClick={open} />
         <CalendarBottomSheet
-          actionOption={{ confirm: { label: CONFIRM_LABEL, onClick: close } }}
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
           calendarOption={calendarOption}
           dateSelectOption={dateSelectOption}
           isOpen={isOpen}

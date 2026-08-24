@@ -1,30 +1,37 @@
 import clsx from 'clsx';
 
 import {
+  BOTTOM_ACTION_BAR_ACTION_DEFAULTS,
   BOTTOM_ACTION_BAR_BASE_STYLE,
-  BOTTOM_ACTION_BAR_BUTTON_STYLE,
   BOTTOM_ACTION_BAR_GAP_STYLES,
   BOTTOM_ACTION_BAR_INFO_STYLE,
   BOTTOM_ACTION_BAR_VARIANT_STYLES,
   BOTTOM_ACTION_BAR_VARIANTS,
 } from '@/components/BottomActionBar/constants';
 import { BottomActionBarProps } from '@/components/BottomActionBar/types';
-import {
-  CTA_BUTTON_SIZES,
-  CTA_BUTTON_THEMES,
-  CTA_BUTTON_VARIANTS,
-  CtaButton,
-} from '@/components/Button';
+import { resolveBottomActionBarAction } from '@/components/BottomActionBar/utils';
+import { CtaButton } from '@/components/Button';
 import { Typography } from '@/components/Typography';
 import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const BottomActionBar = ({
-  confirm,
-  cancel,
+  action,
+  subAction,
   info,
   variant = BOTTOM_ACTION_BAR_VARIANTS.FLOATING,
   className,
 }: BottomActionBarProps) => {
+  const actionProps = resolveBottomActionBarAction({
+    action,
+    defaultOption: BOTTOM_ACTION_BAR_ACTION_DEFAULTS.ACTION,
+  });
+  const subActionProps =
+    subAction &&
+    resolveBottomActionBarAction({
+      action: subAction,
+      defaultOption: BOTTOM_ACTION_BAR_ACTION_DEFAULTS.SUB_ACTION,
+    });
+
   return (
     <div
       className={clsx(
@@ -45,24 +52,8 @@ const BottomActionBar = ({
           {info}
         </Typography>
       )}
-      {!!cancel && (
-        <CtaButton
-          className={BOTTOM_ACTION_BAR_BUTTON_STYLE}
-          label={cancel.label}
-          size={CTA_BUTTON_SIZES.LG}
-          theme={CTA_BUTTON_THEMES.GRAY}
-          variant={CTA_BUTTON_VARIANTS.TONAL}
-          onClick={cancel.onClick}
-        />
-      )}
-      <CtaButton
-        className={BOTTOM_ACTION_BAR_BUTTON_STYLE}
-        label={confirm.label}
-        size={CTA_BUTTON_SIZES.LG}
-        theme={CTA_BUTTON_THEMES.PRIMARY}
-        variant={CTA_BUTTON_VARIANTS.FILLED}
-        onClick={confirm.onClick}
-      />
+      {!!subActionProps && <CtaButton {...subActionProps} />}
+      <CtaButton {...actionProps} />
     </div>
   );
 };

@@ -12,7 +12,7 @@ const CalendarBottomSheet = ({
   title = CALENDAR_BOTTOM_SHEET_DEFAULT_TITLE,
   calendarOption,
   dateSelectOption,
-  actionOption,
+  actionBarOption,
   useWeekday = true,
   isDimmed,
   target,
@@ -21,7 +21,7 @@ const CalendarBottomSheet = ({
 }: CalendarBottomSheetProps) => {
   return (
     <BottomSheet
-      actionOption={actionOption}
+      actionBarOption={actionBarOption}
       className={className}
       isDimmed={isDimmed}
       isOpen={isOpen}

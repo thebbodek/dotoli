@@ -113,7 +113,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 ### 결정
 
-- **`type` 축을 `day` · `date` 유무로 흡수했습니다.** 세 값이 「무엇을 렌더하는가」와 정확히 1:1이라 축이 하나입니다 — `type='dayDate'`인데 `date`가 없으면 성립하지 않고, `date`를 주고 `type`을 안 바꾸면 조용히 무시됩니다. [`ConfirmModal`](./confirm-modal.md)의 `btn` → `cancel`, [`BottomActionBar`](./bottom-action-bar.md)의 `actions` → `cancel` · `info`와 같은 기준입니다.
+- **`type` 축을 `day` · `date` 유무로 흡수했습니다.** 세 값이 「무엇을 렌더하는가」와 정확히 1:1이라 축이 하나입니다 — `type='dayDate'`인데 `date`가 없으면 성립하지 않고, `date`를 주고 `type`을 안 바꾸면 조용히 무시됩니다. [`ConfirmModal`](./confirm-modal.md)의 `btn` → `cancel`, [`BottomActionBar`](./bottom-action-bar.md)의 `actions` → `subAction` · `info`와 같은 기준입니다.
 
   **`day`·`date` 중 하나는 있어야 합니다.** 「하나 이상」을 유니온 타입으로 강제해 봤다가 **되돌렸습니다** — `Meta<CalendarDayButtonProps>`가 유니온이 되면서 Storybook `render`의 인자 추론이 깨졌습니다(`ArgsStoryFn`이 유니온으로 갈라짐). DS 소비자가 `<CalendarDayButton date={5} />`처럼 쓸 때는 문제가 없지만 **props 타입 위에 제네릭을 얹는 쪽이 전부 같은 마찰을 받습니다.** CLAUDE.md의 「`type`은 `interface`로 표현할 수 없을 때만」 기준에서 값이 안 나와 단일 `interface` + 문서 계약으로 갔습니다.
 
@@ -424,7 +424,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `HeaderBar`        | `0, 0` · 380 × 55 | `BottomSheet`가 `title` · `onClose`로 그림  |
 | `StickyCalendar`   | `0, 55` · 380 × 82 | DOTOLI-272                                 |
 | `middleBody`       | `0, 55` · 380 × 560 | **이 티켓** — `px-[20px] pt-[94px] pb-[24px]` |
-| `BottomActionBar`  | `0, 523` · 380 × 92 | `BottomSheet`의 `actionOption`             |
+| `BottomActionBar`  | `0, 523` · 380 × 92 | `BottomSheet`의 `actionBarOption`             |
 
 `615 = 55 + 560`이고 `523 + 92 = 615`라 **액션 바가 바디 위에 겹칩니다.** 바디가 스크롤하고 바가 바닥에 붙는 `floating`의 모양 그대로입니다.
 
@@ -436,7 +436,7 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 
 ### 결정
 
-- **`BottomSheet`의 `actionOption`을 그대로 통과시킵니다.** DOTOLI-270이 액션 바를 시트가 소유하도록 정했으므로 여기서 다시 그리지 않습니다. `variant`도 `BottomActionBarProps`에 딸려 와서 `floating`(기본)이면 Figma대로 바닥에 붙고 `solid`면 콘텐츠 끝에 붙습니다.
+- **`BottomSheet`의 `actionBarOption`을 그대로 통과시킵니다.** DOTOLI-270이 액션 바를 시트가 소유하도록 정했으므로 여기서 다시 그리지 않습니다. `variant`도 `BottomActionBarProps`에 딸려 와서 `floating`(기본)이면 Figma대로 바닥에 붙고 `solid`면 콘텐츠 끝에 붙습니다.
 
 - **`calendarOption`으로 `CalendarProps`를 통째로 받습니다.** 필드를 다시 나열하면 `Calendar`에 축이 늘 때마다 두 곳을 고쳐야 합니다 — 「타입 중복 금지」이고, `BottomSheet`가 `BottomActionBarProps`를 통째로 받는 것과 같은 형태입니다.
 
@@ -473,7 +473,7 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | `isOpen`           | ✅   | —             | `BottomSheet`로 전달                                        |
 | `calendarOption`   | ✅   | —             | `CalendarProps` 그대로                                      |
 | `dateSelectOption` | ✅   | —             | `StickyCalendar`의 연도 이동                                |
-| `actionOption`     |      | —             | `BottomActionBarProps` 그대로. 없으면 액션 바를 안 그림      |
+| `actionBarOption`     |      | —             | `BottomActionBarProps` 그대로. 없으면 액션 바를 안 그림      |
 | `title`            |      | `'날짜 선택'` | 헤더 제목이자 시트의 접근성 이름                             |
 | `useWeekday`       |      | `true`        | 요일 헤더 줄                                                 |
 | `isDimmed`         |      | `true`        | `BottomSheet` 기본값                                         |
@@ -494,7 +494,7 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
     useRange: true,
     onDateClick: ({ dateString }) => toggle(dateString),
   }}
-  actionOption={{ confirm: { label: '확인', onClick: submit } }}
+  actionBarOption={{ action: { label: '확인', onClick: submit } }}
 />
 ```
 
@@ -503,7 +503,7 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | 항목            | 내용                                                                                                 |
 | --------------- | ------------------------------------------------------------------------------------------------------ |
 | 시트 높이       | 심볼은 615 고정인데 구현은 내용에 따라 자랍니다(최대 화면 높이). 짧은 달 하나만 보여 줄 때 시트가 낮아져도 되는지 |
-| 액션 바 없는 형태 | 심볼에는 항상 `확인`이 있습니다. 탭 즉시 확정되는 화면이 있는지 (`actionOption`을 선택으로 열어 뒀습니다) |
+| 액션 바 없는 형태 | 심볼에는 항상 `확인`이 있습니다. 탭 즉시 확정되는 화면이 있는지 (`actionBarOption`을 선택으로 열어 뒀습니다) |
 | 연도 시트 연결  | `26년▼`이 [`DateBottomSheet`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=302-1997&m=dev)를 여는 것으로 보이는데 연결 정의가 없습니다. DOTOLI-275에서 확인 |
 | 보여 줄 달 범위 | 심볼은 3개월이고 사용 예시 `205:4115`는 4개월입니다. COM-009의 「1년 초과 미래」와 어떻게 맞물리는지 |
 
@@ -515,6 +515,6 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | --------------- | ------------------------------------------------------------------ |
 | `Default`       | 단일 선택. 컨트롤로 `title` · `useWeekday` · `isDimmed`를 바꾼다     |
 | `Range`         | `useRange` — 두 날짜를 고르면 사이가 이어지고, 셋째를 고르면 다시 시작 |
-| `WithoutAction` | `actionOption` 없이 — 액션 바가 빠졌을 때 바디 하단                 |
+| `WithoutAction` | `actionBarOption` 없이 — 액션 바가 빠졌을 때 바디 하단                 |
 
 세 스토리 모두 트리거 버튼으로 엽니다 (`confirm-modal.md` 「Storybook」과 같은 이유).

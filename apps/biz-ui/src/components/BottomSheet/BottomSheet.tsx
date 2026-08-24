@@ -13,7 +13,7 @@ import { Overlay, OVERLAY_VARIANTS } from '@/components/shared';
 const BottomSheet = ({
   isOpen,
   title,
-  actionOption,
+  actionBarOption,
   isDimmed = true,
   target,
   className,
@@ -37,7 +37,7 @@ const BottomSheet = ({
       />
       <div className={BOTTOM_SHEET_BODY_STYLE}>
         {children}
-        {!!actionOption && <BottomActionBar {...actionOption} />}
+        {!!actionBarOption && <BottomActionBar {...actionBarOption} />}
       </div>
     </Overlay>
   );
