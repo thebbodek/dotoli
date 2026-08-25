@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.40
+
+### Patch Changes
+
+- 40504c6: DOTOLI-287 BottomActionBar 타입 수정
+
 ## 0.0.39
 
 ### Patch Changes
