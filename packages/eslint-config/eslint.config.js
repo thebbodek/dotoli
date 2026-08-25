@@ -13,10 +13,12 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+/* @eslint/js 10의 config에 포함된 name 필드를 eslintrc 스키마가 거부하므로 제거 */
+const stripName = ({ name: _name, ...config }) => config;
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
+  recommendedConfig: stripName(js.configs.recommended),
+  allConfig: stripName(js.configs.all),
 });
 
 export default defineConfig([
@@ -43,7 +45,6 @@ export default defineConfig([
       },
       parserOptions: {
         projectService: true,
-        project: ['./tsconfig.json'],
       },
       parser: tsParser,
       ecmaVersion: 'latest',
