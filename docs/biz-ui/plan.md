@@ -198,6 +198,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-284 biz-ui QuantityStepper `value` `number | null` — 미주문(`null`)과 의도적 0 주문(`0`) 구분. 스토리북 테스트 인프라 제거 동반
 - [x] DOTOLI-286 biz-ui DateBottomSheet `Linked` 스토리 재진입 깜빡임 제거 (시트 하나를 유지한 채 뷰 교체 · 스토리 전용)
 - [x] DOTOLI-287 biz-ui BottomActionBar `isPending` 개방 (`disabled`는 COM-005대로 계속 막음) + `Variants`·`Sticky` 스토리 중복 정리
+- [ ] DOTOLI-288 biz-ui OrderBox 빈 상태 개방 — `emptyLabel` 개방 완료 · **`inverse` tone은 스타일 미수령으로 보류**
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 

@@ -124,7 +124,11 @@ Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items
 - **Cell에는 `flex-1`만 겁니다.** `min-w-[92px]` · `max-w-[110px]`는 `OrderBoxCell`이 컴포넌트 레벨에서 들고 있습니다(위 OrderBoxCell 「결정」). Figma 인스턴스는 `flex: 1 0 0`이지만 `min-w`가 축소를 막고 있어 `flex-1`(`1 1 0`)과 결과가 같고, Tailwind 기본 유틸 쪽을 골랐습니다.
 - **`tone`을 소비처에 노출하지 않습니다.** `variant`에서 유도합니다 (`past` → `muted`, 나머지 → `default`).
 - **개수를 제한하지 않습니다.** 4개를 넘으면 `flex-wrap`으로 다음 줄에 떨어집니다.
-- **`주문 없음`은 DS가 고정합니다.** Figma 텍스트가 하나로 고정이고, `InputField`의 `INPUT_FIELD_VERIFY_LABEL`(`확인`)과 같은 처리입니다.
+- **~~`주문 없음`은 DS가 고정합니다.~~ — DOTOLI-288에서 열었습니다.** `emptyLabel`을 받고 안 주면 `ORDER_BOX_EMPTY_LABEL`(`주문 없음`)이 그대로 쓰입니다. **기본값은 여전히 DS 소유**라 소비처가 매번 정할 것이 늘지는 않습니다.
+
+  당시 근거는 「Figma 텍스트가 하나로 고정」이었는데, **빈 상태에 들어갈 문구가 화면마다 갈리는 것이 확인됐습니다.** 같은 빈 박스가 「주문 없음」일 수도 「휴무일」일 수도 있고, 그 판정은 도메인 규칙이라 DS가 알 수 없습니다 — `OrderBoxCell`의 `boxes` · `itemName`을 소비처가 조립하는 것과 같은 자리입니다. 「Figma에 하나뿐」은 **그 화면에서 하나**라는 뜻이지 값이 불변이라는 뜻이 아니었습니다.
+
+  **`InputField`의 `INPUT_FIELD_VERIFY_LABEL`(`확인`)과는 갈립니다.** 그쪽은 버튼이 하는 **동작의 이름**이라 화면이 바뀌어도 「확인」입니다. 빈 상태 문구는 동작이 아니라 **상황 설명**이라 상황마다 달라집니다.
 - **기본값은 `default`입니다.** Figma 컴포넌트 세트의 기본은 첫 심볼인 `noBg`지만, `noBg`는 배경을 담는 쪽이 그린다는 전제라 단독으로 쓰이지 않습니다.
 - **`key`는 `itemName`입니다.** 한 박스 안에서 같은 품목이 두 줄로 나오는 것은 데이터 오류라 인덱스를 쓰지 않았습니다.
 
@@ -132,15 +136,16 @@ Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items
 
 | prop        | 필수 | 기본값    | 비고                                              |
 | ----------- | ---- | --------- | ------------------------------------------------- |
-| `items`     | ✅   | —         | `OrderBoxItem[]`. 빈 배열이면 `주문 없음`         |
-| `variant`   |      | `default` | 3종                                               |
-| `className` |      | —         | 담는 쪽의 폭 보정용                               |
+| `items`      | ✅   | —              | `OrderBoxItem[]`. 빈 배열이면 빈 상태             |
+| `variant`    |      | `default`      | 3종                                               |
+| `emptyLabel` |      | `'주문 없음'`  | 빈 상태 문구. 기본값은 `ORDER_BOX_EMPTY_LABEL`    |
+| `className`  |      | —              | 담는 쪽의 폭 보정용                               |
 
 `OrderBoxItem`은 `Pick<OrderBoxCellProps, 'boxes' | 'itemName'>`입니다.
 
 ### Storybook
 
-`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). `Empty`는 `variant`를 타지 않아 하나만 둡니다. 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
+`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). `Empty`는 `variant`를 타지 않아 variant별로 나누지 않고, **기본값 ↔ `emptyLabel` 지정** 두 개를 나란히 둡니다. 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
 
 ---
 
@@ -189,7 +194,7 @@ Figma: 컴포넌트 세트 `203:872`. 심볼은 `203:871`(평일·배송) · `20
 - **`hasDelivery`를 prop으로 열지 않고 `deliveryInfo` 유무로 파생시켰습니다.** 배송이 없을 때 문구가 `배송없음` 하나로 고정이라 축을 따로 열 이유가 없습니다. OrderBox가 `items` 유무로 빈 상태를 파생시킨 것과 같은 처리입니다.
 - **두 축이 서로를 참조하지 않습니다.** 1행은 `isHoliday`만, 2행은 `deliveryInfo` 유무만 봅니다. 네 심볼을 2×2 맵으로 펼치면 같은 값이 두 번씩 들어가므로 `ORDER_DATE_INFO_STYLES`에 색 4개만 두고 각 행에서 삼항으로 고릅니다.
 - **`· 휴일` 접미어는 컴포넌트가 붙입니다.** 네 심볼 전부 같은 형태이고 날짜 색과 함께 바뀌는 표현이라 소비처에 맡기면 어긋납니다. 반대로 `3일(수)` 같은 날짜 포맷은 도메인 규칙이라 받아서 그리기만 합니다 — `OrderBoxCell`의 `boxes` · `itemName`과 같은 기준입니다.
-- **`배송없음`은 DS가 고정합니다.** OrderBox의 `주문 없음`과 같은 처리입니다.
+- **`배송없음`은 DS가 고정합니다 — 다만 근거였던 선례가 바뀌었습니다.** 원래 「OrderBox의 `주문 없음`과 같은 처리」였는데 그쪽이 DOTOLI-288에서 `emptyLabel`로 열렸습니다. **이번 범위가 아니라 동작은 그대로 두었습니다.** 다만 둘은 성격이 같습니다 — 동작의 이름이 아니라 **값 없음을 알리는 상황 설명**이라, 화면이 바뀌면 문구도 갈릴 수 있습니다. **배송 없는 자리에 다른 문구가 필요한 화면이 나오면** 같은 방식(`deliveryInfo`의 짝이 되는 기본값 prop)으로 열면 되고, 그 전까지는 고정으로 둡니다.
 - **행 간격이 음수인 것은 `OrderBoxCell`과 같은 이유입니다.** 심볼 높이 47px이 `26.1 + 23.2 - 2`로 맞습니다.
 - **폭을 고정하지 않습니다.** 심볼 폭이 내용에 따라 104 / 56 / 101px로 달라 hug입니다.
 - **OrderInputCard의 「날짜 + 상태 문구」 2행과 묶지 않습니다.** 겉모양은 닮았지만 심볼 `309:1957`의 그 블록(`94:758`)은 이 컴포넌트의 인스턴스가 아니라 별도 프레임이고, 1행 `body-semibold`(16px) `gray/800` · 2행 `label`(14px) `gray/400`로 토큰이 전부 다르며 행 간격 음수도 없습니다.

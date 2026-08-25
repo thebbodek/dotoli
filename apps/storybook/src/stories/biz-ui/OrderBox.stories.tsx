@@ -1,5 +1,6 @@
 import {
   Flex,
+  ORDER_BOX_EMPTY_LABEL,
   ORDER_BOX_VARIANTS,
   OrderBox,
   OrderBoxItem,
@@ -10,6 +11,8 @@ import { Meta, StoryObj } from '@storybook/react';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const ORDER_BOX_WIDTH_STYLE = 'w-[338px]';
+
+const EMPTY_LABEL = '휴무일';
 
 const ITEMS: OrderBoxItem[] = [
   { boxes: '4박스', itemName: '4찬식판 A형 (20개)' },
@@ -48,6 +51,10 @@ const meta = {
           }),
         },
       },
+    },
+    emptyLabel: {
+      control: 'text',
+      table: { defaultValue: { summary: ORDER_BOX_EMPTY_LABEL } },
     },
   },
   args: {
@@ -88,9 +95,29 @@ export const Variants: Story = {
   ),
 };
 
+// 문구는 소비처가 바꿀 수 있고, 안 주면 ORDER_BOX_EMPTY_LABEL이 그대로 쓰인다
 export const Empty: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
-  render: () => <OrderBox className={ORDER_BOX_WIDTH_STYLE} items={[]} />,
+  render: () => (
+    <Flex align={{ items: 'start' }} gap='24'>
+      <Flex align={{ items: 'start' }} direction='column' gap='12'>
+        <Typography color='gray-500' variant='label-bold'>
+          기본값
+        </Typography>
+        <OrderBox className={ORDER_BOX_WIDTH_STYLE} items={[]} />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='12'>
+        <Typography color='gray-500' variant='label-bold'>
+          emptyLabel 지정
+        </Typography>
+        <OrderBox
+          className={ORDER_BOX_WIDTH_STYLE}
+          emptyLabel={EMPTY_LABEL}
+          items={[]}
+        />
+      </Flex>
+    </Flex>
+  ),
 };
 
 export const Wrapped: Story = {

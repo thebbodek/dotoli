@@ -18,6 +18,7 @@ import { TYPOGRAPHY_VARIANTS } from '@/variants';
 const OrderBox = ({
   items,
   variant = ORDER_BOX_VARIANTS.DEFAULT,
+  emptyLabel = ORDER_BOX_EMPTY_LABEL,
   className,
 }: OrderBoxProps) => {
   const { CONTAINER, TONE } = ORDER_BOX_STYLES[variant];
@@ -36,7 +37,7 @@ const OrderBox = ({
           color={ORDER_BOX_EMPTY_LABEL_COLOR}
           variant={TYPOGRAPHY_VARIANTS.LABEL}
         >
-          {ORDER_BOX_EMPTY_LABEL}
+          {emptyLabel}
         </Typography>
       ) : (
         items.map(({ boxes, itemName }) => (

@@ -21,4 +21,5 @@ export interface OrderBoxProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   items: OrderBoxItem[];
   variant?: OrderBoxVariant;
+  emptyLabel?: string;
 }
