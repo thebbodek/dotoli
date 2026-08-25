@@ -92,6 +92,8 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 - **`disabled`를 열지 않았습니다.** COM-005가 `state=disabled`를 쓰지 않는다고 명시합니다. `CtaButton`은 `disabled` · `isPending`을 갖고 있지만 **바를 통해서는 도달할 수 없게 막았습니다** — 열어 두면 정책이 코드 밖 약속으로만 남습니다. 필수값 미입력 처리는 「누를 수 있게 두고 안내」라 `onClick` 안에서 소비 앱이 합니다.
 
+  **`isPending`은 DOTOLI-287에서 따로 열었습니다** — 아래 항목에 근거가 있습니다. `disabled`는 그대로 막혀 있습니다.
+
 - **`variant`는 흡수하지 않고 prop으로 뒀습니다.** `actions`와 달리 다른 prop에서 파생되지 않습니다 — 바가 스크롤 콘텐츠 위에 뜨는지, 콘텐츠 끝에 붙어 함께 흐르는지는 **그 화면의 레이아웃 사실**이라 DS가 알 수 없습니다.
 
 - **`floating`에 `sticky bottom-0`을 함께 겁니다.** Figma 주석이 `floating`은 「영역 내 하단에 Sticky」, `solid`는 「scroll with parent」로 갈라 둡니다. 그라디언트는 **콘텐츠가 바 밑으로 지나갈 때만** 의미가 있어서 배경과 위치가 한 값입니다 — 따로 열면 소비자가 매번 짝을 맞춰야 합니다.
@@ -145,11 +147,23 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 - **기본값은 `BOTTOM_ACTION_BAR_ACTION_DEFAULTS` 한 곳에만 둡니다.** `variant` · `theme` · `size` 셋 다입니다. `resolveBottomActionBarAction`이 소비자 값과 합쳐 **`CtaButton` prop 묶음을 통째로** 돌려주고 컴포넌트는 스프레드만 합니다. 처음엔 `size`만 `.tsx`에서 `?? 'lg'`로 풀었는데, 그러면 기본값 정책이 두 파일로 갈리고 **슬롯을 하나 더 열 때마다 `.tsx`의 나열도 같이 고쳐야 합니다.**
 
+### DOTOLI-287 · `isPending`을 엽니다 (`disabled`는 계속 막습니다)
+
+- **COM-005가 겨냥하는 것은 `isPending`이 아닙니다.** 정책이 금지하는 `state=disabled`는 **필수값 미입력**, 즉 사용자가 무언가를 고쳐야 풀리는 상태이고, 반대 이유가 「비활성 버튼은 무엇이 부족한지 알려주지 못한다」입니다. `isPending`은 **제출이 나가 있는 동안의 일시적 상태**라 사용자가 고칠 것이 없고 기다리면 풀리며, **스피너가 「처리 중」이라는 이유를 화면에서 말합니다.** 정책이 문제 삼은 「이유를 말하지 못하는 비활성」이 아니므로 같은 칸에 두지 않습니다.
+
+- **`CtaButton`이 이미 갖고 있어 새로 그린 것이 없습니다.** `isPending`이면 `disabled || isPending`으로 잠기고 `aria-busy`가 붙고 `circle-notch`가 `animate-spin`으로 돕니다. **바가 막고 있던 것은 타입 한 곳뿐**이었습니다 — `resolveBottomActionBarAction`이 `{...action}`을 통째로 스프레드하므로 런타임 경로는 처음부터 뚫려 있었고, `BottomActionBarAction`의 `Pick`에 `'isPending'` 한 항목을 더한 것이 변경의 전부입니다. [`BottomSheet`](./bottom-sheet.md) · [`CalendarBottomSheet`](./calendar.md)는 `actionBarOption`을 타입으로만 통과시켜 손댈 것이 없습니다.
+
+- **`action`과 `subAction`이 같은 타입이라 함께 열립니다.** 나누지 않았습니다 — 좌측이 취소가 아닌 경우가 실제로 있고(`이전` · 링크), 제출을 왼쪽이 맡는 화면을 미리 막을 근거가 없습니다. 흔한 조합은 **`action`만 pending이고 `subAction`(취소)은 계속 눌리는 것**이라 `Pending` 스토리가 그 쌍을 보여 줍니다.
+
+- **가짜 비활성은 타입으로 막지 못합니다 — 계약으로 둡니다.** `isPending={!selected.length}`처럼 검증 상태를 넣으면 COM-005가 금지한 그림이 그대로 나옵니다. `subAction` · `info` 배타를 계약으로 둔 것과 같은 자리이고, **`isPending`은 요청이 실제로 나가 있는 동안에만** 켭니다. 필수값 미입력은 그대로 「누를 수 있게 두고 안내 토스트」입니다.
+
+- **[`ConfirmModal`](./confirm-modal.md)은 이번에 열지 않았습니다.** `ConfirmModalAction`은 `BottomActionBarAction`과 공유되지 않는 별도 타입이라 자동으로 따라오지 않습니다. 삭제 확인처럼 비동기가 붙을 자리로 보이지만 **실제 사례가 아직 없어** 열지 않았습니다 — 공개는 되돌리기 비대칭이라 필요가 확인될 때 엽니다([overlay.md](./overlay.md)와 같은 기준).
+
 ## API
 
 | prop        | 필수 | 기본값       | 비고                                        |
 | ----------- | ---- | ------------ | ------------------------------------------- |
-| `action`     | ✅   | —            | `{ label, onClick }` + 모양 선택값. 단독 또는 **우측**. 기본 `filled`/`primary`/`lg` |
+| `action`     | ✅   | —            | `{ label, onClick }` + 모양 선택값 · `isPending`. 단독 또는 **우측**. 기본 `filled`/`primary`/`lg` |
 | `subAction`  |      | —            | 주면 **좌측**에 추가되고 `actions=two`가 됨. 기본 `tonal`/`gray`/`lg`. `info`와 **배타** |
 | `info`      |      | —            | 주면 **좌측**에 텍스트. `\n`으로 줄바꿈. `subAction`과 **배타** |
 | `variant`   |      | `'floating'` | `'floating'`은 `sticky` + 그라디언트         |
@@ -192,7 +206,9 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `Default`  | 컨트롤로 `variant` · `info`를 바꿔 본다                           |
 | `Actions`  | `single` · `two` · `withInfo` 세로 비교                           |
 | `TextAction` | 월 시트 하단(`687:2475`) 재현 — **text CTA가 hug, filled가 나머지**를 먹는 것 |
-| `Variants` | `floating` ↔ `solid` 배경 차이                                    |
-| `Sticky`   | 스크롤 컨테이너 안에서 **그라디언트와 `sticky`가 실제로 드러나는 자리** |
+| `Pending`  | `action`에 `isPending` — 스피너 + 잠김. `two`는 **제출 중에도 `subAction`이 눌리는 것**을 보는 자리 |
+| `Variants` | `floating` ↔ `solid` — **스크롤 컨테이너 안**이라 그라디언트와 `sticky`가 실제로 드러난다 |
 
-`Sticky` 외에는 바가 정지 화면에 놓여 `floating`의 그라디언트가 흰 배경과 구분되지 않습니다.
+**`Variants`를 스크롤 컨테이너 안에 둡니다** (DOTOLI-287). 정지 화면에 놓으면 **두 variant가 똑같이 보입니다** — `floating`의 그라디언트가 「흰색 → 투명한 흰색」이라 흰 배경과 구분되지 않고, `sticky`도 스크롤이 없으면 아무 일도 하지 않습니다. CSS는 실제로 갈리지만(`position` · `background-image`) 화면에서 확인할 수 없어 **축을 보여준다는 목적을 못 지킵니다.**
+
+원래는 정지 화면 `Variants`와 스크롤 `Sticky`가 따로 있었고 **같은 축을 두 번 도는 중복**이었습니다. 둘을 합치면서 이름을 `Variants`로 둔 것은 **이 컴포넌트에 `sticky`라는 공개 API가 없기 때문**입니다 — `sticky bottom-0`은 `variant='floating'`의 구현이고(위 「결정」), 스토리가 이름으로 가리켜야 하는 것은 축입니다. 레포의 다른 `Sticky` 스토리(`InfoBanner` · `StickyCalendar`)는 각각 `isSticky` prop과 컴포넌트 이름을 따온 것이라 사정이 다릅니다.

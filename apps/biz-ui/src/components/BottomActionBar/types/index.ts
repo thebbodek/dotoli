@@ -10,7 +10,7 @@ export interface BottomActionBarAction
   extends Required<Pick<CtaButtonProps, 'label' | 'onClick'>>,
     Pick<
       CtaButtonProps,
-      'variant' | 'theme' | 'size' | 'iconOption' | 'iconPosition'
+      'variant' | 'theme' | 'size' | 'iconOption' | 'iconPosition' | 'isPending'
     > {}
 
 export interface BottomActionBarActionDefault

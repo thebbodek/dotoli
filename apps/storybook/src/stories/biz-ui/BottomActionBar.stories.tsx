@@ -138,30 +138,41 @@ export const TextAction: Story = {
   ),
 };
 
-export const Variants: Story = {
+// 제출이 나가 있는 동안의 중복 탭 방지. COM-005가 막는 disabled와 달리 스피너가 이유를 말한다
+export const Pending: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ action }) => (
+  render: ({ action, variant }) => (
     <div className={LIST_STYLE}>
-      {Object.values(BOTTOM_ACTION_BAR_VARIANTS).map((variant) => (
-        <div className={GROUP_STYLE} key={variant}>
-          <Typography color='gray-500' variant='label-bold'>
-            {variant}
-          </Typography>
-          <div className={SCREEN_WIDTH_STYLE}>
-            <BottomActionBar
-              action={action}
-              subAction={{ label: SUB_ACTION_LABEL, onClick: () => {} }}
-              variant={variant}
-            />
-          </div>
+      <div className={GROUP_STYLE}>
+        <Typography color='gray-500' variant='label-bold'>
+          single
+        </Typography>
+        <div className={SCREEN_WIDTH_STYLE}>
+          <BottomActionBar
+            action={{ ...action, isPending: true }}
+            variant={variant}
+          />
         </div>
-      ))}
+      </div>
+      <div className={GROUP_STYLE}>
+        <Typography color='gray-500' variant='label-bold'>
+          two — 제출 중에도 취소는 눌린다
+        </Typography>
+        <div className={SCREEN_WIDTH_STYLE}>
+          <BottomActionBar
+            action={{ ...action, isPending: true }}
+            subAction={{ label: SUB_ACTION_LABEL, onClick: () => {} }}
+            variant={variant}
+          />
+        </div>
+      </div>
     </div>
   ),
 };
 
-// 그라디언트와 sticky는 스크롤되는 콘텐츠 위에서만 드러난다
-export const Sticky: Story = {
+// 정지 화면에서는 두 variant가 똑같이 보인다 — 흰 배경 위의 흰 그라디언트라
+// 스크롤되는 콘텐츠 위에 놓아야 그라디언트와 sticky가 드러난다
+export const Variants: Story = {
   parameters: { controls: { disable: true } },
   render: ({ action }) => (
     <div className={LIST_STYLE}>
