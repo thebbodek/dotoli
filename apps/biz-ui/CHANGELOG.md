@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.41
+
+### Patch Changes
+
+- 0f6afb1: DOTOLI-288 OrderBox empty 수정
+
 ## 0.0.40
 
 ### Patch Changes
