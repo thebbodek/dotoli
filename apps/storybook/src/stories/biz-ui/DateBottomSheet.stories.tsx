@@ -7,6 +7,7 @@ import {
   DATE_BOTTOM_SHEET_TYPES,
   DateBottomSheet,
   DateBottomSheetProps,
+  DateBottomSheetType,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
@@ -155,48 +156,62 @@ export const Year: Story = {
 };
 
 // 월 시트의 26년▼ 탭 → 연도 시트. Figma에 연결 정의가 없어 구현으로 확인하는 자리다
+// 시트는 하나만 마운트하고 내용만 갈아 끼운다 — 둘로 나눠 isOpen을 번갈아 켜면
+// Overlay가 언마운트돼 슬라이드업과 딤이 다시 재생된다 (calendar.md 「연결」)
 export const Linked: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
-    const [openedType, setOpenedType] = useState<string | null>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [view, setView] = useState<DateBottomSheetType>(
+      DATE_BOTTOM_SHEET_TYPES.MONTH,
+    );
     const [year, setYear] = useState(INITIAL_YEAR);
     const [month, setMonth] = useState(INITIAL_MONTH);
-    const close = () => setOpenedType(null);
+
+    const isYear = view === DATE_BOTTOM_SHEET_TYPES.YEAR;
+    const backToMonth = () => setView(DATE_BOTTOM_SHEET_TYPES.MONTH);
+    const close = () => setIsOpen(false);
 
     return (
       <div className={PAGE_STYLE}>
         <CtaButton
           label={TRIGGER_LABEL}
-          onClick={() => setOpenedType(DATE_BOTTOM_SHEET_TYPES.MONTH)}
-        />
-        <DateBottomSheet
-          dateSelectOption={{
-            year,
-            onPrevYear: () => setYear((prev) => prev - 1),
-            onNextYear: () => setYear((prev) => prev + 1),
-            onYearClick: () => setOpenedType(DATE_BOTTOM_SHEET_TYPES.YEAR),
+          onClick={() => {
+            backToMonth();
+            setIsOpen(true);
           }}
-          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
-          isOpen={openedType === DATE_BOTTOM_SHEET_TYPES.MONTH}
-          options={DATE_BOTTOM_SHEET_MONTH_OPTIONS}
-          type={DATE_BOTTOM_SHEET_TYPES.MONTH}
-          value={month}
-          onChange={({ value }) => setMonth(value)}
-          onClose={close}
         />
         <DateBottomSheet
           actionBarOption={{
             action: {
               label: CONFIRM_LABEL,
-              onClick: () => setOpenedType(DATE_BOTTOM_SHEET_TYPES.MONTH),
+              onClick: isYear ? backToMonth : close,
             },
           }}
-          isOpen={openedType === DATE_BOTTOM_SHEET_TYPES.YEAR}
-          options={YEAR_OPTIONS}
-          type={DATE_BOTTOM_SHEET_TYPES.YEAR}
-          value={year}
-          onChange={({ value }) => setYear(value)}
-          onClose={() => setOpenedType(DATE_BOTTOM_SHEET_TYPES.MONTH)}
+          dateSelectOption={
+            isYear
+              ? undefined
+              : {
+                  year,
+                  onPrevYear: () => setYear((prev) => prev - 1),
+                  onNextYear: () => setYear((prev) => prev + 1),
+                  onYearClick: () => setView(DATE_BOTTOM_SHEET_TYPES.YEAR),
+                }
+          }
+          isOpen={isOpen}
+          options={isYear ? YEAR_OPTIONS : DATE_BOTTOM_SHEET_MONTH_OPTIONS}
+          type={view}
+          value={isYear ? year : month}
+          onChange={({ value }) => {
+            if (isYear) {
+              setYear(value);
+
+              return;
+            }
+
+            setMonth(value);
+          }}
+          onClose={isYear ? backToMonth : close}
         />
       </div>
     );

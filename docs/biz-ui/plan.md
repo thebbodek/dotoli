@@ -196,6 +196,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
 - [x] DOTOLI-277 biz-ui BottomActionBar text CTA 개방 (`variant`·`theme`·`size`·아이콘 + `confirm`·`cancel` → `action`·`subAction`, 시트 `actionOption` → `actionBarOption` 개명)
 - [x] DOTOLI-284 biz-ui QuantityStepper `value` `number | null` — 미주문(`null`)과 의도적 0 주문(`0`) 구분. 스토리북 테스트 인프라 제거 동반
+- [x] DOTOLI-286 biz-ui DateBottomSheet `Linked` 스토리 재진입 깜빡임 제거 (시트 하나를 유지한 채 뷰 교체 · 스토리 전용)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -303,6 +304,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-275 | DateBottomSheet (`type` 2종 · 제어 전용 · `basis-0 grow` 4열) + `CalendarDayButton` `aria-label` 후속 | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 | DOTOLI-277 | BottomActionBar text CTA 개방 (폭 배분 파생 · **`action`·`subAction`·`actionBarOption` 개명**) + 스토리 `argTypes` 필수 표시 보완(BottomActionBar · Calendar · CalendarBottomSheet) | [components/bottom-action-bar.md](./components/bottom-action-bar.md) · [bottom-sheet.md](./components/bottom-sheet.md) |
+| DOTOLI-286 | DateBottomSheet `Linked` 재진입 깜빡임 제거 (시트 하나 유지 · 뷰 교체 · 스토리 전용) | [components/calendar.md](./components/calendar.md) · [overlay.md](./components/overlay.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
