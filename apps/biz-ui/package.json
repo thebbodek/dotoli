@@ -11,7 +11,6 @@
   "homepage": "https://github.com/thebbodek/dotoli/tree/main/apps/biz-ui#readme",
   "files": [
     "dist",
-    "tailwind.config.js",
     "src/styles"
   ],
   "exports": {
@@ -19,8 +18,7 @@
       "import": "./dist/index.es.js",
       "types": "./dist/index.d.ts"
     },
-    "./styles": "./src/styles/globals.css",
-    "./tailwind-config": "./tailwind.config.js"
+    "./styles": "./src/styles/globals.css"
   },
   "scripts": {
     "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",

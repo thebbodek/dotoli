@@ -32,31 +32,13 @@ const nextConfig = {
 
 ### 3. Update your global css file
 
-#### Standalone Project
-
 ```css
 /* global.css */
 @import 'tailwindcss';
 @import '@bbodek/internal-ui/styles';
-@config '@bbodek/internal-ui/tailwind-config';
 ```
 
-#### Monorepo Project
-Create a local Tailwind config file
-
-``` javascript
-/* tailwind.config.js */
-import config from '@bbodek/internal-ui/tailwind-config'
-
-export default config;
-```
-
-```css
-/* global.css */
-@import 'tailwindcss';
-@import '@bbodek/internal-ui/styles';
-@config './tailwind.config.js'; /* Adjust the path as needed */
-```
+> ⚠️ `@config '@bbodek/internal-ui/tailwind-config'`는 0.0.124부터 제거되었습니다. tailwind 4.3.1+에서 content 글롭이 config 파일 위치 기준으로 해석되어 라이브러리 클래스가 누락되던 방식이므로, 기존에 사용 중이라면 해당 라인(및 이를 re-export 하던 로컬 tailwind config)을 삭제해주세요. 테마·safelist는 `@import '@bbodek/internal-ui/styles'` 한 줄로 모두 적용됩니다.
 
 ## Example
 
