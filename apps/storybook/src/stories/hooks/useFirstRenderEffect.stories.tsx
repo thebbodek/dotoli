@@ -32,7 +32,6 @@ export const Default: Story = {
         <p>Count: {count}</p>
         <IconButton
           aria-label='더하기'
-          aria-label='더하기'
           iconKey='plus'
           onClick={() => setCount((c) => c + 1)}
         />

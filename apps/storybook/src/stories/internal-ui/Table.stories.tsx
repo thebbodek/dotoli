@@ -127,7 +127,7 @@ export const Default: Story = {
 
               if (key === USER_LIST_MAPPER['CHECKED']) {
                 return (
-                  <Table.Cell {...defaultProps}>
+                  <Table.Cell key={key} {...defaultProps}>
                     <Table.Cell.Checkbox
                       checked={values.every((user) => user.checked)}
                       label={label}
@@ -141,7 +141,7 @@ export const Default: Story = {
 
               if (key === USER_LIST_MAPPER['ACTIVE']) {
                 return (
-                  <Table.Cell {...defaultProps}>
+                  <Table.Cell key={key} {...defaultProps}>
                     <Table.Cell.Toggle
                       checked={values.every((user) => user.isActive)}
                       label={label}
@@ -153,7 +153,11 @@ export const Default: Story = {
                 );
               }
 
-              return <Table.Cell {...defaultProps}>{label}</Table.Cell>;
+              return (
+                <Table.Cell key={key} {...defaultProps}>
+                  {label}
+                </Table.Cell>
+              );
             })}
           </Table.Row>
         </Table.Head>
@@ -176,7 +180,7 @@ export const Default: Story = {
             };
 
             return (
-              <Table.Row>
+              <Table.Row key={id}>
                 {Object.values(USER_LIST_MAPPER).map((key) => {
                   const defaultProps = {
                     className: USER_LIST_STYLE_MAPPER[key],
@@ -184,7 +188,7 @@ export const Default: Story = {
 
                   if (key === 'checked') {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Table.Cell.Checkbox
                           checked={checked}
                           onChange={(e) =>
@@ -197,7 +201,7 @@ export const Default: Story = {
 
                   if (key === USER_LIST_MAPPER['ACTIVE']) {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Table.Cell.Toggle
                           checked={isActive}
                           onChange={(e) =>
@@ -210,7 +214,7 @@ export const Default: Story = {
 
                   if (key === USER_LIST_MAPPER['IS_APPROVED']) {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Badge
                           label={user.isApproved ? '승인' : '미승인'}
                           theme={user.isApproved ? 'green' : 'red'}
@@ -222,7 +226,7 @@ export const Default: Story = {
 
                   if (key === USER_LIST_MAPPER['CREATED_BY']) {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Table.Cell.Persona name={user.createdBy} />
                       </Table.Cell>
                     );
@@ -230,7 +234,7 @@ export const Default: Story = {
 
                   if (key === USER_LIST_MAPPER['CONFIRM']) {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Table.Cell.Button
                           items={[
                             { label: '취소', theme: 'gray' },
@@ -243,7 +247,7 @@ export const Default: Story = {
 
                   if (key === USER_LIST_MAPPER['ACTIONS']) {
                     return (
-                      <Table.Cell {...defaultProps}>
+                      <Table.Cell key={key} {...defaultProps}>
                         <Table.Cell.IconButton
                           items={[
                             {
@@ -272,6 +276,7 @@ export const Default: Story = {
 
                     return (
                       <Table.InputCell
+                        key={key}
                         {...defaultProps}
                         feedback={
                           isError ? '! 대문자만 입력 가능합니다' : undefined
@@ -290,7 +295,7 @@ export const Default: Story = {
                   }
 
                   return (
-                    <Table.Cell {...defaultProps}>
+                    <Table.Cell key={key} {...defaultProps}>
                       {user[key as keyof UserFields] as string}
                     </Table.Cell>
                   );
@@ -426,7 +431,7 @@ export const WithFixedLeft: Story = {
             사용일
           </Table.Cell>
           {Array.from({ length: diffDay }).map((_, index) => (
-            <Table.Cell className='w-[145px]'>
+            <Table.Cell className='w-[145px]' key={index}>
               {startDate.add(index, 'day').format('MM-DD(ddd)')}
             </Table.Cell>
           ))}
@@ -436,7 +441,7 @@ export const WithFixedLeft: Story = {
             배송일
           </Table.Cell>
           {Array.from({ length: diffDay }).map((_, index) => (
-            <Table.Cell className='w-[145px]'>
+            <Table.Cell className='w-[145px]' key={index}>
               {startDate
                 .subtract(1, 'day')
                 .add(index, 'day')
@@ -447,13 +452,15 @@ export const WithFixedLeft: Story = {
       </Table.Head>
 
       <Table.Body>
-        {Array.from({ length: 5 }).map(() => (
-          <Table.Row>
+        {Array.from({ length: 5 }).map((_, rowIndex) => (
+          <Table.Row key={rowIndex}>
             <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
               멜라민 식판
             </Table.Cell>
             {Array.from({ length: diffDay }).map((_, index) => (
-              <Table.Cell className='w-[145px]'>{String(index)}</Table.Cell>
+              <Table.Cell className='w-[145px]' key={index}>
+                {String(index)}
+              </Table.Cell>
             ))}
           </Table.Row>
         ))}
@@ -638,7 +645,7 @@ export const EmptyTable: Story = {
                 사용일
               </Table.Cell>
               {Array.from({ length: diffDay }).map((_, index) => (
-                <Table.Cell className='w-[145px]'>
+                <Table.Cell className='w-[145px]' key={index}>
                   {startDate.add(index, 'day').format('MM-DD(ddd)')}
                 </Table.Cell>
               ))}
@@ -646,13 +653,15 @@ export const EmptyTable: Story = {
           </Table.Head>
 
           <Table.Body className='min-w-max' emptyComponent={<Table.Empty />}>
-            {Array.from({ length: count }).map(() => (
-              <Table.Row className='min-w-max'>
+            {Array.from({ length: count }).map((_, rowIndex) => (
+              <Table.Row className='min-w-max' key={rowIndex}>
                 <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
                   멜라민 식판
                 </Table.Cell>
                 {Array.from({ length: diffDay }).map((_, index) => (
-                  <Table.Cell className='w-[145px]'>{String(index)}</Table.Cell>
+                  <Table.Cell className='w-[145px]' key={index}>
+                    {String(index)}
+                  </Table.Cell>
                 ))}
               </Table.Row>
             ))}
@@ -681,14 +690,17 @@ export const LoadingTable: Story = {
               {Object.values(USER_LIST_MAPPER).map((key) => {
                 if (key === USER_LIST_MAPPER['CHECKED']) {
                   return (
-                    <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                    <Table.Cell
+                      className={USER_LIST_STYLE_MAPPER[key]}
+                      key={key}
+                    >
                       <Checkbox checked={false} onChange={() => {}} />
                     </Table.Cell>
                   );
                 }
 
                 return (
-                  <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                  <Table.Cell className={USER_LIST_STYLE_MAPPER[key]} key={key}>
                     {USER_LIST_COLUMNS_MAPPER[key]}
                   </Table.Cell>
                 );
@@ -705,19 +717,25 @@ export const LoadingTable: Story = {
             }
             isLoading={isLoading}
           >
-            {Array.from({ length: 10 }).map(() => (
-              <Table.Row>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <Table.Row key={index}>
                 {Object.values(USER_LIST_MAPPER).map((key) => {
                   if (key === USER_LIST_MAPPER['CHECKED']) {
                     return (
-                      <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                      <Table.Cell
+                        className={USER_LIST_STYLE_MAPPER[key]}
+                        key={key}
+                      >
                         <Checkbox checked={false} onChange={() => {}} />
                       </Table.Cell>
                     );
                   }
 
                   return (
-                    <Table.Cell className={USER_LIST_STYLE_MAPPER[key]}>
+                    <Table.Cell
+                      className={USER_LIST_STYLE_MAPPER[key]}
+                      key={key}
+                    >
                       {key}
                     </Table.Cell>
                   );

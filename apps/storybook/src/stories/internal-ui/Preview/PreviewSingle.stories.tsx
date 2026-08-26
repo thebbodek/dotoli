@@ -80,9 +80,11 @@ export const Default: Story = {
           type='file'
           onChange={({ target }) => {
             const [file] = target.files ?? [];
-            const { name, size, type, lastModified, webkitRelativePath } = file;
 
-            file &&
+            if (file) {
+              const { name, size, type, lastModified, webkitRelativePath } =
+                file;
+
               setFile({
                 id: getUUID(),
                 name,
@@ -93,6 +95,7 @@ export const Default: Story = {
                 blob: URL.createObjectURL(file),
                 original: file,
               });
+            }
           }}
         />
         <Button

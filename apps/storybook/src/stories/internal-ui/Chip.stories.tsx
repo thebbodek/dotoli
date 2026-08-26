@@ -54,7 +54,7 @@ export const WithGroup: Story = {
     return (
       <ChipGroup ref={ref}>
         {data.map((label) => (
-          <Chip label={label} onClick={() => alert('clicked')} />
+          <Chip key={label} label={label} onClick={() => alert('clicked')} />
         ))}
       </ChipGroup>
     );
