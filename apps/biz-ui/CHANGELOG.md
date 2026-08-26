@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.44
+
+### Patch Changes
+
+- 6d7189c: DOTOLI-296 InfoBanner 타이틀 추가
+
 ## 0.0.43
 
 ### Patch Changes
