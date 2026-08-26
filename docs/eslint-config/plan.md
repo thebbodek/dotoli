@@ -6,9 +6,9 @@
 
 - 대상 패키지: `packages/eslint-config`
 - 적용 대상: `apps/biz-ui`, `apps/internal-ui`, `apps/storybook`, `apps/hooks`, `apps/utils`
-- 의존 관계: DOTOLI-283은 DOTOLI-279 · 280 · 281 선행 필요
+- 의존 관계: 소비 패키지 적용(DOTOLI-283 · 291~294)은 DOTOLI-279 · 280 · 281 선행 필요
 
-Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-283](https://thebbodek.atlassian.net/browse/DOTOLI-283)
+Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-283](https://thebbodek.atlassian.net/browse/DOTOLI-283) · [DOTOLI-291](https://thebbodek.atlassian.net/browse/DOTOLI-291)~[DOTOLI-294](https://thebbodek.atlassian.net/browse/DOTOLI-294)
 
 ---
 
@@ -23,7 +23,13 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 
 ### 소비 패키지 적용
 
-- [ ] DOTOLI-283 dotoli 패키지 ESLint 10 일괄 적용
+> 원래 DOTOLI-283 "dotoli 패키지 ESLint 10 일괄 적용" 단일 티켓이었으나, 2026-08-26 결정으로 패키지 단위 티켓·커밋으로 분리 (283은 utils 범위로 축소 수정, 나머지 4개 신규 발급)
+
+- [x] DOTOLI-283 utils ESLint 10 적용
+- [ ] DOTOLI-291 hooks ESLint 10 적용
+- [ ] DOTOLI-292 storybook ESLint 10 적용
+- [ ] DOTOLI-293 biz-ui ESLint 10 적용
+- [ ] DOTOLI-294 internal-ui ESLint 10 적용
 
 ---
 
@@ -156,25 +162,32 @@ packages/eslint-config/
 
 ---
 
-### 5. DOTOLI-283 dotoli 패키지 ESLint 10 일괄 적용
+### 5. 소비 패키지 ESLint 10 적용 (DOTOLI-283 · 291~294)
 
 선행: DOTOLI-279 · DOTOLI-280 · DOTOLI-281
 
-**대상**
-
-| 패키지 | 현재 | 적용 |
-| --- | --- | --- |
-| `apps/biz-ui` | `eslint ^9.26.0` | `^10` + `{ next }` import |
-| `apps/internal-ui` | `eslint ^9.26.0` | `^10` + `{ next }` import |
-| `apps/storybook` | `eslint ^9.26.0` | `^10` + `{ next }` import |
-| `apps/hooks` | `eslint ^9.26.0` | `^10` + default(base) 유지 |
-| `apps/utils` | `eslint ^9.26.0` | `^10` + default(base) 유지 |
-
-**작업 내용**
+**공통 작업**
 
 1. 각 패키지 `eslint` devDependency `^10` 상향
 2. Next 사용 패키지는 `eslint.config.mjs`에서 `import { next } from '@bbodek/eslint-config'`로 전환
 3. `eslint-config-next`가 optional peer(`^16`)로 바뀌므로 Next 사용 패키지는 직접 devDependency에 추가 — 15.x는 ESLint 10에서 로드 불가하므로 반드시 `^16` (281 결정 참고)
-4. 각 패키지 lint 통과 확인
+4. 각 패키지 lint 통과 확인 + 신규 룰 위반 코드 수정
+
+**공통 결정 (2026-08-26, 위반 측정 후)**
+
+- `@typescript-eslint/no-empty-object-type` 123건(utils 12 · biz-ui 17 · internal-ui 94)은 코드 수정 대신 base config에 `allowInterfaces: 'with-single-extends'` 옵션 적용 — 단일 extends 빈 인터페이스는 확장 포인트 관용 패턴으로 허용 (utils 티켓에서 config 변경 수행)
+- `jsx-a11y/no-autofocus`(biz-ui 4 · internal-ui 2)는 UI 라이브러리의 정당한 autoFocus 지원이므로 개별 disable 주석 + 사유
+- internal-ui의 react-hooks `set-state-in-effect` 계열 6건은 동작 유지 확인하며 해당 티켓에서 수정
+- warn(exhaustive-deps 등)은 lint 통과에 영향 없어 이번 범위에서 미수정
+
+**티켓별 범위**
+
+| 티켓 | 패키지 | preset | 측정된 에러 |
+| --- | --- | --- | --- |
+| DOTOLI-283 | `apps/utils` | default(base) 유지 | 13 (empty-object 12 + no-unused-expressions 1) |
+| DOTOLI-291 | `apps/hooks` | default(base) 유지 | 0 (warn 6) |
+| DOTOLI-292 | `apps/storybook` | `{ next }` 전환 | 측정 불가 — `eslint-plugin-storybook ^0.12` 크래시, `^10` 상향 필요 |
+| DOTOLI-293 | `apps/biz-ui` | `{ next }` 전환 | 24 (empty-object 17 + jsx-a11y 7) |
+| DOTOLI-294 | `apps/internal-ui` | `{ next }` 전환 | ~120 (empty-object 94 + jsx-a11y 14 + set-state-in-effect 6 등) |
 
 **제외**: `susemi/apps` 2개(assistant · email-signature)는 별도 레포이므로 범위 제외

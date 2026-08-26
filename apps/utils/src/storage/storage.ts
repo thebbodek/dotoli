@@ -41,6 +41,6 @@ export const storage = {
   remove: ({ key }: StorageRemoveParams) => {
     storageError();
 
-    storage.has({ key }) && localStorage.removeItem(key);
+    localStorage.removeItem(key);
   },
 };
