@@ -3,9 +3,11 @@ import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
+import jsxA11y from 'eslint-plugin-jsx-a11y';
 import preferArrowFunctions from 'eslint-plugin-prefer-arrow-functions';
 import prettier from 'eslint-plugin-prettier';
 import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import path from 'node:path';
@@ -34,6 +36,8 @@ export default defineConfig([
       '@stylistic': stylistic,
       '@typescript-eslint': typescriptEslint,
       react,
+      'react-hooks': reactHooks,
+      'jsx-a11y': jsxA11y,
       prettier,
       'prefer-arrow-functions': preferArrowFunctions,
     },
@@ -51,6 +55,9 @@ export default defineConfig([
       sourceType: 'module',
     },
     rules: {
+      ...jsxA11y.flatConfigs.recommended.rules,
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
       'prefer-template': 'error',
       'no-console': 'warn',
       'prefer-arrow-functions/prefer-arrow-functions': [

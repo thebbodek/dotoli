@@ -17,7 +17,7 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 ### eslint-config 패키지
 
 - [x] DOTOLI-279 eslint-config ESLint 10 대응
-- [ ] DOTOLI-280 eslint-config react-hooks·jsx-a11y 룰 추가
+- [x] DOTOLI-280 eslint-config react-hooks·jsx-a11y 룰 추가
 - [ ] DOTOLI-281 eslint-config base·next 설정 분리
 - [ ] DOTOLI-282 eslint-config legacy 설정 추가
 
@@ -76,6 +76,10 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 
 **참고**: `@react-native/eslint-config`는 `eslint-plugin-react-hooks@^7`을 이미 번들 → RN 쪽 중복 가능하나 무해
 
+**적용 방식**: `react-hooks`는 두 룰만 명시적으로 등록, `jsx-a11y`는 `flatConfigs.recommended.rules` 전체 스프레드 (`.frontend-rules/a11y.md` 기계화 취지)
+
+**알려진 경고**: `eslint-plugin-jsx-a11y@6.10.2`는 peer에 `eslint ^10` 미선언(최신이 6.x) → unmet peer 경고. 룰 전용 플러그인이라 동작에는 문제 없음을 프로브로 확인 (`alt-text` 정상 검출)
+
 ---
 
 ### 3. DOTOLI-281 eslint-config base·next 설정 분리
@@ -99,6 +103,8 @@ packages/eslint-config/
 1. `'@next/next/no-img-element': 'off'`를 next 쪽으로 이동 (현재 base에서 no-op 상태)
 2. `eslint-config-next`를 optional peerDependency로 전환 (`^15 || ^16`) — Next 버전 고정 해제
 3. `'no-unused-vars': 'error'` 중복 제거 — `@typescript-eslint/recommended`가 core 룰을 끄고 TS판을 켜는데 base가 core를 다시 켜서 같은 줄 중복 리포트
+
+**주의 (리뷰에서 제기)**: `eslint-config-next@15`는 `eslint-plugin-react-hooks@5`를 번들한다. next preset이 base를 합성할 때 `react-hooks` 플러그인 키가 v7/v5로 이중 등록되면 flat config에서 "Cannot redefine plugin" 에러가 날 수 있으므로 분리 작업 시 키 충돌 처리 필요.
 
 **소비 측**
 
