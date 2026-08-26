@@ -2,7 +2,7 @@
 
 ## 개요
 
-`@bbodek/eslint-config`를 ESLint 10에서 동작하도록 정리하고, 누락된 react-hooks·jsx-a11y 플러그인을 추가하며, base/next/legacy 3종 preset으로 분리한다. 마지막으로 dotoli 하위 패키지 5개에 일괄 적용한다.
+`@bbodek/eslint-config`를 ESLint 10에서 동작하도록 정리하고, 누락된 react-hooks·jsx-a11y 플러그인을 추가하며, base/next 2종 preset으로 분리한다. 마지막으로 dotoli 하위 패키지 5개에 일괄 적용한다. (legacy preset은 2026-08-26 결정으로 취소 — 기존 레포에도 신규 룰 전부 적용, 에러는 전체 코드 수정으로 대응)
 
 - 대상 패키지: `packages/eslint-config`
 - 적용 대상: `apps/biz-ui`, `apps/internal-ui`, `apps/storybook`, `apps/hooks`, `apps/utils`
@@ -18,8 +18,8 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 
 - [x] DOTOLI-279 eslint-config ESLint 10 대응
 - [x] DOTOLI-280 eslint-config react-hooks·jsx-a11y 룰 추가
-- [ ] DOTOLI-281 eslint-config base·next 설정 분리
-- [ ] DOTOLI-282 eslint-config legacy 설정 추가
+- [x] DOTOLI-281 eslint-config base·next 설정 분리
+- ~~DOTOLI-282 eslint-config legacy 설정 추가~~ — **취소** (2026-08-26 결정: legacy preset 없이 신규 룰 전부 적용, 기존 코드 에러는 프로젝트 전체 코드 수정으로 대응)
 
 ### 소비 패키지 적용
 
@@ -106,6 +106,22 @@ packages/eslint-config/
 
 **주의 (리뷰에서 제기)**: `eslint-config-next@15`는 `eslint-plugin-react-hooks@5`를 번들한다. next preset이 base를 합성할 때 `react-hooks` 플러그인 키가 v7/v5로 이중 등록되면 flat config에서 "Cannot redefine plugin" 에러가 날 수 있으므로 분리 작업 시 키 충돌 처리 필요.
 
+**작업 중 결정된 변경** (2026-08-26)
+
+- `eslint-config-next` peer는 `^15 || ^16`이 아니라 **`^16`** — 15.x는 전 버전이 `@rushstack/eslint-patch`로 ESLint 10에서 로드 자체가 불가("Failed to patch ESLint"). 16은 flat config 네이티브 + peer `eslint >=9` + react-hooks v7 번들
+- next preset은 FlatCompat 없이 `eslint-config-next/core-web-vitals` flat config를 직접 import — 단, base와 겹치는 플러그인 키(react, react-hooks, jsx-a11y, @typescript-eslint)는 `stripBasePlugins`로 next 쪽에서 제거해 이중 등록 방지
+- `index.js`의 `next`는 top-level await 지연 로드 — optional peer(`eslint-config-next`) 미설치 환경(utils·hooks·RN)에서 default(base) import가 깨지지 않게 함
+- base에 `settings.react.version: '19'` 고정 — `eslint-plugin-react@7.37.5`(최신)의 `detect`가 ESLint 10에서 제거된 `context.getFilename`을 호출해 크래시. React 19가 아닌 소비 패키지는 자기 config에서 `settings.react.version`을 오버라이드할 것
+- (셀프 리뷰 P1) base의 `ignores`를 전역 ignores 객체로 분리 — config 객체 안에 두면 base에만 적용돼, next preset이 `next.config.mjs` 등을 린트할 때 strip된 플러그인 참조로 크래시했음 (`*.config.mjs` 전역 무시로 해소 검증 완료)
+- (셀프 리뷰 P2) `index.js`의 지연 로드 catch는 `ERR_MODULE_NOT_FOUND`만 폴백, 그 외 에러는 rethrow
+
+**검증 완료** (ESLint 10.9.1)
+
+- base: 기존 룰 + react-hooks/jsx-a11y 검출 유지, "Pages directory" 경고 없음
+- next: `@next/next` 룰 22개 로드, `no-img-element` off, 플러그인 키 충돌 없음 ("Pages directory" 경고는 Next 앱이 아닌 곳에서 돌릴 때만 발생 — 정상)
+- `no-unused-vars` 중복 해소 — `@typescript-eslint/no-unused-vars` 단일 리포트 확인
+- `index.js`: default === base, `{ next }` named export 정상
+
 **소비 측**
 
 | 패키지 | import 방식 |
@@ -115,7 +131,9 @@ packages/eslint-config/
 
 ---
 
-### 4. DOTOLI-282 eslint-config legacy 설정 추가
+### 4. ~~DOTOLI-282 eslint-config legacy 설정 추가~~ (취소)
+
+> **2026-08-26 결정으로 취소됨.** legacy 완화 preset을 만들지 않는다. 기존 레포 6개에도 신규 룰(base)을 전부 적용하고, 에러가 발생하면 해당 프로젝트 전체 코드 수정을 진행한다. 아래는 취소 전 원래 계획 (기록용).
 
 기존 제품 레포 6개(bbodek-internal · admin · kids · kindergarten-admin · payments · bbodek-ui, ESLint 8 + 사내 룰 미적용)가 버전 마이그레이션을 룰 강화와 분리해 먼저 진행할 수 있도록 완화 preset을 추가한다.
 
@@ -156,7 +174,7 @@ packages/eslint-config/
 
 1. 각 패키지 `eslint` devDependency `^10` 상향
 2. Next 사용 패키지는 `eslint.config.mjs`에서 `import { next } from '@bbodek/eslint-config'`로 전환
-3. `eslint-config-next`가 optional peer로 바뀌므로 Next 사용 패키지는 직접 devDependency에 추가
+3. `eslint-config-next`가 optional peer(`^16`)로 바뀌므로 Next 사용 패키지는 직접 devDependency에 추가 — 15.x는 ESLint 10에서 로드 불가하므로 반드시 `^16` (281 결정 참고)
 4. 각 패키지 lint 통과 확인
 
 **제외**: `susemi/apps` 2개(assistant · email-signature)는 별도 레포이므로 범위 제외
