@@ -15,7 +15,8 @@ export interface InfoBannerThemeStyles {
 export interface InfoBannerProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
-  label: string;
+  title?: string;
+  description: string;
   theme?: InfoBannerTheme;
   isSticky?: boolean;
 }

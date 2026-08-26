@@ -283,13 +283,48 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   **`relative`를 함께 걸어도 소비자의 `sticky`를 덮지 않습니다.** Tailwind가 `sticky`를 `relative` 뒤에 내보내 클래스 나열 순서와 무관하게 `sticky`가 이기고, `sticky`도 위치 지정 요소라 `::before`는 그대로 배너를 기준으로 잡힙니다(렌더에서 확인 — 380 배너에 388 박스). **액션이 없으면 `<div>`에 아무것도 붙지 않습니다.**
 
-- **아이콘은 `aria-hidden`이고 의미는 문구가 집니다.** `InfoItem` · `IconCircle`과 같은 전제입니다. 액션이 있을 때 접근성 이름은 `label`이 그대로 집니다 — 「부가세 미포함된 단가 기준입니다」가 곧 무엇을 여는지라 [chip.md](./chip.md)와 같은 쪽입니다.
+- **아이콘은 `aria-hidden`이고 의미는 문구가 집니다.** `InfoItem` · `IconCircle`과 같은 전제입니다. 액션이 있을 때 접근성 이름은 문구가 집니다 — 「부가세 미포함된 단가 기준입니다」가 곧 무엇을 여는지라 [chip.md](./chip.md)와 같은 쪽입니다. **`title`을 주면 `title` + `description`이 이어져 이름이 됩니다**(DOTOLI-296) — 버튼이 여는 대상을 설명하는 텍스트가 전부 이름에 들어가는 것이라 같은 논리입니다.
+
+### DOTOLI-296 · `title`(굵은 첫 줄)
+
+계기는 「고객 비즈」 `LGN-201 아이디 찾기 - 연락처 인증`(`1606:16671`)입니다. 배너 안이 **굵은 1줄 + 본문 2줄**로 그려져 있고, 실측하면 `label-bold`(14 Bold) + `label`(14 Medium)이며 **색은 세 줄 모두 `gray/800`으로 같습니다.**
+
+- **`label`을 `description`으로 개명했습니다 — 파괴적 변경입니다.** biz-ui에서 **`label`은 예외 없이 「주 텍스트」**입니다. 보조 텍스트가 붙는 셋(`MenuItem` · `ToggleListItem` = `label` + `description`, `InfoField` = `label` + `value`)에서 `label`은 전부 위쪽이고, 단독으로 쓰는 열넷(`CtaButton` · `Chip` · `Badge` · `Tag` …)도 그것이 유일한 텍스트입니다.
+
+  `title`이 생기면서 이 배너만 **`label`이 보조 자리로 내려가** 계열 규칙이 깨졌습니다. `ConfirmModal` · `Notification`이 이미 「제목 + 본문」을 `title` + `description`으로 쓰고 있어 그쪽에 맞췄고, 선언 순서도 선례 다섯 개가 전부 **주 텍스트 먼저**라 그대로 따랐습니다.
+
+  **지금 한 이유는 비용입니다.** `InfoBanner`는 DOTOLI-260으로 최근 나왔고 소비 앱(`biz-customer-app` · `bbodek-internal`)에서 실사용이 아직 없습니다. 어차피 이번 티켓이 API를 건드리므로 **한 번에 나가면 소비 앱이 한 번만 대응**합니다 — [`BottomActionBar`](./bottom-action-bar.md)가 DOTOLI-277에서 `confirm`·`cancel`을 개명하며 「비즈파트너 앱이 쓰기 시작하면 이 비용이 급격히 올라갑니다」로 든 것과 같은 판단입니다.
+
+- **`highlight`가 아니라 `title`입니다.** [`Toast`](./toast.md) · [`NotificationCard`](./notification-card.md)의 `highlight`는 **같은 줄 앞쪽에 붙는 인라인 조각이고 색이 갈립니다.** 여기는 **별도 줄이고 색이 같아** 뜻이 충돌합니다. 두 문서가 「함께 움직인다」고 묶어 둔 이름이라 재사용하면 셋이 서로 다른 것을 가리키게 됩니다. `ConfirmModal` · `Notification`의 `title` + `description` 쌍이 biz-ui 자체 선례입니다.
+
+- **`ReactNode`로 열지 않았습니다 — 아직 필요가 확인되지 않아서입니다.** 자매 DS `@bbodek/internal-ui`의 대응물 `Alert`는 `title` · `content`를 **둘 다 `ReactNode`**로 열어 뒀는데, 그쪽을 따라가지 않았습니다.
+
+  근거는 두 가지입니다. **첫째, LGN-201이 실제로 요구하는 것은 줄바꿈 하나뿐이고 그건 `\n`으로 이미 충족됩니다.** 둘째, `string` → `ReactNode`는 **비파괴 확장이고 반대는 파괴적**이라 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md)의 「공개는 되돌리기 비대칭이라 필요가 확인될 때 여는 순서로 갑니다」가 그대로 적용됩니다. 나중에 여는 비용은 낮고, 열었다 닫는 비용은 높습니다.
+
+  참고로 소비 앱(`bbodek-internal`)의 `<Alert>` 36곳에서도 **`title` 13곳이 전부 문자열**이고 JSX는 `content`에서만 4곳(전부 문장 중간 강조)입니다. **다만 이건 보조 근거로만 둡니다** — internal-ui `AlertHeading`이 `truncate`로 한 줄을 강제하고 있어 JSX가 없는 것이 수요의 부재인지 제약의 결과인지 갈리고, 어드민·데스크톱의 사용 분포로 모바일 타깃의 수요를 추정하는 것은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md)가 경계하는 교차 추론과 같은 종류이기 때문입니다.
+
+  **[`Toast`](./toast.md) · [`NotificationCard`](./notification-card.md)의 `highlight`는 사정이 다릅니다** — 그쪽은 문장 중간 강조 요구가 실제로 있고 지금 API로는 표현할 수 없어, `ReactNode` 전환이 별도 논의로 열려 있습니다.
+
+- **텍스트 두 줄을 래퍼로 묶었습니다.** `min-w-0 flex-1`이 `Typography`에서 래퍼(`INFO_BANNER_TEXT_STYLE`)로 올라갔고, **래퍼는 높이를 더하지 않습니다** — `title`이 없을 때 배너 높이가 `6 + 20.296875 + 6 = 32.296875`로 종전과 같은 것을 렌더로 확인했습니다.
+
+  **`<p>`가 아니라 `<span>`입니다.** `onClick`이 있으면 배너가 `<button>`이 되는데, `<button>`의 콘텐츠 모델은 phrasing content라 **`<p>`를 넣으면 무효 마크업**입니다. Figma가 `<p>` 세 개로 그린 것을 그대로 옮길 수 없는 이유입니다.
+
+- **`items-center`를 유지합니다.** 여러 줄이 되면 아이콘을 첫 줄에 맞춰야 할 것 같지만, **Figma가 3줄짜리 인스턴스에서도 `items-center`입니다.** 실측을 따랐습니다.
+
+- **`whitespace-pre-line`을 래퍼에 걸어 `title`도 함께 받습니다.** 심볼의 본문 2줄이 **명시적 줄바꿈**이라 없으면 폭에 따라 다른 자리에서 접힙니다. **`break-all`과 같은 자리**라 상속으로 두 줄에 다 닿고, 지금 심볼의 `title`은 한 줄이지만 **두 줄짜리가 와도 API가 안 바뀝니다.**
+
+  선례는 [`ConfirmModal`](./confirm-modal.md)입니다(`CONFIRM_MODAL_TEXT_STYLE` — 래퍼에 걸어 제목까지 덮음). [`Notification`](./notification.md)은 `NOTIFICATION_DESCRIPTION_STYLE`로 **본문에만** 국한하므로 이 자리의 선례가 아닙니다.
+
+- **`title`과 본문 사이 gap은 0입니다.** Figma에서 이 텍스트가 **`<text>` 노드 하나**(`2014:8273` · 293 × 60)라 세 줄이 별도 프레임이 아니라 **한 텍스트 안의 줄바꿈 + 혼합 굵기**입니다. 나눌 itemSpacing이 애초에 없어서 `flex-v-stack`에 `gap`을 주지 않았고, 줄 간격은 `label` 행높이가 그대로 냅니다.
+
+  검산도 맞습니다 — 텍스트 60 = `3 × 20`(Figma 텍스트 박스), 배너 72 = `6 + 60 + 6`. 구현은 `3 × 20.296875 = 60.890625`, 배너 `72.890625`로 **줄당 0.3px 차이**인데, 이는 [chip.md](./chip.md)가 기록한 것과 같은 기존 오차입니다.
 
 ### API
 
 | prop        | 필수 | 기본값    | 비고                                     |
 | ----------- | ---- | --------- | ---------------------------------------- |
-| `label`     | ✅   | —         | 안내 문구. 접히고 말줄임하지 않음        |
+| `title`       |      | —         | 굵은 첫 줄. `description`과 **같은 색**, 굵기만 갈림 |
+| `description` | ✅   | —         | 안내 문구. 접히고 말줄임하지 않음. **`\n`으로 줄바꿈** |
 | `theme`     |      | `primary` | 5종                                       |
 | `isSticky`  |      | `false`   | 모양만 바꿈. 고정은 소비 앱이 함          |
 | `onClick`   |      | —         | 주면 배너 전체가 `<button>` + 화살표 노출 |
@@ -304,14 +339,12 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | 스티키 전환 모션 | 폭이 340 → 380으로 벌어지는 순간의 모션 지정이 없습니다. 아래 「결정」대로 DS는 넣지 않았습니다 |
 | `base/white`    | 세트 변수에 있는데 쓰이는 자리를 못 찾았습니다. `IconButton` 배경으로 추정                          |
 | 스티키 전환 임계값 | 스펙이 [미확정]으로 남겨 둔 항목입니다. 소비 앱이 정해야 합니다                                  |
-| 문구 길이       | 사용예시가 전부 한 줄입니다. 두 줄 이상이 실제로 생기는지                                          |
-| 여러 줄 정렬    | **형제와 갈립니다** — `InfoItem`은 `items-start`(아이콘이 첫 줄에 남음), `InfoBanner`는 `items-center`(3줄이면 아이콘이 가운데로 내려옴)입니다. 한 줄일 때는 같아 Figma로는 판별되지 않고, `InfoBanner`는 우측 액션 화살표도 함께 중앙에 맞춰야 해서 그대로 뒀습니다 |
 
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/InfoBanner.stories.tsx`, `meta.title`은 `core/biz-ui/Info/InfoBanner`. 데코레이터로 화면 폭과 같은 `w-[380px]`을 걸고, 인라인 스토리는 소비 앱의 좌우 마진 20을 재현합니다.
 
-스토리 5종입니다.
+스토리 6종입니다.
 
 | 스토리   | 보는 것                                                        |
 | -------- | -------------------------------------------------------------- |
@@ -319,6 +352,7 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `Themes` | 5종 배경 · 테두리 · 아이콘 색                                   |
 | `Action` | `onClick` 유무로 화살표와 엘리먼트가 갈리는 것                  |
 | `Sticky` | 스크롤 컨테이너 안에서 `className='sticky top-0'`로 실제 고정 — **배치가 소비 앱 몫이라는 계약이 눈에 보이는 자리** |
+| `WithTitle` | `LGN-201` 재현 — **굵은 첫 줄 + `\n`으로 끊은 본문 2줄**. 액션 유무 둘 다 |
 | `LongText` | 문구가 접혀도 잘리지 않고 높이가 늘어나는 것                  |
 
 ### 검증
@@ -341,4 +375,6 @@ Storybook 렌더의 계산값으로 대조했습니다.
 
 높이가 Figma보다 0.7 작은 것은 토큰 `line-height`(1.45)와 Figma 텍스트 박스(20)의 차이입니다. **높이를 고정하지 않았으므로 레이아웃에 영향이 없습니다.**
 
-`Sticky` 스토리에서 스크롤 컨테이너를 300 내려도 배너가 상단에 그대로 붙어 있는 것을 확인했습니다 — `position: sticky`가 소비 앱의 `className`에서 오는 계약이 실제로 동작합니다. `Action`은 `onClick` 없을 때 `<div>` · `cursor: auto` · 화살표 없음, 있을 때 `<button type="button">` · `cursor: pointer` · 접근성 이름이 `label` 그대로이고 **중첩 버튼이 없는 것**까지 확인했습니다. `LongText`는 3줄에서 높이가 72.89로 늘고 말줄임되지 않습니다.
+`Sticky` 스토리에서 스크롤 컨테이너를 300 내려도 배너가 상단에 그대로 붙어 있는 것을 확인했습니다 — `position: sticky`가 소비 앱의 `className`에서 오는 계약이 실제로 동작합니다. `Action`은 `onClick` 없을 때 `<div>` · `cursor: auto` · 화살표 없음, 있을 때 `<button type="button">` · `cursor: pointer` · 접근성 이름이 문구 그대로이고 **중첩 버튼이 없는 것**까지 확인했습니다. `LongText`는 3줄에서 높이가 72.89로 늘고 말줄임되지 않습니다.
+
+**DOTOLI-296 검증** — `WithTitle`에서 `title`이 `<strong>` · 14px · weight 700, 본문이 14px · weight 500이고 **색이 둘 다 `rgb(51,60,81)`(`gray/800`)로 같은 것**을 확인했습니다. 래퍼의 `white-space: pre-line`이 두 줄에 모두 상속되고 본문이 `\n`에서 2줄로 갈리며, 배너 높이 `72.890625 = 6 + 3 × 20.296875 + 6`으로 심볼 72와 맞습니다. **회귀도 확인했습니다** — `title`이 없을 때 높이가 `32.296875`로 종전과 같고(래퍼가 높이를 더하지 않음), `flex-1`이 래퍼로 옮겨간 뒤에도 문구 폭이 293(액션 있으면 265)으로 유지됩니다.

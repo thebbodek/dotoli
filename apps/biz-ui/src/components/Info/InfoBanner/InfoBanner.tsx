@@ -10,16 +10,17 @@ import {
   INFO_BANNER_ICON_KEY,
   INFO_BANNER_ICON_STYLE,
   INFO_BANNER_INLINE_STYLE,
-  INFO_BANNER_LABEL_STYLE,
   INFO_BANNER_STYLES,
+  INFO_BANNER_TEXT_STYLE,
   INFO_BANNER_THEMES,
 } from '@/components/Info/InfoBanner/constants';
 import { InfoBannerProps } from '@/components/Info/InfoBanner/types';
-import { Typography } from '@/components/Typography';
+import { Typography, TYPOGRAPHY_ELEMENTS } from '@/components/Typography';
 import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const InfoBanner = ({
-  label,
+  title,
+  description,
   theme = INFO_BANNER_THEMES.PRIMARY,
   isSticky = false,
   className,
@@ -43,13 +44,23 @@ const InfoBanner = ({
         weight={ICON_WEIGHTS.FILL}
         aria-hidden
       />
-      <Typography
-        className={INFO_BANNER_LABEL_STYLE}
-        color={COLOR_VARIANTS.GRAY_800}
-        variant={TYPOGRAPHY_VARIANTS.LABEL}
-      >
-        {label}
-      </Typography>
+      <span className={INFO_BANNER_TEXT_STYLE}>
+        {!!title && (
+          <Typography
+            as={TYPOGRAPHY_ELEMENTS.STRONG}
+            color={COLOR_VARIANTS.GRAY_800}
+            variant={TYPOGRAPHY_VARIANTS.LABEL_BOLD}
+          >
+            {title}
+          </Typography>
+        )}
+        <Typography
+          color={COLOR_VARIANTS.GRAY_800}
+          variant={TYPOGRAPHY_VARIANTS.LABEL}
+        >
+          {description}
+        </Typography>
+      </span>
       {!!onClick && (
         <span className={INFO_BANNER_ACTION_WRAPPER_STYLE}>
           <Icon

@@ -34,7 +34,8 @@ export const INFO_BANNER_ACTION_STYLE = clsx(
  * */
 export const INFO_BANNER_ICON_STYLE = 'size-[15px] shrink-0 text-[15px]';
 
-export const INFO_BANNER_LABEL_STYLE = 'min-w-0 flex-1 break-all text-left';
+export const INFO_BANNER_TEXT_STYLE =
+  'flex-v-stack min-w-0 flex-1 break-all whitespace-pre-line text-left';
 
 /**
  * @description: 높이까지 주면 24가 문구 행높이를 밀어 배너가 33이 아니라 36이 됩니다.

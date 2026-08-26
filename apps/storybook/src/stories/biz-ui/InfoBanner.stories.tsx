@@ -12,9 +12,14 @@ const SCREEN_WIDTH = 'w-[380px]';
 
 const INLINE_MARGIN = 'px-[20px]';
 
-const VAT_EXCLUDED_LABEL = '부가세 미포함된 단가 기준입니다';
+const VAT_EXCLUDED_DESCRIPTION = '부가세 미포함된 단가 기준입니다';
 
-const VAT_INCLUDED_LABEL = '부가세가 포함된 금액입니다';
+const VAT_INCLUDED_DESCRIPTION = '부가세가 포함된 금액입니다';
+
+const WITH_TITLE_TITLE = '첫 로그인 전인가요?';
+
+const WITH_TITLE_DESCRIPTION =
+  '연락처 인증 전에는 계정을 찾을 수 없어요\n뽀득 또는 관리자에게 문의해 주세요';
 
 const withScreenWidth: Decorator = (Story) => (
   <div className={SCREEN_WIDTH}>
@@ -39,10 +44,11 @@ const meta = {
         defaultValue: { summary: INFO_BANNER_THEMES.PRIMARY },
       },
     },
-    label: {
+    description: {
       control: 'text',
       type: { name: 'string', required: true },
     },
+    title: { control: 'text' },
     isSticky: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -50,7 +56,7 @@ const meta = {
     onClick: { action: 'click' },
   },
   args: {
-    label: VAT_EXCLUDED_LABEL,
+    description: VAT_EXCLUDED_DESCRIPTION,
     theme: INFO_BANNER_THEMES.PRIMARY,
     isSticky: false,
   },
@@ -71,11 +77,11 @@ export const Default: Story = {
 
 export const Themes: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ label }) => (
+  render: ({ description }) => (
     <div className={INLINE_MARGIN}>
       <Flex direction='column' gap='10'>
         {Object.values(INFO_BANNER_THEMES).map((theme) => (
-          <InfoBanner key={theme} label={label} theme={theme} />
+          <InfoBanner description={description} key={theme} theme={theme} />
         ))}
       </Flex>
     </div>
@@ -84,11 +90,11 @@ export const Themes: Story = {
 
 export const Action: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ label, theme, onClick }) => (
+  render: ({ description, theme, onClick }) => (
     <div className={INLINE_MARGIN}>
       <Flex direction='column' gap='10'>
-        <InfoBanner label={label} theme={theme} />
-        <InfoBanner label={label} theme={theme} onClick={onClick} />
+        <InfoBanner description={description} theme={theme} />
+        <InfoBanner description={description} theme={theme} onClick={onClick} />
       </Flex>
     </div>
   ),
@@ -96,15 +102,37 @@ export const Action: Story = {
 
 export const Sticky: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ label, theme }) => (
+  render: ({ description, theme }) => (
     <div className='h-[220px] overflow-y-auto bg-white'>
       <InfoBanner
         className='sticky top-0'
-        label={label}
+        description={description}
         theme={theme}
         isSticky
       />
       <div className='h-[600px] bg-gray-50' />
+    </div>
+  ),
+};
+
+// LGN-201 재현 — 굵은 첫 줄 + \n으로 끊은 본문 2줄
+export const WithTitle: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ theme, onClick }) => (
+    <div className={INLINE_MARGIN}>
+      <Flex direction='column' gap='10'>
+        <InfoBanner
+          description={WITH_TITLE_DESCRIPTION}
+          theme={theme}
+          title={WITH_TITLE_TITLE}
+        />
+        <InfoBanner
+          description={WITH_TITLE_DESCRIPTION}
+          theme={theme}
+          title={WITH_TITLE_TITLE}
+          onClick={onClick}
+        />
+      </Flex>
     </div>
   ),
 };
@@ -115,11 +143,11 @@ export const LongText: Story = {
     <div className={INLINE_MARGIN}>
       <Flex direction='column' gap='10'>
         <InfoBanner
-          label={`${VAT_INCLUDED_LABEL}. ${VAT_EXCLUDED_LABEL}. 안내 문구가 한 줄을 넘어가면 잘리지 않고 줄바꿈됩니다`}
+          description={`${VAT_INCLUDED_DESCRIPTION}. ${VAT_EXCLUDED_DESCRIPTION}. 안내 문구가 한 줄을 넘어가면 잘리지 않고 줄바꿈됩니다`}
           theme={theme}
         />
         <InfoBanner
-          label={`${VAT_INCLUDED_LABEL}. ${VAT_EXCLUDED_LABEL}. 안내 문구가 한 줄을 넘어가면 잘리지 않고 줄바꿈됩니다`}
+          description={`${VAT_INCLUDED_DESCRIPTION}. ${VAT_EXCLUDED_DESCRIPTION}. 안내 문구가 한 줄을 넘어가면 잘리지 않고 줄바꿈됩니다`}
           theme={theme}
           onClick={onClick}
         />
