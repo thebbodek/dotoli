@@ -28,7 +28,15 @@ export default defineConfig([
   /* ignores는 전역으로 분리한다 — config 객체 안에 두면 base만 비적용되고
    * next 쪽 config는 여전히 *.config.* 파일에 적용되어 strip된 플러그인 해석 실패로 크래시한다 */
   {
-    ignores: ['node_modules', 'dist', '*.config.js', '*.config.mjs'],
+    ignores: [
+      'node_modules',
+      'dist',
+      '*.config.js',
+      '*.config.mjs',
+      '*.config.cjs',
+      /* .ts config(sentry.*.config.ts 등)는 tsconfig include 밖이면 projectService 파싱 에러가 나므로 js/mjs와 동일하게 무시한다 */
+      '*.config.ts',
+    ],
   },
   {
     extends: compat.extends(

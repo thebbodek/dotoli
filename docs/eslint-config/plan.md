@@ -194,7 +194,9 @@ packages/eslint-config/
 
 ---
 
-### 6. 후속 — 외부 FE 레포 적용 (미착수)
+### 6. 후속 — 외부 FE 레포 적용 (FE-49)
+
+Jira: [FE-49 ESLint 10 마이그레이션](https://thebbodek.atlassian.net/browse/FE-49) — 8건 전체를 단일 티켓으로, 레포별 커밋은 FE-49 번호로 진행
 
 dotoli 밖의 제품 레포에도 `@bbodek/eslint-config` 신판(ESLint 10 + base/next preset) 적용이 필요하다. DOTOLI-282 취소 결정에 따라 **legacy 완화 없이 신규 룰 전부 적용하고, 에러 발생 시 해당 레포 전체 코드 수정**으로 진행한다.
 
