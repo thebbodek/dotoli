@@ -26,7 +26,7 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 > 원래 DOTOLI-283 "dotoli 패키지 ESLint 10 일괄 적용" 단일 티켓이었으나, 2026-08-26 결정으로 패키지 단위 티켓·커밋으로 분리 (283은 utils 범위로 축소 수정, 나머지 4개 신규 발급)
 
 - [x] DOTOLI-283 utils ESLint 10 적용
-- [ ] DOTOLI-291 hooks ESLint 10 적용
+- [x] DOTOLI-291 hooks ESLint 10 적용
 - [ ] DOTOLI-292 storybook ESLint 10 적용
 - [ ] DOTOLI-293 biz-ui ESLint 10 적용
 - [ ] DOTOLI-294 internal-ui ESLint 10 적용
