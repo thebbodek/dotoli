@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.43
+
+### Patch Changes
+
+- 4038eb1: DOTOLI-289 PageBody 컴포넌트 구현
+
 ## 0.0.42
 
 ### Patch Changes
