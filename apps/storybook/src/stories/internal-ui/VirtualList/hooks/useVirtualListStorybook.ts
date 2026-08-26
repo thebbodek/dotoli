@@ -7,21 +7,18 @@ const useVirtualListStorybook = () => {
   const [images, setImages] = useState<VirtualListImageData[]>([]);
   const itemsTotalCount = images.length;
 
-  const getRandomImageList = async () => {
-    try {
-      const res = await fetch('https://picsum.photos/v2/list?page=2&limit=100');
-      const data = await res.json();
-
-      setImages(data);
-      setIsLoading(false);
-    } catch (e) {
-      console.error(e);
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getRandomImageList();
+    fetch('https://picsum.photos/v2/list?page=2&limit=100')
+      .then((res) => res.json())
+      .then((data) => {
+        setImages(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return { isLoading, images, itemsTotalCount };
