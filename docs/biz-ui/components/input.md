@@ -149,6 +149,7 @@ Figma 주석 `355:1307`의 「검증 완료 시 다음 필드 활성화 · 신�
 
 - **라벨의 `pointer-events`를 죽이지 않습니다.** 인풋이 콘텐츠 46px 중 하단 26px에만 있어서 라벨 자리(상단 패딩 12 + 라벨 20 = 박스 높이의 46%)를 탭하면 아무 일도 일어나지 않았습니다. `<label htmlFor>`를 그대로 두면 브라우저가 인풋으로 포커스를 넘겨 줍니다 — JS 위임 없이 해결됩니다. 실측으로 라벨 영역 탭 → 인풋 포커스를 확인했습니다.
 - **메시지를 `aria-describedby`로 연결합니다.** `aria-invalid`만으로는 「무효」라는 사실만 전달되고 이유가 안 읽힙니다. 에러 메시지와 조건 체크리스트 둘 다 같은 `id`를 쓰고, 네 type 모두(`select`의 `<button>` 포함) 연결합니다. internal-ui가 `aria-invalid` + `aria-errormessage`를 짝으로 쓰는 것과 같은 방식입니다.
+- **`select` 트리거에는 `aria-invalid`를 붙이지 않습니다** (DOTOLI-293). ARIA 스펙상 button role은 `aria-invalid`를 지원하지 않아(`jsx-a11y/role-supports-aria-props`) 제거했습니다. 에러는 `aria-describedby` 메시지와 시각 표시로 전달됩니다. 나머지 세 type(`<input>`·`<textarea>`)의 `aria-invalid`는 유지합니다.
 - **조건 충족 여부를 색으로만 표시하지 않습니다.** 아이콘이 충족·미충족 모두 `check-circle` 한 종류라 색만 다릅니다. `sr-only` 텍스트(`충족`/`미충족`)를 덧붙여 스크린리더와 색각 이상 사용자에게 전달합니다. 시각 표현은 Figma 그대로입니다.
 - **`select`에 `aria-haspopup='dialog'`와 `aria-expanded`를 겁니다.** `aria-haspopup`은 "누르면 시트가 뜬다"까지만 알리고 열림 여부는 못 알립니다. `aria-expanded`를 채우려고 `isOpen`을 받되 **스타일에는 일절 쓰지 않습니다** — `isOpen`을 뺐던 근거가 "트리거의 시각 상태가 아니다"였고 `aria-expanded`는 시각이 아니라 시맨틱이라 그 판단과 어긋나지 않습니다. 안 넘기면 속성 자체가 안 붙습니다(`aria-haspopup`만 남음).
 

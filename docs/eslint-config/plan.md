@@ -28,7 +28,7 @@ Jira: [DOTOLI-279](https://thebbodek.atlassian.net/browse/DOTOLI-279) ~ [DOTOLI-
 - [x] DOTOLI-283 utils ESLint 10 적용
 - [x] DOTOLI-291 hooks ESLint 10 적용
 - [x] DOTOLI-292 storybook ESLint 10 적용
-- [ ] DOTOLI-293 biz-ui ESLint 10 적용
+- [x] DOTOLI-293 biz-ui ESLint 10 적용
 - [ ] DOTOLI-294 internal-ui ESLint 10 적용
 
 ---
