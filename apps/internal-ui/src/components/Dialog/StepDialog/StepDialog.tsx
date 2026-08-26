@@ -32,7 +32,9 @@ const StepDialog = <T extends string>({
   const handleCancel = async () => {
     const isConfirmed = await onStepDialogConfirmModal();
 
-    isConfirmed && onCancel();
+    if (isConfirmed) {
+      onCancel();
+    }
   };
 
   return (

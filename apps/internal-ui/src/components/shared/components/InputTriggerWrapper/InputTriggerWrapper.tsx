@@ -20,6 +20,7 @@ const InputTriggerWrapper = ({
   role,
 }: PropsWithChildren<InputTriggerWrapperProps>) => {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- 키보드 조작은 내부 트리거/인풋 요소가 담당, wrapper onClick은 포인터 편의
     <div
       className={clsx(
         className,

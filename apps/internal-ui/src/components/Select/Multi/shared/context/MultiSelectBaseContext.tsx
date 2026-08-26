@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from 'react';
 
@@ -74,10 +75,11 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
   const onSelect = ({ key }: Pick<MultiSelectInternalOption<T>, 'key'>) =>
     onInternalOptionsChange({ key, isSelected: true });
 
-  const onSearch = useCallback(
-    debounce(({ value }: MultiSelectBaseOnSearchParams) => {
-      setCurrentSearchValue(value);
-    }, 300),
+  const onSearch = useMemo(
+    () =>
+      debounce(({ value }: MultiSelectBaseOnSearchParams) => {
+        setCurrentSearchValue(value);
+      }, 300),
     [],
   );
 

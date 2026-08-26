@@ -61,6 +61,7 @@ const Popover = <T extends HTMLElement>({
   return (
     <>
       {cloneElement(trigger, {
+        // eslint-disable-next-line react-hooks/refs -- triggerProps는 ref를 element prop으로 전달만 하고 렌더 중 current를 읽지 않음
         ...triggerProps({ triggerRef }),
       })}
       {isOpen && (

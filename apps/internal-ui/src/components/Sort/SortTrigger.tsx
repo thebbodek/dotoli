@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { MouseEvent } from 'react';
+import { KeyboardEvent, MouseEvent } from 'react';
 
 import { Icon } from '@/components/Icon';
 import { useSelectTriggerContext } from '@/components/Select/shared';
@@ -15,6 +15,14 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
     onToggle();
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+
+      onToggle();
+    }
+  };
+
   return (
     <div
       className={clsx(
@@ -27,7 +35,9 @@ const SortTrigger = ({ displayValue, className }: SortTriggerProps) => {
       aria-disabled={disabled}
       ref={ref}
       role='button'
+      tabIndex={disabled ? -1 : 0}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       <div
         className={clsx(

@@ -29,7 +29,9 @@ const StepFullScreenDialog = <T extends string>({
   const handleCancel = async () => {
     const isConfirmed = await onStepFullScreenDialogConfirmBottomSheet();
 
-    isConfirmed && onCancel();
+    if (isConfirmed) {
+      onCancel();
+    }
   };
 
   return (

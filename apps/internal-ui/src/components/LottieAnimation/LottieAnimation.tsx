@@ -1,5 +1,4 @@
 import { LottieComponentProps, LottieRefCurrentProps } from 'lottie-react';
-import dynamic from 'next/dynamic';
 import { ComponentType, useEffect, useRef, useState } from 'react';
 
 import { LottieAnimationProps } from '@/components/LottieAnimation/types';
@@ -15,23 +14,31 @@ const LottieAnimation = ({
     useState<ComponentType<LottieComponentProps> | null>(null);
   const LottieFallback = <div className={className} />;
 
-  const loadLottie = () => {
-    const Lottie = dynamic(() => import('lottie-react'), {
-      ssr: false,
-      loading: () => LottieFallback,
+  useEffect(() => {
+    let isUnmounted = false;
+
+    /* effect에서 로드해 클라이언트에서만 import 되고, 로드 전에는 fallback이 렌더된다 */
+    import('lottie-react').then(({ default: Lottie }) => {
+      if (isUnmounted) return;
+
+      setLottieComponent(() => Lottie);
     });
 
-    setLottieComponent(Lottie);
-  };
-
-  useEffect(loadLottie, []);
+    return () => {
+      isUnmounted = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!lottieRef.current) return;
 
     const { current } = lottieRef;
 
-    isStop ? current.stop() : current.play();
+    if (isStop) {
+      current.stop();
+    } else {
+      current.play();
+    }
   }, [isStop, lottieRef]);
 
   if (LottieComponent === null) return LottieFallback;
