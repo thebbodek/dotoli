@@ -13,7 +13,7 @@
     "access": "public"
   },
   "exports": {
-    ".": "./eslint.config.js"
+    ".": "./index.js"
   },
   "dependencies": {
     "@eslint/eslintrc": "^3",
@@ -21,7 +21,6 @@
     "@stylistic/eslint-plugin": "^5",
     "@typescript-eslint/eslint-plugin": "^8.68.0",
     "@typescript-eslint/parser": "^8.68.0",
-    "eslint-config-next": "^15.3.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-prefer-arrow-functions": "^3.10.2",
@@ -32,10 +31,17 @@
   },
   "peerDependencies": {
     "eslint": "^10",
+    "eslint-config-next": "^16",
     "typescript": "^5"
+  },
+  "peerDependenciesMeta": {
+    "eslint-config-next": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "eslint": "^10",
+    "eslint-config-next": "^16",
     "typescript": "^5.8.3"
   }
 }
