@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.42
+
+### Patch Changes
+
+- 7803a6b: DOTOLI-285 Toast message 수정, 내부 IconCircle theme, 강조 글씨색 추가
+
 ## 0.0.41
 
 ### Patch Changes
