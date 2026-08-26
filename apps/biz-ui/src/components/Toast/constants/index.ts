@@ -1,7 +1,6 @@
 import { IconProps } from '@/components/Icon';
 import { ICON_CIRCLE_THEMES, IconCircleTheme } from '@/components/IconCircle';
 import { ToastProps, ToastStatus } from '@/components/Toast/types';
-import { COLOR_VARIANTS, ColorVariants } from '@/variants';
 
 export const TOAST_STATUSES = {
   INFO: 'info',
@@ -28,12 +27,15 @@ export const TOAST_ICON_THEMES: Record<ToastStatus, IconCircleTheme> = {
   [TOAST_STATUSES.LOADING]: ICON_CIRCLE_THEMES.PRIMARY,
 };
 
-export const TOAST_HIGHLIGHT_COLORS: Partial<
-  Record<IconCircleTheme, ColorVariants>
-> = {
-  [ICON_CIRCLE_THEMES.PRIMARY]: COLOR_VARIANTS.BLUE_300,
-  [ICON_CIRCLE_THEMES.RED]: COLOR_VARIANTS.RED_300,
-  [ICON_CIRCLE_THEMES.YELLOW]: COLOR_VARIANTS.YELLOW_300,
-  [ICON_CIRCLE_THEMES.GREEN]: COLOR_VARIANTS.GREEN_300,
-  [ICON_CIRCLE_THEMES.BLACK]: COLOR_VARIANTS.BLUE_300,
+export const TOAST_HIGHLIGHT_STYLES: Record<IconCircleTheme, string> = {
+  [ICON_CIRCLE_THEMES.PRIMARY]:
+    '[&_strong]:text-body-bold [&_strong]:text-blue-300',
+  [ICON_CIRCLE_THEMES.RED]: '[&_strong]:text-body-bold [&_strong]:text-red-300',
+  [ICON_CIRCLE_THEMES.YELLOW]:
+    '[&_strong]:text-body-bold [&_strong]:text-yellow-300',
+  [ICON_CIRCLE_THEMES.GREEN]:
+    '[&_strong]:text-body-bold [&_strong]:text-green-300',
+  [ICON_CIRCLE_THEMES.GRAY]: '[&_strong]:text-body-bold',
+  [ICON_CIRCLE_THEMES.BLACK]:
+    '[&_strong]:text-body-bold [&_strong]:text-blue-300',
 };

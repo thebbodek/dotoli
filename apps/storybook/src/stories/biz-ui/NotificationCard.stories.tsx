@@ -26,9 +26,14 @@ const withFrameWidth: Decorator = (Story) => (
   </div>
 );
 
+const TITLE = (
+  <>
+    <strong>고정주문</strong> 시작
+  </>
+);
+
 const SAMPLE = {
-  highlight: '고정주문',
-  title: '시작',
+  title: TITLE,
   subText: '텍스트 들어가는 영역',
   history: { registeredAt: '07.16 16:30', registrant: '뽀득' },
   period: '0000-00-00(월) ~ 0000-00-00(금)',
@@ -73,8 +78,10 @@ const meta = {
         },
       },
     },
-    highlight: { control: 'text' },
-    title: { control: 'text' },
+    title: {
+      control: 'text',
+      table: { type: { summary: 'ReactNode' } },
+    },
     subText: { control: 'text' },
     period: { control: 'text' },
     actionLabel: { control: 'text' },
@@ -94,19 +101,14 @@ export const Default: Story = { decorators: [withFrameWidth] };
 export const Themes: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   decorators: [withFrameWidth],
-  render: ({ iconKey, highlight, title }) => (
+  render: ({ iconKey, title }) => (
     <Flex direction='column' gap='24'>
       {Object.values(NOTIFICATION_CARD_THEMES).map((theme) => (
         <Flex align={{ items: 'start' }} direction='column' gap='8' key={theme}>
           <Typography color='gray-500' variant='caption'>
             {theme}
           </Typography>
-          <NotificationCard
-            highlight={highlight}
-            iconKey={iconKey}
-            theme={theme}
-            title={title}
-          />
+          <NotificationCard iconKey={iconKey} theme={theme} title={title} />
         </Flex>
       ))}
     </Flex>
@@ -115,7 +117,7 @@ export const Themes: Story = {
 
 export const Combinations: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
-  render: ({ iconKey, theme, highlight, title }) => (
+  render: ({ iconKey, theme, title }) => (
     <div className={COMBINATION_SCROLL_STYLE}>
       <div className={COMBINATION_GRID_STYLE}>
         {ROW_PARTS.flatMap((rowParts, rowIndex) =>
@@ -137,7 +139,6 @@ export const Combinations: Story = {
                   {enabled.join(' · ') || '(기본만)'}
                 </Typography>
                 <NotificationCard
-                  highlight={highlight}
                   iconKey={iconKey}
                   theme={theme}
                   title={title}
@@ -161,12 +162,7 @@ export const TitleVariants: Story = {
         <Typography color='gray-500' variant='caption'>
           강조 + 나머지
         </Typography>
-        <NotificationCard
-          highlight='고정주문'
-          iconKey={iconKey}
-          theme={theme}
-          title='시작'
-        />
+        <NotificationCard iconKey={iconKey} theme={theme} title={TITLE} />
       </Flex>
       <Flex align={{ items: 'start' }} direction='column' gap='8'>
         <Typography color='gray-500' variant='caption'>

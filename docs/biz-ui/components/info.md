@@ -303,7 +303,7 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   참고로 소비 앱(`bbodek-internal`)의 `<Alert>` 36곳에서도 **`title` 13곳이 전부 문자열**이고 JSX는 `content`에서만 4곳(전부 문장 중간 강조)입니다. **다만 이건 보조 근거로만 둡니다** — internal-ui `AlertHeading`이 `truncate`로 한 줄을 강제하고 있어 JSX가 없는 것이 수요의 부재인지 제약의 결과인지 갈리고, 어드민·데스크톱의 사용 분포로 모바일 타깃의 수요를 추정하는 것은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md)가 경계하는 교차 추론과 같은 종류이기 때문입니다.
 
-  **[`Toast`](./toast.md) · [`NotificationCard`](./notification-card.md)의 `highlight`는 사정이 다릅니다** — 그쪽은 문장 중간 강조 요구가 실제로 있고 지금 API로는 표현할 수 없어, `ReactNode` 전환이 별도 논의로 열려 있습니다.
+  **[`Toast`](./toast.md) · [`NotificationCard`](./notification-card.md)의 `highlight`는 사정이 달랐습니다** — 그쪽은 문장 중간 강조 요구가 실제로 있고 당시 API로는 표현할 수 없었습니다. **DOTOLI-297에서 둘 다 `ReactNode`로 전환하며 `highlight`를 걷어냈고, `InfoBanner`는 그 범위에 넣지 않았습니다** — 여기서 필요한 모양은 「굵은 첫 줄 + 본문」이라 `\n`으로 이미 충족되고, 위 두 근거가 그대로 남아 있기 때문입니다.
 
 - **텍스트 두 줄을 래퍼로 묶었습니다.** `min-w-0 flex-1`이 `Typography`에서 래퍼(`INFO_BANNER_TEXT_STYLE`)로 올라갔고, **래퍼는 높이를 더하지 않습니다** — `title`이 없을 때 배너 높이가 `6 + 20.296875 + 6 = 32.296875`로 종전과 같은 것을 렌더로 확인했습니다.
 

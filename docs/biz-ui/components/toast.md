@@ -136,12 +136,39 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
   **부분 문자열 매칭은 고르지 않습니다** — `highlight`가 `message` 안에 있고 그 자리를 칠하는 방식입니다. 호출부가 가장 자연스러워 보여 **나중에 무심코 택하기 쉬운데**, 지금 `highlight`는 **`message`에 없는 별도 조각**이라 의미가 정면으로 충돌합니다. 바꾸는 순간 기존 호출은 타입을 그대로 통과하면서 **강조만 조용히 사라집니다.** 같은 문자열이 두 번 나올 때 어디를 칠할지도 정해지지 않습니다.
 
+### DOTOLI-297 · `message`를 `ReactNode`로 · `highlight` 제거
+
+계기는 「**하이라이트되는 부분이 문장 중간에 올 수 없냐**」는 질문입니다. 위 285의 답이 「앞쪽 고정」이었고, 그때 적어 둔 확장 경로(`string | ToastMessagePart[]`)를 실제로 여는 티켓입니다. **[`NotificationCard`](./notification-card.md)와 함께 나갔습니다** — 285가 「같은 이름 · 같은 구조라 두 컴포넌트가 함께 움직입니다」로 묶어 둔 그대로입니다.
+
+- **`message: string` → `ReactNode`입니다.** `string`이 `ReactNode`의 부분집합이라 **기존 호출부가 컴파일도 동작도 그대로**입니다. 285가 예고한 union(`string | ToastMessagePart[]`)이 아니라 `ReactNode`를 고른 것은, 배열이 결국 「조각 + 강조 여부」를 자체 타입으로 다시 정의하는 것인데 **JSX가 이미 그 표현입니다.** 자매 DS `@bbodek/internal-ui`의 `Alert`도 `title` · `content`를 `ReactNode`로 열어 뒀습니다.
+
+- **`highlight`를 걷어냈습니다 — 파괴적 변경입니다.** 285는 「`highlight`는 앞쪽 강조의 짧은 형태로 남깁니다」였고 **둘을 함께 준 경우를 타입으로 막을 수 없어 계약으로 두려 했는데**, 남기면 그 막을 수 없는 계약이 실제로 생깁니다. `message` 안에서 위치를 정할 수 있게 된 이상 `highlight`는 **같은 일을 하는 두 번째 길**일 뿐입니다.
+
+  **지금 걷어낸 이유는 비용입니다.** 소비 앱 사용처가 아직 0곳이라 [`InfoBanner`](./info.md)가 DOTOLI-296에서 `label` → `description`을 개명한 것과 같은 자리입니다 — 쓰기 시작하면 이 비용이 급격히 올라갑니다.
+
+- **위치는 소비자가, 색·굵기는 DS가 갖습니다.** 소비자는 `<strong>`만 쓰고 칠하는 것은 DS입니다.
+
+  ```tsx
+  toast.show({ message: <>주문 <strong>3건</strong>이 등록되었어요</> });
+  ```
+
+  285가 든 **근거 ①(색 결정이 소비처로 새어나감)이 여전히 유효**하기 때문입니다. internal-ui `Alert`는 강조가 **굵기만** 바꾸고 색은 상속이라 그냥 열어도 안전한데, 여기는 강조색이 `theme` 파생이라 그대로 열면 소비자가 `theme`별 색을 직접 골라야 합니다. `TOAST_HIGHLIGHT_STYLES[theme]`를 문구 `<p>`에 걸어 **`[&_strong]:`로 후손을 칠합니다.**
+
+  **대가는 둘입니다.** biz-ui 첫 임의 변형 셀렉터이고(선례는 internal-ui `Table`의 `[&_.cell]:`), 소비자가 굳이 인라인 색을 덮으면 막을 수 없습니다.
+
+- **`TOAST_HIGHLIGHT_COLORS`가 `TOAST_HIGHLIGHT_STYLES`로 바뀌며 `Partial`이 풀렸습니다.** 285는 `gray`에 키를 두지 않는 것으로 「색 없음」을 표현했는데, 이제 값이 색이 아니라 클래스 묶음이라 **`gray`도 `[&_strong]:text-body-bold` 한 줄을 갖습니다.** 굵기는 6종 전부에 필요하고 색만 `gray`에서 빠지는 것이라 `Record` 전체가 채워집니다. **보이는 결과는 285와 같습니다** — `gray`의 강조는 흰색 그대로 굵기만 갑니다.
+
+- **클래스는 완성된 리터럴로 적었습니다.** 매퍼로 조합하면 스캐너가 못 찾아 CSS가 통째로 빠지는데 타입도 lint도 안 잡습니다 — 규칙과 이유는 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」에 있습니다. **리터럴 11개가 minify 후 `dist/index.es.js`에 그대로 남아 스캔되는 것을 확인했습니다.**
+
+- **부분 문자열 매칭 경고는 이 전환으로 닫혔습니다.** 285가 「무심코 택하기 쉽다」고 막아 둔 안인데, `highlight`가 사라져 **칠할 대상 자체가 없어졌습니다.**
+
+- **Storybook 컨트롤은 그대로 씁니다.** `control: 'text'`가 `ReactNode` prop에서 못 쓰게 될 것 같지만, **컨트롤이 넘기는 `string`이 유효한 `ReactNode`라 그대로 동작합니다.** `type`만 internal-ui `Alert` 스토리를 따라 `{ name: 'other', value: 'ReactNode', required: true }`로 바꿨습니다. `<strong>`이 들어간 예시는 컨트롤로 만들 수 없으므로 별도 스토리가 집니다.
+
 ## API
 
 | prop        | 필수 | 기본값     | 비고                                              |
 | ----------- | ---- | ---------- | ------------------------------------------------- |
-| `message`   | ✅   | —          | `<p>`로 렌더. 줄 수 제한 없음. **`\n`으로 줄바꿈** |
-| `highlight` |      | —          | `message` 앞 강조 조각. `text-body-bold` + `theme` 색 |
+| `message`   | ✅   | —          | `ReactNode`. `<p>`로 렌더. 줄 수 제한 없음. **`\n`으로 줄바꿈** · **`<strong>`으로 강조** |
 | `status`    |      | `'info'`   | `loading`이면 아이콘·테마를 고정하고 회전시킴      |
 | `iconKey`   |      | —          | `IconCircle` 글리프. 없으면 아이콘을 렌더하지 않음 |
 | `theme`     |      | `status`에서 파생 | `IconCircle` 6종. `loading`이면 무시됨      |
@@ -272,7 +299,7 @@ components/Toaster/
 
 | 메서드                                  | 렌더            | 기본 `duration`                     |
 | --------------------------------------- | --------------- | ----------------------------------- |
-| `toast.show({ message, highlight, iconKey, weight, theme, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
+| `toast.show({ message, iconKey, weight, theme, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
 | `toast.loading({ message, duration })`  | `Toast` `loading` | `null`                            |
 | `toast.success` · `info` · `warning` · `error` `({ message, duration })` | `FeedbackToast` | `5000`      |
 | `toast.dismiss({ id })`                 | —               | `id` 없으면 현재 것. 큐에 있는 id면 큐에서만 제거 |
@@ -399,9 +426,9 @@ toast.dismiss({ id });
 | 로딩 소멸        | A 규칙대로면 5초 뒤 사라지는데 로딩은 작업이 끝나야 끝납니다. `dismiss` 호출 전까지 유지로 뒀습니다 |
 | D 중 A 발생      | 정책에 없습니다. 버리지 않고 큐에 넣어 D를 닫은 뒤 뜨게 했습니다 |
 | 큐에 쌓인 A 여러 개 | 위와 이어집니다. 큐 안에서는 서로 밀어내지 않아 D를 닫으면 **전부 순서대로** 지나갑니다. 최신 하나만 남기는 편이 나은지 |
-| 강조부 위치      | `highlight`가 `message` **앞쪽 고정**입니다. 중간 · 뒤쪽 강조 케이스가 나오면 API를 다시 봐야 하고, 그때 고를 방향은 「결정」에 적어 뒀습니다. [`NotificationCard`](./notification-card.md)의 같은 항목과 **함께 움직입니다** |
+| 강조 겹침        | `message`가 `ReactNode`라 `<strong>`을 **여러 군데**에 둘 수 있습니다. Figma 예시는 전부 한 군데인데, 문구 하나에 강조가 둘 이상 와도 되는지 |
 
-**gap 11px · `IconCircle` 테마 개방 · 닫기 `pressed` 3건은 DOTOLI-266에서 확정돼 위 표에서 내렸습니다.** 판단 근거는 「결정」에 있습니다.
+**gap 11px · `IconCircle` 테마 개방 · 닫기 `pressed` 3건은 DOTOLI-266에서 확정돼 위 표에서 내렸습니다.** **강조부 위치 1건은 DOTOLI-297에서 닫혔습니다** — `message`가 `ReactNode`가 돼 위치를 소비자가 정합니다. 판단 근거는 「결정」에 있습니다.
 
 ## Storybook
 
@@ -415,7 +442,7 @@ toast.dismiss({ id });
 | `LongMessage`  | 380 폭에서 2줄로 접히는 것 (말줄임이 아닌 것)                     |
 | `MultilineMessage` | `\n`으로 **소비자가 끊는 자리** — 위 자동 접힘과 갈리는 지점   |
 | `Themes`       | `IconCircle` 6종을 그대로 받는 것                                 |
-| `Highlight`    | `theme`을 따라가는 강조 — 유채색 `300`, `gray`만 굵기              |
+| `Highlight`    | 없음 · 앞쪽 · **문장 중간** — `<strong>` 위치를 소비자가 정하는 것 |
 
 `apps/storybook/src/stories/biz-ui/FeedbackToast.stories.tsx`, `meta.title`은 `core/biz-ui/FeedbackToast`.
 
@@ -430,12 +457,13 @@ toast.dismiss({ id });
 | 스토리      | 보는 것                                                               |
 | ----------- | ----------------------------------------------------------------------- |
 | `Default`   | A · D · 로딩 · 예외(마감 경과) · 전부 닫기                              |
+| `Highlight` | `toast.show` 경로에서도 `<strong>`이 통과하는 것 — 앞쪽 · 문장 중간      |
 | `Feedback`  | `FeedbackToast` 4종                                                     |
 | `Priority`  | A 중 새 A · A 중 D · D 세 번 연속 — **정책 우선순위가 눈에 보이는 자리** |
 | `CtaOffset` | `:root`에 `--toast-offset`을 걸었을 때 CTA 위로 올라가는 것              |
 
 **토스트는 스토리 프레임이 아니라 캔버스 하단에 뜹니다.** 컨테이너가 `fixed`고 `Portal`이 `#portal`을 못 찾으면 `document.body`로 폴백하기 때문이며, 실제 동작 그대로라 프레임 안에 가두지 않았습니다.
 
-**Docs 페이지에서는 `Toaster`가 스토리 수만큼(4개) 마운트됩니다.** 데코레이터가 스토리마다 하나씩 렌더하고 `preview.tsx`가 `tags: ['autodocs']`라 네 스토리가 동시에 삽니다. 스토어는 모듈 스코프 하나라 **같은 토스트가 같은 자리에 네 겹으로 그려집니다** — 테두리·그림자가 진해 보이고 보조기술은 네 번 읽습니다. **정책 확인은 Canvas 탭에서 합니다.** 겹침을 없애려면 스토리마다 iframe(`docs.story.inline: false`)을 쓰거나 `Toaster`를 싱글턴으로 만들어야 하는데, 앞은 Docs 로딩이 네 배가 되고 뒤는 「앱 루트에 한 번」이라는 전제를 코드로 방어하는 것이라 **이 티켓에서는 넣지 않았습니다.**
+**Docs 페이지에서는 `Toaster`가 스토리 수만큼(5개) 마운트됩니다.** 데코레이터가 스토리마다 하나씩 렌더하고 `preview.tsx`가 `tags: ['autodocs']`라 다섯 스토리가 동시에 삽니다. 스토어는 모듈 스코프 하나라 **같은 토스트가 같은 자리에 다섯 겹으로 그려집니다** — 테두리·그림자가 진해 보이고 보조기술은 다섯 번 읽습니다. **정책 확인은 Canvas 탭에서 합니다.** 겹침을 없애려면 스토리마다 iframe(`docs.story.inline: false`)을 쓰거나 `Toaster`를 싱글턴으로 만들어야 하는데, 앞은 Docs 로딩이 네 배가 되고 뒤는 「앱 루트에 한 번」이라는 전제를 코드로 방어하는 것이라 **이 티켓에서는 넣지 않았습니다.**
 
 `iconKey` · `weight` argType은 `Icon.stories`에서 가져와 `description`만 걷어냅니다 — `IconCircle` · `NotificationCard`와 같은 방식입니다.

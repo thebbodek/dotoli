@@ -13,10 +13,7 @@ export interface ToastDurationOption {
 
 export interface ShowToastProps
   extends ToastDurationOption,
-    Pick<
-      ToastProps,
-      'message' | 'highlight' | 'iconKey' | 'weight' | 'theme' | 'action'
-    > {
+    Pick<ToastProps, 'message' | 'iconKey' | 'weight' | 'theme' | 'action'> {
   useDismiss?: boolean;
 }
 
@@ -40,7 +37,7 @@ export interface ToastItemBase extends Required<ToastDurationOption> {
 export interface ToastItemToast
   extends ToastItemBase,
     Required<Pick<ToastProps, 'message' | 'status'>>,
-    Pick<ToastProps, 'highlight' | 'iconKey' | 'weight' | 'theme' | 'action'> {
+    Pick<ToastProps, 'iconKey' | 'weight' | 'theme' | 'action'> {
   kind: typeof TOAST_KINDS.TOAST;
   useDismiss: boolean;
 }

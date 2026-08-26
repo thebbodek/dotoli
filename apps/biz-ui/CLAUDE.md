@@ -156,6 +156,10 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
   가르는 선을 `inset-ring`으로 그리면 **콘텐츠 위에 겹쳐 그 두께가 레이아웃에서 사라집니다.** `PageBody`의 `borderMiddle`이 그 사례입니다 — Figma 심볼이 `middleBody`보다 정확히 8px 큽니다.
 - **safelist에 `hover:` / `focus:` / `active:`를 넣지 않습니다.** variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔합니다. 넣으면 생성 CSS가 3배가 됩니다.
+- **variant가 붙은 클래스는 반드시 완성된 리터럴로 씁니다.** 위 규칙이 성립하는 전제입니다 — 스캐너는 소스를 **텍스트로** 훑기 때문에 `` `[&_strong]:${TYPOGRAPHY_STYLES_MAPPER[variant]}` ``처럼 조합하면 완성된 문자열이 어디에도 없어 **CSS가 아예 생성되지 않습니다.** 클래스는 정상적으로 붙고 화면만 안 바뀌므로 타입도 lint도 안 잡습니다. 매퍼·상수를 조합하고 싶으면 조합 결과 전체를 `Record`의 값으로 적어 둡니다 (`TOAST_HIGHLIGHT_STYLES`).
+- **소비자가 넘긴 노드를 칠할 때는 `[&_<태그>]:`로 DS가 시각을 갖습니다.** `ReactNode` prop에서 강조 색이 `theme` 파생이면 그냥 열 수 없습니다 — 소비자가 `theme`별 색을 직접 골라야 하기 때문입니다. **소비자는 위치와 구조(`<strong>`)를, DS는 색·굵기를 갖습니다** (`Toast` · `NotificationCard`, internal-ui `Table`의 `[&_.cell]:` 선례).
+
+  **굵기는 함께 박아야 합니다.** preflight의 `strong { font-weight: bolder }`가 부모 굵기를 기준으로 한 단계 올려서, 600짜리 타이틀 안의 맨몸 `<strong>`은 **900으로 튑니다.** `text-*` 타이포 토큰으로 되돌려 박고(`font-semibold` 같은 생값이 아니라 — 토큰이 바뀌면 따라가야 합니다), Figma에 없는 굵기 변화를 만들지 않습니다.
 
 ## 패키징 규칙
 

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { CtaButtonProps } from '@/components/Button';
 import { IconCircleProps } from '@/components/IconCircle';
@@ -15,8 +15,7 @@ export interface ToastProps
       'className' | 'role' | 'aria-live'
     >,
     Partial<Pick<IconCircleProps, 'iconKey' | 'weight' | 'theme'>> {
-  message: string;
-  highlight?: string;
+  message: ReactNode;
   status?: ToastStatus;
   action?: ToastAction;
   onDismiss?: () => void;

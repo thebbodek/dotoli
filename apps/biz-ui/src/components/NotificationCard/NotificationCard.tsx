@@ -25,7 +25,6 @@ import { TYPOGRAPHY_VARIANTS } from '@/variants';
 const NotificationCard = ({
   iconKey,
   theme = NOTIFICATION_CARD_DEFAULT_THEME,
-  highlight,
   title,
   subText,
   history,
@@ -34,8 +33,7 @@ const NotificationCard = ({
   onAction,
   className,
 }: NotificationCardProps) => {
-  const hasTitle = !!highlight || !!title;
-  const hasText = hasTitle || !!subText || !!history;
+  const hasText = !!title || !!subText || !!history;
 
   return (
     <div className={clsx(className, NOTIFICATION_CARD_BASE_STYLE)}>
@@ -50,17 +48,12 @@ const NotificationCard = ({
           )}
           {hasText && (
             <div className={NOTIFICATION_CARD_TEXT_STYLE}>
-              {hasTitle && (
+              {!!title && (
                 <Typography
+                  className={NOTIFICATION_CARD_HIGHLIGHT_STYLES[theme]}
                   color={NOTIFICATION_CARD_COLORS.TITLE}
                   variant={TYPOGRAPHY_VARIANTS.HEADING_4}
                 >
-                  {!!highlight && (
-                    <span className={NOTIFICATION_CARD_HIGHLIGHT_STYLES[theme]}>
-                      {highlight}
-                    </span>
-                  )}
-                  {!!highlight && !!title && ' '}
                   {title}
                 </Typography>
               )}

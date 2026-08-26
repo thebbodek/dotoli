@@ -33,11 +33,16 @@ export const NOTIFICATION_CARD_HIGHLIGHT_STYLES: Record<
   NotificationCardTheme,
   string
 > = {
-  [NOTIFICATION_CARD_THEMES.PRIMARY]: 'text-blue-600',
-  [NOTIFICATION_CARD_THEMES.RED]: 'text-red-600',
-  [NOTIFICATION_CARD_THEMES.YELLOW]: 'text-yellow-700',
-  [NOTIFICATION_CARD_THEMES.GREEN]: 'text-green-600',
-  [NOTIFICATION_CARD_THEMES.GRAY]: 'text-gray-800',
+  [NOTIFICATION_CARD_THEMES.PRIMARY]:
+    '[&_strong]:text-heading-4 [&_strong]:text-blue-600',
+  [NOTIFICATION_CARD_THEMES.RED]:
+    '[&_strong]:text-heading-4 [&_strong]:text-red-600',
+  [NOTIFICATION_CARD_THEMES.YELLOW]:
+    '[&_strong]:text-heading-4 [&_strong]:text-yellow-700',
+  [NOTIFICATION_CARD_THEMES.GREEN]:
+    '[&_strong]:text-heading-4 [&_strong]:text-green-600',
+  [NOTIFICATION_CARD_THEMES.GRAY]:
+    '[&_strong]:text-heading-4 [&_strong]:text-gray-800',
 };
 
 export const NOTIFICATION_CARD_COLORS: NotificationCardColors = {

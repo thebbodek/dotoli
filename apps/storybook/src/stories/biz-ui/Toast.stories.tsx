@@ -37,7 +37,17 @@ const LONG_MESSAGE =
 
 const MULTILINE_MESSAGE = '주문이 등록되었어요\n배송일에 맞춰 준비할게요';
 
-const HIGHLIGHT = '6월 15일';
+const LEADING_HIGHLIGHT_MESSAGE = (
+  <>
+    <strong>6월 15일</strong> 주문이 등록되었어요
+  </>
+);
+
+const INLINE_HIGHLIGHT_MESSAGE = (
+  <>
+    주문 <strong>3건</strong>이 등록되었어요
+  </>
+);
 
 const THEME_DEFAULT_SUMMARY = Object.entries(TOAST_ICON_THEMES)
   .map(([status, theme]) => `${status} → ${theme}`)
@@ -62,7 +72,7 @@ const meta = {
   argTypes: {
     message: {
       control: 'text',
-      type: { name: 'string', required: true },
+      type: { name: 'other', value: 'ReactNode', required: true },
     },
     status: {
       control: 'inline-radio',
@@ -76,7 +86,6 @@ const meta = {
         },
       },
     },
-    highlight: { control: 'text' },
     iconKey: iconKeyArgType,
     weight: weightArgType,
     theme: {
@@ -174,7 +183,7 @@ export const MultilineMessage: Story = {
 // 아이콘 색과 강조색이 theme 하나로 함께 바뀐다 — 강조는 300대, gray만 굵기로 구분
 export const Themes: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ message, iconKey }) => (
+  render: ({ iconKey }) => (
     <Flex direction='column' gap='12'>
       {Object.values(ICON_CIRCLE_THEMES).map((theme) => (
         <Flex align={{ items: 'start' }} direction='column' gap='8' key={theme}>
@@ -182,9 +191,8 @@ export const Themes: Story = {
             {theme}
           </Typography>
           <Toast
-            highlight={HIGHLIGHT}
             iconKey={iconKey}
-            message={message}
+            message={LEADING_HIGHLIGHT_MESSAGE}
             theme={theme}
           />
         </Flex>
@@ -193,6 +201,7 @@ export const Themes: Story = {
   ),
 };
 
+// 강조부는 소비자가 <strong>으로 위치를 정하고 색·굵기는 theme이 정한다
 export const Highlight: Story = {
   parameters: { controls: { disable: true } },
   render: ({ message, iconKey }) => (
@@ -205,9 +214,15 @@ export const Highlight: Story = {
       </Flex>
       <Flex align={{ items: 'start' }} direction='column' gap='8'>
         <Typography color='gray-500' variant='label-bold'>
-          있음
+          앞쪽
         </Typography>
-        <Toast highlight={HIGHLIGHT} iconKey={iconKey} message={message} />
+        <Toast iconKey={iconKey} message={LEADING_HIGHLIGHT_MESSAGE} />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          문장 중간
+        </Typography>
+        <Toast iconKey={iconKey} message={INLINE_HIGHLIGHT_MESSAGE} />
       </Flex>
     </Flex>
   ),

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import { IconCircleProps } from '@/components/IconCircle';
 import { NOTIFICATION_CARD_THEMES } from '@/components/NotificationCard/constants';
@@ -24,8 +24,7 @@ export interface NotificationCardProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
     Partial<Pick<IconCircleProps, 'iconKey'>> {
   theme?: NotificationCardTheme;
-  highlight?: string;
-  title?: string;
+  title?: ReactNode;
   subText?: string;
   history?: NotificationCardHistory;
   period?: string;

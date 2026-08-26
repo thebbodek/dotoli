@@ -14,7 +14,7 @@ import {
   TOAST_DEFAULT_ROLE,
   TOAST_DISMISS_ARIA_LABEL,
   TOAST_DISMISS_ICON_KEY,
-  TOAST_HIGHLIGHT_COLORS,
+  TOAST_HIGHLIGHT_STYLES,
   TOAST_ICON_THEMES,
   TOAST_LOADING_ICON_KEY,
   TOAST_LOADING_ICON_STYLE,
@@ -27,7 +27,6 @@ import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const Toast = ({
   message,
-  highlight,
   status = TOAST_STATUSES.INFO,
   iconKey,
   weight,
@@ -41,6 +40,11 @@ const Toast = ({
   const isLoading = status === TOAST_STATUSES.LOADING;
   const resolvedIconKey = isLoading ? TOAST_LOADING_ICON_KEY : iconKey;
   const resolvedTheme = isLoading || !theme ? TOAST_ICON_THEMES[status] : theme;
+
+  const messageClassName = clsx(
+    TOAST_MESSAGE_STYLE,
+    TOAST_HIGHLIGHT_STYLES[resolvedTheme],
+  );
 
   return (
     <div
@@ -59,20 +63,10 @@ const Toast = ({
       )}
       <Typography
         as={TYPOGRAPHY_ELEMENTS.P}
-        className={TOAST_MESSAGE_STYLE}
+        className={messageClassName}
         color={COLOR_VARIANTS.WHITE}
         variant={TYPOGRAPHY_VARIANTS.BODY}
       >
-        {!!highlight && (
-          <Typography
-            as={TYPOGRAPHY_ELEMENTS.SPAN}
-            color={TOAST_HIGHLIGHT_COLORS[resolvedTheme]}
-            variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
-          >
-            {highlight}
-          </Typography>
-        )}
-        {!!highlight && ' '}
         {message}
       </Typography>
       {!!action && (

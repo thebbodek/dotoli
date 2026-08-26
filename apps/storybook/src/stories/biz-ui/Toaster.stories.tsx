@@ -124,6 +124,42 @@ export const Feedback: Story = {
   ),
 };
 
+// message가 ReactNode라 toast.show 경로에서도 강조부 위치를 소비자가 정한다
+export const Highlight: Story = {
+  render: () => (
+    <Flex align={{ items: 'start' }} direction='column' gap='8'>
+      <CtaButton
+        label='앞쪽 강조'
+        size={CTA_BUTTON_SIZES.SM}
+        onClick={() =>
+          toast.show({
+            iconKey: ICON_KEY,
+            message: (
+              <>
+                <strong>6월 15일</strong> 주문이 등록되었어요
+              </>
+            ),
+          })
+        }
+      />
+      <CtaButton
+        label='문장 중간 강조'
+        size={CTA_BUTTON_SIZES.SM}
+        onClick={() =>
+          toast.show({
+            iconKey: ICON_KEY,
+            message: (
+              <>
+                주문 <strong>3건</strong>이 등록되었어요
+              </>
+            ),
+          })
+        }
+      />
+    </Flex>
+  ),
+};
+
 // 정책 337:4118 — A는 최신만 남기고 D는 큐에 순차 적재한다
 export const Priority: Story = {
   render: () => (
