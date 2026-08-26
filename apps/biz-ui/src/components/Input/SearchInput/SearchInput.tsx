@@ -87,6 +87,7 @@ const SearchInput = ({
           aria-label={ariaLabel}
           aria-labelledby={ariaLabelledBy}
           autoComplete={autoComplete}
+          /* eslint-disable-next-line jsx-a11y/no-autofocus -- DS가 소비자에게 여는 autoFocus 통로, 사용 여부는 소비 측 판단 */
           autoFocus={autoFocus}
           className={clsx(SEARCH_INPUT_FIELD_STYLE, INPUT_PLACEHOLDER_STYLE)}
           enterKeyHint={enterKeyHint}
