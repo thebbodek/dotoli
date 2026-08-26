@@ -116,6 +116,13 @@ export default defineConfig([
         },
       ],
       eqeqeq: 'error',
+      /* 단일 extends 빈 인터페이스는 확장 포인트용 관용 패턴으로 허용한다 */
+      '@typescript-eslint/no-empty-object-type': [
+        'error',
+        {
+          allowInterfaces: 'with-single-extends',
+        },
+      ],
       '@typescript-eslint/naming-convention': [
         'error',
         {
