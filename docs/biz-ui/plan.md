@@ -196,6 +196,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-256 biz-ui CtaButton 아이콘 색 분리
 - [x] DOTOLI-277 biz-ui BottomActionBar text CTA 개방 (`variant`·`theme`·`size`·아이콘 + `confirm`·`cancel` → `action`·`subAction`, 시트 `actionOption` → `actionBarOption` 개명)
 - [x] DOTOLI-284 biz-ui QuantityStepper `value` `number | null` — 미주문(`null`)과 의도적 0 주문(`0`) 구분. 스토리북 테스트 인프라 제거 동반
+- [x] DOTOLI-285 biz-ui Toast 개방 — `message` 줄바꿈 · `theme` 6종 · `theme` 연동 `highlight`
 - [x] DOTOLI-286 biz-ui DateBottomSheet `Linked` 스토리 재진입 깜빡임 제거 (시트 하나를 유지한 채 뷰 교체 · 스토리 전용)
 - [x] DOTOLI-287 biz-ui BottomActionBar `isPending` 개방 (`disabled`는 COM-005대로 계속 막음) + `Variants`·`Sticky` 스토리 중복 정리
 - [ ] DOTOLI-288 biz-ui OrderBox 빈 상태 개방 — `emptyLabel` 개방 완료 · **`inverse` tone은 스타일 미수령으로 보류**
@@ -308,6 +309,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-277 | BottomActionBar text CTA 개방 (폭 배분 파생 · **`action`·`subAction`·`actionBarOption` 개명**) + 스토리 `argTypes` 필수 표시 보완(BottomActionBar · Calendar · CalendarBottomSheet) | [components/bottom-action-bar.md](./components/bottom-action-bar.md) · [bottom-sheet.md](./components/bottom-sheet.md) |
 | DOTOLI-286 | DateBottomSheet `Linked` 재진입 깜빡임 제거 (시트 하나 유지 · 뷰 교체 · 스토리 전용) | [components/calendar.md](./components/calendar.md) · [overlay.md](./components/overlay.md) |
 | DOTOLI-287 | BottomActionBar `isPending` 개방 (`Pick` 한 항목 · `disabled`는 계속 막음) + `Variants`·`Sticky` 스토리 합침 | [components/bottom-action-bar.md](./components/bottom-action-bar.md)                    |
+| DOTOLI-285 | Toast `message` 줄바꿈 · `theme` 6종 개방 · `theme` 연동 `highlight` (`toast.show`까지 통과) | [components/toast.md](./components/toast.md)                                            |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

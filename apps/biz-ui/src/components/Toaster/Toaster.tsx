@@ -51,10 +51,12 @@ const Toaster = ({ target, className }: ToasterProps) => {
                   action: currentToast.action,
                   onDismiss: () => dismissToast({ id: currentToast.id }),
                 })}
+                highlight={currentToast.highlight}
                 iconKey={currentToast.iconKey}
                 message={currentToast.message}
                 role={TOASTER_ITEM_ROLE}
                 status={currentToast.status}
+                theme={currentToast.theme}
                 weight={currentToast.weight}
                 onDismiss={
                   currentToast.useDismiss

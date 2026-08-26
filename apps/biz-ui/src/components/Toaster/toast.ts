@@ -16,8 +16,10 @@ import { resolveToastDuration } from '@/components/Toaster/utils';
 
 const show = ({
   message,
+  highlight,
   iconKey,
   weight,
+  theme,
   action,
   useDismiss = false,
   duration,
@@ -26,8 +28,10 @@ const show = ({
     kind: TOAST_KINDS.TOAST,
     status: TOAST_STATUSES.INFO,
     message,
+    highlight,
     iconKey,
     weight,
+    theme,
     action,
     useDismiss,
     duration: resolveToastDuration({

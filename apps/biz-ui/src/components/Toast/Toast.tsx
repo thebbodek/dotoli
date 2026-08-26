@@ -14,6 +14,7 @@ import {
   TOAST_DEFAULT_ROLE,
   TOAST_DISMISS_ARIA_LABEL,
   TOAST_DISMISS_ICON_KEY,
+  TOAST_HIGHLIGHT_COLORS,
   TOAST_ICON_THEMES,
   TOAST_LOADING_ICON_KEY,
   TOAST_LOADING_ICON_STYLE,
@@ -26,9 +27,11 @@ import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const Toast = ({
   message,
+  highlight,
   status = TOAST_STATUSES.INFO,
   iconKey,
   weight,
+  theme,
   action,
   className,
   role = TOAST_DEFAULT_ROLE,
@@ -37,6 +40,7 @@ const Toast = ({
 }: ToastProps) => {
   const isLoading = status === TOAST_STATUSES.LOADING;
   const resolvedIconKey = isLoading ? TOAST_LOADING_ICON_KEY : iconKey;
+  const resolvedTheme = isLoading || !theme ? TOAST_ICON_THEMES[status] : theme;
 
   return (
     <div
@@ -49,7 +53,7 @@ const Toast = ({
           iconClassName={clsx(isLoading && TOAST_LOADING_ICON_STYLE)}
           iconKey={resolvedIconKey}
           size={ICON_CIRCLE_SIZES.SM}
-          theme={TOAST_ICON_THEMES[status]}
+          theme={resolvedTheme}
           weight={weight}
         />
       )}
@@ -59,6 +63,16 @@ const Toast = ({
         color={COLOR_VARIANTS.WHITE}
         variant={TYPOGRAPHY_VARIANTS.BODY}
       >
+        {!!highlight && (
+          <Typography
+            as={TYPOGRAPHY_ELEMENTS.SPAN}
+            color={TOAST_HIGHLIGHT_COLORS[resolvedTheme]}
+            variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
+          >
+            {highlight}
+          </Typography>
+        )}
+        {!!highlight && ' '}
         {message}
       </Typography>
       {!!action && (

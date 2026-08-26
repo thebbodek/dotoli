@@ -14,8 +14,9 @@ export interface ToastProps
       HTMLAttributes<HTMLDivElement>,
       'className' | 'role' | 'aria-live'
     >,
-    Partial<Pick<IconCircleProps, 'iconKey' | 'weight'>> {
+    Partial<Pick<IconCircleProps, 'iconKey' | 'weight' | 'theme'>> {
   message: string;
+  highlight?: string;
   status?: ToastStatus;
   action?: ToastAction;
   onDismiss?: () => void;

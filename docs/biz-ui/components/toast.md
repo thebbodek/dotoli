@@ -90,7 +90,7 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **`IconCircle`에 `iconClassName`을 더했습니다.** 회전은 **글리프에만** 걸려야 합니다 — `IconCircle`은 radius 10의 라운드 사각형이라 컨테이너째 돌리면 배경 모서리가 같이 돕니다. 기존 `className`은 컨테이너용이라 도달할 수 없었고, [`Overlay`](./overlay.md)의 `contentClassName`과 같은 성격(내부 노드로 가는 className 통로)이라 같은 이름 규칙(`<대상>ClassName`)으로 열었습니다. 판단이 필요한 스위치가 아니라 통로라서 「소비자의 결정거리를 늘리지 않는다」는 규칙과 충돌하지 않습니다.
 
-- **`IconCircle`의 `theme`은 열지 않았습니다.** 주석 `337:4105`에 「IconCircle 모두 사용가능」이 있지만, 아이콘 글리프를 고르라는 말인지 테마까지 열라는 말인지 갈립니다. `status`가 테마를 고정하고(`info`→`black` · `loading`→`primary`) `iconKey` · `weight`만 엽니다. **이대로 유지하기로 확정했습니다** — 지금 열어야 할 소비처가 없고, 공개는 되돌리기 비대칭이라 나중에 여는 쪽이 쌉니다.
+- **~~`IconCircle`의 `theme`은 열지 않았습니다.~~ — DOTOLI-285에서 열었습니다.** 주석 `337:4105`의 「IconCircle 모두 사용가능」이 **아이콘 글리프만인지 테마까지인지 갈렸던 것**이 「테마까지」로 확정됐습니다. 상세는 아래 「DOTOLI-285」에 있습니다.
 
 - **`iconKey`는 선택입니다.** Figma 심볼 5개 모두 아이콘이 있지만 [`NotificationCard`](./notification-card.md)와 같이 `Partial<Pick<IconCircleProps, …>>`로 두고 없으면 `IconCircle`을 렌더하지 않습니다. 아이콘 없는 토스트를 금지할 근거가 주석에 없습니다.
 
@@ -114,13 +114,37 @@ Figma: [Toast 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **폴더는 단독입니다.** `FeedbackToast`와 각자 최상위 폴더를 갖습니다 — 근거는 아래 「FeedbackToast」 「결정」에 있습니다. 문서만 계열 단위로 묶어 DOTOLI-267도 이 파일에 씁니다.
 
+### DOTOLI-285 · 줄바꿈 · `theme` · `highlight`
+
+- **`message`에 `\n` 줄바꿈을 허용합니다.** `TOAST_MESSAGE_STYLE`에 `whitespace-pre-line`을 더했습니다. 자동 접힘은 그대로이고 **끊는 위치를 소비자가 지정할 수 있는 것**만 늘었습니다. `BottomActionBar`의 `info` · [`ConfirmModal`](./confirm-modal.md) · [`Notification`](./notification.md)의 `description`이 이미 같은 처리라 계열이 맞습니다.
+
+- **`theme`은 `IconCircleTheme` 6종을 그대로 받습니다.** 별도 union을 만들지 않았습니다 — 값을 걸러낼 근거가 주석에 없고, [`NotificationCard`](./notification-card.md)가 `black`을 뺀 5종으로 좁힌 것은 **흰 카드 위에 검정 원이 어울리지 않아서**였는데 토스트는 배경이 `gray/900`이라 그 이유가 성립하지 않습니다.
+
+- **`status='loading'`은 여전히 테마를 덮습니다.** `theme`을 넘겨도 `primary`가 됩니다 — 위 「`status='loading'`은 아이콘을 컴포넌트가 고정합니다」와 같은 이유이고, 로딩 표시는 소비자가 고를 값이 아닙니다. 덮는 대상이 아이콘 하나에서 아이콘 + 테마로 늘어난 것이 아니라 **원래 둘 다였고** `theme`이 열리면서 드러난 것입니다.
+
+- **`highlight`는 `message` 앞에 붙는 강조 조각입니다.** [`NotificationCard`](./notification-card.md)의 같은 이름 prop과 구조가 같습니다 — 같은 `Typography` 안의 `<span>`으로 렌더하고 색을 `theme`에서 가져옵니다. **다른 점은 굵기를 직접 얹는다는 것**입니다. NotificationCard는 제목이 `heading-4`라 이미 굵어서 색만 바꾸면 되는데, 토스트 본문은 `body`(500)라 강조가 서려면 `text-body-bold`(700)가 필요합니다. 두 토큰은 크기 · 행간 · 자간이 같아 **굵기만 갈립니다.**
+
+- **강조색은 `300`대이고 `gray`만 굵기로 구분합니다.** [`NotificationCard`](./notification-card.md)가 쓰는 `600`~`800`대는 `gray/900` 배경에서 묻힙니다. **`300`은 지어낸 값이 아니라 같은 계열의 기존 결정을 승계한 것**입니다 — 아래 [`FeedbackToast`](#feedbacktoast)가 **같은 `bg-gray-900` 위에서** 이미 `green-300` · `blue-300` · `yellow-300` · `red-300`을 쓰고 있습니다.
+
+  **`black`은 `blue-300`입니다.** 팔레트에 `black` 스케일이 없어 처음엔 `gray`와 함께 굵기만 뒀는데, **`black`이 `info`의 기본 테마라 강조 없는 기본 토스트가 전부 흰 볼드**가 됩니다. `IconCircle`의 `black`이 `bg-black text-blue-400`으로 **이미 파랑 계열**이라 강조도 같은 계열로 맞췄습니다.
+
+  **`gray`만 색을 넣지 않습니다.** `gray-300`은 흰 본문 옆에서 강조가 아니라 오히려 흐려 보입니다 — [`NotificationCard`](./notification-card.md)에서 `gray`의 강조색이 타이틀색과 같아 시각적으로 나뉘지 않는 것과 같은 자리이고, 굵기만으로 이미 구분됩니다. `TOAST_HIGHLIGHT_COLOR_STYLES`를 `Partial<Record<…>>`로 두고 **`gray`는 키를 아예 두지 않았습니다**(빈 문자열을 채우면 「색을 정했는데 비어 있다」로 읽힙니다).
+
+- **강조부는 `message` 앞쪽 고정입니다 — 넓힐 때는 `message`를 union으로 엽니다.** 중간 · 뒤쪽을 강조하는 케이스가 아직 없어 `highlight` + `message` 두 조각을 순서 고정으로 잇습니다. [`NotificationCard`](./notification-card.md)의 「강조부 위치」와 같은 제약이고, **같은 이름 · 같은 구조라 두 컴포넌트가 함께 움직입니다.**
+
+  필요해지면 **`message: string | ToastMessagePart[]`로 넓힙니다.** `string`이 union에 남아 **기존 호출부가 컴파일도 동작도 그대로**라 파괴적이지 않고, `highlight`는 앞쪽 강조의 짧은 형태로 남깁니다. 배열과 `highlight`를 함께 준 경우는 타입으로 막기 어려워 **계약으로 둡니다** — [`BottomActionBar`](./bottom-action-bar.md)의 `subAction` · `info` 배타와 같은 자리입니다.
+
+  **부분 문자열 매칭은 고르지 않습니다** — `highlight`가 `message` 안에 있고 그 자리를 칠하는 방식입니다. 호출부가 가장 자연스러워 보여 **나중에 무심코 택하기 쉬운데**, 지금 `highlight`는 **`message`에 없는 별도 조각**이라 의미가 정면으로 충돌합니다. 바꾸는 순간 기존 호출은 타입을 그대로 통과하면서 **강조만 조용히 사라집니다.** 같은 문자열이 두 번 나올 때 어디를 칠할지도 정해지지 않습니다.
+
 ## API
 
 | prop        | 필수 | 기본값     | 비고                                              |
 | ----------- | ---- | ---------- | ------------------------------------------------- |
-| `message`   | ✅   | —          | `<p>`로 렌더. 줄 수 제한 없음                      |
+| `message`   | ✅   | —          | `<p>`로 렌더. 줄 수 제한 없음. **`\n`으로 줄바꿈** |
+| `highlight` |      | —          | `message` 앞 강조 조각. `text-body-bold` + `theme` 색 |
 | `status`    |      | `'info'`   | `loading`이면 아이콘·테마를 고정하고 회전시킴      |
 | `iconKey`   |      | —          | `IconCircle` 글리프. 없으면 아이콘을 렌더하지 않음 |
+| `theme`     |      | `status`에서 파생 | `IconCircle` 6종. `loading`이면 무시됨      |
 | `weight`    |      | `bold`     | `Icon` 기본값. `fill`도 사용 가능                  |
 | `action`    |      | —          | `{ label, onClick }` → `CtaButton` `sm`            |
 | `onDismiss` |      | —          | 있으면 닫기 `IconButton` 렌더                      |
@@ -248,7 +272,7 @@ components/Toaster/
 
 | 메서드                                  | 렌더            | 기본 `duration`                     |
 | --------------------------------------- | --------------- | ----------------------------------- |
-| `toast.show({ message, iconKey, weight, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
+| `toast.show({ message, highlight, iconKey, weight, theme, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
 | `toast.loading({ message, duration })`  | `Toast` `loading` | `null`                            |
 | `toast.success` · `info` · `warning` · `error` `({ message, duration })` | `FeedbackToast` | `5000`      |
 | `toast.dismiss({ id })`                 | —               | `id` 없으면 현재 것. 큐에 있는 id면 큐에서만 제거 |
@@ -375,6 +399,7 @@ toast.dismiss({ id });
 | 로딩 소멸        | A 규칙대로면 5초 뒤 사라지는데 로딩은 작업이 끝나야 끝납니다. `dismiss` 호출 전까지 유지로 뒀습니다 |
 | D 중 A 발생      | 정책에 없습니다. 버리지 않고 큐에 넣어 D를 닫은 뒤 뜨게 했습니다 |
 | 큐에 쌓인 A 여러 개 | 위와 이어집니다. 큐 안에서는 서로 밀어내지 않아 D를 닫으면 **전부 순서대로** 지나갑니다. 최신 하나만 남기는 편이 나은지 |
+| 강조부 위치      | `highlight`가 `message` **앞쪽 고정**입니다. 중간 · 뒤쪽 강조 케이스가 나오면 API를 다시 봐야 하고, 그때 고를 방향은 「결정」에 적어 뒀습니다. [`NotificationCard`](./notification-card.md)의 같은 항목과 **함께 움직입니다** |
 
 **gap 11px · `IconCircle` 테마 개방 · 닫기 `pressed` 3건은 DOTOLI-266에서 확정돼 위 표에서 내렸습니다.** 판단 근거는 「결정」에 있습니다.
 
@@ -388,6 +413,9 @@ toast.dismiss({ id });
 | `Combinations` | Figma 세트와 같은 배치 — `onDismiss` × `action` 4조합            |
 | `Loading`      | `status='loading'` — 아이콘 고정과 회전                          |
 | `LongMessage`  | 380 폭에서 2줄로 접히는 것 (말줄임이 아닌 것)                     |
+| `MultilineMessage` | `\n`으로 **소비자가 끊는 자리** — 위 자동 접힘과 갈리는 지점   |
+| `Themes`       | `IconCircle` 6종을 그대로 받는 것                                 |
+| `Highlight`    | `theme`을 따라가는 강조 — 유채색 `300`, `gray`만 굵기              |
 
 `apps/storybook/src/stories/biz-ui/FeedbackToast.stories.tsx`, `meta.title`은 `core/biz-ui/FeedbackToast`.
 

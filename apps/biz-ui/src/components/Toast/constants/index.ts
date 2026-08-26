@@ -1,6 +1,7 @@
 import { IconProps } from '@/components/Icon';
 import { ICON_CIRCLE_THEMES, IconCircleTheme } from '@/components/IconCircle';
 import { ToastProps, ToastStatus } from '@/components/Toast/types';
+import { COLOR_VARIANTS, ColorVariants } from '@/variants';
 
 export const TOAST_STATUSES = {
   INFO: 'info',
@@ -18,11 +19,21 @@ export const TOAST_DEFAULT_ROLE: ToastProps['role'] = 'status';
 export const TOAST_BASE_STYLE =
   'flex-h-stack animate-toast w-full items-center gap-[10px] rounded-16 bg-gray-900 p-[12px] inset-ring inset-ring-gray-800 shadow-8';
 
-export const TOAST_MESSAGE_STYLE = 'min-w-0 flex-1';
+export const TOAST_MESSAGE_STYLE = 'min-w-0 flex-1 whitespace-pre-line';
 
 export const TOAST_LOADING_ICON_STYLE = 'animate-spin';
 
 export const TOAST_ICON_THEMES: Record<ToastStatus, IconCircleTheme> = {
   [TOAST_STATUSES.INFO]: ICON_CIRCLE_THEMES.BLACK,
   [TOAST_STATUSES.LOADING]: ICON_CIRCLE_THEMES.PRIMARY,
+};
+
+export const TOAST_HIGHLIGHT_COLORS: Partial<
+  Record<IconCircleTheme, ColorVariants>
+> = {
+  [ICON_CIRCLE_THEMES.PRIMARY]: COLOR_VARIANTS.BLUE_300,
+  [ICON_CIRCLE_THEMES.RED]: COLOR_VARIANTS.RED_300,
+  [ICON_CIRCLE_THEMES.YELLOW]: COLOR_VARIANTS.YELLOW_300,
+  [ICON_CIRCLE_THEMES.GREEN]: COLOR_VARIANTS.GREEN_300,
+  [ICON_CIRCLE_THEMES.BLACK]: COLOR_VARIANTS.BLUE_300,
 };

@@ -1,6 +1,8 @@
 import {
   Flex,
+  ICON_CIRCLE_THEMES,
   Toast,
+  TOAST_ICON_THEMES,
   TOAST_STATUSES,
   ToastAction,
   ToastProps,
@@ -32,6 +34,14 @@ const LOADING_MESSAGE = '잠시만 기다려주세요';
 
 const LONG_MESSAGE =
   '필수 입력값이 비어 있어 주문을 등록하지 못했어요. 확인 후 다시 시도해주세요';
+
+const MULTILINE_MESSAGE = '주문이 등록되었어요\n배송일에 맞춰 준비할게요';
+
+const HIGHLIGHT = '6월 15일';
+
+const THEME_DEFAULT_SUMMARY = Object.entries(TOAST_ICON_THEMES)
+  .map(([status, theme]) => `${status} → ${theme}`)
+  .join(' · ');
 
 const ICON_KEY = 'arrows-clockwise';
 
@@ -66,8 +76,21 @@ const meta = {
         },
       },
     },
+    highlight: { control: 'text' },
     iconKey: iconKeyArgType,
     weight: weightArgType,
+    theme: {
+      control: 'inline-radio',
+      options: Object.values(ICON_CIRCLE_THEMES),
+      table: {
+        defaultValue: { summary: THEME_DEFAULT_SUMMARY },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(ICON_CIRCLE_THEMES),
+          }),
+        },
+      },
+    },
     action: { control: 'object' },
     role: { control: 'text' },
     'aria-live': { control: 'text' },
@@ -137,5 +160,55 @@ export const LongMessage: Story = {
   parameters: { controls: { disable: true } },
   render: ({ iconKey, onDismiss }) => (
     <Toast iconKey={iconKey} message={LONG_MESSAGE} onDismiss={onDismiss} />
+  ),
+};
+
+// \n으로 끊는 자리 — 자동 접힘(LongMessage)과 달리 소비자가 위치를 정한다
+export const MultilineMessage: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ iconKey }) => (
+    <Toast iconKey={iconKey} message={MULTILINE_MESSAGE} />
+  ),
+};
+
+// 아이콘 색과 강조색이 theme 하나로 함께 바뀐다 — 강조는 300대, gray만 굵기로 구분
+export const Themes: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ message, iconKey }) => (
+    <Flex direction='column' gap='12'>
+      {Object.values(ICON_CIRCLE_THEMES).map((theme) => (
+        <Flex align={{ items: 'start' }} direction='column' gap='8' key={theme}>
+          <Typography color='gray-500' variant='label-bold'>
+            {theme}
+          </Typography>
+          <Toast
+            highlight={HIGHLIGHT}
+            iconKey={iconKey}
+            message={message}
+            theme={theme}
+          />
+        </Flex>
+      ))}
+    </Flex>
+  ),
+};
+
+export const Highlight: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ message, iconKey }) => (
+    <Flex direction='column' gap='12'>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          없음
+        </Typography>
+        <Toast iconKey={iconKey} message={message} />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          있음
+        </Typography>
+        <Toast highlight={HIGHLIGHT} iconKey={iconKey} message={message} />
+      </Flex>
+    </Flex>
   ),
 };
