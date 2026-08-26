@@ -57,7 +57,10 @@ const usePopoverPositionEffect = ({
     observer.observe(document.body);
     observer.observe(trigger);
     observer.observe(popover);
-    root && observer.observe(root);
+
+    if (root) {
+      observer.observe(root);
+    }
 
     return () => {
       resetPosition();

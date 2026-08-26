@@ -24,7 +24,6 @@ const AlertBox = ({
           canCollapse ? 'max-h-[3.375rem]' : 'max-h-[100svh]',
         ],
       )}
-      aria-expanded={useCollapse ? !canCollapse : undefined}
       role='alert'
     >
       {children}

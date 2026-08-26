@@ -10,7 +10,12 @@ const MultiSearchSelectSelectedListItem = <T extends MultiSelectBaseValue>({
   const { onRemove } = useMultiSelectBaseContext();
 
   return (
-    <li className='flex items-stretch' role='option' title={label}>
+    <li
+      className='flex items-stretch'
+      role='option'
+      title={label}
+      aria-selected
+    >
       <Chip label={label} onClick={() => onRemove({ key: optionKey })} />
     </li>
   );

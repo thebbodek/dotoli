@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import {
   InputBaseProps,
@@ -15,6 +15,13 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
   maxLength,
 }: UseInputChangeProps<T, P>) => {
   const [inputValue, setInputValue] = useState<InputBaseProps['value']>(null);
+  const [prevValue, setPrevValue] = useState<InputBaseProps['value']>(null);
+
+  /* prop value가 바뀌면 렌더 중에 로컬 상태를 동기화한다 (effect 미러링 대체) */
+  if (prevValue !== value) {
+    setPrevValue(value);
+    setInputValue(value);
+  }
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -45,10 +52,6 @@ const useInputChange = <T extends InputElementType, P extends InputElement<T>>({
     setInputValue(eventTargetValue);
     onChange?.(event);
   };
-
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
 
   return { inputValue, handleChange, handleReset };
 };

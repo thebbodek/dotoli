@@ -40,6 +40,7 @@ const Tab = ({
         isFull && 'flex-1',
       )}
       ref={(el) => {
+        // eslint-disable-next-line react-hooks/immutability -- ref 콜백은 커밋 시점에 실행되는 refs 레지스트리 패턴, 렌더 중 변경 아님
         tabRefs.current[value] = el;
       }}
       aria-controls={usePanel ? panelId : undefined}

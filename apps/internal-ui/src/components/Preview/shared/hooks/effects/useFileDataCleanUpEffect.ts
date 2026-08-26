@@ -8,7 +8,9 @@ const useFileDataCleanUpEffect = ({
 }: Pick<PreviewMultiProps, 'files'>) => {
   const filesRef = useRef(files);
 
-  filesRef.current = files;
+  useEffect(() => {
+    filesRef.current = files;
+  }, [files]);
 
   useEffect(() => {
     if (!filesRef.current) return;

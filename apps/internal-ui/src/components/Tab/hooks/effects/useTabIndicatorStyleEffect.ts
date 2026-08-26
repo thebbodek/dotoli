@@ -33,7 +33,10 @@ const useTabIndicatorStyleEffect = ({
 
     setIndicatorStyle();
     observer.observe(document.body);
-    current && observer.observe(current);
+
+    if (current) {
+      observer.observe(current);
+    }
 
     return () => {
       resetStyle();

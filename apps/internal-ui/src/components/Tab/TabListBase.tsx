@@ -15,6 +15,7 @@ const TabListBase = ({
   const themeStyle = TAB_THEME_STYLES[theme][variant];
 
   return (
+    // eslint-disable-next-line jsx-a11y/interactive-supports-focus -- 포커스는 roving tabIndex로 개별 탭이 받고, tablist는 키 이벤트 버블링만 처리
     <div
       className={clsx(
         className,

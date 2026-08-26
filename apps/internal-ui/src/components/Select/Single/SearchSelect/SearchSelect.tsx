@@ -59,6 +59,7 @@ const SearchSelect = <T extends SelectValue>({
         label='검색'
         placeholder={inputPlaceholder}
         value={searchValue}
+        /* eslint-disable-next-line jsx-a11y/no-autofocus -- 셀렉트 열림과 동시에 검색 입력에 포커스하는 의도된 UX */
         autoFocus
         hiddenLabel
       />

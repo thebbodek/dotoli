@@ -17,6 +17,7 @@ const VirtualListRootWrapper = <T extends ElementType = 'div'>({
   return (
     <Component
       className={clsx(className, 'overflow-y-auto')}
+      // eslint-disable-next-line react-hooks/refs -- mergeRefs는 커밋 시점 콜백만 생성하고 렌더 중 current를 읽지 않음
       ref={ref ? mergeRefs(containerRef, ref) : containerRef}
       onScroll={onScroll}
     >

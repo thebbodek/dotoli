@@ -51,7 +51,12 @@ const useOutSideScrollLockEffect = ({
 
     overflowItems.forEach((item) => {
       const el = item as HTMLElement;
-      isOpen ? handleOnScrollEvent(el) : handleOffScrollEvent(el);
+
+      if (isOpen) {
+        handleOnScrollEvent(el);
+      } else {
+        handleOffScrollEvent(el);
+      }
     });
 
     return () =>

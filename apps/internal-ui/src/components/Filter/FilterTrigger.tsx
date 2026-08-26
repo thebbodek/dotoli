@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { MouseEvent } from 'react';
+import { KeyboardEvent, MouseEvent } from 'react';
 
 import { useFilterContext } from '@/components/Filter/context';
 import { Flex } from '@/components/Flex';
@@ -24,6 +24,14 @@ const FilterTrigger = () => {
     onToggle();
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+
+      onToggle();
+    }
+  };
+
   return (
     <div
       className={clsx(
@@ -36,7 +44,9 @@ const FilterTrigger = () => {
       aria-disabled={disabled}
       ref={ref}
       role='button'
+      tabIndex={disabled ? -1 : 0}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
     >
       <Flex align={{ items: 'center' }} gap={{ row: '4' }}>
         <Icon
