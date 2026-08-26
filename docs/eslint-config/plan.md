@@ -210,14 +210,18 @@ dotoli 밖의 제품 레포에도 `@bbodek/eslint-config` 신판(ESLint 10 + bas
 | bbodek-ui | `^8.54.0` | flat config 전환 선행 필요 |
 | susemi/apps (assistant · email-signature) | `^9.39.1` | 이미 flat config — 버전 상향 + preset 전환만 |
 
-- [ ] bbodek-internal
-- [ ] bbodek-admin
-- [ ] bbodek-kids
-- [ ] bbodek-kindergarten-admin
-- [ ] bbodek-payments
-- [ ] bbodek-ui
-- [ ] susemi/apps — assistant
-- [ ] susemi/apps — email-signature
+**진행 현황 (2026-08-26)**: 8건 전부 마이그레이션 완료 — 각 레포 `<repo>-worktrees/FE-49-eslint10` 워크트리에 `FE-49 ESLint 10 마이그레이션` 커밋 1개씩. lint 에러 0 · tsc · build 전부 통과. **미완료 조건**: `@bbodek/eslint-config`가 `file:` 로컬 의존(신판 미배포) 상태라 **publish 전 push 금지** — publish 후 각 레포에서 버전 교체(`^0.0.6`) + install 재실행 + amend로 최종화.
+
+- [x] bbodek-internal — `a1dcb85b3` (에러 5,179→0)
+- [x] bbodek-admin — `e9da579` (에러 3,860→0)
+- [x] bbodek-kids — `80c68ff` (에러 2,674→0)
+- [x] bbodek-kindergarten-admin — `797c723d` (에러 2,297→0)
+- [x] bbodek-payments — `a17bc14` (에러 205→0)
+- [x] bbodek-ui — `5a82171` (에러 824→0)
+- [x] susemi/apps — assistant — `e86e855` (에러 23→0)
+- [x] susemi/apps — email-signature — `e86e855` (에러 3→0)
+
+**공통 발견 (후속 과제 후보)**: ① `LottieAnimation` 동일 컴포넌트가 5개 레포에 복제되어 있고 전부 같은 set-state-in-effect 이슈 — internal-ui(DS)로 공통화 검토 가치. ② admin·kindergarten-admin에 항상 빈 에러를 반환하는 validation stub 총 18개 파일 — 검증 로직 미구현 상태. ③ 각 레포 disable+TODO(FE-49) 주석이 후속 정리 목록 역할.
 
 **공통 작업** (dotoli 패키지 적용에서 검증된 절차)
 
