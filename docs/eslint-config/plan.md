@@ -190,4 +190,42 @@ packages/eslint-config/
 | DOTOLI-293 | `apps/biz-ui` | `{ next }` 전환 | 24 (empty-object 17 + jsx-a11y 7) |
 | DOTOLI-294 | `apps/internal-ui` | `{ next }` 전환 | ~120 (empty-object 94 + jsx-a11y 14 + set-state-in-effect 6 등) |
 
-**제외**: `susemi/apps` 2개(assistant · email-signature)는 별도 레포이므로 범위 제외
+**제외**: `susemi/apps` 2개(assistant · email-signature)는 별도 레포이므로 범위 제외 → 아래 6번 후속 목록에 포함
+
+---
+
+### 6. 후속 — 외부 FE 레포 적용 (미착수)
+
+dotoli 밖의 제품 레포에도 `@bbodek/eslint-config` 신판(ESLint 10 + base/next preset) 적용이 필요하다. DOTOLI-282 취소 결정에 따라 **legacy 완화 없이 신규 룰 전부 적용하고, 에러 발생 시 해당 레포 전체 코드 수정**으로 진행한다.
+
+| 레포 | 현재 eslint | 비고 |
+| --- | --- | --- |
+| bbodek-internal | `^8.56.0` | flat config 전환 선행 필요 |
+| bbodek-admin | `^8.49.0` | flat config 전환 선행 필요 |
+| bbodek-kids | `^8.56.0` | flat config 전환 선행 필요 |
+| bbodek-kindergarten-admin | `^8.56.0` | flat config 전환 선행 필요 |
+| bbodek-payments | `^8.56.0` | flat config 전환 선행 필요 |
+| bbodek-ui | `^8.54.0` | flat config 전환 선행 필요 |
+| susemi/apps (assistant · email-signature) | `^9.39.1` | 이미 flat config — 버전 상향 + preset 전환만 |
+
+- [ ] bbodek-internal
+- [ ] bbodek-admin
+- [ ] bbodek-kids
+- [ ] bbodek-kindergarten-admin
+- [ ] bbodek-payments
+- [ ] bbodek-ui
+- [ ] susemi/apps — assistant
+- [ ] susemi/apps — email-signature
+
+**공통 작업** (dotoli 패키지 적용에서 검증된 절차)
+
+1. `@bbodek/eslint-config` 최신 버전 설치 + `eslint` devDependency `^10`
+2. Next 앱은 `import { next } from '@bbodek/eslint-config'` + `eslint-config-next@^16` devDependency (15.x는 ESLint 10에서 로드 불가)
+3. 순수 라이브러리/비Next는 default(base) import
+4. lint 실행 → 위반 측정 → 전체 코드 수정 (dotoli에서의 규모 참고: internal-ui 33건 에러)
+
+**주의사항** (dotoli 적용에서 확인된 함정)
+
+- ESLint 8 → 10 직행이므로 flat config 미전환 레포는 config 마이그레이션이 선행되어야 함
+- 구버전 플러그인 크래시 주의: `@typescript-eslint` v7↓, `@stylistic` v4↓, `eslint-plugin-prefer-arrow-functions` 3.6↓, `eslint-plugin-storybook` 0.12↓ 전부 ESLint 10에서 크래시
+- `eslint-plugin-react` 7.37.5의 `version: 'detect'` 크래시 → base가 `settings.react.version: '19'` 고정, React 19가 아닌 레포는 오버라이드 필요
