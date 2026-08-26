@@ -22,6 +22,7 @@ export * from './NavigationListItem';
 export * from './Notification';
 export * from './NotificationCard';
 export * from './Order';
+export * from './PageBody';
 export * from './Portal';
 export * from './SelectionItem';
 export * from './StatusAlertBanner';

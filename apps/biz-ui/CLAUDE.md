@@ -145,6 +145,16 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 - **`text-*`에 `/` 수식어를 쓰지 않습니다.** 컬러(`text-blue-500/50`=투명도)와 타이포(`text-body/50`=line-height)에서 뜻이 다르고, 타이포 쪽은 `font-weight`·`letter-spacing`이 사라집니다. 경고 없이 컴파일되므로 규칙으로 막습니다.
 - **`Icon`의 `weight`는 `regular` · `bold` · `fill` 3종뿐입니다.** `globals.css`가 이 3종 웹폰트만 import 하므로 나머지를 넘기면 렌더되지 않습니다. `ICON_WEIGHTS`로 타입에서 막혀 있습니다.
 - **테두리는 `border`가 아니라 `inset-ring`으로 그립니다** (Tailwind v4 유틸 = `box-shadow: inset 0 0 0 Npx`). Figma stroke는 안쪽으로 그려져 박스를 안 키우는데 CSS `border`는 키웁니다. **두께가 상태별로 바뀌든(Input 1px↔2px) variant별로 있고 없든(Badge `tonal`만) 결과는 같습니다** — 콘텐츠가 밀리고 Figma 실측 크기가 어긋납니다. `filled`에 투명 `border`를 넣는 흔한 우회법은 시프트만 없앨 뿐 크기는 여전히 틀리고, `box-sizing: content-box`는 내용에 맞춰 늘어나는 요소에선 아예 무효입니다. `outline`도 레이아웃 영향은 없지만 포커스 링과 용도가 겹쳐 피합니다. box-shadow 기반이라 `forced-colors` 모드에서 사라지는 것은 모바일 WebView 타깃이라 감수합니다.
+
+  **이 규칙은 「박스를 감싸는 테두리」에만 적용됩니다.** 아래 둘은 `border-*`가 맞고, 예외가 아니라 애초에 다른 것입니다.
+
+  | 무엇 | 어떻게 | 왜 |
+  | --- | --- | --- |
+  | 박스를 감싸는 테두리 | `inset-ring` | Figma stroke가 안쪽이라 박스를 안 키움 |
+  | **행·구획을 가르는 선** | `border-t` · `border-b` | 자리를 차지하는 것이 맞음. `BottomTab` · `OrderNotiCollapse` · `NavigationListItem` · `FaqAccordion` · `PageBody`(8px 띠) |
+  | **한 방향만 있는 선** | `shadow-[inset_0_-1px_0_0_…]` | `inset-ring`은 방향이 없어 하단 1px을 못 그림. `InfoBanner`의 `isSticky` |
+
+  가르는 선을 `inset-ring`으로 그리면 **콘텐츠 위에 겹쳐 그 두께가 레이아웃에서 사라집니다.** `PageBody`의 `borderMiddle`이 그 사례입니다 — Figma 심볼이 `middleBody`보다 정확히 8px 큽니다.
 - **safelist에 `hover:` / `focus:` / `active:`를 넣지 않습니다.** variant는 컴포넌트 소스에 리터럴로 남아 `@source '../../dist'`가 스캔합니다. 넣으면 생성 CSS가 3배가 됩니다.
 
 ## 패키징 규칙

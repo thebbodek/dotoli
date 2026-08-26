@@ -263,7 +263,7 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   소비 앱이 굳이 넣는다면 배너를 인라인 자리에 두고 스티키 진입 시 `-mx-[20px]`로 부모 padding을 상쇄하는 형태가 되는데, 그러려면 **sentinel + `IntersectionObserver`로 진입 순간을 감지**해야 합니다. 그 판정은 위 「전환 임계값」과 같은 정보라 결국 소비 앱 몫이고, `className`으로 얼마든지 얹을 수 있습니다. **DS가 미리 정해 두면 두 종류의 배너(`1404:38828`은 스티키로 전환되지 않습니다) 중 한쪽에만 맞는 모션을 강제하게 됩니다.**
 
-- **`isSticky=true`의 테두리만 `inset-ring`을 못 씁니다.** CLAUDE.md 「스타일 규칙」은 테두리를 `inset-ring`으로 그리라고 하는데, 이 유틸은 `box-shadow: inset 0 0 0 Npx`라 **방향이 없어 하단 1px만 그릴 수 없습니다.** `shadow-[inset_0_-1px_0_0_var(--color-*)]`로 대신했고, **같은 box-shadow 기반이라 규칙의 목적(레이아웃을 차지하지 않는 테두리)은 그대로 지켜집니다.** 규칙을 어긴 것이 아니라 방향이 필요한 첫 사례입니다.
+- **`isSticky=true`의 테두리만 `inset-ring`을 못 씁니다.** `inset-ring`은 `box-shadow: inset 0 0 0 Npx`라 **방향이 없어 하단 1px만 그릴 수 없습니다.** `shadow-[inset_0_-1px_0_0_var(--color-*)]`로 대신했고, **같은 box-shadow 기반이라 레이아웃을 차지하지 않는 것은 그대로입니다.** 방향이 필요한 첫 사례였고, 기준은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」의 표로 올라갔습니다.
 
 - **아이콘 박스 둘 다 크기를 명시합니다 — `Icon`에 `text-*`만 걸면 안 맞습니다.** Phosphor는 아이콘 폰트라 **박스 폭이 `font-size`가 아니라 글리프 advance를 따릅니다.** `text-[15px]`만 준 `info`가 실제로는 13px로 잡혀 문구 시작점이 Figma(33)보다 2px 왼쪽에 섰고, `size-[15px]`로 고정해 맞췄습니다 ([notification.md](./notification.md) 「아이콘 박스를 14로 고정합니다」와 같은 함정).
 
