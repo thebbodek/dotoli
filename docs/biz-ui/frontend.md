@@ -42,6 +42,7 @@
 | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 패키지 스캐폴딩   | `apps/biz-ui`에 `@bbodek/biz-ui` 생성. `internal-ui` 파일 세트를 복제하되 `@bbodek/*` 워크스페이스 의존을 모두 제거해 독립 패키지로 구성                  |
 | 빌드 파이프라인   | `@dotoli/rollup-config`의 `createRollupConfig` + `tsc` + `tsc-alias`. `dist/index.es.js` · `index.d.ts` 산출                                              |
+| RSC 경계          | 번들 최상단 `'use client';` (DOTOLI-299). 소비 앱(App Router)의 서버 컴포넌트에서 배럴을 import할 수 있게 함                                              |
 | 루트 스크립트     | 루트 `package.json`에 `biz` 필터 스크립트 추가 (`in` / `ut` / `hooks` 컨벤션)                                                                             |
 | 스타일 레이어     | `globals.css`가 폰트 import + `base` / `theme` / `safelist` / `utilities` 4개 레이어를 묶고 `@source '../../dist'`로 컴포넌트를 스캔                      |
 | 컬러 토큰         | Figma Color 페이지 기준 `--color-{blue,red,yellow,green,gray}-{50…900}` 50개 + `--color-black` (DOTOLI-234)                                            |
@@ -61,6 +62,8 @@
 
 | 항목                                       | 비고                                                                                                                                    |
 | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| App Router 실환경 검증                     | **미완** — `'use client'`가 dist에 남은 것까지만 확인했습니다. 서버 컴포넌트에서 실제로 렌더되는지, `next build`가 통과하는지는 아직입니다. `biz-ui-playground`가 Vite SPA라 서버 렌더 자체가 없어 확인 수단이 없고, 플레이그라운드를 App Router로 전환한 뒤 봅니다 |
+| SSR 통과 여부                              | **미검증** — 지금까지 소비처가 Storybook · Vite 플레이그라운드뿐이라 서버에서 그려본 적이 없습니다. `'use client'`는 번들 경계일 뿐 서버 프리렌더를 막지 않고, 그 프리렌더는 소비 앱의 `next build` 중에 돕니다. 정적으로는 안전합니다 — 브라우저 API를 이펙트 밖에서 쓰는 곳이 `Portal`(`typeof document` 가드 있음) 하나뿐이고 `useLayoutEffect` 0건. 우선 확인 대상은 `Portal`을 타는 `ConfirmModal` · `BottomSheet` · `Toaster`와 `dayjs`를 타는 `Calendar` |
 | `--breakpoint-*` · `--container-*`         | 모바일 기준 재설계 필요. 디바이스 매트릭스 확정 대기                                                                                    |
 | `--animate-*`                              | **완료** — DOTOLI-239에서 `fade-in` · `popup` · `bottom-sheet` 3종 추가 (Figma 주석의 250ms 기준) → [components/overlay.md](./components/overlay.md). DOTOLI-266에서 `toast` 추가 — 등장 200ms라 `fade-in` 키프레임을 duration만 바꿔 재사용. DOTOLI-268에서 `toast-out` + `fade-out` 키프레임 추가(`forwards`) → [components/toast.md](./components/toast.md) |
 | `--color-dim`                              | **완료** — DOTOLI-239에서 추가. 팔레트가 아닌 역할 토큰이라 `COLOR_VARIANTS`에는 넣지 않음 → [components/overlay.md](./components/overlay.md) |
@@ -81,6 +84,20 @@
   **플러그인은 얹지 않았습니다.** `utc` · `timezone`이 필요한 것은 「오늘」 판정인데, biz-ui `CalendarDayButton`에는 `today` 축이 없고 `disabled` · `isHoliday`는 정책 COM-009가 **서버 판정**으로 못박아 DS가 현재 시각을 알 필요가 없습니다. 격자 계산 자체는 로컬 날짜 부품만 쓰므로 타임존과 무관합니다. `today`가 생기면 그때 플러그인을 함께 검토합니다.
 
   **`rollup.config.mjs`의 `external`에도 넣었습니다** — 「패키징 규칙」대로입니다. 빌드 후 `dist/index.es.js`에 `import d from "dayjs"` 1건만 남고 인라인되지 않은 것을 확인했습니다(dist 91KB).
+- **번들 최상단에 `'use client'`를 박았습니다 (DOTOLI-299).** 소비 앱이 Next App Router인데 그쪽은 컴포넌트 기본값이 서버라, 이 줄이 없으면 **서버 컴포넌트가 배럴을 import하는 순간 깨집니다.** 실제로 걸리는 자리는 소비 앱의 폼팩터별 레이아웃 셸입니다 — `layout.tsx`가 서버 컴포넌트인데 그 셸을 이루는 것이 `BottomTab` · `HeaderBar`입니다.
+
+  **소스 69개에 일일이 붙이지 않았습니다.** 산출물이 `dist/index.es.js` 한 장이고, rollup은 번들링 과정에서 모듈 단위 디렉티브를 걷어냅니다 — 같은 빌드에서 `react-loading-skeleton`의 `'use client'`에 대해 rollup이 정확히 그 경고를 냅니다(`Module level directives cause errors when bundled`). 출력 레벨에 얹는 쪽이 맞습니다.
+
+  **terser가 실제로 지웠습니다.** `output.banner`만 넣은 첫 빌드에서 0건이었고, `compress.directives: false`를 함께 준 뒤 1건으로 남았습니다. 빌드는 양쪽 다 성공합니다. 규칙과 확인 절차는 [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) 「패키징 규칙」.
+
+- **파일별로 쪼개는 방식(`preserveModules`)은 택하지 않았습니다.** 배너 방식의 대가는 `Divider` · `Badge` 같은 시각 전용 컴포넌트와 `variants`(컬러 · 타이포 미러)까지 함께 클라이언트 경계에 들어간다는 것입니다. 세 가지 이유로 그 대가를 받았습니다.
+
+  1. **되돌릴 수 있습니다.** 소비자 API는 어느 쪽이든 `import { CtaButton } from '@bbodek/biz-ui'`로 같고 내부 출력 구조만 다릅니다. 갇히지 않으므로 싼 쪽부터 갑니다.
+  2. **이 앱에서는 이득이 안 나옵니다.** 서버 컴포넌트로 남길 수 있어야 이득인데, 소비 앱은 스택 결정 단계에서 이미 「화면 대부분이 무거운 클라이언트 인터랙션이라 `'use client'` 경계가 트리 최상단 가까이 올라가고 번들 감소는 크지 않다」고 판단해 두었습니다. `Divider`가 클라이언트 트리 안에서 쓰이면 어느 쪽이든 번들에 들어갑니다.
+  3. **작업 범위가 설정 4줄에서 소스 66개로 늘어나고, 다파일 출력의 비용이 이 레포에 걸립니다.** 어느 컴포넌트가 클라이언트인지는 rollup이 알 수 없어 인터랙티브한 파일마다 직접 써야 하는데, **바로 위 항목대로 소스 디렉티브는 합치는 순간 걷히므로 「소스에 붙이기」와 「출력 쪼개기」는 한 세트입니다** — 따로 떼면 앞은 무효고, 뒤만 하면 표시가 하나도 없어 그대로 깨집니다(디렉티브 보존 설정도 별도로 필요합니다). 여기에 「패키징 규칙」의 external 확인 절차(`dist/index.es.js` 상단 import 목록)가 안 통하게 되고, `internal-ui` · `hooks` · `utils`가 전부 단일 번들로 `@dotoli/rollup-config`를 공유하는데 biz-ui만 갈라지는 비용이 붙습니다.
+
+  **갈아탈 신호는 둘입니다.** ① 소비 앱이 서버 컴포넌트에서 biz-ui를 쓰려다 막히는 상황이 실제로 생길 때 ② 클라이언트 번들 크기가 문제가 되어 **측정한 뒤** 이득이 확인될 때. 지금은 둘 다 없고, **소비 앱이 아직 없어 2번은 문서 서술에 기댄 추정**입니다. `sideEffects` 필드가 없어 트리셰이킹이 실제로 어떻게 되는지도 재보지 않았습니다.
+
 - **토큰에 프리픽스를 붙이지 않습니다.** 처음엔 internal-ui를 따라 `biz-`를 붙였다가 걷어냈습니다. internal-ui의 `in-`은 그쪽이 **다른 디자인시스템과 한 앱에서 공존**하느라 구분용으로 붙인 것이고, biz-ui는 그런 제약이 없습니다. 지금은 `--color-blue-500` · `text-body` · `safe-area-top`처럼 Tailwind 기본 토큰을 그대로 덮어쓰는 형태입니다. Storybook에서 internal-ui와 같이 로드돼도 **그쪽 토큰과는** 충돌하지 않습니다 — internal-ui는 자기 값을 전부 `in-`으로 갖습니다. 다만 internal-ui가 Tailwind 기본 토큰을 직접 쓰는 자리는 예외이고, DOTOLI-234의 `--color-black`이 실제로 그 사례입니다 (아래 참고).
 - **`COLOR_VARIANTS`에만 `white`가 있고 `--color-white` 토큰은 없습니다.** Figma `base/white`가 `#ffffff`라 Tailwind 기본값을 그대로 쓰고 토큰을 만들지 않는다는 결정은 유지합니다. 다만 `Typography`의 `color` prop이 `ColorVariants`만 받아서, `OrderBoxCell`의 `inverse`(흰 글자)를 표현하려면 variants 미러에 항목이 필요했습니다. DOTOLI-229에서 `COLOR_VARIANTS.WHITE`와 safelist(`{bg,text,fill,placeholder,border}-white`)만 추가했습니다. internal-ui도 `COLOR_VARIANTS`에 `WHITE`를 갖고 있습니다.
 - **`base/black`은 토큰을 만들었고 `base/white`는 만들지 않았습니다.** 갈린 이유는 Tailwind 기본값과 같은지 하나뿐입니다 — Figma `base/white`는 `#ffffff`라 기본값 그대로면 되지만, `base/black`은 `#101828`이라 Tailwind `black`(`#000000`)과 다릅니다. DOTOLI-234에서 `--color-black`으로 **Tailwind 기본 토큰을 덮어썼습니다** (다른 컬러 스케일과 같은 방식). 부작용은 Storybook 하나입니다 — biz-ui 스타일을 로드하는 앱이 Storybook뿐이고, 거기서 internal-ui의 `FileThumbnailHoverOverlay`가 쓰는 `bg-black/40`이 `rgba(0,0,0,.4)` → `rgba(16,24,40,.4)`로 바뀝니다. 40% 반투명 오버레이라 눈에 띄지 않고, 실제 소비 앱에는 biz-ui 스타일이 들어가지 않아 영향이 없습니다. 이름을 `base-black` 식으로 피하면 충돌은 사라지지만 「컬러 이름은 Figma 명명 그대로」 규칙과 `white`의 처리에서 어긋납니다. **internal-ui는 같은 `#101828`을 `--color-in-black`으로 갖고 있습니다**(`apps/internal-ui/src/styles/theme.css:2`) — 같은 값을 프리픽스로 피해 간 셈인데, 그건 그쪽이 다른 DS와 한 앱에서 공존하느라 전 토큰에 `in-`을 붙인 결과지 이 문제를 따로 판단한 게 아닙니다. 덮어쓰기를 재검토하게 되면 이 선례부터 봅니다.

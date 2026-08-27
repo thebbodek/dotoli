@@ -166,6 +166,9 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 - **`dependencies`에 패키지를 추가하면 `rollup.config.mjs`의 `external`에도 반드시 넣습니다.** `@dotoli/rollup-config`는 `peerDepsExternal()`만 쓰므로, `external`에 없으면 그대로 번들에 인라인되고 소비자는 같은 패키지를 두 벌 받습니다. `@phosphor-icons/core`를 빠뜨렸을 때 dist가 25KB → 67KB로 불었습니다.
 - `external`은 **정확히 일치**할 때만 걸립니다. 서브패스(`es-toolkit/compat`)를 쓰면 따로 등록해야 합니다.
 - 빌드 후 `dist/index.es.js` 상단의 `import` 목록으로 external 처리를 확인할 수 있습니다.
+- **번들 최상단에 `'use client'`를 박습니다.** 소비 앱이 Next App Router라 이 줄이 없으면 **서버 컴포넌트가 배럴을 import하는 순간 깨집니다.** `createRollupConfig({ banner: "'use client';" })`로 넣고, 소스 파일에는 붙이지 않습니다 — rollup이 번들링 과정에서 모듈 단위 디렉티브를 걷어냅니다.
+
+  **`@dotoli/rollup-config`의 terser `compress.directives: false`가 짝입니다.** 기본값(`true`)이면 비표준 디렉티브로 보고 지웁니다. **지워져도 빌드는 성공하고 소비 앱에서만 터지므로**(「variant가 붙은 클래스는 완성된 리터럴로」와 같은 종류의 함정입니다) 빌드 후 `dist/index.es.js` 첫 줄을 눈으로 확인합니다. 결정 근거는 [`docs/biz-ui/frontend.md`](../../docs/biz-ui/frontend.md) 「특이사항」.
 
 ## 검증
 

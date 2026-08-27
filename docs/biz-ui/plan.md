@@ -245,6 +245,12 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 **폴더는 Figma 섹션이 아니라 이름 프리픽스를 따릅니다.** `Info/InfoField` · `Info/InfoItem`만 그룹으로 묶고 `Divider` · `IconCircle` · `NotificationCard`는 단독 폴더입니다. `Button/CtaButton` · `Input/InputField` · `Order/OrderBox`가 전부 「프리픽스 = 그룹명」이었고, 뒤의 3종은 Info 전용이 아니라 범용이라 섹션명을 따라가면 다른 계열에서 쓸 때 위치가 어색해집니다. 단독 폴더는 Badge 선례입니다.
 
+### biz-ui 패키징
+
+- [x] DOTOLI-299 biz-ui App Router(RSC) 대응 — 번들 최상단 `'use client'` (+ terser `compress.directives: false`가 짝. **실환경 검증은 플레이그라운드 전환 후로 남음**)
+
+소비 앱(`biz-customer-app`의 `apps/web`)이 Next 15 **App Router**로 확정되면서 나온 유일한 biz-ui 측 과제입니다. Figma 축·실측과 무관한 패키징 층이라 컴포넌트 그룹과 섞지 않고 따로 둡니다.
+
 ---
 
 ## 태스크 상세
@@ -318,6 +324,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-296 | InfoBanner `title` 추가 + **`label` → `description` 개명**(`label`은 계열에서 주 텍스트) | [components/info.md](./components/info.md)                                              |
 | DOTOLI-297 | Toast `message` · NotificationCard `title`을 `ReactNode`로 + **`highlight` 제거**(문장 중간 강조 · `[&_strong]:`로 색은 DS 소유 · biz-ui 첫 임의 변형 셀렉터) | [components/toast.md](./components/toast.md) · [notification-card.md](./components/notification-card.md) |
 | DOTOLI-295 | ActionChip(버튼 역할 칩 · `pressed`는 `:active`) + **`Chip` 단독 폴더 → 계열 승격**(`Chip/Chip` · `Chip/ActionChip` · `Chip/shared`) | [components/chip.md](./components/chip.md)                                              |
+| DOTOLI-299 | App Router(RSC) 대응 — 번들 최상단 `'use client'` + terser `compress.directives: false`. `preserveModules` 미채택 | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

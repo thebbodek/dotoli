@@ -5,6 +5,7 @@ import postcss from 'rollup-plugin-postcss';
 import { fileURLToPath } from 'url';
 
 export default createRollupConfig({
+  banner: "'use client';",
   external: [
     '@floating-ui/react',
     '@phosphor-icons/core',

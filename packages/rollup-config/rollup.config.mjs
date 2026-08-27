@@ -13,6 +13,7 @@ const isWatch = process.argv.includes('--watch');
  * @property {Array} [plugins] - 추가로 사용할 rollup 플러그인들의 배열
  * @property {Array<string>} [external] - 외부 모듈로 간주할 패키지들의 배열
  * @property {string} [srcPath] - src 디렉터리 절대 경로 (e.g. fileURLToPath(new URL('./src', import.meta.url)))
+ * @property {string} [banner] - 번들 최상단에 그대로 붙일 문자열 (e.g. "'use client';")
  */
 
 /**
@@ -23,6 +24,7 @@ export const createRollupConfig = (options) => {
     plugins: externalPlugins = [],
     external = [],
     srcPath,
+    banner,
   } = options ?? {};
 
   const config = isWatch ? watchConfig({ srcPath }) : buildConfig;
@@ -31,6 +33,11 @@ export const createRollupConfig = (options) => {
   const jsConfig = {
     ...baseConfig,
     ...rest,
+    output: {
+      ...baseConfig.output,
+      ...rest.output,
+      ...(banner && { banner }),
+    },
     plugins: [
       peerDepsExternal(),
       resolve({ extensions: ['.ts', '.tsx', '.js', '.jsx'] }),

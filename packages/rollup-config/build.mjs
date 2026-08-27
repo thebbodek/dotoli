@@ -15,6 +15,7 @@ const jsConfig = {
     }),
     terser({
       compress: {
+        directives: false,
         drop_console: true,
         drop_debugger: true,
       },
