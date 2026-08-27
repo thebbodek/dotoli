@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.48
+
+### Patch Changes
+
+- 42300b8: DOTOLI-299 biz-ui App Router(RSC) 대응 — 번들 최상단 'use client'
+
 ## 0.0.47
 
 ### Patch Changes
