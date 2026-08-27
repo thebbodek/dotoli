@@ -1,3 +1,3 @@
-export { default as Chip } from './Chip';
-export * from './constants';
-export * from './types';
+export * from './ActionChip';
+export * from './Chip';
+export * from './shared';

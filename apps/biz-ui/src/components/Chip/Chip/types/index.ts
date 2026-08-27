@@ -1,6 +1,9 @@
 import { InputHTMLAttributes, RefAttributes } from 'react';
 
-import { CHIP_SELECT_MODES, CHIP_STATES } from '@/components/Chip/constants';
+import {
+  CHIP_SELECT_MODES,
+  CHIP_STATES,
+} from '@/components/Chip/Chip/constants';
 
 export type ChipSelectMode =
   (typeof CHIP_SELECT_MODES)[keyof typeof CHIP_SELECT_MODES];

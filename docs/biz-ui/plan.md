@@ -203,6 +203,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-289 biz-ui PageBody 구현 (`variant` 7종 · 페이지 세로 구획 · `stickyTop`은 DS가 `sticky` 부착)
 - [x] DOTOLI-296 biz-ui InfoBanner `title` 추가 + `label` → `description` 개명 (굵은 첫 줄 · 색 동일 · `\n` 줄바꿈)
 - [x] DOTOLI-297 biz-ui Toast · NotificationCard 강조부를 `ReactNode`로 (`message`·`title` 개방 · **`highlight` 제거** · `[&_strong]:`로 색은 DS 소유)
+- [x] DOTOLI-295 biz-ui ActionChip 구현 + Chip 계열 승격 (`Chip/shared`로 알약 공유 · `state`는 prop이 아니라 `:active`)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -316,6 +317,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-289 | PageBody (`variant` 7종 · 페이지 세로 구획 · `stickyTop` 부착) + CLAUDE.md 테두리 규칙 표로 정리 | [components/page-body.md](./components/page-body.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-296 | InfoBanner `title` 추가 + **`label` → `description` 개명**(`label`은 계열에서 주 텍스트) | [components/info.md](./components/info.md)                                              |
 | DOTOLI-297 | Toast `message` · NotificationCard `title`을 `ReactNode`로 + **`highlight` 제거**(문장 중간 강조 · `[&_strong]:`로 색은 DS 소유 · biz-ui 첫 임의 변형 셀렉터) | [components/toast.md](./components/toast.md) · [notification-card.md](./components/notification-card.md) |
+| DOTOLI-295 | ActionChip(버튼 역할 칩 · `pressed`는 `:active`) + **`Chip` 단독 폴더 → 계열 승격**(`Chip/Chip` · `Chip/ActionChip` · `Chip/shared`) | [components/chip.md](./components/chip.md)                                              |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

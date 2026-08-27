@@ -2,20 +2,28 @@
 
 `apps/biz-ui/src/components/Chip` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 이 컴포넌트 고유 사실만 둡니다.
 
-Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4739&m=dev) (`75:4739`). 실제 값은 심볼 4개(`75:5226` · `75:5227` · `75:5229` · `75:5230`)에서 실측했습니다.
+Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=75-4739&m=dev) (`75:4739`). 실제 값은 `Chip` 심볼 4개(`75:5226` · `75:5227` · `75:5229` · `75:5230`)와 `ActionChip` 심볼 2개(`884:2835` · `884:2843`)에서 실측했습니다.
 
 ## 구현 현황
 
-| 컴포넌트 | 티켓       | 설명                                          |
-| -------- | ---------- | --------------------------------------------- |
-| `Chip`   | DOTOLI-245 | `checked × selectMode` 4조합. 서브 컴포넌트 없음 |
+| 컴포넌트     | 티켓       | 설명                                            |
+| ------------ | ---------- | ----------------------------------------------- |
+| `Chip`       | DOTOLI-245 | `checked × selectMode` 4조합. 선택 컨트롤        |
+| `ActionChip` | DOTOLI-295 | 축 없음. **버튼** — 누르는 동안만 pressed        |
+
+**둘은 같은 알약을 쓰고 하는 일이 다릅니다.** `Chip`은 값을 고르고, `ActionChip`은 누르면 동작이 일어납니다. 공유 조각은 `Chip/shared/`에 있습니다 (아래 「계열로 승격했습니다」).
 
 ## Variant 축
 
-| 축                   | Figma 이름   | 값                        |
-| -------------------- | ------------ | ------------------------- |
-| 선택 여부            | `isSelected` | `false` · `true`          |
-| 선택 개수            | `useIcon`    | `false`(단일) · `true`(다중) |
+| 컴포넌트     | 축                   | Figma 이름      | 값                        |
+| ------------ | -------------------- | --------------- | ------------------------- |
+| `Chip`       | 선택 여부            | `isSelected`    | `false` · `true`          |
+| `Chip`       | 선택 개수            | `selectMode`    | `single` · `multiple`     |
+| `ActionChip` | 상호작용 상태        | `state`         | `default` · `pressed`     |
+
+**`ActionChip`의 `state`는 prop이 아닙니다** — 아래 「결정」.
+
+**Figma가 `useIcon`을 `selectMode`로 개명했습니다.** DOTOLI-245에서 「디자인 확인 필요」로 올려 둔 항목이고, 심볼 이름이 `isSelected=false, selectMode=multiple` 형태로 바뀌어 **구현 쪽 이름과 일치합니다.** 그 행은 닫았습니다.
 
 4조합이 전부 심볼로 정의돼 있습니다. **`disabled` 축은 없습니다.**
 
@@ -43,6 +51,21 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 | `selected` | `gray/900`   | **없음**          | `base/white` | `base/white` |
 
 아이콘 색은 Figma가 내보낸 SVG의 `fill`에서 직접 읽었습니다 — `#AEB5C6`(= `gray/400`) · `white`.
+
+### ActionChip 실측 (DOTOLI-295)
+
+**알약 자체는 `Chip`과 완전히 같습니다** — 높이 32 · `px-[20px]` · radius 99 · `label-semibold` · stroke 1px. 심볼 폭도 64로 아이콘 없는 `Chip`(`75:5227`)과 같고, **체크 아이콘이 없습니다.**
+
+| 상태       | 배경         | 테두리(1px)     | 라벨       |
+| ---------- | ------------ | --------------- | ---------- |
+| `default`  | `base/white` | `gray/200`      | `gray/900` |
+| `pressed`  | `blue/100`   | `blue/300`      | `gray/900` |
+
+**`default`는 `Chip`의 `default`와 토큰까지 같아** `CHIP_DEFAULT_CONTAINER_STYLE`을 그대로 씁니다. **pressed는 배경과 테두리 색만 바뀌고 라벨은 그대로입니다** — `Filter`의 `selected`가 `text-blue-600`으로 라벨까지 바꾸는 것과 갈리는 지점이라, 같은 `blue/100` + `blue/300` 조합이어도 그쪽 상수를 재사용하지 않았습니다.
+
+사용처는 [CSC-101 검색-입력없음](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1217-11047&m=dev)(`1217:11047`) 「자주 찾는 질문」입니다. 칩 5개가 340 폭에 3줄로 흐르고 **가로 gap 10 · 세로 pitch 46(= gap 14)**, 폭은 186 · 132 · 197 · 132 · 148로 제각각입니다. 가로 10이라 히트 영역은 `Chip`과 같은 4px입니다(아래 「결정」의 표 그대로).
+
+액션은 주석(`1576:20447` 「자주 찾는 질문– 선택시」)이 정의합니다 — **「칩 탭 → 해당 질문으로 검색 실행. 검색어 입력 필드에 반영된다」.**
 
 ### 테두리는 `inset-ring`입니다
 
@@ -128,6 +151,42 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 
 - **`name` · `value` · `id` · `ref`를 엽니다.** 「폼 컨트롤 공통」 5의 네이티브 통로입니다. **`name`은 `single`에서 사실상 필수**입니다 — radio 그룹을 묶는 유일한 수단입니다.
 
+### DOTOLI-295 · ActionChip
+
+- **계열로 승격했습니다.** DOTOLI-245가 「`Chip`에는 공유할 형제가 없습니다」로 단독 폴더를 정당화했는데, **형제가 생겼습니다.**
+
+  ```
+  components/Chip/
+  ├── Chip/          선택 컨트롤 (label + sr-only input)
+  ├── ActionChip/    버튼
+  ├── shared/        CHIP_BASE_STYLE · CHIP_DEFAULT_CONTAINER_STYLE
+  └── index.ts
+  ```
+
+  **`Chip/Chip/`은 `Calendar/Calendar/` 선례입니다.** 계열명과 대표 컴포넌트명이 같을 때 쓰는 형태이고, `Chip/shared/`는 계열 안의 shared라 **공개**입니다(CLAUDE.md 「코드 규칙」 1의 표). 공개 export 이름은 하나도 바뀌지 않았고 `@/components/Chip`에서 가져다 쓰는 [`DateBottomSheetOptions`](./calendar.md)도 그대로입니다.
+
+- **shared에 올린 것은 둘뿐입니다 — 상태 맵은 각자 듭니다.** 「같은 알약」인 부분(`CHIP_BASE_STYLE`)과 「쉬는 모습」(`CHIP_DEFAULT_CONTAINER_STYLE`)만 공통입니다.
+
+  나머지를 못 올리는 것은 **취향이 아니라 Tailwind 제약**입니다. `Chip`의 선택 상태는 `bg-gray-900 text-white`처럼 **기본형**으로 붙고 `ActionChip`의 pressed는 `active:bg-blue-100`처럼 **variant형**으로 붙는데, variant는 완성된 리터럴이어야 스캔되므로([CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」) **같은 문자열을 양쪽이 나눠 쓸 수 없습니다.** 색이 같았더라도 마찬가지입니다.
+
+- **Figma의 `state` 축을 prop으로 옮기지 않았습니다.** `state=pressed`는 **순간 피드백**이라(디자이너 확인) CSS `:active`가 그리는 것이고, 소비자가 들 상태가 아닙니다. `CtaButton` · `IconButton` · `Filter`의 hover · pressed도 전부 prop이 아닌 것과 같은 자리입니다.
+
+  **`Filter`의 `isSelected`와 갈리는 지점이기도 합니다** — 그쪽은 누른 뒤에도 남는 상태라 소비자가 들어야 하고, 여기는 손을 떼면 사라집니다. 이름이 `ActionChip`인 이유이고, **지속되는 선택이 필요하면 그건 `Chip`입니다.**
+
+- **`transition-colors`라 배경은 페이드하고 테두리는 즉시 바뀝니다.** `CHIP_BASE_STYLE`이 이미 갖고 있던 것이고, `inset-ring`은 `box-shadow` 기반이라 전환 대상이 아닙니다 — CLAUDE.md 「스타일 규칙」이 `Input` 포커스 링에서 정해 둔 그대로라 계열을 따로 손대지 않았습니다.
+
+- **`<button type='button'>`을 박고 `type`을 열지 않았습니다.** 검색 화면 안에 놓이는 칩이라 `<form>` 안에서 submit이 되면 안 됩니다. `Filter` · `CtaButton`만 `type`을 열어 뒀고 나머지 열 곳 남짓(`MenuItem` · `NavigationListItem` · `CalendarDayButton` · `BottomTabItem` …)은 전부 박아 두는 쪽이라 다수를 따랐습니다.
+
+- **`onClick`이 필수입니다.** 누르면 동작이 일어나는 것이 이 컴포넌트의 존재 이유라 없으면 의미가 없습니다. `CollapseButton`의 `Required<Pick<…, 'onClick'>>` 선례를 그대로 씁니다.
+
+- **`label`은 `Chip`에서 `Pick`하지 않고 직접 선언합니다.** 처음엔 「코드 규칙」 4(타입 중복 금지)를 들어 `Pick<ChipProps, 'label'>`로 썼는데, 계열 선례가 반대쪽이라 되돌렸습니다.
+
+  biz-ui에서 `label`을 `Pick`으로 가져오는 네 곳(`Toast` · `BottomActionBar` · `ConfirmModal` · `Notification`)은 **전부 `CtaButtonProps`에서 가져오고 그 값을 실제로 `CtaButton`에 넘깁니다** — 합성 의존이 있어 타입이 따라가는 것이 맞는 경우입니다. `ActionChip`은 `Chip`을 렌더하지 않습니다.
+
+  더 가까운 반례는 `Button` 계열입니다 — `CtaButton` · `Filter` · `FloatingPill`이 **한 계열 안의 형제이고 셋 다 `<button>`에 같은 성격의 라벨을 그리는데 아무도 서로를 `Pick`하지 않습니다.** 규칙 4가 막는 것은 **prop 묶음의 중복 나열**이지 원시 스칼라 하나가 아니고, 형제끼리 묶어 두면 `Chip`의 `label`이 나중에 바뀔 때 `ActionChip`의 공개 API가 조용히 따라 바뀝니다.
+
+- **체크 아이콘이 없습니다.** 심볼에도 없고, 체크는 **선택 결과 표시**라 선택이 남지 않는 컴포넌트에는 그릴 것이 없습니다. `CHIP_ICON_*`이 `Chip/`에 남아 있는 이유입니다.
+
 ## API
 
 | prop         | 필수 | 기본값     | 비고                                        |
@@ -141,6 +200,16 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 | `className`  |      | —          | `<label>`(칩 전체)에 적용                   |
 
 `ref`는 `<input>`을 가리킵니다.
+
+### ActionChip
+
+| prop        | 필수 | 기본값 | 비고                                        |
+| ----------- | ---- | ------ | ------------------------------------------- |
+| `label`     | ✅   | —      | 칩 텍스트. 접근성 이름도 여기서 나옴        |
+| `onClick`   | ✅   | —      | 누르면 일어나는 동작. 이 컴포넌트의 존재 이유 |
+| `className` |      | —      | `<button>`에 적용                            |
+
+`ref`는 `<button>`을 가리킵니다. **`state`(pressed)는 prop이 아니고, `type`은 `'button'`으로 박혀 있습니다.**
 
 ## internal-ui와 갈린 지점
 
@@ -161,9 +230,8 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 
 | 항목                 | 내용                                                                                                 |
 | -------------------- | ------------------------------------------------------------------------------------------------------ |
-| `useIcon` 축 이름    | 주석이 이 축을 **선택 개수**로 정의하는데 이름은 아이콘 토글입니다. 구현은 `selectMode`(`multiple`/`single`)로 뒀고, Figma 쪽도 맞추면 좋겠습니다 |
 | 레이어 분리          | `Chip` · `ChipCheck`로 나뉘어 있지만 축이 같아 컴포넌트는 하나입니다. 한 세트로 합칠지                     |
-| 상호작용 상태        | hover · pressed 정의가 없습니다. 다른 계열도 같은 상태입니다                                             |
+| `Chip`의 상호작용 상태 | `ActionChip`에는 `pressed`가 생겼지만 **`Chip`에는 여전히 hover · pressed 정의가 없습니다**(디자이너 확인 — 이번 pressed는 `ActionChip` 전용). 선택 컨트롤에도 눌림 피드백이 필요한지 |
 | 포커스               | 포커스 링 정의가 없습니다. 실제 컨트롤이 `sr-only`라 **키보드 포커스가 화면에 보이지 않습니다** (공통 규칙 7) |
 | `disabled`           | 축이 없습니다. 선택 불가 칩을 표시할 일이 없는지                                                          |
 | 라벨 길이            | 칩은 한 줄을 유지하고 그룹 안에서 다음 줄로 넘어갑니다(위 「칩은 찌그러지지 않습니다」). **칩 하나가 컨테이너보다 넓은 경우만 미정**이고 지금은 넘칩니다. internal-ui `Chip`은 `truncate` + `title`인데 말줄임이 맞는지 |
@@ -180,6 +248,13 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 - `SingleSelect` — 같은 목록을 `selectMode='single'`로. **하나만 선택되는 것과 `name` 없이는 그룹이 안 묶이는 것**을 함께 보여줍니다
 
 `MultipleSelect` · `SingleSelect`는 사용처(CSC-101 추천 질문)와 같은 340px 폭에 `wrap`으로 깔아 **여러 줄 자동 줄바꿈**을 확인합니다.
+
+`apps/storybook/src/stories/biz-ui/ActionChip.stories.tsx`, `meta.title`은 `core/biz-ui/ActionChip`. **`Default` 하나뿐입니다.**
+
+**계열로 묶였지만 스토리 타이틀은 평평합니다.** `Button/Filter` · `Order/QuantityStepper`처럼 중첩하는 계열도 있지만, **계열명과 대표 컴포넌트명이 같으면 중첩할 수 없습니다** — `core/biz-ui/Chip`이 이미 리프 스토리라 `core/biz-ui/Chip/ActionChip`으로 가면 사이드바에서 「Chip」이 스토리이자 폴더가 됩니다. 같은 형태인 Calendar 계열 5종이 전부 평평한 것과 같은 이유입니다.
+
+- **pressed 스토리를 두지 않았습니다.** `state`가 prop이 아니라 `:active`라 별도 스토리를 만들어도 `Default`와 **같은 엘리먼트**가 그려집니다. 캔버스에서 칩을 누르고 있으면 그대로 보입니다.
+- **여러 개 깔아 두는 스토리도 두지 않았습니다.** 줄바꿈 · wrap · 히트 영역은 `CHIP_BASE_STYLE`이 내는 것이라 위 `MultipleSelect` · `SingleSelect`가 이미 같은 값을 확인합니다. 사용처(검색 입력 + 추천 질문)를 재현하는 것은 DS 범위 밖이라 소비 앱이 집니다.
 
 ## 검증
 
@@ -203,4 +278,30 @@ Figma 문서 폭(80 · 64)과 2.2px 차이는 라벨 텍스트 렌더 폭 차이
 
 빌드 · 린트 · `dist` 공개 API(`Chip` + `CHIP_*` 10종) 확인했습니다.
 
-> **히트 영역의 `::before` 자체는 Storybook을 재시작해야 보입니다.** `before:-inset-1`이 이번에 처음 생긴 클래스라, `@source '../../dist'`로 만들어진 실행 중 서버의 CSS에는 규칙이 없습니다(클래스는 붙어 있고 CSS만 없는 상태). 같은 페이지의 `Checkbox`가 `-inset-1.5`로 정상 적용되는 것으로 방식 자체는 확인했습니다. 재시작 후 `getComputedStyle(chip, '::before')`가 `-4px`인지 봅니다.
+**히트 영역의 `::before`는 DOTOLI-295에서 확인됐습니다** — `getComputedStyle(chip, '::before').inset`이 `-4px`입니다. DOTOLI-245 당시에는 `before:-inset-1`이 새 클래스라 실행 중 서버 CSS에 규칙이 없어 미확인으로 남겨 뒀던 항목입니다.
+
+### ActionChip (DOTOLI-295)
+
+`Default` 스토리 렌더의 계산값입니다.
+
+| 항목        | 기대                        | 실측                                       |
+| ----------- | --------------------------- | ------------------------------------------ |
+| 높이 · 폭   | 32 · 심볼 64                 | **32** · 63.36 (`Chip` 아이콘 X와 같은 값)  |
+| padding     | 좌우 20 · 높이는 `h-[32px]`  | `0px 20px`                                  |
+| radius      | 99 → full                    | `rounded-full`                              |
+| 라벨        | `label-semibold` · `gray/900` | 14px / 600 · `-0.42px` · `rgb(26,34,51)`   |
+| 테두리      | 1px `gray/200`               | `inset 0 0 0 1px rgb(227,230,238)`          |
+| 배경        | `base/white`                 | `rgb(255,255,255)`                          |
+| 줄바꿈      | 한 줄 유지                    | `nowrap`                                    |
+| 히트 영역   | 4px                          | `::before` inset `-4px`                     |
+
+**pressed는 CSS 규칙으로 확인했습니다.** `:active`는 실제 입력 중에만 계산되므로, 프로덕션 Storybook 빌드의 생성 CSS에서 규칙 자체를 읽었습니다.
+
+```css
+.active\:bg-blue-100:active         { background-color: var(--color-blue-100) }
+.active\:inset-ring-blue-300:active { --tw-inset-ring-color: var(--color-blue-300) }
+```
+
+`--color-blue-100`(`#ebf3ff`) · `--color-blue-300`(`#97befa`)이 Figma 실측값과 같고, **라벨 색 규칙은 없어** `gray/900`이 그대로 유지됩니다.
+
+> **실행 중이던 Storybook에는 `:active` 규칙이 하나도 없었습니다** — 이번 것만이 아니라 기존 컴포넌트 것까지 전부입니다. `dist`를 지웠다 다시 빌드하면 실행 중 서버의 `@source '../../dist'` 스캔이 따라오지 않기 때문이고, CLAUDE.md 「검증」의 재시작 규칙이 걸리는 자리입니다. **눌러서 눈으로 보려면 서버를 재시작해야 합니다.**

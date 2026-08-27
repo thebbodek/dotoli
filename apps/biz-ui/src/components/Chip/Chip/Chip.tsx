@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 
 import {
-  CHIP_BASE_STYLE,
   CHIP_DEFAULT_SELECT_MODE,
   CHIP_ICON_KEY,
   CHIP_ICON_STYLE,
@@ -11,8 +10,9 @@ import {
   CHIP_SELECT_MODES,
   CHIP_STATE_STYLES,
   CHIP_STATES,
-} from '@/components/Chip/constants';
-import { ChipProps } from '@/components/Chip/types';
+} from '@/components/Chip/Chip/constants';
+import { ChipProps } from '@/components/Chip/Chip/types';
+import { CHIP_BASE_STYLE } from '@/components/Chip/shared';
 import { Icon } from '@/components/Icon';
 import { TOUCH_TARGET_NARROW_STYLE } from '@/components/shared/constants';
 
