@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.46
+
+### Patch Changes
+
+- f9a9e0e: DOTOLI-295 ActionChip 컴포넌트 구현
+
 ## 0.0.45
 
 ### Patch Changes
