@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.49
+
+### Patch Changes
+
+- c52550f: DOTOLI-300 biz-ui 상수·유틸을 클라이언트 경계 밖으로 — 배럴 분리
+
 ## 0.0.48
 
 ### Patch Changes
