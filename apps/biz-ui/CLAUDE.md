@@ -161,14 +161,52 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
   **굵기는 함께 박아야 합니다.** preflight의 `strong { font-weight: bolder }`가 부모 굵기를 기준으로 한 단계 올려서, 600짜리 타이틀 안의 맨몸 `<strong>`은 **900으로 튑니다.** `text-*` 타이포 토큰으로 되돌려 박고(`font-semibold` 같은 생값이 아니라 — 토큰이 바뀌면 따라가야 합니다), Figma에 없는 굵기 변화를 만들지 않습니다.
 
+  **소비자는 맨몸 `<strong>`만 씁니다 — 다른 컴포넌트로 감싸면 안 됩니다.**
+
+  ```tsx
+  toast.show({ message: <>주문 <strong>3건</strong>이 등록되었어요</> });
+  ```
+
+  `Typography`로 감싸면 `[&_strong]:`이 안 걸려 **색도 굵기도 통째로 빠집니다.** 셀렉터가 매칭에 실패할 뿐이라 **에러도 경고도 없고 그냥 강조가 안 된 것처럼 보입니다.** 실제로 소비 앱에서 이걸로 한 번 헤맸고, `highlight`(부분 문자열 매칭)에서 `ReactNode`로 바뀐 것을 모르면 자연스럽게 빠지는 함정입니다 — DOTOLI-297.
+
+  소비자가 색을 직접 고르는 것도 안 됩니다. 강조색은 `theme` 파생이라 직접 칠하면 테마를 안 따라갑니다. 계열별 실측과 근거는 [`components/toast.md`](../../docs/biz-ui/components/toast.md) · [`notification-card.md`](../../docs/biz-ui/components/notification-card.md) 「결정」.
+
 ## 패키징 규칙
 
 - **`dependencies`에 패키지를 추가하면 `rollup.config.mjs`의 `external`에도 반드시 넣습니다.** `@dotoli/rollup-config`는 `peerDepsExternal()`만 쓰므로, `external`에 없으면 그대로 번들에 인라인되고 소비자는 같은 패키지를 두 벌 받습니다. `@phosphor-icons/core`를 빠뜨렸을 때 dist가 25KB → 67KB로 불었습니다.
 - `external`은 **정확히 일치**할 때만 걸립니다. 서브패스(`es-toolkit/compat`)를 쓰면 따로 등록해야 합니다.
-- 빌드 후 `dist/index.es.js` 상단의 `import` 목록으로 external 처리를 확인할 수 있습니다.
-- **번들 최상단에 `'use client'`를 박습니다.** 소비 앱이 Next App Router라 이 줄이 없으면 **서버 컴포넌트가 배럴을 import하는 순간 깨집니다.** `createRollupConfig({ banner: "'use client';" })`로 넣고, 소스 파일에는 붙이지 않습니다 — rollup이 번들링 과정에서 모듈 단위 디렉티브를 걷어냅니다.
+- 빌드 후 `dist/{shared,client}.es.js` 상단의 `import` 목록으로 external 처리를 확인합니다. **`index.es.js`에는 없습니다** — 재수출만 하는 껍데기라 외부 의존이 나머지 둘로 갈립니다.
 
-  **`@dotoli/rollup-config`의 terser `compress.directives: false`가 짝입니다.** 기본값(`true`)이면 비표준 디렉티브로 보고 지웁니다. **지워져도 빌드는 성공하고 소비 앱에서만 터지므로**(「variant가 붙은 클래스는 완성된 리터럴로」와 같은 종류의 함정입니다) 빌드 후 `dist/index.es.js` 첫 줄을 눈으로 확인합니다. 결정 근거는 [`docs/biz-ui/frontend.md`](../../docs/biz-ui/frontend.md) 「특이사항」.
+### `dist`는 세 청크로 나옵니다
+
+소비 앱이 Next App Router라 **클라이언트 경계가 패키지 안에 있어야 합니다.** 없으면 서버 컴포넌트가 배럴을 import하는 순간 깨집니다.
+
+| 청크 | 지시어 | 담는 것 |
+| --- | --- | --- |
+| `index.es.js` | 없음 | 재수출만 |
+| `shared.es.js` | 없음 | 상수 · 타입 · 유틸 · `variants` |
+| `client.es.js` | `'use client'` | 컴포넌트 |
+
+**경계는 `rollup.config.mjs`의 `manualChunks`가 경로 규약으로 정합니다** — `constants/` · `types/` · `utils/`와 `variants/`는 `shared`, 나머지 `components/` 아래는 `client`. 소스 파일에는 디렉티브를 붙이지 않습니다. rollup이 번들링 과정에서 모듈 단위 디렉티브를 걷어냅니다.
+
+**그래서 파일을 규약대로 두는 것이 곧 경계를 맞추는 것입니다.** 상수를 컴포넌트 파일에 인라인 선언하면([코드 규칙 1](#코드-규칙) 위반) 그 상수가 `client`로 넘어가 **소비 앱의 서버 컴포넌트에서 읽히지 않습니다.**
+
+**전부 한 청크에 넣으면 안 됩니다.** `'use client'`가 붙은 모듈은 컴포넌트뿐 아니라 **모든 export가 클라이언트 참조**가 됩니다. 상수는 `Object.keys()`가 빈 배열이 되고 유틸은 호출 시 던집니다. **컴포넌트는 에러를 내지만 상수는 아무 말 없이 `undefined`가 됩니다** — 빌드 통과, 콘솔 조용, 화면만 빕니다. DOTOLI-299가 실제로 그렇게 나갔고 DOTOLI-300에서 고쳤습니다.
+
+**`@dotoli/rollup-config`의 terser `compress.directives: false`가 짝입니다.** 기본값(`true`)이면 비표준 디렉티브로 보고 지웁니다. 지워져도 빌드는 성공하고 소비 앱에서만 터집니다 — 「variant가 붙은 클래스는 완성된 리터럴로」와 같은 종류의 함정입니다.
+
+**확인은 `scripts/verify-chunks.mjs`가 빌드 끝에 자동으로 합니다.** 넷 중 하나라도 어긋나면 빌드가 실패합니다.
+
+1. `client.es.js` 첫 줄에 디렉티브가 있는가 — terser가 걷어내면 여기서 걸립니다
+2. `index` · `shared`에는 **없는가**
+3. **`shared`가 `react`를 import하지 않는가** — 훅이나 컨텍스트가 `constants/` · `types/` · `utils/` 안에 생기면 서버 청크로 새고, 그건 소비 앱에서만 터집니다
+4. `shared`가 `client`를 import하지 않는가 (단방향)
+
+3번이 규약 위반을 잡는 자리입니다. 소비 앱 쪽 카나리아는 **상수가 `client`로 새는 것**은 잡지만 **훅이 `shared`로 새는 것**은 못 잡습니다 — 그건 소비자 코드가 아니라 산출물 문제라서입니다.
+
+**`toast`는 `client`에 있습니다.** 서버에서 부르면 브라우저에 닿을 방법이 없으니 조용히 삼키는 대신 명확히 던지게 두었습니다. 서버 컴포넌트에서 **prop으로 넘기는 것은 됩니다.** 다만 **Server Action 안에서도 같은 이유로 던지므로**, 액션은 값만 돌려주고 토스트는 클라이언트에서 띄웁니다.
+
+결정 근거는 [`docs/biz-ui/frontend.md`](../../docs/biz-ui/frontend.md) 「특이사항」.
 
 ## 검증
 

@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "rollup -c --watch & tsc -p tsconfig.build.json --watch & tsc-alias -p tsconfig.build.json --watch",
-    "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "rollup -c && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json && node scripts/verify-chunks.mjs",
     "lint": "eslint \"./src\" --ext .ts,.tsx"
   },
   "dependencies": {

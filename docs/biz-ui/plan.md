@@ -247,7 +247,8 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 ### biz-ui 패키징
 
-- [x] DOTOLI-299 biz-ui App Router(RSC) 대응 — 번들 최상단 `'use client'` (+ terser `compress.directives: false`가 짝. **실환경 검증은 플레이그라운드 전환 후로 남음**)
+- [x] DOTOLI-299 biz-ui App Router(RSC) 대응 — 번들 최상단 `'use client'` (+ terser `compress.directives: false`가 짝)
+- [x] DOTOLI-300 biz-ui 상수·유틸을 클라이언트 경계 밖으로 — `dist` 청크 3분할 (**299의 회귀 수정.** 배너 한 장이 상수까지 클라이언트 참조로 만들었고, 컴포넌트와 달리 **에러 없이 조용히** 깨졌습니다)
 
 소비 앱(`biz-customer-app`의 `apps/web`)이 Next 15 **App Router**로 확정되면서 나온 유일한 biz-ui 측 과제입니다. Figma 축·실측과 무관한 패키징 층이라 컴포넌트 그룹과 섞지 않고 따로 둡니다.
 
@@ -324,7 +325,8 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-296 | InfoBanner `title` 추가 + **`label` → `description` 개명**(`label`은 계열에서 주 텍스트) | [components/info.md](./components/info.md)                                              |
 | DOTOLI-297 | Toast `message` · NotificationCard `title`을 `ReactNode`로 + **`highlight` 제거**(문장 중간 강조 · `[&_strong]:`로 색은 DS 소유 · biz-ui 첫 임의 변형 셀렉터) | [components/toast.md](./components/toast.md) · [notification-card.md](./components/notification-card.md) |
 | DOTOLI-295 | ActionChip(버튼 역할 칩 · `pressed`는 `:active`) + **`Chip` 단독 폴더 → 계열 승격**(`Chip/Chip` · `Chip/ActionChip` · `Chip/shared`) | [components/chip.md](./components/chip.md)                                              |
-| DOTOLI-299 | App Router(RSC) 대응 — 번들 최상단 `'use client'` + terser `compress.directives: false`. `preserveModules` 미채택 | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
+| DOTOLI-299 | App Router(RSC) 대응 — `'use client'` + terser `compress.directives: false`. **상수까지 클라이언트 참조가 되는 회귀를 냄** | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
+| DOTOLI-300 | `dist` 청크 3분할(`index` · `shared` · `client`) — 299 회귀 수정. 경계는 `manualChunks`가 경로 규약으로 결정, 소스 무수정 | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
