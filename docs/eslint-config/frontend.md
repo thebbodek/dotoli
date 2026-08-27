@@ -31,7 +31,7 @@ Jira: DOTOLI-279 · 280 · 281 · 283 · 291~294 (dotoli), [FE-49](https://thebb
 | --- | --- |
 | `@bbodek/eslint-config` 신판 publish | dotoli DOTOLI-279~294 브랜치 머지 + 배포 선행 필요. 외부 레포 8건은 현재 `file:` 로컬 의존이라 **publish 전 push 금지** |
 | FE-49 워크트리 최종화 | publish 후 각 레포 `file:` → 정식 버전 교체 + install 재실행 + amend. yarn 레포는 셸에 `DOCS_SYNC_AUTH_TOKEN` 필요 |
-| stage 재기준 (internal · kindergarten-admin) | 제품 레포는 origin/stage 기준으로 재작업 중 (payments·admin 완료, kids는 stage==main이라 불필요). 완료 후 재검증 필요 |
+| ~~stage 재기준~~ (완료) | bbodek-* 5개 레포 전부 origin/stage 직상으로 재기준 완료 (2026-08-27). internal `039f3c0e7`(stage 초기 8,918→0) · admin `e4f25ff` · kindergarten-admin `f42c29cf` · payments `a17bc14`(원래 stage 기반이었음) · kids `80c68ff`(stage==main). 4개 레포 lint 0·tsc·build·dev 스모크 재검증 통과, main 기준 백업은 각 레포 `FE-49-main-backup` 브랜치 |
 | bbodek-ui·susemi 기준 브랜치 | stage 없음(main·dev) — 기준 브랜치 확인 필요, 현재 main 기준 |
 | FE-49 눈 검증 | 각 레포 `TODO(FE-49)` disable 항목과 rename(`canSubmit` 계열)·a11y 변경부 화면 확인 |
 | warn 잔여 | `exhaustive-deps`·`no-console` 계열은 방침상 미수정 (lint 통과에 영향 없음) |
