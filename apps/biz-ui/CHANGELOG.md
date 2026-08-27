@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.47
+
+### Patch Changes
+
+- 0d75571: DOTOLI-298 internal-ui·biz-ui tailwind-config deprecate 대응
+
 ## 0.0.46
 
 ### Patch Changes
