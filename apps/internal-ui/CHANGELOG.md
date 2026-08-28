@@ -1,5 +1,15 @@
 # @bbodek/internal-ui
 
+## 0.0.125
+
+### Patch Changes
+
+- 35ca485: DOTOLI-294 internal-ui ESLint 10 적용
+- Updated dependencies [35ca485]
+- Updated dependencies [35ca485]
+  - @bbodek/hooks@0.0.98
+  - @bbodek/utils@0.0.95
+
 ## 0.0.124
 
 ### Patch Changes

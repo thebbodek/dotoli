@@ -1,5 +1,13 @@
 # @bbodek/utils
 
+## 0.0.95
+
+### Patch Changes
+
+- 35ca485: DOTOLI-283 utils ESLint 10 적용
+- Updated dependencies [35ca485]
+  - @bbodek/internal-ui@0.0.125
+
 ## 0.0.94
 
 ### Patch Changes

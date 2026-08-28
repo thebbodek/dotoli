@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.50
+
+### Patch Changes
+
+- 35ca485: DOTOLI-293 biz-ui ESLint 10 적용
+
 ## 0.0.49
 
 ### Patch Changes

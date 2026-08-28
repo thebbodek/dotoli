@@ -1,5 +1,13 @@
 # @bbodek/hooks
 
+## 0.0.98
+
+### Patch Changes
+
+- 35ca485: DOTOLI-291 hooks ESLint 10 적용
+- Updated dependencies [35ca485]
+  - @bbodek/utils@0.0.95
+
 ## 0.0.97
 
 ### Patch Changes
