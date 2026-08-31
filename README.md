@@ -17,7 +17,7 @@ A monorepo for managing shared configurations, utilities, hooks, and UI componen
 ## Usage
 Prerequisites:
 - [Pnpm](https://pnpm.io/installation) pnpm@10.10.0
-- [Node.js](https://nodejs.org/en/download) >=18
+- [Node.js](https://nodejs.org/en/download) ^20.19.0 || ^22.13.0 || >=24
 
 > [!NOTE]  
 > We use Node `v22.14.0`, with [asdf](https://asdf-vm.com/guide/getting-started.html).
