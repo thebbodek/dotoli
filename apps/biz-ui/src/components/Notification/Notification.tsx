@@ -33,7 +33,6 @@ const Notification = ({
   onAction,
 }: NotificationProps) => {
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- 카드를 버튼으로 만들면 안쪽 CtaButton과 버튼이 중첩됨. 조작 대상은 CtaButton 하나, 카드 onClick은 포인터 편의 (notification.md 「카드 vs 버튼」 결정)
     <div
       className={clsx(
         className,

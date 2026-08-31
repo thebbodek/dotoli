@@ -12,7 +12,6 @@ const SelectBasePopoverWrapper = ({
   onKeyDown,
 }: PropsWithChildren<SelectBasePopoverWrapperProps>) => {
   return (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- 셀렉트 옵션 키보드 내비게이션용 포커스 컨테이너, 자체 인터랙션 요소 아님
     <div
       className={clsx(
         className,
