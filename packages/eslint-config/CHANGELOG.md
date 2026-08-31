@@ -1,5 +1,11 @@
 # @bbodek/eslint-config
 
+## 0.0.8
+
+### Patch Changes
+
+- e3c8cef: FE-49 react-hooks/set-state-in-effect warn 완화
+
 ## 0.0.7
 
 ### Patch Changes
