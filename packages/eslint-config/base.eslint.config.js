@@ -87,6 +87,8 @@ export default defineConfig([
       'jsx-a11y/role-supports-aria-props': 'warn',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      /* 파생 상태 리팩터링이 필요한 미러링 패턴이 기존 코드에 많아 warn — 신규 코드 참고용 (FE-49 결정) */
+      'react-hooks/set-state-in-effect': 'warn',
       'prefer-template': 'error',
       'no-console': 'warn',
       'prefer-arrow-functions/prefer-arrow-functions': [

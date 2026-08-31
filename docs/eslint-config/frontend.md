@@ -38,6 +38,7 @@ Jira: DOTOLI-279 · 280 · 281 · 283 · 291~294 (dotoli), [FE-49](https://thebb
 
 ### 특이사항
 
+- **`react-hooks/set-state-in-effect`는 warn** 입니다 (2026-08-31 FE-49 결정): effect 내 동기 setState(상태 미러링) 패턴이 기존 코드에 ~40곳 있고 수정이 파생 상태 리팩터링이라, 경고로 노출하고 별도 과제로 다룹니다. `set-state-in-render`·`purity`·`refs`·`rules-of-hooks`는 버그 예방 성격이라 error 유지.
 - **jsx-a11y 중 "수정 = 동작 추가"인 룰 8종은 warn** 입니다 (2026-08-28 FE-49 결정): `click-events-have-key-events` · `no-static-element-interactions` · `interactive-supports-focus` · `no-autofocus` · `label-has-associated-control` · `no-noninteractive-element-interactions` · `no-noninteractive-element-to-interactive-role` · `role-supports-aria-props`. 기존 코드의 관련 disable 주석은 전부 롤백되어 경고로 노출되며, 접근성 보강은 lint가 아닌 별도 작업으로 다룹니다.
 - **SCREAMING_CASE 모듈 boolean 상수 허용** (2026-08-28 FE-49 결정): naming-convention에 `^[A-Z0-9_]+$` filter 항목을 추가해 `DEFAULT_HOLIDAY_FIXED_ORDER_ENABLED` 같은 상수 표기를 허용합니다. camelCase `is*` 상수도 기존 규칙대로 계속 허용됩니다.
 
