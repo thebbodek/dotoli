@@ -19,6 +19,7 @@ import {
   TEXTAREA_DEFAULT_MAX_LENGTH,
   TEXTAREA_FIELD_STYLE,
   TEXTAREA_LABEL_STYLE,
+  TEXTAREA_MIN_HEIGHT,
   TEXTAREA_ROOT_STYLE,
 } from '@/components/Input/TextArea/constants';
 import { TextAreaProps } from '@/components/Input/TextArea/types';
@@ -76,7 +77,7 @@ const TextArea = ({
           INPUT_BOX_STYLES[state],
           TEXTAREA_BOX_STYLE,
         )}
-        style={{ height }}
+        style={{ height: Math.max(height, TEXTAREA_MIN_HEIGHT) }}
       >
         <div className={TEXTAREA_CONTENT_STYLE}>
           <label

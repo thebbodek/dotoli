@@ -27,7 +27,6 @@ export default createRollupConfig({
   manualChunks: resolveChunk,
   chunkFileNames: '[name].es.js',
   external: [
-    '@floating-ui/react',
     '@phosphor-icons/core',
     'clsx',
     'dayjs',

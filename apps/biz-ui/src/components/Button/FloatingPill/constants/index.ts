@@ -13,5 +13,5 @@ export const FLOATING_PILL_BASE_STYLE =
 export const FLOATING_PILL_STYLES: Record<FloatingPillVariant, string> = {
   [FLOATING_PILL_VARIANTS.NAVIGATE]: 'bg-blue-500 text-white',
   [FLOATING_PILL_VARIANTS.SCROLL_TO_TOP]:
-    'border-[0.5625px] border-gray-100 bg-white text-gray-800',
+    'inset-ring-[0.5625px] inset-ring-gray-100 bg-white text-gray-800',
 };

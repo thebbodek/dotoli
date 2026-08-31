@@ -90,6 +90,7 @@ primary / filled / default / lg 기준 (`11:4121`).
   `sm`에서만 variant별로 갈리는 게 어색해 보이지만 **디자이너 확인 결과 Figma 값이 맞습니다.** 사이즈 맵에 두면 `outlined`와 `filled`·`tonal`이 같은 `sm`을 공유해 표현할 수 없어, `GAP`을 `CTA_BUTTON_SIZE_STYLES`·`CTA_BUTTON_TEXT_SIZE_STYLES`에서 떼어 `CTA_BUTTON_GAP_STYLES`로 옮겼습니다 (DOTOLI-259에서 `text`/`sm`, DOTOLI-256에서 `outlined`/`sm`).
 - **히트 영역은 `text`와 `sm`만 넓힙니다** (Figma 주석 `337:3538`). 대상 지정 원칙은 CLAUDE.md [히트 영역 확장] 참고.
 - **`isPending`은 Figma에 심볼이 없어** internal-ui와 같은 `circle-notch` 스피너로 맞췄습니다. `aria-busy`를 함께 겁니다.
+- **`outlined`의 테두리는 `border`가 아니라 `inset-ring`입니다 (DOTOLI-301).** 네 variant 중 `outlined`에만 테두리가 있어 「variant별로 있고 없는」 경우이고, `border`로 두면 같은 라벨·사이즈에서 `filled`보다 **가로폭이 2px 큽니다.** 높이는 사이즈별 `HEIGHT`가 `box-sizing: border-box`로 잡아 주지만 폭은 hug라 그대로 드러납니다. `Badge`의 `tonal`이 같은 상황에서 이미 `inset-ring`이었고 여기만 갈려 있었습니다. 기준은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」.
 
 ### 디자인 확인 필요
 
@@ -223,6 +224,7 @@ Storybook 실측 대조 (Figma → 구현): navigate 129×50 → **132.87×50**,
 - **`box-shadow`로 통일합니다.** Figma 코드젠이 `navigate`는 `drop-shadow(0 10px 10px)`(filter), `scrollToTop`은 `box-shadow(0 10px 20px)`로 뱉지만 원본 이펙트는 같은 스타일 하나입니다. filter 쪽 blur가 절반으로 나오는 건 코드젠의 변환 방식 차이라, 이펙트 시맨틱(offset·blur·spread·color)에 그대로 대응하는 box-shadow를 택했습니다.
 - **`scrollToTop`의 `Button:shadow` 레이어(`46:179`)를 별도 요소로 만들지 않습니다.** 컨테이너와 높이(50px)·radius가 같은 겹친 사각형이라 테두리와 그림자만 버튼 자체로 옮기면 동일합니다.
 - **테두리는 0.5625px 그대로 씁니다.** Figma에 `stroke weight/0_56` 변수로 잡혀 있어 의도된 값으로 봤습니다. biz-ui 첫 stroke-weight 사용인데 값이 하나뿐이라 토큰화는 보류합니다.
+- **`border`가 아니라 `inset-ring-[0.5625px]`입니다 (DOTOLI-301).** `scrollToTop`에만 테두리가 있고 `navigate`에는 없어 「variant별로 있고 없는」 전형적인 경우입니다 — `border`로 두면 두 variant를 오갈 때 **가로폭이 1.125px 흔들립니다.** 높이는 `h-[50px]` 고정이라 안 움직이지만 폭은 hug라 그대로 드러납니다. 기준은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」.
 - **높이를 `h-[50px]`로 고정합니다.** hug로 두면 50.1px이고, Figma도 `scrollToTop`의 그림자 레이어를 50px로 못박아 뒀습니다.
 - **아이콘을 prop으로 열지 않고 `variant`에서 파생합니다.** `scrollToTop`은 역할이 고정이라 `caret-up` 말고 다른 아이콘을 받을 이유가 없습니다. CtaButton·Filter가 `iconOption`을 여는 것과 갈리는 지점인데, 그쪽은 아이콘이 스타일 선택지고 여기는 variant의 일부입니다.
 - **포지셔닝을 컴포넌트에 넣지 않습니다.** 이름은 floating이지만 심볼에 위치 정보가 없고 `fixed` · `bottom` · safe-area는 화면마다 달라 소비자 몫입니다.

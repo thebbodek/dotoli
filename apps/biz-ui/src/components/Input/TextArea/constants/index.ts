@@ -2,6 +2,8 @@ export const TEXTAREA_DEFAULT_MAX_LENGTH = 5000;
 
 export const TEXTAREA_DEFAULT_HEIGHT = 150;
 
+export const TEXTAREA_MIN_HEIGHT = 93;
+
 export const TEXTAREA_ROOT_STYLE = 'flex-v-stack gap-[6px]';
 
 export const TEXTAREA_BOX_STYLE =

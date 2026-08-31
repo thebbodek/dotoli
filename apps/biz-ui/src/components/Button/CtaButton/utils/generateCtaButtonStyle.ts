@@ -41,7 +41,7 @@ export const generateCtaButtonStyle = ({
       CTA_BUTTON_SIZE_STYLES[size].PADDING,
     ],
     shouldExpandTouchTarget && TOUCH_TARGET_STYLE,
-    variant === CTA_BUTTON_VARIANTS.OUTLINED && 'border',
+    variant === CTA_BUTTON_VARIANTS.OUTLINED && 'inset-ring',
     disabled
       ? [disabledStyle, 'cursor-not-allowed']
       : [Object.values(stateStyles), 'cursor-pointer'],

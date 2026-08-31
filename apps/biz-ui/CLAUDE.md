@@ -60,7 +60,7 @@ export interface ResolveCheckboxStateProps
 
 **`export type X = Y;` 같은 순수 별칭은 만들지 않습니다.** 이름만 하나 늘고 찾아 들어가야 할 곳이 생깁니다. 원시 타입에 도메인 이름을 붙이는 경우(`type CalendarYear = number`)만 예외입니다.
 
-> `src/`에 아직 이 형태를 안 따르는 곳이 남아 있습니다 — `Order/*`의 `type Resolve*Props = Pick<…>` 5건과, prop을 다시 나열한 `GenerateCtaButtonStyleProps`입니다. 손대는 김에 함께 고칩니다.
+`src/` 전체가 이 형태를 따릅니다. 한때 `Order/*`의 `Resolve*Props`와 `GenerateCtaButtonStyleProps`가 이탈해 있었고, 각 계열을 손대면서 정리됐습니다.
 
 **5. 주석은 최대한 지양.** 코드를 읽으면 알 수 있는 것은 쓰지 않습니다. 예외 상황 — 코드에 드러나지 않는 판단 근거, 피해 간 함정, 일부러 하지 않은 것 — 에만 답니다. 실측값·결정 기록은 주석이 아니라 `docs/biz-ui/components/<name>.md`가 맡습니다.
 
