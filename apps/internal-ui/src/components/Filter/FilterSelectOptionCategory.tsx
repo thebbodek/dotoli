@@ -44,7 +44,6 @@ const FilterSelectOptionCategory = ({
   return (
     <li
       className='in-flex-h-stack in-tablet:px-3 in-tablet:h-[2rem] h-[2.75rem] flex-none items-center px-4'
-      /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role -- 목록 구조(ul>li)를 유지한 채 행 전체가 하위 단계 진입 트리거로 동작 (키보드 지원 포함) */
       role='button'
       tabIndex={0}
       onClick={onClick}

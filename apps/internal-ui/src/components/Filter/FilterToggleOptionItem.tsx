@@ -19,7 +19,6 @@ const FilterToggleOptionItem = ({
   };
 
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events -- 실제 조작 대상은 내부 Toggle(네이티브 포커스 가능), li onClick은 행 클릭 포인터 편의
     <li
       aria-selected={checked}
       className='in-flex-h-stack in-tablet:px-0 justify-between px-2'

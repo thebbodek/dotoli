@@ -31,7 +31,6 @@ const MultiSelectBase = ({
       )}
       aria-describedby={labelId}
     >
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- 옵션 리스트 키보드 내비게이션용 포커스 컨테이너(tabIndex=-1 프로그램 포커스), 자체 인터랙션 요소 아님 */}
       <div
         className='in-flex-v-stack bg-in-white in-tablet:min-w-[21.875rem] in-tablet:p-4 overflow-hidden p-[1.25rem] focus:outline-none'
         ref={focusContainerRef}
@@ -44,7 +43,6 @@ const MultiSelectBase = ({
           label='검색'
           placeholder={inputPlaceholder}
           value={currentSearchValue ?? ''}
-          /* eslint-disable-next-line jsx-a11y/no-autofocus -- 셀렉트 열림과 동시에 검색 입력에 포커스하는 의도된 UX */
           autoFocus
           hiddenLabel
           onChange={(e) => onSearch({ value: e.target.value })}

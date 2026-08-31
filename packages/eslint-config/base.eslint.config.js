@@ -76,6 +76,15 @@ export default defineConfig([
     },
     rules: {
       ...jsxA11y.flatConfigs.recommended.rules,
+      /* 수정이 곧 키보드·role·마크업 동작 추가가 되는 룰은 warn — 기존 코드는 경고로 노출하고 접근성 보강은 별도 작업으로 다룬다 (FE-49 결정) */
+      'jsx-a11y/click-events-have-key-events': 'warn',
+      'jsx-a11y/no-static-element-interactions': 'warn',
+      'jsx-a11y/interactive-supports-focus': 'warn',
+      'jsx-a11y/no-autofocus': 'warn',
+      'jsx-a11y/label-has-associated-control': 'warn',
+      'jsx-a11y/no-noninteractive-element-interactions': 'warn',
+      'jsx-a11y/no-noninteractive-element-to-interactive-role': 'warn',
+      'jsx-a11y/role-supports-aria-props': 'warn',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'prefer-template': 'error',
@@ -136,6 +145,18 @@ export default defineConfig([
         {
           selector: 'typeLike',
           format: ['PascalCase'],
+        },
+        /* SCREAMING_CASE로 쓴 모듈 스코프 boolean 상수는 상수 컨벤션으로 허용한다 (FE-49 결정).
+         * filter로 전부 대문자인 이름만 잡으므로 camelCase is* 상수는 아래 boolean 규칙을 그대로 탄다 */
+        {
+          selector: 'variable',
+          modifiers: ['const', 'global'],
+          types: ['boolean'],
+          format: ['UPPER_CASE'],
+          filter: {
+            regex: '^[A-Z0-9_]+$',
+            match: true,
+          },
         },
         {
           selector: 'variable',

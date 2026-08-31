@@ -99,7 +99,6 @@ const TextArea = ({
             }
             aria-describedby={hasMessage ? messageId : undefined}
             aria-invalid={!!errorMessage}
-            /* eslint-disable-next-line jsx-a11y/no-autofocus -- DS가 소비자에게 여는 autoFocus 통로, 사용 여부는 소비 측 판단 */
             autoFocus={autoFocus}
             disabled={disabled}
             id={fieldId}

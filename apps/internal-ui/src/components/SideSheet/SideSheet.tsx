@@ -25,7 +25,6 @@ const SideSheet = ({
 
   return (
     <Portal target={containerId}>
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions -- 백드롭 클릭 닫기는 포인터 편의, 키보드는 헤더 닫기 버튼이 담당 */}
       <dialog
         className={clsx(
           'absolute top-0 right-0 z-1000 h-full w-full bg-transparent p-3 pl-0 open:flex open:justify-end',

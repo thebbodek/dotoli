@@ -15,7 +15,6 @@ const TableRow = ({
   onClick,
 }: TableRowProps) => {
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus -- 행 onClick은 포인터 편의, 실제 조작은 셀 내부 인터랙티브 요소가 담당
     <div
       className={clsx(
         className,
