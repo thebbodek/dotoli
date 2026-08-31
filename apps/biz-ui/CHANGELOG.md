@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.51
+
+### Patch Changes
+
+- c483fd4: FE-49 jsx-a11y 동작 유발 룰 warn 완화·SCREAMING boolean 상수 허용
+
 ## 0.0.50
 
 ### Patch Changes
