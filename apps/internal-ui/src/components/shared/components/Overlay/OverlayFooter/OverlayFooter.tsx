@@ -9,7 +9,7 @@ import { OverlayFooterProps } from '@/components/shared/components/Overlay/Overl
 const OverlayFooter = ({
   confirmOption,
   cancelOption,
-  possibleConfirm = false,
+  canConfirm = false,
   isPending = false,
   isLoading = false,
   isFull = false,
@@ -36,11 +36,11 @@ const OverlayFooter = ({
         />
       )}
       <OverlayFooterConfirmButton
+        canConfirm={canConfirm}
         className={buttonClassName}
         confirmOption={confirmOption}
         isLoading={isLoading}
         isPending={isPending}
-        possibleConfirm={possibleConfirm}
         size={buttonSize}
       />
     </OverlayFooterWrapper>

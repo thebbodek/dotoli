@@ -25,7 +25,7 @@ const InfoModal = ({
       <Modal.Footer
         cancelOption={cancelOption}
         confirmOption={confirmOption}
-        possibleConfirm
+        canConfirm
       />
     </Modal>
   );

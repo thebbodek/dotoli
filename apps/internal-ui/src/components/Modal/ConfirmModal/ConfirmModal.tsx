@@ -16,7 +16,7 @@ const ConfirmModal = ({
   useIcon = false,
   confirmOption,
   cancelOption,
-  possibleConfirm,
+  canConfirm,
   isPending,
   isLoading,
   className,
@@ -32,11 +32,11 @@ const ConfirmModal = ({
         {children}
       </Modal.ContentWrapper>
       <Modal.Footer
+        canConfirm={canConfirm}
         cancelOption={cancelOption}
         confirmOption={confirmOption}
         isLoading={isLoading}
         isPending={isPending}
-        possibleConfirm={possibleConfirm}
       />
     </Modal>
   );

@@ -26,7 +26,7 @@ const meta = {
     },
   },
   args: {
-    possibleConfirm: true,
+    canConfirm: true,
   },
 } satisfies Meta<ConfirmBottomSheetArgs>;
 

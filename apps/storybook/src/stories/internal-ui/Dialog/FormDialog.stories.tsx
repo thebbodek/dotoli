@@ -35,7 +35,7 @@ const {
   ref,
   className,
   children,
-  possibleConfirm,
+  canConfirm,
   isPending,
 } = ConfirmModalMeta.argTypes;
 
@@ -92,7 +92,7 @@ const meta = {
     cancelOption,
     cancelLabel,
     onCancel,
-    possibleConfirm,
+    canConfirm,
     isPending,
     isLoading,
     ref,
@@ -157,12 +157,12 @@ const Dialog = ({
           </div>
         )
       }
+      canConfirm={args.canConfirm ?? !hasError}
       cancelOption={{ ...cancelOption, onCancel: close }}
       className='w-[31.125rem]'
       confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
       isOpen={isOpen}
       isPending={args.isPending || isPending}
-      possibleConfirm={args.possibleConfirm ?? !hasError}
       wrapperClassName={clsx(isSlotOpen && 'flex gap-x-3')}
     >
       <FormContent handleChange={handleChange} values={values} />

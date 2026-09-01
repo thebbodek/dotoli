@@ -6,15 +6,15 @@ const ModalFooter = ({
   cancelOption,
   isPending,
   isLoading,
-  possibleConfirm,
+  canConfirm,
 }: ModalFooterProps) => {
   return (
     <OverlayFooter
+      canConfirm={canConfirm}
       cancelOption={cancelOption}
       confirmOption={confirmOption}
       isLoading={isLoading}
       isPending={isPending}
-      possibleConfirm={possibleConfirm}
       isFull
     />
   );

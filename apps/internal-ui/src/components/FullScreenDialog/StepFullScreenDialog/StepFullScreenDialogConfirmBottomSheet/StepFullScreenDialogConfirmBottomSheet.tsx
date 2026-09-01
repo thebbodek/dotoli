@@ -24,7 +24,7 @@ const StepFullScreenDialogConfirmBottomSheet = ({
       cancelOption={{ onCancel: () => close(false) }}
       className='min-w-in-mobile w-svw'
       isOpen={isOpen}
-      possibleConfirm
+      canConfirm
     />
   );
 };

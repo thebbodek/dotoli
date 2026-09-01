@@ -10,7 +10,7 @@ export interface OverlayFooterWrapperProps
 export interface OverlayFooterStateProps
   extends Pick<ButtonProps, 'isPending'>,
     Pick<OverlayContentWrapperProps, 'isLoading'> {
-  possibleConfirm?: boolean;
+  canConfirm?: boolean;
 }
 
 export interface OverlayFooterStyleProps extends OverlayFooterWrapperProps {

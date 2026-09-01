@@ -14,7 +14,7 @@ const DialogFooter = ({
   cancelOption,
   isPending,
   isLoading,
-  possibleConfirm,
+  canConfirm,
 }: DialogFooterProps) => {
   return (
     <OverlayFooterWrapper
@@ -29,9 +29,9 @@ const DialogFooter = ({
         />
       )}
       <OverlayFooterConfirmButton
+        canConfirm={canConfirm && !isPending}
         confirmOption={confirmOption}
         isLoading={isLoading}
-        possibleConfirm={possibleConfirm && !isPending}
         size={BUTTON_SIZES.LG}
       />
     </OverlayFooterWrapper>

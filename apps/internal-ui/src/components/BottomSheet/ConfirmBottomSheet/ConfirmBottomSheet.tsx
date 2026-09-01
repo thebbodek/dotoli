@@ -14,7 +14,7 @@ const ConfirmBottomSheet = ({
   useIcon,
   confirmOption,
   cancelOption,
-  possibleConfirm,
+  canConfirm,
   isPending,
   isLoading,
   className,
@@ -30,11 +30,11 @@ const ConfirmBottomSheet = ({
         {children}
       </BottomSheet.ContentWrapper>
       <BottomSheet.Footer
+        canConfirm={canConfirm}
         cancelOption={cancelOption}
         confirmOption={confirmOption}
         isLoading={isLoading}
         isPending={isPending}
-        possibleConfirm={possibleConfirm}
       />
     </BottomSheet>
   );

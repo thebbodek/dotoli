@@ -26,7 +26,7 @@ const InfoBottomSheet = ({
       <BottomSheet.Footer
         cancelOption={cancelOption}
         confirmOption={confirmOption}
-        possibleConfirm
+        canConfirm
       />
     </BottomSheet>
   );

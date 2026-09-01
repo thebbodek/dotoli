@@ -31,7 +31,7 @@ const {
   ref,
   className,
   children,
-  possibleConfirm,
+  canConfirm,
   isPending,
 } = ConfirmModalMeta.argTypes ?? {};
 
@@ -71,7 +71,7 @@ const meta = {
     ref,
     className,
     children,
-    possibleConfirm,
+    canConfirm,
     isPending,
   },
 } satisfies Meta<FormFullScreenDialogArgs>;
@@ -116,12 +116,12 @@ const Dialog = ({
   return (
     <FormFullScreenDialog
       {...args}
+      canConfirm={args.canConfirm ?? !hasError}
       cancelOption={{ ...cancelOption, onCancel: close }}
       className='min-w-sm'
       confirmOption={{ ...confirmOption, onConfirm: handleConfirm }}
       isOpen={isOpen}
       isPending={args.isPending || isPending}
-      possibleConfirm={args.possibleConfirm ?? !hasError}
     >
       <FormContent handleChange={handleChange} values={values} />
     </FormFullScreenDialog>
