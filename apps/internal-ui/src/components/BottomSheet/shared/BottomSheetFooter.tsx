@@ -6,16 +6,16 @@ const BottomSheetFooter = ({
   cancelOption,
   isPending,
   isLoading,
-  possibleConfirm,
+  canConfirm,
 }: BottomSheetFooterProps) => {
   return (
     <OverlayFooter
+      canConfirm={canConfirm}
       cancelOption={cancelOption}
       className='px-5 pb-5'
       confirmOption={confirmOption}
       isLoading={isLoading}
       isPending={isPending}
-      possibleConfirm={possibleConfirm}
       isFull
     />
   );

@@ -31,7 +31,7 @@ const InfoDialog = ({
       </Dialog.ContentWrapper>
       <Dialog.Footer
         confirmOption={{ label: confirmLabel, onConfirm }}
-        possibleConfirm
+        canConfirm
       />
     </Dialog>
   );

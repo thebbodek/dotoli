@@ -23,7 +23,7 @@ const StepDialogConfirmModal = ({
       cancelOption={{ onCancel: () => close(false) }}
       className='w-[21.875rem]'
       isOpen={isOpen}
-      possibleConfirm
+      canConfirm
     />
   );
 };

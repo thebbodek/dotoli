@@ -176,7 +176,7 @@ const meta = {
         category: 'confirmOption',
         subcategory: 'tooltipOption',
         defaultValue: {
-          summary: '!possibleConfirm',
+          summary: '!canConfirm',
         },
       },
     },
@@ -199,7 +199,7 @@ const meta = {
         category: 'cancelOption',
       },
     },
-    possibleConfirm: {
+    canConfirm: {
       control: 'boolean',
       description: 'possible confirm',
       type: 'boolean',
@@ -262,7 +262,7 @@ export const Default: Story = {
   args: {
     useIcon: false,
     title: '승인신청이 완료되었습니다',
-    possibleConfirm: true,
+    canConfirm: true,
   },
   render: ({
     iconKey,
@@ -331,7 +331,7 @@ export const WithClose: Story = {
         <br /> 정보를 삭제하시겠습니까?
       </>
     ),
-    possibleConfirm: true,
+    canConfirm: true,
   },
   render: ({
     iconKey,
@@ -403,7 +403,7 @@ export const WithIcon: Story = {
         정보를 삭제하시겠습니까?
       </>
     ),
-    possibleConfirm: true,
+    canConfirm: true,
   },
   render: ({
     iconKey,

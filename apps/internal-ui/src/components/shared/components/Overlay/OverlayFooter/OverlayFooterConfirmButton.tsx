@@ -10,18 +10,18 @@ import { Tooltip } from '@/components/Tooltip';
 const OverlayFooterConfirmButton = ({
   size,
   confirmOption,
-  possibleConfirm,
+  canConfirm,
   isLoading,
   isPending,
   className,
 }: Pick<
   OverlayFooterProps,
-  'confirmOption' | 'possibleConfirm' | 'isLoading' | 'isPending'
+  'confirmOption' | 'canConfirm' | 'isLoading' | 'isPending'
 > &
   Pick<ButtonProps, 'className' | 'size'>) => {
   const { label: confirmLabel, onConfirm, tooltipOption } = confirmOption;
   const {
-    useTooltip = !possibleConfirm && !isPending && !isLoading,
+    useTooltip = !canConfirm && !isPending && !isLoading,
     content = '필수 항목을 모두 입력해주세요',
   } = tooltipOption ?? {};
 
@@ -34,7 +34,7 @@ const OverlayFooterConfirmButton = ({
     >
       <Button
         className='w-full'
-        disabled={!possibleConfirm || isPending || isLoading}
+        disabled={!canConfirm || isPending || isLoading}
         iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
         isPending={isPending}
         label={confirmLabel}

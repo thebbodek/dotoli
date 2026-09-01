@@ -13,7 +13,7 @@ const FormFullScreenDialog = ({
   className,
   confirmOption,
   cancelOption,
-  possibleConfirm,
+  canConfirm,
   isPending,
   isLoading,
 }: FormFullScreenDialogProps) => {
@@ -35,11 +35,11 @@ const FormFullScreenDialog = ({
         {children}
       </FullScreenDialog.ContentWrapper>
       <FormFullScreenDialogFooter
+        canConfirm={canConfirm}
         cancelOption={cancelOption}
         confirmOption={confirmOption}
         isLoading={isLoading}
         isPending={isPending}
-        possibleConfirm={possibleConfirm}
       />
     </FullScreenDialog>
   );

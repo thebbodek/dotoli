@@ -13,7 +13,7 @@ const FormDialog = ({
   className,
   cancelOption,
   confirmOption,
-  possibleConfirm,
+  canConfirm,
   isPending,
   isLoading,
   slot,
@@ -38,11 +38,11 @@ const FormDialog = ({
         {children}
       </Dialog.ContentWrapper>
       <Dialog.Footer
+        canConfirm={canConfirm}
         cancelOption={cancelOption}
         confirmOption={confirmOption}
         isLoading={isLoading}
         isPending={isPending}
-        possibleConfirm={possibleConfirm}
       />
     </Dialog>
   );

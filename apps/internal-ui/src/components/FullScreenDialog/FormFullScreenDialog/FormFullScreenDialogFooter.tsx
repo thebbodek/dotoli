@@ -11,14 +11,10 @@ const FormFullScreenDialogFooter = ({
   confirmOption,
   isLoading,
   isPending,
-  possibleConfirm,
+  canConfirm,
 }: Pick<
   FormFullScreenDialogProps,
-  | 'cancelOption'
-  | 'confirmOption'
-  | 'isLoading'
-  | 'isPending'
-  | 'possibleConfirm'
+  'cancelOption' | 'confirmOption' | 'isLoading' | 'isPending' | 'canConfirm'
 >) => {
   const defaultButtonProps = {
     className: 'flex-1 max-w-[calc(50%-4px)]',
@@ -35,9 +31,9 @@ const FormFullScreenDialogFooter = ({
       />
       <OverlayFooterConfirmButton
         {...defaultButtonProps}
+        canConfirm={canConfirm && !isPending}
         confirmOption={confirmOption}
         isLoading={isLoading}
-        possibleConfirm={possibleConfirm && !isPending}
       />
     </OverlayFooterWrapper>
   );
