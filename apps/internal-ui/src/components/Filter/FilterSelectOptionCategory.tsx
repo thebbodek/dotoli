@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { KeyboardEvent } from 'react';
 
 import { FILTER_STEPS } from '@/components/Filter/constants';
@@ -7,7 +8,7 @@ import FilterOptionSummary from '@/components/Filter/FilterOptionSummary';
 import { FilterSelectOptionCategoryProps } from '@/components/Filter/types';
 import { Icon } from '@/components/Icon';
 import { Typography } from '@/components/Typography';
-import { TYPOGRAPHY_VARIANTS } from '@/variants';
+import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const FilterSelectOptionCategory = ({
   label,
@@ -16,12 +17,15 @@ const FilterSelectOptionCategory = ({
   type,
   numericOption,
   placeholder,
+  disabled,
 }: FilterSelectOptionCategoryProps) => {
   const { selectValues } = useFilterContext();
   const { setFilterStep, setCurrentOptions } = useFilterPanelContext();
   const selectedValues = selectValues?.[optionKey];
 
   const onClick = () => {
+    if (disabled) return;
+
     setFilterStep(FILTER_STEPS.SELECT_OPTION);
     setCurrentOptions({
       key: optionKey,
@@ -30,6 +34,7 @@ const FilterSelectOptionCategory = ({
       type,
       numericOption,
       placeholder,
+      disabled,
     });
   };
 
@@ -43,15 +48,19 @@ const FilterSelectOptionCategory = ({
 
   return (
     <li
-      className='in-flex-h-stack in-tablet:px-3 in-tablet:h-[2rem] h-[2.75rem] flex-none items-center px-4'
+      className={clsx(
+        'in-flex-h-stack in-tablet:px-3 in-tablet:h-[2rem] h-[2.75rem] flex-none items-center px-4',
+        disabled && 'cursor-not-allowed',
+      )}
+      aria-disabled={disabled}
       role='button'
-      tabIndex={0}
+      tabIndex={disabled ? -1 : 0}
       onClick={onClick}
       onKeyDown={handleKeyDown}
     >
       <Typography
         className='mr-auto shrink-0'
-        color='black'
+        color={disabled ? COLOR_VARIANTS.GRAY_05 : COLOR_VARIANTS.BLACK}
         variant={TYPOGRAPHY_VARIANTS.BODY_14_M}
       >
         {label}

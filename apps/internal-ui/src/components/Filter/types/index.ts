@@ -37,6 +37,7 @@ export interface FilterSelectOptions {
   options?: FilterSelectOption[];
   numericOption?: FilterNumericOption;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export interface FilterProps

@@ -24175,3 +24175,81 @@ export const OptionTypes: Story = {
     );
   },
 };
+
+const cascadeSelectOptions: FilterSelectOptions[] = [
+  {
+    label: '시/도',
+    key: 'acNameLevel1',
+    type: 'single_select',
+    options: [
+      { displayValue: '서울특별시', value: '서울특별시' },
+      { displayValue: '부산광역시', value: '부산광역시' },
+    ],
+  },
+  {
+    label: '시/군/구',
+    key: 'acNameLevel2',
+    type: 'single_select',
+    options: [
+      { displayValue: '강남구', value: '강남구' },
+      { displayValue: '서초구', value: '서초구' },
+    ],
+  },
+  {
+    label: '읍/면/동',
+    key: 'acNameLevel3',
+    type: 'multi_select',
+    options: [
+      { displayValue: '역삼동', value: '역삼동' },
+      { displayValue: '삼성동', value: '삼성동' },
+    ],
+  },
+  {
+    label: '리',
+    key: 'acNameLevel4',
+    type: 'multi_select',
+    options: [{ displayValue: '신촌리', value: '신촌리' }],
+  },
+];
+
+export const CascadeOptions: Story = {
+  decorators: [
+    (StoryComponent) => (
+      <div style={{ minHeight: '32rem', padding: '2.5rem' }}>
+        <StoryComponent />
+      </div>
+    ),
+  ],
+  render: (args) => {
+    const [selectValues, setSelectValues] =
+      useState<FilterProps['selectValues']>();
+    const [toggleValues, setToggleValues] =
+      useState<FilterProps['toggleValues']>();
+
+    const onChange = (value: FilterOnChangeParams) => {
+      setSelectValues(value.selectValues);
+      setToggleValues(value.toggleValues);
+    };
+
+    const selectOptions = cascadeSelectOptions.map((option, index) => {
+      const parentOption = cascadeSelectOptions[index - 1];
+      const parentValues = parentOption
+        ? selectValues?.[parentOption.key]
+        : null;
+
+      return { ...option, disabled: !!parentOption && !parentValues?.length };
+    });
+
+    return (
+      <Filter
+        {...args}
+        label='Filter'
+        selectOptions={selectOptions}
+        selectValues={selectValues}
+        toggleOptions={[]}
+        toggleValues={toggleValues}
+        onChange={onChange}
+      />
+    );
+  },
+};
