@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.127
+
+### Patch Changes
+
+- 7cea6b1: DOTOLI-302 dotoli > Filter > FilterSelectOptionCategory > disabled props 추가
+  - @bbodek/utils@0.0.97
+  - @bbodek/hooks@0.0.100
+
 ## 0.0.126
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.52
+
+### Patch Changes
+
+- 7cea6b1: DOTOLI-301 biz-ui 개발 마무리 — 규칙 이탈 · 미사용 의존성 정리
+
 ## 0.0.51
 
 ### Patch Changes
