@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.128
+
+### Patch Changes
+
+- b24f799: FE-49 internal-ui possibleConfirm → canConfirm
+  - @bbodek/utils@0.0.98
+  - @bbodek/hooks@0.0.101
+
 ## 0.0.127
 
 ### Patch Changes

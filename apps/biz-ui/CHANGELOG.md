@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.53
+
+### Patch Changes
+
+- b24f799: FE-49 internal-ui possibleConfirm → canConfirm
+
 ## 0.0.52
 
 ### Patch Changes
