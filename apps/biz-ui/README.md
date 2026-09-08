@@ -81,6 +81,7 @@ export default Example;
 
 ```json
 "peerDependencies": {
+  "next": "^15.3.6",
   "react": "^19.2.1",
   "react-dom": "^19.2.1",
   "tailwindcss": "^4"

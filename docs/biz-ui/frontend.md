@@ -80,6 +80,15 @@
 ### 특이사항
 
 - **`internal-ui`와 완전 독립입니다.** `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 있어 hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. biz-ui는 서드파티만 직접 의존합니다.
+- **`next`가 필수 peerDependency입니다 (DOTOLI-303).** `LinkCtaButton` · `LinkIconButton`이 `next/link`를 직접 렌더하면서 **biz-ui가 처음으로 프레임워크에 묶였습니다.** 바로 위 항목의 독립성 원칙과 충돌하지 않습니다 — 그 원칙이 막는 것은 릴리즈 데드락을 부르는 **워크스페이스 체인**이지 서드파티가 아닙니다(`plan.md` 「제약」).
+
+  **`optional`이 아닙니다.** 최상위 `import Link from 'next/link'`를 하는 이상 「없을 수도 있다」는 선언은 거짓이 됩니다. 한때 optional이었던 것은 결정이 아니라 DOTOLI-213 스캐폴딩 잔재를 DOTOLI-220이 치우다 남긴 중간 산물이고, `src/`가 한 번도 쓰지 않아 DOTOLI-301이 걷어냈습니다 — 경위는 [components/button.md](./components/button.md) 「Link 계열」.
+
+  **`external`에는 넣지 않았습니다.** `peerDepsExternal()`이 서브패스까지 처리하는 것을 실측했습니다 — `external`에서 `'next/link'`를 빼고 빌드해도 `client.es.js`에 `import yr from "next/link"`가 그대로 남고 인라인 흔적이 없습니다(35KB 불변). `dependencies`였다면 이 보호가 없습니다: `apps/internal-ui`가 그 상태라 `next/link` 소스가 dist에 통째로 들어가 있습니다.
+
+  **`scripts/verify-chunks.mjs`에 다섯 번째 검사를 넣었습니다** — `client.es.js`가 `next/link`를 external로 import 하는가. `next`가 peerDeps에서 빠지거나 dependencies로 옮겨지면 조용히 인라인되는데, 소비 앱에서만 드러나는 종류라 빌드에서 잡습니다.
+
+  청크 세 개 모두 `next/link`가 걸립니다. `client`만 바인딩(`import yr from`)이고 `index` · `shared`는 부작용 import(`import"next/link"`)인데, **rollup이 external을 모든 청크로 hoist하는 기존 동작**이라 `react/jsx-runtime` · `clsx` · `dayjs`와 같은 모양입니다. `import type`으로 바꿔도 달라지지 않아 되돌렸습니다.
 - **`dayjs`를 dependency로 추가했습니다 (DOTOLI-273).** 캘린더 격자가 「그 달 1일의 요일」과 「말일」을 알아야 하는데, 같은 계산을 하는 `@bbodek/utils`의 date 래퍼를 물면 바로 위 항목의 체인이 그대로 딸려옵니다. **`internal-ui`도 결국 `dayjs`를 쓰므로**(`@bbodek/utils`가 `utc` · `timezone` 플러그인을 얹어 `Asia/Seoul`로 고정) 같은 라이브러리를 한 겹 없이 직접 무는 쪽을 택했습니다. 근거와 대안 비교는 [components/calendar.md](./components/calendar.md) 「결정」에 있습니다.
 
   **플러그인은 얹지 않았습니다.** `utc` · `timezone`이 필요한 것은 「오늘」 판정인데, biz-ui `CalendarDayButton`에는 `today` 축이 없고 `disabled` · `isHoliday`는 정책 COM-009가 **서버 판정**으로 못박아 DS가 현재 시각을 알 필요가 없습니다. 격자 계산 자체는 로컬 날짜 부품만 쓰므로 타임존과 무관합니다. `today`가 생기면 그때 플러그인을 함께 검토합니다.

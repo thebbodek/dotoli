@@ -204,6 +204,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-296 biz-ui InfoBanner `title` 추가 + `label` → `description` 개명 (굵은 첫 줄 · 색 동일 · `\n` 줄바꿈)
 - [x] DOTOLI-297 biz-ui Toast · NotificationCard 강조부를 `ReactNode`로 (`message`·`title` 개방 · **`highlight` 제거** · `[&_strong]:`로 색은 DS 소유)
 - [x] DOTOLI-295 biz-ui ActionChip 구현 + Chip 계열 승격 (`Chip/shared`로 알약 공유 · `state`는 prop이 아니라 `:active`)
+- [x] DOTOLI-303 biz-ui LinkCtaButton · LinkIconButton 추가 (`next` 필수 peerDependency 도입 · 시각은 버튼판과 동일한 생성기)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -327,6 +328,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-295 | ActionChip(버튼 역할 칩 · `pressed`는 `:active`) + **`Chip` 단독 폴더 → 계열 승격**(`Chip/Chip` · `Chip/ActionChip` · `Chip/shared`) | [components/chip.md](./components/chip.md)                                              |
 | DOTOLI-299 | App Router(RSC) 대응 — `'use client'` + terser `compress.directives: false`. **상수까지 클라이언트 참조가 되는 회귀를 냄** | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-300 | `dist` 청크 3분할(`index` · `shared` · `client`) — 299 회귀 수정. 경계는 `manualChunks`가 경로 규약으로 결정, 소스 무수정 | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
+| DOTOLI-303 | `LinkCtaButton` · `LinkIconButton` 추가 — **`next` 필수 peerDependency 도입**(DS 첫 프레임워크 의존) | [components/button.md](./components/button.md) · [frontend.md](./frontend.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

@@ -9,6 +9,7 @@ const CLIENT_CHUNK = 'client.es.js';
 const CLIENT_DIRECTIVE_PATTERN = /^["']use client["'];/;
 const REACT_IMPORT_PATTERN = /from\s*["']react(-dom)?(\/[^"']*)?["']/;
 const CLIENT_IMPORT_PATTERN = /from\s*["']\.\/client\.es\.js["']/;
+const NEXT_LINK_IMPORT_PATTERN = /from\s*["']next\/link["']/;
 
 const readChunk = ({ name }) => readFileSync(join(DIST_DIR, name), 'utf8');
 
@@ -43,6 +44,12 @@ if (CLIENT_IMPORT_PATTERN.test(shared)) {
   failures.push(`${SHARED_CHUNK} 가 ${CLIENT_CHUNK} 를 import 합니다 — 의존은 단방향이어야 합니다`);
 }
 
+if (!NEXT_LINK_IMPORT_PATTERN.test(client)) {
+  failures.push(
+    `${CLIENT_CHUNK} 가 next/link 를 external 로 import 하지 않습니다 — 번들에 인라인됐거나 (next 가 peerDependencies 에서 빠지면 peerDepsExternal 이 걸러내지 못합니다) Link 컴포넌트가 사라졌습니다`,
+  );
+}
+
 if (failures.length) {
   console.error('\n✗ dist 청크 경계 검증 실패\n');
   failures.forEach((failure) => console.error(`  · ${failure}`));
@@ -50,4 +57,6 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log('✓ dist 청크 경계 정상 — client 지시어 · shared 서버 안전 · 단방향 의존');
+console.log(
+  '✓ dist 청크 경계 정상 — client 지시어 · shared 서버 안전 · 단방향 의존 · next/link external',
+);

@@ -14,6 +14,8 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 | `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
 | `IconButton` | DOTOLI-224 | `theme` 3 × `size` 2. theme × state 13조합 전수 실측                                                                     |
 | `CollapseButton` | DOTOLI-262 | `isOpen` 1축. 접기/펼치기 토글. 라벨을 DS가 소유                                                                     |
+| `LinkCtaButton` | DOTOLI-303 | `CtaButton`의 링크판. Figma 심볼 없음 — 시각은 같고 요소만 `<a>`                                                    |
+| `LinkIconButton` | DOTOLI-303 | `IconButton`의 링크판. 같음                                                                                        |
 
 Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다. **`CollapseButton`만 섹션 밖(`129:521`)에 따로 있는데**, 형태가 「라벨 + caret」이라 계열 안에서 `Filter`와 가장 가깝고 `ButtonIcon`을 그대로 물어 씁니다.
 
@@ -331,10 +333,20 @@ apps/biz-ui/src/components/Button/
 │   ├── types/index.ts
 │   ├── utils/generateIconButtonStyle.ts # 배럴에서 export 하지 않음 (내부 전용)
 │   └── index.ts
+├── LinkCtaButton/                      # DOTOLI-303. CtaButton의 생성기를 그대로 물어 씀
+│   ├── LinkCtaButton.tsx
+│   ├── types/index.ts
+│   └── index.ts
+├── LinkIconButton/
+│   ├── LinkIconButton.tsx
+│   ├── types/index.ts
+│   └── index.ts
 ├── shared/                             # 버튼 계열 공통만
 │   ├── ButtonIcon.tsx
 │   ├── constants/index.ts
 │   ├── types/index.ts
+│   ├── utils/                          # 배럴에서 export 하지 않음 (내부 전용)
+│   │   └── generateLinkButtonClickHandler.ts
 │   └── index.ts
 └── index.ts
 
@@ -342,7 +354,9 @@ apps/storybook/src/stories/biz-ui/
 ├── CtaButton.stories.tsx               # core/biz-ui/Button/CtaButton, 스토리 8종
 ├── Filter.stories.tsx                  # core/biz-ui/Button/Filter, 스토리 3종
 ├── FloatingPill.stories.tsx            # core/biz-ui/Button/FloatingPill, 스토리 2종
-└── IconButton.stories.tsx              # core/biz-ui/Button/IconButton, 스토리 6종
+├── IconButton.stories.tsx              # core/biz-ui/Button/IconButton, 스토리 6종
+├── LinkCtaButton.stories.tsx           # core/biz-ui/Button/LinkCtaButton, 스토리 4종
+└── LinkIconButton.stories.tsx          # core/biz-ui/Button/LinkIconButton, 스토리 4종
 ```
 
 CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
@@ -469,3 +483,74 @@ Figma: [CollapseButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivI
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/CollapseButton.stories.tsx`, `meta.title`은 `core/biz-ui/Button/CollapseButton`. 데코레이터로 **사용예시의 실제 폭인 `w-[300px]`**을 겁니다(문서 프레임 320이 아니라). 스토리 3종이고, `Interactive`가 `useState`로 회전과 문구 전환을 함께 보여주는 유일한 자리입니다 (`Filter`의 같은 이름 스토리와 같은 형태).
+
+---
+
+## Link 계열 (DOTOLI-303)
+
+`CtaButton` · `IconButton`의 링크판입니다. **Figma에 심볼이 없습니다** — 시각이 버튼판과 완전히 같고 렌더되는 요소만 `<a>`라서 실측할 것이 없고, 기존 스타일 생성기를 그대로 물어 씁니다.
+
+`next/link`를 DS가 직접 렌더하므로 **biz-ui가 처음으로 프레임워크에 의존합니다.** 패키징 쪽 근거와 실측은 [frontend.md](./frontend.md) 「특이사항」에 있습니다.
+
+### 왜 `href`를 뒤늦게 여는가
+
+착수 시점 기준으로 [BottomTab](./bottom-tab.md)과 [NavigationListItem](./navigation-list-item.md)이 「`href`를 열지 않는다」로 기록돼 있었고, 근거는 **`next`가 optional peerDependency라 라우터를 물 수 없다**는 것이었습니다. 그 상태는 결정이 아니라 **DOTOLI-213 스캐폴딩 잔재를 DOTOLI-220이 치우다 남긴 중간 산물**이었습니다 — 계획서(`plan.md` 「패키지 설정」)의 peerDeps 목록에는 `next`가 애초에 없었고, `src/`가 `next`를 import한 적도 없어 DOTOLI-301이 미사용으로 걷어냈습니다.
+
+즉 이번 티켓은 이전 결정을 뒤집은 것이 아니라, **한 번도 내려진 적 없는 결정을 내린 것**입니다. 「서드파티만 직접 의존」 원칙이 겨냥하는 것도 `next`가 아니라 `@bbodek/hooks` → `utils` → `internal-ui` 워크스페이스 체인입니다 (`plan.md` 「제약」 — 캐럿 `^0.0.x` 릴리즈 데드락).
+
+### 결정
+
+- **`disabled`가 아니라 `isDisabled`입니다.** `<a>`에는 `disabled` 속성이 없어 HTML 기본 속성 예외에 해당하지 않습니다 — CLAUDE.md 「Boolean prop」 규칙(`<button>`에 `selected`가 없어 Filter가 `isSelected`인 것과 같은 자리). 버튼판과 이름이 갈리지만 **요소가 다르면 기본 속성도 다르다**는 규칙이 그대로 적용된 결과입니다.
+
+  막는 방법은 세 겹입니다 — `aria-disabled` · `tabIndex={-1}` · `onClick`에서 `preventDefault`. **`<a>`는 눌리는 것을 자체적으로 막을 수 없어** 셋 중 하나만 빠져도 새는데, 키보드로는 `tabIndex`가, 마우스로는 `preventDefault`가, 보조기술에는 `aria-disabled`가 각각 답합니다. internal-ui `LinkButton`과 같은 처리입니다.
+
+  **세 겹이 덮지 못하는 경로가 남아 있습니다 — 롱프레스 컨텍스트 메뉴입니다.** `preventDefault`는 `click`만 잡는데 「새 탭에서 열기」는 클릭 이벤트를 아예 발생시키지 않고 DOM의 `href`를 그대로 씁니다(가운데 클릭도 `auxclick`이라 같은 이유로 안 걸립니다). **모바일 WebView 타깃이라 실재하는 경로**이고, 아래 「디자인 확인 필요」에 올려 뒀습니다. `isDisabled`일 때 `href` 없는 요소를 렌더하면 닫히지만 요소가 상태에 따라 바뀌고 `ref` 타입과 어긋나므로, 지금은 internal-ui `LinkButton`과 같은 한계를 안고 갑니다.
+
+- **`isPending`을 넣지 않습니다.** 링크는 라우팅 트리거라 「진행 중」의 시각적 의미가 「지금은 누를 수 없음」과 겹치고, 그건 이미 `isDisabled`입니다. Figma에 pending 심볼이 없어 버튼판의 스피너도 외삽이었는데(위 CtaButton 「구현 결정」), 외삽을 한 겹 더 쌓을 이유가 없습니다. internal-ui `LinkButton`도 `isPending`을 받지 않습니다.
+
+- **스타일 생성기를 형제 폴더에서 직접 가져옵니다.** `generateCtaButtonStyle` · `generateCtaButtonIconStyle` · `generateIconButtonStyle`을 `shared`로 올리지 않았습니다 — 생성기가 `CTA_BUTTON_STYLES` · `ICON_BUTTON_STYLES`에 묶여 있는데 「`SIZE`·`THEME`·`VARIANT`를 `shared`에 두지 않는다」가 계열 공통 결정이라, 올리면 그 규칙이 먼저 깨집니다. 생성기는 어느 배럴에도 없어 **공개 API는 늘지 않습니다.**
+
+  덕분에 시각이 갈릴 수 없습니다 — Storybook 실측에서 `LinkCtaButton`과 `CtaButton`의 class 문자열이 **한 글자도 다르지 않고** 태그만 `A` ↔ `BUTTON`입니다(아래 「검증」).
+
+- **`LinkButtonPrimitiveProps`를 `shared/types`에 둡니다.** `LinkProps` + `target` · `rel` + `ref` + `isDisabled` 묶음이고 **두 컴포넌트가 실제로 공유**하므로 `shared` 자격에 맞습니다. 각 컴포넌트 타입은 여기에 버튼판을 `Omit`으로 얹기만 합니다.
+
+  ```ts
+  export interface LinkCtaButtonProps
+    extends Omit<CtaButtonProps, 'disabled' | 'isPending' | 'onClick' | 'ref' | 'type'>,
+      LinkButtonPrimitiveProps {}
+  ```
+
+  `onClick`을 떼는 것은 시그니처가 `MouseEventHandler<HTMLButtonElement>`라서이고, 대신 `LinkProps`가 앵커용 `onClick`을 갖고 들어옵니다. `type`은 `<a>`에 없고, `ref`는 `RefAttributes<HTMLAnchorElement>`로 바뀝니다.
+
+- **`LinkProps`를 스프레드로 통과시킵니다.** `href` · `prefetch` · `replace` · `scroll` · `as` · `onNavigate`는 전부 **소비자가 판단할 것이 없는 네이티브 통로**라 CLAUDE.md 「네이티브 통로는 열고, 결정은 열지 않습니다」에 해당합니다. `target` · `rel`도 같은 이유로 엽니다 — `Checkbox` · `Toggle` · `ItemCheckbox`가 이미 쓰는 형태입니다.
+
+- **클릭 가드를 `shared/utils`로 뺐습니다.** `generateLinkButtonClickHandler`가 `isDisabled`면 `preventDefault`하고 아니면 `onClick`으로 넘깁니다. 두 컴포넌트가 같은 로직이라 한쪽만 고쳐지는 것을 막습니다. `Button/shared`에 `utils/`가 생긴 첫 사례입니다(internal-ui `Button/shared`에는 이미 있습니다).
+
+- **버튼판을 건드리지 않았습니다.** `CtaButton` · `IconButton`의 API·시각·요소가 그대로입니다. 링크가 필요 없는 자리는 계속 `<button>`이고, 「형태가 다르면 컴포넌트를 하나 더 만든다」는 CLAUDE.md의 `shared` 정책과 internal-ui `Button` ↔ `LinkButton` 분리를 그대로 따랐습니다.
+
+### 이름
+
+internal-ui가 `Button` → `LinkButton`으로 **`Link`를 접두어**에 두므로 `LinkCtaButton` · `LinkIconButton`입니다. biz-ui 안에서도 수식어가 앞에 오는 쪽(`ItemCheckbox` · `FeedbackToast` · `StatusAlertBanner`)과 맞습니다. **Figma 심볼명을 따르는 원칙의 예외**인데, 대응하는 심볼이 없어 따를 이름 자체가 없습니다.
+
+### 검증
+
+Storybook 렌더의 계산값입니다.
+
+| 항목 | 기대 | 실측 |
+| ---- | ---- | ---- |
+| 요소 | `<a>` | `A` (버튼판은 `BUTTON`) |
+| class 문자열 | `CtaButton`과 동일 | **완전 일치** — `flex-h-stack-center relative transition-colors rounded-8 text-body-bold h-[52px] px-[30px] py-[12px] bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 cursor-pointer` |
+| `LinkCtaButton` 기본 | 52px · `px-[30px] py-[12px]` · `#3182f6` · radius 8 · 16px/700 | 전부 일치 |
+| `LinkIconButton` 기본 | 40 × 40 · radius 6 · 아이콘 24px `gray/500` · weight `bold` | 40×40 · 6px · 24px `rgb(138,147,168)` · `Phosphor-Bold` |
+| 히트 영역 | `TOUCH_TARGET_STYLE` 상속 | `before:-inset-1.5` 적용됨 |
+| `isDisabled` | `aria-disabled` · `tabIndex=-1` · `gray/100` 배경 | 4개 variant 전수 일치 |
+| `isDisabled` 클릭 | 이동하지 않음 | 클릭 후 URL 불변 |
+
+### 디자인 확인 필요
+
+| 항목 | 내용 |
+| ---- | ---- |
+| 링크 상태 | Figma에 링크판 심볼이 없습니다. 버튼판의 `hover` · `pressed` · `disabled`를 그대로 씁니다 — 링크에서 달라야 하는지 |
+| `isDisabled` 시각 | 눌리지 않는 링크의 시각이 `disabled` 버튼과 같아도 되는지 (지금은 같습니다) |
+| `isDisabled` 우회 | **롱프레스 → 「새 탭에서 열기」로 이동됩니다.** `href`가 DOM에 남아 있고 클릭 이벤트가 안 나서 `preventDefault`가 못 잡습니다. WebView가 콜아웃을 끄면 닫히는데, 앱 쪽 설정에 기대도 되는지 · 아니면 DS가 `href`를 떼야 하는지 |
+| 방문 상태 | `:visited` 정의가 없습니다. 링크라 브라우저 기본이 걸릴 수 있는 자리인데 색을 지정하지 않았습니다 |

@@ -81,6 +81,9 @@ importers:
       eslint-config-next:
         specifier: ^16
         version: 16.3.3(@typescript-eslint/parser@8.68.0(eslint@10.9.1(jiti@2.4.2))(typescript@5.8.3))(eslint@10.9.1(jiti@2.4.2))(typescript@5.8.3)
+      next:
+        specifier: ^15.3.6
+        version: 15.5.7(@babel/core@7.27.1)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       react:
         specifier: ^19.2.1
         version: 19.2.1
