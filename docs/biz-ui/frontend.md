@@ -80,7 +80,7 @@
 ### 특이사항
 
 - **`internal-ui`와 완전 독립입니다.** `@bbodek/hooks` → `@bbodek/utils` → `@bbodek/internal-ui` 의존 체인이 있어 hooks 하나만 물려도 internal-ui 전체가 딸려옵니다. biz-ui는 서드파티만 직접 의존합니다.
-- **`next`가 필수 peerDependency입니다 (DOTOLI-303).** `LinkCtaButton` · `LinkIconButton`이 `next/link`를 직접 렌더하면서 **biz-ui가 처음으로 프레임워크에 묶였습니다.** 바로 위 항목의 독립성 원칙과 충돌하지 않습니다 — 그 원칙이 막는 것은 릴리즈 데드락을 부르는 **워크스페이스 체인**이지 서드파티가 아닙니다(`plan.md` 「제약」).
+- **`next`가 필수 peerDependency입니다 (DOTOLI-303).** `LinkCtaButton` · `LinkIconButton`이 `next/link`를 직접 렌더하면서 **biz-ui가 처음으로 프레임워크에 묶였습니다.** **DOTOLI-304부터 `BottomTab`도 여기 들어갑니다** — 의존을 재검토할 일이 생기면 영향 범위가 셋입니다. 바로 위 항목의 독립성 원칙과 충돌하지 않습니다 — 그 원칙이 막는 것은 릴리즈 데드락을 부르는 **워크스페이스 체인**이지 서드파티가 아닙니다(`plan.md` 「제약」).
 
   **`optional`이 아닙니다.** 최상위 `import Link from 'next/link'`를 하는 이상 「없을 수도 있다」는 선언은 거짓이 됩니다. 한때 optional이었던 것은 결정이 아니라 DOTOLI-213 스캐폴딩 잔재를 DOTOLI-220이 치우다 남긴 중간 산물이고, `src/`가 한 번도 쓰지 않아 DOTOLI-301이 걷어냈습니다 — 경위는 [components/button.md](./components/button.md) 「Link 계열」.
 

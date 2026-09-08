@@ -108,6 +108,17 @@ Figma: [MenuItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-De
 
 - **`<button>` + `onClick` 필수입니다.** 메뉴 항목은 눌러서 이동·실행하는 것이 존재 이유라, 누를 수 없는 MenuItem은 만들 수 없게 했습니다. `NavigationListItem` · [tag.md](./tag.md)와 같은 형태(`Required<Pick<…, 'onClick'>>` + `type='button'` 하드코딩)입니다.
 
+  **링크로 바꾸지 않습니다 — 기획(CSC-001 `1576:20385`)이 둘 다 링크가 아니라고 못박습니다.** DOTOLI-303으로 `next`가 필수 peerDependency가 되면서 `BottomTab`은 전환했지만(DOTOLI-304), 여기는 전제가 아니라 **동작 자체가 링크가 아닙니다.**
+
+  | 심볼 | 기획 액션 |
+  | --- | --- |
+  | `chat` | 탭 → **채널톡 연결** |
+  | `phone` | 탭 → OS 다이얼러 호출. **운영시간 외에는 이동하지 않고 토스트** |
+
+  채널톡은 웹 SDK(`ChannelIO('showMessenger')`)든 RN 브릿지든 **오버레이를 여는 함수 호출**이라 `href`에 넣을 목적지가 없습니다. 전화는 `tel:`이지만 **운영시간 조건부**라, `<a href="tel:">`로 두면 운영시간 외에도 다이얼러가 뜨고 클릭만 막아도 롱프레스 메뉴로 샙니다 — [`LinkCtaButton`](./button.md)의 `isDisabled`에서 확인한 구멍과 같습니다.
+
+  조건부로 이동을 막아야 하는 자리는 링크가 아니라 버튼입니다.
+
   **Figma에는 상호작용 정의가 없습니다** — 아래 「디자인 확인 필요」에 올렸습니다.
 
 - **라벨 · 설명 둘 다 `truncate`입니다.** 높이가 82로 고정이라 줄바꿈이 생기면 그대로 넘칩니다. `NavigationListItem`(`min-w-0 truncate text-left`) · `SelectionItem`이 같은 이유로 같은 처리를 하고 있어 목록 계열의 기존 정책을 따랐습니다.

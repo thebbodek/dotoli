@@ -8,8 +8,8 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 | 컴포넌트        | 티켓       | 공개 | 설명                                |
 | --------------- | ---------- | ---- | ----------------------------------- |
-| `BottomTab`     | DOTOLI-249 | ✅   | `<nav>` + 탭 3개. `value` 1축       |
-| `BottomTabItem` | DOTOLI-249 | ❌   | 탭 하나. `<button>` + 아이콘 + 라벨 |
+| `BottomTab`     | DOTOLI-249 · 304 | ✅   | `<nav>` + 탭 3개. `value` 1축       |
+| `BottomTabItem` | DOTOLI-249 · 304 | ❌   | 탭 하나. `next/link` + 아이콘 + 라벨 |
 
 `BottomTabItem`은 배럴에 없어 공개 API가 아닙니다 — 빌드 후 `dist/index.es.js`의 export 목록에 `BottomTab` 하나만 있는 것을 확인했습니다. 소비자가 탭을 직접 조립할 일이 없어서입니다(아래 「결정」 1번).
 
@@ -100,9 +100,31 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 - **`BOTTOM_TAB_DEFAULT_VALUE`를 내보냅니다.** COM-001의 「주문이 기본 진입 탭」을 DS가 값으로 갖되, 컴포넌트는 제어 전용이라 초기 상태는 소비자가 쥡니다. 상수만 있으면 소비 앱이 `'order'`를 다시 적어 넣지 않아도 됩니다.
 
-- **`<button>` + `onChange`입니다. `href`를 열지 않습니다.** biz-ui는 서드파티만 의존하는 독립 패키지라 라우터(`next/link` 등)를 물 수 없고, `as` · `renderItem` 같은 다형 prop은 CLAUDE.md 「폼 컨트롤 공통」 5번이 막는 「소비자가 매번 정해야 하는 결정」에 해당합니다. 라우팅은 `onChange`를 받은 쪽이 합니다.
+- **`next/link` + `hrefs`입니다 (DOTOLI-304) — 파괴적 변경입니다. 처음에는 `<button>` + `onChange`였습니다.**
 
-  **그래서 소비자가 `value`를 어디서 가져오는지가 중요해집니다** — 아래 「API」의 「`value`는 URL에서 파생시킵니다」를 함께 봅니다.
+  **`onChange`는 `onTabSelect`로 개명했습니다 — 이름을 남겨두면 타입이 이관을 못 잡습니다.** 시그니처가 `(value: BottomTabValue) => void`로 같은데 계약만 뒤집혀서(「여기서 라우팅해라」 → 「여기서 라우팅하면 안 된다」), 이름이 그대로였다면 옛 코드 `onChange={(v) => router.replace(TAB_ROUTES[v])}`가 **컴파일도 실행도 되고 `<Link>` 이동과 겹쳐 두 번 이동합니다.** 타입이 잡아 주는 것은 `hrefs` 누락뿐이라 나머지는 이름이 유일한 방어선입니다.
+
+  개명으로 막는다는 판단은 계열 선례를 따른 것입니다 — `BottomActionBar`의 `confirm`·`cancel` → `action`·`subAction`, `InfoBanner`의 `label` → `description`, `BottomSheet`의 `actionOption` → `actionBarOption` 전부 **의미가 갈린 자리에서 이름을 바꿔** 소비 앱이 조용히 깨지지 않게 했습니다. 전환 시점에 소비 앱(`biz-customer-app`)이 아직 이 컴포넌트를 쓰지 않아 실제 이관 대상은 0건이었습니다.
+
+  DOTOLI-249의 근거는 「biz-ui는 서드파티만 의존하는 독립 패키지라 라우터를 물 수 없다」였는데, **그 전제가 사실이 아니었습니다.** 당시 `next`가 optional peerDependency였던 것은 결정이 아니라 DOTOLI-213 스캐폴딩 잔재를 DOTOLI-220이 치우다 남긴 중간 산물이고(계획서의 peerDeps 목록에 `next`가 애초에 없었습니다), 「서드파티만 직접 의존」 원칙이 겨냥하는 것도 라우터가 아니라 `@bbodek/hooks` → `utils` → `internal-ui` 워크스페이스 체인입니다(`plan.md` 「제약」 — 캐럿 `^0.0.x` 릴리즈 데드락). 경위는 [button.md](./button.md) 「Link 계열」.
+
+  DOTOLI-303이 `next`를 **필수 peerDependency**로 들이면서 전제가 사라졌습니다. `as` · `renderItem` 같은 다형 prop을 열지 않는다는 판단은 그대로입니다 — 소비자가 정하는 것은 라우터가 아니라 **경로뿐**입니다.
+
+  **바꿔서 얻은 것은 프리페치와 시맨틱입니다.** App Router의 `<Link>`는 뷰포트에 들어오면 프리페치하는데 BottomTab은 화면에 상주하므로 **탭 3개가 항상 프리페치 대상**입니다. `onChange`에서 `router.replace`를 부르던 방식은 프리페치가 아예 없어 전환마다 서버 왕복이었습니다.
+
+  다만 **「전부 미리 받아둔다」는 아닙니다** — 기본값(`prefetch={null}`)은 정적 라우트만 전량이고 동적 라우트는 `loading.tsx` 경계까지의 부분 프리페치입니다. 탭 3개가 인증된 데이터 화면이면 대부분 후자입니다. 그리고 `<nav>` 안에서 화면을 바꾸는 요소는 링크가 정석이라 스크린리더의 링크 목록에도 이제 잡힙니다 — `aria-current="page"`도 원래 링크 관용입니다.
+
+- **경로는 소비자가 `hrefs`로 넘깁니다.** 탭의 개수 · 순서 · 라벨은 정책 COM-001이 못박아 DS가 갖지만 **URL은 앱 것**입니다. `Record<BottomTabValue, LinkProps['href']>`라 세 탭이 타입에서 강제돼 누락이 불가능하고, 값 타입을 `LinkProps`에서 가져와 `UrlObject`도 그대로 통과합니다.
+
+- **`onTabSelect`는 남기되 선택입니다.** 라우팅은 `<Link>`가 하므로 더 이상 필수가 아니지만, 스택 리셋 · 분석 로깅처럼 **이동과 별개로 걸 것**이 있어 통로를 닫지 않았습니다. 눌린 탭의 `value` 하나만 받는 시그니처는 그대로입니다.
+
+  **「재탭 시 최상단 스크롤」은 여기 쓸 일이 없습니다** — App Router의 `<Link>`가 같은 경로로도 소프트 내비게이션을 돌리고 `scroll` 기본값(`true`)이 최상단으로 올립니다. 예전에 이 용례를 근거로 들었던 것은 `<button>`이라 이동 자체가 콜백 안에 있었기 때문입니다.
+
+- **`replace`를 엽니다.** 탭 전환마다 히스토리가 쌓이면 뒤로가기가 화면이 아니라 탭을 되짚는데, **이건 소비 앱의 히스토리 정책이라 DS가 정하지 않습니다**(DOTOLI-249부터 같은 판단). 전에는 소비자가 `router.push`/`replace`를 골라 부르던 자리이고, 지금은 `LinkProps`의 같은 이름 prop이 그 역할을 합니다. 세 탭에 한꺼번에 걸립니다.
+
+  나머지 `LinkProps`(`prefetch` · `scroll` · `as` …)는 열지 않았습니다 — 기본값이 그대로 맞고, 공개는 되돌리기 비대칭이라 필요가 확인될 때 여는 순서로 갑니다.
+
+  **[`LinkCtaButton`](./button.md)이 `LinkProps`를 통째로 스프레드하는 것과 갈리는데, 규칙이 다른 게 아니라 적용 대상이 다릅니다.** 그쪽은 **앵커 하나**를 소비자가 통째로 소유하니 넘기는 값이 곧 그 링크의 속성이고 「네이티브 통로」가 성립합니다. BottomTab은 **앵커가 셋**이라 prop 하나가 세 개에 일괄로 걸립니다 — 그건 통과가 아니라 **DS가 셋을 묶는 결정**이고, 그래서 하나씩 근거를 두고 엽니다. `hrefs`가 값별 `Record`인 것도 같은 이유입니다(경로는 탭마다 달라야 하므로).
 
 - **`role="tablist"`이 아니라 `<nav>` + `aria-current="page"`입니다.** internal-ui의 `Tab` 계열은 `role="tab"` · `aria-selected` · `aria-controls`를 쓰지만 그쪽은 **같은 화면 안에서 패널을 바꾸는 위젯**입니다. BottomTab은 화면 자체를 바꾸는 네비게이션이라 제어할 `tabpanel`이 없고, `role="tab"`을 붙이면 보조기술이 존재하지 않는 패널을 찾습니다.
 
@@ -122,27 +144,28 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 ## API
 
-| prop        | 필수 | 기본값 | 비고                              |
-| ----------- | ---- | ------ | --------------------------------- |
-| `value`     | ✅   | —      | 제어 전용. 현재 탭                |
-| `onChange`  | ✅   | —      | `(value: BottomTabValue) => void` |
-| `className` |      | —      | `<nav>`에 적용                    |
+| prop        | 필수 | 기본값 | 비고                                                   |
+| ----------- | ---- | ------ | ------------------------------------------------------ |
+| `value`     | ✅   | —      | 제어 전용. 현재 탭                                     |
+| `hrefs`     | ✅   | —      | `Record<BottomTabValue, LinkProps['href']>`. 세 탭 전부 |
+| `replace`   |      | `false` | `LinkProps` 기본값(= push). 세 탭에 함께 걸림           |
+| `onTabSelect` |    | —      | `(value: BottomTabValue) => void`. 부수효과용            |
+| `className` |      | —      | `<nav>`에 적용                                          |
 
 내보내는 상수는 `BOTTOM_TAB_VALUES` · `BOTTOM_TAB_DEFAULT_VALUE` · `BOTTOM_TAB_STATES` · `BOTTOM_TAB_ITEMS`와 스타일 상수들입니다.
 
-**`onChange`는 눌린 탭의 `value` 하나만 받습니다.** 이벤트 객체가 아닙니다(`QuantityStepper`의 `onChange: (value: number) => void`와 같은 형태). **이미 선택된 탭을 다시 눌러도 호출됩니다** — 재탭에 「최상단 스크롤」·「스택 리셋」을 붙이는 관례가 있어 막지 않았고, 필요 없으면 소비자가 `value === next`로 걸러냅니다.
+**`onTabSelect`는 눌린 탭의 `value` 하나만 받습니다.** 이벤트 객체가 아닙니다(`QuantityStepper`의 `onChange: (value: number) => void`와 같은 형태). **이미 선택된 탭을 다시 눌러도 호출됩니다** — 필요 없으면 소비자가 `value === next`로 걸러냅니다. **이동 자체는 `<Link>`가 하므로 여기서 라우팅을 부르면 두 번 이동합니다.**
+
+**수식 클릭(Cmd/Ctrl+클릭 · 중클릭)에서는 이동 없이 발화합니다.** 새 탭으로 열리면서 현재 화면에만 콜백이 걸리는 형태인데, `<button>` 시절에는 「발화 = 전환」이라 갈릴 일이 없던 자리입니다. 모바일 WebView 타깃이라 실무 영향은 없다고 보고 막지 않았습니다 — 부수효과가 전환을 전제한다면 소비자가 `e.metaKey`를 볼 수 있어야 하므로, 그때는 이벤트 객체를 넘기는 형태를 다시 검토합니다.
 
 ### `value`는 URL에서 파생시킵니다 — `useState`로 들지 않습니다
 
-탭 3개가 각각 화면이라 **진짜 상태는 URL**입니다. 컴포넌트를 제어 전용으로 둔 것은 DS가 라우터를 물 수 없어서지(위 「결정」의 `<button>` 항목), 소비자가 별도 상태를 만들라는 뜻이 아닙니다.
+탭 3개가 각각 화면이라 **진짜 상태는 URL**입니다. **이동은 `<Link>`가 하지만 하이라이트는 그대로 소비자가 넘깁니다** — DS는 현재 경로를 모르고, `hrefs`와 `pathname`을 대조하는 규칙(정확 일치인지 접두어 일치인지, 하위 경로를 어느 탭에 붙일지)이 앱마다 갈리기 때문입니다.
 
 ```tsx
 const pathname = usePathname();
 
-<BottomTab
-  value={resolveTabFromPath(pathname)}
-  onChange={(value) => router.replace(TAB_ROUTES[value])}
-/>;
+<BottomTab hrefs={TAB_HREFS} value={resolveTabFromPath(pathname)} replace />;
 ```
 
 `useState`로 들면 **화면과 탭 하이라이트가 갈립니다.**
@@ -155,11 +178,11 @@ const pathname = usePathname();
 
 COM-007이 물리 뒤로가기를 명시적으로 다루는 앱이라 첫 번째는 실제로 납니다.
 
-**`push`가 아니라 `replace`인 이유**는 탭 전환마다 히스토리가 쌓이면 뒤로가기가 화면이 아니라 탭을 되짚기 때문입니다. 다만 이건 소비 앱의 히스토리 정책이라 DS가 정하지 않습니다.
+**`replace`를 켜는 이유**는 탭 전환마다 히스토리가 쌓이면 뒤로가기가 화면이 아니라 탭을 되짚기 때문입니다. 다만 이건 소비 앱의 히스토리 정책이라 DS가 정하지 않고 prop으로만 열어 둡니다(기본값은 Next 기본인 push).
 
 **`BOTTOM_TAB_DEFAULT_VALUE`는 초기 상태가 아니라 폴백입니다.** COM-001의 「주문이 기본 진입 탭」을 값으로 들고 있는 상수라, `resolveTabFromPath`가 어느 탭에도 속하지 않는 경로를 만났을 때 쓰라고 내보낸 것입니다.
 
-> 스토리의 `Interactive`는 `useState`를 씁니다. 라우터가 없는 환경에서 전환만 보여주려는 것이고 **앱에서 따라 쓸 형태가 아닙니다.** 그때는 `useState`에 타입 인자를 반드시 줍니다 — `BOTTOM_TAB_DEFAULT_VALUE`가 `as const`에서 나와 타입이 `'order'` 리터럴이라, 생략하면 setter가 `'order'`만 받고 다른 탭을 누르는 순간 타입 에러가 납니다. **ESLint는 잡지 못합니다**(`tsc --noEmit`에서만 드러남).
+> 스토리의 `Interactive`는 `useState`를 `onTabSelect`에 물려 씁니다. Storybook에는 실제 URL이 없어 하이라이트를 움직일 다른 방법이 없어서인데, **`onTabSelect`는 부수효과 통로지 라우팅 통로가 아니므로 앱에서 따라 쓸 형태가 아닙니다.** 그때는 `useState`에 타입 인자를 반드시 줍니다 — `BOTTOM_TAB_DEFAULT_VALUE`가 `as const`에서 나와 타입이 `'order'` 리터럴이라, 생략하면 setter가 `'order'`만 받고 다른 탭을 누르는 순간 타입 에러가 납니다. **ESLint는 잡지 못합니다**(`tsc --noEmit`에서만 드러남).
 
 ## internal-ui와 갈린 지점
 
@@ -185,7 +208,7 @@ COM-007이 물리 뒤로가기를 명시적으로 다루는 앱이라 첫 번째
 | 아이콘-라벨 -1px | 간격이 **음수(-1)**입니다. 라벨이 아이콘 박스를 1px 파고듭니다. 0이 의도였는지                                                                |
 | 세로 정렬        | Figma는 탭 60px 안에서 위 7.5 · 아래 9.5로 비대칭입니다. `justify-center`로 구현해 렌더는 **7.5 · 7.5**라 위쪽은 일치하고 아래만 2px 짧습니다 |
 | 상호작용 상태    | hover · pressed 정의가 없습니다. `transition-colors`만 걸었고(CLAUDE.md 「폼 컨트롤 공통」 8) 눌린 시각은 없습니다                            |
-| 포커스           | 포커스 링 정의가 없습니다. `<button>`이라 브라우저 기본 링이 뜹니다 — 지정된 시각이 필요한지                                                  |
+| 포커스           | 포커스 링 정의가 없습니다. `<a href>`라 브라우저 기본 링이 뜹니다 — 지정된 시각이 필요한지                                                    |
 | 배지 · 알림 점   | 탭에 미확인 개수를 표시하는 형태가 없습니다. 알림이 붙는 자리가 생길지                                                                        |
 
 라벨 길이는 **확인 완료**입니다 — 320px 폭에서 탭이 106.66px인데 가장 긴 `내정보`가 31px이라 줄바꿈이 나지 않습니다.
@@ -194,11 +217,13 @@ COM-007이 물리 뒤로가기를 명시적으로 다루는 앱이라 첫 번째
 
 `apps/storybook/src/stories/biz-ui/BottomTab.stories.tsx`, `meta.title`은 `core/biz-ui/BottomTab`. 스토리 3종입니다.
 
-- `Default` — 컨트롤 패널용. 값은 컨트롤로 바꾸고, 탭을 누르면 `onChange: { action: 'change' }`로 Actions 패널에 넘어간 값이 찍힙니다. **`BOTTOM_TAB_ITEMS` 배열과 핸들러 배선이 맞는지 여기서 보입니다** — `Checkbox`처럼 빈 함수를 두지 않은 것은 페이로드가 3개 중 하나인 값이라 로그가 검증이 되기 때문이고, `QuantityStepper` · `OrderInputCard` 선례를 따랐습니다
+- `Default` — 컨트롤 패널용. 값은 컨트롤로 바꾸고, 탭을 누르면 `onTabSelect: { action: 'tabSelect' }`로 Actions 패널에 넘어간 값이 찍힙니다. **`BOTTOM_TAB_ITEMS` 배열과 핸들러 배선이 맞는지 여기서 보입니다** — `Checkbox`처럼 빈 함수를 두지 않은 것은 페이로드가 3개 중 하나인 값이라 로그가 검증이 되기 때문이고, `QuantityStepper` · `OrderInputCard` 선례를 따랐습니다
 - `Interactive` — `useState`로 실제 전환
 - `States` — Figma 문서 프레임과 같은 배치로 `value` 3종
 
 바가 `w-full`이라 스토리에서는 `DOCUMENT_FRAME_WIDTH = 'w-[380px]'`로 감쌉니다. **340(컨텐츠 폭)이 아니라 380(화면 폭)입니다** — 바는 좌우 여백 없이 화면 끝까지 갑니다.
+
+**경로는 `TAB_HREFS` 상수 하나를 세 스토리가 공유합니다** (DOTOLI-304). `hrefs`가 필수라 스토리마다 인라인으로 적으면 세 벌이 되고, 하나만 고쳐도 안 드러납니다. `argTypes`에는 `Record<BottomTabValue, LinkProps['href']>`를 `table.type.summary`로 박아 Docs 표에서 **「세 탭 키가 전부 필수」**가 보이게 했습니다 (`BottomActionBar` · `Calendar` 선례).
 
 > Storybook에서 확인할 때는 **개발 서버를 재시작해야 합니다** (CLAUDE.md 「검증」).
 
@@ -221,6 +246,18 @@ Storybook 렌더의 계산값으로 대조했습니다. `States` 스토리의 �
 | `safe-area-bottom` | env=0인 데스크톱에서 61 유지 | `padding-bottom: 0px`, 바 61px                           |
 | `aria-current`     | 바마다 1개                   | 바마다 정확히 1개                                        |
 | 전환               | 클릭 시 이동                 | `order` → 내정보 클릭 → `aria-current`가 3번 탭으로 이동 |
+
+### DOTOLI-304 전환 후 재실측
+
+**시각은 하나도 바뀌지 않았습니다** — 위 표의 값이 전부 그대로 나옵니다. 요소만 갈렸습니다.
+
+| 항목      | 기대                            | 실측                                                        |
+| --------- | ------------------------------- | ----------------------------------------------------------- |
+| 요소      | `<a>` 3개 · `<button>` 0개      | `a` 3 · `button` 0                                            |
+| `href`    | `hrefs`가 값별로 꽂힘           | `/transaction-history` · `/order` · `/my-info`                |
+| 바 · 탭   | 380 × 61 · 탭 60px              | 380 × 61 · 126.664 / 126.672 / 126.664 × 60                   |
+| 색 · 크기 | 전환 전과 동일                  | 아이콘 26 · 26 · 28 `Phosphor-Fill`, `rgb(174,181,198)` → `rgb(16,24,40)`, 라벨 `rgb(138,147,168)` → `rgb(16,24,40)` |
+| `onTabSelect` | 눌린 탭 값으로 호출됨       | `Interactive`에서 3번 탭 클릭 → `aria-current` 이동           |
 
 빌드 · 린트 · `tsc --noEmit`(스토리 포함) 통과, `dist` 공개 API는 `BottomTab` 하나입니다.
 

@@ -8,7 +8,13 @@ import {
 } from '@/components/BottomTab/constants';
 import { BottomTabProps } from '@/components/BottomTab/types';
 
-const BottomTab = ({ value, onChange, className }: BottomTabProps) => {
+const BottomTab = ({
+  value,
+  hrefs,
+  replace,
+  onTabSelect,
+  className,
+}: BottomTabProps) => {
   return (
     <nav
       aria-label={BOTTOM_TAB_ARIA_LABEL}
@@ -17,9 +23,11 @@ const BottomTab = ({ value, onChange, className }: BottomTabProps) => {
       {BOTTOM_TAB_ITEMS.map((item) => (
         <BottomTabItem
           {...item}
+          href={hrefs[item.value]}
           isSelected={item.value === value}
           key={item.value}
-          onChange={onChange}
+          replace={replace}
+          onTabSelect={onTabSelect}
         />
       ))}
     </nav>

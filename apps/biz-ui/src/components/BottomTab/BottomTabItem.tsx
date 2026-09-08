@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 
 import {
   BOTTOM_TAB_ICON_WEIGHT,
@@ -18,21 +19,24 @@ const BottomTabItem = ({
   value,
   label,
   iconKey,
+  href,
+  replace,
   isSelected,
-  onChange,
+  onTabSelect,
 }: BottomTabItemProps) => {
   const { ICON, LABEL } =
     BOTTOM_TAB_ITEM_STATE_STYLES[
       isSelected ? BOTTOM_TAB_STATES.SELECTED : BOTTOM_TAB_STATES.DEFAULT
     ];
 
-  const handleClick = () => onChange(value);
+  const handleClick = () => onTabSelect?.(value);
 
   return (
-    <button
+    <Link
       aria-current={isSelected ? 'page' : undefined}
       className={BOTTOM_TAB_ITEM_STYLE}
-      type='button'
+      href={href}
+      replace={replace}
       onClick={handleClick}
     >
       <Icon
@@ -52,7 +56,7 @@ const BottomTabItem = ({
       >
         {label}
       </Typography>
-    </button>
+    </Link>
   );
 };
 

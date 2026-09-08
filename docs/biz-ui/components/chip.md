@@ -175,7 +175,7 @@ Figma: [Chip 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design
 
 - **`transition-colors`라 배경은 페이드하고 테두리는 즉시 바뀝니다.** `CHIP_BASE_STYLE`이 이미 갖고 있던 것이고, `inset-ring`은 `box-shadow` 기반이라 전환 대상이 아닙니다 — CLAUDE.md 「스타일 규칙」이 `Input` 포커스 링에서 정해 둔 그대로라 계열을 따로 손대지 않았습니다.
 
-- **`<button type='button'>`을 박고 `type`을 열지 않았습니다.** 검색 화면 안에 놓이는 칩이라 `<form>` 안에서 submit이 되면 안 됩니다. `Filter` · `CtaButton`만 `type`을 열어 뒀고 나머지 열 곳 남짓(`MenuItem` · `NavigationListItem` · `CalendarDayButton` · `BottomTabItem` …)은 전부 박아 두는 쪽이라 다수를 따랐습니다.
+- **`<button type='button'>`을 박고 `type`을 열지 않았습니다.** 검색 화면 안에 놓이는 칩이라 `<form>` 안에서 submit이 되면 안 됩니다. `Filter` · `CtaButton`만 `type`을 열어 뒀고 나머지 열 곳 남짓(`MenuItem` · `NavigationListItem` · `CalendarDayButton` …)은 전부 박아 두는 쪽이라 다수를 따랐습니다.
 
 - **`onClick`이 필수입니다.** 누르면 동작이 일어나는 것이 이 컴포넌트의 존재 이유라 없으면 의미가 없습니다. `CollapseButton`의 `Required<Pick<…, 'onClick'>>` 선례를 그대로 씁니다.
 

@@ -69,9 +69,13 @@ Figma: [NavigationListItem 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWl
 
   **대신 형제로 나열해야 걸립니다.** `:last-child` 기준이라 각 항목을 `<div>`로 감싸면 전부 마지막 자식이 되어 구분선이 전부 사라집니다. 목록을 감싸는 요소의 **직계 자식**으로 두면 됩니다.
 
-- **`<button>` + `onClick`입니다. `href`를 열지 않습니다.** biz-ui는 서드파티만 의존해 라우터를 물 수 없고, `as` · `renderItem` 같은 다형 prop은 CLAUDE.md 「폼 컨트롤 공통」 5번이 막습니다. `BottomTab`과 같은 판단이라 근거는 [bottom-tab.md](./bottom-tab.md) 「결정」을 함께 봅니다.
+- **`<button>` + `onClick`입니다. 아직 `href`를 열지 않았습니다.** 당초 근거는 「biz-ui가 서드파티만 의존해 라우터를 물 수 없다」였는데, **DOTOLI-303이 `next`를 필수 peerDependency로 들이면서 그 전제가 사라졌습니다.** 같은 판단을 공유하던 `BottomTab`은 DOTOLI-304에서 `next/link`로 전환했습니다 — 경위는 [bottom-tab.md](./bottom-tab.md) 「결정」.
 
-  `onClick`은 **필수**입니다. 캐럿이 항상 붙는 「눌러서 이동하는 줄」이라 이동하지 않는 상태가 없습니다. `BottomTab`의 `onChange`가 필수인 것과 같습니다.
+  **다만 `BottomTab`처럼 전환하지는 않습니다 — 링크판을 따로 만듭니다.** BottomTab을 통째로 바꿀 수 있었던 것은 탭 3개가 전부 화면이고 COM-001이 개수·순서까지 못박아 **라우팅 아닌 경우가 존재할 수 없어서**입니다. 이쪽은 소비자가 목록을 조립하고 행마다 목적지를 정하는데, **라우트 이동과 바텀시트 트리거로 둘 다 쓰입니다.** 전환하면 시트 트리거 행을 표현할 수단이 사라집니다.
+
+  그래서 `LinkNavigationListItem`을 옆에 세우고 이 버튼판은 시트 트리거로 남기는 방향입니다(별도 티켓). CLAUDE.md 「새 모양이 필요하면 껍데기를 열어 주는 게 아니라 컴포넌트를 하나 더 만듭니다」이고, `CtaButton` ↔ [`LinkCtaButton`](./button.md)이 같은 형태입니다. `as` · `renderItem` 같은 다형 prop을 열지 않는다는 판단도 그대로입니다.
+
+  `onClick`은 **필수**입니다. 캐럿이 항상 붙어 이동하지 않는 상태가 없습니다.
 
 - **라벨만 잘리고 값은 안 잘립니다.** 라벨은 `min-w-0 truncate`, 값 영역은 `shrink-0`입니다. 정책이 **「말줄임 없이 축약 표기」**를 못박아 값에 `truncate`를 걸면 규칙과 정면으로 어긋납니다. Figma도 같은 구조입니다 — `default` 심볼의 라벨 래퍼가 `flex-[1_0_0] min-w-px`(줄어듦)이고 값과 캐럿은 `shrink-0`입니다.
 

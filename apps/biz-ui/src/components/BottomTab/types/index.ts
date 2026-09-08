@@ -1,3 +1,4 @@
+import { LinkProps } from 'next/link';
 import { HTMLAttributes } from 'react';
 
 import {
@@ -24,13 +25,16 @@ export interface BottomTabItemOption extends Pick<IconProps, 'iconKey'> {
 }
 
 export interface BottomTabProps
-  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'>,
+    Pick<LinkProps, 'replace'> {
   value: BottomTabValue;
-  onChange: (value: BottomTabValue) => void;
+  hrefs: Record<BottomTabValue, LinkProps['href']>;
+  onTabSelect?: (value: BottomTabValue) => void;
 }
 
 export interface BottomTabItemProps
   extends BottomTabItemOption,
-    Pick<BottomTabProps, 'onChange'> {
+    Pick<LinkProps, 'href'>,
+    Pick<BottomTabProps, 'replace' | 'onTabSelect'> {
   isSelected: boolean;
 }

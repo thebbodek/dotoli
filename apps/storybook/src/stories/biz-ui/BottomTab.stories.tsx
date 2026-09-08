@@ -14,6 +14,12 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const DOCUMENT_FRAME_WIDTH = 'w-[380px]';
 
+const TAB_HREFS: BottomTabProps['hrefs'] = {
+  [BOTTOM_TAB_VALUES.TRANSACTION_HISTORY]: '/transaction-history',
+  [BOTTOM_TAB_VALUES.ORDER]: '/order',
+  [BOTTOM_TAB_VALUES.MY_INFO]: '/my-info',
+};
+
 const meta = {
   title: 'core/biz-ui/BottomTab',
   component: BottomTab,
@@ -30,10 +36,22 @@ const meta = {
         },
       },
     },
-    onChange: { action: 'change' },
+    hrefs: {
+      control: 'object',
+      type: { name: 'object', required: true, value: {} },
+      table: {
+        type: { summary: "Record<BottomTabValue, LinkProps['href']>" },
+      },
+    },
+    replace: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    onTabSelect: { action: 'tabSelect' },
   },
   args: {
     value: BOTTOM_TAB_DEFAULT_VALUE,
+    hrefs: TAB_HREFS,
   },
 } satisfies Meta<BottomTabProps>;
 
@@ -49,8 +67,8 @@ export const Default: Story = {
   ),
 };
 
-// 라우터가 없는 환경에서 전환만 보여준다. 앱에서는 value를 URL에서 파생시킨다
-// (docs/biz-ui/components/bottom-tab.md 「API」)
+// 라우터가 없는 환경에서 전환만 보여준다. 앱에서는 value를 URL에서 파생시키고
+// onTabSelect는 재탭 부수효과에만 쓴다 (docs/biz-ui/components/bottom-tab.md 「API」)
 export const Interactive: Story = {
   parameters: { controls: { disable: true } },
   render: () => {
@@ -60,7 +78,7 @@ export const Interactive: Story = {
 
     return (
       <Flex className={DOCUMENT_FRAME_WIDTH}>
-        <BottomTab value={value} onChange={setValue} />
+        <BottomTab hrefs={TAB_HREFS} value={value} onTabSelect={setValue} />
       </Flex>
     );
   },
@@ -68,14 +86,18 @@ export const Interactive: Story = {
 
 export const States: Story = {
   parameters: { controls: { disable: true } },
-  render: ({ onChange }) => (
+  render: ({ onTabSelect }) => (
     <Flex className={DOCUMENT_FRAME_WIDTH} direction='column' gap='12'>
       {Object.values(BOTTOM_TAB_VALUES).map((value) => (
         <Flex direction='column' gap='8' key={value}>
           <Typography color='gray-500' variant='label-bold'>
             value = {value}
           </Typography>
-          <BottomTab value={value} onChange={onChange} />
+          <BottomTab
+            hrefs={TAB_HREFS}
+            value={value}
+            onTabSelect={onTabSelect}
+          />
         </Flex>
       ))}
     </Flex>

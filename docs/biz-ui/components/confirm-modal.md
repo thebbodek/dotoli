@@ -75,7 +75,7 @@ Figma: [ConfirmModal 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH
 
   **초기 포커스도 함께 넣었습니다.** non-modal `<dialog>`라 UA가 포커스를 옮겨 주지 않아, 그대로 두면 스크린리더가 모달이 열린 사실을 통지받지 못합니다. 이것도 BottomSheet가 함께 쓰므로 `Overlay`에 뒀습니다.
 
-- **Android 물리 뒤로가기는 구현하지 않았습니다.** `history.pushState`로 항목을 쌓고 `popstate`를 듣는 방식뿐인데, **라우팅 히스토리를 DS가 건드리는 것**이라 소비 앱의 뒤로가기 흐름과 충돌합니다. biz-ui는 `next`가 optional peerDependency라 라우터를 알 수도 없습니다. 「디자인 확인 필요」가 아니라 **소비 앱 책임**으로 둡니다.
+- **Android 물리 뒤로가기는 구현하지 않았습니다.** `history.pushState`로 항목을 쌓고 `popstate`를 듣는 방식뿐인데, **라우팅 히스토리를 DS가 건드리는 것**이라 소비 앱의 뒤로가기 흐름과 충돌합니다. (DOTOLI-303부터 `next`가 필수 peerDependency라 라우터에 닿는 것 자체는 가능해졌지만, 히스토리를 누가 소유하느냐는 그와 무관한 문제입니다.) 「디자인 확인 필요」가 아니라 **소비 앱 책임**으로 둡니다.
 
 - **`onClose`는 선택입니다.** 있으면 배경 탭과 ESC가 그것을 부르고, 없으면 배경이 `<div aria-hidden>`이 되어 탭으로 닫히지 않습니다 — `Overlay`의 계약 그대로입니다. **확인 모달은 배경 탭으로 닫는 것이 항상 옳지는 않아서**(어느 액션을 고른 것인지 모호) 기본값을 두지 않고 소비자가 정하게 했습니다.
 

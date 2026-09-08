@@ -82,7 +82,7 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
   **오버레이 실물 2종이 모두 「아니오」로 끝났으므로 기준을 다시 볼 티켓이 남아 있지 않습니다.**
 
-- **Android 물리 뒤로가기는 구현하지 않았습니다.** `ConfirmModal`과 같은 이유입니다 — `history.pushState` + `popstate`뿐인데 라우팅 히스토리를 DS가 건드리게 되고, biz-ui는 `next`가 optional peerDependency라 라우터를 알 수도 없습니다. COM-008이 트리거로 명시했지만 **소비 앱 책임**으로 둡니다.
+- **Android 물리 뒤로가기는 구현하지 않았습니다.** `ConfirmModal`과 같은 이유입니다 — `history.pushState` + `popstate`뿐인데 **라우팅 히스토리를 DS가 건드리게 됩니다.** (DOTOLI-303부터 `next`가 필수 peerDependency라 라우터에 닿는 것 자체는 가능해졌지만, 히스토리를 누가 소유하느냐는 그와 무관한 문제입니다.) COM-008이 트리거로 명시했지만 **소비 앱 책임**으로 둡니다.
 
 - **`isDimmed` 기본값은 `true`입니다.** Figma는 **기본 variant를 지정하지 않았고** 대신 판정 규칙만 줍니다(`504:1725` · `504:1724`) — 화면의 절반 이상이거나 세로 스크롤이 필요하면 `true`, 절반 이하 짧은 시트면 `false`. **바디가 통째로 `children`이라 DS는 점유율을 알 수 없으므로** 이 값은 소비자가 정하는 것이고, 기본값은 「안 정했을 때」의 안전판입니다.
 
