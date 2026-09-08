@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.55
+
+### Patch Changes
+
+- 7aacb6b: DOTOLI-304 biz-ui BottomTab 링크 전환
+
 ## 0.0.54
 
 ### Patch Changes
