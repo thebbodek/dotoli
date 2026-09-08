@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.54
+
+### Patch Changes
+
+- d01a8f0: DOTOLI-303 biz-ui LinkCtaButton · LinkIconButton 추가
+
 ## 0.0.53
 
 ### Patch Changes
