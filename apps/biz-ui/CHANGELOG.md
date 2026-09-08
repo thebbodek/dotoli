@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.56
+
+### Patch Changes
+
+- eb4fc2b: DOTOLI-306 LinkNavigationListItem 추가
+
 ## 0.0.55
 
 ### Patch Changes
