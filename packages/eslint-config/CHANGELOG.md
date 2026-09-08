@@ -1,5 +1,11 @@
 # @bbodek/eslint-config
 
+## 0.0.9
+
+### Patch Changes
+
+- 6df0a48: DOTOLI-305 eslint-config no-console 에 console.error 허용
+
 ## 0.0.8
 
 ### Patch Changes
