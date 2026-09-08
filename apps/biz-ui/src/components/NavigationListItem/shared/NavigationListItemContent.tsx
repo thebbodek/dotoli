@@ -1,28 +1,20 @@
-import clsx from 'clsx';
-
 import { Icon } from '@/components/Icon';
 import {
-  NAVIGATION_LIST_ITEM_BASE_STYLE,
+  NAVIGATION_LIST_ITEM_CARET_ICON_KEY,
   NAVIGATION_LIST_ITEM_CARET_STYLE,
   NAVIGATION_LIST_ITEM_LABEL_STYLE,
   NAVIGATION_LIST_ITEM_TRAILING_STYLE,
-} from '@/components/NavigationListItem/constants';
-import { NavigationListItemProps } from '@/components/NavigationListItem/types';
+} from '@/components/NavigationListItem/shared/constants';
+import { NavigationListItemOption } from '@/components/NavigationListItem/shared/types';
 import { Typography } from '@/components/Typography';
 import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
 
-const NavigationListItem = ({
+const NavigationListItemContent = ({
   label,
   value,
-  className,
-  onClick,
-}: NavigationListItemProps) => {
+}: NavigationListItemOption) => {
   return (
-    <button
-      className={clsx(className, NAVIGATION_LIST_ITEM_BASE_STYLE)}
-      type='button'
-      onClick={onClick}
-    >
+    <>
       <Typography
         className={NAVIGATION_LIST_ITEM_LABEL_STYLE}
         color={COLOR_VARIANTS.GRAY_600}
@@ -41,12 +33,12 @@ const NavigationListItem = ({
         )}
         <Icon
           className={NAVIGATION_LIST_ITEM_CARET_STYLE}
-          iconKey='caret-right'
+          iconKey={NAVIGATION_LIST_ITEM_CARET_ICON_KEY}
           aria-hidden
         />
       </span>
-    </button>
+    </>
   );
 };
 
-export default NavigationListItem;
+export default NavigationListItemContent;

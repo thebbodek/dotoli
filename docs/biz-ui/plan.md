@@ -199,7 +199,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-285 biz-ui Toast 개방 — `message` 줄바꿈 · `theme` 6종 · `theme` 연동 `highlight`
 - [x] DOTOLI-286 biz-ui DateBottomSheet `Linked` 스토리 재진입 깜빡임 제거 (시트 하나를 유지한 채 뷰 교체 · 스토리 전용)
 - [x] DOTOLI-287 biz-ui BottomActionBar `isPending` 개방 (`disabled`는 COM-005대로 계속 막음) + `Variants`·`Sticky` 스토리 중복 정리
-- [ ] (번호 미정) biz-ui LinkNavigationListItem 추가 — 라우트 이동과 바텀시트 트리거로 둘 다 쓰여 전환이 아니라 링크판을 따로 세웁니다. 버튼판은 시트 트리거로 유지 — [components/navigation-list-item.md](./components/navigation-list-item.md) 「결정」
+- [x] DOTOLI-306 biz-ui LinkNavigationListItem 추가 (계열 승격 · 시각은 `shared`가 소유 · 버튼판은 시트 트리거로 유지)
 - [ ] DOTOLI-288 biz-ui OrderBox 빈 상태 개방 — `emptyLabel` 개방 완료 · **`inverse` tone은 스타일 미수령으로 보류**
 - [x] DOTOLI-289 biz-ui PageBody 구현 (`variant` 7종 · 페이지 세로 구획 · `stickyTop`은 DS가 `sticky` 부착)
 - [x] DOTOLI-296 biz-ui InfoBanner `title` 추가 + `label` → `description` 개명 (굵은 첫 줄 · 색 동일 · `\n` 줄바꿈)
@@ -332,6 +332,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-300 | `dist` 청크 3분할(`index` · `shared` · `client`) — 299 회귀 수정. 경계는 `manualChunks`가 경로 규약으로 결정, 소스 무수정 | [frontend.md](./frontend.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-303 | `LinkCtaButton` · `LinkIconButton` 추가 — **`next` 필수 peerDependency 도입**(DS 첫 프레임워크 의존) | [components/button.md](./components/button.md) · [frontend.md](./frontend.md) |
 | DOTOLI-304 | BottomTab 링크 전환 — `<button>`+`onChange` → `next/link`+`hrefs`. **파괴적 변경** | [components/bottom-tab.md](./components/bottom-tab.md)                        |
+| DOTOLI-306 | `LinkNavigationListItem` 추가 + **NavigationListItem 계열 승격**(`shared`가 시각 소유). 비파괴 | [components/navigation-list-item.md](./components/navigation-list-item.md)     |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

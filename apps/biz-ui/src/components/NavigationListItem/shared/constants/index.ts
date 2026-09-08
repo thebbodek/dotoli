@@ -7,3 +7,5 @@ export const NAVIGATION_LIST_ITEM_TRAILING_STYLE =
   'flex-h-stack shrink-0 items-center gap-[2px]';
 
 export const NAVIGATION_LIST_ITEM_CARET_STYLE = 'text-[16px] text-gray-400';
+
+export const NAVIGATION_LIST_ITEM_CARET_ICON_KEY = 'caret-right';
