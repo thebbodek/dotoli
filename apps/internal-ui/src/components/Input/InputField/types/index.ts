@@ -1,9 +1,8 @@
-import { HTMLInputTypeAttribute } from 'react';
-
 import { INPUT_ELEMENTS } from '@/components/Input/shared/constants';
 import {
   InputBaseProps,
   InputProps,
+  InputTypes,
   UseInputChangeProps,
 } from '@/components/Input/shared/types';
 
@@ -36,5 +35,5 @@ export interface InputFieldProps
       UseInputChangeProps<typeof INPUT_ELEMENTS.INPUT, HTMLInputElement>,
       'regCallback'
     > {
-  type?: Extract<HTMLInputTypeAttribute, 'text' | 'email' | 'number'>;
+  type?: InputTypes;
 }

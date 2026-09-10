@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { useId } from 'react';
 
-import { INPUT_DEFAULT_MAX_LENGTH } from '@/components/Input';
+import { INPUT_DEFAULT_MAX_LENGTH, INPUT_TYPES } from '@/components/Input';
 import useInputChange from '@/components/Input/shared/hooks/useInputChange';
+import useNumberInputWheelGuard from '@/components/Input/shared/hooks/useNumberInputWheelGuard';
 import {
   TABLE_CELL_INPUT_STYLES,
   TABLE_INPUT_CELL_MARKER_ATTRIBUTE,
@@ -15,7 +16,7 @@ import { Tooltip } from '@/components/Tooltip';
 const TableInputCell = ({
   value,
   name,
-  type = 'text',
+  type = INPUT_TYPES.TEXT,
   isError = false,
   feedback,
   onChange,
@@ -29,6 +30,7 @@ const TableInputCell = ({
   ...rest
 }: TableInputCellProps) => {
   const feedbackId = useId();
+  const { handleFocus, handleBlur } = useNumberInputWheelGuard({ type });
   const { inputValue, handleChange } = useInputChange({
     value,
     name,
@@ -69,7 +71,9 @@ const TableInputCell = ({
           aria-invalid={isError}
           type={type}
           value={inputValue ?? ''}
+          onBlur={handleBlur}
           onChange={handleChange}
+          onFocus={handleFocus}
           onKeyDown={handleTableCellInputArrowNavigation}
           {...{ [TABLE_INPUT_CELL_MARKER_ATTRIBUTE]: '' }}
           {...rest}

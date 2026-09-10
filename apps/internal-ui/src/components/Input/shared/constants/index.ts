@@ -8,3 +8,9 @@ export const INPUT_ELEMENTS = {
   INPUT: 'input',
   TEXTAREA: 'textarea',
 } as const;
+
+export const INPUT_TYPES = {
+  TEXT: 'text',
+  EMAIL: 'email',
+  NUMBER: 'number',
+} as const;

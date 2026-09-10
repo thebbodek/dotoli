@@ -1,6 +1,7 @@
 import {
   Icon,
   INPUT_DEFAULT_MAX_LENGTH,
+  INPUT_TYPES,
   InputField,
   Tooltip,
 } from '@bbodek/internal-ui';
@@ -9,7 +10,7 @@ import { useState } from 'react';
 
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
-const textFieldTypes = ['text', 'email', 'number'];
+const textFieldTypes = Object.values(INPUT_TYPES);
 
 const meta = {
   title: 'core/internal-ui/Input/InputField',
@@ -266,6 +267,24 @@ export const WithRegexCallback: Story = {
         {...args}
         feedback='숫자만 입력해주세요'
         regCallback={replaceNumeric}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    );
+  },
+};
+
+export const WithNumberType: Story = {
+  args: {
+    type: INPUT_TYPES.NUMBER,
+    feedback: '포커스한 채 휠을 굴려도 값이 바뀌지 않습니다',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return (
+      <InputField
+        {...args}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

@@ -1,12 +1,14 @@
 import clsx from 'clsx';
 import dynamic from 'next/dynamic';
-import { InputHTMLAttributes, Ref } from 'react';
+import { FocusEvent, InputHTMLAttributes, Ref } from 'react';
 
 import {
   INPUT_ELEMENTS,
   INPUT_POPOVER_OFFSET,
+  INPUT_TYPES,
 } from '@/components/Input/shared/constants';
 import { useInputContext } from '@/components/Input/shared/context/InputContext';
+import useNumberInputWheelGuard from '@/components/Input/shared/hooks/useNumberInputWheelGuard';
 import InputIconButton from '@/components/Input/shared/InputIconButton';
 import {
   InputElement,
@@ -38,9 +40,26 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
   ...props
 }: InputProps<T, P>) => {
   const { feedbackId, isError } = useInputContext();
+  const inputType = (props as InputHTMLAttributes<HTMLInputElement>).type;
+  const {
+    handleFocus: handleWheelGuardFocus,
+    handleBlur: handleWheelGuardBlur,
+  } = useNumberInputWheelGuard({ type: inputType });
   const isDisabled = disabled || readOnly;
   const isInput = as === INPUT_ELEMENTS.INPUT;
   const canReset = !!onReset && value && !isDisabled;
+
+  const handleFocus = (e: FocusEvent<HTMLElement>) => {
+    handleWheelGuardFocus(e);
+
+    if (popover) setIsFocused(true);
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLElement>) => {
+    handleWheelGuardBlur(e);
+
+    if (popover) setIsFocused(false);
+  };
 
   const _props = {
     readOnly,
@@ -48,8 +67,8 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     value: value ?? '',
     disabled: isDisabled,
     placeholder,
-    onFocus: popover ? () => setIsFocused(true) : undefined,
-    onBlur: popover ? () => setIsFocused(false) : undefined,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
     'aria-invalid': isError,
     'aria-errormessage': feedbackId,
     className: clsx(
@@ -63,7 +82,7 @@ const Input = <T extends InputElementType, P extends InputElement<T>>({
     const input = isInput ? (
       <input
         ref={ref as Ref<HTMLInputElement>}
-        type={(props as InputHTMLAttributes<HTMLInputElement>).type ?? 'text'}
+        type={inputType ?? INPUT_TYPES.TEXT}
         {..._props}
       />
     ) : (

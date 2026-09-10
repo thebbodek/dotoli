@@ -12,7 +12,10 @@ import {
 } from 'react';
 
 import { IconProps } from '@/components/Icon';
-import { INPUT_ELEMENTS } from '@/components/Input/shared/constants';
+import {
+  INPUT_ELEMENTS,
+  INPUT_TYPES,
+} from '@/components/Input/shared/constants';
 import { InputLabelProps } from '@/components/shared';
 import { InputTriggerWrapperProps } from '@/components/shared/components/InputTriggerWrapper';
 import { ComponentPropsRef } from '@/components/shared/types';
@@ -21,6 +24,8 @@ export type InputElements =
   (typeof INPUT_ELEMENTS)[keyof typeof INPUT_ELEMENTS];
 
 export type InputElementType = Extract<ElementType, InputElements>;
+
+export type InputTypes = (typeof INPUT_TYPES)[keyof typeof INPUT_TYPES];
 
 export type InputElement<T extends InputElementType> =
   T extends typeof INPUT_ELEMENTS.INPUT
@@ -118,3 +123,6 @@ export interface InputFieldBaseContextProps
 
 export interface InputFieldBaseProviderProps
   extends InputFieldBaseContextProps {}
+
+export interface UseNumberInputWheelGuardProps
+  extends Pick<InputHTMLAttributes<HTMLInputElement>, 'type'> {}
