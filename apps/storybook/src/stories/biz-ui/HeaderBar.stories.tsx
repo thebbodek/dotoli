@@ -1,6 +1,8 @@
 import {
   Flex,
+  HEADER_BAR_DEFAULT_TITLE_ELEMENT,
   HEADER_BAR_THEMES,
+  HEADER_BAR_TITLE_ELEMENTS,
   HEADER_BAR_TYPES,
   HeaderBar,
   Typography,
@@ -41,6 +43,18 @@ const meta = {
     title: {
       control: 'text',
       type: { name: 'string', required: true },
+    },
+    titleAs: {
+      control: 'inline-radio',
+      options: Object.values(HEADER_BAR_TITLE_ELEMENTS),
+      table: {
+        defaultValue: { summary: HEADER_BAR_DEFAULT_TITLE_ELEMENT },
+        type: {
+          summary: generateArgTypeSummary({
+            options: Object.values(HEADER_BAR_TITLE_ELEMENTS),
+          }),
+        },
+      },
     },
     type: {
       control: 'inline-radio',

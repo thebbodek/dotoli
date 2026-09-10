@@ -207,6 +207,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-295 biz-ui ActionChip 구현 + Chip 계열 승격 (`Chip/shared`로 알약 공유 · `state`는 prop이 아니라 `:active`)
 - [x] DOTOLI-303 biz-ui LinkCtaButton · LinkIconButton 추가 (`next` 필수 peerDependency 도입 · 시각은 버튼판과 동일한 생성기)
 - [x] DOTOLI-304 biz-ui BottomTab 링크 전환 (`onChange` 필수 → `hrefs` 필수 · `onChange` → `onTabSelect` 개명 · `replace` 개방 · 시각 무변화)
+- [x] DOTOLI-307 biz-ui HeaderBar `titleAs` 개방 + 진행 바를 flow 밖으로 (헤더 54px 유지 · 비파괴)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -333,6 +334,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-303 | `LinkCtaButton` · `LinkIconButton` 추가 — **`next` 필수 peerDependency 도입**(DS 첫 프레임워크 의존) | [components/button.md](./components/button.md) · [frontend.md](./frontend.md) |
 | DOTOLI-304 | BottomTab 링크 전환 — `<button>`+`onChange` → `next/link`+`hrefs`. **파괴적 변경** | [components/bottom-tab.md](./components/bottom-tab.md)                        |
 | DOTOLI-306 | `LinkNavigationListItem` 추가 + **NavigationListItem 계열 승격**(`shared`가 시각 소유). 비파괴 | [components/navigation-list-item.md](./components/navigation-list-item.md)     |
+| DOTOLI-307 | HeaderBar `titleAs` 개방(기본값 `span` · `ConfirmModal` 선례) + **진행 바가 헤더를 3px 늘리던 것 수정**(`absolute bottom-0`). 비파괴 | [components/header-bar.md](./components/header-bar.md)                        |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

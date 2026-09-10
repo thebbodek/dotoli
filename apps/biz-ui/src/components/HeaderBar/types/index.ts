@@ -6,6 +6,7 @@ import {
 } from '@/components/Button/shared/types';
 import {
   HEADER_BAR_THEMES,
+  HEADER_BAR_TITLE_ELEMENTS,
   HEADER_BAR_TYPES,
 } from '@/components/HeaderBar/constants';
 import { ColorVariants } from '@/variants';
@@ -15,6 +16,9 @@ export type HeaderBarType =
 
 export type HeaderBarTheme =
   (typeof HEADER_BAR_THEMES)[keyof typeof HEADER_BAR_THEMES];
+
+export type HeaderBarTitleElement =
+  (typeof HEADER_BAR_TITLE_ELEMENTS)[keyof typeof HEADER_BAR_TITLE_ELEMENTS];
 
 export interface HeaderBarThemeStyles {
   CONTAINER: string;
@@ -31,6 +35,7 @@ export interface HeaderBarProgressOption {
 export interface HeaderBarProps
   extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
   title: string;
+  titleAs?: HeaderBarTitleElement;
   type?: HeaderBarType;
   theme?: HeaderBarTheme;
   hasUnreadNotification?: boolean;
@@ -43,7 +48,7 @@ export interface HeaderBarProps
 
 export interface HeaderBarHomeTitleProps
   extends Pick<HeaderBarProps, 'title' | 'onTitleClick'>,
-    Required<Pick<HeaderBarProps, 'theme'>> {}
+    Required<Pick<HeaderBarProps, 'theme' | 'titleAs'>> {}
 
 export interface HeaderBarNotificationButtonProps
   extends Required<Pick<HeaderBarProps, 'theme' | 'hasUnreadNotification'>>,

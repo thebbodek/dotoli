@@ -225,6 +225,8 @@ Storybook은 `pnpm --filter storybook dev`(6006). 컴포넌트를 추가하면 `
 
 **빌드만으로는 부족합니다 — 컴포넌트를 새로 export 했으면 Storybook 개발 서버를 재시작합니다.** webpack의 `snapshot.managedPaths` 기본값이 `node_modules` 아래를 프로세스 수명 동안 불변으로 간주하는데, pnpm 워크스페이스라 `@bbodek/biz-ui`가 거기 심볼릭 링크로 들어갑니다. 그래서 `dist`를 다시 빌드해도 실행 중인 서버는 **이전 dist를 계속 씁니다.** 증상은 스토리에서 신규 export가 `undefined`로 잡히는 것이고(`Object.values(...)` → `Cannot convert undefined or null to object`), 새로고침으로는 풀리지 않습니다. 벤더 청크(`biz-ui_dist_index_es_js-*`)에 신규 상수가 있는지 grep 하면 확인됩니다.
 
+**재시작으로도 안 풀리면 디스크 캐시를 지웁니다** — `rm -rf apps/storybook/node_modules/.cache/storybook/<해시>` 후 재시작(콜드 빌드 한 번을 감수합니다). `managedPaths`는 프로세스 수명뿐 아니라 디스크 캐시에도 걸리고 **유효성 판정에 `package.json`의 버전**을 쓰는데, 로컬 빌드는 버전이 그대로라 재시작해도 이전 분석 결과를 그대로 씁니다. 이쪽은 증상이 조금 다릅니다 — **이미 쓰고 있던 신규 export는 멀쩡하고 「이번에 처음 참조한」 export만 `ReferenceError`가 납니다**(캐시 시점의 used-exports로 트리셰이킹된 벤더 청크를 재사용). DOTOLI-307 실측.
+
 ## 문서 유지
 
 문서마다 맡는 범위가 다르고 **같은 사실을 두 곳에 쓰지 않습니다.**

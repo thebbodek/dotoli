@@ -9,7 +9,7 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | 컴포넌트                      | 티켓       | 공개 | 설명                                                        |
 | ----------------------------- | ---------- | ---- | ----------------------------------------------------------- |
 | `HeaderBar`                   | DOTOLI-250 | ✅   | `type` 3 × `theme` 2 × 진행 바. 높이 54px 고정              |
-| `HeaderBarHomeTitle`          | DOTOLI-250 | ❌   | `type=home` 타이틀. 화살표 노출 시 `<button>`, 아니면 텍스트 |
+| `HeaderBarHomeTitle`          | DOTOLI-250 | ❌   | `type=home` 타이틀. 화살표 노출 시 `titleAs` 안에 `<button>` |
 | `HeaderBarNotificationButton` | DOTOLI-250 | ❌   | 40×40 알림 벨 + 미읽음 점                                   |
 | `HeaderBarNavigationButton`   | DOTOLI-250 | ❌   | 뒤로 · 닫기 텍스트 버튼                                     |
 | `HeaderBarProgress`           | DOTOLI-250 | ❌   | 3px 진행 바                                                 |
@@ -42,7 +42,7 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 | 항목    | 값                                                      |
 | ------- | ------------------------------------------------------- |
-| 높이    | 54px → `h-[54px]`                                        |
+| 높이    | 54px → `h-[54px]`. **진행 바가 있어도 54px**             |
 | 좌우 여백 | 20px → `px-[20px]`                                      |
 | 정렬    | `items-center` · `justify-between`                       |
 | 배경    | `base/white` → `bg-white` (`dark`는 배경 없음)           |
@@ -81,7 +81,7 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | 좌우 버튼 radius | 6px → `rounded-6`                                      |
 | 진행 바         | 높이 3px. 트랙 `gray/200` · 값 `blue/500`               |
 
-`navigation`은 뒤로(좌) · 타이틀(중앙) · 닫기(우), `bottomSheet`는 타이틀(좌) · 닫기(우)입니다. 진행 바는 54px 행 **아래**에 붙습니다.
+`navigation`은 뒤로(좌) · 타이틀(중앙) · 닫기(우), `bottomSheet`는 타이틀(좌) · 닫기(우)입니다. 진행 바는 54px 행의 **하단 경계에 얹힙니다** — flow 밖이라 헤더 상자를 키우지 않습니다 (아래 「구현 결정」).
 
 ### 아이콘 웨이트는 Bell만 `regular`입니다
 
@@ -99,16 +99,28 @@ Figma가 내보내는 SVG path를 `@phosphor-icons/core`의 원본과 좌표째�
 ## 구현 결정
 
 - **핸들러를 넘긴 요소만 렌더합니다.** `onTitleClick`(화살표) · `onNotificationClick`(알림 벨) · `onBack`(뒤로) · `onClose`(닫기) 넷 다 같은 규칙입니다. Figma 축을 boolean prop으로 옮기면 `hasSelector` + `onTitleClick`처럼 **항상 짝으로 맞춰야 하는 값이 두 개**가 되고 어긋나면 조용히 깨집니다. CtaButton이 Figma의 `iconPosition=none`을 `iconOption` 미전달로 표현한 것과 같은 선례입니다.
-- **화살표가 없으면 링크도 버튼도 아닌 순수 텍스트입니다.** 업체 전환 드롭다운(COM-002)은 마스터 권한 + 소속 업체 2개 이상일 때만 열리고, 나머지 계정은 업체가 1개로 고정이라 **탭 자체가 비활성**입니다. `<button disabled>`가 아니라 `<span>`으로 내려 보조기술에도 조작 대상으로 잡히지 않게 했습니다. 화살표가 있을 때만 `<button>`이고, 눌렀을 때 열리는 것은 업체 선택 바텀시트입니다.
+- **화살표가 없으면 링크도 버튼도 아닌 순수 텍스트입니다.** 업체 전환 드롭다운(COM-002)은 마스터 권한 + 소속 업체 2개 이상일 때만 열리고, 나머지 계정은 업체가 1개로 고정이라 **탭 자체가 비활성**입니다. `<button disabled>`가 아니라 **텍스트 요소**(기본 `<span>` — `titleAs`가 바꿉니다)로 내려 보조기술에도 조작 대상으로 잡히지 않게 했습니다. 화살표가 있을 때만 `<button>`이고, 눌렀을 때 열리는 것은 업체 선택 바텀시트입니다.
 - **`useProgress` 축은 `progressOption` 미전달로 표현합니다.** 진행 바는 켜고 끄는 것만으로는 그릴 수 없고 **현재 단계 · 전체 단계가 반드시 함께** 필요합니다. boolean과 값을 따로 받으면 `useProgress=true`인데 값이 없는 상태가 타입으로 허용됩니다. 위 「핸들러를 넘긴 요소만 렌더합니다」와 같은 규칙입니다.
 - **진행률은 `currentStep / totalSteps`로 계산합니다.** Figma 목업은 240/380(63%)이지만 이건 폭을 눈대중으로 그린 값이고, 정책이 말하는 것은 「여러 단계로 진행되는 플로우」의 단계입니다. `calculateHeaderBarProgressRate`가 0~100으로 clamp 하고 `totalSteps <= 0`이면 0을 돌려줍니다.
 - **뒤로 · 닫기는 `CtaButton`을 재사용하지 않습니다.** Figma 레이어 이름은 `CtaButton`이고 라벨(`label-bold` `gray/800`) · radius(6px) · 아이콘 크기(14px)까지 `text`/`gray`/`sm`과 같지만 **아이콘 색이 `gray/400`으로 라벨과 다릅니다.** `CtaButton`은 아이콘이 `currentColor`를 상속하는 구조(`ButtonIcon`)라 라벨과 아이콘 색을 가를 수 없습니다. gap도 2px로 `CtaButton`의 4px과 다릅니다. 아이콘 래퍼(`ButtonIcon`)와 아이콘 위치 상수(`BUTTON_ICON_POSITIONS`)는 그대로 물어 씁니다.
 - **뒤로 · 닫기에 `TOUCH_TARGET_STYLE`을 겁니다.** 히트 영역 확장은 디자이너가 지정한 대상만 하는 것이 원칙인데(CLAUDE.md 「히트 영역 확장」), 지정 주석(`337:3538`)이 가리키는 대상이 `CtaButton`의 `text`와 `sm`이고 이 두 버튼이 정확히 그 스펙입니다. 새로 정한 게 아니라 이미 있는 지정을 따른 것입니다.
 - **알림 버튼은 `IconButton`이 아닙니다.** 컨테이너 40px는 `IconButton` `lg`와 같지만 **아이콘이 28px**입니다(`lg`는 24px). 웨이트도 `regular`로 다르고 미읽음 점이라는 고유 요소가 붙습니다. `IconButton`에 사이즈·슬롯을 더하면 이 한 곳 때문에 버튼 계열 전체의 축이 늘어나므로 별도 조각으로 뒀습니다.
 - **접근성 이름은 DS가 붙입니다.** 알림 버튼은 텍스트가 없어 이름을 스스로 만들 수 없는데, 폼 컨트롤과 달리 **소비자가 이 버튼에 직접 도달할 수 없습니다**(`HeaderBar`가 내부에서 조립). 뜻이 하나로 고정돼 있어 `aria-label='알림'`을 상수로 박았습니다. 뒤로 · 닫기 라벨도 같은 이유로 고정입니다.
-- **타이틀은 heading이 아니라 `span`입니다.** 같은 컴포넌트가 화면 헤더(`home` · `navigation`)와 바텀시트 헤더(`bottomSheet`)를 겸하는데 적정 레벨이 서로 다릅니다(`h1` ↔ `h2`). 소비자가 매번 정해야 하는 스위치를 만들지 않는다는 원칙에 따라 열지 않았고, 바깥은 `<header>` 랜드마크로 잡습니다. 바텀시트가 `aria-labelledby`로 물어야 할 때는 그 티켓에서 `id` 통로를 엽니다.
+- **타이틀 요소는 `titleAs`로 열되 기본값은 `span`입니다** (DOTOLI-307). 같은 컴포넌트가 화면 헤더(`home` · `navigation`)와 바텀시트 헤더(`bottomSheet`)를 겸해 적정 레벨이 서로 다르고(`h1` ↔ `h2`), DOTOLI-250에서는 그걸 이유로 아예 열지 않았습니다. 그 결과 소비 앱이 페이지 제목을 만들 수 없어 셸이 `<h1 className='sr-only'>`를 따로 그렸고, **같은 문자열이 접근성 트리에 두 번**(`<header>`의 텍스트 + `<main>`의 h1) 올라갔습니다. **기본값을 두면 「매번 정해야 하는 스위치」가 아닙니다** — 같은 패키지의 `ConfirmModal`과 같은 모양(`HEADER_BAR_TITLE_ELEMENTS` · `HEADER_BAR_DEFAULT_TITLE_ELEMENT` · `titleAs`)으로 열었고 기본값이 지금 동작과 같은 `span`이라 기존 소비처는 그대로입니다. 바깥은 계속 `<header>` 랜드마크로 잡습니다. 바텀시트가 `aria-labelledby`로 물어야 할 때는 그 티켓에서 `id` 통로를 엽니다.
+- **`type=home`에 화살표가 있으면 `titleAs`가 버튼을 감쌉니다** — `<h1><button>…</button></h1>`. 반대 방향(`<button><h1>`)은 두 겹으로 막힙니다. `<button>`의 콘텐츠 모델이 phrasing content라 `<h1>`~`<h6>`이 **안에 들어갈 수 없고**, `role=button`은 children presentational이라 넣어도 **heading이 접근성 트리에서 사라집니다.** 뒤집은 쪽은 heading의 콘텐츠 모델이 phrasing content이고 `<button>`이 거기 해당해 유효하며 heading · button이 **둘 다** 트리에 남습니다 — ARIA APG의 accordion header(`<h3><button aria-expanded>`)와 같은 형태입니다.
+
+  **래퍼는 `flex-h-stack min-w-0`이어야 합니다**(`HEADER_BAR_HOME_TITLE_WRAPPER_STYLE`). `min-w-0`만 주면 **긴 업체명이 안 잘리고 알림 벨을 덮습니다** — `<button>`은 `display: flex`를 줘도 내용 폭으로 커져서(380px 프레임에서 래퍼 300px · 버튼 364px 실측) 안쪽 `truncate`가 발동할 여지가 없습니다. 래퍼를 flex로 만들면 버튼이 다시 flex item이 되어 `min-w-0`으로 줄어들고, 이건 **DOTOLI-307 이전에 버튼이 행의 flex item이던 것과 같은 계산**입니다. gap · cursor · truncate는 그대로 버튼과 그 안 텍스트가 갖습니다.
+
+  기본값(`span`)일 때도 래퍼는 렌더됩니다 — 조합마다 DOM 모양이 갈리면 한쪽에서만 나는 버그가 생깁니다.
+
+  **색 · 타이포는 래퍼가 갖고 안쪽 텍스트는 `text-inherit`으로 받습니다.** 아래 「`Typography`에는 색·타이포를 prop으로」가 막는 것은 색을 `className`으로 넘기는 것이고, 여기는 안쪽에 색을 **아예 주지 않아** `text-inherit`이 이겨도 결과가 같습니다. 다만 상속 경로에 `<button>`이 끼어 있어 **preflight의 `button { font: inherit; color: inherit }`가 전제**입니다 — 소비 앱이 `@import 'tailwindcss'`를 넣지 않으면 버튼이 UA 기본 글꼴·색으로 끊습니다.
+
+- **대안으로 검토한 `sr-only` 사본은 쓰지 않습니다.** 「보이는 건 지금대로 두고 선택된 태그를 숨겨서 하나 더」는 두 갈래 다 손해입니다. 보이는 쪽을 `aria-hidden`으로 가리면 **모바일 터치 탐색에서 제목을 짚어도 아무것도 안 읽히고**(sr-only 사본은 화면 상자가 1×1px), 화살표가 있는 `home`은 **버튼이 포커스 가능해 애초에 `aria-hidden`을 걸 수 없습니다**(걸어도 포커스는 들어갑니다 — 실측). 안 가리면 같은 문자열이 트리에 두 번 올라가 원래 문제로 돌아갑니다. sr-only는 **보이는 것이 의미를 못 담을 때**(아이콘 단독 · 축약어 · 읽을 내용이 보이는 것과 다를 때) 쓰는 도구이고, 여기는 보이는 문자열이 곧 제목이라 사본이 정보를 더하지 않습니다.
+- **`BottomSheet`는 `titleAs`를 통과시키지 않습니다.** 시트의 접근성 이름은 `Overlay`의 `aria-label={title}`이 이미 붙여 줍니다. 시트 안에서 heading이 필요해지면 그때 통로를 엽니다.
 - **타이틀에 `truncate`를 겁니다.** Figma는 `whitespace-nowrap`이라 긴 업체명이 좌우 버튼을 밀어냅니다. 실제 데이터가 들어오는 자리라 잘라내는 쪽으로 갔습니다.
 - **`Typography`에는 색·타이포를 `className`이 아니라 `color` · `variant` prop으로 넘깁니다.** `Typography`는 `color`가 없으면 `text-inherit`을 **클래스 목록 뒤쪽에** 붙이는데, 둘 다 `color` 속성이라 생성 CSS 순서에서 `text-inherit`이 이깁니다. `className='text-gray-800'`으로 넘기면 두 클래스가 모두 붙은 채 **글자가 검정으로 렌더됩니다.** 그래서 `HEADER_BAR_THEME_STYLES`의 `TITLE`만 클래스 문자열이 아니라 `ColorVariants`입니다 — `CARET`·`NOTIFICATION_ICON`은 `Icon`·`<button>`에 붙고 그쪽엔 폴백이 없어 클래스 그대로입니다. `variant`도 같은 `clsx` 자리라 함께 prop으로 올렸고, `HEADER_BAR_TITLE_STYLE`에는 레이아웃(`min-w-0 truncate`)만 남겼습니다. Storybook 계산값으로 확인했습니다(`rgb(51, 60, 81)` = `gray/800`).
+- **진행 바는 헤더 높이에 포함되지 않습니다** (DOTOLI-307). 처음에는 트랙을 54px 행 **다음 형제**로 흘려보내 헤더가 57px이 됐는데, Figma는 54px입니다 — 제품 화면 `ORD-101`(`1484:13795`)에서 `HeaderBar` 인스턴스(`1484:13811`)가 y=34 · height **54**이고 본문 `grayTopBody`가 y=88(=34+54)에서 시작합니다. 인스턴스 안 진행 바(`Frame 397`)는 **로컬 y=54 · height 0**인 LINE 2개(트랙 380 · 값 240)라 경계에 얹혀 있을 뿐 상자를 키우지 않습니다. 그래서 트랙을 `absolute inset-x-0 bottom-0`으로 빼고 **행(`HEADER_BAR_ROW_STYLE`)에 `relative`를** 붙였습니다. **3px은 행 안쪽 아래 끝을 덮습니다** — 바깥으로 내면(`-bottom-[3px]`) 소비 앱 본문 첫 3px과 겹쳐 배경을 칠하는 쪽이 이깁니다.
+- **`relative`는 루트(`<header>`)가 아니라 행이 답니다.** 루트에 붙이면 **소비자의 `className='fixed …'`가 죽습니다.** 둘 다 단일 클래스라 specificity가 같고 `clsx` 인자 순서는 캐스케이드와 무관한데, Tailwind 생성 CSS가 `.absolute` → `.fixed` → `.relative` → `.static` → `.sticky` 순이라 **`.relative`가 `.fixed` · `.absolute`를 이깁니다** (Storybook 계산값으로 확인 — `fixed relative` → `relative`, `sticky relative` → `sticky`). `sticky`만 살아남아 증상이 반쪽으로 보이는 것도 함정입니다. 위 「`Typography`에 색·타이포를 `className`이 아니라 prop으로」와 같은 종류입니다. 행에 붙이면 소비자 `className`이 닿지 않는 자리라 `fixed` · `sticky` · `absolute` 전부 소비자 것이 이깁니다. abspos 자식의 기준 상자는 조상의 **padding box**라 `inset-x-0`이 `px-[20px]`까지 덮고, 행 높이가 곧 헤더 높이라 기하도 같습니다.
 - **진행 바에 전환 모션을 넣지 않았습니다.** Figma에 모션 정의가 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7).
 
 ## 정책
@@ -167,3 +179,4 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 | `hover` · `pressed` 미정의 | 어느 심볼에도 상호작용 상태가 없어 `transition-colors`도 걸지 않았습니다. 모바일 타깃이라 최소한 `pressed`는 필요해 보입니다 |
 | 포커스 링 미정의         | 버튼 3종 전부 포커스 시각이 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7과 같은 상황)                                          |
 | safe-area 미정의         | 화면 최상단에 붙는 컴포넌트인데 노치 여백 처리가 심볼에 없습니다. `safe-area-top`을 넣지 않았고, 필요하면 소비 앱이 `className`으로 겁니다 |
+| 진행 바 3px의 위치       | Figma는 y=54 · height 0인 LINE이라 stroke가 경계에 **걸칩니다**(52.5~55.5). 헤더를 54px로 유지하려면 안쪽·바깥 중 하나여야 해서 **안쪽(51~54)**으로 넣었습니다 — 바깥은 소비 앱 본문 첫 3px과 겹칩니다. 주석 없이 DS가 정한 값입니다 |

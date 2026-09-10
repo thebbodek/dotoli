@@ -8,6 +8,7 @@ import {
   HEADER_BAR_BOTTOM_SHEET_STYLE,
   HEADER_BAR_CLOSE_ICON_KEY,
   HEADER_BAR_CLOSE_LABEL,
+  HEADER_BAR_DEFAULT_TITLE_ELEMENT,
   HEADER_BAR_NAVIGATION_TITLE_STYLE,
   HEADER_BAR_ROW_STYLE,
   HEADER_BAR_THEME_STYLES,
@@ -25,6 +26,7 @@ import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const HeaderBar = ({
   title,
+  titleAs = HEADER_BAR_DEFAULT_TITLE_ELEMENT,
   type = HEADER_BAR_TYPES.HOME,
   theme = HEADER_BAR_THEMES.LIGHT,
   hasUnreadNotification = false,
@@ -61,6 +63,7 @@ const HeaderBar = ({
           <HeaderBarHomeTitle
             theme={theme}
             title={title}
+            titleAs={titleAs}
             onTitleClick={onTitleClick}
           />
         ) : (
@@ -69,6 +72,7 @@ const HeaderBar = ({
               HEADER_BAR_TITLE_STYLE,
               isNavigation && HEADER_BAR_NAVIGATION_TITLE_STYLE,
             )}
+            as={titleAs}
             color={TITLE}
             variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
           >
@@ -90,10 +94,10 @@ const HeaderBar = ({
             onClick={onClose}
           />
         )}
+        {isNavigation && !!progressOption && (
+          <HeaderBarProgress {...progressOption} />
+        )}
       </div>
-      {isNavigation && !!progressOption && (
-        <HeaderBarProgress {...progressOption} />
-      )}
     </header>
   );
 };

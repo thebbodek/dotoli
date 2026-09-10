@@ -5,6 +5,7 @@ import {
   HeaderBarThemeStyles,
 } from '@/components/HeaderBar/types';
 import { ICON_WEIGHTS } from '@/components/Icon/constants';
+import { TYPOGRAPHY_ELEMENTS } from '@/components/Typography/constants';
 import { COLOR_VARIANTS } from '@/variants';
 
 export const HEADER_BAR_TYPES = {
@@ -18,16 +19,30 @@ export const HEADER_BAR_THEMES = {
   DARK: 'dark',
 } as const;
 
+export const HEADER_BAR_TITLE_ELEMENTS = {
+  SPAN: TYPOGRAPHY_ELEMENTS.SPAN,
+  H1: TYPOGRAPHY_ELEMENTS.H1,
+  H2: TYPOGRAPHY_ELEMENTS.H2,
+  H3: TYPOGRAPHY_ELEMENTS.H3,
+  H4: TYPOGRAPHY_ELEMENTS.H4,
+  H5: TYPOGRAPHY_ELEMENTS.H5,
+  H6: TYPOGRAPHY_ELEMENTS.H6,
+} as const;
+
+export const HEADER_BAR_DEFAULT_TITLE_ELEMENT = HEADER_BAR_TITLE_ELEMENTS.SPAN;
+
 export const HEADER_BAR_BASE_STYLE = 'w-full';
 
 export const HEADER_BAR_ROW_STYLE =
-  'flex-h-stack h-[54px] items-center justify-between px-[20px]';
+  'flex-h-stack relative h-[54px] items-center justify-between px-[20px]';
 
 export const HEADER_BAR_BOTTOM_SHEET_STYLE = 'rounded-t-16';
 
 export const HEADER_BAR_TITLE_STYLE = 'min-w-0 truncate';
 
 export const HEADER_BAR_NAVIGATION_TITLE_STYLE = 'flex-1 text-center';
+
+export const HEADER_BAR_HOME_TITLE_WRAPPER_STYLE = 'flex-h-stack min-w-0';
 
 export const HEADER_BAR_HOME_TITLE_STYLE =
   'flex-h-stack min-w-0 cursor-pointer items-center gap-1';
@@ -69,7 +84,8 @@ export const HEADER_BAR_NAVIGATION_BUTTON_POSITION_STYLES: Record<
   [BUTTON_ICON_POSITIONS.RIGHT]: 'flex-row-reverse',
 };
 
-export const HEADER_BAR_PROGRESS_TRACK_STYLE = 'h-[3px] w-full bg-gray-200';
+export const HEADER_BAR_PROGRESS_TRACK_STYLE =
+  'absolute inset-x-0 bottom-0 h-[3px] bg-gray-200';
 
 export const HEADER_BAR_PROGRESS_VALUE_STYLE = 'h-full bg-blue-500';
 
