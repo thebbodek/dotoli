@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.57
+
+### Patch Changes
+
+- bad89eb: DOTOLI-307 HeaderBar 높이, props 수정
+
 ## 0.0.56
 
 ### Patch Changes
