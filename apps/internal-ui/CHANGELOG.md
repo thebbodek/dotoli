@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.129
+
+### Patch Changes
+
+- 0439a0f: DOTOLI-308 internal-ui > Input > number 타입 휠 스크롤 값 변경 방지
+  - @bbodek/utils@0.0.99
+  - @bbodek/hooks@0.0.102
+
 ## 0.0.128
 
 ### Patch Changes
