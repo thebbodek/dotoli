@@ -1,5 +1,5 @@
 import { BADGE_THEMES, BADGE_VARIANTS } from '@/components/Badge/constants';
-import { SelectionItemState } from '@/components/SelectionItem/types';
+import { SelectionItemState } from '@/components/SelectionItem/shared/types';
 
 export const SELECTION_ITEM_STATES = {
   DEFAULT: 'default',
@@ -7,6 +7,8 @@ export const SELECTION_ITEM_STATES = {
 } as const;
 
 export const SELECTION_ITEM_BADGE_LABEL = '선택중';
+
+export const SELECTION_ITEM_BADGE_STYLE = 'shrink-0';
 
 export const SELECTION_ITEM_BADGE_THEME = BADGE_THEMES.PRIMARY;
 

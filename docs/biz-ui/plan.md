@@ -209,6 +209,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-304 biz-ui BottomTab 링크 전환 (`onChange` 필수 → `hrefs` 필수 · `onChange` → `onTabSelect` 개명 · `replace` 개방 · 시각 무변화)
 - [x] DOTOLI-307 biz-ui HeaderBar `titleAs` 개방 + 진행 바를 flow 밖으로 (헤더 54px 유지 · 비파괴)
 - [x] DOTOLI-310 biz-ui HeaderBar 접근성 보완 (타이틀 버튼 `aria-haspopup` · `aria-expanded` · 알림 버튼 이름 분기 · `NotificationCard` 장식 점 `aria-hidden`)
+- [x] DOTOLI-311 biz-ui ActionSelectionItem 추가 (계열 승격 · 즉시 실행 목록은 버튼판 · radio판에 `onClick`을 열지 않음)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -337,6 +338,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-306 | `LinkNavigationListItem` 추가 + **NavigationListItem 계열 승격**(`shared`가 시각 소유). 비파괴 | [components/navigation-list-item.md](./components/navigation-list-item.md)     |
 | DOTOLI-307 | HeaderBar `titleAs` 개방(기본값 `span` · `ConfirmModal` 선례) + **진행 바가 헤더를 3px 늘리던 것 수정**(`absolute bottom-0`). 비파괴 | [components/header-bar.md](./components/header-bar.md)                        |
 | DOTOLI-310 | HeaderBar 접근성 보완 — 타이틀 버튼 `aria-haspopup` · `aria-expanded`(`isTitleExpanded`) + **알림 버튼 이름을 미읽음 여부로 분기** · `NotificationCard` 장식 점 `aria-hidden`. 비파괴 | [components/header-bar.md](./components/header-bar.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
+| DOTOLI-311 | `ActionSelectionItem` 추가 + **SelectionItem 계열 승격**(`shared`가 시각 소유). 즉시 실행 목록은 버튼판이 맡고 radio판에는 `onClick`을 열지 않음. 비파괴 | [components/selection-item.md](./components/selection-item.md)                |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
