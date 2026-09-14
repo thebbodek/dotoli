@@ -6,6 +6,7 @@ import {
   HEADER_BAR_HOME_TITLE_STYLE,
   HEADER_BAR_HOME_TITLE_WRAPPER_STYLE,
   HEADER_BAR_THEME_STYLES,
+  HEADER_BAR_TITLE_POPUP_ROLE,
   HEADER_BAR_TITLE_STYLE,
 } from '@/components/HeaderBar/constants';
 import { HeaderBarHomeTitleProps } from '@/components/HeaderBar/types';
@@ -17,6 +18,7 @@ const HeaderBarHomeTitle = ({
   title,
   titleAs,
   theme,
+  isTitleExpanded,
   onTitleClick,
 }: HeaderBarHomeTitleProps) => {
   const { TITLE, CARET } = HEADER_BAR_THEME_STYLES[theme];
@@ -42,6 +44,8 @@ const HeaderBarHomeTitle = ({
       variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
     >
       <button
+        aria-expanded={isTitleExpanded}
+        aria-haspopup={HEADER_BAR_TITLE_POPUP_ROLE}
         className={HEADER_BAR_HOME_TITLE_STYLE}
         type='button'
         onClick={onTitleClick}

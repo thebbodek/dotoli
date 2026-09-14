@@ -80,6 +80,7 @@ const meta = {
         },
       },
     },
+    isTitleExpanded: { control: 'boolean' },
     hasUnreadNotification: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -149,20 +150,25 @@ export const Themes: Story = {
 };
 
 // onTitleClick을 넘긴 쪽만 화살표가 붙고 버튼이 된다
+// isTitleExpanded는 시각이 없다 — aria-expanded는 접근성 트리에서 확인한다
+// 미전달(속성 자체가 없는 상태)은 Default 스토리가 덮는다
 export const CompanySelector: Story = {
   parameters: { controls: { disable: true } },
   render: ({ onTitleClick, ...args }) => (
     <Flex className={DOCUMENT_FRAME_WIDTH} direction='column' gap='24'>
-      <Flex direction='column' gap='8'>
-        <Typography color='gray-500' variant='label-bold'>
-          onTitleClick 전달
-        </Typography>
-        <HeaderBar
-          {...args}
-          type={HEADER_BAR_TYPES.HOME}
-          onTitleClick={onTitleClick}
-        />
-      </Flex>
+      {BOOLEAN_VALUES.map((isTitleExpanded) => (
+        <Flex direction='column' gap='8' key={`expanded-${isTitleExpanded}`}>
+          <Typography color='gray-500' variant='label-bold'>
+            onTitleClick 전달 · isTitleExpanded = {String(isTitleExpanded)}
+          </Typography>
+          <HeaderBar
+            {...args}
+            isTitleExpanded={isTitleExpanded}
+            type={HEADER_BAR_TYPES.HOME}
+            onTitleClick={onTitleClick}
+          />
+        </Flex>
+      ))}
       <Flex direction='column' gap='8'>
         <Typography color='gray-500' variant='label-bold'>
           onTitleClick 미전달

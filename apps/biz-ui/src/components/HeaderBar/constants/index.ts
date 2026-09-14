@@ -51,11 +51,15 @@ export const HEADER_BAR_CARET_ICON_KEY = 'caret-down';
 
 export const HEADER_BAR_CARET_STYLE = 'shrink-0 text-[13px]';
 
+export const HEADER_BAR_TITLE_POPUP_ROLE = 'dialog';
+
 export const HEADER_BAR_NOTIFICATION_ICON_KEY = 'bell';
 
 export const HEADER_BAR_NOTIFICATION_ICON_WEIGHT = ICON_WEIGHTS.REGULAR;
 
 export const HEADER_BAR_NOTIFICATION_LABEL = '알림';
+
+export const HEADER_BAR_NOTIFICATION_UNREAD_LABEL = '알림, 읽지 않음';
 
 export const HEADER_BAR_NOTIFICATION_BUTTON_STYLE =
   'flex-h-stack-center relative size-[40px] shrink-0 cursor-pointer text-[28px]';

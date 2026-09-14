@@ -29,6 +29,7 @@ const HeaderBar = ({
   titleAs = HEADER_BAR_DEFAULT_TITLE_ELEMENT,
   type = HEADER_BAR_TYPES.HOME,
   theme = HEADER_BAR_THEMES.LIGHT,
+  isTitleExpanded,
   hasUnreadNotification = false,
   progressOption,
   className,
@@ -61,6 +62,7 @@ const HeaderBar = ({
         )}
         {isHome ? (
           <HeaderBarHomeTitle
+            isTitleExpanded={isTitleExpanded}
             theme={theme}
             title={title}
             titleAs={titleAs}

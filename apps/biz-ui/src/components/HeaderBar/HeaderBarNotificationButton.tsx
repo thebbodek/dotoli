@@ -6,6 +6,7 @@ import {
   HEADER_BAR_NOTIFICATION_ICON_KEY,
   HEADER_BAR_NOTIFICATION_ICON_WEIGHT,
   HEADER_BAR_NOTIFICATION_LABEL,
+  HEADER_BAR_NOTIFICATION_UNREAD_LABEL,
   HEADER_BAR_THEME_STYLES,
 } from '@/components/HeaderBar/constants';
 import { HeaderBarNotificationButtonProps } from '@/components/HeaderBar/types';
@@ -20,7 +21,11 @@ const HeaderBarNotificationButton = ({
 
   return (
     <button
-      aria-label={HEADER_BAR_NOTIFICATION_LABEL}
+      aria-label={
+        hasUnreadNotification
+          ? HEADER_BAR_NOTIFICATION_UNREAD_LABEL
+          : HEADER_BAR_NOTIFICATION_LABEL
+      }
       className={clsx(HEADER_BAR_NOTIFICATION_BUTTON_STYLE, NOTIFICATION_ICON)}
       type='button'
       onClick={onClick}

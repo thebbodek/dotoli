@@ -38,6 +38,7 @@ export interface HeaderBarProps
   titleAs?: HeaderBarTitleElement;
   type?: HeaderBarType;
   theme?: HeaderBarTheme;
+  isTitleExpanded?: boolean;
   hasUnreadNotification?: boolean;
   progressOption?: HeaderBarProgressOption;
   onTitleClick?: () => void;
@@ -47,7 +48,7 @@ export interface HeaderBarProps
 }
 
 export interface HeaderBarHomeTitleProps
-  extends Pick<HeaderBarProps, 'title' | 'onTitleClick'>,
+  extends Pick<HeaderBarProps, 'title' | 'isTitleExpanded' | 'onTitleClick'>,
     Required<Pick<HeaderBarProps, 'theme' | 'titleAs'>> {}
 
 export interface HeaderBarNotificationButtonProps

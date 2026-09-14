@@ -73,7 +73,10 @@ const NotificationCard = ({
                   >
                     {history.registeredAt}
                   </Typography>
-                  <span className={NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE} />
+                  <span
+                    className={NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE}
+                    aria-hidden
+                  />
                   <Typography
                     color={NOTIFICATION_CARD_COLORS.HISTORY_REGISTRANT}
                     variant={TYPOGRAPHY_VARIANTS.LABEL}

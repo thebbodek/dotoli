@@ -100,12 +100,20 @@ Figma가 내보내는 SVG path를 `@phosphor-icons/core`의 원본과 좌표째�
 
 - **핸들러를 넘긴 요소만 렌더합니다.** `onTitleClick`(화살표) · `onNotificationClick`(알림 벨) · `onBack`(뒤로) · `onClose`(닫기) 넷 다 같은 규칙입니다. Figma 축을 boolean prop으로 옮기면 `hasSelector` + `onTitleClick`처럼 **항상 짝으로 맞춰야 하는 값이 두 개**가 되고 어긋나면 조용히 깨집니다. CtaButton이 Figma의 `iconPosition=none`을 `iconOption` 미전달로 표현한 것과 같은 선례입니다.
 - **화살표가 없으면 링크도 버튼도 아닌 순수 텍스트입니다.** 업체 전환 드롭다운(COM-002)은 마스터 권한 + 소속 업체 2개 이상일 때만 열리고, 나머지 계정은 업체가 1개로 고정이라 **탭 자체가 비활성**입니다. `<button disabled>`가 아니라 **텍스트 요소**(기본 `<span>` — `titleAs`가 바꿉니다)로 내려 보조기술에도 조작 대상으로 잡히지 않게 했습니다. 화살표가 있을 때만 `<button>`이고, 눌렀을 때 열리는 것은 업체 선택 바텀시트입니다.
+- **화살표가 있는 타이틀 버튼에 `aria-haspopup='dialog'`와 `aria-expanded`를 겁니다** (DOTOLI-310). 둘을 나눠 받는 근거는 `InputField` `type='select'`와 같습니다 — [input.md](./input.md) 「`select`에 `aria-haspopup='dialog'`와 `aria-expanded`를 겁니다」. 여기 고유한 것은 **목적지가 위 「화살표가 없으면…」에서 업체 선택 바텀시트로 고정**이라 `aria-haspopup` 값을 DS가 이미 안다는 점이고, 그래서 상수(`HEADER_BAR_TITLE_POPUP_ROLE`)로 박고 상태인 `aria-expanded`만 `isTitleExpanded`로 받습니다. 안 넘기면 속성 자체가 안 붙습니다.
+
+  **위 「핸들러를 넘긴 요소만 렌더합니다」와 충돌하지 않습니다.** 그 규칙이 막는 것은 `hasSelector` + `onTitleClick`처럼 **렌더 축이 둘로 갈려 어긋나면 조용히 깨지는** 경우입니다. `isTitleExpanded`는 화살표 노출을 바꾸지 않고(그건 여전히 `onTitleClick` 유무), 어긋나 봐야 속성 하나가 빠질 뿐입니다.
+
+  **선례와 갈리는 지점이 하나 있습니다** — `InputField`는 같은 `isOpen`으로 캐럿을 `caret-down` ↔ `caret-up`으로 뒤집는데([input.md](./input.md) 「`select` 캐럿은 열림 상태에서 `caret-up`으로 바뀝니다」), 여기 캐럿은 `caret-down` 고정입니다. Figma HeaderBar에 열림 심볼이 없어 「Figma에 없는 시각은 만들지 않습니다」를 따랐고, 아래 「디자인 확인 필요」에 올려 뒀습니다.
+
+  **`aria-controls`는 걸지 않았습니다.** `Overlay` · `BottomSheet` 어느 쪽도 `id`를 밖으로 내주지 않아(`OverlayProps`의 `Pick`에 `id`가 없습니다) 지금 가리킬 대상이 없습니다. 아래 「타이틀 요소는 `titleAs`로…」가 유보해 둔 `id` 통로와 같은 자리입니다.
 - **`useProgress` 축은 `progressOption` 미전달로 표현합니다.** 진행 바는 켜고 끄는 것만으로는 그릴 수 없고 **현재 단계 · 전체 단계가 반드시 함께** 필요합니다. boolean과 값을 따로 받으면 `useProgress=true`인데 값이 없는 상태가 타입으로 허용됩니다. 위 「핸들러를 넘긴 요소만 렌더합니다」와 같은 규칙입니다.
 - **진행률은 `currentStep / totalSteps`로 계산합니다.** Figma 목업은 240/380(63%)이지만 이건 폭을 눈대중으로 그린 값이고, 정책이 말하는 것은 「여러 단계로 진행되는 플로우」의 단계입니다. `calculateHeaderBarProgressRate`가 0~100으로 clamp 하고 `totalSteps <= 0`이면 0을 돌려줍니다.
 - **뒤로 · 닫기는 `CtaButton`을 재사용하지 않습니다.** Figma 레이어 이름은 `CtaButton`이고 라벨(`label-bold` `gray/800`) · radius(6px) · 아이콘 크기(14px)까지 `text`/`gray`/`sm`과 같지만 **아이콘 색이 `gray/400`으로 라벨과 다릅니다.** `CtaButton`은 아이콘이 `currentColor`를 상속하는 구조(`ButtonIcon`)라 라벨과 아이콘 색을 가를 수 없습니다. gap도 2px로 `CtaButton`의 4px과 다릅니다. 아이콘 래퍼(`ButtonIcon`)와 아이콘 위치 상수(`BUTTON_ICON_POSITIONS`)는 그대로 물어 씁니다.
 - **뒤로 · 닫기에 `TOUCH_TARGET_STYLE`을 겁니다.** 히트 영역 확장은 디자이너가 지정한 대상만 하는 것이 원칙인데(CLAUDE.md 「히트 영역 확장」), 지정 주석(`337:3538`)이 가리키는 대상이 `CtaButton`의 `text`와 `sm`이고 이 두 버튼이 정확히 그 스펙입니다. 새로 정한 게 아니라 이미 있는 지정을 따른 것입니다.
 - **알림 버튼은 `IconButton`이 아닙니다.** 컨테이너 40px는 `IconButton` `lg`와 같지만 **아이콘이 28px**입니다(`lg`는 24px). 웨이트도 `regular`로 다르고 미읽음 점이라는 고유 요소가 붙습니다. `IconButton`에 사이즈·슬롯을 더하면 이 한 곳 때문에 버튼 계열 전체의 축이 늘어나므로 별도 조각으로 뒀습니다.
 - **접근성 이름은 DS가 붙입니다.** 알림 버튼은 텍스트가 없어 이름을 스스로 만들 수 없는데, 폼 컨트롤과 달리 **소비자가 이 버튼에 직접 도달할 수 없습니다**(`HeaderBar`가 내부에서 조립). 뜻이 하나로 고정돼 있어 `aria-label='알림'`을 상수로 박았습니다. 뒤로 · 닫기 라벨도 같은 이유로 고정입니다.
+- **알림 버튼의 이름은 미읽음 여부로 갈립니다** (DOTOLI-310). 바로 위 규칙의 연장입니다 — 이름을 DS가 쥐고 있으니 **상태도 DS가 이름에 싣습니다.** `hasUnreadNotification`으로 `HEADER_BAR_NOTIFICATION_LABEL` ↔ `HEADER_BAR_NOTIFICATION_UNREAD_LABEL`을 가르고 **미읽음 점의 `aria-hidden`은 그대로 둡니다.** 점을 드러내거나 안쪽에 `sr-only`를 더하는 방식이 왜 무효인지는 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「장식 요소와 상태 요소」에 있습니다. 상태별로 이름을 가르는 선례는 internal-ui `InputPassword`(`비밀번호 보기` ↔ `비밀번호 숨기기`)인데, **거기와 갈려 기본 이름을 접두로 유지합니다** (`알림` → `알림, 읽지 않음`). `InputPassword`는 버튼의 **목적 자체가 뒤집히는** 토글이라 이름을 통째로 가는 게 맞지만, 알림 버튼은 목적이 「알림 열기」로 고정이고 상태만 얹힙니다. 이름이 통째로 갈리면 접근성 이름이 상태마다 흔들려 **음성 제어로 「알림」을 부를 때 타깃이 흐려집니다.**
 - **타이틀 요소는 `titleAs`로 열되 기본값은 `span`입니다** (DOTOLI-307). 같은 컴포넌트가 화면 헤더(`home` · `navigation`)와 바텀시트 헤더(`bottomSheet`)를 겸해 적정 레벨이 서로 다르고(`h1` ↔ `h2`), DOTOLI-250에서는 그걸 이유로 아예 열지 않았습니다. 그 결과 소비 앱이 페이지 제목을 만들 수 없어 셸이 `<h1 className='sr-only'>`를 따로 그렸고, **같은 문자열이 접근성 트리에 두 번**(`<header>`의 텍스트 + `<main>`의 h1) 올라갔습니다. **기본값을 두면 「매번 정해야 하는 스위치」가 아닙니다** — 같은 패키지의 `ConfirmModal`과 같은 모양(`HEADER_BAR_TITLE_ELEMENTS` · `HEADER_BAR_DEFAULT_TITLE_ELEMENT` · `titleAs`)으로 열었고 기본값이 지금 동작과 같은 `span`이라 기존 소비처는 그대로입니다. 바깥은 계속 `<header>` 랜드마크로 잡습니다. 바텀시트가 `aria-labelledby`로 물어야 할 때는 그 티켓에서 `id` 통로를 엽니다.
 - **`type=home`에 화살표가 있으면 `titleAs`가 버튼을 감쌉니다** — `<h1><button>…</button></h1>`. 반대 방향(`<button><h1>`)은 두 겹으로 막힙니다. `<button>`의 콘텐츠 모델이 phrasing content라 `<h1>`~`<h6>`이 **안에 들어갈 수 없고**, `role=button`은 children presentational이라 넣어도 **heading이 접근성 트리에서 사라집니다.** 뒤집은 쪽은 heading의 콘텐츠 모델이 phrasing content이고 `<button>`이 거기 해당해 유효하며 heading · button이 **둘 다** 트리에 남습니다 — ARIA APG의 accordion header(`<h3><button aria-expanded>`)와 같은 형태입니다.
 
@@ -175,6 +183,8 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 | 화살표 크기 12 ↔ 13px   | `light`는 13px, `dark`는 12px입니다. 문서 프레임의 참고 인스턴스(`514:1721`)도 13px이라 **13px로 통일**했습니다            |
 | `dark`가 `home`에만 있음 | `navigation` · `bottomSheet`의 `dark` 심볼이 없어 좌우 버튼 색이 미정의입니다. 이 조합은 쓰지 않는 것으로 두고 값을 채우지 않았습니다 |
 | 미읽음 점의 흰 테        | `light` · `dark`가 같은 에셋이라 `dark`에서도 흰 테 2px입니다. 밝은 배경을 도려내는 용도로 보이는데 어두운 배경에서는 흰 테가 드러납니다 |
+| 열림 상태의 캐럿         | `isTitleExpanded=true`여도 캐럿이 `caret-down` 고정입니다 (DOTOLI-310). 열림 심볼이 없어 만들지 않았는데, 같은 성격인 `InputField` `select`는 `caret-up`으로 뒤집습니다 |
+| 미읽음 알림 문구         | 미읽음일 때 버튼 이름에 상태가 붙습니다 — `알림` → `알림, 읽지 않음` (DOTOLI-310). 스크린리더만 읽는 문구라 화면에는 안 드러나고, 기획·디자인 확인 전 잠정값입니다 |
 | 좌우 버튼 gap 2 ↔ 4px    | Figma 인스턴스는 2px인데 원본 `CtaButton`(`11:4337`)의 `sm`은 4px입니다. 인스턴스 쪽 값을 따랐습니다                      |
 | `hover` · `pressed` 미정의 | 어느 심볼에도 상호작용 상태가 없어 `transition-colors`도 걸지 않았습니다. 모바일 타깃이라 최소한 `pressed`는 필요해 보입니다 |
 | 포커스 링 미정의         | 버튼 3종 전부 포커스 시각이 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7과 같은 상황)                                          |

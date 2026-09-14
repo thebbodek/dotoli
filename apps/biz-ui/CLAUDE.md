@@ -118,6 +118,14 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 **둘이 부딪치면 WCAG가 이깁니다.** 좁은 값으로 낮췄더니 24×24를 못 넘긴다면, 미달을 감수하지 말고 **맞닿는 쪽을 택합니다.** `StatusAlertBanner`에서 `TOUCH_TARGET_NARROW_STYLE`을 쓰면 닫기가 22×22에서 멈춰 `TOUCH_TARGET_STYLE`로 올린 것이 이 경우입니다. 그래도 못 넘기면 확장으로 풀 수 있는 문제가 아니므로 Figma 쪽을 고쳐야 합니다.
 
+### 장식 요소와 상태 요소
+
+**시각 전용 빈 요소에는 `aria-hidden`을 붙입니다.** 말풍선 꼬리(`StatusAlertBanner`) · 구분 점(`NotificationCard`) · 백드롭(`Overlay`)처럼 읽을 내용이 없는 것들입니다. 조상이 이미 `aria-hidden`이거나(`ToggleTrack`) 부모 `role`이 children presentational이면(`HeaderBarProgress`) 트리에서 이미 빠지므로 더 붙이지 않습니다.
+
+**이 항목은 이후 작성분부터 적용합니다** — `Divider`의 선 3개와 `CalendarMonth`의 빈 날짜 칸이 아직 빠져 있고, 그 계열을 손대는 티켓에서 함께 맞춥니다.
+
+**상태를 나타내는 시각 요소는 반대입니다 — 숨긴 채로 두지 말고 그 컨트롤의 접근성 이름에 싣습니다.** `aria-label`이 붙은 버튼은 **자식 콘텐츠가 이름 계산에서 통째로 무시되므로**, 안쪽에 `sr-only` 텍스트를 더하거나 표시 요소의 `aria-hidden`을 빼는 방식은 **아무 변화도 만들지 않습니다.** `aria-label` 자체를 상태에 따라 갈라야 합니다 — `HeaderBar`의 미읽음 알림 점이 그 사례입니다([header-bar.md](../../docs/biz-ui/components/header-bar.md) 「구현 결정」). 표시 요소 자체의 `aria-hidden`은 그대로 둡니다.
+
 ### 폼 컨트롤 공통
 
 `Checkbox` · `Toggle` · `Chip` · `SelectionItem` · `SearchInput`처럼 **사용자가 값을 바꾸는 컴포넌트**에 공통으로 적용합니다. 아래 대부분은 DOTOLI-241에서 internal-ui와 대조하며 정한 것이고, 실측 근거는 [`docs/biz-ui/components/checkbox.md`](../../docs/biz-ui/components/checkbox.md)에 있습니다.
