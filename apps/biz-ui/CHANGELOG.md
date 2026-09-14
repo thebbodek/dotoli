@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.58
+
+### Patch Changes
+
+- 0f4ff2e: DOTOLI-311 biz-ui > ActionSelectionItem 추가
+- 0f4ff2e: DOTOLI-310 biz-ui > HeaderBar 접근성 보완
+
 ## 0.0.57
 
 ### Patch Changes
