@@ -1,34 +1,34 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 
 import {
-  HEADER_BAR_NOTIFICATION_BUTTON_STYLE,
   HEADER_BAR_NOTIFICATION_DOT_STYLE,
   HEADER_BAR_NOTIFICATION_ICON_KEY,
   HEADER_BAR_NOTIFICATION_ICON_WEIGHT,
   HEADER_BAR_NOTIFICATION_LABEL,
+  HEADER_BAR_NOTIFICATION_LINK_STYLE,
   HEADER_BAR_NOTIFICATION_UNREAD_LABEL,
   HEADER_BAR_THEME_STYLES,
 } from '@/components/HeaderBar/constants';
-import { HeaderBarNotificationButtonProps } from '@/components/HeaderBar/types';
+import { HeaderBarNotificationLinkProps } from '@/components/HeaderBar/types';
 import { Icon } from '@/components/Icon';
 
-const HeaderBarNotificationButton = ({
+const HeaderBarNotificationLink = ({
   theme,
   hasUnreadNotification,
-  onClick,
-}: HeaderBarNotificationButtonProps) => {
+  href,
+}: HeaderBarNotificationLinkProps) => {
   const { NOTIFICATION_ICON } = HEADER_BAR_THEME_STYLES[theme];
 
   return (
-    <button
+    <Link
       aria-label={
         hasUnreadNotification
           ? HEADER_BAR_NOTIFICATION_UNREAD_LABEL
           : HEADER_BAR_NOTIFICATION_LABEL
       }
-      className={clsx(HEADER_BAR_NOTIFICATION_BUTTON_STYLE, NOTIFICATION_ICON)}
-      type='button'
-      onClick={onClick}
+      className={clsx(HEADER_BAR_NOTIFICATION_LINK_STYLE, NOTIFICATION_ICON)}
+      href={href}
     >
       <Icon
         iconKey={HEADER_BAR_NOTIFICATION_ICON_KEY}
@@ -38,8 +38,8 @@ const HeaderBarNotificationButton = ({
       {hasUnreadNotification && (
         <span className={HEADER_BAR_NOTIFICATION_DOT_STYLE} aria-hidden />
       )}
-    </button>
+    </Link>
   );
 };
 
-export default HeaderBarNotificationButton;
+export default HeaderBarNotificationLink;

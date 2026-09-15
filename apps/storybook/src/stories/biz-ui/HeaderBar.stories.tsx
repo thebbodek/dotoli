@@ -30,6 +30,8 @@ const TITLES = {
   [HEADER_BAR_TYPES.BOTTOM_SHEET]: BOTTOM_SHEET_TITLE,
 };
 
+const NOTIFICATION_HREF = '/notifications';
+
 const PROGRESS_STEPS = [1, 2, 3];
 
 const TOTAL_STEPS = 3;
@@ -85,14 +87,19 @@ const meta = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
+    notificationHref: {
+      control: 'text',
+      type: { name: 'string' },
+      table: { type: { summary: "LinkProps['href']" } },
+    },
     progressOption: { control: 'object' },
   },
   args: {
     title: HOME_TITLE,
     type: HEADER_BAR_TYPES.HOME,
     hasUnreadNotification: true,
+    notificationHref: NOTIFICATION_HREF,
     onTitleClick: noop,
-    onNotificationClick: noop,
     onBack: noop,
     onClose: noop,
   },

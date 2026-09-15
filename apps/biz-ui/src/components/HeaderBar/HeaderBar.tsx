@@ -18,7 +18,7 @@ import {
 } from '@/components/HeaderBar/constants';
 import HeaderBarHomeTitle from '@/components/HeaderBar/HeaderBarHomeTitle';
 import HeaderBarNavigationButton from '@/components/HeaderBar/HeaderBarNavigationButton';
-import HeaderBarNotificationButton from '@/components/HeaderBar/HeaderBarNotificationButton';
+import HeaderBarNotificationLink from '@/components/HeaderBar/HeaderBarNotificationLink';
 import HeaderBarProgress from '@/components/HeaderBar/HeaderBarProgress';
 import { HeaderBarProps } from '@/components/HeaderBar/types';
 import { Typography } from '@/components/Typography';
@@ -31,10 +31,10 @@ const HeaderBar = ({
   theme = HEADER_BAR_THEMES.LIGHT,
   isTitleExpanded,
   hasUnreadNotification = false,
+  notificationHref,
   progressOption,
   className,
   onTitleClick,
-  onNotificationClick,
   onBack,
   onClose,
 }: HeaderBarProps) => {
@@ -81,11 +81,11 @@ const HeaderBar = ({
             {title}
           </Typography>
         )}
-        {isHome && !!onNotificationClick && (
-          <HeaderBarNotificationButton
+        {isHome && !!notificationHref && (
+          <HeaderBarNotificationLink
             hasUnreadNotification={hasUnreadNotification}
+            href={notificationHref}
             theme={theme}
-            onClick={onNotificationClick}
           />
         )}
         {!isHome && !!onClose && (

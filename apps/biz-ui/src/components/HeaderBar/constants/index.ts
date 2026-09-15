@@ -61,7 +61,7 @@ export const HEADER_BAR_NOTIFICATION_LABEL = '알림';
 
 export const HEADER_BAR_NOTIFICATION_UNREAD_LABEL = '알림, 읽지 않음';
 
-export const HEADER_BAR_NOTIFICATION_BUTTON_STYLE =
+export const HEADER_BAR_NOTIFICATION_LINK_STYLE =
   'flex-h-stack-center relative size-[40px] shrink-0 cursor-pointer text-[28px]';
 
 export const HEADER_BAR_NOTIFICATION_DOT_STYLE =

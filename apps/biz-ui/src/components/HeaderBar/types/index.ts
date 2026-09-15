@@ -1,3 +1,4 @@
+import { LinkProps } from 'next/link';
 import { ButtonHTMLAttributes, HTMLAttributes } from 'react';
 
 import {
@@ -40,9 +41,9 @@ export interface HeaderBarProps
   theme?: HeaderBarTheme;
   isTitleExpanded?: boolean;
   hasUnreadNotification?: boolean;
+  notificationHref?: LinkProps['href'];
   progressOption?: HeaderBarProgressOption;
   onTitleClick?: () => void;
-  onNotificationClick?: () => void;
   onBack?: () => void;
   onClose?: () => void;
 }
@@ -51,9 +52,9 @@ export interface HeaderBarHomeTitleProps
   extends Pick<HeaderBarProps, 'title' | 'isTitleExpanded' | 'onTitleClick'>,
     Required<Pick<HeaderBarProps, 'theme' | 'titleAs'>> {}
 
-export interface HeaderBarNotificationButtonProps
+export interface HeaderBarNotificationLinkProps
   extends Required<Pick<HeaderBarProps, 'theme' | 'hasUnreadNotification'>>,
-    Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {}
+    Pick<LinkProps, 'href'> {}
 
 export interface HeaderBarNavigationButtonProps
   extends Pick<ButtonIconOption, 'iconKey'>,
