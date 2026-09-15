@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.59
+
+### Patch Changes
+
+- 3994c23: DOTOLI-312 biz-ui > HeaderBarNotification 수정
+
 ## 0.0.58
 
 ### Patch Changes
