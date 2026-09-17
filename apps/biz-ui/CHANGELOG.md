@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.60
+
+### Patch Changes
+
+- 4f121b2: DOTOLI-314 biz-ui > BottomTab · BottomActionBar ref 추가
+
 ## 0.0.59
 
 ### Patch Changes
