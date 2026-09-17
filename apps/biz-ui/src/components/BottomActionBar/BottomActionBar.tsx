@@ -20,6 +20,7 @@ const BottomActionBar = ({
   info,
   variant = BOTTOM_ACTION_BAR_VARIANTS.FLOATING,
   className,
+  ref,
 }: BottomActionBarProps) => {
   const actionProps = resolveBottomActionBarAction({
     action,
@@ -42,6 +43,7 @@ const BottomActionBar = ({
           ? BOTTOM_ACTION_BAR_GAP_STYLES.INFO
           : BOTTOM_ACTION_BAR_GAP_STYLES.DEFAULT,
       )}
+      ref={ref}
     >
       {!!info && (
         <Typography

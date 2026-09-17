@@ -8,7 +8,7 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 | 컴포넌트        | 티켓       | 공개 | 설명                                |
 | --------------- | ---------- | ---- | ----------------------------------- |
-| `BottomTab`     | DOTOLI-249 · 304 | ✅   | `<nav>` + 탭 3개. `value` 1축       |
+| `BottomTab`     | DOTOLI-249 · 304 · 314 | ✅   | `<nav>` + 탭 3개. `value` 1축       |
 | `BottomTabItem` | DOTOLI-249 · 304 | ❌   | 탭 하나. `next/link` + 아이콘 + 라벨 |
 
 `BottomTabItem`은 배럴에 없어 공개 API가 아닙니다 — 빌드 후 `dist/index.es.js`의 export 목록에 `BottomTab` 하나만 있는 것을 확인했습니다. 소비자가 탭을 직접 조립할 일이 없어서입니다(아래 「결정」 1번).
@@ -138,6 +138,10 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 - **위치를 스스로 잡지 않습니다.** `fixed bottom-0`을 넣지 않고 `w-full`까지만 책임집니다 — `FloatingPill`도 그림자만 갖고 위치는 쓰는 쪽이 정합니다. 화면 레이아웃(스크롤 영역과의 관계 · 키보드 회피)은 소비 앱마다 갈립니다.
 
+- **root `ref`를 엽니다 (DOTOLI-314).** 바로 위 항목의 뒷면입니다 — 위치를 소비 앱이 정하니 **높이도 소비 앱이 재야** 합니다. 계기와 구현 형태, 래퍼 우회가 왜 대안이 아닌지는 [bottom-action-bar.md](./bottom-action-bar.md) 「DOTOLI-314」에 있습니다. 여기 고유한 것은 제네릭 인자뿐입니다 — root가 `<nav>`라 `RefAttributes<HTMLElement>`이고, 기존 `Pick<HTMLAttributes<HTMLElement>, 'className'>`과 같은 인자입니다.
+
+  **잰 값에는 safe area가 들어 있습니다.** `safe-area-bottom`이 이 요소의 `padding-bottom`이라 `getBoundingClientRect().height`가 61이 아니라 `61 + env(safe-area-inset-bottom)`으로 나옵니다(데스크톱에서 61, 홈 인디케이터가 있는 기기에서 95). `Toaster` 컨테이너도 같은 유틸을 자기 몫으로 갖고 있어서 **잰 값을 그대로 `--toast-offset`에 넣으면 safe area가 두 번 더해집니다.** `pb-[28px]`이라 safe area가 없는 [`BottomActionBar`](./bottom-action-bar.md)와 갈리는 지점이라, 두 바를 같은 식으로 다루면 여기서만 어긋납니다.
+
 - **히트 영역을 확장하지 않습니다.** 탭 하나가 126 × 60이라 `touch-target`(44px) 기준을 이미 넘고, Figma에 확장 주석도 없습니다(CLAUDE.md 「히트 영역 확장」).
 
 - **첫 탭의 `rounded-tl-[70px]`을 옮기지 않았습니다.** codegen에 세 심볼 모두 같은 값이 나오지만, 탭에는 배경이 없고(배경은 바 컨테이너에 있음) 반경이 걸릴 표면 자체가 없어 **렌더 결과에 아무 영향이 없습니다.** Figma 잔재로 보고 버렸습니다.
@@ -151,6 +155,7 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | `replace`   |      | `false` | `LinkProps` 기본값(= push). 세 탭에 함께 걸림           |
 | `onTabSelect` |    | —      | `(value: BottomTabValue) => void`. 부수효과용            |
 | `className` |      | —      | `<nav>`에 적용                                          |
+| `ref`       |      | —      | `<nav>`에 연결. 높이 실측용                             |
 
 내보내는 상수는 `BOTTOM_TAB_VALUES` · `BOTTOM_TAB_DEFAULT_VALUE` · `BOTTOM_TAB_STATES` · `BOTTOM_TAB_ITEMS`와 스타일 상수들입니다.
 

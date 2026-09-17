@@ -159,6 +159,24 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 - **[`ConfirmModal`](./confirm-modal.md)은 이번에 열지 않았습니다.** `ConfirmModalAction`은 `BottomActionBarAction`과 공유되지 않는 별도 타입이라 자동으로 따라오지 않습니다. 삭제 확인처럼 비동기가 붙을 자리로 보이지만 **실제 사례가 아직 없어** 열지 않았습니다 — 공개는 되돌리기 비대칭이라 필요가 확인될 때 엽니다([overlay.md](./overlay.md)와 같은 기준).
 
+### DOTOLI-314 · root `ref`를 엽니다
+
+- **소비 앱이 바 높이를 실측해야 해서입니다.** `Toaster`는 `--toast-offset`을 **읽기만 하고 세팅하지 않습니다**([toast.md](./toast.md) 「결정」). `ToasterProps`도 `target` · `className` 둘뿐이라 오프셋을 넘길 prop이 없습니다. 하단에 이 바나 [`BottomTab`](./bottom-tab.md)이 깔린 화면에서 토스트가 그 위로 뜨려면 소비 앱이 높이를 재서 `:root`에 발행해야 하는데, `ref`가 없으면 `getBoundingClientRect()`를 부를 노드 자체에 닿지 못합니다.
+
+- **여기는 래퍼로 우회할 수 없습니다 — `BottomTab`과 갈리는 지점입니다.** 그쪽은 `static`이라 소비 앱이 `<div>`로 감싸 래퍼를 재면 같은 값이 나옵니다(`biz-customer-app` BP-63이 실제로 그렇게 들어가 있습니다). 이 바는 `floating`이 `sticky bottom-0`이라 **래퍼가 곧 sticky containing block이 되고, 래퍼 높이 = 바 높이라 이동 구간이 0**입니다. 위 「`floating`에 `sticky bottom-0`을 함께 겁니다」가 「스크롤 컨테이너의 마지막 자식」을 전제로 하는데 래퍼가 그 전제를 깹니다.
+
+  **조용히 깨집니다.** DOM에는 `position: sticky`가 그대로 찍히고 타입 · 린트 · 빌드가 전부 통과합니다. 스크롤해 보기 전까지 드러나지 않아서, 우회를 시도하는 대신 통로를 여는 쪽으로 갔습니다.
+
+- **React 19라 `forwardRef`가 없습니다.** `RefAttributes<HTMLDivElement>`를 `extends`에 더하고 받은 `ref`를 루트 `<div>`에 그대로 넘깁니다(`Tag` · `FloatingPill` 선례). optional이라 기존 소비처는 깨지지 않습니다. 빌드 산출물에서 `ref`가 루트 `div` 생성 인자에 들어간 것과, `ref`를 단 뒤에도 `floating`이 스크롤 양 끝에서 컨테이너 바닥 오프셋 0으로 붙는 것을 확인했습니다.
+
+- **`BottomActionBarProps`가 중첩 옵션으로 재사용되는 자리라 `key`도 함께 들어옵니다.** `RefAttributes<T>`가 `Attributes`를 상속해 `key`를 싣는데, 이 타입은 [`BottomSheet`](./bottom-sheet.md) · `CalendarBottomSheet` · [`DateBottomSheet`](./calendar.md)의 `actionBarOption` 필드로 쓰이고 시트가 `{...actionBarOption}`으로 스프레드합니다. 소비자가 옵션 객체에 `key`를 넣으면 React가 스프레드 경고를 냅니다.
+
+  **`Omit`으로 좁히지 않았습니다.** 좁히면 `key`와 함께 `ref`도 막히는데 시트 안쪽 바의 노드를 잡는 것은 막을 이유가 없는 통로이고, 경고가 나는 것은 소비자가 옵션 객체에 `key`를 일부러 넣은 경우뿐입니다. `key`가 props 타입에 실리는 것 자체는 `RefAttributes`를 쓴 나머지 컴포넌트도 같고, **다른 점은 이 타입만 중첩으로 재사용된다는 것**뿐입니다.
+
+- **CLAUDE.md 「네이티브 통로는 열고, 결정은 열지 않습니다」를 레이아웃 컴포넌트에 적용한 첫 사례입니다.** 그 항목은 「폼 컨트롤 공통」 절에 있어 원래 `Checkbox` · `Toggle` 계열을 겨냥한 규칙이고, **`ref`가 실제로 배선된 기존 19개도 전부 인터랙티브 컨트롤**입니다. 타입에 `RefAttributes`가 있는 것은 20개인데 `Typography`만 표시 전용이고, 그쪽은 `ref`를 구조 분해도 전달도 하지 않아 소비자 ref가 조용히 버려집니다(선재 결함 · 별도 티켓). **논리는 그대로 성립합니다** — `ref`는 소비자가 판단할 것이 없는 통로이고, 막으면 실측을 대안 없이 못 하게 됩니다.
+
+  **나머지 미개방 컴포넌트까지 일반화하지는 않았습니다.** `className`만 열고 `ref`가 없는 것이 아직 30개인데, 실측 수요가 확인된 것은 이 둘뿐입니다. 공개는 되돌리기 비대칭이라 필요가 확인될 때 여는 순서로 갑니다. 세 번째 사례가 나오면 그때 CLAUDE.md 쪽 기준을 손보는 편이 맞습니다.
+
 ## API
 
 | prop        | 필수 | 기본값       | 비고                                        |
@@ -168,6 +186,7 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `info`      |      | —            | 주면 **좌측**에 텍스트. `\n`으로 줄바꿈. `subAction`과 **배타** |
 | `variant`   |      | `'floating'` | `'floating'`은 `sticky` + 그라디언트         |
 | `className` |      | —            | 바에 적용                                    |
+| `ref`       |      | —            | 바 루트에 연결. 높이 실측용                   |
 
 ```tsx
 // single — 스크롤 콘텐츠 위에 뜬다

@@ -211,6 +211,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-310 biz-ui HeaderBar 접근성 보완 (타이틀 버튼 `aria-haspopup` · `aria-expanded` · 알림 버튼 이름 분기 · `NotificationCard` 장식 점 `aria-hidden`)
 - [x] DOTOLI-311 biz-ui ActionSelectionItem 추가 (계열 승격 · 즉시 실행 목록은 버튼판 · radio판에 `onClick`을 열지 않음)
 - [x] DOTOLI-312 biz-ui HeaderBar 알림 벨 링크 전환 (`onNotificationClick` → `notificationHref` · `HeaderBarNotificationLink`로 개명 · 시각 무변화)
+- [x] DOTOLI-314 biz-ui BottomTab · BottomActionBar root `ref` 추가 (토스트 오프셋 실측용 · optional이라 비파괴)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -341,6 +342,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-310 | HeaderBar 접근성 보완 — 타이틀 버튼 `aria-haspopup` · `aria-expanded`(`isTitleExpanded`) + **알림 버튼 이름을 미읽음 여부로 분기** · `NotificationCard` 장식 점 `aria-hidden`. 비파괴 | [components/header-bar.md](./components/header-bar.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-311 | `ActionSelectionItem` 추가 + **SelectionItem 계열 승격**(`shared`가 시각 소유). 즉시 실행 목록은 버튼판이 맡고 radio판에는 `onClick`을 열지 않음. 비파괴 | [components/selection-item.md](./components/selection-item.md)                |
 | DOTOLI-312 | HeaderBar 알림 벨 링크 전환 — `<button>`+`onNotificationClick` → `next/link`+`notificationHref`. `BottomTab`(304)과 같은 통짜 전환 기준. **파괴적 변경**(`onNotificationClick` · `HEADER_BAR_NOTIFICATION_BUTTON_STYLE` · `HeaderBarNotificationButtonProps` 제거) | [components/header-bar.md](./components/header-bar.md)                        |
+| DOTOLI-314 | BottomTab · BottomActionBar root `ref` 개방 — 소비 앱이 `--toast-offset`을 실측하려면 필요. **레이아웃 컴포넌트에 네이티브 통로를 연 첫 사례**(`ref`가 실제로 배선된 기존 19개는 전부 인터랙티브 컨트롤). 비파괴 | [components/bottom-tab.md](./components/bottom-tab.md) · [bottom-action-bar.md](./components/bottom-action-bar.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

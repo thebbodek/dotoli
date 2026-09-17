@@ -14,11 +14,13 @@ const BottomTab = ({
   replace,
   onTabSelect,
   className,
+  ref,
 }: BottomTabProps) => {
   return (
     <nav
       aria-label={BOTTOM_TAB_ARIA_LABEL}
       className={clsx(className, BOTTOM_TAB_BASE_STYLE)}
+      ref={ref}
     >
       {BOTTOM_TAB_ITEMS.map((item) => (
         <BottomTabItem

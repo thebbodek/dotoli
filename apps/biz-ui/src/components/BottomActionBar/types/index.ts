@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, RefAttributes } from 'react';
 
 import { BOTTOM_ACTION_BAR_VARIANTS } from '@/components/BottomActionBar/constants';
 import { CtaButtonProps } from '@/components/Button';
@@ -22,7 +22,8 @@ export interface ResolveBottomActionBarActionProps {
 }
 
 export interface BottomActionBarProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'>,
+    RefAttributes<HTMLDivElement> {
   action: BottomActionBarAction;
   subAction?: BottomActionBarAction;
   info?: string;

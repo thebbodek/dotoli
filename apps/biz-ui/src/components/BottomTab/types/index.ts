@@ -1,5 +1,5 @@
 import { LinkProps } from 'next/link';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, RefAttributes } from 'react';
 
 import {
   BOTTOM_TAB_STATES,
@@ -26,7 +26,8 @@ export interface BottomTabItemOption extends Pick<IconProps, 'iconKey'> {
 
 export interface BottomTabProps
   extends Pick<HTMLAttributes<HTMLElement>, 'className'>,
-    Pick<LinkProps, 'replace'> {
+    Pick<LinkProps, 'replace'>,
+    RefAttributes<HTMLElement> {
   value: BottomTabValue;
   hrefs: Record<BottomTabValue, LinkProps['href']>;
   onTabSelect?: (value: BottomTabValue) => void;
