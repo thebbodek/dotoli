@@ -10,14 +10,14 @@ export type NotificationCardTheme =
 export interface NotificationCardColors {
   TITLE: ColorVariants;
   SUB_TEXT: ColorVariants;
-  HISTORY_TIME: ColorVariants;
-  HISTORY_REGISTRANT: ColorVariants;
+  META_TEXT: ColorVariants;
+  META_EXTRA_TEXT: ColorVariants;
   PERIOD: ColorVariants;
 }
 
-export interface NotificationCardHistory {
-  registeredAt: string;
-  registrant: string;
+export interface NotificationCardMeta {
+  text: string;
+  extraText?: string;
 }
 
 export interface NotificationCardProps
@@ -26,7 +26,7 @@ export interface NotificationCardProps
   theme?: NotificationCardTheme;
   title?: ReactNode;
   subText?: string;
-  history?: NotificationCardHistory;
+  meta?: NotificationCardMeta;
   period?: string;
   actionLabel?: string;
   onAction?: () => void;

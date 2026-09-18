@@ -14,8 +14,8 @@ import {
   NOTIFICATION_CARD_DEFAULT_THEME,
   NOTIFICATION_CARD_HEADER_STYLE,
   NOTIFICATION_CARD_HIGHLIGHT_STYLES,
-  NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE,
-  NOTIFICATION_CARD_HISTORY_STYLE,
+  NOTIFICATION_CARD_META_DIVIDER_STYLE,
+  NOTIFICATION_CARD_META_STYLE,
   NOTIFICATION_CARD_TEXT_STYLE,
 } from '@/components/NotificationCard/constants';
 import { NotificationCardProps } from '@/components/NotificationCard/types';
@@ -27,13 +27,13 @@ const NotificationCard = ({
   theme = NOTIFICATION_CARD_DEFAULT_THEME,
   title,
   subText,
-  history,
+  meta,
   period,
   actionLabel,
   onAction,
   className,
 }: NotificationCardProps) => {
-  const hasText = !!title || !!subText || !!history;
+  const hasText = !!title || !!subText || !!meta?.text;
 
   return (
     <div className={clsx(className, NOTIFICATION_CARD_BASE_STYLE)}>
@@ -65,24 +65,28 @@ const NotificationCard = ({
                   {subText}
                 </Typography>
               )}
-              {!!history && (
-                <div className={NOTIFICATION_CARD_HISTORY_STYLE}>
+              {!!meta?.text && (
+                <div className={NOTIFICATION_CARD_META_STYLE}>
                   <Typography
-                    color={NOTIFICATION_CARD_COLORS.HISTORY_TIME}
+                    color={NOTIFICATION_CARD_COLORS.META_TEXT}
                     variant={TYPOGRAPHY_VARIANTS.LABEL}
                   >
-                    {history.registeredAt}
+                    {meta.text}
                   </Typography>
-                  <span
-                    className={NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE}
-                    aria-hidden
-                  />
-                  <Typography
-                    color={NOTIFICATION_CARD_COLORS.HISTORY_REGISTRANT}
-                    variant={TYPOGRAPHY_VARIANTS.LABEL}
-                  >
-                    {history.registrant}
-                  </Typography>
+                  {!!meta.extraText && (
+                    <>
+                      <span
+                        className={NOTIFICATION_CARD_META_DIVIDER_STYLE}
+                        aria-hidden
+                      />
+                      <Typography
+                        color={NOTIFICATION_CARD_COLORS.META_EXTRA_TEXT}
+                        variant={TYPOGRAPHY_VARIANTS.LABEL}
+                      >
+                        {meta.extraText}
+                      </Typography>
+                    </>
+                  )}
                 </div>
               )}
             </div>

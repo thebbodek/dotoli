@@ -19,7 +19,7 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 | `useIcon`    | 아이콘 (`IconCircle`)                            | true         |
 | `useTitle`   | 타이틀                                           | true         |
 | `useSubText` | 보조 텍스트                                      | true         |
-| `useHistory` | 등록 이력. 포맷 `MM.DD HH:MM \| 등록자`          | false        |
+| `useHistory` | 보조 정보 행. 코드는 `meta` — 아래 「DOTOLI-315」 | false        |
 | `usePeriod`  | 기간 표기가 필요한 경우                          | false        |
 | `useAction`  | 사용자가 취할 행동. 문의하기 · 주문 보기 등      | false        |
 
@@ -35,10 +35,10 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 | 아이콘      | `IconCircle` `md`(48px) · weight `fill`                     |
 | 타이틀      | `heading-4` · `gray/800`, 강조부는 `theme`이 정함 (아래)     |
 | 보조 텍스트 | `body` · `gray/600`                                         |
-| 이력 행     | `flex-h-stack-center` · gap 5px                             |
-| 이력 시각   | `label` · `gray/500`                                        |
-| 이력 구분선 | 1×12px · `gray/500`                                         |
-| 이력 등록자 | `label` · `gray/700`                                        |
+| 보조 정보 행 | `flex-h-stack-center` · gap 5px                            |
+| 앞 조각     | `label` · `gray/500`                                        |
+| 구분선      | 1×12px · `gray/500`. 뒤 조각이 있을 때만 그림               |
+| 뒤 조각     | `label` · `gray/700`                                        |
 | 기간        | `label` · `blue/400`                                        |
 | 액션        | `CtaButton` `sm` / `gray` / `outlined`                      |
 
@@ -67,7 +67,7 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 - **기간이 액션 버튼보다 위입니다.** 옛 심볼(`132:470`)은 버튼 → 기간 순서였는데 조건 정의 프레임에서 뒤집혔습니다. `607:3148`에서 기간 `y=146`, 버튼 `y=178`입니다.
 - **옛 심볼 하단의 회색 바(`173:703` 「Rectangle 679」)는 사라졌습니다.** DOTOLI-238 착수 전 「정체 확인 필요」로 올려 뒀던 항목인데, 16개 심볼 어디에도 없어 **조건 정의 과정에서 빠진 것**으로 봅니다. 구현하지 않았습니다.
 - **아이콘 weight를 `fill`로 명시해 넘깁니다.** `IconCircle`은 `weight`를 넘기지 않으면 `Icon` 기본값 `bold`로 그리는데, **처음에 그걸 그대로 두고 실측하지 않았다가 디자이너 지적으로 바로잡았습니다.** Figma 심볼의 경로와 Phosphor 웨이트별 아트워크 종횡비를 비교하면 Figma 1.021 · `fill` 1.005 · `bold` 1.162 · `regular` 0.947로 `fill`에 붙습니다. `InfoItem`도 같은 이유로 명시해서 넘깁니다 — [info.md](./info.md).
-- **이력 구분선은 `gray/500`입니다.** Figma가 회전된 선(`609:2111`)으로 그려 codegen이 `<img>`로 내보내는데, SVG의 `stroke="#8A93A8"`을 직접 읽어 확인했습니다. `1×12px` div로 그립니다 — `Divider`와 같은 이유로 `border`가 아니라 크기 있는 요소입니다. 읽을 내용이 없는 장식이라 `aria-hidden`입니다 (DOTOLI-310 · [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「장식 요소와 상태 요소」).
+- **구분선은 `gray/500`입니다.** Figma가 회전된 선(`609:2111`)으로 그려 codegen이 `<img>`로 내보내는데, SVG의 `stroke="#8A93A8"`을 직접 읽어 확인했습니다. `1×12px` div로 그립니다 — `Divider`와 같은 이유로 `border`가 아니라 크기 있는 요소입니다. 읽을 내용이 없는 장식이라 `aria-hidden`입니다 (DOTOLI-310 · [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「장식 요소와 상태 요소」).
 - **텍스트 블록에 `text-center`를 겁니다.** `items-center`는 박스를 가운데로 밀 뿐이라, 문구가 접히면 줄들이 왼쪽 정렬로 남습니다.
 - **폭을 선언하지 않고 `w-full`입니다.** 340px은 문서 값입니다.
 
@@ -83,6 +83,34 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 
   **결과가 종전 `<span>`과 같은 것을 확인했습니다** — 5종 전부 `<strong>`이 600이고 색만 `theme`을 따라갑니다.
 
+### DOTOLI-315 · 이력 행을 보조 정보 행으로
+
+`history: { registeredAt, registrant }`가 `meta: { text, extraText? }`가 됐습니다. 구분선은 `extraText`가 있을 때만 그립니다. **파괴적 변경입니다** — 배럴을 타고 공개 표면에서 다섯이 빠집니다.
+
+| 빠지는 이름                             | 대체                          |
+| --------------------------------------- | ----------------------------- |
+| `NotificationCardProps.history`         | `meta`                        |
+| `NotificationCardHistory`               | `NotificationCardMeta`        |
+| `NOTIFICATION_CARD_HISTORY_STYLE`       | `NOTIFICATION_CARD_META_STYLE` |
+| `NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE` | `NOTIFICATION_CARD_META_DIVIDER_STYLE` |
+| `NotificationCardColors`의 `HISTORY_TIME` · `HISTORY_REGISTRANT` | `META_TEXT` · `META_EXTRA_TEXT` |
+
+**지금 한 이유는 비용입니다.** `biz-customer-app` · `bbodek-internal` 어디에도 `NotificationCard` 실사용이 없습니다(실측 0건). 소비 앱이 쓰기 시작한 뒤에는 같은 개명이 이관 작업을 동반합니다 — [`InfoBanner`](./info.md)가 DOTOLI-296에서 `label` → `description`을 같은 근거로 앞당긴 것과 같은 판단입니다.
+
+- **계기는 소비앱입니다.** [고객 비즈 `2715:15171`](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=2715-15171&m=dev)의 오류 화면이 이 행에 `뽀득 고객센터: 02-6231-0803` 한 줄만 넣습니다. 인스턴스에서 구분선(`Line 207`)과 뒤 조각이 `hidden`입니다. 종전 타입은 `registrant`가 필수라 이 조합을 만들 수 없었고, 만들 수 있었더라도 전화번호를 `registeredAt`에 담아야 했습니다.
+
+- **이름을 중립으로 바꿨습니다.** 한 슬롯이 등록 이력과 고객센터 번호를 모두 받는데 필드명이 내용을 단정하면, 소비처가 쓸 때마다 이름과 값이 어긋납니다. `caption`은 biz-ui 타이포 토큰(`text-caption`)과 internal-ui `Table`의 HTML `<caption>` 의미가 이미 있어 뺐고, `info`는 `InfoBanner` · `InfoItem`과 겹쳐 뺐습니다. 필드 쪽에서 `subText`를 안 쓴 것은 카드 최상위에 같은 이름의 prop이 있어서입니다.
+
+- **필드명에 계열 표준 쌍(`label` + `description` · `label` + `value`)을 쓰지 않았습니다.** [`InfoBanner`](./info.md) 「DOTOLI-296」이 **`label`은 예외 없이 주 텍스트**라고 못박아 뒀는데, 여기는 색 위계가 반대입니다 — 앞 조각이 `gray/500`으로 더 옅고 뒤 조각이 `gray/700`입니다. `label` + `description`을 얹으면 이름은 「주 + 보조」인데 시각은 「보조 + 주」가 돼 읽는 쪽이 매번 뒤집어 해석해야 합니다. 두 조각에 위계가 없다는 것을 이름으로 드러내려고 `text` + `extraText`로 갔습니다. `extra*` 접두어는 두 DS를 통틀어 첫 사용입니다.
+
+- **`text`는 필수, `extraText`만 optional입니다.** 뒤 조각만 있는 상태는 그릴 시각이 없으므로 타입에서 막습니다.
+
+- **색은 그대로 둡니다.** 앞 `gray/500` · 뒤 `gray/700`은 Figma 값이라, 의미가 중립이 돼도 시각은 건드리지 않습니다. 슬롯 순서에 색이 붙어 있는 셈입니다.
+
+  **한 조각만 남았을 때 색이 조각 수를 따라가는지 실측했습니다.** 소비앱 인스턴스의 변수 목록에 `gray/500` · `label`만 있고 `gray/700`은 없습니다. 앞 조각이 혼자 남아도 `gray/500`이므로, 색은 조각 수가 아니라 슬롯 위치를 따릅니다. 분기가 필요 없습니다.
+
+**Figma 속성명은 여전히 `useHistory`입니다.** 코드만 일반화한 것이라 「디자인 확인 필요」에 올려 뒀습니다.
+
 ## API
 
 | prop          | 필수 | 기본값    | 비고                                           |
@@ -91,7 +119,7 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 | `theme`       |      | `primary` | 5종. 아이콘 색 + 타이틀 강조색                 |
 | `title`       |      | —         | `ReactNode`. `gray/800`. **`<strong>`으로 강조** — 색은 `theme`이 정함 |
 | `subText`     |      | —      | 보조 텍스트                                       |
-| `history`     |      | —      | `{ registeredAt, registrant }`. 구분선은 DS가 그림 |
+| `meta`        |      | —      | `{ text, extraText? }`. 구분선은 뒤 조각이 있을 때만 DS가 그림 |
 | `period`      |      | —      | 기간 문구. 포맷은 소비처가 만듦                   |
 | `actionLabel` |      | —      | 있으면 버튼을 그림                                |
 | `onAction`    |      | —      | 버튼 클릭                                         |
@@ -101,19 +129,24 @@ Figma 「속성 정의」(`590:2`)가 요소별 on/off로 정의합니다.
 
 | 항목                  | 내용                                                                                                            |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| 이력 포맷             | `MM.DD HH:MM \| 등록자` 조립을 DS가 아니라 소비처가 합니다. 포맷이 고정이면 DS로 옮기는 것이 맞습니다             |
+| 슬롯 의미             | Figma 속성은 `useHistory`(등록 이력)인데 소비앱은 같은 줄에 고객센터 번호를 넣습니다. 코드는 `meta`로 일반화했고(위 「DOTOLI-315」), 이 재활용이 의도된 것인지 · Figma 속성명도 따라갈 것인지 |
+| 앞 조각 대비          | `gray/500`(`#8a93a8`)은 흰 배경에서 **3.08:1**이고 `label`이 14px Medium이라 WCAG 1.4.3 AA(4.5:1)에 미달합니다(뒤 조각 `gray/700`은 7.33:1). 종전에는 등록 시각이었지만 이제 이 자리에 고객센터 번호처럼 화면의 핵심 정보가 혼자 남습니다. **DS가 임의로 올리지 않고 올려 둡니다** — Figma 토큰 값이라 고치는 쪽은 Figma입니다 |
 | 강조 겹침             | `title`이 `ReactNode`라 `<strong>`을 **여러 군데**에 둘 수 있습니다. Figma 예시는 전부 한 군데인데, 타이틀 하나에 강조가 둘 이상 와도 되는지. [`Toast`](./toast.md)의 같은 항목과 **함께 움직입니다** |
 
 **강조부 위치 1건은 DOTOLI-297에서 닫혔습니다** — `title`이 `ReactNode`가 돼 위치를 소비자가 정합니다.
 
+**이력 포맷 1건은 DOTOLI-315에서 닫혔습니다** — 슬롯이 중립이 돼 DS가 가질 포맷이 없습니다. 조립은 소비처가 합니다.
+
 ## Storybook
 
-`apps/storybook/src/stories/biz-ui/NotificationCard.stories.tsx`, `meta.title`은 `core/biz-ui/NotificationCard`. 스토리 4종 (`Default` · `Themes` · `Combinations` · `TitleVariants`). 데코레이터로 문서 프레임과 같은 `w-[340px]`을 겁니다. `Themes`는 5종을 세로로 쌓아 **아이콘 색과 강조색이 같은 톤으로 함께 바뀌는 것**과 `gray`에서 강조가 사라지는 것을 봅니다.
+`apps/storybook/src/stories/biz-ui/NotificationCard.stories.tsx`, `meta.title`은 `core/biz-ui/NotificationCard`. 스토리 5종 (`Default` · `Themes` · `Combinations` · `MetaVariants` · `TitleVariants`). 데코레이터로 문서 프레임과 같은 `w-[340px]`을 겁니다. `Themes`는 5종을 세로로 쌓아 **아이콘 색과 강조색이 같은 톤으로 함께 바뀌는 것**과 `gray`에서 강조가 사라지는 것을 봅니다.
 
-`Combinations`만 **4×4 그리드**입니다. 세로로 쌓으면 문서 높이가 3천 px을 넘어 한눈에 안 들어옵니다. **행/열 구성을 Figma `606:2300`과 똑같이 맞춰서**(행 = 보조텍스트·이력, 열 = 기간·액션) `#N` 번호가 Figma와 1:1로 대응합니다 — 대조할 때 눈으로 짝을 찾지 않아도 됩니다. 조합은 `ROW_PARTS` × `COLUMN_PARTS`로 만들어 16개를 손으로 나열하지 않습니다.
+`Combinations`만 **4×4 그리드**입니다. 세로로 쌓으면 문서 높이가 3천 px을 넘어 한눈에 안 들어옵니다. **행/열 구성을 Figma `606:2300`과 똑같이 맞춰서**(행 = 보조텍스트·보조 정보, 열 = 기간·액션) `#N` 번호가 Figma와 1:1로 대응합니다 — 대조할 때 눈으로 짝을 찾지 않아도 됩니다. 조합은 `ROW_PARTS` × `COLUMN_PARTS`로 만들어 16개를 손으로 나열하지 않습니다.
 
 **카드 폭은 4열에서도 340px 그대로입니다.** 열을 `grid-cols-[repeat(4,340px)]`로 고정하고 넘치는 만큼(4×340 + gap = 1420px) **컨테이너가 가로로 스크롤**합니다. 열 폭을 캔버스에 맞춰 나누면 카드가 297px로 줄어 Figma 심볼과 다른 폭이 되고, 그러면 이 스토리로는 줄바꿈·간격을 대조할 수 없습니다. 페이지 전체가 아니라 그리드를 감싼 `overflow-x-auto` 안에서만 스크롤합니다.
 
-`w-[340px]` 데코레이터는 meta가 아니라 `Default` · `Themes` · `TitleVariants`에만 붙어 있습니다 — meta에 두면 story 데코레이터가 안쪽에서 실행돼 `Combinations`에서 폭 제한을 되돌릴 수 없습니다.
+`w-[340px]` 데코레이터는 스토리북 `meta`가 아니라 `Default` · `Themes` · `MetaVariants` · `TitleVariants`에만 붙어 있습니다 — 스토리북 `meta`에 두면 story 데코레이터가 안쪽에서 실행돼 `Combinations`에서 폭 제한을 되돌릴 수 없습니다. 여기서 말하는 `meta`는 스토리북의 기본 export이고 컴포넌트의 `meta` prop이 아닙니다.
+
+`MetaVariants`는 보조 정보 행을 두 조각 · 한 조각으로 나란히 놓고 **구분선이 붙고 빠지는 것**을 봅니다. 한 조각 쪽 문구는 소비앱 오류 화면에서 그대로 가져왔습니다.
 
 `TitleVariants`는 디자이너가 말한 「나뉘지 않는 케이스」를 나란히 놓고 봅니다.

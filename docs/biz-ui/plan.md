@@ -212,6 +212,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-311 biz-ui ActionSelectionItem 추가 (계열 승격 · 즉시 실행 목록은 버튼판 · radio판에 `onClick`을 열지 않음)
 - [x] DOTOLI-312 biz-ui HeaderBar 알림 벨 링크 전환 (`onNotificationClick` → `notificationHref` · `HeaderBarNotificationLink`로 개명 · 시각 무변화)
 - [x] DOTOLI-314 biz-ui BottomTab · BottomActionBar root `ref` 추가 (토스트 오프셋 실측용 · optional이라 비파괴)
+- [x] DOTOLI-315 biz-ui NotificationCard 이력 행 보조 정보 행으로 일반화 (`history` → `meta` 개명 · 뒤 조각 optional · 구분선 조건부. 파괴적 변경이나 소비 앱 실사용 0건)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -343,6 +344,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-311 | `ActionSelectionItem` 추가 + **SelectionItem 계열 승격**(`shared`가 시각 소유). 즉시 실행 목록은 버튼판이 맡고 radio판에는 `onClick`을 열지 않음. 비파괴 | [components/selection-item.md](./components/selection-item.md)                |
 | DOTOLI-312 | HeaderBar 알림 벨 링크 전환 — `<button>`+`onNotificationClick` → `next/link`+`notificationHref`. `BottomTab`(304)과 같은 통짜 전환 기준. **파괴적 변경**(`onNotificationClick` · `HEADER_BAR_NOTIFICATION_BUTTON_STYLE` · `HeaderBarNotificationButtonProps` 제거) | [components/header-bar.md](./components/header-bar.md)                        |
 | DOTOLI-314 | BottomTab · BottomActionBar root `ref` 개방 — 소비 앱이 `--toast-offset`을 실측하려면 필요. **레이아웃 컴포넌트에 네이티브 통로를 연 첫 사례**(`ref`가 실제로 배선된 기존 19개는 전부 인터랙티브 컨트롤). 비파괴 | [components/bottom-tab.md](./components/bottom-tab.md) · [bottom-action-bar.md](./components/bottom-action-bar.md) |
+| DOTOLI-315 | NotificationCard 이력 행을 보조 정보 행으로 일반화 — `history: { registeredAt, registrant }` → `meta: { text, extraText? }`. 소비앱 오류 화면이 이 줄에 고객센터 번호 한 줄만 넣어 구분선이 빠짐. **파괴적 변경**(`history` · `NotificationCardHistory` · `NOTIFICATION_CARD_HISTORY_STYLE` · `NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE` · `HISTORY_TIME` · `HISTORY_REGISTRANT` 제거)이나 소비 앱 실사용 0건 | [components/notification-card.md](./components/notification-card.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

@@ -35,18 +35,18 @@ const TITLE = (
 const SAMPLE = {
   title: TITLE,
   subText: '텍스트 들어가는 영역',
-  history: { registeredAt: '07.16 16:30', registrant: '뽀득' },
+  meta: { text: '07.16 16:30', extraText: '뽀득' },
   period: '0000-00-00(월) ~ 0000-00-00(금)',
   actionLabel: '수정 완료',
 };
 
-type OptionalPart = 'subText' | 'history' | 'period' | 'actionLabel';
+type OptionalPart = 'subText' | 'meta' | 'period' | 'actionLabel';
 
 const ROW_PARTS: OptionalPart[][] = [
   [],
-  ['history'],
+  ['meta'],
   ['subText'],
-  ['subText', 'history'],
+  ['subText', 'meta'],
 ];
 
 const COLUMN_PARTS: OptionalPart[][] = [
@@ -150,6 +150,37 @@ export const Combinations: Story = {
         )}
       </div>
     </div>
+  ),
+};
+
+export const MetaVariants: Story = {
+  parameters: { controls: { disable: true }, layout: 'padded' },
+  decorators: [withFrameWidth],
+  render: ({ iconKey, theme, title }) => (
+    <Flex direction='column' gap='24'>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='caption'>
+          두 조각 (구분선 있음)
+        </Typography>
+        <NotificationCard
+          iconKey={iconKey}
+          meta={SAMPLE.meta}
+          theme={theme}
+          title={title}
+        />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='caption'>
+          한 조각 (구분선 없음)
+        </Typography>
+        <NotificationCard
+          iconKey={iconKey}
+          meta={{ text: '뽀득 고객센터: 02-6231-0803' }}
+          theme={theme}
+          title={title}
+        />
+      </Flex>
+    </Flex>
   ),
 };
 
