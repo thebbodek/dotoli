@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.61
+
+### Patch Changes
+
+- b877684: DOTOLI-315 biz-ui > NotificationCard 이력 행 보조 정보 행으로 일반화
+
 ## 0.0.60
 
 ### Patch Changes
