@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.62
+
+### Patch Changes
+
+- a262fef: DOTOLI-316 biz-ui > HeaderBar · StickyCalendar 캐럿 fill 정정 · 타이틀 히트 영역 확장
+
 ## 0.0.61
 
 ### Patch Changes
