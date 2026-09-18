@@ -1,5 +1,5 @@
 import { StickyCalendarWeekday } from '@/components/Calendar/StickyCalendar/types';
-import { IconProps } from '@/components/Icon';
+import { ICON_WEIGHTS, IconProps } from '@/components/Icon';
 import { COLOR_VARIANTS } from '@/variants';
 
 export const STICKY_CALENDAR_PREV_YEAR_LABEL = '작년';
@@ -13,6 +13,8 @@ export const STICKY_CALENDAR_NEXT_YEAR_ICON_KEY: IconProps['iconKey'] =
   'caret-right';
 
 export const STICKY_CALENDAR_YEAR_ICON_KEY: IconProps['iconKey'] = 'caret-down';
+
+export const STICKY_CALENDAR_YEAR_ICON_WEIGHT = ICON_WEIGHTS.FILL;
 
 export const STICKY_CALENDAR_WEEKDAYS: readonly StickyCalendarWeekday[] = [
   { label: '일', color: COLOR_VARIANTS.RED_400 },

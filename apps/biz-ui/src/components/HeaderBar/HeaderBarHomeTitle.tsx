@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 import {
   HEADER_BAR_CARET_ICON_KEY,
+  HEADER_BAR_CARET_ICON_WEIGHT,
   HEADER_BAR_CARET_STYLE,
   HEADER_BAR_HOME_TITLE_STYLE,
   HEADER_BAR_HOME_TITLE_WRAPPER_STYLE,
@@ -54,6 +55,7 @@ const HeaderBarHomeTitle = ({
         <Icon
           className={clsx(HEADER_BAR_CARET_STYLE, CARET)}
           iconKey={HEADER_BAR_CARET_ICON_KEY}
+          weight={HEADER_BAR_CARET_ICON_WEIGHT}
           aria-hidden
         />
       </button>

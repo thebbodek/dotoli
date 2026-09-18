@@ -56,7 +56,7 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | ---------- | ------------------------------------------------------------------- |
 | 타이틀     | `body-bold` 16px                                                     |
 | 타이틀 gap | 4px → `gap-1`                                                        |
-| 화살표     | Phosphor `CaretDown` **13px** → `text-[13px]`                        |
+| 화살표     | Phosphor `CaretDown` **13px** `fill` → `text-[13px]`                 |
 | 알림 벨    | 40 × 40 → `size-[40px]`                                              |
 | 알림 아이콘 | Phosphor `Bell` 28px **`regular`** → `text-[28px]`                   |
 | 미읽음 점  | 6px 원 `blue/600` + 흰 테 2px. 링크(`<a>`) 기준 `top-[10px] left-[26px]` |
@@ -83,18 +83,24 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 `navigation`은 뒤로(좌) · 타이틀(중앙) · 닫기(우), `bottomSheet`는 타이틀(좌) · 닫기(우)입니다. 진행 바는 54px 행의 **하단 경계에 얹힙니다** — flow 밖이라 헤더 상자를 키우지 않습니다 (아래 「구현 결정」).
 
-### 아이콘 웨이트는 Bell만 `regular`입니다
+### 아이콘 웨이트는 `Bell`이 `regular` · `CaretDown`이 `fill`입니다
 
-Figma가 내보내는 SVG path를 `@phosphor-icons/core`의 원본과 좌표째로 대조했습니다. 심볼의 `%` 인셋으로 뷰박스 안 바운딩을 256 기준으로 환산해 맞춥니다.
+Figma가 내보내는 SVG path를 `@phosphor-icons/core`의 원본과 좌표째로 대조했습니다. 좌표는 심볼의 `%` 인셋으로 뷰박스 안 바운딩을 256 기준으로 환산해 맞춥니다.
 
-| 아이콘      | 256 기준 바운딩       | 판정      | 근거                                                          |
-| ----------- | --------------------- | --------- | ------------------------------------------------------------- |
-| `Bell`      | —                     | `regular` | path 문자열이 `bell.svg`와 **완전 일치** (`M221.8,175.94C216.25,166.38,208,139.33,208,104…`) |
-| `CaretDown` | 40–216 × 88–184       | `bold`    | `bold` 39.49–216.49 × 87.48–184.49 (`regular`는 42.34–213.66)  |
-| `CaretLeft` | 67.97–172.02 × 35.99–220.03 | `bold` | `bold`의 12px radius 아크 끝점과 소수점까지 일치                |
-| `X`         | 43.98–212.02 × 43.96–212.03 | `bold` | 위와 같음                                                      |
+| 아이콘      | 판정      | 근거                                                          |
+| ----------- | --------- | ------------------------------------------------------------- |
+| `Bell`      | `regular` | path 문자열이 `bell.svg`와 **완전 일치** (`M221.8,175.94C216.25,166.38,208,139.33,208,104…`) |
+| `CaretDown` | `fill`    | 닫힌 삼각형 1개이고 **윗변이 직선**입니다(`H208` · y=88). 셰브론(`regular` · `bold`)에는 윗변이 없습니다. 꼭짓점도 `fill/caret-down.svg`와 일치합니다 (`48,88` · `208,88` · `42.34,101.66` · `213.66,101.66` · 꼭지 `128,184.01`) |
+| `CaretLeft` | `bold`    | 렌더 바운딩 67.97–172.02 × 35.99–220.03. `bold`의 12px radius 아크 끝점과 소수점까지 일치 |
+| `X`         | `bold`    | 렌더 바운딩 43.98–212.02 × 43.96–212.03. 위와 같음             |
 
-`Bell`만 DS 기본값(`bold`)과 달라 `HEADER_BAR_NOTIFICATION_ICON_WEIGHT`로 명시했습니다.
+**바운딩만으로는 `fill`과 `regular`를 가를 수 없습니다.** 둘은 외곽 실루엣이 같아 bbox가 256분의 0.005(13px에서 0.00025px)밖에 안 벌어집니다. 캐럿 웨이트는 bbox가 아니라 **path 모양**으로 판정합니다.
+
+**`bold`는 바운딩으로 갈리지만, 끝점 좌표로 읽으면 안 됩니다.** 캐럿의 끝점 아크는 바깥으로 불룩해서 끝점(39.49–216.49)과 실제 렌더 bbox(**35.97–220.03**)가 다릅니다. 처음에 `CaretDown`을 `bold`로 판정한 것이 이 차이 때문이었습니다. `CaretLeft` · `X`는 아크가 반원이라 끝점이 곧 극점이어서 두 방식의 결과가 같습니다.
+
+DS 기본값(`bold`)과 다른 둘은 상수로 명시했습니다. `HEADER_BAR_NOTIFICATION_ICON_WEIGHT` · `HEADER_BAR_CARET_ICON_WEIGHT`가 그것입니다.
+
+**weight는 모양뿐 아니라 크기도 바꿉니다.** 같은 13px에서 `bold`는 9.34 × 5.28px, `fill`은 8.94 × 4.88px입니다. Figma 실측(`514:1721` 8.938 × 4.875)과 맞는 쪽은 `fill`이고, `bold`로 두면 캐럿이 Figma보다 0.4px 크게 나갑니다.
 
 ## 구현 결정
 
@@ -111,6 +117,10 @@ Figma가 내보내는 SVG path를 `@phosphor-icons/core`의 원본과 좌표째�
 - **진행률은 `currentStep / totalSteps`로 계산합니다.** Figma 목업은 240/380(63%)이지만 이건 폭을 눈대중으로 그린 값이고, 정책이 말하는 것은 「여러 단계로 진행되는 플로우」의 단계입니다. `calculateHeaderBarProgressRate`가 0~100으로 clamp 하고 `totalSteps <= 0`이면 0을 돌려줍니다.
 - **뒤로 · 닫기는 `CtaButton`을 재사용하지 않습니다.** Figma 레이어 이름은 `CtaButton`이고 라벨(`label-bold` `gray/800`) · radius(6px) · 아이콘 크기(14px)까지 `text`/`gray`/`sm`과 같지만 **아이콘 색이 `gray/400`으로 라벨과 다릅니다.** `CtaButton`은 아이콘이 `currentColor`를 상속하는 구조(`ButtonIcon`)라 라벨과 아이콘 색을 가를 수 없습니다. gap도 2px로 `CtaButton`의 4px과 다릅니다. 아이콘 래퍼(`ButtonIcon`)와 아이콘 위치 상수(`BUTTON_ICON_POSITIONS`)는 그대로 물어 씁니다.
 - **뒤로 · 닫기에 `TOUCH_TARGET_STYLE`을 겁니다.** 히트 영역 확장은 디자이너가 지정한 대상만 하는 것이 원칙인데(CLAUDE.md 「히트 영역 확장」), 지정 주석(`337:3538`)이 가리키는 대상이 `CtaButton`의 `text`와 `sm`이고 이 두 버튼이 정확히 그 스펙입니다. 새로 정한 게 아니라 이미 있는 지정을 따른 것입니다.
+- **타이틀 버튼에는 `TOUCH_TARGET_NARROW_STYLE`을 겁니다.** 위 두 버튼과 달리 지정 주석이 없고, `body-bold` 16px × line-height 1.45 = **23.2px**로 WCAG 2.5.8 미달이라 CLAUDE.md 「히트 영역 확장」의 24px 조항을 따른 것입니다.
+
+  **좁은 값을 고른 이유는 이웃이 아니라 겹치는 폭입니다.** 행에 gap이 없어(`flex-h-stack` = `flex flex-row`) 긴 업체명이면 타이틀 상자가 알림 벨 40×40에 그대로 맞닿습니다. 알림 벨은 확장이 없어 CLAUDE.md의 `확장 × 2 > 간격` 공식(`Chip` 사례)이 그대로 적용되지 않고, **간격이 0이라 어떤 값을 써도 겹칩니다.** 없앨 수 없으니 폭을 줄였고, 4px이어도 세로는 31.2px로 24를 넘깁니다. 겹치는 구간은 DOM에서 뒤인 벨이 이기므로(둘 다 `position: relative` · `z-index: auto`) 증상은 벨이 좁아지는 것이 아니라 **타이틀 확장분 오른쪽 4px이 무효가 되는 것**입니다. WCAG가 걸린 축은 세로라 판정에는 영향이 없습니다.
+
 - **알림 벨은 버튼이 아니라 링크입니다** (DOTOLI-312). 하는 일이 알림함(MYP-501 · `1439:17915`)으로의 이동 하나뿐인데 `<button>` + `onNotificationClick`이라, 소비 앱이 `router.push`를 직접 부르고 보조기술에는 「버튼」으로 읽혔습니다. `next/link`의 `<Link>`로 **통째로 바꿨습니다.**
 
   **형제를 세우지 않고 전환한 근거는 [navigation-list-item.md](./navigation-list-item.md)의 기준입니다** — 「라우팅 아닌 경우가 존재할 수 있는가」. `BottomTab`(DOTOLI-304)은 탭 3개가 전부 화면이라 통째로 바꿨고, `NavigationListItem`(DOTOLI-306)은 같은 줄이 바텀시트 트리거로도 쓰여 링크판을 옆에 세웠습니다. 알림 벨은 `type=home`에만 뜨고 목적지가 하나이며, 아래 「접근성 이름은 DS가 붙입니다」가 이미 **뜻이 하나로 고정된 것을 전제로 `aria-label`을 상수로 박아** 뒀습니다. 라우팅 아닌 경우를 DS가 애초에 배제한 상태라 `BottomTab` 쪽입니다. `as` · `renderItem` 같은 다형 prop을 열지 않는다는 판단도 그대로입니다.
@@ -204,4 +214,5 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 | `hover` · `pressed` 미정의 | 어느 심볼에도 상호작용 상태가 없어 `transition-colors`도 걸지 않았습니다. 모바일 타깃이라 최소한 `pressed`는 필요해 보입니다 |
 | 포커스 링 미정의         | 포커스 가능한 요소 3종(뒤로 · 닫기 버튼, **알림 링크**) 전부 포커스 시각이 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7과 같은 상황) |
 | safe-area 미정의         | 화면 최상단에 붙는 컴포넌트인데 노치 여백 처리가 심볼에 없습니다. `safe-area-top`을 넣지 않았고, 필요하면 소비 앱이 `className`으로 겁니다 |
+| 타이틀 버튼 히트 영역     | 23.2px로 WCAG 2.5.8 미달이라 주석 없이 DS가 4px을 얹었습니다 (위 「구현 결정」)                                            |
 | 진행 바 3px의 위치       | Figma는 y=54 · height 0인 LINE이라 stroke가 경계에 **걸칩니다**(52.5~55.5). 헤더를 54px로 유지하려면 안쪽·바깥 중 하나여야 해서 **안쪽(51~54)**으로 넣었습니다 — 바깥은 소비 앱 본문 첫 3px과 겹칩니다. 주석 없이 DS가 정한 값입니다 |

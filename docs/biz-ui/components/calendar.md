@@ -233,6 +233,16 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 **아이콘 크기를 지정하지 않았는데 14 · 18이 맞습니다.** `ButtonIcon`이 Phosphor 아이콘 폰트라 글리프가 `font-size`를 따르고, 버튼이 이미 사이즈별 타이포 토큰(14 · 18)을 물고 있어서입니다.
 
+**세 캐럿의 웨이트는 같지 않습니다** (DOTOLI-316). Figma export path를 `@phosphor-icons/core` 원본과 좌표 대조했습니다.
+
+| 캐럿                    | 256 환산 좌표                              | 판정   | 근거                              |
+| ----------------------- | ------------------------------------------ | ------ | --------------------------------- |
+| 작년 `CaretLeft` 14      | 첫 점 `168.49,199.51` · 안쪽 꼭지 `97,128`  | `bold` | `regular`는 꼭지가 `91.31`. `fill`은 안쪽 꼭지가 없음(`M168,48V208`) |
+| `26년` `CaretDown` 18    | 윗변 `H208`(y=88) · 꼭지 `128,184.01`       | `fill` | 닫힌 삼각형. 셰브론에는 윗변이 없음 |
+| 내년 `CaretRight` 14     | 첫 점 `184.49,136.49` · 안쪽 꼭지 `159,128` | `bold` | `regular`는 꼭지가 `164.69`. `fill`은 안쪽 꼭지가 없음 |
+
+좌우 둘은 `Icon` 기본값과 같아 상수로 뽑지 않고 연도만 `STICKY_CALENDAR_YEAR_ICON_WEIGHT`로 명시했습니다. 「근거가 있는 값만 상수로」는 [navigation-list-item.md](./navigation-list-item.md) 「캐럿 웨이트는 `bold`입니다」와 같은 기준입니다. **처음에는 연도 캐럿도 기본값 `bold`로 나갔습니다** — 판정 방법과 빠지기 쉬운 함정은 [header-bar.md](./header-bar.md) 「아이콘 웨이트」에 있습니다.
+
 `variant='text'`는 높이 · 좌우 패딩이 없고 `TOUCH_TARGET_STYLE`(6px)이 자동으로 붙습니다 — 작년 · 내년이 확장 후 약 56 × 32로 WCAG 2.5.8을 넘습니다. `justify-between` 줄이라 이웃과 겹칠 여지도 없습니다.
 
 ### 결정

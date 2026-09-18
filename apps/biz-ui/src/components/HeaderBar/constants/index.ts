@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { BUTTON_ICON_POSITIONS } from '@/components/Button/shared/constants';
 import { ButtonIconPosition } from '@/components/Button/shared/types';
 import {
@@ -5,6 +7,7 @@ import {
   HeaderBarThemeStyles,
 } from '@/components/HeaderBar/types';
 import { ICON_WEIGHTS } from '@/components/Icon/constants';
+import { TOUCH_TARGET_NARROW_STYLE } from '@/components/shared/constants';
 import { TYPOGRAPHY_ELEMENTS } from '@/components/Typography/constants';
 import { COLOR_VARIANTS } from '@/variants';
 
@@ -44,10 +47,14 @@ export const HEADER_BAR_NAVIGATION_TITLE_STYLE = 'flex-1 text-center';
 
 export const HEADER_BAR_HOME_TITLE_WRAPPER_STYLE = 'flex-h-stack min-w-0';
 
-export const HEADER_BAR_HOME_TITLE_STYLE =
-  'flex-h-stack min-w-0 cursor-pointer items-center gap-1';
+export const HEADER_BAR_HOME_TITLE_STYLE = clsx(
+  'flex-h-stack relative min-w-0 cursor-pointer items-center gap-1',
+  TOUCH_TARGET_NARROW_STYLE,
+);
 
 export const HEADER_BAR_CARET_ICON_KEY = 'caret-down';
+
+export const HEADER_BAR_CARET_ICON_WEIGHT = ICON_WEIGHTS.FILL;
 
 export const HEADER_BAR_CARET_STYLE = 'shrink-0 text-[13px]';
 

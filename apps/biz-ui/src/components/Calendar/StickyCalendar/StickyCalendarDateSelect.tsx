@@ -13,6 +13,7 @@ import {
   STICKY_CALENDAR_PREV_YEAR_ICON_KEY,
   STICKY_CALENDAR_PREV_YEAR_LABEL,
   STICKY_CALENDAR_YEAR_ICON_KEY,
+  STICKY_CALENDAR_YEAR_ICON_WEIGHT,
 } from '@/components/Calendar/StickyCalendar/constants';
 import { StickyCalendarDateSelectOption } from '@/components/Calendar/StickyCalendar/types';
 
@@ -37,7 +38,10 @@ const StickyCalendarDateSelect = ({
         onClick={onPrevYear}
       />
       <CtaButton
-        iconOption={{ iconKey: STICKY_CALENDAR_YEAR_ICON_KEY }}
+        iconOption={{
+          iconKey: STICKY_CALENDAR_YEAR_ICON_KEY,
+          weight: STICKY_CALENDAR_YEAR_ICON_WEIGHT,
+        }}
         iconPosition={BUTTON_ICON_POSITIONS.RIGHT}
         label={formatCalendarYear({ year })}
         size={CTA_BUTTON_SIZES.LG}
