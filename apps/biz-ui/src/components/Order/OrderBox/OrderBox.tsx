@@ -21,7 +21,7 @@ const OrderBox = ({
   emptyLabel = ORDER_BOX_EMPTY_LABEL,
   className,
 }: OrderBoxProps) => {
-  const { CONTAINER, TONE } = ORDER_BOX_STYLES[variant];
+  const { CONTAINER, EMPTY_BACKGROUND, TONE } = ORDER_BOX_STYLES[variant];
   const isEmpty = !items.length;
 
   return (
@@ -29,7 +29,9 @@ const OrderBox = ({
       className={clsx(
         className,
         ORDER_BOX_BASE_STYLE,
-        isEmpty ? ORDER_BOX_EMPTY_STYLE : [CONTAINER, ORDER_BOX_ITEMS_STYLE],
+        isEmpty
+          ? [ORDER_BOX_EMPTY_STYLE, EMPTY_BACKGROUND]
+          : [CONTAINER, ORDER_BOX_ITEMS_STYLE],
       )}
     >
       {isEmpty ? (

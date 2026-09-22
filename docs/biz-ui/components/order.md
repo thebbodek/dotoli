@@ -9,7 +9,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | 컴포넌트          | 티켓       | 설명                                                        |
 | ----------------- | ---------- | ----------------------------------------------------------- |
 | `OrderBoxCell`    | DOTOLI-229 | `tone` 3종. 박스수 + 품목명 2행                             |
-| `OrderBox`        | DOTOLI-230 | `variant` 3종. `OrderBoxCell`을 담는 wrap 컨테이너          |
+| `OrderBox`        | DOTOLI-230 | `variant` 4종. `OrderBoxCell`을 담는 wrap 컨테이너          |
 | `OrderDateInfo`   | DOTOLI-231 | 날짜 + 배송정보 2행. `isHoliday` · 배송 유무 2축            |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
@@ -88,23 +88,48 @@ Figma: 컴포넌트 세트 `169:688`. 심볼은 `169:686`(noBg) · `169:687`(def
 
 ### Variant 축
 
-| 축        | 값                              |
-| --------- | ------------------------------- |
-| `variant` | `noBg` · `default` · `past`     |
+| 축        | 값                                       |
+| --------- | ---------------------------------------- |
+| `variant` | `noBg` · `default` · `past` · `inverse`  |
 
-Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items` 유무로 파생시켰고, `variant`를 타지 않습니다** (아래 「결정」).
+Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items` 유무로 파생시켰습니다.** 다만 **빈 상태 배경은 `variant`를 탑니다** (아래 「결정」).
+
+**`inverse`는 DOTOLI-317에서 추가했고 DS 컴포넌트 세트에 심볼이 아직 없습니다.** 실측 출처는 고객 비즈 파일의 두 화면입니다 — 채워진 상태 [`1239:18608`](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1239-18608&m=dev)과 빈 상태 [`1217:13818`](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1217-13818&m=dev). 심볼 추가는 디자이너에게 요청 대상입니다 — 아래 「디자인 확인 필요」.
 
 **심볼명이 `rest`인데 `past`로 바꿔 달라고 디자이너에게 요청해 둔 상태입니다.** 문서 프레임 라벨(`past`)이 맞고 구현도 `past`입니다. Figma 반영 전까지 심볼 `179:624`는 `variant=rest`로 보입니다.
 
 ### 실측 스펙
 
-| `variant` | 배경         | 테두리         | radius       | Cell `tone` |
-| --------- | ------------ | -------------- | ------------ | ----------- |
-| `noBg`    | 없음         | 없음           | 없음         | `default`   |
-| `default` | `base/white` | `gray/100` 1px | `rounded-16` | `default`   |
-| `past`    | `gray/100`   | `gray/100` 1px | `rounded-16` | `muted`     |
+| `variant` | 배경         | 테두리         | radius       | Cell `tone` | 빈 상태 배경     |
+| --------- | ------------ | -------------- | ------------ | ----------- | ---------------- |
+| `noBg`    | 없음         | 없음           | 없음         | `default`   | `gray/100`       |
+| `default` | `base/white` | `gray/100` 1px | `rounded-16` | `default`   | `gray/100`       |
+| `past`    | `gray/100`   | `gray/100` 1px | `rounded-16` | `muted`     | `gray/100`       |
+| `inverse` | 없음         | 없음           | 없음         | `inverse`   | `blue/900` 80%   |
 
-빈 상태는 `variant`와 무관하게 하나입니다 — `gray/100` 배경 · `rounded-16` · `items-center justify-center`, 문구는 `주문 없음`(`label` · `gray/400`).
+빈 상태에서 `variant`가 물고 있는 것은 **배경 하나뿐**입니다. `rounded-16` · `items-center justify-center`와 문구 색(`label` · `gray/400`)은 네 variant가 공유합니다.
+
+**`inverse`의 실측 출처는 둘이고 성격이 다릅니다.** 채워진 쪽은 실제 컴포넌트 인스턴스, 빈 쪽은 디자이너가 화면에 직접 그린 맨 프레임입니다.
+
+| 상태   | 노드          | 성격        | 실측                                          |
+| ------ | ------------- | ----------- | --------------------------------------------- |
+| 채워짐 | `1239:18608`  | 인스턴스    | 338×89 = padding 14 + 셀 61 + 14. 배경·stroke 없음 |
+| 빔     | `1217:13818`  | 맨 프레임   | 340×44 = padding 12 + 문구 20 + 12. `rounded-16` |
+
+**padding은 14로 통일했습니다.** 실제 인스턴스 쪽이 DS 공통값 14와 일치하고, 12는 맨 프레임 하나뿐이라 드리프트로 봤습니다.
+
+빈 쪽 색 두 개는 토큰과 정확히 일치하지 않아 근사로 옮겼습니다.
+
+| 항목 | Figma `1217:13818` | biz-ui       |
+| ---- | ------------------ | ------------ |
+| 배경 | `#031f4a` 80%      | `blue/900`(`#183868`) 80% |
+| 문구 | `base/white` 50%   | `gray/400`(`#aeb5c6`)     |
+
+radius 16은 원본 프레임 실측값이라 `ORDER_BOX_EMPTY_STYLE`의 `rounded-16`과 그대로 맞습니다.
+
+`blue/900` 위에 알파를 얹은 값이라 **실제로 보이는 색은 뒤에 깔린 면에 따라 달라집니다.** 디자이너가 알파를 쓴 것은 의도한 것으로 보입니다 — 원본 프레임이 장식 벡터가 깔린 판 위에 있습니다(그 벡터들은 클리핑돼 렌더에 안 나와 구현 대상이 아닙니다).
+
+**대비는 소비처가 뒤에 까는 색이 정하므로 DS가 보장할 수 없습니다.** `blue/500` 위라고 가정하면 원안 4.22:1 · 근사안 4.48:1로 근사로 옮기며 나빠지지는 않았지만, **둘 다 WCAG AA 일반 텍스트 기준 4.5:1을 넘지 못합니다**(`label`이 14px/500이라 large text 예외도 못 탑니다). 흰 판 위라면 3.12:1까지 떨어집니다. 어두운 면 위에 쓰라는 전제가 깨지면 읽기 어려워지는 값입니다.
 
 | 항목      | 값                                                       |
 | --------- | -------------------------------------------------------- |
@@ -118,11 +143,23 @@ Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items
 ### 결정
 
 - **`empty`를 `variant`에서 빼고 `items` 유무로 파생시켰습니다.** Figma가 `empty`를 같은 박스에 문구만 바꿔 그린 것이라 축이 아니라 상태이고, 이 레포는 CtaButton · Filter · IconButton · InputField 전부 값 유무로 파생시켜 왔습니다. 소비처 코드도 `variant={isPast ? 'past' : 'default'} items={day.items}`로 끝나 3항 중첩이 사라집니다.
-- **빈 상태는 `variant`를 타지 않고 심볼 하나로 고정입니다.** 항목이 없으면 `variant`가 무엇이든 `gray/100` 배경 + `gray/400` 문구입니다. Figma에 `empty` 심볼이 하나뿐이라 그 이상을 만들지 않습니다 — variant별로 빈 상태를 따로 정의하면 심볼에 없는 조합(`noBg` + 항목 없음 등)의 생김새를 구현이 임의로 정하게 됩니다. 코드에서도 `variant`가 물고 있는 것은 `CONTAINER` 하나뿐이고 빈 상태 분기는 그것을 아예 쓰지 않습니다.
+- **~~빈 상태는 `variant`를 타지 않고 심볼 하나로 고정입니다.~~ — DOTOLI-317에서 뒤집었습니다.** 이제 `ORDER_BOX_STYLES`가 variant마다 `EMPTY_BACKGROUND`를 들고 있고 빈 상태 분기가 그것을 씁니다. `gray/100`을 쓰는 세 variant는 값이 그대로라 동작은 안 바뀝니다.
+
+  당시 근거는 「Figma에 `empty` 심볼이 하나뿐」이었는데, `inverse`의 빈 상태가 두 번째 디자인으로 나오면서 전제가 사라졌습니다. 심볼이 하나일 때 그 결정이 막던 것은 **심볼에 없는 조합을 구현이 지어내는 것**이었고, 그 경계는 지금도 같습니다 — 디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 그대로 씁니다.
+- **`inverse`를 `variant`의 네 번째 값으로 넣고 `tone` 축을 따로 열지 않았습니다.** 축을 하나 더 열면 `variant` × `tone` = 8조합이 되는데 디자인이 있는 것은 1개뿐이라, 나머지 7개의 생김새를 구현이 정해야 합니다. 위 결정이 그어 둔 경계와 같은 이유로 기각했습니다. `tone`이 이미 `OrderBoxCell`의 축 이름이라 같은 이름이 두 층에 생기는 것도 피했습니다.
+
+  **`variant`가 표면(`noBg` · `default` · `inverse`)과 상태(`past`)를 한 축에 섞고 있는 것은 맞습니다.** 그 혼합은 `past`를 넣을 때 이미 받아들인 것이고, 지금 `surface` × `state`로 쪼개면 소비 앱이 깨지는데 그걸 요구하는 디자인 변경이 없어 두었습니다.
+- **`inverse`의 채워진 상태에는 컨테이너 배경이 없습니다.** `noBg`처럼 어두운 면 위에 셀만 올라가고, 배경이 그려지는 것은 빈 상태뿐입니다. `default`가 컨테이너(`white`)와 빈 상태(`gray/100`)를 다르게 쓰는 것과 같은 모양입니다. 실제 인스턴스 `1239:18608`이 `338×89 = 14 + 61 + 14`이라 **padding은 DS 공통값 14 그대로**입니다.
+- **`inverse` 위에 붙는 상단 라인과 backdrop blur는 OrderBox가 갖지 않습니다.** Figma도 그렇게 나눠 놨습니다 — 라인(`border-t` 2px · `white` 40%)과 `backdrop-blur-[10px]`은 부모 프레임 `1239:18607`에 있고 OrderBox 인스턴스에는 stroke 오버라이드가 없습니다.
+
+  이유가 셋입니다. **프레임이 340인데 OrderBox는 338이라** 컴포넌트가 그리면 양쪽 1px씩 짧습니다. **블러가 같은 요소에 얹혀 있는데** 블러는 박스가 아니라 박스가 놓인 면의 성질이라, 라인을 가져가면 블러도 따라오고 컴포넌트가 「어떤 면 위에 있는가」를 소유하기 시작합니다. 그리고 이건 날짜 블록과 주문 목록을 **가르는 선**이라 담는 쪽이 `border-t`로 갖는 것이 CLAUDE.md [스타일 규칙]의 기존 결정입니다.
+- **`inverse`의 빈 상태와 채워진 상태는 레이아웃 트리에서 자리가 다릅니다.** 채워진 쪽은 날짜 블록과 같은 프레임(`1239:18601`) 안에 라인으로 구분돼 들어가고, 빈 쪽은 그 프레임 **밖 형제 행**(`1217:13817`)으로 빠집니다. 문구도 갈립니다 — 날짜 블록 아래가 채워진 화면은 「오늘 사용하세요 · N월N일(요일)배송」, 빈 화면은 「오늘 주문한 식기가 없습니다」이고 알약 안에 「오늘은 배송이 없습니다」가 한 번 더 들어갑니다.
+
+  **한 컴포넌트가 스스로 자리를 옮길 수는 없으므로 이 차이는 소비 앱이 갖습니다.** 라인·블러 래퍼는 항목이 있을 때만 씌우고, `OrderBox`는 그 안에 들어가기만 합니다. 래퍼가 여러 화면에서 반복되는 것이 확인되면 껍데기를 여는 것이 아니라 **컴포넌트를 하나 더 만드는 쪽**입니다 (CLAUDE.md [코드 규칙] 1의 `Overlay` ↔ `Modal` 선례).
 - **`empty` · `past`의 stroke는 구현하지 않았습니다.** Figma에서 배경과 stroke가 둘 다 `gray/100`이라 렌더 결과가 배경만 칠한 것과 동일합니다. `default`만 `white` 배경 위 `gray/100` stroke라 실제로 보입니다.
 - **padding은 `variant` 공통 `px-[16px] py-[14px]`입니다.** Figma는 `noBg` 16/14 · 테두리 있는 쪽 17/15인데, 정확히 1px씩만 차이나는 것으로 보아 카드 쪽 프레임이 stroke를 레이아웃에 포함해 계산한 값입니다. `inset-ring`은 레이아웃을 차지하지 않아 되돌려 줄 1px이 없으므로 16/14 그대로 갑니다 — 링을 padding으로 보정하지 않는 것은 CLAUDE.md [스타일 규칙]을 따른 것입니다. 대신 테두리 있는 variant는 심볼보다 셀이 1px 넉넉합니다(폭 94 vs 93.33 · 빈 상태 높이 48 vs 50). 투명 `border`로 크기를 맞추는 우회법은 같은 규칙이 기각했고, 그렇게 해도 전 variant가 93.33이 되어 이번엔 `noBg` 심볼이 어긋납니다 — **두 심볼이 애초에 1px 다르므로 양쪽 다 맞는 답은 없습니다.**
 - **Cell에는 `flex-1`만 겁니다.** `min-w-[92px]` · `max-w-[110px]`는 `OrderBoxCell`이 컴포넌트 레벨에서 들고 있습니다(위 OrderBoxCell 「결정」). Figma 인스턴스는 `flex: 1 0 0`이지만 `min-w`가 축소를 막고 있어 `flex-1`(`1 1 0`)과 결과가 같고, Tailwind 기본 유틸 쪽을 골랐습니다.
-- **`tone`을 소비처에 노출하지 않습니다.** `variant`에서 유도합니다 (`past` → `muted`, 나머지 → `default`).
+- **`tone`을 소비처에 노출하지 않습니다.** `variant`에서 유도합니다 (`past` → `muted`, `inverse` → `inverse`, 나머지 → `default`).
 - **개수를 제한하지 않습니다.** 4개를 넘으면 `flex-wrap`으로 다음 줄에 떨어집니다.
 - **~~`주문 없음`은 DS가 고정합니다.~~ — DOTOLI-288에서 열었습니다.** `emptyLabel`을 받고 안 주면 `ORDER_BOX_EMPTY_LABEL`(`주문 없음`)이 그대로 쓰입니다. **기본값은 여전히 DS 소유**라 소비처가 매번 정할 것이 늘지는 않습니다.
 
@@ -137,15 +174,29 @@ Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items
 | prop        | 필수 | 기본값    | 비고                                              |
 | ----------- | ---- | --------- | ------------------------------------------------- |
 | `items`      | ✅   | —              | `OrderBoxItem[]`. 빈 배열이면 빈 상태             |
-| `variant`    |      | `default`      | 3종                                               |
+| `variant`    |      | `default`      | 4종                                               |
 | `emptyLabel` |      | `'주문 없음'`  | 빈 상태 문구. 기본값은 `ORDER_BOX_EMPTY_LABEL`    |
 | `className`  |      | —              | 담는 쪽의 폭 보정용                               |
 
 `OrderBoxItem`은 `Pick<OrderBoxCellProps, 'boxes' | 'itemName'>`입니다.
 
+**`ORDER_BOX_EMPTY_STYLE`에서 `bg-gray-100`이 빠졌습니다** (DOTOLI-317). 배경이 `ORDER_BOX_STYLES[variant].EMPTY_BACKGROUND`로 옮겨 가서입니다. 배럴로 나가는 값이지만 컴포넌트 밖에서 쓰던 곳은 없습니다.
+
+### 디자인 확인 필요
+
+- **`inverse` 빈 상태 심볼을 DS 컴포넌트 세트(`169:688`)에 추가해 주세요.** 채워진 쪽은 실제 인스턴스(`1239:18608`)가 있는데 빈 쪽은 제품 파일의 맨 프레임뿐이라, 둘을 한 컴포넌트의 두 상태로 대조할 심볼이 없습니다.
+- **색 두 개가 토큰과 정확히 일치하지 않습니다** (위 「실측 스펙」). 토큰을 늘리지 않고 `blue/900` 80% · `gray/400`으로 근사했습니다.
+- **빈 상태 문구가 WCAG AA(4.5:1)에 못 미칩니다.** 히어로 표면 위 기준 4.48:1이고 원안(`base/white` 50%)도 4.22:1이라 근사 때문에 생긴 문제가 아닙니다. 문구 색을 한 단계 밝히면(`gray/300` 이상) 넘어갑니다.
+
 ### Storybook
 
-`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). `Empty`는 `variant`를 타지 않아 variant별로 나누지 않고, **기본값 ↔ `emptyLabel` 지정** 두 개를 나란히 둡니다. 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
+`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 3열 + 줄바꿈을 봅니다.
+
+**`inverse`는 `bg-blue-500` 데코레이터를 깔고 봅니다.** 빈 상태 배경이 알파라 뒤에 깔린 색이 비치고, 셀은 흰 글씨라 밝은 판에서 안 보입니다. `OrderBoxCell` **스토리**가 `inverse` tone에 `bg-gray-900`을 까는 것과 같은 처리입니다 — 컴포넌트가 아니라 스토리가 갖는 판입니다(`ORDER_BOX_CELL_STYLES`의 `INVERSE`는 색만 정하고 배경이 없습니다).
+
+**판 색 `blue-500`은 스토리 전용 선택이고 제품 표면 실측값이 아닙니다.** 제품 쪽은 그라디언트가 깔린 히어로라 단색 토큰으로 떨어지지 않습니다. 알파 배경이라 실제 대비는 소비처가 뒤에 까는 색이 정하므로, 이 스토리는 「알파가 비친다」를 보여줄 뿐 대비 검증용이 아닙니다.
+
+`Empty`는 **기본값 ↔ `emptyLabel` 지정 ↔ `variant = inverse`** 세 개를 나란히 둡니다. 빈 상태 배경이 `variant`를 타게 된 뒤로 문구 축만으로는 부족해졌습니다.
 
 ---
 

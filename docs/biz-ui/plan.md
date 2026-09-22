@@ -200,7 +200,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-286 biz-ui DateBottomSheet `Linked` 스토리 재진입 깜빡임 제거 (시트 하나를 유지한 채 뷰 교체 · 스토리 전용)
 - [x] DOTOLI-287 biz-ui BottomActionBar `isPending` 개방 (`disabled`는 COM-005대로 계속 막음) + `Variants`·`Sticky` 스토리 중복 정리
 - [x] DOTOLI-306 biz-ui LinkNavigationListItem 추가 (계열 승격 · 시각은 `shared`가 소유 · 버튼판은 시트 트리거로 유지)
-- [ ] DOTOLI-288 biz-ui OrderBox 빈 상태 개방 — `emptyLabel` 개방 완료 · **`inverse` tone은 스타일 미수령으로 보류**
+- [x] DOTOLI-288 biz-ui OrderBox 빈 상태 개방 — `emptyLabel` 개방. `inverse`는 스타일 미수령으로 빠졌고 DOTOLI-317이 받았습니다
 - [x] DOTOLI-289 biz-ui PageBody 구현 (`variant` 7종 · 페이지 세로 구획 · `stickyTop`은 DS가 `sticky` 부착)
 - [x] DOTOLI-296 biz-ui InfoBanner `title` 추가 + `label` → `description` 개명 (굵은 첫 줄 · 색 동일 · `\n` 줄바꿈)
 - [x] DOTOLI-297 biz-ui Toast · NotificationCard 강조부를 `ReactNode`로 (`message`·`title` 개방 · **`highlight` 제거** · `[&_strong]:`로 색은 DS 소유)
@@ -213,6 +213,8 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-312 biz-ui HeaderBar 알림 벨 링크 전환 (`onNotificationClick` → `notificationHref` · `HeaderBarNotificationLink`로 개명 · 시각 무변화)
 - [x] DOTOLI-314 biz-ui BottomTab · BottomActionBar root `ref` 추가 (토스트 오프셋 실측용 · optional이라 비파괴)
 - [x] DOTOLI-315 biz-ui NotificationCard 이력 행 보조 정보 행으로 일반화 (`history` → `meta` 개명 · 뒤 조각 optional · 구분선 조건부. 파괴적 변경이나 소비 앱 실사용 0건)
+- [x] DOTOLI-316 biz-ui HeaderBar · StickyCalendar 캐럿 `fill` 정정 + 타이틀 히트 영역 확장 (웨이트 판정은 bbox가 아니라 path 모양 · 시각은 0.4px 차이)
+- [x] DOTOLI-317 biz-ui OrderBox `inverse` variant 추가 (`tone` 축을 열지 않고 네 번째 값 · 빈 상태 배경이 variant를 타게 됨 · 채워진 상태는 배경 없고 상단 라인·블러는 소비 앱 몫. API는 비파괴, 내부 상수 두 개의 모양은 바뀜)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -327,9 +329,11 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-275 | DateBottomSheet (`type` 2종 · 제어 전용 · `basis-0 grow` 4열) + `CalendarDayButton` `aria-label` 후속 | [components/calendar.md](./components/calendar.md)                                      |
 | DOTOLI-256 | CtaButton 아이콘 색 분리 (+ gap을 `variant × size`로)          | [components/button.md](./components/button.md)                                          |
 | DOTOLI-277 | BottomActionBar text CTA 개방 (폭 배분 파생 · **`action`·`subAction`·`actionBarOption` 개명**) + 스토리 `argTypes` 필수 표시 보완(BottomActionBar · Calendar · CalendarBottomSheet) | [components/bottom-action-bar.md](./components/bottom-action-bar.md) · [bottom-sheet.md](./components/bottom-sheet.md) |
+| DOTOLI-284 | QuantityStepper `value`를 `number \| null`로 — **미주문(`null`)과 의도적 `0` 주문을 구분**. `null`은 `empty`(회색 pill · 플레이스홀더) · `0`은 `filled`(파란 pill · 숫자 `0`)이고 감소 버튼은 둘 다 비활성. `0`의 시각은 Figma에 심볼이 없어 정한 것이라 「디자인 확인 필요」에 올림. 타입이 넓어진 것이라 비파괴이나 **`0`의 시각이 바뀜** | [components/order.md](./components/order.md) |
 | DOTOLI-286 | DateBottomSheet `Linked` 재진입 깜빡임 제거 (시트 하나 유지 · 뷰 교체 · 스토리 전용) | [components/calendar.md](./components/calendar.md) · [overlay.md](./components/overlay.md) |
 | DOTOLI-287 | BottomActionBar `isPending` 개방 (`Pick` 한 항목 · `disabled`는 계속 막음) + `Variants`·`Sticky` 스토리 합침 | [components/bottom-action-bar.md](./components/bottom-action-bar.md)                    |
 | DOTOLI-285 | Toast `message` 줄바꿈 · `theme` 6종 개방 · `theme` 연동 `highlight` (`toast.show`까지 통과) | [components/toast.md](./components/toast.md)                                            |
+| DOTOLI-288 | OrderBox 빈 상태 문구 개방 — `emptyLabel`. 기본값 `주문 없음`은 DS 소유. **`inverse` tone은 스타일 미수령으로 빠져 317로 넘어감** | [components/order.md](./components/order.md) |
 | DOTOLI-289 | PageBody (`variant` 7종 · 페이지 세로 구획 · `stickyTop` 부착) + CLAUDE.md 테두리 규칙 표로 정리 | [components/page-body.md](./components/page-body.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-296 | InfoBanner `title` 추가 + **`label` → `description` 개명**(`label`은 계열에서 주 텍스트) | [components/info.md](./components/info.md)                                              |
 | DOTOLI-297 | Toast `message` · NotificationCard `title`을 `ReactNode`로 + **`highlight` 제거**(문장 중간 강조 · `[&_strong]:`로 색은 DS 소유 · biz-ui 첫 임의 변형 셀렉터) | [components/toast.md](./components/toast.md) · [notification-card.md](./components/notification-card.md) |
@@ -345,6 +349,8 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-312 | HeaderBar 알림 벨 링크 전환 — `<button>`+`onNotificationClick` → `next/link`+`notificationHref`. `BottomTab`(304)과 같은 통짜 전환 기준. **파괴적 변경**(`onNotificationClick` · `HEADER_BAR_NOTIFICATION_BUTTON_STYLE` · `HeaderBarNotificationButtonProps` 제거) | [components/header-bar.md](./components/header-bar.md)                        |
 | DOTOLI-314 | BottomTab · BottomActionBar root `ref` 개방 — 소비 앱이 `--toast-offset`을 실측하려면 필요. **레이아웃 컴포넌트에 네이티브 통로를 연 첫 사례**(`ref`가 실제로 배선된 기존 19개는 전부 인터랙티브 컨트롤). 비파괴 | [components/bottom-tab.md](./components/bottom-tab.md) · [bottom-action-bar.md](./components/bottom-action-bar.md) |
 | DOTOLI-315 | NotificationCard 이력 행을 보조 정보 행으로 일반화 — `history: { registeredAt, registrant }` → `meta: { text, extraText? }`. 소비앱 오류 화면이 이 줄에 고객센터 번호 한 줄만 넣어 구분선이 빠짐. **파괴적 변경**(`history` · `NotificationCardHistory` · `NOTIFICATION_CARD_HISTORY_STYLE` · `NOTIFICATION_CARD_HISTORY_DIVIDER_STYLE` · `HISTORY_TIME` · `HISTORY_REGISTRANT` 제거)이나 소비 앱 실사용 0건 | [components/notification-card.md](./components/notification-card.md) |
+| DOTOLI-316 | HeaderBar · StickyCalendar 캐럿 웨이트를 `bold` → `fill`로 정정 + 타이틀 버튼 히트 영역 확장(`TOUCH_TARGET_NARROW_STYLE` — `body-bold` 16px가 23.2px라 WCAG 2.5.8 미달). **bbox로는 `fill`과 `regular`를 가를 수 없고**(13px에서 0.00025px 차이) path 모양으로 판정해야 함. `bold`를 끝점 좌표로 읽으면 렌더 bbox와 어긋나는 것이 최초 오판의 원인. 시각은 0.4px 차이 | [components/header-bar.md](./components/header-bar.md) · [calendar.md](./components/calendar.md) |
+| DOTOLI-317 | OrderBox `inverse` variant 추가 — `tone` 축을 따로 열면 디자인 없는 조합 7개를 구현이 지어내야 해서 `variant`의 네 번째 값으로. **「빈 상태는 variant를 타지 않는다」 결정을 뒤집음**(배경만 `EMPTY_BACKGROUND`로 분기, 기존 세 variant는 값 동일). 상단 라인·backdrop blur는 Figma도 부모 프레임에 두고 있어 소비 앱 몫. 컴포넌트 API는 비파괴이나 **내부 상수 두 개의 모양이 바뀜**(`ORDER_BOX_EMPTY_STYLE`에서 `bg-gray-100` 제거 · `OrderBoxVariantStyles`에 필수 필드 추가) — 실사용 0건 | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

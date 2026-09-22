@@ -9,6 +9,7 @@ export const ORDER_BOX_VARIANTS = {
   NO_BG: 'noBg',
   DEFAULT: 'default',
   PAST: 'past',
+  INVERSE: 'inverse',
 } as const;
 
 export const ORDER_BOX_BASE_STYLE =
@@ -22,20 +23,26 @@ export const ORDER_BOX_EMPTY_LABEL = '주문 없음';
 
 export const ORDER_BOX_EMPTY_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
 
-export const ORDER_BOX_EMPTY_STYLE =
-  'rounded-16 items-center justify-center bg-gray-100';
+export const ORDER_BOX_EMPTY_STYLE = 'rounded-16 items-center justify-center';
 
 export const ORDER_BOX_STYLES: Record<OrderBoxVariant, OrderBoxVariantStyles> =
   {
     [ORDER_BOX_VARIANTS.NO_BG]: {
+      EMPTY_BACKGROUND: 'bg-gray-100',
       TONE: ORDER_BOX_CELL_TONES.DEFAULT,
     },
     [ORDER_BOX_VARIANTS.DEFAULT]: {
       CONTAINER: 'rounded-16 bg-white inset-ring inset-ring-gray-100',
+      EMPTY_BACKGROUND: 'bg-gray-100',
       TONE: ORDER_BOX_CELL_TONES.DEFAULT,
     },
     [ORDER_BOX_VARIANTS.PAST]: {
       CONTAINER: 'rounded-16 bg-gray-100',
+      EMPTY_BACKGROUND: 'bg-gray-100',
       TONE: ORDER_BOX_CELL_TONES.MUTED,
+    },
+    [ORDER_BOX_VARIANTS.INVERSE]: {
+      EMPTY_BACKGROUND: 'bg-blue-900/80',
+      TONE: ORDER_BOX_CELL_TONES.INVERSE,
     },
   };

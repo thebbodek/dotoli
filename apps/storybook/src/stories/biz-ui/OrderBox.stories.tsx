@@ -4,6 +4,7 @@ import {
   ORDER_BOX_VARIANTS,
   OrderBox,
   OrderBoxItem,
+  OrderBoxVariant,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
@@ -11,6 +12,12 @@ import { Meta, StoryObj } from '@storybook/react';
 import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const ORDER_BOX_WIDTH_STYLE = 'w-[338px]';
+
+// inverse는 어두운 면 위에 올라간다. 빈 상태 배경이 알파라 뒤에 깔린 색이 비친다
+const INVERSE_VARIANT_BACKDROP = 'bg-blue-500 rounded-6 p-3';
+
+const getBackdrop = (variant: OrderBoxVariant) =>
+  variant === ORDER_BOX_VARIANTS.INVERSE ? INVERSE_VARIANT_BACKDROP : undefined;
 
 const EMPTY_LABEL = '휴무일';
 
@@ -67,7 +74,11 @@ export default meta;
 type Story = StoryObj<typeof OrderBox>;
 
 export const Default: Story = {
-  render: (args) => <OrderBox {...args} className={ORDER_BOX_WIDTH_STYLE} />,
+  render: ({ variant = ORDER_BOX_VARIANTS.DEFAULT, ...args }) => (
+    <Flex className={getBackdrop(variant)} shrink='0'>
+      <OrderBox {...args} className={ORDER_BOX_WIDTH_STYLE} variant={variant} />
+    </Flex>
+  ),
 };
 
 export const Variants: Story = {
@@ -84,11 +95,13 @@ export const Variants: Story = {
           <Typography color='gray-500' variant='label-bold'>
             variant = {variant}
           </Typography>
-          <OrderBox
-            className={ORDER_BOX_WIDTH_STYLE}
-            items={items}
-            variant={variant}
-          />
+          <Flex className={getBackdrop(variant)} shrink='0'>
+            <OrderBox
+              className={ORDER_BOX_WIDTH_STYLE}
+              items={items}
+              variant={variant}
+            />
+          </Flex>
         </Flex>
       ))}
     </Flex>
@@ -115,6 +128,18 @@ export const Empty: Story = {
           emptyLabel={EMPTY_LABEL}
           items={[]}
         />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='12'>
+        <Typography color='gray-500' variant='label-bold'>
+          variant = inverse
+        </Typography>
+        <Flex className={getBackdrop(ORDER_BOX_VARIANTS.INVERSE)} shrink='0'>
+          <OrderBox
+            className={ORDER_BOX_WIDTH_STYLE}
+            items={[]}
+            variant={ORDER_BOX_VARIANTS.INVERSE}
+          />
+        </Flex>
       </Flex>
     </Flex>
   ),

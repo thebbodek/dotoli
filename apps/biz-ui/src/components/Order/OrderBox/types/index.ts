@@ -14,6 +14,7 @@ export interface OrderBoxItem
 
 export interface OrderBoxVariantStyles {
   CONTAINER?: string;
+  EMPTY_BACKGROUND: string;
   TONE: OrderBoxCellTone;
 }
 
