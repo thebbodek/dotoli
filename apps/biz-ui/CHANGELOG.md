@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.63
+
+### Patch Changes
+
+- e8cc95f: DOTOLI-317 biz-ui > OrderBox inverse variant 추가
+
 ## 0.0.62
 
 ### Patch Changes
