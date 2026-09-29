@@ -39,10 +39,12 @@ export interface TableBodyProps
   isLoading?: boolean;
 }
 
-export interface TableBodySkeletonProps<T extends string> {
+export interface TableBodySkeletonProps<T extends string>
+  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   keys: T[];
   styles: Record<T, string>;
   length?: number;
+  cellClassName?: string;
 }
 
 export interface TableRowProps

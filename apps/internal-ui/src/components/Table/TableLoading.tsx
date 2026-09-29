@@ -1,38 +1,47 @@
 import clsx from 'clsx';
 import Skeleton from 'react-loading-skeleton';
 
-import { TABLE_ROW_GROUP_COMMON_STYLE } from '@/components/Table/constants';
+import {
+  TABLE_LAST_ROW_BORDER_RESET_STYLE,
+  TABLE_LOADING_DEFAULT_CELL_STYLE,
+  TABLE_LOADING_DEFAULT_ROW_COUNT,
+  TABLE_LOADING_ROW_STYLE,
+  TABLE_LOADING_SKELETON_HEIGHT,
+  TABLE_ROW_GROUP_COMMON_STYLE,
+} from '@/components/Table/constants';
+import TableCell from '@/components/Table/TableCell';
+import TableRow from '@/components/Table/TableRow';
 import { TableBodySkeletonProps } from '@/components/Table/types';
 
 const TableLoading = <T extends string>({
   keys,
   styles,
-  length = 4,
+  length = TABLE_LOADING_DEFAULT_ROW_COUNT,
+  cellClassName = TABLE_LOADING_DEFAULT_CELL_STYLE,
+  className,
 }: TableBodySkeletonProps<T>) => {
   return (
     <div
       className={clsx(
+        className,
         TABLE_ROW_GROUP_COMMON_STYLE,
-        'bg-in-white in-flex-v-stack h-[calc(100%-2rem)] gap-y-8 py-5',
+        TABLE_LAST_ROW_BORDER_RESET_STYLE,
+        'bg-in-white',
       )}
       role='rowgroup'
     >
       {Array.from({ length }).map((_, index) => (
-        <div
-          className='in-flex-h-stack w-full items-center'
-          key={index}
-          role='row'
-        >
+        <TableRow className={TABLE_LOADING_ROW_STYLE} key={index}>
           {keys.map((key) => (
-            <div
-              className={clsx(styles[key], 'pl-4 last:pr-4')}
-              key={key}
-              role='cell'
-            >
-              <Skeleton containerClassName='w-full' height={12} width='90%' />
-            </div>
+            <TableCell className={clsx(cellClassName, styles[key])} key={key}>
+              <Skeleton
+                containerClassName='w-full'
+                height={TABLE_LOADING_SKELETON_HEIGHT}
+                width='90%'
+              />
+            </TableCell>
           ))}
-        </div>
+        </TableRow>
       ))}
     </div>
   );

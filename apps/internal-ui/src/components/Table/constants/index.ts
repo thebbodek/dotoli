@@ -28,6 +28,14 @@ export const TABLE_ROW_STYLES = {
 export const TABLE_LAST_ROW_BORDER_RESET_STYLE =
   '[&>[role=row]:last-child_.cell]:border-b-0';
 
+export const TABLE_LOADING_DEFAULT_ROW_COUNT = 4;
+
+export const TABLE_LOADING_DEFAULT_CELL_STYLE = 'h-10';
+
+export const TABLE_LOADING_ROW_STYLE = 'pointer-events-none';
+
+export const TABLE_LOADING_SKELETON_HEIGHT = 12;
+
 export const TABLE_CELL_ROLE_COMMON_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]: 'h-full py-1.5',
   [TABLE_ROW_VARIANTS.BODY]: 'py-2.5 min-h-full in-flex-h-stack items-center',
