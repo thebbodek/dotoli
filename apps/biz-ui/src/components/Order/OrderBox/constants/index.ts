@@ -12,18 +12,15 @@ export const ORDER_BOX_VARIANTS = {
   INVERSE: 'inverse',
 } as const;
 
-export const ORDER_BOX_BASE_STYLE =
-  'flex-h-stack flex-wrap gap-[12px] px-[16px] py-[14px]';
+export const ORDER_BOX_BASE_STYLE = 'grid gap-[12px] px-[16px] py-[14px]';
 
-export const ORDER_BOX_ITEMS_STYLE = 'content-start items-start';
-
-export const ORDER_BOX_ITEM_STYLE = 'flex-1';
+export const ORDER_BOX_ITEMS_STYLE = 'grid-cols-3 content-start items-start';
 
 export const ORDER_BOX_EMPTY_LABEL = '주문 없음';
 
 export const ORDER_BOX_EMPTY_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
 
-export const ORDER_BOX_EMPTY_STYLE = 'rounded-16 items-center justify-center';
+export const ORDER_BOX_EMPTY_STYLE = 'rounded-16 place-items-center';
 
 export const ORDER_BOX_STYLES: Record<OrderBoxVariant, OrderBoxVariantStyles> =
   {

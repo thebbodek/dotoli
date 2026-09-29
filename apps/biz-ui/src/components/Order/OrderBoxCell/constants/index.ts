@@ -10,8 +10,7 @@ export const ORDER_BOX_CELL_TONES = {
   MUTED: 'muted',
 } as const;
 
-export const ORDER_BOX_CELL_BASE_STYLE =
-  'flex-v-stack max-w-[110px] min-w-[92px]';
+export const ORDER_BOX_CELL_BASE_STYLE = 'flex-v-stack';
 
 export const ORDER_BOX_CELL_STYLES: Record<
   OrderBoxCellTone,

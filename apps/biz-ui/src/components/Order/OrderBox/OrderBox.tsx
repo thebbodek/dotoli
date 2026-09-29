@@ -5,7 +5,6 @@ import {
   ORDER_BOX_EMPTY_LABEL,
   ORDER_BOX_EMPTY_LABEL_COLOR,
   ORDER_BOX_EMPTY_STYLE,
-  ORDER_BOX_ITEM_STYLE,
   ORDER_BOX_ITEMS_STYLE,
   ORDER_BOX_STYLES,
   ORDER_BOX_VARIANTS,
@@ -45,7 +44,6 @@ const OrderBox = ({
         items.map(({ boxes, itemName }) => (
           <OrderBoxCell
             boxes={boxes}
-            className={ORDER_BOX_ITEM_STYLE}
             itemName={itemName}
             key={itemName}
             tone={TONE}
