@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.64
+
+### Patch Changes
+
+- eb45de3: DOTOLI-319 biz-ui > OrderBoxCell 폭 수정
+- eb45de3: DOTOLI-318 biz-ui > InfoBanner 아이콘 배치 수정
+
 ## 0.0.63
 
 ### Patch Changes
