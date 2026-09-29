@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.130
+
+### Patch Changes
+
+- 07e7b83: DOTOLI-320 internal-ui > TableLoading 컬럼 폭 헤더 불일치 수정
+  - @bbodek/utils@0.0.100
+  - @bbodek/hooks@0.0.103
+
 ## 0.0.129
 
 ### Patch Changes
