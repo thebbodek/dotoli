@@ -20,7 +20,7 @@ export const INFO_BANNER_ICON_KEY: IconProps['iconKey'] = 'info';
 export const INFO_BANNER_ACTION_ICON_KEY: IconProps['iconKey'] = 'caret-right';
 
 export const INFO_BANNER_BASE_STYLE =
-  'flex-h-stack w-full items-center gap-[4px] px-[14px] py-[6px]';
+  'flex-h-stack w-full items-start gap-[4px] px-[14px] py-[6px]';
 
 export const INFO_BANNER_INLINE_STYLE = 'rounded-6 inset-ring';
 
@@ -30,9 +30,10 @@ export const INFO_BANNER_ACTION_STYLE = clsx(
 );
 
 /**
- * @description: `size-*`가 없으면 글리프 advance(13)가 박스가 되어 문구가 2px 밀립니다.
+ * @description: `w-*`가 없으면 글리프 advance(13)가 박스가 되어 문구가 2px 밀립니다.
+ * `h-*`는 `label` 행높이에 맞춘 값이라 토큰이 바뀌면 같이 바꿉니다.
  * */
-export const INFO_BANNER_ICON_STYLE = 'size-[15px] shrink-0 text-[15px]';
+export const INFO_BANNER_ICON_STYLE = 'h-[20px] w-[15px] shrink-0 text-[15px]';
 
 export const INFO_BANNER_TEXT_STYLE =
   'flex-v-stack min-w-0 flex-1 break-all whitespace-pre-line text-left';
@@ -41,7 +42,7 @@ export const INFO_BANNER_TEXT_STYLE =
  * @description: 높이까지 주면 24가 문구 행높이를 밀어 배너가 33이 아니라 36이 됩니다.
  * */
 export const INFO_BANNER_ACTION_WRAPPER_STYLE =
-  'flex-h-stack-center w-[24px] shrink-0';
+  'flex-h-stack-center w-[24px] shrink-0 self-center';
 
 export const INFO_BANNER_ACTION_ICON_STYLE = 'text-[16px] text-gray-500';
 
