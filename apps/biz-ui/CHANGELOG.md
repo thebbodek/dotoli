@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.65
+
+### Patch Changes
+
+- 5c971c2: DOTOLI-321 biz-ui > HeaderBar transition 추가
+
 ## 0.0.64
 
 ### Patch Changes
