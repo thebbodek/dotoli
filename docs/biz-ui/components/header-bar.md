@@ -155,6 +155,11 @@ DS 기본값(`bold`)과 다른 둘은 상수로 명시했습니다. `HEADER_BAR_
 - **진행 바는 헤더 높이에 포함되지 않습니다** (DOTOLI-307). 처음에는 트랙을 54px 행 **다음 형제**로 흘려보내 헤더가 57px이 됐는데, Figma는 54px입니다 — 제품 화면 `ORD-101`(`1484:13795`)에서 `HeaderBar` 인스턴스(`1484:13811`)가 y=34 · height **54**이고 본문 `grayTopBody`가 y=88(=34+54)에서 시작합니다. 인스턴스 안 진행 바(`Frame 397`)는 **로컬 y=54 · height 0**인 LINE 2개(트랙 380 · 값 240)라 경계에 얹혀 있을 뿐 상자를 키우지 않습니다. 그래서 트랙을 `absolute inset-x-0 bottom-0`으로 빼고 **행(`HEADER_BAR_ROW_STYLE`)에 `relative`를** 붙였습니다. **3px은 행 안쪽 아래 끝을 덮습니다** — 바깥으로 내면(`-bottom-[3px]`) 소비 앱 본문 첫 3px과 겹쳐 배경을 칠하는 쪽이 이깁니다.
 - **`relative`는 루트(`<header>`)가 아니라 행이 답니다.** 루트에 붙이면 **소비자의 `className='fixed …'`가 죽습니다.** 둘 다 단일 클래스라 specificity가 같고 `clsx` 인자 순서는 캐스케이드와 무관한데, Tailwind 생성 CSS가 `.absolute` → `.fixed` → `.relative` → `.static` → `.sticky` 순이라 **`.relative`가 `.fixed` · `.absolute`를 이깁니다** (Storybook 계산값으로 확인 — `fixed relative` → `relative`, `sticky relative` → `sticky`). `sticky`만 살아남아 증상이 반쪽으로 보이는 것도 함정입니다. 위 「`Typography`에 색·타이포를 `className`이 아니라 prop으로」와 같은 종류입니다. 행에 붙이면 소비자 `className`이 닿지 않는 자리라 `fixed` · `sticky` · `absolute` 전부 소비자 것이 이깁니다. abspos 자식의 기준 상자는 조상의 **padding box**라 `inset-x-0`이 `px-[20px]`까지 덮고, 행 높이가 곧 헤더 높이라 기하도 같습니다.
 - **진행 바에 전환 모션을 넣지 않았습니다.** Figma에 모션 정의가 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7).
+- **테마 전환에 `transition-colors` 200ms를 겁니다** (DOTOLI-321, `HEADER_BAR_THEME_TRANSITION_STYLE`). 소비 앱 주문 메인(ORD-001)이 스크롤 1px에서 `dark` → `light`로 바꾸는데(BP-84) 한 번에 바뀌어 깜빡였습니다. 앱이 `className`으로 걸면 컨테이너 배경만 페이드되고 안쪽 색은 DS 내부 요소에 붙어 있어 닿지 않으므로 DS가 맡았습니다. Figma 모션 정의가 없는데 넣은 것이라 CLAUDE.md 「폼 컨트롤 공통」 7의 예외이고, 아래 「디자인 확인 필요」에 올렸습니다. 200ms는 COM-008 토스트 등장(`--animate-toast`)과 같은 값입니다.
+
+  **색을 소유한 요소에만 겁니다** — `<header>`(배경) · 타이틀 `Typography`(화살표가 있으면 바깥 래퍼) · 캐럿 `Icon` · 알림 `<Link>`. 화살표가 있을 때 버튼과 안쪽 텍스트는 `text-inherit`으로 받기만 하므로 걸지 않습니다. 상속받는 자식에도 transition이 있으면 **부모가 움직이는 매 프레임마다 자식이 새 transition을 시작해** 글자가 배경보다 늦게 따라옵니다. 그래서 안쪽 텍스트에도 붙는 `HEADER_BAR_TITLE_STYLE`에 합치지 않고 색을 소유한 타이틀용 `HEADER_BAR_THEMED_TITLE_STYLE`을 따로 뒀습니다. Storybook에서 `light` ↔ `dark` 양방향으로 40ms 간격 계산값을 떠 네 요소가 같은 진행률로 움직이는 것을 확인했습니다.
+
+  **미읽음 점의 `ring-white`는 대상이 아닙니다.** 테마와 무관한 고정값입니다 — 아래 「미읽음 점의 흰 테」.
 
 ## 정책
 
@@ -211,7 +216,8 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 | 열림 상태의 캐럿         | `isTitleExpanded=true`여도 캐럿이 `caret-down` 고정입니다 (DOTOLI-310). 열림 심볼이 없어 만들지 않았는데, 같은 성격인 `InputField` `select`는 `caret-up`으로 뒤집습니다 |
 | 미읽음 알림 문구         | 미읽음일 때 접근성 이름에 상태가 붙습니다 — `알림` → `알림, 읽지 않음` (DOTOLI-310). 스크린리더만 읽는 문구라 화면에는 안 드러나고, 기획·디자인 확인 전 잠정값입니다 |
 | 좌우 버튼 gap 2 ↔ 4px    | Figma 인스턴스는 2px인데 원본 `CtaButton`(`11:4337`)의 `sm`은 4px입니다. 인스턴스 쪽 값을 따랐습니다                      |
-| `hover` · `pressed` 미정의 | 어느 심볼에도 상호작용 상태가 없어 `transition-colors`도 걸지 않았습니다. 모바일 타깃이라 최소한 `pressed`는 필요해 보입니다 |
+| `hover` · `pressed` 미정의 | 어느 심볼에도 상호작용 상태가 없습니다. 모바일 타깃이라 최소한 `pressed`는 필요해 보입니다 |
+| 테마 전환 모션           | Figma에 정의가 없는데 소비 앱 요청으로 `transition-colors` 200ms(기본 easing)를 넣었습니다 (DOTOLI-321, 위 「구현 결정」) |
 | 포커스 링 미정의         | 포커스 가능한 요소 3종(뒤로 · 닫기 버튼, **알림 링크**) 전부 포커스 시각이 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7과 같은 상황) |
 | safe-area 미정의         | 화면 최상단에 붙는 컴포넌트인데 노치 여백 처리가 심볼에 없습니다. `safe-area-top`을 넣지 않았고, 필요하면 소비 앱이 `className`으로 겁니다 |
 | 타이틀 버튼 히트 영역     | 23.2px로 WCAG 2.5.8 미달이라 주석 없이 DS가 4px을 얹었습니다 (위 「구현 결정」)                                            |

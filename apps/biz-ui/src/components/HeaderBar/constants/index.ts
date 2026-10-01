@@ -34,7 +34,13 @@ export const HEADER_BAR_TITLE_ELEMENTS = {
 
 export const HEADER_BAR_DEFAULT_TITLE_ELEMENT = HEADER_BAR_TITLE_ELEMENTS.SPAN;
 
-export const HEADER_BAR_BASE_STYLE = 'w-full';
+export const HEADER_BAR_THEME_TRANSITION_STYLE =
+  'transition-colors duration-200';
+
+export const HEADER_BAR_BASE_STYLE = clsx(
+  'w-full',
+  HEADER_BAR_THEME_TRANSITION_STYLE,
+);
 
 export const HEADER_BAR_ROW_STYLE =
   'flex-h-stack relative h-[54px] items-center justify-between px-[20px]';
@@ -43,9 +49,17 @@ export const HEADER_BAR_BOTTOM_SHEET_STYLE = 'rounded-t-16';
 
 export const HEADER_BAR_TITLE_STYLE = 'min-w-0 truncate';
 
+export const HEADER_BAR_THEMED_TITLE_STYLE = clsx(
+  HEADER_BAR_TITLE_STYLE,
+  HEADER_BAR_THEME_TRANSITION_STYLE,
+);
+
 export const HEADER_BAR_NAVIGATION_TITLE_STYLE = 'flex-1 text-center';
 
-export const HEADER_BAR_HOME_TITLE_WRAPPER_STYLE = 'flex-h-stack min-w-0';
+export const HEADER_BAR_HOME_TITLE_WRAPPER_STYLE = clsx(
+  'flex-h-stack min-w-0',
+  HEADER_BAR_THEME_TRANSITION_STYLE,
+);
 
 export const HEADER_BAR_HOME_TITLE_STYLE = clsx(
   'flex-h-stack relative min-w-0 cursor-pointer items-center gap-1',
@@ -56,7 +70,10 @@ export const HEADER_BAR_CARET_ICON_KEY = 'caret-down';
 
 export const HEADER_BAR_CARET_ICON_WEIGHT = ICON_WEIGHTS.FILL;
 
-export const HEADER_BAR_CARET_STYLE = 'shrink-0 text-[13px]';
+export const HEADER_BAR_CARET_STYLE = clsx(
+  'shrink-0 text-[13px]',
+  HEADER_BAR_THEME_TRANSITION_STYLE,
+);
 
 export const HEADER_BAR_TITLE_POPUP_ROLE = 'dialog';
 
@@ -68,8 +85,10 @@ export const HEADER_BAR_NOTIFICATION_LABEL = '알림';
 
 export const HEADER_BAR_NOTIFICATION_UNREAD_LABEL = '알림, 읽지 않음';
 
-export const HEADER_BAR_NOTIFICATION_LINK_STYLE =
-  'flex-h-stack-center relative size-[40px] shrink-0 cursor-pointer text-[28px]';
+export const HEADER_BAR_NOTIFICATION_LINK_STYLE = clsx(
+  'flex-h-stack-center relative size-[40px] shrink-0 cursor-pointer text-[28px]',
+  HEADER_BAR_THEME_TRANSITION_STYLE,
+);
 
 export const HEADER_BAR_NOTIFICATION_DOT_STYLE =
   'absolute top-[10px] left-[26px] size-[6px] rounded-full bg-blue-600 ring-2 ring-white';

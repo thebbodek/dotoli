@@ -12,8 +12,8 @@ import {
   HEADER_BAR_NAVIGATION_TITLE_STYLE,
   HEADER_BAR_ROW_STYLE,
   HEADER_BAR_THEME_STYLES,
+  HEADER_BAR_THEMED_TITLE_STYLE,
   HEADER_BAR_THEMES,
-  HEADER_BAR_TITLE_STYLE,
   HEADER_BAR_TYPES,
 } from '@/components/HeaderBar/constants';
 import HeaderBarHomeTitle from '@/components/HeaderBar/HeaderBarHomeTitle';
@@ -71,7 +71,7 @@ const HeaderBar = ({
         ) : (
           <Typography
             className={clsx(
-              HEADER_BAR_TITLE_STYLE,
+              HEADER_BAR_THEMED_TITLE_STYLE,
               isNavigation && HEADER_BAR_NAVIGATION_TITLE_STYLE,
             )}
             as={titleAs}

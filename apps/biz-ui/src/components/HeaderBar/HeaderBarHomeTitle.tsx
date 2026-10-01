@@ -7,6 +7,7 @@ import {
   HEADER_BAR_HOME_TITLE_STYLE,
   HEADER_BAR_HOME_TITLE_WRAPPER_STYLE,
   HEADER_BAR_THEME_STYLES,
+  HEADER_BAR_THEMED_TITLE_STYLE,
   HEADER_BAR_TITLE_POPUP_ROLE,
   HEADER_BAR_TITLE_STYLE,
 } from '@/components/HeaderBar/constants';
@@ -28,7 +29,7 @@ const HeaderBarHomeTitle = ({
     return (
       <Typography
         as={titleAs}
-        className={HEADER_BAR_TITLE_STYLE}
+        className={HEADER_BAR_THEMED_TITLE_STYLE}
         color={TITLE}
         variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
       >
