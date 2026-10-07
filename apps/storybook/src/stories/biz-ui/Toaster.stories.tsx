@@ -20,6 +20,8 @@ const CTA_AREA_STYLE =
 
 const CTA_OFFSET = '84px';
 
+const SHORT_DURATION = 3000;
+
 const ICON_KEY = 'check-circle';
 
 const withScreen: Decorator = (Story) => (
@@ -37,7 +39,7 @@ const showPersistentToast = () =>
     action: { label: '보기', onClick: () => {} },
     iconKey: ICON_KEY,
     message: '주문이 등록되었어요',
-    useDismiss: true,
+    onDismiss: () => {},
   });
 
 const meta = {
@@ -193,13 +195,72 @@ export const Priority: Story = {
         label='D 세 번 연속'
         size={CTA_BUTTON_SIZES.SM}
         onClick={() => {
-          toast.show({ message: '첫 번째 D', useDismiss: true });
-          toast.show({ message: '두 번째 D', useDismiss: true });
-          toast.show({ message: '세 번째 D', useDismiss: true });
+          toast.show({ message: '첫 번째 D', onDismiss: () => {} });
+          toast.show({ message: '두 번째 D', onDismiss: () => {} });
+          toast.show({ message: '세 번째 D', onDismiss: () => {} });
         }}
       />
     </Flex>
   ),
+};
+
+export const OnDismiss: Story = {
+  render: () => {
+    const [dismissCount, setDismissCount] = useState(0);
+
+    const handleDismiss = () => setDismissCount((prev) => prev + 1);
+
+    return (
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          onDismiss 호출 {dismissCount}회
+        </Typography>
+        <CtaButton
+          label='× 로 닫기 — 1회 늘어남'
+          size={CTA_BUTTON_SIZES.SM}
+          onClick={() =>
+            toast.show({
+              iconKey: ICON_KEY,
+              message: '× 를 눌러 닫아 보세요',
+              onDismiss: handleDismiss,
+            })
+          }
+        />
+        <CtaButton
+          label='액션으로 닫기 — 그대로'
+          size={CTA_BUTTON_SIZES.SM}
+          onClick={() =>
+            toast.show({
+              action: { label: '확인', onClick: () => {} },
+              iconKey: ICON_KEY,
+              message: '확인을 눌러 닫아 보세요',
+              onDismiss: handleDismiss,
+            })
+          }
+        />
+        <CtaButton
+          label='자동 소멸 — 그대로'
+          size={CTA_BUTTON_SIZES.SM}
+          theme={CTA_BUTTON_THEMES.GRAY}
+          onClick={() =>
+            toast.show({
+              duration: SHORT_DURATION,
+              iconKey: ICON_KEY,
+              message: '3초 뒤에 사라져요',
+              onDismiss: handleDismiss,
+            })
+          }
+        />
+        <CtaButton
+          label='toast.dismiss() — 그대로'
+          size={CTA_BUTTON_SIZES.SM}
+          theme={CTA_BUTTON_THEMES.GRAY}
+          variant={CTA_BUTTON_VARIANTS.OUTLINED}
+          onClick={() => toast.dismiss()}
+        />
+      </Flex>
+    );
+  },
 };
 
 // 「CTA가 있을때는 CTA 상단으로 노출」 — 화면이 :root에 --toast-offset을 세팅한다

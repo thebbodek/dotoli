@@ -217,6 +217,7 @@ apps/storybook/src/stories/biz-ui/
 - [x] DOTOLI-317 biz-ui OrderBox `inverse` variant 추가 (`tone` 축을 열지 않고 네 번째 값 · 빈 상태 배경이 variant를 타게 됨 · 채워진 상태는 배경 없고 상단 라인·블러는 소비 앱 몫. API는 비파괴, 내부 상수 두 개의 모양은 바뀜)
 - [x] DOTOLI-318 biz-ui InfoBanner 아이콘 첫 줄 정렬 (Figma는 가운데지만 InfoItem 결정에 맞춤 · 캐럿은 가운데 유지 · 한 줄은 0.15px 차이)
 - [x] DOTOLI-319 biz-ui OrderBoxCell 폭 수정 (OrderBox를 `grid-cols-3`으로 · 셀은 항상 1/3 · Figma 컴포넌트의 `min-w`·`max-w`를 버림 · `ORDER_BOX_ITEM_STYLE` 제거는 파괴적이나 실사용 0건)
+- [x] DOTOLI-322 biz-ui toast.show onDismiss 옵션 추가 (× 닫힘만 알림 · `useDismiss` 제거는 파괴적, 소비 앱 2곳 · 닫히는 동안 `inert` · 콜백이 던져도 닫음)
 
 Button 계열 후속 3종은 신규 베이스 컴포넌트 없이 바로 착수 가능합니다 — `Icon` · `ButtonIcon` · `TOUCH_TARGET_STYLE`(당시 이름 `BUTTON_TOUCH_TARGET_STYLE`)이 이미 있습니다. 권장 순서는 Filter → FloatingPill → IconButton입니다.
 
@@ -355,6 +356,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-317 | OrderBox `inverse` variant 추가 — `tone` 축을 따로 열면 디자인 없는 조합 7개를 구현이 지어내야 해서 `variant`의 네 번째 값으로. **「빈 상태는 variant를 타지 않는다」 결정을 뒤집음**(배경만 `EMPTY_BACKGROUND`로 분기, 기존 세 variant는 값 동일). 상단 라인·backdrop blur는 Figma도 부모 프레임에 두고 있어 소비 앱 몫. 컴포넌트 API는 비파괴이나 **내부 상수 두 개의 모양이 바뀜**(`ORDER_BOX_EMPTY_STYLE`에서 `bg-gray-100` 제거 · `OrderBoxVariantStyles`에 필수 필드 추가) — 실사용 0건 | [components/order.md](./components/order.md) |
 | DOTOLI-318 | InfoBanner 루트 `items-center` → `items-start` + 아이콘 `h-[20px]`(`label` 행높이). 여러 줄일 때 아이콘을 첫 줄에 붙임. **Figma `2863:17016`의 가운데 정렬과 다름** — `InfoItem`이 먼저 내린 「접히는 문구가 기본값」 결정에 계열을 맞춤. 캐럿은 `self-center`로 가운데 유지. **DOTOLI-296의 「`items-center` 유지」 결정을 뒤집음** | [components/info.md](./components/info.md) |
 | DOTOLI-319 | OrderBoxCell 폭 수정. `flex-1` + `max-w-[110px]`이 같이 걸려 셀이 110에서 멈추고 우측이 비던 것(3개는 컨테이너 386 초과, 1 · 2개는 거의 항상)을 OrderBox `grid-cols-3`으로 바꿔 **셀을 항상 1/3로 고정**. `OrderBoxCell`의 `min-w-[92px]` · `max-w-[110px]` 제거(**Figma 컴포넌트 값을 버리는 디자인 변경**, 디자인 확인 필요). **「`min-w`·`max-w`를 컴포넌트가 들고 간다」(DOTOLI-229) · 「Cell에는 `flex-1`만」(DOTOLI-230) 결정을 뒤집음**. 338 · 3개에서 셀 94로 Figma와 같음. `ORDER_BOX_ITEM_STYLE` 제거는 **파괴적 변경**이나 소비 앱 import 0건 | [components/order.md](./components/order.md) |
+| DOTOLI-322 | `toast.show`에 `onDismiss` 추가. **× 로 닫을 때만** 부르고 자동 소멸 · `toast.dismiss()` · 액션 · 교체에서는 부르지 않음(소비 앱 BP-95 「닫기 시 하루 재노출 안 함」). **`useDismiss`를 걷어내고 `onDismiss` 유무로 × 표시를 정함. DOTOLI-268의 「`useDismiss`가 유틸 층에서 되살아납니다」를 뒤집은 파괴적 변경**이고 소비 앱 `useOrderNoticeToastEffect` 2곳 수정 필요. 소멸 200ms 동안 ×·액션 재클릭으로 콜백이 두 번 불리던 것도 `inert`로 막음. 래퍼에 걸면 두 번째 탭이 페이지로 새서 안쪽 `contents` 요소에 검. 소비자 콜백(`onDismiss` · 액션 `onClick`)이 예외를 던져도 `finally`로 닫고 에러는 다시 던짐. `resolveToastAction`의 닫기 인자 `onDismiss` → `onClose` 개명 | [components/toast.md](./components/toast.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

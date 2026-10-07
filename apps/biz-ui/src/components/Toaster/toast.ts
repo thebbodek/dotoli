@@ -20,7 +20,7 @@ const show = ({
   weight,
   theme,
   action,
-  useDismiss = false,
+  onDismiss,
   duration,
 }: ShowToastProps) =>
   enqueueToast({
@@ -31,10 +31,10 @@ const show = ({
     weight,
     theme,
     action,
-    useDismiss,
+    onDismiss,
     duration: resolveToastDuration({
       duration,
-      isInteractive: !!action || useDismiss,
+      isInteractive: !!action || !!onDismiss,
     }),
   });
 
@@ -43,7 +43,6 @@ const loading = ({ message, duration = null }: LoadingToastProps) =>
     kind: TOAST_KINDS.TOAST,
     status: TOAST_STATUSES.LOADING,
     message,
-    useDismiss: false,
     duration,
   });
 

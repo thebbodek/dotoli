@@ -1,7 +1,8 @@
-import { ToastAction } from '@/components/Toast';
+import { ToastAction, ToastProps } from '@/components/Toast';
 import { TOAST_AUTO_DISMISS_MS } from '@/components/Toaster/constants';
 import {
   ResolveToastActionProps,
+  ResolveToastDismissProps,
   ResolveToastDurationProps,
 } from '@/components/Toaster/types';
 
@@ -16,15 +17,33 @@ export const resolveToastDuration = ({
 
 export const resolveToastAction = ({
   action,
-  onDismiss,
+  onClose,
 }: ResolveToastActionProps): ToastAction | undefined => {
   if (!action) return undefined;
 
   return {
     label: action.label,
     onClick: (event) => {
-      action.onClick(event);
-      onDismiss();
+      try {
+        action.onClick(event);
+      } finally {
+        onClose();
+      }
     },
+  };
+};
+
+export const resolveToastDismiss = ({
+  onDismiss,
+  onClose,
+}: ResolveToastDismissProps): ToastProps['onDismiss'] => {
+  if (!onDismiss) return undefined;
+
+  return () => {
+    try {
+      onDismiss();
+    } finally {
+      onClose();
+    }
   };
 };

@@ -287,7 +287,7 @@ components/Toaster/
 | D 노출 중 새 D → 큐에 순차 적재    | 현재가 `duration === null` → 큐 뒤에 붙임                  |
 | 예외(마감 경과) → 유지             | `duration: null`을 직접 넘김. 버튼이 없어도 안 밀림        |
 | A는 5000ms 후 자동 소멸            | 버튼이 없으면 `duration` 기본값이 `5000`                   |
-| D는 조작해야 소멸                  | `action` · `useDismiss`가 있으면 기본값이 `null`           |
+| D는 조작해야 소멸                  | `action` · `onDismiss`가 있으면 기본값이 `null`            |
 
 **정책에 없어서 정한 것 3가지입니다.**
 
@@ -299,7 +299,7 @@ components/Toaster/
 
 | 메서드                                  | 렌더            | 기본 `duration`                     |
 | --------------------------------------- | --------------- | ----------------------------------- |
-| `toast.show({ message, iconKey, weight, theme, action, useDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
+| `toast.show({ message, iconKey, weight, theme, action, onDismiss, duration })` | `Toast` `info` | 버튼 있으면 `null`, 없으면 `5000`   |
 | `toast.loading({ message, duration })`  | `Toast` `loading` | `null`                            |
 | `toast.success` · `info` · `warning` · `error` `({ message, duration })` | `FeedbackToast` | `5000`      |
 | `toast.dismiss({ id })`                 | —               | `id` 없으면 현재 것. 큐에 있는 id면 큐에서만 제거 |
@@ -319,8 +319,11 @@ toast.show({
   action: { label: '보기', onClick: goOrder },
   iconKey: 'check-circle',
   message: '주문이 등록되었어요',
-  useDismiss: true,
+  onDismiss: recordDismissed,
 });
+
+// D — × 만 띄우고 닫힘을 들을 필요가 없으면 빈 함수
+toast.show({ message: '주문을 이어서 입력해 주세요', onDismiss: noop });
 
 // 예외 — 버튼 없이 유지
 toast.show({ duration: null, iconKey: 'warning-circle', message: '이번 주 주문 마감이 지났어요' });
@@ -333,7 +336,7 @@ toast.dismiss({ id });
 
 ### 결정
 
-- **`useDismiss`가 유틸 층에서 되살아납니다.** 컴포넌트는 Figma 축을 `onDismiss` 핸들러로 흡수했지만, **유틸에서는 닫는 주체가 스토어라서** 소비자가 넘길 것이 핸들러가 아니라 스위치입니다. 「기능 on/off는 `use`」 규칙 그대로입니다.
+- **~~`useDismiss`가 유틸 층에서 되살아납니다.~~ DOTOLI-322에서 `onDismiss`로 흡수했습니다.** 컴포넌트는 Figma 축을 `onDismiss` 핸들러로 흡수했지만, 유틸에서는 닫는 주체가 스토어라서 소비자가 넘길 것이 핸들러가 아니라 스위치라고 봤습니다. **소비자가 닫힘을 들어야 하는 경우가 생기면서 이 전제가 깨졌습니다.** 상세는 아래 「DOTOLI-322」에 있습니다.
 
 - **액션을 누르면 토스트도 닫힙니다.** D의 정의가 「사용자 본인 조작 전까지 유지」라 조작이 일어나면 유지할 이유가 없습니다. `onClick`을 먼저 부르고 닫습니다.
 
@@ -372,6 +375,56 @@ toast.dismiss({ id });
 | 예외 토스트는 새 A에 밀리지 않음 | 통과 |
 | 소멸 진행 중에 들어온 것은 교체가 아니라 큐 | 통과 |
 | 큐에 쌓인 A 둘은 서로 밀어내지 않고 넣은 순서대로 | 통과 |
+
+### DOTOLI-322 · `onDismiss`
+
+계기는 소비 앱 BP-95의 전환 안내 토스트입니다. 주문 정책서 §12가 「닫기 시 하루 동안 재노출되지 않음」이라 사용자가 × 를 누른 순간을 앱이 알아야 하는데, `toast.show`에는 그 통로가 없었습니다.
+
+- **× 로 닫을 때만 부릅니다.** 자동 소멸, `toast.dismiss()`, 액션 클릭, 새 A에 밀려 교체될 때, 큐에서 빠질 때는 부르지 않습니다. 스토어의 `dismissToast`를 이 경로들이 전부 같이 쓰므로 **콜백을 스토어에 두면 × 만 갈라낼 수 없습니다.** × 가 갈라지는 곳은 `Toaster`가 `Toast`에 `onDismiss`를 넘기는 자리 하나라 거기서 부르고, 스토어는 그대로 뒀습니다.
+
+  `toast.dismiss()`를 빼는 것이 특히 중요합니다. 소비 앱은 화면 이탈과 업체 전환 때 effect cleanup에서 `toast.dismiss({ id })`로 토스트를 치우는데, 여기서 불리면 화면만 떠나도 「오늘 닫음」이 기록됩니다.
+
+- **`useDismiss`를 걷어내고 `onDismiss` 유무로 × 표시를 정합니다. 파괴적 변경입니다.** 268은 「유틸에서는 닫는 주체가 스토어라 소비자가 넘길 것은 스위치」로 보고 `useDismiss`를 남겼는데, 닫힘을 듣는 콜백이 생기면 스위치와 콜백을 같이 두게 됩니다. 그러면 `useDismiss: false`에 `onDismiss`를 준 조합이 에러 없이 통과하고 콜백은 영영 불리지 않습니다. 컴포넌트 층이 축을 핸들러 유무로 흡수한 이유가 이것이라 같은 기준으로 맞췄습니다.
+
+  **대가는 빈 함수입니다.** × 만 띄우고 닫힘을 들을 필요가 없으면 `onDismiss: noop`을 넘겨야 합니다. 소비 앱의 주문 유도 토스트가 이 경우라(닫아도 다음 진입 때 다시 뜸) `useOrderNoticeToastEffect`의 두 곳을 바꿔야 합니다. `useDismiss: false`는 지우고, `useDismiss: orderGuide.isDismissible`은 `onDismiss: orderGuide.isDismissible ? noop : undefined`가 됩니다. `noop`은 소비 앱에 이미 있는 `es-toolkit`의 것을 쓰고 DS가 따로 내보내지 않습니다.
+
+  union으로 조합을 막는 안은 고르지 않았습니다. `status='loading'`에 `action` · `onDismiss`를 막지 않은 위 「결정」과 같은 이유로 API가 무거워집니다.
+
+- **이름은 `onDismiss`입니다.** `Toast` · `StatusAlertBanner`에서 같은 이름이 같은 뜻(× 눌림)으로 쓰이고 타입도 `Pick<ToastProps, 'onDismiss'>`로 그대로 가져옵니다. `toast.dismiss()`와 이름이 겹쳐 그쪽에서도 불릴 것처럼 읽히는 것은 감수했습니다.
+
+- **소비자 콜백을 먼저 부르고 닫습니다.** 액션이 `onClick` 다음에 닫는 것과 같은 순서입니다. 인자는 없습니다. 어느 토스트인지는 `show`를 부르는 쪽이 클로저로 들고 있습니다.
+
+- **콜백이 예외를 던져도 닫습니다.** 닫기를 `finally`에 둬서 토스트는 닫히고 에러는 그대로 다시 던집니다. 삼키지 않으므로 소비 앱의 에러 처리 경로는 바뀌지 않습니다. 전에는 콜백이 던지면 닫기까지 가지 못했고, D는 `duration: null`이라 저절로 사라지지도 않습니다. × 를 다시 눌러도 같은 예외가 나서 소비 앱이 직접 `toast.dismiss`를 부르기 전까지 화면에 남았습니다. BP-95처럼 콜백에서 저장소에 쓰는 경우 실제로 생길 수 있습니다.
+
+  **액션 `onClick`도 같이 맞췄습니다.** 268부터 같은 구조였고, 두 유틸이 「소비자 콜백 → 닫기」 순서를 공유하는데 한쪽만 닫기를 보장하면 계열이 갈립니다. async 콜백은 원래도 기다리지 않습니다. Promise를 받은 즉시 닫히고 거부는 소비 앱 몫입니다.
+
+- **닫히는 동안 토스트에 `inert`를 겁니다.** 소멸 모션 200ms 동안 × 와 액션 버튼이 그대로 눌려서, 빠르게 두 번 누르면 소비자 콜백이 두 번 불렸습니다. 스토어는 두 번째 `dismissToast`를 `isClosing`으로 무시하지만 그 앞에서 부르는 콜백까지는 막지 못합니다. 액션 `onClick`은 268부터 같은 상태였고 `onDismiss`가 생기며 드러났습니다. `inert`는 포커스와 접근성 트리에서도 빼 줘서, 사라지는 중인 버튼에 키보드로 닿는 경로도 같이 닫힙니다.
+
+  **`inert`는 아이템 래퍼가 아니라 그 안의 `contents` 요소에 겁니다.** `inert`가 붙은 요소는 `pointer-events: none`처럼 히트 테스트에서 빠지고, 바깥 컨테이너도 `pointer-events-none`이라 래퍼에 걸면 두 번째 탭이 **토스트 밑의 페이지 요소를 누릅니다.** 막으려던 「빠르게 두 번 누름」이 아래 리스트나 버튼 클릭으로 바뀌는 셈입니다. 안쪽에 걸면 `pointer-events-auto`인 래퍼가 그 탭을 받아 아무 일도 일어나지 않습니다. `display: contents`라 레이아웃은 그대로입니다(`Toast` 폭 = 래퍼 폭, `FeedbackToast` 가운데 정렬 유지를 실측). 같은 이유로 `pointer-events-none`도 해법이 아닙니다.
+
+- **`resolveToastAction`의 닫기 인자를 `onDismiss`에서 `onClose`로 바꿨습니다.** 새 `resolveToastDismiss`가 소비자의 `onDismiss`를 받으므로, 그대로 두면 `Toaster`의 이웃한 두 줄에서 같은 이름이 서로 다른 뜻이 됩니다. 두 유틸의 닫기 인자는 `ToastCloseOption`으로 묶었습니다. `ResolveToastActionProps`가 배럴로 공개된 타입이라 이름 변경도 파괴적이지만 소비 앱 사용처는 0곳입니다.
+
+- **유틸은 닫기 함수를 인자로 받습니다.** `utils/`는 `shared` 청크, `store/`는 `client` 청크라 유틸이 스토어를 import하면 `verify-chunks`의 단방향 검사에서 빌드가 실패합니다(CLAUDE.md 「패키징 규칙」).
+
+Storybook에서 클릭으로 확인했습니다.
+
+| 확인한 것 | 결과 |
+| --------- | ---- |
+| × 로 닫으면 1회 | 통과 |
+| 액션으로 닫으면 그대로 | 통과 |
+| `duration`을 준 토스트의 자동 소멸은 그대로 | 통과 |
+| `toast.dismiss()`로 닫으면 그대로 | 통과 |
+| × 를 더블클릭해도 1회 | 통과 |
+| 더블클릭의 두 번째 탭은 아이템 래퍼가 받고 페이지로 새지 않음 | 통과 |
+| `onDismiss: () => {}`만 준 D 셋이 순서대로 뜸 | 통과 |
+
+예외 경로는 화면에서 만들 수 없어 268 「검증」처럼 `utils/`만 따로 번들해서(`esbuild` → node) 돌렸습니다.
+
+| 확인한 것 | 결과 |
+| --------- | ---- |
+| `onDismiss`가 던져도 닫기가 1회 불리고 에러가 다시 던져짐 | 통과 |
+| 액션 `onClick`이 던져도 닫기가 1회 불리고 에러가 다시 던져짐 | 통과 |
+| `onDismiss`가 없으면 핸들러 자체가 없음(× 안 뜸) | 통과 |
 
 ## `react-hot-toast`를 쓰지 않기로 한 근거 (DOTOLI-268)
 
@@ -460,10 +513,11 @@ toast.dismiss({ id });
 | `Highlight` | `toast.show` 경로에서도 `<strong>`이 통과하는 것 — 앞쪽 · 문장 중간      |
 | `Feedback`  | `FeedbackToast` 4종                                                     |
 | `Priority`  | A 중 새 A · A 중 D · D 세 번 연속 — **정책 우선순위가 눈에 보이는 자리** |
+| `OnDismiss` | × · 액션 · 자동 소멸 · `toast.dismiss()`로 닫아 보고 **× 만 호출 횟수가 느는 것** |
 | `CtaOffset` | `:root`에 `--toast-offset`을 걸었을 때 CTA 위로 올라가는 것              |
 
 **토스트는 스토리 프레임이 아니라 캔버스 하단에 뜹니다.** 컨테이너가 `fixed`고 `Portal`이 `#portal`을 못 찾으면 `document.body`로 폴백하기 때문이며, 실제 동작 그대로라 프레임 안에 가두지 않았습니다.
 
-**Docs 페이지에서는 `Toaster`가 스토리 수만큼(5개) 마운트됩니다.** 데코레이터가 스토리마다 하나씩 렌더하고 `preview.tsx`가 `tags: ['autodocs']`라 다섯 스토리가 동시에 삽니다. 스토어는 모듈 스코프 하나라 **같은 토스트가 같은 자리에 다섯 겹으로 그려집니다** — 테두리·그림자가 진해 보이고 보조기술은 다섯 번 읽습니다. **정책 확인은 Canvas 탭에서 합니다.** 겹침을 없애려면 스토리마다 iframe(`docs.story.inline: false`)을 쓰거나 `Toaster`를 싱글턴으로 만들어야 하는데, 앞은 Docs 로딩이 네 배가 되고 뒤는 「앱 루트에 한 번」이라는 전제를 코드로 방어하는 것이라 **이 티켓에서는 넣지 않았습니다.**
+**Docs 페이지에서는 `Toaster`가 스토리 수만큼(6개) 마운트됩니다.** 데코레이터가 스토리마다 하나씩 렌더하고 `preview.tsx`가 `tags: ['autodocs']`라 여섯 스토리가 동시에 삽니다. 스토어는 모듈 스코프 하나라 **같은 토스트가 같은 자리에 여섯 겹으로 그려집니다** — 테두리·그림자가 진해 보이고 보조기술은 여섯 번 읽습니다. **정책 확인은 Canvas 탭에서 합니다.** 겹침을 없애려면 스토리마다 iframe(`docs.story.inline: false`)을 쓰거나 `Toaster`를 싱글턴으로 만들어야 하는데, 앞은 Docs 로딩이 네 배가 되고 뒤는 「앱 루트에 한 번」이라는 전제를 코드로 방어하는 것이라 **이 티켓에서는 넣지 않았습니다.**
 
 `iconKey` · `weight` argType은 `Icon.stories`에서 가져와 `description`만 걷어냅니다 — `IconCircle` · `NotificationCard`와 같은 방식입니다.

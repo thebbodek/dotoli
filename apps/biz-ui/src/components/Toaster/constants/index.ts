@@ -22,3 +22,5 @@ export const TOASTER_ITEM_STYLE =
   'flex-h-stack pointer-events-auto w-full min-w-0 justify-center mb-[calc(20px+var(--toast-offset,0px))]';
 
 export const TOASTER_ITEM_CLOSING_STYLE = 'animate-toast-out';
+
+export const TOASTER_ITEM_CONTENT_STYLE = 'contents';

@@ -13,9 +13,10 @@ export interface ToastDurationOption {
 
 export interface ShowToastProps
   extends ToastDurationOption,
-    Pick<ToastProps, 'message' | 'iconKey' | 'weight' | 'theme' | 'action'> {
-  useDismiss?: boolean;
-}
+    Pick<
+      ToastProps,
+      'message' | 'iconKey' | 'weight' | 'theme' | 'action' | 'onDismiss'
+    > {}
 
 export interface LoadingToastProps
   extends ToastDurationOption,
@@ -37,9 +38,8 @@ export interface ToastItemBase extends Required<ToastDurationOption> {
 export interface ToastItemToast
   extends ToastItemBase,
     Required<Pick<ToastProps, 'message' | 'status'>>,
-    Pick<ToastProps, 'iconKey' | 'weight' | 'theme' | 'action'> {
+    Pick<ToastProps, 'iconKey' | 'weight' | 'theme' | 'action' | 'onDismiss'> {
   kind: typeof TOAST_KINDS.TOAST;
-  useDismiss: boolean;
 }
 
 export interface ToastItemFeedback
@@ -62,9 +62,17 @@ export interface ResolveToastDurationProps extends ToastDurationOption {
   isInteractive: boolean;
 }
 
-export interface ResolveToastActionProps extends Pick<ToastProps, 'action'> {
-  onDismiss: () => void;
+export interface ToastCloseOption {
+  onClose: () => void;
 }
+
+export interface ResolveToastActionProps
+  extends ToastCloseOption,
+    Pick<ToastProps, 'action'> {}
+
+export interface ResolveToastDismissProps
+  extends ToastCloseOption,
+    Pick<ToastProps, 'onDismiss'> {}
 
 export interface ToasterProps
   extends Pick<PortalProps, 'target'>,
