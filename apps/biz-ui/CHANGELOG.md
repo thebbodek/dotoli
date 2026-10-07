@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.66
+
+### Patch Changes
+
+- 3bfc2a5: DOTOLI-322 biz-ui > toast.show onDismiss 옵션 추가
+
 ## 0.0.65
 
 ### Patch Changes
