@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.131
+
+### Patch Changes
+
+- 6fbcae1: DOTOLI-324 internal-ui > searchSelect 옵션 검색 후 '전체'선택 수정
+  - @bbodek/utils@0.0.101
+  - @bbodek/hooks@0.0.104
+
 ## 0.0.130
 
 ### Patch Changes
