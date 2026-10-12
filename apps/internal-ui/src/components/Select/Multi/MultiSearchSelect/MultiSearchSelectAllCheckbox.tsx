@@ -6,8 +6,10 @@ import MultiSelectBaseCheckIcon from '@/components/Select/Multi/shared/MultiSele
 const MultiSearchSelectAllCheckbox = () => {
   const allCheckboxId = useId();
   const allCheckboxLabelId = `${allCheckboxId}-label`;
-  const { internalOptions, onAllSelect } = useMultiSelectBaseContext();
-  const isAllSelected = internalOptions.every(({ isSelected }) => isSelected);
+  const { filteredInternalOptions, onAllSelect } = useMultiSelectBaseContext();
+  const isAllSelected =
+    filteredInternalOptions.length > 0 &&
+    filteredInternalOptions.every(({ isSelected }) => isSelected);
 
   return (
     <label

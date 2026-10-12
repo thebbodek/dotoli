@@ -46,9 +46,14 @@ export const MultiSelectBaseProvider = <T extends MultiSelectBaseValue>({
 
   const onAllSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked } = e.target;
+    const filteredKeys = new Set(filteredInternalOptions.map(({ key }) => key));
 
     setInternalOptions((prev) =>
-      prev.map((option) => ({ ...option, isSelected: checked })),
+      prev.map((option) =>
+        filteredKeys.has(option.key)
+          ? { ...option, isSelected: checked }
+          : option,
+      ),
     );
   };
 
