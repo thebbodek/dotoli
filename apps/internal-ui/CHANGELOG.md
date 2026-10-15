@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.132
+
+### Patch Changes
+
+- d34b0d3: DOTOLI-325 internal-ui > Tab > 다크 내비게이션 테마 추가
+  - @bbodek/utils@0.0.102
+  - @bbodek/hooks@0.0.105
+
 ## 0.0.131
 
 ### Patch Changes
