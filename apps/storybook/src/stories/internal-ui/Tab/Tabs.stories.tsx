@@ -188,3 +188,32 @@ export const WithFull: Story = {
     );
   },
 };
+
+export const Dark: Story = {
+  args: {
+    variant: TAB_VARIANTS.FILLED,
+    theme: TAB_THEMES.DARK,
+    size: TAB_SIZES.SM,
+    isFull: true,
+  },
+  render: (args) => {
+    const [currentValue, setCurrentValue] = useState(tabItems[0].value);
+
+    return (
+      <div className='bg-in-primary-11 w-[800px] p-4'>
+        <Tabs {...args} currentValue={args.currentValue ?? currentValue}>
+          {Object.values(tabItems).map((tab, index) => (
+            <Tabs.Tab
+              key={tab.value}
+              value={tab.value}
+              onChange={() => setCurrentValue(tab.value)}
+            >
+              {tab.label}
+              {index === 0 && <Tabs.Tab.Number>{10}</Tabs.Tab.Number>}
+            </Tabs.Tab>
+          ))}
+        </Tabs>
+      </div>
+    );
+  },
+};

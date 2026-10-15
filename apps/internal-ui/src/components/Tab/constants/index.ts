@@ -11,6 +11,7 @@ export const TAB_VARIANTS = {
 export const TAB_THEMES = {
   PRIMARY: 'primary',
   GRAY: 'gray',
+  DARK: 'dark',
 } as const;
 
 export const TAB_SIZES = {
@@ -56,6 +57,20 @@ export const TAB_THEME_STYLES = {
       label: 'not-disabled:aria-selected:text-in-primary-05',
       number: 'not-group-disabled:group-aria-selected:text-in-primary-05',
       indicator: 'border-in-primary-05',
+    },
+  },
+  [TAB_THEMES.DARK]: {
+    [TAB_VARIANTS.LINE]: {
+      list: 'border-b border-b-in-gray-07',
+      label: 'not-disabled:aria-selected:text-in-white',
+      number: 'not-group-disabled:group-aria-selected:text-in-gray-03',
+      indicator: 'border-b-in-white',
+    },
+    [TAB_VARIANTS.FILLED]: {
+      list: 'bg-[#192234] rounded-in-8',
+      label: 'not-disabled:aria-selected:text-in-black',
+      number: 'not-group-disabled:group-aria-selected:text-in-gray-05',
+      indicator: 'border-in-gray-05',
     },
   },
 } as const;
