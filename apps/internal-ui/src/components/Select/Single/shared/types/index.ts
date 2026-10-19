@@ -8,6 +8,7 @@ import {
   SelectLabelContextValue,
 } from '@/components/Select';
 import { SelectBaseItemProps } from '@/components/Select/shared/types';
+import { VirtualListChildrenPrimitiveProps } from '@/components/VirtualList/shared';
 
 export type SelectValue = string | number | null;
 
@@ -55,3 +56,20 @@ export interface SingleSelectListContextValue<T extends SelectValue>
 export interface SingleSelectBaseItemProps<T extends SelectValue>
   extends Pick<SingleSelectListContextValue<T>, 'value'>,
     Pick<SelectBaseItemProps, 'label'> {}
+
+export interface SingleSelectVirtualItemContextValue
+  extends Required<
+    Pick<
+      SelectBaseItemProps,
+      'aria-posinset' | 'aria-setsize' | 'onFocus' | 'onBlur'
+    >
+  > {}
+
+export interface SingleSelectVirtualItemProviderProps
+  extends SingleSelectVirtualItemContextValue {}
+
+export interface GetSingleSelectVirtualListIndexesParams
+  extends VirtualListChildrenPrimitiveProps {
+  itemsTotalCount: number;
+  focusedIndex: number | null;
+}

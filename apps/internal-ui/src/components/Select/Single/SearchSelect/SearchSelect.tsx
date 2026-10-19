@@ -7,6 +7,7 @@ import { SearchSelectProps } from '@/components/Select/Single/SearchSelect/types
 import {
   SingleSelectBase,
   SingleSelectBaseList,
+  SingleSelectBaseVirtualList,
 } from '@/components/Select/Single/shared';
 import { SelectValue } from '@/components/Select/Single/shared/types';
 
@@ -27,13 +28,15 @@ const SearchSelect = <T extends SelectValue>({
   displayValue,
   value,
   useReset,
+  useVirtualList = false,
 }: PropsWithChildren<SearchSelectProps<T>>) => {
   const {
     placeholder: inputPlaceholder = '검색어를 입력해주세요',
     value: searchValue = null,
     ...restInputOption
   } = inputOption ?? {};
-  const hasChildren = Children.count(children) > 0;
+  const hasChildren = Children.toArray(children).length > 0;
+  const isVirtualList = useVirtualList && hasChildren;
 
   return (
     <SingleSelectBase
@@ -62,9 +65,15 @@ const SearchSelect = <T extends SelectValue>({
         autoFocus
         hiddenLabel
       />
-      <SingleSelectBaseList>
-        {hasChildren ? children : <SelectBaseListEmpty />}
-      </SingleSelectBaseList>
+      {isVirtualList ? (
+        <SingleSelectBaseVirtualList key={searchValue}>
+          {children}
+        </SingleSelectBaseVirtualList>
+      ) : (
+        <SingleSelectBaseList>
+          {hasChildren ? children : <SelectBaseListEmpty />}
+        </SingleSelectBaseList>
+      )}
     </SingleSelectBase>
   );
 };

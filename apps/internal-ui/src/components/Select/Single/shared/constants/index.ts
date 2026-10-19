@@ -1,0 +1,5 @@
+export const SINGLE_SELECT_VIRTUAL_LIST_OPTION = {
+  INITIAL_ITEM_HEIGHT: 40,
+  GAP: 2,
+  OVER_SCAN_COUNT: 5,
+} as const;

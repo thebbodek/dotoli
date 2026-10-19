@@ -8,11 +8,13 @@ const VirtualListWrapper = <T extends ElementType = 'div'>({
   totalItemsHeight,
   className,
   children,
+  ...props
 }: PropsWithChildren<VirtualListWrapperProps<T>>) => {
   const Component: ElementType = as ?? 'div';
 
   return (
     <Component
+      {...props}
       className={clsx(className, 'relative')}
       style={{ height: `${totalItemsHeight}px` }}
     >

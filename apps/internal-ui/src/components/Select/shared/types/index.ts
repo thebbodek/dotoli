@@ -1,4 +1,10 @@
-import { HTMLAttributes, ReactElement, ReactNode, Ref } from 'react';
+import {
+  ElementType,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+  Ref,
+} from 'react';
 
 import { IconProps } from '@/components/Icon';
 import { InputBaseProps } from '@/components/Input';
@@ -68,7 +74,11 @@ export interface SelectBaseAriaAttributes
   > {}
 
 export interface SelectBaseItemProps
-  extends Pick<HTMLAttributes<HTMLLIElement>, 'className'> {
+  extends Pick<
+    HTMLAttributes<HTMLElement>,
+    'className' | 'onFocus' | 'onBlur' | 'aria-posinset' | 'aria-setsize'
+  > {
+  as?: ElementType;
   isSelected: boolean;
   onClick: () => void;
   label: Required<HTMLAttributes<HTMLLIElement>['title']>;

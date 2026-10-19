@@ -16,7 +16,10 @@ export interface VirtualListRootWrapperProps<T extends ElementType = 'div'>
 }
 
 export interface VirtualListWrapperProps<T extends ElementType = 'div'>
-  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
+  extends Pick<
+    HTMLAttributes<HTMLElement>,
+    'className' | 'id' | 'role' | 'aria-labelledby'
+  > {
   as?: T;
   totalItemsHeight: number;
 }
@@ -30,7 +33,7 @@ export interface VirtualListPrimitiveProps<
   itemHeight: number;
   gap?: number;
   as?: T;
-  listOptions?: Pick<VirtualListWrapperProps<P>, 'as' | 'className'>;
+  listOptions?: Omit<VirtualListWrapperProps<P>, 'totalItemsHeight'>;
 }
 
 export interface VirtualListItemBaseProps<T extends ElementType = 'div'>

@@ -1,5 +1,10 @@
 import { KeyboardEvent, useCallback, useRef } from 'react';
 
+import {
+  focusAdjacentOption,
+  getIsFirstOption,
+} from '@/components/Select/shared/utils';
+
 const OPTION_SELECTOR = '[role="option"]';
 
 const useSelectKeyboardNavigation = () => {
@@ -34,25 +39,36 @@ const useSelectKeyboardNavigation = () => {
 
     const currentIndex = options.indexOf(document.activeElement as HTMLElement);
 
-    if (e.key === 'ArrowDown') {
-      const nextIndex =
-        currentIndex < 0 ? 0 : Math.min(currentIndex + 1, options.length - 1);
+    if (currentIndex < 0) {
+      const edgeIndex = e.key === 'ArrowDown' ? 0 : options.length - 1;
 
-      options[nextIndex].focus();
+      options[edgeIndex].focus();
+
+      return;
+    }
+
+    const currentOption = options[currentIndex];
+
+    if (e.key === 'ArrowDown') {
+      focusAdjacentOption({
+        option: currentOption,
+        targetOption: options[currentIndex + 1],
+      });
 
       return;
     }
 
     // 첫 아이템에서 위로 이동하면 검색 input으로 복귀
-    if (currentIndex === 0) {
+    if (currentIndex === 0 && getIsFirstOption({ option: currentOption })) {
       container.querySelector<HTMLElement>('input')?.focus();
 
       return;
     }
 
-    const prevIndex = currentIndex < 0 ? options.length - 1 : currentIndex - 1;
-
-    options[prevIndex].focus();
+    focusAdjacentOption({
+      option: currentOption,
+      targetOption: options[currentIndex - 1],
+    });
   };
 
   return { focusContainerRef, onKeyDown };

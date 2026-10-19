@@ -1,22 +1,31 @@
 import clsx from 'clsx';
-import { KeyboardEvent, MouseEvent, PropsWithChildren } from 'react';
+import {
+  ElementType,
+  KeyboardEvent,
+  MouseEvent,
+  PropsWithChildren,
+} from 'react';
 
 import { SelectBaseItemProps } from '@/components/Select/shared/types';
 
 const SelectBaseItem = ({
+  as,
   className,
   isSelected,
   children,
   onClick,
   label,
+  ...props
 }: PropsWithChildren<SelectBaseItemProps>) => {
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
+  const Component: ElementType = as ?? 'li';
+
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     onClick();
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLLIElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
 
     e.preventDefault();
@@ -24,7 +33,8 @@ const SelectBaseItem = ({
   };
 
   return (
-    <li
+    <Component
+      {...props}
       className={clsx(
         className,
         'rounded-in-8 shrink-0 cursor-pointer overflow-hidden',
@@ -38,7 +48,7 @@ const SelectBaseItem = ({
       onKeyDown={handleKeyDown}
     >
       {children}
-    </li>
+    </Component>
   );
 };
 

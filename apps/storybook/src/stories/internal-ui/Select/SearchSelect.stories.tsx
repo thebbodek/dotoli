@@ -22,6 +22,20 @@ const items = [
   '뽀득 연구원',
 ];
 
+const VIRTUAL_LIST_ITEMS_COUNT = 4000;
+const VIRTUAL_LIST_LONG_LABEL_INTERVAL = 7;
+
+const virtualListItems = Array.from(
+  { length: VIRTUAL_LIST_ITEMS_COUNT },
+  (_, index) => {
+    const number = index + 1;
+
+    return number % VIRTUAL_LIST_LONG_LABEL_INTERVAL === 0
+      ? `뽀득 유치원 이름이 길어서 여러 줄로 내려가는 지점 ${number}`
+      : `뽀득 유치원 ${number}`;
+  },
+);
+
 const meta: Meta<typeof SearchSelect> = {
   title: 'core/internal-ui/Select/SearchSelect',
   component: SearchSelect,
@@ -161,6 +175,18 @@ const meta: Meta<typeof SearchSelect> = {
         },
       },
     },
+    useVirtualList: {
+      control: 'boolean',
+      description: 'render only visible options with DynamicVirtualList',
+      table: {
+        defaultValue: {
+          summary: 'false',
+        },
+        type: {
+          summary: 'boolean',
+        },
+      },
+    },
   },
 };
 
@@ -204,6 +230,53 @@ export const Default = {
         {filteredItems.map((item) => (
           <SearchSelect.Item key={item} label={item} value={item}>
             {highlightText({ text: item, targetText: searchValue })}
+          </SearchSelect.Item>
+        ))}
+      </SearchSelect>
+    );
+  },
+};
+
+export const VirtualList: StoryObj<typeof SearchSelect> = {
+  args: {
+    useVirtualList: true,
+  },
+  render: ({ useVirtualList }) => {
+    const [value, setValue] = useState<string>('');
+    const [searchValue, setSearchValue] = useState<string>('');
+
+    const onSelect = ({ value }: SingleSelectOnSelectParams<string>) => {
+      setValue(value);
+    };
+
+    const onSearch = (
+      e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    ) => {
+      setSearchValue(e.target.value);
+    };
+
+    const filteredItems = virtualListItems.filter((item) =>
+      item.includes(searchValue),
+    );
+
+    return (
+      <SearchSelect
+        popoverOption={{
+          onPopoverClose: () => setSearchValue(''),
+        }}
+        className='w-[15rem]'
+        displayValue={value}
+        inputOption={{ value: searchValue, onChange: onSearch }}
+        label='SearchSelect Label'
+        useVirtualList={useVirtualList}
+        value={value}
+        onSelect={onSelect}
+      >
+        {filteredItems.map((item) => (
+          <SearchSelect.Item key={item} label={item} value={item}>
+            <span className='[[role=option]:has(&)]:h-auto [[role=option]:has(&)]:min-h-10 [[role=option]:has(&)]:whitespace-normal'>
+              {highlightText({ text: item, targetText: searchValue })}
+            </span>
           </SearchSelect.Item>
         ))}
       </SearchSelect>

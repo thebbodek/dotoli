@@ -11,6 +11,7 @@ export interface SearchSelectProps<T extends SelectValue>
     InputSearchProps,
     'rootClassName' | 'type' | 'hiddenLabel' | 'label'
   >;
+  useVirtualList?: boolean;
 }
 
 export interface SearchSelectItemProps<T extends SelectValue>
