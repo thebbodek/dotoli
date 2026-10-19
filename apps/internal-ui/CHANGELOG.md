@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.133
+
+### Patch Changes
+
+- 6dfc927: DOTOLI-326 internal-ui > SearchSelect 옵션 목록 가상화 지원 추가
+  - @bbodek/utils@0.0.103
+  - @bbodek/hooks@0.0.106
+
 ## 0.0.132
 
 ### Patch Changes
