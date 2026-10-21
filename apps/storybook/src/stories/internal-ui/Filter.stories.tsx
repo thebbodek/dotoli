@@ -5,6 +5,7 @@ import {
   FilterSelectOptions,
   FilterToggleOption,
 } from '@bbodek/internal-ui';
+import { add, now, toString } from '@bbodek/utils';
 import { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -24140,6 +24141,16 @@ const optionTypeSelectOptions: FilterSelectOptions[] = [
     label: '등록일',
     key: 'created_at',
     type: 'date_range',
+  },
+  {
+    label: '사용일',
+    key: 'use_date',
+    type: 'date',
+    dateOption: {
+      minDate: toString({ date: add({ date: now(), value: 2 }) }),
+      maxDate: toString({ date: add({ date: now(), value: 365 }) }),
+      useWeekend: true,
+    },
   },
 ];
 

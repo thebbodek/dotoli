@@ -10,9 +10,9 @@ const FilterCalendarPanel = ({ variant }: FilterCalendarPanelProps) => {
   const labelId = useId();
   const calendarId = useId();
   const {
-    models: { calendarValue },
+    models: { calendarValue, minDate, maxDate, useWeekend },
     operations: { onChange },
-  } = useFilterCalendarPanel();
+  } = useFilterCalendarPanel({ variant });
 
   return (
     <CalendarProvider
@@ -28,6 +28,9 @@ const FilterCalendarPanel = ({ variant }: FilterCalendarPanelProps) => {
           className='in-tablet:min-h-[34svh-3.75rem] in-tablet:max-h-[46svh-3.75rem] mx-auto h-[100svh-4rem]'
           id={calendarId}
           labelId={labelId}
+          maxDate={maxDate}
+          minDate={minDate}
+          useWeekend={useWeekend}
         />
         <FilterCalendarSelectButton />
       </Flex>

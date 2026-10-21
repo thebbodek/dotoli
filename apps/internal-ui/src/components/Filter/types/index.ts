@@ -1,5 +1,9 @@
 import { ButtonProps } from '@/components/Button';
-import { CalendarVariants } from '@/components/Calendar';
+import {
+  CalendarContextValue,
+  CalendarProps,
+  CalendarVariants,
+} from '@/components/Calendar';
 import { FILTER_STEPS, FILTER_TYPES } from '@/components/Filter/constants';
 import {
   SelectBaseChildrenProps,
@@ -30,12 +34,16 @@ export interface FilterNumericOption {
   isDecimal?: boolean;
 }
 
+export interface FilterDateOption
+  extends Pick<CalendarProps, 'minDate' | 'maxDate' | 'useWeekend'> {}
+
 export interface FilterSelectOptions {
   type: FilterType;
   key: FilterOptionKey;
   label: FilterOptionLabel;
   options?: FilterSelectOption[];
   numericOption?: FilterNumericOption;
+  dateOption?: FilterDateOption;
   placeholder?: string;
   disabled?: boolean;
 }
@@ -122,6 +130,12 @@ export interface FilterOptionSummaryProps
 export interface FilterCalendarPanelProps {
   variant: CalendarVariants;
 }
+
+export interface UseFilterCalendarPanelParams
+  extends FilterCalendarPanelProps {}
+
+export interface GetCalendarFilterValueParams
+  extends Pick<CalendarContextValue, 'value' | 'variant'> {}
 
 export interface FilterSelectButtonProps
   extends Pick<ButtonProps, 'disabled' | 'onClick'> {}

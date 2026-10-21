@@ -13,3 +13,5 @@ export const FILTER_STEPS = {
 } as const;
 
 export const FILTER_SELECT_OPTION_MAX_COUNT = 2;
+
+export const FILTER_DATE_RANGE_DELIMITER = '~';

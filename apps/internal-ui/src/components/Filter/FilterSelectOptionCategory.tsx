@@ -16,6 +16,7 @@ const FilterSelectOptionCategory = ({
   options,
   type,
   numericOption,
+  dateOption,
   placeholder,
   disabled,
 }: FilterSelectOptionCategoryProps) => {
@@ -33,6 +34,7 @@ const FilterSelectOptionCategory = ({
       options,
       type,
       numericOption,
+      dateOption,
       placeholder,
       disabled,
     });

@@ -1,12 +1,20 @@
 import { CalendarValue } from '@/components/Calendar';
+import { useFilterPanelContext } from '@/components/Filter/context/useFilterPanelContext';
 import useFilterSelectOptionPanel from '@/components/Filter/hooks/useFilterSelectOptionPanel';
-import { getCalendarDate } from '@/components/Filter/utils';
+import { UseFilterCalendarPanelParams } from '@/components/Filter/types';
+import {
+  getCalendarDate,
+  getCalendarFilterValue,
+} from '@/components/Filter/utils';
 
-const useFilterCalendarPanel = () => {
+const useFilterCalendarPanel = ({ variant }: UseFilterCalendarPanelParams) => {
   const {
     models: { value },
     operations: { handleChange },
   } = useFilterSelectOptionPanel();
+  const { currentOptions } = useFilterPanelContext();
+  const { dateOption } = currentOptions!;
+  const { minDate, maxDate, useWeekend } = dateOption ?? {};
   const { startDate, endDate } =
     value !== null
       ? getCalendarDate({ value })
@@ -20,14 +28,15 @@ const useFilterCalendarPanel = () => {
       : null;
 
   const onChange = (value: CalendarValue) => {
-    const _value = value ? [`${value.startDate}~${value.endDate}`] : null;
-
-    handleChange({ value: _value });
+    handleChange({ value: getCalendarFilterValue({ value, variant }) });
   };
 
   return {
     models: {
       calendarValue,
+      minDate,
+      maxDate,
+      useWeekend,
     },
     operations: { onChange },
   };
