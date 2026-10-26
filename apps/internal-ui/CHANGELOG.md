@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.135
+
+### Patch Changes
+
+- 2b277d9: DOTOLI-328 internal-ui > Filter > 입력 패널 선택 완료 버튼 하단 고정
+  - @bbodek/utils@0.0.105
+  - @bbodek/hooks@0.0.108
+
 ## 0.0.134
 
 ### Patch Changes
