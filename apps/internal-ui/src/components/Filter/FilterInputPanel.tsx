@@ -12,7 +12,7 @@ const FilterInputPanel = () => {
 
   return (
     <Flex
-      className='in-tablet:min-w-[23.75rem] mx-auto w-[22.5rem]'
+      className='in-tablet:min-w-[23.75rem] mx-auto w-[22.5rem] flex-1 justify-between'
       direction='column'
     >
       <div className='p-4'>
