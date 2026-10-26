@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.136
+
+### Patch Changes
+
+- 2191a08: DOTOLI-329 internal-ui Dialog footer slot props 추가
+  - @bbodek/utils@0.0.106
+  - @bbodek/hooks@0.0.109
+
 ## 0.0.135
 
 ### Patch Changes
