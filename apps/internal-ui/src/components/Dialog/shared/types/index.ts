@@ -18,6 +18,11 @@ export interface DialogProps
 
 export interface DialogContentWrapperProps extends OverlayContentWrapperProps {}
 
+export interface DialogFooterSlotProps {
+  footerSlot?: ReactNode;
+}
+
 export interface DialogFooterProps
   extends OverlayFooterPrimitiveProps,
-    OverlayFooterStateProps {}
+    OverlayFooterStateProps,
+    DialogFooterSlotProps {}

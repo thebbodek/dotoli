@@ -42,7 +42,7 @@ const {
 export interface FormDialogArgs
   extends Pick<
       ConfirmModalArgs,
-      keyof Omit<FormDialogProps, 'slot' | 'wrapperClassName'>
+      keyof Omit<FormDialogProps, 'slot' | 'wrapperClassName' | 'footerSlot'>
     >,
     Pick<
       ConfirmModalArgs,
@@ -53,7 +53,7 @@ export interface FormDialogArgs
       | 'cancelLabel'
       | 'onCancel'
     >,
-    Pick<FormDialogProps, 'slot' | 'wrapperClassName'> {}
+    Pick<FormDialogProps, 'slot' | 'wrapperClassName' | 'footerSlot'> {}
 
 const meta = {
   title: 'core/internal-ui/Dialog/FormDialog',
@@ -92,6 +92,19 @@ const meta = {
     cancelOption,
     cancelLabel,
     onCancel,
+    footerSlot: {
+      control: 'object',
+      description: 'dialog footer left slot',
+      type: {
+        name: 'other',
+        value: 'ReactNode',
+      },
+      table: {
+        type: {
+          summary: 'ReactNode',
+        },
+      },
+    },
     canConfirm,
     isPending,
     isLoading,

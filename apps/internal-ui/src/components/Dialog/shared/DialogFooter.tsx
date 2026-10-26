@@ -15,11 +15,13 @@ const DialogFooter = ({
   isPending,
   isLoading,
   canConfirm,
+  footerSlot,
 }: DialogFooterProps) => {
   return (
     <OverlayFooterWrapper
       className={clsx(DIALOG_FOOTER_DEFAULT_STYLES, 'justify-end gap-x-2')}
     >
+      {footerSlot && footerSlot}
       {cancelOption && (
         <OverlayFooterCancelButton
           cancelOption={cancelOption}

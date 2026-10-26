@@ -13,6 +13,7 @@ const FormDialog = ({
   className,
   cancelOption,
   confirmOption,
+  footerSlot,
   canConfirm,
   isPending,
   isLoading,
@@ -41,6 +42,7 @@ const FormDialog = ({
         canConfirm={canConfirm}
         cancelOption={cancelOption}
         confirmOption={confirmOption}
+        footerSlot={footerSlot}
         isLoading={isLoading}
         isPending={isPending}
       />

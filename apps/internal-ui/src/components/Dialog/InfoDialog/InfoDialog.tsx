@@ -10,6 +10,7 @@ const InfoDialog = ({
   className,
   isLoading,
   confirmOption,
+  footerSlot,
   slot,
   wrapperClassName,
 }: InfoDialogProps) => {
@@ -31,6 +32,7 @@ const InfoDialog = ({
       </Dialog.ContentWrapper>
       <Dialog.Footer
         confirmOption={{ label: confirmLabel, onConfirm }}
+        footerSlot={footerSlot}
         canConfirm
       />
     </Dialog>
