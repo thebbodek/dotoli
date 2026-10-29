@@ -13,6 +13,7 @@ import {
   TABLE_CELL_ROLES,
   TABLE_CELL_TEXT_TONES,
   TABLE_ROW_VARIANTS,
+  TABLE_THEMES,
 } from '@/components/Table/constants';
 
 export type TableRowVariant =
@@ -24,8 +25,17 @@ export type TableCellRole =
 export type TableCellTextTone =
   (typeof TABLE_CELL_TEXT_TONES)[keyof typeof TABLE_CELL_TEXT_TONES];
 
+export type TableTheme = (typeof TABLE_THEMES)[keyof typeof TABLE_THEMES];
+
+export interface TableProviderProps {
+  theme?: TableTheme;
+}
+
+export interface TableContextProps extends Required<TableProviderProps> {}
+
 export interface TableProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends TableProviderProps,
+    Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   caption?: string;
 }
 

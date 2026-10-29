@@ -1,5 +1,12 @@
 import { useForm } from '@bbodek/hooks';
-import { Badge, Checkbox, Flex, Table, Toggle } from '@bbodek/internal-ui';
+import {
+  Badge,
+  Checkbox,
+  Flex,
+  Table,
+  TABLE_THEMES,
+  Toggle,
+} from '@bbodek/internal-ui';
 import { now } from '@bbodek/utils';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChangeEvent, useState } from 'react';
@@ -21,6 +28,12 @@ const meta = {
       description: 'Table className',
       control: 'text',
       type: 'string',
+    },
+    theme: {
+      description: '헤더 색상 테마',
+      control: 'select',
+      options: Object.values(TABLE_THEMES),
+      table: { defaultValue: { summary: TABLE_THEMES.GRAY } },
     },
   },
 } satisfies Meta<typeof Table>;
@@ -104,7 +117,10 @@ export const Default: Story = {
     });
 
     return (
-      <Table caption='사용자 목록' className='h-[500px] w-[1100px]'>
+      <Table
+        caption='사용자 목록'
+        className='text-in-body-14-r h-[500px] w-[1100px]'
+      >
         <Table.Head>
           <Table.Row>
             {Object.values(USER_LIST_MAPPER).map((key) => {
@@ -347,7 +363,10 @@ export const InputCellGrid: Story = {
           {`화살표(↑ ↓ ← →)와 Tab으로 InputCell 사이를 이동합니다.\n체크박스·토글 등은 방향키 이동 대상에서 제외되며, 헤더 행도 이동 대상이 아닙니다.`}
         </p>
 
-        <Table caption='입력 그리드' className='h-[500px] w-[900px]'>
+        <Table
+          caption='입력 그리드'
+          className='text-in-body-14-r h-[500px] w-[900px]'
+        >
           <Table.Head>
             <Table.Row>
               <Table.Cell className='in-flex-h-stack-center w-[50px]'>
@@ -424,7 +443,10 @@ const diffDay = endDate.diff(startDate, 'day');
 
 export const WithFixedLeft: Story = {
   render: () => (
-    <Table caption='사용자 목록' className='h-[250px] w-[800px]'>
+    <Table
+      caption='사용자 목록'
+      className='text-in-body-14-r h-[250px] w-[800px]'
+    >
       <Table.Head>
         <Table.Row>
           <Table.Cell className='w-[117px]' isFixedLeft>
@@ -469,6 +491,49 @@ export const WithFixedLeft: Story = {
   ),
 };
 
+export const Theme: Story = {
+  render: () => (
+    <Flex direction='column' gap='6'>
+      {Object.values(TABLE_THEMES).map((theme) => (
+        <Table
+          caption={`${theme} 테마`}
+          className='text-in-body-14-r h-[180px] w-[800px]'
+          key={theme}
+          theme={theme}
+        >
+          <Table.Head>
+            <Table.Row>
+              <Table.Cell className='w-[117px]' isFixedLeft>
+                {theme}
+              </Table.Cell>
+              {Array.from({ length: diffDay }).map((_, index) => (
+                <Table.Cell className='w-[145px]' key={index}>
+                  {startDate.add(index, 'day').format('MM-DD(ddd)')}
+                </Table.Cell>
+              ))}
+            </Table.Row>
+          </Table.Head>
+
+          <Table.Body>
+            {Array.from({ length: 3 }).map((_, rowIndex) => (
+              <Table.Row key={rowIndex}>
+                <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
+                  멜라민 식판
+                </Table.Cell>
+                {Array.from({ length: diffDay }).map((_, index) => (
+                  <Table.Cell className='w-[145px]' key={index}>
+                    {String(index)}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      ))}
+    </Flex>
+  ),
+};
+
 const scheduleToday = now();
 const SCHEDULE_VISIBLE_DAYS = 14;
 const SCHEDULE_START_DATE = scheduleToday.subtract(5, 'day');
@@ -495,7 +560,10 @@ const isWeekend = (date: ReturnType<typeof now>) =>
 
 export const ScheduleTable: Story = {
   render: () => (
-    <Table caption='주간 발주 현황' className='h-[360px] w-[900px]'>
+    <Table
+      caption='주간 발주 현황'
+      className='text-in-body-14-r h-[360px] w-[900px]'
+    >
       <Table.Head className='min-w-max'>
         <Table.Row className='min-w-max'>
           {SCHEDULE_FIXED_COLUMNS.map((column) => (
@@ -566,7 +634,10 @@ const MERGE_GROUPS = [
 
 export const MergedFixedColumns: Story = {
   render: () => (
-    <Table caption='거래처별 운송사' className='h-[360px] w-[760px]'>
+    <Table
+      caption='거래처별 운송사'
+      className='text-in-body-14-r h-[360px] w-[760px]'
+    >
       <Table.Head className='min-w-max'>
         <Table.Row className='min-w-max'>
           <Table.Cell className='w-[120px]' isFixedLeft>
@@ -638,7 +709,7 @@ export const EmptyTable: Story = {
           onChange={() => setCount((v) => (v === 0 ? 10 : 0))}
         />
 
-        <Table caption='사용자 목록' className='w-[800px]'>
+        <Table caption='사용자 목록' className='text-in-body-14-r w-[800px]'>
           <Table.Head className='min-w-max'>
             <Table.Row className='min-w-max'>
               <Table.Cell className='w-[117px]' role='rowheader' isFixedLeft>
@@ -684,7 +755,10 @@ export const LoadingTable: Story = {
           onChange={() => setIsLoading((v) => !v)}
         />
 
-        <Table caption='사용자 목록' className='h-[500px] w-fit'>
+        <Table
+          caption='사용자 목록'
+          className='text-in-body-14-r h-[500px] w-fit'
+        >
           <Table.Head>
             <Table.Row>
               {Object.values(USER_LIST_MAPPER).map((key) => {
@@ -751,7 +825,10 @@ export const LoadingTable: Story = {
 
 export const WithLinkRows: Story = {
   render: () => (
-    <Table caption='사용자 목록' className='h-[500px] w-[800px]'>
+    <Table
+      caption='사용자 목록'
+      className='text-in-body-14-r h-[500px] w-[800px]'
+    >
       <Table.Head>
         <Table.Row>
           <Table.Cell className='w-[100px]'>ID</Table.Cell>

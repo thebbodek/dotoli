@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import { TableProvider } from '@/components/Table/context';
 import TableBody from '@/components/Table/TableBody';
 import TableBodyEmpty from '@/components/Table/TableBodyEmpty';
 import TableBodySearchEmpty from '@/components/Table/TableBodySearchEmpty';
@@ -20,23 +21,26 @@ import { TableProps } from '@/components/Table/types';
 
 const Table = ({
   caption,
+  theme,
   children,
   className,
 }: PropsWithChildren<TableProps>) => {
   return (
-    <div
-      aria-describedby={caption}
-      aria-label={caption}
-      className={clsx(className, 'overflow-auto')}
-      role='table'
-    >
-      {caption && (
-        <div className='sr-only' id={caption}>
-          {caption}
-        </div>
-      )}
-      {children}
-    </div>
+    <TableProvider theme={theme}>
+      <div
+        aria-describedby={caption}
+        aria-label={caption}
+        className={clsx(className, 'overflow-auto')}
+        role='table'
+      >
+        {caption && (
+          <div className='sr-only' id={caption}>
+            {caption}
+          </div>
+        )}
+        {children}
+      </div>
+    </TableProvider>
   );
 };
 

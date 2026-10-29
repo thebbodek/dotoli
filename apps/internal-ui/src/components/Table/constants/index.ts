@@ -21,7 +21,7 @@ export const TABLE_FIXED_LEFT_GROUP_STYLE =
 
 export const TABLE_ROW_STYLES = {
   [TABLE_ROW_VARIANTS.HEAD]:
-    'border-in-gray-03 border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&>.cell:last-child]:rounded-tr-in-8 h-8',
+    'border-b first:[&_.cell:first-child]:rounded-tl-in-8 first:[&>.cell:last-child]:rounded-tr-in-8 h-8',
   [TABLE_ROW_VARIANTS.BODY]: 'group hover:bg-in-gray-01 [&_.cell]:border-b',
 } as const;
 
@@ -63,6 +63,31 @@ export const TABLE_CELL_DEFAULT_TEXT_STYLES = {
   [TABLE_CELL_ROLES.COLUMN_HEADER]: 'text-in-gray-06',
   [TABLE_CELL_ROLES.ROW_HEADER]: 'text-in-gray-06',
   [TABLE_CELL_ROLES.CELL]: 'text-in-black',
+} as const;
+
+export const TABLE_THEMES = {
+  GRAY: 'gray',
+  PRIMARY: 'primary',
+  RED: 'red',
+} as const;
+
+export const TABLE_HEADER_THEME_STYLES = {
+  [TABLE_THEMES.GRAY]: {
+    BACKGROUND:
+      TABLE_CELL_DEFAULT_BACKGROUND_STYLES[TABLE_CELL_ROLES.COLUMN_HEADER],
+    TEXT: TABLE_CELL_DEFAULT_TEXT_STYLES[TABLE_CELL_ROLES.COLUMN_HEADER],
+    BORDER: TABLE_CELL_DEFAULT_BORDER_STYLES[TABLE_CELL_ROLES.ROW_HEADER],
+  },
+  [TABLE_THEMES.PRIMARY]: {
+    BACKGROUND: 'bg-in-primary-02',
+    TEXT: 'text-in-primary-07',
+    BORDER: 'border-in-primary-03',
+  },
+  [TABLE_THEMES.RED]: {
+    BACKGROUND: 'bg-in-red-02',
+    TEXT: 'text-in-red-07',
+    BORDER: 'border-in-red-03',
+  },
 } as const;
 
 export const TABLE_CELL_TEXT_TONES = {

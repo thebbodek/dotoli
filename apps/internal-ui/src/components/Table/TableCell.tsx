@@ -12,7 +12,9 @@ import {
   TABLE_CELL_STYLES,
   TABLE_CELL_TEXT_TONE_STYLES,
   TABLE_CELL_TEXT_TONES,
+  TABLE_HEADER_THEME_STYLES,
 } from '@/components/Table/constants';
+import { useTableContext } from '@/components/Table/context';
 import TableCellButton from '@/components/Table/TableCellButton';
 import TableCellCheckbox from '@/components/Table/TableCellCheckbox';
 import TableCellIconButton from '@/components/Table/TableCellIconButton';
@@ -28,11 +30,16 @@ const TableCell = ({
   children,
   className,
 }: TableCellProps) => {
-  const isHighlightedColumn =
-    isHighlighted && role !== TABLE_CELL_ROLES.COLUMN_HEADER;
+  const { theme } = useTableContext();
+  const isColumnHeader = role === TABLE_CELL_ROLES.COLUMN_HEADER;
+  const isHeader = isColumnHeader || role === TABLE_CELL_ROLES.ROW_HEADER;
+  const isHighlightedColumn = isHighlighted && !isColumnHeader;
+  const headerThemeStyle = TABLE_HEADER_THEME_STYLES[theme];
 
   const resolveBackgroundClassName = () => {
     if (isHighlightedColumn) return TABLE_CELL_HIGHLIGHT_BACKGROUND_STYLE;
+
+    if (isHeader) return headerThemeStyle.BACKGROUND;
 
     if (isFixedLeft) return TABLE_CELL_FIXED_LEFT_BACKGROUND_STYLE;
 
@@ -41,14 +48,27 @@ const TableCell = ({
 
   const backgroundClassName = resolveBackgroundClassName();
 
-  const borderClassName = isFixedLeft
-    ? TABLE_CELL_FIXED_LEFT_BORDER_STYLE
-    : TABLE_CELL_DEFAULT_BORDER_STYLES[role];
+  const resolveBorderClassName = () => {
+    if (isHeader) return headerThemeStyle.BORDER;
 
-  const textClassName =
-    textTone === TABLE_CELL_TEXT_TONES.DANGER
-      ? TABLE_CELL_TEXT_TONE_STYLES[TABLE_CELL_TEXT_TONES.DANGER]
-      : TABLE_CELL_DEFAULT_TEXT_STYLES[role];
+    if (isFixedLeft) return TABLE_CELL_FIXED_LEFT_BORDER_STYLE;
+
+    return TABLE_CELL_DEFAULT_BORDER_STYLES[role];
+  };
+
+  const borderClassName = resolveBorderClassName();
+
+  const resolveTextClassName = () => {
+    if (textTone === TABLE_CELL_TEXT_TONES.DANGER) {
+      return TABLE_CELL_TEXT_TONE_STYLES[TABLE_CELL_TEXT_TONES.DANGER];
+    }
+
+    if (isHeader) return headerThemeStyle.TEXT;
+
+    return TABLE_CELL_DEFAULT_TEXT_STYLES[role];
+  };
+
+  const textClassName = resolveTextClassName();
 
   return (
     <div

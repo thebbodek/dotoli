@@ -173,7 +173,7 @@ export const Default: Story = {
           }
         />
 
-        <Table>
+        <Table className='text-in-body-14-r'>
           <Table.Head>
             <Table.Row>
               {args.columns.map((column) => (
