@@ -1,5 +1,13 @@
 # @bbodek/internal-ui
 
+## 0.0.137
+
+### Patch Changes
+
+- a111b5c: DOTOLI-330 internal-ui > Table > theme 옵션 추가
+  - @bbodek/utils@0.0.107
+  - @bbodek/hooks@0.0.110
+
 ## 0.0.136
 
 ### Patch Changes
