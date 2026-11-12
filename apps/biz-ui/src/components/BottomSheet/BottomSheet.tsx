@@ -5,6 +5,7 @@ import { BottomActionBar } from '@/components/BottomActionBar';
 import {
   BOTTOM_SHEET_BASE_STYLE,
   BOTTOM_SHEET_BODY_STYLE,
+  BOTTOM_SHEET_SAFE_AREA_STYLE,
 } from '@/components/BottomSheet/constants';
 import { BottomSheetProps } from '@/components/BottomSheet/types';
 import { HEADER_BAR_TYPES, HeaderBar } from '@/components/HeaderBar';
@@ -22,8 +23,12 @@ const BottomSheet = ({
 }: PropsWithChildren<BottomSheetProps>) => {
   return (
     <Overlay
+      contentClassName={clsx(
+        className,
+        BOTTOM_SHEET_BASE_STYLE,
+        !actionBarOption && BOTTOM_SHEET_SAFE_AREA_STYLE,
+      )}
       aria-label={title}
-      contentClassName={clsx(className, BOTTOM_SHEET_BASE_STYLE)}
       isDimmed={isDimmed}
       isOpen={isOpen}
       target={target}

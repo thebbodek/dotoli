@@ -354,6 +354,8 @@ toast.dismiss({ id });
 
 - **배치는 `--toast-offset` 하나로 엽니다.** 컨테이너는 `fixed inset-x-0 bottom-0` + `safe-area-bottom`이고, 화면 하단에서 `20px + var(--toast-offset, 0px)`만큼 띄웁니다. **CTA가 있는 화면이 `:root`에 이 값을 세팅**하면 CTA 위로 올라갑니다. 포털을 타고 나가므로 화면 안쪽 엘리먼트에 걸어서는 닿지 않습니다. 컨테이너 자체를 다른 곳에 붙여야 하면 `target`(→ `Portal`)이 열려 있습니다.
 
+  **CTA 높이를 재서 넣을 때는 safe area를 한 번 뺍니다.** 컨테이너가 `safe-area-bottom`으로 이미 inset만큼 올라가 있는데, 화면 바닥에 붙은 [`BottomTab`](./bottom-tab.md)이나 [`BottomActionBar`](./bottom-action-bar.md)의 높이는 화면 맨 아래부터 잰 값이라 그 inset 구간이 들어 있습니다. 그대로 넣으면 inset이 두 번 더해지므로 `--toast-offset: calc(<잰 값>px - env(safe-area-inset-bottom))`처럼 넣습니다. 바가 inset을 자기 `padding-bottom`에 품는지와 상관없이 맞는 식이라, DOTOLI-331로 `BottomActionBar` 높이에 inset이 들어간 뒤에도 식은 그대로입니다.
+
 - **`z-[1100]`입니다.** `Overlay`가 `z-[1000]`이라 **바텀시트·모달 위에** 뜹니다. 오버레이 안에서 한 조작의 결과를 알리는 경우가 정상 경로라 가려지면 안 됩니다.
 
 - **스토어 구독 함수만 위치 인자입니다.** `useSyncExternalStore(subscribe, ...)`가 `subscribe(listener)` 형태로 호출하는 계약이라 객체 구조 분해를 쓸 수 없습니다. 나머지(`enqueueToast` · `dismissToast`)는 규칙대로 객체를 받습니다.

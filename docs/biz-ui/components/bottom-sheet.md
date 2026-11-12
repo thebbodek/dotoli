@@ -117,7 +117,13 @@ codegen이 `drop-shadow-[0px_11px_15px_rgba(51,60,81,0.3)]`로 뽑는데, CSS `f
 
   **`Scroll` 스토리에서 실측으로 확인했습니다.** 바디 스크롤포트가 326이고 액션 바가 92인데, 스크롤 위치를 0 · 600 · 끝으로 옮겨도 **바의 상단이 바디 기준 234에 그대로 고정**됩니다(234 + 92 = 326, 즉 스크롤포트 바닥에 정확히 붙음). 같은 동안 첫 블록은 28 → −778로 움직입니다.
 
-- **시트에 `safe-area-bottom`을 걸지 않았습니다.** `@bbodek/internal-ui` `BottomSheet`는 `in-safe-area-bottom`을 시트에 겁니다. 여기서는 바닥에 놓이는 것이 `BottomActionBar`이고 그쪽이 `pb-[28px]`을 이미 갖고 있어, 시트에 또 걸면 두 번 더해집니다. 하단 여백의 주인을 하나로 둔 것이고, 값 자체의 적정성은 [`bottom-action-bar.md`](./bottom-action-bar.md) 「디자인 확인 필요」가 들고 있습니다.
+- **하단 여백은 액션 바가 있으면 바가, 없으면 시트가 맡습니다 (DOTOLI-331).** `@bbodek/internal-ui` `BottomSheet`는 `in-safe-area-bottom`을 시트에 늘 겁니다(다만 그쪽 유틸은 env 이름 오타로 값이 늘 0입니다. [frontend.md](../frontend.md) 「특이사항」). 여기서는 처음에 시트에 걸지 않았는데, 바닥에 놓이는 `BottomActionBar`가 여백을 이미 갖고 있어 두 번 더해지는 것을 피하려던 것이었습니다. 그런데 `actionBarOption`이 없는 시트는 여백을 맡는 쪽이 아무도 없어서, Android 테스트앱에서 바디 마지막 요소가 내비게이션 바에 붙었습니다.
+
+  **여백의 주인을 하나로 두는 원칙은 그대로 두고, `actionBarOption` 유무로 주인을 가릅니다.** 없으면 시트에 `safe-area-bottom`, 있으면 바의 `28px + safe area`([bottom-action-bar.md](./bottom-action-bar.md) 「결정」)가 맡습니다. 바디가 아니라 시트에 거는 것은 스크롤포트가 내비게이션 바 위에서 끝나게 하려는 것입니다. 바디에 걸면 콘텐츠가 내비게이션 바 뒤로 스크롤돼 지나갑니다.
+
+  **이 효과는 액션 바가 없을 때와 `floating`일 때만 납니다.** `solid` 바는 sticky가 아니라 바디 끝에 붙어 함께 흐르므로, 바가 화면에 들어오기 전까지는 콘텐츠가 내비게이션 바 뒤로 지나갑니다. edge-to-edge 페이지를 스크롤할 때와 같은 모습이라 감수했습니다. 막으려면 시트가 inset을 늘 맡고 시트 안의 바가 비공개 context로 inset을 빼는 구조가 되는데, 조건 한 줄에 비해 무겁고 바가 시트에 묶입니다.
+
+  **`children`에 `BottomActionBar`를 직접 넣으면 두 번 더해집니다.** 시트는 `actionBarOption`만 보고 판단하므로 바는 반드시 `actionBarOption`으로 넘깁니다.
 
 - **접근성 이름은 `aria-label`로 붙입니다.** `ConfirmModal`은 `useId` + `aria-labelledby`인데, 여기 제목은 `HeaderBar` 안에 있고 `HeaderBar`가 제목 id를 밖으로 내주지 않습니다. `title`이 이미 문자열로 들어오므로 `aria-label`이면 충분하고, 그 하나 때문에 `HeaderBar` API를 넓히지 않았습니다.
 

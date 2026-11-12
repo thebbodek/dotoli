@@ -149,7 +149,7 @@
 - **`Icon`의 `weight`를 타입으로 막았습니다.** `internal-ui`는 `weight?: \`${IconStyle}\``로 Phosphor 전체 웨이트를 허용하는데, biz-ui는 웹폰트를 3종만 import 하므로 나머지를 넘기면 아이콘이 렌더되지 않습니다. `ICON_WEIGHTS` 상수로 좁혀 컴파일 단계에서 걸리게 했습니다.
 - **`Flex`는 `internal-ui` API를 그대로 포팅했습니다.** plan.md 태스크 상세엔 "`flex-{v,h}-stack` 유틸 기반"이라고 적었지만, 실제로는 `direction`·`align`·`justify`·`gap`·`wrap`·`basis`·`shrink`·`grow`·`flex`·`order` 전체를 옮겼습니다. 이미 검증된 API를 두고 축소판을 새로 설계하면 두 DS의 `Flex`가 다르게 동작해 혼란이 커집니다. `flex-{v,h}-stack` 유틸은 컴포넌트 내부 정렬용으로 계속 씁니다(`Icon`이 사용).
 - **Phosphor 웨이트를 3개만 가져옵니다.** Figma 아이콘 페이지(`41:156`)가 Phosphor 그 자체이고 정의된 웨이트가 `Regular` · `Bold` · `Fill` 뿐입니다. `internal-ui`를 복사하면서 따라온 `duotone` · `light` · `thin` 은 뺐습니다 — 디자인에 없는데 웨이트당 woff 500KB 안팎에 svg 폴백이 3MB 가까이 됩니다. 모바일 WebView 타깃에서 그냥 낭비입니다.
-- **`internal-ui`의 safe-area 오타를 옮기지 않았습니다.** 원본에 `constant(in-safe-area-inset-top)` · `env(afe-area-inset-top)` 오타가 있습니다 (`apps/internal-ui/src/styles/utilities.css:17-25`). biz-ui는 WebView에서 동작하므로 실제로 깨지는 부분이라 바로잡아 작성했습니다.
+- **`internal-ui`의 safe-area 오타를 옮기지 않았습니다.** 원본에 `constant(in-safe-area-inset-top)` · `env(afe-area-inset-top)` 오타가 있고, bottom도 `env(in-safe-area-inset-bottom)`이라 값이 늘 0입니다 (`apps/internal-ui/src/styles/utilities.css:17-25`). biz-ui는 WebView에서 동작하므로 실제로 깨지는 부분이라 바로잡아 작성했습니다.
 - **`@config`는 하나만 둡니다.** Tailwind v4에서 `@config`는 레거시 JS config 로더이고 복수 선언이 안전하지 않습니다. biz-ui의 content 스캔은 `globals.css`의 `@source`가 담당하므로 storybook `globals.css`에는 `internal-ui`의 `@config`만 남깁니다.
 
 ## 파일 구조

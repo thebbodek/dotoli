@@ -140,7 +140,7 @@ Figma: [BottomTab 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 
 - **root `ref`를 엽니다 (DOTOLI-314).** 바로 위 항목의 뒷면입니다 — 위치를 소비 앱이 정하니 **높이도 소비 앱이 재야** 합니다. 계기와 구현 형태, 래퍼 우회가 왜 대안이 아닌지는 [bottom-action-bar.md](./bottom-action-bar.md) 「DOTOLI-314」에 있습니다. 여기 고유한 것은 제네릭 인자뿐입니다 — root가 `<nav>`라 `RefAttributes<HTMLElement>`이고, 기존 `Pick<HTMLAttributes<HTMLElement>, 'className'>`과 같은 인자입니다.
 
-  **잰 값에는 safe area가 들어 있습니다.** `safe-area-bottom`이 이 요소의 `padding-bottom`이라 `getBoundingClientRect().height`가 61이 아니라 `61 + env(safe-area-inset-bottom)`으로 나옵니다(데스크톱에서 61, 홈 인디케이터가 있는 기기에서 95). `Toaster` 컨테이너도 같은 유틸을 자기 몫으로 갖고 있어서 **잰 값을 그대로 `--toast-offset`에 넣으면 safe area가 두 번 더해집니다.** `pb-[28px]`이라 safe area가 없는 [`BottomActionBar`](./bottom-action-bar.md)와 갈리는 지점이라, 두 바를 같은 식으로 다루면 여기서만 어긋납니다.
+  **잰 값에는 safe area가 들어 있습니다.** `safe-area-bottom`이 이 요소의 `padding-bottom`이라 `getBoundingClientRect().height`가 61이 아니라 `61 + env(safe-area-inset-bottom)`으로 나옵니다(데스크톱에서 61, 홈 인디케이터가 있는 기기에서 95). `--toast-offset`에 넣을 때는 한 번 빼야 합니다([toast.md](./toast.md) 「결정」).
 
 - **히트 영역을 확장하지 않습니다.** 탭 하나가 126 × 60이라 `touch-target`(44px) 기준을 이미 넘고, Figma에 확장 주석도 없습니다(CLAUDE.md 「히트 영역 확장」).
 

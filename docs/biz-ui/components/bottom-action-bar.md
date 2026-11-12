@@ -32,13 +32,13 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | 항목       | 값                                                              |
 | ---------- | --------------------------------------------------------------- |
 | 바         | 380 × 92 → **`w-full`**. 380은 모바일 화면 폭이라 고정하지 않습니다 |
-| 여백       | `px-[20px] pt-[12px] pb-[28px]` — 상하 비대칭                     |
+| 여백       | `px-[20px] pt-[12px]` · 하단 `28px + safe area` — 상하 비대칭     |
 | 정렬       | `items-center`                                                   |
 | `gap`      | `two` 10 · `withInfo` 14                                         |
 | 버튼       | 각 `min-w-0 flex-1`                                              |
 | info 텍스트 | `body-semibold` (SemiBold 16 / lh 1.45 / ls -3%) · `blue/600` · `shrink-0` |
 
-`92 = 12 + 52 + 28`이고 버튼 높이 52가 `CtaButton lg`입니다.
+`92 = 12 + 52 + 28`이고 버튼 높이 52가 `CtaButton lg`입니다. safe area가 있는 기기에서는 그만큼 더 높아집니다(아래 「결정」).
 
 폭도 세 심볼 전부 340(= 380 - 20 × 2)으로 떨어집니다.
 
@@ -52,14 +52,16 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 | variant    | Figma                                                        | 구현                                                       |
 | ---------- | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| `floating` | `linear-gradient(to top, base/white 86.184%, rgba(255,255,255,0))` | `bg-linear-to-t from-white from-[86.184%] to-white/0`      |
+| `floating` | `linear-gradient(to top, base/white 86.184%, rgba(255,255,255,0))` | `bg-linear-to-t from-white from-[calc(100%-12.71px)] to-white/0` |
 | `solid`    | `base/white` 단색                                             | `bg-white`                                                  |
 
 **테두리도 그림자도 없습니다.** `solid`는 배경만 흰색이고, `BottomTab`의 `border-t border-gray-100 shadow-8`과 다릅니다.
 
 **두 DS를 통틀어 첫 그라디언트입니다** — `apps/biz-ui` · `apps/internal-ui` 어디에도 `bg-gradient-*` / `bg-linear-*` 사용처가 0건이었습니다.
 
-`86.184%`는 Figma 실측값 그대로입니다. 92 기준으로 79.29px이라 **페이드 구간이 12.7px ≈ 상단 여백 12**와 맞습니다. 바 높이가 콘텐츠로 정해지므로 px이 아니라 %로 둡니다.
+`86.184%`는 Figma 실측값입니다. 92 기준으로 79.29px이라 **페이드 구간이 12.71px ≈ 상단 여백 12**와 맞습니다.
+
+**구현은 이 12.71px을 위에서부터 고정 길이로 둡니다 (DOTOLI-331).** 처음엔 %를 그대로 썼는데, 하단 여백에 safe area가 들어가 바 높이가 기기마다 달라지면서 페이드도 같이 늘어났습니다. 126px이면 17.4px이 돼 버튼 줄 위쪽 5px까지 내려옵니다. 페이드가 맡는 것은 상단 여백이라 바 높이와 상관없는 길이여야 합니다. 92px에서는 % 때와 같은 79.29px에서 멈춥니다.
 
 **`to-transparent`가 아니라 `to-white/0`입니다.** CSS `transparent`는 `rgba(0,0,0,0)`이라 sRGB 보간에서 회색을 통과합니다. Figma가 지정한 값도 `rgba(255,255,255,0)`입니다.
 
@@ -100,9 +102,15 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   `fixed`가 아니라 `sticky`인 것은 주석이 「**영역 내**」라고 못박아서입니다. 스크롤 컨테이너의 마지막 자식으로 두면 그대로 동작하고, 컨테이너가 없으면 문서 스크롤 기준으로 붙습니다. `z-index`는 걸지 않았습니다 — 마지막 자식이라 쌓임 순서로 이미 위입니다.
 
-- **`pb-[28px]`을 그대로 두고 `safe-area-bottom`을 얹지 않았습니다.** [`BottomTab`](./bottom-tab.md) · `Toaster`가 그 유틸을 쓰는 것과 갈리는데, **그쪽은 Figma 하단 여백이 0**이라 더할 것이 명확했습니다. 여기는 12/28 비대칭이 이미 홈 인디케이터를 비켜 간 값으로 보이고, 두 클래스를 같이 걸면 `padding-bottom` 승자가 클래스 순서가 아니라 **CSS 소스 순서**로 정해져 예측이 안 됩니다.
+- **하단 여백은 `28px + safe area`입니다 (DOTOLI-331).** 처음(DOTOLI-269)에는 `pb-[28px]`만 두고 safe area를 더하지 않았습니다. 12/28 비대칭이 홈 인디케이터를 비켜 간 값으로 보였고, 「실기기에서 문제가 드러나면 그때 맞춘다」로 미뤄 둔 자리입니다.
 
-  iOS 홈 인디케이터(`env(safe-area-inset-bottom)` = 34)보다 6 작지만 **디자이너가 지정한 것이 없어 「디자인 확인 필요」로 올리지 않습니다** (DOTOLI-275에서 확인). 실기기에서 문제가 드러나면 그때 맞춥니다.
+  **Android 테스트앱에서 드러났습니다.** WebView가 edge-to-edge로 그려 콘텐츠가 내비게이션 바 뒤까지 깔리는데, inset을 더하지 않으니 버튼이 내비게이션 바에 붙었습니다. iOS가 괜찮아 보였던 것은 28이 홈 인디케이터(34)에 6px 걸친 채로 버텼기 때문입니다.
+
+  **`max(28px, inset)`이 아니라 `calc(28px + inset)`입니다.** `max`는 inset이 28보다 작은 제스처 내비게이션(보통 24 안팎)에서 지금과 값이 같아 아무것도 고치지 못하고, 3버튼(보통 48)에서는 버튼이 내비게이션 바에 딱 붙습니다. 더하는 쪽은 어느 기기에서나 시스템 UI 위로 28이 남습니다. 대가로 **홈 인디케이터가 있는 iPhone에서도 바가 34 높아집니다**(92 → 126). Figma 하단 여백을 「safe area 위에서 잰 값」으로 읽는 것이고, [`BottomTab`](./bottom-tab.md)(0 + safe area) · `Toaster`(20 + safe area)와 같은 규칙입니다. 이 읽기는 디자이너가 확인한 것이 아니라 DS의 해석이라 「디자인 확인 필요」에 올렸습니다.
+
+  **바가 화면 바닥에 닿는 자리에 놓인다는 전제입니다.** 페이지 하단과 시트 하단이 둘 다 그렇습니다. `BottomTab` 위처럼 바닥에서 떨어진 자리에 놓이면 inset만큼 빈 공간이 생기는데, `className`으로 `pb-*`를 덮어도 아래 이유로 결과를 장담할 수 없어 끄는 수단이 없습니다. 그런 화면이 생기면 그때 통로를 엽니다.
+
+  **`safe-area-bottom` 유틸을 함께 걸지 않고 한 클래스로 합쳤습니다.** 둘 다 `padding-bottom`이라 같이 걸면 승자가 클래스 순서가 아니라 CSS 소스 순서로 정해집니다. `pb-[calc(28px+env(safe-area-inset-bottom))]` 하나로 둡니다.
 
 - **`gap`을 조건 없이 겁니다.** `single`은 자식이 하나라 gap이 렌더에 드러나지 않습니다 — `ConfirmModal` · `FloatingPill`과 같은 판단입니다. 값만 `info` 유무로 갈립니다(10 ↔ 14).
 
@@ -161,7 +169,7 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 ### DOTOLI-314 · root `ref`를 엽니다
 
-- **소비 앱이 바 높이를 실측해야 해서입니다.** `Toaster`는 `--toast-offset`을 **읽기만 하고 세팅하지 않습니다**([toast.md](./toast.md) 「결정」). `ToasterProps`도 `target` · `className` 둘뿐이라 오프셋을 넘길 prop이 없습니다. 하단에 이 바나 [`BottomTab`](./bottom-tab.md)이 깔린 화면에서 토스트가 그 위로 뜨려면 소비 앱이 높이를 재서 `:root`에 발행해야 하는데, `ref`가 없으면 `getBoundingClientRect()`를 부를 노드 자체에 닿지 못합니다.
+- **소비 앱이 바 높이를 실측해야 해서입니다.** `Toaster`는 `--toast-offset`을 **읽기만 하고 세팅하지 않습니다**([toast.md](./toast.md) 「결정」). `ToasterProps`도 `target` · `className` 둘뿐이라 오프셋을 넘길 prop이 없습니다. 하단에 이 바나 [`BottomTab`](./bottom-tab.md)이 깔린 화면에서 토스트가 그 위로 뜨려면 소비 앱이 높이를 재서 `:root`에 발행해야 하는데, `ref`가 없으면 `getBoundingClientRect()`를 부를 노드 자체에 닿지 못합니다. 넣을 때는 safe area를 한 번 빼야 합니다([toast.md](./toast.md) 「결정」).
 
 - **여기는 래퍼로 우회할 수 없습니다 — `BottomTab`과 갈리는 지점입니다.** 그쪽은 `static`이라 소비 앱이 `<div>`로 감싸 래퍼를 재면 같은 값이 나옵니다(`biz-customer-app` BP-63이 실제로 그렇게 들어가 있습니다). 이 바는 `floating`이 `sticky bottom-0`이라 **래퍼가 곧 sticky containing block이 되고, 래퍼 높이 = 바 높이라 이동 구간이 0**입니다. 위 「`floating`에 `sticky bottom-0`을 함께 겁니다」가 「스크롤 컨테이너의 마지막 자식」을 전제로 하는데 래퍼가 그 전제를 깹니다.
 
@@ -215,6 +223,7 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | 긴 `info`                | 라벨이 `shrink-0`(Figma 그대로)이라 문구가 길면 버튼이 밀립니다. 상한을 둘지 말줄임할지                                       |
 | 긴 버튼 라벨             | `two`에서 버튼 하나가 165px이고 `CtaButton lg`의 `px-[30px]`을 빼면 라벨 공간이 105px입니다. `h-[52px]` 고정이라 긴 라벨은 넘칩니다 |
 | 상호작용 · 모션          | `hover` · `pressed`는 `CtaButton`이 갖고 있고, 바 자체의 등장/퇴장 모션은 정의가 없습니다                                      |
+| 하단 여백 + safe area    | Figma 28을 safe area 위에서 잰 값으로 읽어 inset을 더했습니다(DOTOLI-331). 홈 인디케이터가 있는 iPhone에서 버튼 아래가 28 → 62로 늘어납니다. 28이 홈 인디케이터까지 포함한 값이었다면 `max(28px, inset)`이 맞지만, 그 방식은 Android 제스처 내비게이션에서 아무것도 고치지 못합니다 |
 
 ## Storybook
 
