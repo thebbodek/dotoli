@@ -370,8 +370,8 @@ importers:
   apps/utils:
     dependencies:
       '@bbodek/internal-ui':
-        specifier: ^0.0.136
-        version: 0.0.136(@bbodek/hooks@0.0.109)(@bbodek/utils@0.0.106)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)
+        specifier: ^0.0.137
+        version: 0.0.137(@bbodek/hooks@0.0.110)(@bbodek/utils@0.0.107)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -1127,28 +1127,28 @@ packages:
     resolution: {integrity: sha512-qQ5m48eI/MFLQ5PxQj4PFaprjyCTLI37ElWMmNs0K8Lk3dVeOdNpB3ks8jc7yM5CDmVC73eMVk/trk3fgmrUpA==}
     engines: {node: '>=6.9.0'}
 
-  '@bbodek/hooks@0.0.109':
-    resolution: {integrity: sha512-sCdW0BmGrkm+ijv2QDSnBmnN7LNWA8nDZtOQ+ipTEcQnv89mVaPiaTyRKqbhBnkxT3WEIJWbEcbVT4cRrPUeTg==}
+  '@bbodek/hooks@0.0.110':
+    resolution: {integrity: sha512-9TvsGEnGlf2aeoYEns+qHG+8b7a5ijMduhR9y4uOaKzroktMa1ALEAv1D3Sy2VCFYDMq7qhUQ4EtT19y0DgKKQ==}
     peerDependencies:
-      '@bbodek/utils': 0.0.106
+      '@bbodek/utils': 0.0.107
       next: ^15.3.6
       react: ^19.2.1
       react-dom: ^19.2.1
 
-  '@bbodek/internal-ui@0.0.136':
-    resolution: {integrity: sha512-3rMQZLkO1Ai52V9D9JJJei6sVUDEkOmfmo01hhtvz66X+offOTCzfI7YKSyqVKNiVjuNKWHtKDdJphGzq03BRg==}
+  '@bbodek/internal-ui@0.0.137':
+    resolution: {integrity: sha512-zwNRGZxvtxGgxmeMT6QsSrt7LPo7UEDG5RMpaSjJkCGs2f4NUsLvPjnZijADqKW5WTvYqQJNJidTTOkWetG3yg==}
     peerDependencies:
-      '@bbodek/hooks': 0.0.109
-      '@bbodek/utils': 0.0.106
+      '@bbodek/hooks': 0.0.110
+      '@bbodek/utils': 0.0.107
       overlay-kit: ^1.8.6
       react: ^19.2.1
       react-dom: ^19.2.1
       tailwindcss: ^4
 
-  '@bbodek/utils@0.0.106':
-    resolution: {integrity: sha512-c8j3uqKSCRAvka5yO/o2sWL722H1w263VBcb8uCHR2n0kmg5UwZikyrbR487ezVft+imrQYx7vmeGdugcTz2FQ==}
+  '@bbodek/utils@0.0.107':
+    resolution: {integrity: sha512-kyJaMNRl1koL1C+cMFkIUdgzbfw7RukLOVoYphq+/r1GESgH6WxLVlegtRhIt+/0c4ralO3b9b04E3uwYjQXOw==}
     peerDependencies:
-      '@bbodek/internal-ui': ^0.0.136
+      '@bbodek/internal-ui': ^0.0.137
       next: ^15.3.6
       react: ^19.2.1
       react-dom: ^19.2.1
@@ -7345,17 +7345,17 @@ snapshots:
       '@babel/helper-string-parser': 7.27.1
       '@babel/helper-validator-identifier': 7.28.5
 
-  '@bbodek/hooks@0.0.109(@bbodek/utils@0.0.106)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
+  '@bbodek/hooks@0.0.110(@bbodek/utils@0.0.107)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)':
     dependencies:
-      '@bbodek/utils': 0.0.106(@bbodek/internal-ui@0.0.136)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
+      '@bbodek/utils': 0.0.107(@bbodek/internal-ui@0.0.137)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
       next: 15.5.7(@babel/core@7.27.1)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       react: 19.2.1
       react-dom: 19.2.1(react@19.2.1)
 
-  '@bbodek/internal-ui@0.0.136(@bbodek/hooks@0.0.109)(@bbodek/utils@0.0.106)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)':
+  '@bbodek/internal-ui@0.0.137(@bbodek/hooks@0.0.110)(@bbodek/utils@0.0.107)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)':
     dependencies:
-      '@bbodek/hooks': 0.0.109(@bbodek/utils@0.0.106)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      '@bbodek/utils': 0.0.106(@bbodek/internal-ui@0.0.136)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
+      '@bbodek/hooks': 0.0.110(@bbodek/utils@0.0.107)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@bbodek/utils': 0.0.107(@bbodek/internal-ui@0.0.137)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
       '@floating-ui/react': 0.27.8(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       '@phosphor-icons/core': 2.1.1
       '@phosphor-icons/web': 2.1.2
@@ -7379,9 +7379,9 @@ snapshots:
       - babel-plugin-react-compiler
       - sass
 
-  '@bbodek/utils@0.0.106(@bbodek/internal-ui@0.0.136)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)':
+  '@bbodek/utils@0.0.107(@bbodek/internal-ui@0.0.137)(next@15.5.7(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react-hot-toast@2.6.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)':
     dependencies:
-      '@bbodek/internal-ui': 0.0.136(@bbodek/hooks@0.0.109)(@bbodek/utils@0.0.106)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)
+      '@bbodek/internal-ui': 0.0.137(@bbodek/hooks@0.0.110)(@bbodek/utils@0.0.107)(@types/react@19.2.7)(overlay-kit@1.8.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(tailwindcss@4.1.6)
       dayjs: 1.11.13
       es-toolkit: 1.39.8
       next: 15.5.7(@babel/core@7.27.1)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
