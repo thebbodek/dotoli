@@ -49,4 +49,5 @@ export interface CtaButtonProps
   iconPosition?: ButtonIconPosition;
   iconOption?: ButtonIconOption;
   isPending?: boolean;
+  useUnderline?: boolean;
 }

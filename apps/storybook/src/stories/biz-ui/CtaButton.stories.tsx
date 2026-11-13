@@ -17,6 +17,11 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 
+// white는 어두운 배경 위에 놓인다. 밝은 판에서는 안 보여 어두운 판을 깐다
+const THEME_BACKDROPS: Partial<Record<CtaButtonTheme, string>> = {
+  [CTA_BUTTON_THEMES.WHITE]: 'bg-blue-700 rounded-6 p-3',
+};
+
 // hover · pressed는 아이콘 색을 바꾸지 않아 두 상태만 나열한다
 const ICON_COLOR_STATES = [
   CTA_BUTTON_STATES.DEFAULT,
@@ -96,6 +101,10 @@ const meta = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
+    useUnderline: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
     disabled: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -111,8 +120,10 @@ export default meta;
 type Story = StoryObj<CtaButtonArgs>;
 
 export const Default: Story = {
-  render: ({ iconKey, ...args }) => (
-    <CtaButton {...args} iconOption={{ iconKey }} />
+  render: ({ iconKey, theme = CTA_BUTTON_THEMES.PRIMARY, ...args }) => (
+    <Flex className={THEME_BACKDROPS[theme]}>
+      <CtaButton {...args} iconOption={{ iconKey }} theme={theme} />
+    </Flex>
   ),
 };
 
@@ -125,7 +136,12 @@ export const Themes: Story = {
           <Typography color='gray-500' variant='label-bold'>
             theme = {theme}
           </Typography>
-          <Flex align={{ items: 'center' }} gap='8' wrap='wrap'>
+          <Flex
+            align={{ items: 'center' }}
+            className={THEME_BACKDROPS[theme]}
+            gap='8'
+            wrap='wrap'
+          >
             {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
               <CtaButton
                 key={variant}
@@ -222,16 +238,23 @@ export const IconColors: Story = {
               >
                 {state}
               </Typography>
-              {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
-                <CtaButton
-                  disabled={state === CTA_BUTTON_STATES.DISABLED}
-                  iconOption={{ iconKey: 'plus' }}
-                  key={variant}
-                  label={label}
-                  theme={theme}
-                  variant={variant}
-                />
-              ))}
+              <Flex
+                align={{ items: 'center' }}
+                className={THEME_BACKDROPS[theme]}
+                gap='8'
+                wrap='wrap'
+              >
+                {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
+                  <CtaButton
+                    disabled={state === CTA_BUTTON_STATES.DISABLED}
+                    iconOption={{ iconKey: 'plus' }}
+                    key={variant}
+                    label={label}
+                    theme={theme}
+                    variant={variant}
+                  />
+                ))}
+              </Flex>
             </Flex>
           ))}
         </Flex>
@@ -249,7 +272,12 @@ export const Disabled: Story = {
           <Typography color='gray-500' variant='label-bold'>
             theme = {theme}
           </Typography>
-          <Flex align={{ items: 'center' }} gap='8' wrap='wrap'>
+          <Flex
+            align={{ items: 'center' }}
+            className={THEME_BACKDROPS[theme]}
+            gap='8'
+            wrap='wrap'
+          >
             {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
               <CtaButton
                 key={variant}
@@ -277,6 +305,39 @@ export const Pending: Story = {
   ),
 };
 
+// 밑줄 디자인은 text variant에만 있다 (「주문 중지 등록」 · 「주문 관리 › 고정주문」 링크)
+export const Underline: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ label }) => (
+    <Flex direction='column' gap='24'>
+      {Object.values(CTA_BUTTON_THEMES).map((theme) => (
+        <Flex direction='column' gap='12' key={theme}>
+          <Typography color='gray-500' variant='label-bold'>
+            theme = {theme}
+          </Typography>
+          <Flex
+            align={{ items: 'center' }}
+            className={THEME_BACKDROPS[theme]}
+            gap='8'
+            wrap='wrap'
+          >
+            {Object.values(CTA_BUTTON_SIZES).map((size) => (
+              <CtaButton
+                key={size}
+                label={label}
+                size={size}
+                theme={theme}
+                variant={CTA_BUTTON_VARIANTS.TEXT}
+                useUnderline
+              />
+            ))}
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
+  ),
+};
+
 export const Matrix: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: ({ label }) => (
@@ -293,15 +354,22 @@ export const Matrix: Story = {
               >
                 {variant}
               </Typography>
-              {Object.values(CTA_BUTTON_SIZES).map((size) => (
-                <CtaButton
-                  key={size}
-                  label={label}
-                  size={size}
-                  theme={theme}
-                  variant={variant}
-                />
-              ))}
+              <Flex
+                align={{ items: 'center' }}
+                className={THEME_BACKDROPS[theme]}
+                gap='8'
+                wrap='wrap'
+              >
+                {Object.values(CTA_BUTTON_SIZES).map((size) => (
+                  <CtaButton
+                    key={size}
+                    label={label}
+                    size={size}
+                    theme={theme}
+                    variant={variant}
+                  />
+                ))}
+              </Flex>
             </Flex>
           ))}
         </Flex>

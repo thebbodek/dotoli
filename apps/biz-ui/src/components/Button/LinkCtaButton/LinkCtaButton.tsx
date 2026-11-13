@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
+  CTA_BUTTON_UNDERLINE_STYLE,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton/constants';
 import {
@@ -23,6 +24,7 @@ const LinkCtaButton = ({
   iconPosition = BUTTON_ICON_POSITIONS.LEFT,
   iconOption,
   isDisabled = false,
+  useUnderline = false,
   className,
   ref,
   onClick,
@@ -57,7 +59,9 @@ const LinkCtaButton = ({
       {!!iconKey && (
         <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
       )}
-      {label}
+      <span className={useUnderline ? CTA_BUTTON_UNDERLINE_STYLE : undefined}>
+        {label}
+      </span>
     </Link>
   );
 };

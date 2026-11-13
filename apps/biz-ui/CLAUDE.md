@@ -73,7 +73,7 @@ export interface ResolveCheckboxStateProps
 | 항목              | internal-ui                                 | biz-ui                                                                     |
 | ----------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
 | `size` 스케일     | `xs \| sm \| md \| lg`                      | CtaButton은 `sm \| md \| lg` — `xs` 없음                                    |
-| `theme` 값        | Button은 `primary \| gray \| red \| green \| yellow` | CtaButton은 `primary \| gray` 2종                                  |
+| `theme` 값        | Button은 `primary \| gray \| red \| green \| yellow` | CtaButton은 `primary \| gray \| white` 3종                          |
 | 상호작용 상태     | `hover` 중심                                | Figma가 `hover`·`pressed` 모두 정의. 터치 기기에선 `pressed`(`:active`)가 주력 |
 | `responsive` prop | `mobile / tablet / desktop`                 | 모바일 단일 타깃이라 넣지 않음                                              |
 | radius 토큰       | `--radius-in-*` 스케일                      | 새로 만들지 않음. Figma 8px/6px가 `rounded-lg`/`rounded-md`와 일치          |
@@ -85,7 +85,7 @@ export interface ResolveCheckboxStateProps
 
 **서드파티가 정한 prop 이름은 그대로 통과시킵니다** — `BottomTab`의 `replace`가 `next/link`의 것이라 `isReplace`로 바꾸지 않습니다. 개명하면 소비자가 원본 문서와 대조할 수 없고 「네이티브 통로」라는 성격 자체가 깨집니다. **DS가 새로 만든 boolean에만 접두어 규칙이 적용됩니다** (`LinkCtaButton`의 `isDisabled`가 그쪽 — `<a>`에 없는 속성을 DS가 만든 것이라 접두어를 붙였습니다).
 
-**`theme` union은 컴포넌트별로 정의합니다.** 값이 컴포넌트마다 달라서입니다 — CtaButton은 `primary | gray`, internal-ui IconButton은 `hover-gray | hover-white | bg-white | white | dark`. internal-ui도 같은 방식이라 biz-ui만의 차이는 아닙니다. 버튼 계열 `shared`에는 `variant`·`theme`·`size`를 두지 않습니다.
+**`theme` union은 컴포넌트별로 정의합니다.** 값이 컴포넌트마다 달라서입니다 — CtaButton은 `primary | gray | white`, internal-ui IconButton은 `hover-gray | hover-white | bg-white | white | dark`. internal-ui도 같은 방식이라 biz-ui만의 차이는 아닙니다. 버튼 계열 `shared`에는 `variant`·`theme`·`size`를 두지 않습니다.
 
 ### `theme='primary'` ↔ 컬러 토큰 `blue`
 

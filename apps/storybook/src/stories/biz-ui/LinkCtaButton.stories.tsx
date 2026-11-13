@@ -2,6 +2,7 @@ import {
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
   CTA_BUTTON_VARIANTS,
+  CtaButtonTheme,
   Flex,
   LinkCtaButton,
   LinkCtaButtonProps,
@@ -11,8 +12,13 @@ import { Meta, StoryObj } from '@storybook/react';
 
 import { default as CtaButtonMeta } from '@/stories/biz-ui/CtaButton.stories';
 
-const { label, variant, theme, size, iconPosition, iconKey } =
+const { label, variant, theme, size, iconPosition, iconKey, useUnderline } =
   CtaButtonMeta.argTypes ?? {};
+
+// CtaButton과 같은 이유로 white에는 어두운 판을 깐다
+const THEME_BACKDROPS: Partial<Record<CtaButtonTheme, string>> = {
+  [CTA_BUTTON_THEMES.WHITE]: 'bg-blue-700 rounded-6 p-3',
+};
 
 // CtaButton과 같은 이유로 iconKey를 최상위로 편다
 export interface LinkCtaButtonArgs
@@ -34,6 +40,7 @@ const meta = {
     size,
     iconPosition,
     iconKey,
+    useUnderline,
     isDisabled: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -50,8 +57,14 @@ export default meta;
 type Story = StoryObj<LinkCtaButtonArgs>;
 
 export const Default: Story = {
-  render: ({ iconKey, ...args }) => (
-    <LinkCtaButton {...args} iconOption={{ iconKey }} />
+  render: ({
+    iconKey,
+    theme: buttonTheme = CTA_BUTTON_THEMES.PRIMARY,
+    ...args
+  }) => (
+    <Flex className={THEME_BACKDROPS[buttonTheme]}>
+      <LinkCtaButton {...args} iconOption={{ iconKey }} theme={buttonTheme} />
+    </Flex>
   ),
 };
 
@@ -65,7 +78,12 @@ export const Variants: Story = {
           <Typography color='gray-500' variant='label-bold'>
             theme = {buttonTheme}
           </Typography>
-          <Flex align={{ items: 'center' }} gap='8' wrap='wrap'>
+          <Flex
+            align={{ items: 'center' }}
+            className={THEME_BACKDROPS[buttonTheme]}
+            gap='8'
+            wrap='wrap'
+          >
             {Object.values(CTA_BUTTON_VARIANTS).map((buttonVariant) => (
               <LinkCtaButton
                 href={href}

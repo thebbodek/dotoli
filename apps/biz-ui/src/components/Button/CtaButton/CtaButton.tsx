@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
+  CTA_BUTTON_UNDERLINE_STYLE,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton/constants';
 import { CtaButtonProps } from '@/components/Button/CtaButton/types';
@@ -24,6 +25,7 @@ const CtaButton = ({
   iconPosition = BUTTON_ICON_POSITIONS.LEFT,
   iconOption,
   isPending = false,
+  useUnderline = false,
   disabled = false,
   type = 'button',
   className,
@@ -68,7 +70,9 @@ const CtaButton = ({
           <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
         )
       )}
-      {label}
+      <span className={useUnderline ? CTA_BUTTON_UNDERLINE_STYLE : undefined}>
+        {label}
+      </span>
     </button>
   );
 };

@@ -267,6 +267,16 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 소비 앱(`biz-customer-app`의 `apps/web`)이 Next 15 **App Router**로 확정되면서 나온 유일한 biz-ui 측 과제입니다. Figma 축·실측과 무관한 패키징 층이라 컴포넌트 그룹과 섞지 않고 따로 둡니다.
 
+### biz-ui 주문 메인 개편 선행
+
+- [x] DOTOLI-332 biz-ui > CtaButton 어두운 배경용 테마 추가
+- [ ] DOTOLI-333 biz-ui > 주간 날짜 상태 칸 컴포넌트 추가
+- [ ] DOTOLI-334 biz-ui > Tab 컴포넌트 추가
+- [ ] DOTOLI-335 biz-ui > OrderBox SKU 세로 목록으로 교체
+- [ ] DOTOLI-336 biz-ui > OrderDateInfo 배송 정보를 마감 표기로 교체
+
+소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 다섯 건입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」 DS1~DS5에 있어 여기 옮기지 않습니다. 디자인 출처는 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮깁니다.
+
 ---
 
 ## 태스크 상세
@@ -359,6 +369,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-319 | OrderBoxCell 폭 수정. `flex-1` + `max-w-[110px]`이 같이 걸려 셀이 110에서 멈추고 우측이 비던 것(3개는 컨테이너 386 초과, 1 · 2개는 거의 항상)을 OrderBox `grid-cols-3`으로 바꿔 **셀을 항상 1/3로 고정**. `OrderBoxCell`의 `min-w-[92px]` · `max-w-[110px]` 제거(**Figma 컴포넌트 값을 버리는 디자인 변경**, 디자인 확인 필요). **「`min-w`·`max-w`를 컴포넌트가 들고 간다」(DOTOLI-229) · 「Cell에는 `flex-1`만」(DOTOLI-230) 결정을 뒤집음**. 338 · 3개에서 셀 94로 Figma와 같음. `ORDER_BOX_ITEM_STYLE` 제거는 **파괴적 변경**이나 소비 앱 import 0건 | [components/order.md](./components/order.md) |
 | DOTOLI-322 | `toast.show`에 `onDismiss` 추가. **× 로 닫을 때만** 부르고 자동 소멸 · `toast.dismiss()` · 액션 · 교체에서는 부르지 않음(소비 앱 BP-95 「닫기 시 하루 재노출 안 함」). **`useDismiss`를 걷어내고 `onDismiss` 유무로 × 표시를 정함. DOTOLI-268의 「`useDismiss`가 유틸 층에서 되살아납니다」를 뒤집은 파괴적 변경**이고 소비 앱 `useOrderNoticeToastEffect` 2곳 수정 필요. 소멸 200ms 동안 ×·액션 재클릭으로 콜백이 두 번 불리던 것도 `inert`로 막음. 래퍼에 걸면 두 번째 탭이 페이지로 새서 안쪽 `contents` 요소에 검. 소비자 콜백(`onDismiss` · 액션 `onClick`)이 예외를 던져도 `finally`로 닫고 에러는 다시 던짐. `resolveToastAction`의 닫기 인자 `onDismiss` → `onClose` 개명 | [components/toast.md](./components/toast.md) |
 | DOTOLI-331 | 하단 고정 UI safe-area 하단 여백 — `BottomActionBar` `pb-[28px]` → `28px + safe area`(`calc`. `max`는 제스처 내비게이션에서 값이 그대로라 무효) · `BottomSheet`는 `actionBarOption`이 없을 때만 시트에 `safe-area-bottom`. Android 테스트앱에서 바닥 요소가 내비게이션 바에 붙던 것. **DOTOLI-269 「`pb-[28px]` 유지」 · DOTOLI-270 「시트에 safe area 안 검」 결정을 뒤집음**. 홈 인디케이터가 있는 iPhone에서도 바가 34 높아지는 시각 변경(디자인 확인 필요)이고, 그에 맞춰 페이드 구간을 `%`에서 위 기준 12.71px 고정으로 바꿈. `--toast-offset`은 실측값에서 inset을 빼는 기존 식이 바 높이와 상관없이 맞아 소비 앱 변경 없음 | [components/bottom-action-bar.md](./components/bottom-action-bar.md) · [bottom-sheet.md](./components/bottom-sheet.md) · [bottom-tab.md](./components/bottom-tab.md) · [toast.md](./components/toast.md) |
+| DOTOLI-332 | CtaButton `white` 테마 추가(어두운 배경 위). 디자인은 `filled` · `text`만 있고 `outlined` · `tonal`은 primary 값을 그대로 물려받음. 출처는 Figma가 아니라 디자인 아티팩트라 hover · pressed · disabled는 DS가 정함(디자인 확인 필요). 함께 **`useUnderline` 개방**: 밑줄 링크가 white(「주문 중지 등록」)와 primary(「주문 관리 › 고정주문」) 양쪽에 있어 테마에 묶지 않음. 밑줄을 버튼에 걸면 아이콘 글리프까지 번져서 `CtaButton` · `LinkCtaButton`의 라벨을 `<span>`으로 감쌈. 비파괴이고 기존 테마 시각은 그대로 | [components/button.md](./components/button.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
