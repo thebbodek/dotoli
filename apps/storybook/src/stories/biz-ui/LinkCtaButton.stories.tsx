@@ -15,7 +15,6 @@ import { default as CtaButtonMeta } from '@/stories/biz-ui/CtaButton.stories';
 const { label, variant, theme, size, iconPosition, iconKey, useUnderline } =
   CtaButtonMeta.argTypes ?? {};
 
-// CtaButton과 같은 이유로 white에는 어두운 판을 깐다
 const THEME_BACKDROPS: Partial<Record<CtaButtonTheme, string>> = {
   [CTA_BUTTON_THEMES.WHITE]: 'bg-blue-700 rounded-6 p-3',
 };

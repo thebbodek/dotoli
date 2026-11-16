@@ -17,7 +17,6 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const { iconKey: iconKeyArgType } = IconMeta.argTypes ?? {};
 
-// white는 어두운 배경 위에 놓인다. 밝은 판에서는 안 보여 어두운 판을 깐다
 const THEME_BACKDROPS: Partial<Record<CtaButtonTheme, string>> = {
   [CTA_BUTTON_THEMES.WHITE]: 'bg-blue-700 rounded-6 p-3',
 };
@@ -305,7 +304,6 @@ export const Pending: Story = {
   ),
 };
 
-// 밑줄 디자인은 text variant에만 있다 (「주문 중지 등록」 · 「주문 관리 › 고정주문」 링크)
 export const Underline: Story = {
   parameters: { controls: { disable: true } },
   render: ({ label }) => (
