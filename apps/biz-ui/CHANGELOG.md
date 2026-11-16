@@ -1,5 +1,13 @@
 # @bbodek/biz-ui
 
+## 0.0.68
+
+### Patch Changes
+
+- a5f8169: DOTOLI-332 biz-ui > CtaButton 어두운 배경용 테마 추가
+- a5f8169: DOTOLI-334 biz-ui > Tab 컴포넌트 추가
+- a5f8169: DOTOLI-333 biz-ui > 주간 날짜 상태 칸 컴포넌트 추가
+
 ## 0.0.67
 
 ### Patch Changes
