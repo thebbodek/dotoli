@@ -108,14 +108,14 @@ primary / filled / default / lg 기준 (`11:4121`).
 | `filled` | `bg-white text-gray-900` | `bg-gray-50` | `bg-gray-100` | `bg-gray-200 text-gray-400` | `text-gray-900` |
 | `text` | `text-white` | `bg-white/10` | `bg-white/20` | `text-gray-400` | `text-white` |
 
-- **디자인이 쓰는 것은 `filled` · `text`뿐이고, `outlined` · `tonal`은 primary 값을 그대로 씁니다.** `CTA_BUTTON_PRIMARY_STYLES` · `CTA_BUTTON_PRIMARY_ICON_STYLES`를 스프레드해 물려받고 두 칸만 덮었습니다. internal-ui에는 두 방식이 다 있습니다. `Button`은 `BUTTON_STYLES`를 `Partial`로 비워 두고 디자인 없는 조합이면 `useButtonRenderErrorEffect`가 렌더 중에 던지고, `Badge`는 비공개 기본 상수(`BADGE_OUTLINED_THEME_DEFAULT_STYLES`)를 여러 칸에 물려 씁니다. 여기서는 `Badge` 쪽을 골랐습니다. 소비 앱 화면을 렌더 에러로 깨뜨릴 이유가 없고, [OrderBox](./order.md)의 「디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 쓴다」와도 맞습니다.
+- **디자인이 쓰는 것은 `filled` · `text`뿐이고, `outlined` · `tonal`은 primary 값을 그대로 씁니다.** `CTA_BUTTON_PRIMARY_STYLES` · `CTA_BUTTON_PRIMARY_ICON_STYLES`를 스프레드해 물려받고 두 칸만 덮었습니다. internal-ui에는 두 방식이 다 있습니다. `Button`은 `BUTTON_STYLES`를 `Partial`로 비워 두고 디자인 없는 조합이면 `useButtonRenderErrorEffect`가 렌더 중에 던지고, `Badge`는 비공개 기본 상수(`BADGE_OUTLINED_THEME_DEFAULT_STYLES`)를 여러 칸에 물려 씁니다. 여기서는 `Badge` 쪽을 골랐습니다. 소비 앱 화면을 렌더 에러로 깨뜨릴 이유가 없고, DOTOLI-317 OrderBox가 세운 「디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 쓴다」와도 맞습니다(그 OrderBox는 DOTOLI-335에서 교체됐고 기준은 [order.md 「OrderBox」 이력](./order.md#이력)에 남아 있습니다).
 - **이름은 `white`입니다.** CtaButton의 `theme`은 버튼 자신의 색(`primary`는 파랑, `gray`는 회색)이고, `filled`가 흰 버튼이 됩니다. internal-ui `IconButton`도 같은 논리로 어두운 면 위의 흰 컨트롤을 `white`, 바탕이 어두운 버튼을 `dark`(`bg-in-gray-09`)로 부릅니다. 같은 계열 [IconButton](#iconbutton)의 `dark`는 배경 없이 흰 아이콘만 있는 테마라 이름이 바탕을 가리키는데, CtaButton에서 그 이름을 따르면 흰 버튼의 테마 이름이 `dark`가 됩니다.
 - 아이콘 색은 DOTOLI-256 규칙을 그대로 따릅니다. `filled`는 라벨과 같은 색(`gray-900`), 나머지는 테마 색(`white`)입니다.
 - hover · pressed · disabled는 아티팩트에 없어 DS가 정했습니다. `filled`는 흰 바탕인 gray `outlined`의 단계를 따랐고, `text`는 흰색 알파 배경입니다. disabled 글자를 `text-white/50`으로 쓰지 않은 것은 CLAUDE.md 「`text-*`에 `/` 수식어 금지」 때문입니다.
 - 「주문 중지 등록」 링크의 밑줄은 `useUnderline`으로 켭니다(위 「구현 결정」).
 - 링크 앞 문구 「한동안 식기를 안 쓰시나요?」는 소비 앱이 `Typography`로 둡니다. `label`을 `ReactNode`로 열거나 앞 문구 prop을 만들지 않았고, 누르는 영역은 「주문 중지 등록」뿐입니다.
 - 아티팩트의 버튼 높이 44px은 DS 사이즈에 없어 옮기지 않았습니다. 카드 버튼은 `md`(40) · `lg`(52) 중에서 소비 앱이 고르고, 링크는 `text`입니다.
-- 스토리북은 `white`를 `bg-blue-700` 판 위에 깔아 보여 줍니다. `OrderBox` 스토리의 `inverse` 판과 같은 처리입니다.
+- 스토리북은 `white`를 `bg-blue-700` 판 위에 깔아 보여 줍니다. `OrderWeekStatus` 스토리의 판과 같은 처리입니다.
 
 ### 디자인 확인 필요
 

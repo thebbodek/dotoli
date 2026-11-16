@@ -74,7 +74,7 @@ Storybook 렌더의 계산값으로 두 레이아웃을 대조했고 박스·pad
   **`break-words`(`overflow-wrap: break-word`)는 후보에서 빠집니다 — 이 빌드에 클래스 자체가 없습니다.** 소스 어디에서도 쓰지 않아 Tailwind가 생성하지 않았고, 런타임에 붙여도 `overflow-wrap: normal`입니다(DOTOLI-237에서 확인). 쓰려면 소스에 리터럴로 넣어 생성시켜야 합니다.
 
   `min-w-0`은 horizontal에서만 필요합니다(행 플렉스라 `min-width: auto`가 축소를 막음). vertical에는 영향이 없지만 두 레이아웃이 같은 값 스타일을 쓰도록 한 문자열로 둡니다.
-- **`label`·`value` 둘 다 required입니다.** 라벨-값 쌍이라 한쪽만 있으면 컴포넌트가 성립하지 않습니다. `Badge`의 `label`, `OrderBoxCell`의 `boxes`·`itemName`과 같은 처리입니다.
+- **`label`·`value` 둘 다 required입니다.** 라벨-값 쌍이라 한쪽만 있으면 컴포넌트가 성립하지 않습니다. `Badge`의 `label`, `OrderBox` 항목의 `itemName`·`quantity`와 같은 처리입니다.
 - **`<dl>`/`<dt>`/`<dd>`를 쓰지 않고 `<div>` + `Typography`로 갑니다.** internal-ui는 라벨-값 쌍을 description list로 그리고(`Select/Multi/shared/MultiSelectBaseResultPanel.tsx:11` · `Filter/FilterTrigger.tsx:58`), biz-ui `Typography`도 `as='dt'`·`as='dd'`를 이미 받습니다(`TYPOGRAPHY_ELEMENTS`). 그래도 따라가지 않은 이유는 **`<dl>`이 쌍 하나를 감싸는 태그가 아니라 여러 쌍을 담는 "목록" 태그**이기 때문입니다.
 
   | 구조 | 결과 |
@@ -86,7 +86,7 @@ Storybook 렌더의 계산값으로 두 레이아웃을 대조했고 박스·pad
 
   **소비처가 생기면 다시 봅니다.** 그때 답은 `<dl>`을 InfoField 안으로 넣는 것이 아니라, InfoField가 `<div><dt>…<dd>…</div>`만 그리고(HTML5가 허용하는 형태) **묶는 `<dl>`은 소비처가 두는 것**입니다 — 묶음이 정확해지는 대신 InfoField 단독으로는 무효 HTML이 되므로, 실제 사용 형태를 보고 정합니다.
 
-  계열 선례(`OrderBoxCell` · `OrderDateInfo`)가 `div`+`span`인 것은 근거가 되지 않습니다 — 그 둘은 「박스수/품목명」 · 「날짜/배송정보」라 라벨-값 관계가 아닙니다.
+  당시 계열 선례(`OrderBoxCell` · `OrderDateInfo`)가 `div`+`span`인 것은 근거가 되지 않았습니다 — 그 둘은 「박스수/품목명」 · 「날짜/배송정보」라 라벨-값 관계가 아니었습니다. DOTOLI-335에서 `OrderBoxCell`이 없어지고 OrderBox가 「품목/수량」 세로 목록이 되면서 이 기준대로 `<dl>` + `<div><dt><dd>`를 OrderBox가 갖게 됐습니다([order.md 「OrderBox」](./order.md#orderbox)).
 - **폭을 선언하지 않고 `w-full`입니다.** 304 / 292px은 문서 값입니다. `horizontal`의 `justify-between`이 동작하려면 폭이 필요해서 `w-full`은 컴포넌트가 들고 갑니다.
 - **`shrink-0`을 넣지 않았습니다.** `Divider`·`IconCircle`과 달리 내용이 있어 `min-height: auto`가 눌림을 막습니다. 근거 없이 방어 클래스를 늘리지 않습니다.
 

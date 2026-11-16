@@ -2,14 +2,13 @@
 
 `apps/biz-ui/src/components/Order` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 Order 계열 고유 사실만 둡니다.
 
-Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=203-847&m=dev) (`203:847`). 섹션 안의 `302:1434`(OrderBoxCell) · `302:1451`(OrderBox) · `302:1631`(OrderDateInfo) · `302:1573`(QuantityStepper) · `302:1204`(OrderInputCard)는 전부 문서용 프레임이고, 실제 값은 각 컴포넌트 세트에서 실측합니다.
+Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=203-847&m=dev) (`203:847`). 섹션 안의 `302:1434`(OrderBoxCell) · `302:1451`(OrderBox) · `302:1631`(OrderDateInfo) · `302:1573`(QuantityStepper) · `302:1204`(OrderInputCard)는 전부 문서용 프레임이고, 실제 값은 각 컴포넌트 세트에서 실측합니다. 다만 OrderBox(DOTOLI-335 이후)와 OrderWeekStatus는 Figma가 아니라 디자인 아티팩트가 출처라 각 절에 따로 적었습니다.
 
 ## 구현 현황
 
 | 컴포넌트          | 티켓       | 설명                                                        |
 | ----------------- | ---------- | ----------------------------------------------------------- |
-| `OrderBoxCell`    | DOTOLI-229 | `tone` 3종. 박스수 + 품목명 2행                             |
-| `OrderBox`        | DOTOLI-230 | `variant` 4종. `OrderBoxCell`을 담는 3열 grid 컨테이너      |
+| `OrderBox`        | DOTOLI-230 · 335 | SKU 세로 목록(품목명 · 수량). 335에서 가로 3열을 교체하고 `OrderBoxCell`을 지움 |
 | `OrderDateInfo`   | DOTOLI-231 | 날짜 + 배송정보 2행. `isHoliday` · 배송 유무 2축            |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
@@ -20,214 +19,86 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 ## 계열 공통 결정
 
-- **`shared/`에는 휴일 문구만 있습니다.** 착수 시점에는 열지 않았습니다 — OrderBox가 `OrderBoxCell`을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 두 컴포넌트가 같이 움직여야 하므로 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
-
----
-
-## OrderBoxCell
-
-Figma: 컴포넌트 세트 `169:530`. 심볼은 `169:529`(default) · `169:618`(inverse) · `179:640`(muted)입니다.
-
-### Variant 축
-
-| 축     | 값                              |
-| ------ | ------------------------------- |
-| `tone` | `default` · `inverse` · `muted` |
-
-상태 축(hover · pressed · disabled)이 없습니다. 표시 전용이라 `<div>` + `<span>` 2개로 렌더합니다.
-
-### 실측 스펙
-
-| 항목       | 값                              |
-| ---------- | ------------------------------- |
-| 폭         | 없음 — 담는 쪽 트랙을 채움 (Figma 컴포넌트는 `min-w-[92px] max-w-[110px]`, 아래 「결정」) |
-| 레이아웃   | `flex-v-stack`                  |
-| 1행 박스수 | `body-semibold` (SemiBold 16px) |
-| 2행 품목명 | `label` (Medium 14px)           |
-| 행 간격    | `-mb-0.5` (= -2px)              |
-
-| `tone`    | 박스수       | 품목명       |
-| --------- | ------------ | ------------ |
-| `default` | `gray/900`   | `gray/600`   |
-| `inverse` | `base/white` | `base/white` |
-| `muted`   | `gray/600`   | `gray/400`   |
-
-바인딩된 변수 hex가 기존 컬러 토큰과 전부 일치해 신규 토큰이 없습니다 (`gray/900` `#1a2233` · `gray/600` `#69738c` · `gray/400` `#aeb5c6`).
-
-### 결정
-
-- **행 간격이 음수인 것은 Figma 실측 그대로입니다.** 심볼 `169:529`에서 1행이 `y=0 h=23`, 2행이 `y=21`로 2px 겹칩니다. `body-semibold`(16px × lh 1.45 = 23.2px)와 `label`의 line-height 여백이 겹쳐 보이는 것을 디자이너가 -2px로 당겨 둔 값이고, 합계가 심볼 높이 61px과 맞습니다(23 + 40 - 2).
-- **~~`min-w`·`max-w`를 컴포넌트가 들고 갑니다.~~ — DOTOLI-319에서 뺐습니다.** Figma와 다릅니다. 두 값은 Figma에서 인스턴스가 아니라 컴포넌트에 걸려 있고, 당시에는 폭을 늘리는 쪽(OrderBox)이 `flex-1`만 더하면 됐습니다.
-
-  **`flex-1`과 `max-w-[110px]`이 같이 걸리면 flex가 계산한 폭을 max-width가 자릅니다.** 문서 프레임 338의 3개짜리 인스턴스는 셀이 94라 cap에 안 닿아 드러나지 않았습니다(`1239:18608` = `16 + 94 × 3 + 12 × 2 + 16 = 338`). 3개 기준으로는 컨테이너가 `16 + 110 × 3 + 12 × 2 + 16 = 386`을 넘으면 셀이 110에서 멈추고 우측에 빈 공간이 남습니다. `biz-customer-app` 주문 메인(480 프레임)에서 실제로 보였습니다. **1 · 2개는 폭과 거의 상관없이 이미 110에 걸려 있었습니다** — 1개는 컨테이너 142, 2개는 264부터입니다.
-
-  **폭은 이제 담는 쪽 트랙이 정합니다** (아래 OrderBox 「결정」 grid 항목). `min-w`까지 뺀 것은 `minmax(0, 1fr)` 트랙에 `min-width`를 걸면 줄바꿈 대신 가로 넘침이 나기 때문입니다. **실제로 92 밑으로 내려갑니다** — 소비 앱 좌우 마진이 20이라 360 기기에서 컨테이너 320, 셀 88이 됩니다. 종전에는 이 폭에서 3개가 2개 + 1개로 줄바꿈됐고, 지금은 3열에 품목명이 접힙니다. `min-w`를 남기면 이 폭에서 가로로 넘치므로 빼는 쪽이 맞고, 화면이 바뀌는 것은 아래 OrderBox 「디자인 확인 필요」에 올렸습니다.
-- **`inverse`는 배경을 그리지 않고 글자색만 바꿉니다.** 어두운 배경은 이 셀을 담는 쪽의 몫입니다 — 셀이 자기 배경을 칠하면 담는 쪽 배경과 이중으로 겹칩니다.
-- **두 행을 `Typography`로 그립니다.** internal-ui가 콘텐츠 텍스트에 일관되게 쓰는 방식입니다 — 인터랙티브 컨트롤 라벨(`Chip`·`Filter`·`Tab`)만 raw 텍스트이고, 표시 텍스트(`Alert`·`Toast`·`FileInfo`·`BadgeLabel` 등)는 `Typography`를 거칩니다. OrderBoxCell은 후자라 `variant`(`body-semibold`·`label`)와 `color`를 prop으로 넘기고, `ORDER_BOX_CELL_STYLES`는 클래스 문자열이 아니라 `ColorVariants` 값을 담습니다. **biz-ui가 컴포넌트 안에서 `Typography`를 쓴 첫 사례입니다** — 그전까지 만든 것이 전부 버튼 계열(컨트롤 라벨)과 인풋(네이티브 `<input>`이라 감쌀 수 없음)이었습니다.
-- **`inverse` 때문에 `COLOR_VARIANTS`에 `white`를 추가했습니다.** `Typography`의 `color`는 `ColorVariants`만 받는데 biz-ui엔 `white` 항목이 없었습니다(internal-ui엔 있습니다). 토큰(`--color-white`)을 새로 만든 것이 아니라 **variants 미러와 safelist에만 추가**한 것이라 「`base/white`는 Tailwind 기본을 쓴다」는 기존 결정과 충돌하지 않습니다 — [button.md](./button.md) 「계열 공통 결정」.
-- **`tone` 값은 `Order/OrderBoxCell/` 아래 정의합니다.** CtaButton `theme`(`primary`·`gray`) · IconButton `theme`(`default`·`filled`·`dark`)과 값이 겹치지 않습니다 (CLAUDE.md [컴포넌트 API]).
-- **라벨 문자열은 소비처가 조립합니다.** `4박스` · `4찬식판 A형 (20개)`의 단위·괄호 포맷이 도메인 규칙이라 DS가 만들지 않고 `boxes` · `itemName`을 문자열로 받아 그리기만 합니다. prop 이름은 Figma 레이어명을 따랐습니다.
-- **높이를 고정하지 않습니다.** 두 행 모두 `w-full`이라 폭이 좁으면 품목명이 줄바꿈됩니다. 문서 프레임(92px)에서도 실제로 2줄로 접힙니다.
-- **컴포넌트명은 `OrderBoxCell`입니다.** Figma 레이어명이 `OrderBoxSell`(Cell 오타)인데 Filter의 `Fillter`와 같은 처리로 바로잡았습니다.
-
-### API
-
-| prop        | 필수 | 기본값    | 비고                          |
-| ----------- | ---- | --------- | ----------------------------- |
-| `boxes`     | ✅   | —         | 1행. `4박스`                  |
-| `itemName`  | ✅   | —         | 2행. `4찬식판 A형 (20개)`     |
-| `tone`      |      | `default` | 3종                           |
-| `className` |      | —         | 담는 쪽의 폭·정렬 보정용      |
-
-### Storybook
-
-`apps/storybook/src/stories/biz-ui/OrderBoxCell.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBoxCell`. 스토리 2종 (`Default` · `Tones`). `inverse`는 `bg-gray-900` 데코레이터를 깔고 봅니다 — `Default`에서 컨트롤로 `inverse`를 골라도 배경이 따라붙습니다.
+- **`shared/`에는 휴일 문구만 있습니다.** 착수 시점에는 열지 않았습니다 — 당시 OrderBox가 `OrderBoxCell`(DOTOLI-335에서 제거)을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 두 컴포넌트가 같이 움직여야 하므로 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
 
 ---
 
 ## OrderBox
 
-Figma: 컴포넌트 세트 `169:688`. 심볼은 `169:686`(noBg) · `169:687`(default) · `179:577`(empty) · `179:624`(past)입니다.
+SKU를 한 줄에 하나씩 세로로 적는 목록입니다. 왼쪽 품목명, 오른쪽 수량입니다(정책 「주문(new)」 1-10). DOTOLI-335에서 가로 3열(`OrderBoxCell`을 담는 grid)을 **통째로 교체**했고, 예전 모양은 남기지 않았습니다(11/13 사용자 결정). 지난 결정은 아래 「이력」에 있습니다.
 
-`OrderBoxCell`을 인스턴스로 담는 3열 grid 컨테이너입니다. 상태 축이 없어 `<div>`로 렌더합니다.
+출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)의 Q1(주문 관리 · 주문 목록)입니다. 아티팩트는 목업이라 색은 DS 토큰으로 옮기고 구조와 상태만 따랐습니다. 소비처는 biz-customer-app BP-132(주문 관리 SKU 세로 표기)입니다.
 
 ### Variant 축
 
-| 축        | 값                                       |
-| --------- | ---------------------------------------- |
-| `variant` | `noBg` · `default` · `past` · `inverse`  |
-
-Figma에는 `empty`가 네 번째 심볼로 있지만 **prop이 아니라 `items` 유무로 파생시켰습니다.** 다만 **빈 상태 배경은 `variant`를 탑니다** (아래 「결정」).
-
-**`inverse`는 DOTOLI-317에서 추가했고 DS 컴포넌트 세트에 심볼이 아직 없습니다.** 실측 출처는 고객 비즈 파일의 두 화면입니다 — 채워진 상태 [`1239:18608`](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1239-18608&m=dev)과 빈 상태 [`1217:13818`](https://www.figma.com/design/LomGIAwvPAkyRbBcGbk9rs/%EA%B3%A0%EA%B0%9D-%EB%B9%84%EC%A6%88?node-id=1217-13818&m=dev). 심볼 추가는 디자이너에게 요청 대상입니다 — 아래 「디자인 확인 필요」.
-
-**심볼명이 `rest`인데 `past`로 바꿔 달라고 디자이너에게 요청해 둔 상태입니다.** 문서 프레임 라벨(`past`)이 맞고 구현도 `past`입니다. Figma 반영 전까지 심볼 `179:624`는 `variant=rest`로 보입니다.
+축이 없습니다. 빈 상태는 prop이 아니라 `items` 유무로 파생합니다.
 
 ### 실측 스펙
 
-| `variant` | 배경         | 테두리         | radius       | Cell `tone` | 빈 상태 배경     |
-| --------- | ------------ | -------------- | ------------ | ----------- | ---------------- |
-| `noBg`    | 없음         | 없음           | 없음         | `default`   | `gray/100`       |
-| `default` | `base/white` | `gray/100` 1px | `rounded-16` | `default`   | `gray/100`       |
-| `past`    | `gray/100`   | `gray/100` 1px | `rounded-16` | `muted`     | `gray/100`       |
-| `inverse` | 없음         | 없음           | 없음         | `inverse`   | `blue/900` 80%   |
+| 요소 | 아티팩트 Q1 | 구현 |
+| --- | --- | --- |
+| 한 줄 | 왼쪽 품목명 · 오른쪽 수량, 글자 14, 줄 높이 20 | `flex-h-stack` `justify-between` `gap-[8px]` |
+| 품목명 | `rgb(26,34,51)` · 600 | `label-semibold` `gray-900`(값이 같음) |
+| 수량 | `rgb(74,84,104)` · 400 | `label` `gray-700`(`#4c566e`, 가장 가까운 토큰). 굵기는 500(14px 토큰은 500 · 600 · 700뿐) |
+| 하루 전체 0 | 품목명 자리에 굵은 「주문 없음」 한 줄 | `emptyLabel`을 품목명과 같은 글자(`label-semibold` `gray-900`)로 |
+| 줄 사이 | 디자인에 SKU가 하나뿐이라 값 없음 | `gap-[2px]`(`OrderInputCardItems` 선례) |
 
-빈 상태에서 `variant`가 물고 있는 것은 **배경 하나뿐**입니다. `rounded-16` · `place-items-center`와 문구 색(`label` · `gray/400`)은 네 variant가 공유합니다.
-
-**`inverse`의 실측 출처는 둘이고 성격이 다릅니다.** 채워진 쪽은 실제 컴포넌트 인스턴스, 빈 쪽은 디자이너가 화면에 직접 그린 맨 프레임입니다.
-
-| 상태   | 노드          | 성격        | 실측                                          |
-| ------ | ------------- | ----------- | --------------------------------------------- |
-| 채워짐 | `1239:18608`  | 인스턴스    | 338×89 = padding 14 + 셀 61 + 14. 배경·stroke 없음 |
-| 빔     | `1217:13818`  | 맨 프레임   | 340×44 = padding 12 + 문구 20 + 12. `rounded-16` |
-
-**padding은 14로 통일했습니다.** 실제 인스턴스 쪽이 DS 공통값 14와 일치하고, 12는 맨 프레임 하나뿐이라 드리프트로 봤습니다.
-
-빈 쪽 색 두 개는 토큰과 정확히 일치하지 않아 근사로 옮겼습니다.
-
-| 항목 | Figma `1217:13818` | biz-ui       |
-| ---- | ------------------ | ------------ |
-| 배경 | `#031f4a` 80%      | `blue/900`(`#183868`) 80% |
-| 문구 | `base/white` 50%   | `gray/400`(`#aeb5c6`)     |
-
-radius 16은 원본 프레임 실측값이라 `ORDER_BOX_EMPTY_STYLE`의 `rounded-16`과 그대로 맞습니다.
-
-`blue/900` 위에 알파를 얹은 값이라 **실제로 보이는 색은 뒤에 깔린 면에 따라 달라집니다.** 디자이너가 알파를 쓴 것은 의도한 것으로 보입니다 — 원본 프레임이 장식 벡터가 깔린 판 위에 있습니다(그 벡터들은 클리핑돼 렌더에 안 나와 구현 대상이 아닙니다).
-
-**대비는 소비처가 뒤에 까는 색이 정하므로 DS가 보장할 수 없습니다.** `blue/500` 위라고 가정하면 원안 4.22:1 · 근사안 4.48:1로 근사로 옮기며 나빠지지는 않았지만, **둘 다 WCAG AA 일반 텍스트 기준 4.5:1을 넘지 못합니다**(`label`이 14px/500이라 large text 예외도 못 탑니다). 흰 판 위라면 3.12:1까지 떨어집니다. 어두운 면 위에 쓰라는 전제가 깨지면 읽기 어려워지는 값입니다.
-
-| 항목      | 값                                                       |
-| --------- | -------------------------------------------------------- |
-| 레이아웃  | `grid` · gap 12px · 항목이 있으면 `grid-cols-3 content-start items-start`, 빈 상태는 `place-items-center` |
-| padding   | `px-[16px] py-[14px]` — `variant` 공통 (아래 「결정」)   |
-| 폭        | 문서 프레임 338px. 실제로는 fill                         |
-| Cell 배치 | 트랙 3개 고정. 셀은 항상 1/3                             |
-
-338px에서 셀 폭 94(`(338 − 32 − 24) / 3`)로 Figma와 같고, 네 번째부터 다음 행의 첫 칸으로 내려갑니다. 항목이 1개나 2개여도 셀은 1/3이고 나머지 트랙은 빕니다.
+바탕 · 테두리 · padding은 없습니다. 날짜 행과 SKU 행을 담는 흰 카드(Q1의 `.row`)는 소비 앱이 그립니다.
 
 ### 결정
 
-- **`empty`를 `variant`에서 빼고 `items` 유무로 파생시켰습니다.** Figma가 `empty`를 같은 박스에 문구만 바꿔 그린 것이라 축이 아니라 상태이고, 이 레포는 CtaButton · Filter · IconButton · InputField 전부 값 유무로 파생시켜 왔습니다. 소비처 코드도 `variant={isPast ? 'past' : 'default'} items={day.items}`로 끝나 3항 중첩이 사라집니다.
-- **~~빈 상태는 `variant`를 타지 않고 심볼 하나로 고정입니다.~~ — DOTOLI-317에서 뒤집었습니다.** 이제 `ORDER_BOX_STYLES`가 variant마다 `EMPTY_BACKGROUND`를 들고 있고 빈 상태 분기가 그것을 씁니다. `gray/100`을 쓰는 세 variant는 값이 그대로라 동작은 안 바뀝니다.
+- **variant 추가가 아니라 교체입니다.** 소비 앱이 가로 3열을 쓰는 화면이 더는 없어 옵션으로 남기지 않았습니다(소비 앱 plan.md DS4). 그래서 `variant` 축(`noBg` · `default` · `past` · `inverse`)이 통째로 없어졌고, DOTOLI-317의 `inverse`도 함께 정리됐습니다. 남긴 것은 아티팩트에 있는 상태(채워짐 · 하루 전체 0)뿐입니다.
+- **`OrderBoxCell`을 지우고 비공개 `OrderBoxRow`로 바꿨습니다.** 세로 한 줄이라 「Cell」이 맞지 않고, 소비 앱이 import하는 곳이 0건이었습니다. 한 줄은 OrderBox 안에서만 쓰는 조각이라 `OrderInputCardItems`처럼 같은 폴더의 비공개 컴포넌트로 뒀습니다.
+- **`boxes`를 `quantity`로 바꿨습니다.** 값이 「5박스」에서 「5박스 · 125개」가 되어 이름이 맞지 않습니다. 소비 앱은 `getOrderBoxItems` 한 곳만 고치면 됩니다.
+- **문자열은 소비 앱이 조립합니다.** 「5박스 · 125개」의 단위 · 구분자, 일부 SKU만 0인 행의 「주문 없음」(디자인에 없는 경우)은 도메인 규칙이라 DS가 만들지 않습니다. DS가 0을 알아서 표기하려면 숫자를 받아야 해서 이 원칙이 바뀝니다.
 
-  당시 근거는 「Figma에 `empty` 심볼이 하나뿐」이었는데, `inverse`의 빈 상태가 두 번째 디자인으로 나오면서 전제가 사라졌습니다. 심볼이 하나일 때 그 결정이 막던 것은 **심볼에 없는 조합을 구현이 지어내는 것**이었고, 그 경계는 지금도 같습니다 — 디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 그대로 씁니다.
-- **`inverse`를 `variant`의 네 번째 값으로 넣고 `tone` 축을 따로 열지 않았습니다.** 축을 하나 더 열면 `variant` × `tone` = 8조합이 되는데 디자인이 있는 것은 1개뿐이라, 나머지 7개의 생김새를 구현이 정해야 합니다. 위 결정이 그어 둔 경계와 같은 이유로 기각했습니다. `tone`이 이미 `OrderBoxCell`의 축 이름이라 같은 이름이 두 층에 생기는 것도 피했습니다.
-
-  **`variant`가 표면(`noBg` · `default` · `inverse`)과 상태(`past`)를 한 축에 섞고 있는 것은 맞습니다.** 그 혼합은 `past`를 넣을 때 이미 받아들인 것이고, 지금 `surface` × `state`로 쪼개면 소비 앱이 깨지는데 그걸 요구하는 디자인 변경이 없어 두었습니다.
-- **`inverse`의 채워진 상태에는 컨테이너 배경이 없습니다.** `noBg`처럼 어두운 면 위에 셀만 올라가고, 배경이 그려지는 것은 빈 상태뿐입니다. `default`가 컨테이너(`white`)와 빈 상태(`gray/100`)를 다르게 쓰는 것과 같은 모양입니다. 실제 인스턴스 `1239:18608`이 `338×89 = 14 + 61 + 14`이라 **padding은 DS 공통값 14 그대로**입니다.
-- **`inverse` 위에 붙는 상단 라인과 backdrop blur는 OrderBox가 갖지 않습니다.** Figma도 그렇게 나눠 놨습니다 — 라인(`border-t` 2px · `white` 40%)과 `backdrop-blur-[10px]`은 부모 프레임 `1239:18607`에 있고 OrderBox 인스턴스에는 stroke 오버라이드가 없습니다.
-
-  이유가 셋입니다. **프레임이 340인데 OrderBox는 338이라** 컴포넌트가 그리면 양쪽 1px씩 짧습니다. **블러가 같은 요소에 얹혀 있는데** 블러는 박스가 아니라 박스가 놓인 면의 성질이라, 라인을 가져가면 블러도 따라오고 컴포넌트가 「어떤 면 위에 있는가」를 소유하기 시작합니다. 그리고 이건 날짜 블록과 주문 목록을 **가르는 선**이라 담는 쪽이 `border-t`로 갖는 것이 CLAUDE.md [스타일 규칙]의 기존 결정입니다.
-- **`inverse`의 빈 상태와 채워진 상태는 레이아웃 트리에서 자리가 다릅니다.** 채워진 쪽은 날짜 블록과 같은 프레임(`1239:18601`) 안에 라인으로 구분돼 들어가고, 빈 쪽은 그 프레임 **밖 형제 행**(`1217:13817`)으로 빠집니다. 문구도 갈립니다 — 날짜 블록 아래가 채워진 화면은 「오늘 사용하세요 · N월N일(요일)배송」, 빈 화면은 「오늘 주문한 식기가 없습니다」이고 알약 안에 「오늘은 배송이 없습니다」가 한 번 더 들어갑니다.
-
-  **한 컴포넌트가 스스로 자리를 옮길 수는 없으므로 이 차이는 소비 앱이 갖습니다.** 라인·블러 래퍼는 항목이 있을 때만 씌우고, `OrderBox`는 그 안에 들어가기만 합니다. 래퍼가 여러 화면에서 반복되는 것이 확인되면 껍데기를 여는 것이 아니라 **컴포넌트를 하나 더 만드는 쪽**입니다 (CLAUDE.md [코드 규칙] 1의 `Overlay` ↔ `Modal` 선례).
-- **`empty` · `past`의 stroke는 구현하지 않았습니다.** Figma에서 배경과 stroke가 둘 다 `gray/100`이라 렌더 결과가 배경만 칠한 것과 동일합니다. `default`만 `white` 배경 위 `gray/100` stroke라 실제로 보입니다.
-- **padding은 `variant` 공통 `px-[16px] py-[14px]`입니다.** Figma는 `noBg` 16/14 · 테두리 있는 쪽 17/15인데, 정확히 1px씩만 차이나는 것으로 보아 카드 쪽 프레임이 stroke를 레이아웃에 포함해 계산한 값입니다. `inset-ring`은 레이아웃을 차지하지 않아 되돌려 줄 1px이 없으므로 16/14 그대로 갑니다 — 링을 padding으로 보정하지 않는 것은 CLAUDE.md [스타일 규칙]을 따른 것입니다. 대신 테두리 있는 variant는 심볼보다 셀이 1px 넉넉합니다(폭 94 vs 93.33 · 빈 상태 높이 48 vs 50). 투명 `border`로 크기를 맞추는 우회법은 같은 규칙이 기각했고, 그렇게 해도 전 variant가 93.33이 되어 이번엔 `noBg` 심볼이 어긋납니다 — **두 심볼이 애초에 1px 다르므로 양쪽 다 맞는 답은 없습니다.**
-- **~~Cell에는 `flex-1`만 겁니다.~~ — DOTOLI-319에서 `grid-cols-3`으로 바꿨습니다.** 항목이 1개든 3개든 **셀은 항상 1/3**입니다. `flex-1`은 있는 항목끼리 남은 공간을 나누므로 1개면 한 줄을 다 먹고, 이를 막던 것이 `max-w-[110px]`이었습니다(위 OrderBoxCell 「결정」). cap을 빼면서 트랙 3개를 고정할 수단이 필요해 grid로 옮겼고, 셀에는 아무것도 걸지 않습니다.
-
-  **`grid-cols-3`은 BASE가 아니라 ITEMS에 둡니다.** BASE에 두면 빈 상태에서 `grid-cols-1`로 덮어야 하는데, 이 레포는 `tailwind-merge` 없이 `clsx`만 써서 두 클래스가 함께 남고 결과가 스타일시트 순서에 달립니다. BASE에서 컬럼 선언을 빼면 충돌이 생기지 않습니다.
-
-  **`content-start`도 ITEMS에만 겁니다.** grid의 `align-content` 기본값은 높이에 여유가 있으면 행을 늘려서, 소비 앱이 높이를 고정하면 두 번째 행이 아래로 밀립니다. 종전 flex 구조에 있던 값이라 그대로 옮겼습니다. 빈 상태는 반대로 이 늘어남 덕분에 `place-items-center`로 세로 가운데가 잡히므로 걸지 않습니다.
-- **`tone`을 소비처에 노출하지 않습니다.** `variant`에서 유도합니다 (`past` → `muted`, `inverse` → `inverse`, 나머지 → `default`).
-- **개수를 제한하지 않습니다.** 4개부터 grid가 다음 행을 만들고, 4번째도 1/3 폭입니다.
-- **~~`주문 없음`은 DS가 고정합니다.~~ — DOTOLI-288에서 열었습니다.** `emptyLabel`을 받고 안 주면 `ORDER_BOX_EMPTY_LABEL`(`주문 없음`)이 그대로 쓰입니다. **기본값은 여전히 DS 소유**라 소비처가 매번 정할 것이 늘지는 않습니다.
-
-  당시 근거는 「Figma 텍스트가 하나로 고정」이었는데, **빈 상태에 들어갈 문구가 화면마다 갈리는 것이 확인됐습니다.** 같은 빈 박스가 「주문 없음」일 수도 「휴무일」일 수도 있고, 그 판정은 도메인 규칙이라 DS가 알 수 없습니다 — `OrderBoxCell`의 `boxes` · `itemName`을 소비처가 조립하는 것과 같은 자리입니다. 「Figma에 하나뿐」은 **그 화면에서 하나**라는 뜻이지 값이 불변이라는 뜻이 아니었습니다.
-
-  **`InputField`의 `INPUT_FIELD_VERIFY_LABEL`(`확인`)과는 갈립니다.** 그쪽은 버튼이 하는 **동작의 이름**이라 화면이 바뀌어도 「확인」입니다. 빈 상태 문구는 동작이 아니라 **상황 설명**이라 상황마다 달라집니다.
-- **기본값은 `default`입니다.** Figma 컴포넌트 세트의 기본은 첫 심볼인 `noBg`지만, `noBg`는 배경을 담는 쪽이 그린다는 전제라 단독으로 쓰이지 않습니다.
-- **`key`는 `itemName`입니다.** 한 박스 안에서 같은 품목이 두 줄로 나오는 것은 데이터 오류라 인덱스를 쓰지 않았습니다.
+  **같은 계열 `OrderInputCardItems`와는 반대입니다.** 그쪽은 수량을 `number`로 받아 0이면 DS가 「주문없음」을 연한 색(`blue-200`)으로 그립니다. 그쪽은 단위가 「개」 하나로 고정된 입력 화면 요약이라 DS가 숫자에서 문구를 만들 수 있고, 여기는 「박스 · 개수」 두 단위를 소비 앱이 조립하는 표기라 0만 따로 DS가 맡으면 표기 규칙이 두 곳으로 갈립니다. 일부 SKU만 0인 행의 색 구분은 디자인에 없어 두지 않았습니다.
+- **`emptyLabel`과 기본값 `주문 없음`은 그대로입니다(DOTOLI-288).** 빈 상태 모양만 회색 박스 가운데 정렬에서 품목명 자리의 한 줄로 바뀌었습니다. 글자는 품목명과 같아서 `ORDER_BOX_EMPTY_LABEL_COLOR`를 `ORDER_BOX_ITEM_NAME_COLOR`로 묶어 두었습니다. 품목명 색이 바뀌면 빈 상태도 따라갑니다.
+- **마크업은 `<dl>`입니다.** 줄마다 `<div><dt>품목</dt><dd>수량</dd></div>`이고, 품목과 수량이 반복되는 라벨-값 쌍이라서입니다. [info.md](./info.md) 「InfoField」가 정리한 기준(`<dl>`은 묶음을 소유한 쪽이 둠)에 맞고, 여기서는 OrderBox가 묶음을 소유합니다. 빈 상태 한 줄은 `<dl>` 밖 단독 `<p>`입니다. `Typography`가 `dt` · `dd` · `p`를 `as`로 받습니다.
+- **품목명은 줄을 바꾸고 수량은 바꾸지 않습니다.** 품목명에 `min-w-0`, 수량에 `shrink-0` `whitespace-nowrap`를 걸었습니다. 수량이 두 줄로 깨지면 「박스 · 개수」를 한눈에 읽을 수 없어서입니다.
+- **`w-full`입니다.** 폭은 담는 카드가 정합니다.
+- **`key`는 `itemName`입니다.** 한 날짜에 같은 품목이 두 줄로 나오는 것은 데이터 오류라 인덱스를 쓰지 않았습니다(종전과 같음).
+- **카드(날짜 행 + 목록)는 DS가 만들지 않았습니다.** Q1은 날짜 행과 SKU 행을 테두리 있는 흰 카드 하나에 담는데, 소비 앱이 [OrderDateInfo](#orderdateinfo)와 OrderBox를 조립하는 지금 구조를 유지했습니다. 카드 컴포넌트는 이 티켓 범위를 넘습니다.
 
 ### API
 
-| prop        | 필수 | 기본값    | 비고                                              |
-| ----------- | ---- | --------- | ------------------------------------------------- |
-| `items`      | ✅   | —              | `OrderBoxItem[]`. 빈 배열이면 빈 상태             |
-| `variant`    |      | `default`      | 4종                                               |
-| `emptyLabel` |      | `'주문 없음'`  | 빈 상태 문구. 기본값은 `ORDER_BOX_EMPTY_LABEL`    |
-| `className`  |      | —              | 담는 쪽의 폭 보정용                               |
+| prop | 필수 | 기본값 | 비고 |
+| --- | --- | --- | --- |
+| `items` | ✅ | — | `OrderBoxItem[]`(`{ itemName, quantity }`). 빈 배열이면 `emptyLabel` 한 줄 |
+| `emptyLabel` | | `'주문 없음'` | 기본값은 `ORDER_BOX_EMPTY_LABEL` |
+| `className` | | — | 비어 있으면 `<p>`, 아니면 `<dl>`에 붙음 |
 
-`OrderBoxItem`은 `Pick<OrderBoxCellProps, 'boxes' | 'itemName'>`입니다.
-
-**`ORDER_BOX_ITEM_STYLE`을 제거했습니다** (DOTOLI-319). 배럴로 나가던 값이라 파괴적 변경이지만 소비 앱(`biz-customer-app`)은 `<OrderBox>`만 쓰고 이 상수를 import하는 곳이 없습니다. 같은 티켓에서 `ORDER_BOX_BASE_STYLE` · `ORDER_BOX_ITEMS_STYLE` · `ORDER_BOX_EMPTY_STYLE` · `ORDER_BOX_CELL_BASE_STYLE`의 값도 바뀌었습니다.
-
-**`ORDER_BOX_EMPTY_STYLE`에서 `bg-gray-100`이 빠졌습니다** (DOTOLI-317). 배경이 `ORDER_BOX_STYLES[variant].EMPTY_BACKGROUND`로 옮겨 가서입니다. 배럴로 나가는 값이지만 컴포넌트 밖에서 쓰던 곳은 없습니다.
+**DOTOLI-335는 파괴적 변경입니다.** 없어진 것은 `variant` · `ORDER_BOX_VARIANTS` · `ORDER_BOX_STYLES` · `OrderBoxVariant` · `OrderBoxVariantStyles` · `ORDER_BOX_ITEMS_STYLE` · `ORDER_BOX_EMPTY_STYLE`, `OrderBoxCell`과 그 상수 · 타입 전부(`ORDER_BOX_CELL_*` · `OrderBoxCellProps` · `OrderBoxCellTone` · `OrderBoxCellToneStyles`), `OrderBoxItem.boxes`입니다. 남은 공개 상수 중 `ORDER_BOX_BASE_STYLE`(grid → 세로 flex)과 `ORDER_BOX_EMPTY_LABEL_COLOR`(`gray-400` → `gray-900`)는 값이 바뀌었고, `ORDER_BOX_ROW_STYLE` · `ORDER_BOX_ITEM_NAME_STYLE` · `ORDER_BOX_QUANTITY_STYLE` · `ORDER_BOX_ITEM_NAME_COLOR` · `ORDER_BOX_QUANTITY_COLOR`와 `OrderBoxRowProps`가 새로 공개됐습니다. 두 상수를 소비 앱이 import하는 곳은 없습니다. 소비 앱에서 버전을 올리면 `OrderDayCard` · `FixedOrderDayItem`(`ORDER_BOX_VARIANTS` · `variant`)과 `getOrderBoxItems`(`boxes`)가 깨지고, 삭제 예정인 `OrderDelivery` · `OrderTodayUsage` · `OrderDeliveryUsageDayItem`은 BP-120 · 123이 먼저 지워야 합니다. 332~334는 이 변경 전에 따로 배포했습니다.
 
 ### 디자인 확인 필요
 
-- **`inverse` 빈 상태 심볼을 DS 컴포넌트 세트(`169:688`)에 추가해 주세요.** 채워진 쪽은 실제 인스턴스(`1239:18608`)가 있는데 빈 쪽은 제품 파일의 맨 프레임뿐이라, 둘을 한 컴포넌트의 두 상태로 대조할 심볼이 없습니다.
-- **색 두 개가 토큰과 정확히 일치하지 않습니다** (위 「실측 스펙」). 토큰을 늘리지 않고 `blue/900` 80% · `gray/400`으로 근사했습니다.
-- **셀이 항상 1/3이 되면서 화면이 아래처럼 바뀝니다** (DOTOLI-319). 의도와 맞는지, 맞으면 Figma `OrderBoxCell` 컴포넌트에서도 `min-w-[92px]` · `max-w-[110px]`를 빼 주세요. Figma에 남아 있으면 다음 사람이 되돌릴 수 있습니다. 기기 폭은 소비 앱 좌우 마진 20을 뺀 컨테이너 기준으로 계산했습니다.
-
-  | 기기 | 항목 수 | 종전 | 지금 |
-  | --- | --- | --- | --- |
-  | 375 | 1~2개 | 셀 110 | 셀 93. 한 줄이던 품목명이 두 줄로 접힘 |
-  | 360 | 3개 | 2개 + 1개 줄바꿈 | 3열 (셀 88) |
-  | 480 | 4개 | 4열 한 줄 (셀 93) | 3개 + 1개 (셀 128) |
-- **빈 상태 문구가 WCAG AA(4.5:1)에 못 미칩니다.** 히어로 표면 위 기준 4.48:1이고 원안(`base/white` 50%)도 4.22:1이라 근사 때문에 생긴 문제가 아닙니다. 문구 색을 한 단계 밝히면(`gray/300` 이상) 넘어갑니다.
+| 항목 | 내용 |
+| --- | --- |
+| Figma 심볼 | 세로 목록 심볼이 없음. 기존 `OrderBoxCell`(`169:530`) · `OrderBox`(`169:688`) 세트는 낡은 모양 |
+| 수량 색 | `rgb(74,84,104)` → 가장 가까운 `gray-700`(`#4c566e`) |
+| 수량 굵기 | 아티팩트 400 → `label` 500. 14px 타이포 토큰에 400이 없음 |
+| 줄 사이 | 디자인에 값이 없어 2px |
+| 일부 SKU만 0 | 디자인에 없음. 소비 앱이 수량 자리에 「주문 없음」을 넘김 |
 
 ### Storybook
 
-`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 스토리 4종 (`Default` · `Variants` · `Empty` · `Wrapped`). 실제 폭은 fill이라 스토리에서만 `w-[338px]`을 걸어 문서 프레임과 같은 셀 94 + 다음 행을 봅니다.
+`apps/storybook/src/stories/biz-ui/OrderBox.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderBox`. 폭은 Q1 카드 안쪽과 같은 306px(화면 380 − 페이지 padding 40 − 카드 padding 32 − 테두리 2)입니다.
 
-**`inverse`는 `bg-blue-500` 데코레이터를 깔고 봅니다.** 빈 상태 배경이 알파라 뒤에 깔린 색이 비치고, 셀은 흰 글씨라 밝은 판에서 안 보입니다. `OrderBoxCell` **스토리**가 `inverse` tone에 `bg-gray-900`을 까는 것과 같은 처리입니다 — 컴포넌트가 아니라 스토리가 갖는 판입니다(`ORDER_BOX_CELL_STYLES`의 `INVERSE`는 색만 정하고 배경이 없습니다).
+| 스토리 | 보는 것 |
+| --- | --- |
+| `Default` | 컨트롤 패널. SKU 3개 |
+| `Empty` | 기본 문구 ↔ `emptyLabel` 지정 |
+| `PartialZero` | 일부 SKU만 0. 수량 자리에 「주문 없음」 |
+| `LongName` | 긴 품목명이 줄바꿈되고 수량은 한 줄로 남는 것 |
 
-**판 색 `blue-500`은 스토리 전용 선택이고 제품 표면 실측값이 아닙니다.** 제품 쪽은 그라디언트가 깔린 히어로라 단색 토큰으로 떨어지지 않습니다. 알파 배경이라 실제 대비는 소비처가 뒤에 까는 색이 정하므로, 이 스토리는 「알파가 비친다」를 보여줄 뿐 대비 검증용이 아닙니다.
+### 이력
 
-`Empty`는 **기본값 ↔ `emptyLabel` 지정 ↔ `variant = inverse`** 세 개를 나란히 둡니다. 빈 상태 배경이 `variant`를 타게 된 뒤로 문구 축만으로는 부족해졌습니다.
+DOTOLI-335 전의 가로 3열 OrderBox · `OrderBoxCell` 결정입니다. 코드는 없어졌지만 다른 문서가 인용하는 것만 남깁니다. 상세는 git 이력(이 파일의 DOTOLI-334 시점)에 있습니다.
 
-**DOTOLI-319 검증** — 스토리 렌더에서 컨테이너 폭과 항목 수를 바꿔 쟀습니다. 종전 값은 같은 DOM에 종전 flex 스타일(`flex-wrap` · 셀 `flex: 1 1 0%` · `min-width: 92px` · `max-width: 110px`)을 인라인으로 씌워 같은 자리에서 쟀습니다. 폭은 컨테이너 기준이고, 338 말고는 소비 앱 좌우 마진 20을 뺀 값입니다(320 = 360 기기, 335 = 375 기기, 440 = 480 기기). `|`는 행 바뀜입니다.
-
-| 컨테이너 | 1개 | 2개 | 3개 | 4개 |
-| --- | --- | --- | --- | --- |
-| 320 | 110 → **88** | 110/110 → **88/88** | 110/110 \| 110 → **88/88/88** | 110/110 \| 110/110 → **88/88/88 \| 88** |
-| 335 | 110 → **93** | 110/110 → **93/93** | 93/93/93 → 같음 | 93/93/93 \| 110 → **93/93/93 \| 93** |
-| 338 | 110 → **94** | 110/110 → **94/94** | 94/94/94 → 같음 | 94/94/94 \| 110 → **94/94/94 \| 94** |
-| 440 | 110 → **128** | 110/110 → **128/128** | 110/110/110 → **128/128/128** | 93/93/93/93 → **128/128/128 \| 128** |
-
-종전과 값이 같은 것은 3개가 한 행에 들어가고 셀이 cap(110) 밑인 경우(335 · 338)뿐입니다. 338 · 3개의 94가 Figma `1239:18608`과 같습니다. `content-start`는 높이를 300으로 고정해도 4번째 셀이 y 88로 높이 auto일 때와 같은 것으로 확인했습니다.
-
-빈 상태는 338 × 48.3이고 문구 중심이 박스 중심과 가로세로 0.00 차이입니다. `OrderBoxCell` 단독 스토리는 기본 문구의 콘텐츠 폭이 107.1이라 종전 cap(92~110) 안쪽이었고, 값을 빼도 렌더가 같아 스토리에 래퍼 폭을 걸지 않았습니다.
+- **DOTOLI-229 · 230 (Figma 실측).** `OrderBoxCell`은 박스수 · 품목명 2행(`tone` 3종), OrderBox는 셀을 담는 컨테이너(`variant` `noBg` · `default` · `past`)였습니다. **biz-ui가 컴포넌트 안에서 `Typography`를 쓴 첫 사례**가 `OrderBoxCell`이고, 그 `inverse` tone 때문에 `COLOR_VARIANTS`에 `white`가 들어왔습니다(토큰이 아니라 variants 미러와 safelist에만). `white`는 지금도 `Badge` · `CalendarDayButton` 등이 써서 남아 있습니다.
+- **DOTOLI-288.** 빈 상태 문구를 `emptyLabel`로 열었습니다. 지금도 그대로입니다.
+- **DOTOLI-317.** `inverse`를 넷째 `variant`로 넣으면서 「빈 상태는 variant를 타지 않는다」를 뒤집었습니다. 그때 세운 기준이 **「디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 그대로 쓴다」**입니다. `tone` 축을 따로 열면 디자인 없는 7조합을 구현이 지어내야 해서 기각한 것이고, 이 기준은 CtaButton `white` 테마([button.md](./button.md))가 인용합니다.
+- **DOTOLI-319.** 셀의 `min-w` · `max-w`를 버리고 `grid-cols-3`으로 셀을 항상 1/3로 고정했습니다.
 
 ---
 
@@ -275,9 +146,9 @@ Figma: 컴포넌트 세트 `203:872`. 심볼은 `203:871`(평일·배송) · `20
 
 - **`hasDelivery`를 prop으로 열지 않고 `deliveryInfo` 유무로 파생시켰습니다.** 배송이 없을 때 문구가 `배송없음` 하나로 고정이라 축을 따로 열 이유가 없습니다. OrderBox가 `items` 유무로 빈 상태를 파생시킨 것과 같은 처리입니다.
 - **두 축이 서로를 참조하지 않습니다.** 1행은 `isHoliday`만, 2행은 `deliveryInfo` 유무만 봅니다. 네 심볼을 2×2 맵으로 펼치면 같은 값이 두 번씩 들어가므로 `ORDER_DATE_INFO_STYLES`에 색 4개만 두고 각 행에서 삼항으로 고릅니다.
-- **`· 휴일` 접미어는 컴포넌트가 붙입니다.** 네 심볼 전부 같은 형태이고 날짜 색과 함께 바뀌는 표현이라 소비처에 맡기면 어긋납니다. 반대로 `3일(수)` 같은 날짜 포맷은 도메인 규칙이라 받아서 그리기만 합니다 — `OrderBoxCell`의 `boxes` · `itemName`과 같은 기준입니다.
+- **`· 휴일` 접미어는 컴포넌트가 붙입니다.** 네 심볼 전부 같은 형태이고 날짜 색과 함께 바뀌는 표현이라 소비처에 맡기면 어긋납니다. 반대로 `3일(수)` 같은 날짜 포맷은 도메인 규칙이라 받아서 그리기만 합니다 — OrderBox 항목의 `itemName` · `quantity`(「문자열은 소비 앱이 조립합니다」)와 같은 기준입니다.
 - **`배송없음`은 DS가 고정합니다 — 다만 근거였던 선례가 바뀌었습니다.** 원래 「OrderBox의 `주문 없음`과 같은 처리」였는데 그쪽이 DOTOLI-288에서 `emptyLabel`로 열렸습니다. **이번 범위가 아니라 동작은 그대로 두었습니다.** 다만 둘은 성격이 같습니다 — 동작의 이름이 아니라 **값 없음을 알리는 상황 설명**이라, 화면이 바뀌면 문구도 갈릴 수 있습니다. **배송 없는 자리에 다른 문구가 필요한 화면이 나오면** 같은 방식(`deliveryInfo`의 짝이 되는 기본값 prop)으로 열면 되고, 그 전까지는 고정으로 둡니다.
-- **행 간격이 음수인 것은 `OrderBoxCell`과 같은 이유입니다.** 심볼 높이 47px이 `26.1 + 23.2 - 2`로 맞습니다.
+- **행 간격이 음수(`-mb-0.5`)인 것은 Figma 실측 그대로입니다.** 두 행의 line-height 여백이 겹쳐 보이는 것을 디자이너가 -2px로 당겨 둔 값이고, 심볼 높이 47px이 `26.1 + 23.2 - 2`로 맞습니다.
 - **폭을 고정하지 않습니다.** 심볼 폭이 내용에 따라 104 / 56 / 101px로 달라 hug입니다.
 - **OrderInputCard의 「날짜 + 상태 문구」 2행과 묶지 않습니다.** 겉모양은 닮았지만 심볼 `309:1957`의 그 블록(`94:758`)은 이 컴포넌트의 인스턴스가 아니라 별도 프레임이고, 1행 `body-semibold`(16px) `gray/800` · 2행 `label`(14px) `gray/400`로 토큰이 전부 다르며 행 간격 음수도 없습니다.
 
@@ -354,7 +225,7 @@ Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이�
 - **에러 메시지 문구는 소비처가 넘깁니다.** Figma 텍스트가 `에러 메시지가 표시됩니다`라는 자리표시자이고, 실제 문구는 재고·마감 등 도메인 사유마다 달라집니다. `aria-invalid`와 `aria-describedby`도 함께 겁니다 (`InputField`와 같은 처리).
 - **`max`는 「몇 개부터 에러인지」를 정합니다.** 기본값 `100`. `value > max`면 에러 상태가 되고, 절단하거나 버튼을 막지 않습니다. 상한 장치를 `max`와 `errorMessage` 둘로 나누면 판정 기준이 두 군데로 흩어지므로 **기준은 `max` 하나, 문구만 `errorMessage`**로 갈랐습니다.
 - **증가 버튼은 비활성하지 않습니다.** 에러 심볼 `534:1727`은 이미 초과 상태인데도 `Plus`가 활성(`gray/500`)이고, 주석 `337:3554`도 감소 버튼만 언급합니다. 버튼으로도 상한을 넘길 수 있고 넘기면 에러로 알립니다.
-- **총계는 `unitsPerBox`를 받아 컴포넌트가 곱합니다.** 상자당 갯수는 상품명과 무관하게 API로 따로 내려옵니다 — 이름의 `10입` · `20개`는 표시용 문자열일 뿐이라 파싱 대상이 아닙니다. `총 {value × unitsPerBox}개` 조립까지 DS가 하는 이유는 곱셈이 포맷이 아니라 계산이고, 단위 `개`가 심볼 3종에서 모두 고정이기 때문입니다 — `OrderBoxCell`의 `boxes`처럼 단위가 도메인마다 달라지는 경우와 다릅니다.
+- **총계는 `unitsPerBox`를 받아 컴포넌트가 곱합니다.** 상자당 갯수는 상품명과 무관하게 API로 따로 내려옵니다 — 이름의 `10입` · `20개`는 표시용 문자열일 뿐이라 파싱 대상이 아닙니다. `총 {value × unitsPerBox}개` 조립까지 DS가 하는 이유는 곱셈이 포맷이 아니라 계산이고, 단위 `개`가 심볼 3종에서 모두 고정이기 때문입니다 — OrderBox의 `quantity`(「5박스 · 125개」)처럼 단위와 표기가 도메인마다 달라지는 경우와 다릅니다.
 - **인풋 라벨은 `aria-labelledby`로 상품명을 가리킵니다.** 보이는 라벨이 없고, 한 화면에 스테퍼가 여러 개 놓이면 `aria-label='수량'`으로는 어느 상품인지 구분되지 않습니다. `useId`로 상품명에 id를 붙여 연결합니다.
 - **이미지는 `<img>`로 직접 그립니다.** biz-ui에 이미지 프리미티브가 없고 이 컴포넌트만 쓰므로 새로 만들지 않았습니다. `alt`은 `name`입니다.
 - **상품명에 `whitespace-nowrap`을 넣지 않았습니다.** 심볼 CSS에는 있지만 Figma의 hug 표현이고, 품목명이 길면 312px를 넘칩니다. 가운데 정렬한 채 줄바꿈되게 뒀습니다.
@@ -550,7 +421,7 @@ Figma 심볼은 9개(`type` 3 × `isOpen` 2 × `useDetail` 2 중 `isOpen=false·
 
   **접기 계열에서 [`CollapseButton`](./button.md)만 회전 모션이 없는데, 그건 누락이 아니라 결정입니다** — 그쪽은 라벨이 상태에 따라 바뀌어 caret이 수평으로 밀리고 버튼 자체도 콘텐츠 아래라 수직으로 뜁니다. 여기 caret은 `size-[24px]` 슬롯에 고정돼 제자리에서 돕니다.
 
-- **2행 겹침을 `-mb-0.5` 대신 높이 고정으로 처리한 것은 계열 안에서 갈립니다.** 같은 「2행 스택」인 `OrderBoxCell` · `OrderDateInfo`는 Figma의 2px 겹침을 `-mb-0.5`로 그대로 옮겼고, 여기는 `MenuItem` 선례를 따라 높이를 고정했습니다. **총 높이는 62로 같고 행 간격만 2.6px 넓습니다.** 계열을 손볼 때 한쪽으로 모으는 것이 맞습니다.
+- **2행 겹침을 `-mb-0.5` 대신 높이 고정으로 처리한 것은 계열 안에서 갈립니다.** 같은 「2행 스택」인 `OrderDateInfo`(그리고 DOTOLI-335에서 제거된 `OrderBoxCell`)는 Figma의 2px 겹침을 `-mb-0.5`로 그대로 옮겼고, 여기는 `MenuItem` 선례를 따라 높이를 고정했습니다. **총 높이는 62로 같고 행 간격만 2.6px 넓습니다.** 계열을 손볼 때 한쪽으로 모으는 것이 맞습니다.
 
   `h-[62px]`는 `border-box`라 **`border-t` 1px을 포함**합니다. 콘텐츠 박스가 61이 되어 상하 여백이 12가 아니라 10.2로 계산되는데, Figma도 자식 좌표가 `12 + 38 + 12 = 62`로 딱 닫혀 stroke 몫이 따로 없으므로 **총 높이가 맞는 쪽**을 택했습니다. 카드가 세로로 붙어 쌓이는 형태라 총 높이가 어긋나는 편이 비쌉니다.
 

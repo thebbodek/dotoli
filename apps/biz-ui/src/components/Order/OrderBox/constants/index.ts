@@ -1,45 +1,18 @@
-import {
-  OrderBoxVariant,
-  OrderBoxVariantStyles,
-} from '@/components/Order/OrderBox/types';
-import { ORDER_BOX_CELL_TONES } from '@/components/Order/OrderBoxCell';
 import { COLOR_VARIANTS } from '@/variants';
-
-export const ORDER_BOX_VARIANTS = {
-  NO_BG: 'noBg',
-  DEFAULT: 'default',
-  PAST: 'past',
-  INVERSE: 'inverse',
-} as const;
-
-export const ORDER_BOX_BASE_STYLE = 'grid gap-[12px] px-[16px] py-[14px]';
-
-export const ORDER_BOX_ITEMS_STYLE = 'grid-cols-3 content-start items-start';
 
 export const ORDER_BOX_EMPTY_LABEL = '주문 없음';
 
-export const ORDER_BOX_EMPTY_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
+export const ORDER_BOX_BASE_STYLE = 'flex-v-stack w-full gap-[2px]';
 
-export const ORDER_BOX_EMPTY_STYLE = 'rounded-16 place-items-center';
+export const ORDER_BOX_ROW_STYLE =
+  'flex-h-stack w-full items-start justify-between gap-[8px]';
 
-export const ORDER_BOX_STYLES: Record<OrderBoxVariant, OrderBoxVariantStyles> =
-  {
-    [ORDER_BOX_VARIANTS.NO_BG]: {
-      EMPTY_BACKGROUND: 'bg-gray-100',
-      TONE: ORDER_BOX_CELL_TONES.DEFAULT,
-    },
-    [ORDER_BOX_VARIANTS.DEFAULT]: {
-      CONTAINER: 'rounded-16 bg-white inset-ring inset-ring-gray-100',
-      EMPTY_BACKGROUND: 'bg-gray-100',
-      TONE: ORDER_BOX_CELL_TONES.DEFAULT,
-    },
-    [ORDER_BOX_VARIANTS.PAST]: {
-      CONTAINER: 'rounded-16 bg-gray-100',
-      EMPTY_BACKGROUND: 'bg-gray-100',
-      TONE: ORDER_BOX_CELL_TONES.MUTED,
-    },
-    [ORDER_BOX_VARIANTS.INVERSE]: {
-      EMPTY_BACKGROUND: 'bg-blue-900/80',
-      TONE: ORDER_BOX_CELL_TONES.INVERSE,
-    },
-  };
+export const ORDER_BOX_ITEM_NAME_STYLE = 'min-w-0';
+
+export const ORDER_BOX_QUANTITY_STYLE = 'shrink-0 whitespace-nowrap';
+
+export const ORDER_BOX_ITEM_NAME_COLOR = COLOR_VARIANTS.GRAY_900;
+
+export const ORDER_BOX_QUANTITY_COLOR = COLOR_VARIANTS.GRAY_700;
+
+export const ORDER_BOX_EMPTY_LABEL_COLOR = ORDER_BOX_ITEM_NAME_COLOR;

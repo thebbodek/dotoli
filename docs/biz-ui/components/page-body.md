@@ -26,7 +26,7 @@ Figma: `component` 페이지의 심볼 7개입니다. 컴포넌트 세트가 아
 
 ## Variant 축
 
-Figma 심볼명을 그대로 따르되 `bordermiddleBody`의 오타만 바로잡았습니다(`borderMiddle`). `OrderBoxSell` → `OrderBoxCell`, `Fillter` → `Filter`와 같은 처리입니다.
+Figma 심볼명을 그대로 따르되 `bordermiddleBody`의 오타만 바로잡았습니다(`borderMiddle`). `OrderBoxSell` → `OrderBoxCell`(DOTOLI-335에서 제거), `Fillter` → `Filter`와 같은 처리입니다.
 
 |            | default      | gray           | border          |
 | ---------- | ------------ | -------------- | --------------- |
@@ -57,7 +57,7 @@ Figma 심볼명을 그대로 따르되 `bordermiddleBody`의 오타만 바로잡
 
 ## 결정
 
-- **단일 컴포넌트 + `variant` 하나로 갑니다.** 위 표처럼 「위치 × 톤」 두 축으로 쪼갤 수는 있지만, **12조합 중 5개가 심볼이 없습니다.** 두 축으로 열면 `grayFooter` · `borderTop` 같은 조합의 생김새를 구현이 지어내게 됩니다 — [`OrderBox`](./order.md)가 「variant별로 빈 상태를 따로 정의하면 심볼에 없는 조합의 생김새를 구현이 임의로 정하게 됩니다」로 같은 판단을 했고, 거기도 `noBg`·`default`·`past`를 배경 축 하나로 뒀습니다. 조합이 실제로 필요해지면 값을 하나 더합니다.
+- **단일 컴포넌트 + `variant` 하나로 갑니다.** 위 표처럼 「위치 × 톤」 두 축으로 쪼갤 수는 있지만, **12조합 중 5개가 심볼이 없습니다.** 두 축으로 열면 `grayFooter` · `borderTop` 같은 조합의 생김새를 구현이 지어내게 됩니다 — 예전 OrderBox(DOTOLI-317)가 「디자인이 있는 조합만 값을 갖는다」로 같은 판단을 했습니다([order.md 「OrderBox」 이력](./order.md#이력). 그 OrderBox는 DOTOLI-335에서 교체됨). 조합이 실제로 필요해지면 값을 하나 더합니다.
 
 - **`sticky`를 DS가 겁니다 — [`InfoBanner`](./info.md)의 `isSticky`와 갈립니다.** 그쪽은 「모양 축이지 배치 축이 아니다」로 `position`을 걸지 않는데, 근거가 **전환 임계값이 [미확정]이라 DS가 알 수 없다**는 것이었습니다. 여기는 다릅니다 — **임계값이 필요 없습니다.** 스크롤 컨테이너 상단에 닿을 때까지 흐르다 거기서 멈추는 것이 CSS 기본 동작이라, 「언제 전환되는가」를 DS가 알 필요가 없습니다. 심볼 이름이 `stickyTopBody`라 **의도도 명시**돼 있고, 선례가 셋입니다 — [`StickyCalendar`](./calendar.md)(`sticky top-0 z-10`), [`BottomActionBar`](./bottom-action-bar.md)(`floating` **variant에** `sticky bottom-0` — 변형 축이 곧 배치라는 점에서 `PageBody`와 구조가 가장 같습니다), internal-ui `TableHead`(`sticky top-0`).
 

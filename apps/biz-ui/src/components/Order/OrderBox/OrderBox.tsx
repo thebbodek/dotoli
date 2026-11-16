@@ -4,53 +4,36 @@ import {
   ORDER_BOX_BASE_STYLE,
   ORDER_BOX_EMPTY_LABEL,
   ORDER_BOX_EMPTY_LABEL_COLOR,
-  ORDER_BOX_EMPTY_STYLE,
-  ORDER_BOX_ITEMS_STYLE,
-  ORDER_BOX_STYLES,
-  ORDER_BOX_VARIANTS,
 } from '@/components/Order/OrderBox/constants';
+import OrderBoxRow from '@/components/Order/OrderBox/OrderBoxRow';
 import { OrderBoxProps } from '@/components/Order/OrderBox/types';
-import { OrderBoxCell } from '@/components/Order/OrderBoxCell';
-import { Typography } from '@/components/Typography';
+import { Typography, TYPOGRAPHY_ELEMENTS } from '@/components/Typography';
 import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const OrderBox = ({
   items,
-  variant = ORDER_BOX_VARIANTS.DEFAULT,
   emptyLabel = ORDER_BOX_EMPTY_LABEL,
   className,
 }: OrderBoxProps) => {
-  const { CONTAINER, EMPTY_BACKGROUND, TONE } = ORDER_BOX_STYLES[variant];
-  const isEmpty = !items.length;
+  if (!items.length) {
+    return (
+      <Typography
+        as={TYPOGRAPHY_ELEMENTS.P}
+        className={className}
+        color={ORDER_BOX_EMPTY_LABEL_COLOR}
+        variant={TYPOGRAPHY_VARIANTS.LABEL_SEMIBOLD}
+      >
+        {emptyLabel}
+      </Typography>
+    );
+  }
 
   return (
-    <div
-      className={clsx(
-        className,
-        ORDER_BOX_BASE_STYLE,
-        isEmpty
-          ? [ORDER_BOX_EMPTY_STYLE, EMPTY_BACKGROUND]
-          : [CONTAINER, ORDER_BOX_ITEMS_STYLE],
-      )}
-    >
-      {isEmpty ? (
-        <Typography
-          color={ORDER_BOX_EMPTY_LABEL_COLOR}
-          variant={TYPOGRAPHY_VARIANTS.LABEL}
-        >
-          {emptyLabel}
-        </Typography>
-      ) : (
-        items.map(({ boxes, itemName }) => (
-          <OrderBoxCell
-            boxes={boxes}
-            itemName={itemName}
-            key={itemName}
-            tone={TONE}
-          />
-        ))
-      )}
-    </div>
+    <dl className={clsx(className, ORDER_BOX_BASE_STYLE)}>
+      {items.map(({ itemName, quantity }) => (
+        <OrderBoxRow itemName={itemName} key={itemName} quantity={quantity} />
+      ))}
+    </dl>
   );
 };
 

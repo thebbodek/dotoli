@@ -1,26 +1,14 @@
 import { HTMLAttributes } from 'react';
 
-import { ORDER_BOX_VARIANTS } from '@/components/Order/OrderBox/constants';
-import {
-  OrderBoxCellProps,
-  OrderBoxCellTone,
-} from '@/components/Order/OrderBoxCell';
-
-export type OrderBoxVariant =
-  (typeof ORDER_BOX_VARIANTS)[keyof typeof ORDER_BOX_VARIANTS];
-
-export interface OrderBoxItem
-  extends Pick<OrderBoxCellProps, 'boxes' | 'itemName'> {}
-
-export interface OrderBoxVariantStyles {
-  CONTAINER?: string;
-  EMPTY_BACKGROUND: string;
-  TONE: OrderBoxCellTone;
+export interface OrderBoxItem {
+  itemName: string;
+  quantity: string;
 }
 
 export interface OrderBoxProps
-  extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
+  extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
   items: OrderBoxItem[];
-  variant?: OrderBoxVariant;
   emptyLabel?: string;
 }
+
+export interface OrderBoxRowProps extends OrderBoxItem {}
