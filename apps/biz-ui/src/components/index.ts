@@ -26,6 +26,7 @@ export * from './PageBody';
 export * from './Portal';
 export * from './SelectionItem';
 export * from './StatusAlertBanner';
+export * from './Tab';
 export * from './Tag';
 export * from './Toast';
 export * from './Toaster';
