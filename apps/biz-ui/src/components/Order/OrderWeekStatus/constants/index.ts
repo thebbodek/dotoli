@@ -5,6 +5,7 @@ import {
   OrderWeekStatusMarkSpec,
   OrderWeekStatusSize,
 } from '@/components/Order/OrderWeekStatus/types';
+import { ORDER_DEADLINE_PASSED_LABEL } from '@/components/Order/shared/constants';
 import { COLOR_VARIANTS, ColorVariants } from '@/variants';
 
 export const ORDER_WEEK_STATUS_DAY_STATUSES = {
@@ -50,7 +51,7 @@ export const ORDER_WEEK_STATUS_DAY_STATUS_LABELS: Record<
 > = {
   [ORDER_WEEK_STATUS_DAY_STATUSES.ORDERED]: '입력함',
   [ORDER_WEEK_STATUS_DAY_STATUSES.UNORDERED]: '비어 있음',
-  [ORDER_WEEK_STATUS_DAY_STATUSES.DEADLINE_PASSED]: '주문마감',
+  [ORDER_WEEK_STATUS_DAY_STATUSES.DEADLINE_PASSED]: ORDER_DEADLINE_PASSED_LABEL,
   [ORDER_WEEK_STATUS_DAY_STATUSES.SUSPENDED]: '중지됨',
   [ORDER_WEEK_STATUS_DAY_STATUSES.NO_ORDER]: '주문 없음',
 };

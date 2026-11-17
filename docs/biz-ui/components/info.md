@@ -86,7 +86,7 @@ Storybook 렌더의 계산값으로 두 레이아웃을 대조했고 박스·pad
 
   **소비처가 생기면 다시 봅니다.** 그때 답은 `<dl>`을 InfoField 안으로 넣는 것이 아니라, InfoField가 `<div><dt>…<dd>…</div>`만 그리고(HTML5가 허용하는 형태) **묶는 `<dl>`은 소비처가 두는 것**입니다 — 묶음이 정확해지는 대신 InfoField 단독으로는 무효 HTML이 되므로, 실제 사용 형태를 보고 정합니다.
 
-  당시 계열 선례(`OrderBoxCell` · `OrderDateInfo`)가 `div`+`span`인 것은 근거가 되지 않았습니다 — 그 둘은 「박스수/품목명」 · 「날짜/배송정보」라 라벨-값 관계가 아니었습니다. DOTOLI-335에서 `OrderBoxCell`이 없어지고 OrderBox가 「품목/수량」 세로 목록이 되면서 이 기준대로 `<dl>` + `<div><dt><dd>`를 OrderBox가 갖게 됐습니다([order.md 「OrderBox」](./order.md#orderbox)).
+  당시 계열 선례(`OrderBoxCell` · `OrderDateInfo`)가 `div`+`span`인 것은 근거가 되지 않았습니다 — 그 둘은 「박스수/품목명」 · 「날짜/배송정보」라 라벨-값 관계가 아니었습니다. DOTOLI-335에서 `OrderBoxCell`이 없어지고 OrderBox가 「품목/수량」 세로 목록이 되면서 이 기준대로 `<dl>` + `<div><dt><dd>`를 OrderBox가 갖게 됐습니다([order.md 「OrderBox」](./order.md#orderbox)). `OrderDateInfo`도 DOTOLI-336에서 날짜 + 마감 표기 한 줄로 바뀌었습니다.
 - **폭을 선언하지 않고 `w-full`입니다.** 304 / 292px은 문서 값입니다. `horizontal`의 `justify-between`이 동작하려면 폭이 필요해서 `w-full`은 컴포넌트가 들고 갑니다.
 - **`shrink-0`을 넣지 않았습니다.** `Divider`·`IconCircle`과 달리 내용이 있어 `min-height: auto`가 눌림을 막습니다. 근거 없이 방어 클래스를 늘리지 않습니다.
 
