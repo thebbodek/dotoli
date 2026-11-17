@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.69
+
+### Patch Changes
+
+- 3336b1e: DOTOLI-335 biz-ui > OrderBox SKU 세로 목록으로 교체
+- 3336b1e: DOTOLI-336 biz-ui > OrderDateInfo 배송 정보를 마감 표기로 교체
+
 ## 0.0.68
 
 ### Patch Changes
