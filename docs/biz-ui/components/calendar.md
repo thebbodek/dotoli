@@ -7,6 +7,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | 프레임      | 이름                  | 노드       |
 | ----------- | --------------------- | ---------- |
 | 날짜 버튼   | `CalendarDayButton`   | `302:1168` (세트 `106:419`) |
+| 날짜 상태 칸 | `CalendarDayStatus`  | 같은 세트 `106:419`의 `theme=dark` 심볼 8개(`1193:2613`~`1193:2636`) |
 | 고정 캘린더 | `StickyCalendar`      | `302:1676` (세트 `673:3072`) |
 | 캘린더 바텀시트 | `CalendarBottomSheet` | `302:1712` (심볼 `205:4587`) |
 | 연도 바텀시트 | `DateBottomSheet`   | `302:1997` (세트 `687:2505`) |
@@ -30,6 +31,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `Calendar`          | DOTOLI-273 | 월 격자. `CalendarDayButton`을 깔고 **날짜 계산을 소유**. `dayjs` 도입 |
 | `CalendarBottomSheet` | DOTOLI-274 | 위 셋을 [`BottomSheet`](./bottom-sheet.md) 안에 조립. **자체 시각이 없음** |
 | `DateBottomSheet`   | DOTOLI-275 | 연 · 월 선택 시트. `Chip` 단일 선택 + **제어 전용** |
+| `CalendarDayStatus` | DOTOLI-340 | 어두운 배경 위 표시 전용 날짜 칸. `status` 4종. **버튼이 아님** |
 
 **계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** **계열 5종이 이 티켓으로 끝났습니다.** DOTOLI-275는 [`CalendarDayButton`](#calendardaybutton)의 `aria-label` 누락도 함께 고쳤습니다 — 아래 「후속 수정」.
 
@@ -185,6 +187,112 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `Types`   | `day` · `date` 유무가 만드는 세 모양 × (`none` · `selected`)             |
 | `States`  | `selectedType` 5행 × (비활성 · 휴일) 4열. **비활성 + 휴일이 타입마다 갈리는 자리** |
 | `Range`   | 7일을 붙여 놓고 **`start`~`end` 띠가 끊기지 않는지** — `middle`만 각진 이유 |
+
+---
+
+## CalendarDayStatus
+
+주문 메인 상단 상태 카드의 7칸입니다(소비 앱 BP-124 주간 · BP-125 고정). 정책 「주문(new)」 2-1 「날짜 칸 규칙」이 「확인용 표시만 한다, 눌러도 동작하지 않고 버튼처럼 보이지 않게 그린다」(11/12)로 정해 두었습니다. 앱 시안은 Figma 「주문 메인 리뉴얼 테스트」 `47:438`(주문 메인 · 정책 반영 시안)입니다.
+
+### Variant 축
+
+| 축 | Figma | 구현 |
+| --- | --- | --- |
+| `theme` | `light`(기존) · `dark` | **prop 없음.** 이 컴포넌트는 dark 전용 |
+| `status` | `default` · `done` · `urgent` · `empty` · `unavailable` | `done` · `urgent` · `empty` · `unavailable` 4종 (`default`는 `CalendarDayButton`) |
+| `type` | `dayOnly` · `dayDate` | `CalendarDayButton`처럼 `date` 유무로 흡수. `day`는 필수 |
+
+dark 심볼은 `dayOnly` · `dayDate` × 4상태 8개뿐입니다. `dateOnly` · `selectedType` · `isHoliday` · `disabled`와 겹치는 심볼은 없습니다.
+
+### 실측 스펙
+
+| `status` | 배경 | 테두리 | 글자 | 그 밖 |
+| --- | --- | --- | --- | --- |
+| `done` | `base/white` | 없음 | `blue/700` | 오른쪽 위 체크 배지 |
+| `urgent` | 흰색 16% → `bg-white/16` | `yellow/200` 1.5 실선 → `inset-ring-[1.5px]` | `yellow/200` | |
+| `empty` | 없음 | 흰색 1.5 점선 → `border-[1.5px] border-dashed` | `blue/100` | |
+| `unavailable` | 없음 | 없음 | `base/white` | |
+
+| 항목 | 값 |
+| --- | --- |
+| 높이 | 48 → `h-[48px]` |
+| 폭 | 고정 없음. 시안의 7칸 줄은 340 폭에 gap 4라 칸이 45.14 |
+| 모서리 | `10` → `rounded-10` (`CalendarDayButton`은 6) |
+| 타이포 | `dayOnly` 요일 `body`, `dayDate` 요일 `label` + 날짜 `body`, 요일 아래 -2. `CalendarDayButton`의 `none`과 같음 |
+| 체크 배지 | 12 원, `blue/600` + 흰 테두리 1(`inset-ring`), top -4 · right -3. 글리프 `check` bold 7 흰색 |
+
+- **`urgent` 배경은 변수로 잡히지 않아 픽셀로 쟀습니다.** 변수 목록에는 `yellow/200` 하나뿐이고 코드젠은 배경까지 노랑으로 내놓습니다. 심볼 스크린샷의 칸 안 픽셀 `(61, 88, 128)`을 바깥 판 `(24, 56, 104)`과 비교하면 흰색 알파가 R · G · B 모두 0.16으로 맞습니다. 노랑으로 풀면 세 채널이 0.17 · 0.21 · 0.83으로 갈려 성립하지 않습니다.
+- **체크 글리프 굵기는 path 두께로 판정했습니다.** 7px 에셋의 획 두께 0.656을 Phosphor 256 격자로 바꾸면 24라 `bold`입니다(regular는 16).
+- `empty` · `unavailable`에는 숨은 배경이 없습니다. 칸 안 픽셀이 바깥 판과 같습니다.
+
+Storybook 실측(`WeeklyOrder`, 340 폭 7칸)은 칸 45.14 × 48, 글자 14/500 · 16/500, 요일 top 3.25 · 날짜 top 21.55로 Figma와 같습니다.
+
+### 결정
+
+- **`CalendarDayButton`을 넓히지 않고 컴포넌트를 따로 만들었습니다.** Figma는 같은 세트의 `theme=dark` 축으로 그렸지만, 정책상 누를 수 없는 표시라 `<button>`이 아닙니다. 버튼 안에서 요소를 바꾸면 dark에서 `onClick` · `disabled` · `selectedType` · `isHoliday`가 전부 의미를 잃습니다. 막으려면 유니온이 필요한데, 이 컴포넌트는 유니온이 Storybook `render` 추론을 깨서 되돌린 기록이 있습니다(위 「결정」). 「요소가 다르면 컴포넌트를 하나 더 만든다」는 `LinkCtaButton` 선례(button.md 「Link 계열」)와 같은 판단입니다. **Figma 심볼명을 따르는 원칙의 예외**라 이름은 Figma에 없습니다.
+- **`disabled`로 표시 전용을 흉내 내는 방안도 검토했고 버렸습니다.** `<input>`이 `readOnly`와 `disabled`를 나누는 것은 둘이 다른 뜻이기 때문입니다(`readOnly`는 값을 보여 주고 포커스 · 복사가 되고, `disabled`는 지금 못 쓴다는 뜻). `<button>`에는 `readOnly`가 없고, `disabled` 버튼은 스크린 리더가 「버튼, 사용할 수 없음」으로 일곱 번 읽습니다. 「입력함」 칸이 「못 누르는 버튼」으로 들리는 셈입니다. 이 컴포넌트의 `disabled`는 이미 COM-009 「비활성 날짜」(과거 · 마감 경과 · 중지 기간)라는 뜻과 `gray/400` 시각을 갖고 있어 겹치기도 합니다.
+- **폭을 고정하지 않습니다.** 시안이 칸을 45.14로 줄여 써서 48 고정이면 7칸이 340에 안 들어갑니다. 루트가 블록 수준 flex라 부모 grid 칸(`grid-cols-7 gap-1`)을 채우고, 높이만 48로 고정합니다. 7칸을 묶는 줄은 소비 앱이 만듭니다.
+- **목록 구조와 목록 이름도 소비 앱 몫이 됐습니다.** `OrderWeekStatus`는 7칸 전체를 그려서 `<ul role='list'>`와 목록 이름(`aria-label`)을 컴포넌트 안에서 챙겼습니다(order.md). 칸 하나짜리로 바뀌면서 그 일이 소비 앱으로 넘어왔고, 이유도 그대로입니다. preflight의 `list-style: none` 때문에 WebKit이 목록을 VoiceOver에 넘기지 않을 수 있어 `role='list'`를 명시하고, `jsx-a11y/no-redundant-roles`는 그 줄만 끕니다. 아래 「API」 예시가 그 형태입니다.
+- **점선은 CSS `border-dashed`입니다.** `OrderWeekStatus`는 둥근 점선이 WebView 엔진마다 달라 SVG로 둘레를 균등하게 나눴는데(order.md), 여기는 폭이 부모에 따라 달라 둘레를 미리 계산할 수 없습니다. 원과 달리 직선 네 변이라 이음매에서 점선이 뭉치는 문제도 한 곳에 몰리지 않습니다. 칸 크기가 부모와 높이로 정해져 `border`가 박스를 키우지 않으므로 「테두리는 `inset-ring`」 규칙과 부딪치지 않습니다. 실선(`urgent`)은 규칙대로 `inset-ring`입니다.
+- **스크린 리더 문장은 DS가 조립하고 상태 문구는 소비 앱이 넘깁니다(`statusLabel` 필수).** 보이는 글자에는 `aria-hidden`을 걸고 `sr-only` 문장 하나(「17일 화요일 비어 있음, 오늘 마감」)를 둡니다. `OrderWeekStatus`와 같은 방식이고, 「일」 · 「요일」은 DS가 붙입니다.
+
+  문구를 DS가 정하지 못하는 이유는 시각 상태와 정책 상태가 1:1이 아니어서입니다. 앱 시안 7칸을 화면별로 뽑아 정책 2-1의 다섯 상태와 맞춰 보면 이렇습니다.
+
+  | 시각 `status` | 정책 상태 | 시안 근거 |
+  | --- | --- | --- |
+  | `done` | 입력함 | MW1 · MF1 등 |
+  | `empty` | 비어 있음(마감 전) | MW1 금~일 |
+  | `urgent` | 비어 있음 중 오늘 마감 | MW2 화(「17일(화) 주문은 오늘 18시에 마감돼요」) · MW5 수 · MF5 목 |
+  | `unavailable` | **주문마감 · 주문 없음 · 중지됨 셋** | MW2 월(마감 지남) · MW3 · MF1 토일(0 저장) · MS1 월~수(중지) |
+
+  `unavailable` 한 모양이 정책 상태 셋을 함께 그리므로 상태 키만으로는 문구를 고를 수 없습니다. 소비 앱은 서버 상태에서 칸 모양과 문구를 함께 만듭니다.
+- **배지 위치는 칸 밖으로 나갑니다(top -4 · right -3).** 부모가 `overflow: hidden`이면 잘립니다.
+- **`OrderWeekStatus`는 남겨 둡니다.** 같은 자리의 디자인이 이것으로 바뀌어 주문 메인에서는 쓰지 않지만, 아직 지우지 않기로 했습니다(11/19). 삭제는 따로 정합니다.
+
+### API
+
+| prop | 필수 | 기본값 | 비고 |
+| --- | --- | --- | --- |
+| `day` | ✅ | — | 요일 문자열(`'화'`) |
+| `date` | | — | 날짜 숫자. 주면 두 줄(`dayDate`) |
+| `status` | ✅ | — | `'done'` · `'urgent'` · `'empty'` · `'unavailable'` |
+| `statusLabel` | ✅ | — | 스크린 리더 문장 끝 상태 문구(정책 용어) |
+| `className` | | — | 루트에 적용 |
+
+```tsx
+return (
+  // eslint-disable-next-line jsx-a11y/no-redundant-roles
+  <ul aria-label={weekLabel} className='grid grid-cols-7 gap-1' role='list'>
+    {days.map(({ date, day, status, statusLabel }) => (
+      <li key={day}>
+        <CalendarDayStatus date={date} day={day} status={status} statusLabel={statusLabel} />
+      </li>
+    ))}
+  </ul>
+);
+```
+
+`weekLabel`은 「16일부터 22일까지 주문 현황」 같은 목록 이름입니다.
+
+### 디자인 확인 필요
+
+| 항목 | 내용 |
+| --- | --- |
+| `urgent` 배경 | 흰색 16%가 변수 없이 들어가 있습니다. 토큰으로 잡을지 |
+| 점선 모양 | CSS `border-dashed`라 안드로이드 · iOS WebView에서 점선 길이가 다를 수 있습니다. 기기 확인 필요 |
+| 소비 앱 문서와 다른 값 | `done` 글자는 `blue/700` 하나(`blue/500` 없음), `empty` 글자는 흰색이 아니라 `blue/100` |
+| `unavailable` 한 모양 | 주문마감 · 주문 없음 · 중지됨이 같은 모양입니다. 시각으로 구분하지 않는 게 의도인지(이전 정책 표시는 셋이 달랐음) |
+
+### Storybook
+
+`apps/storybook/src/stories/biz-ui/CalendarDayStatus.stories.tsx`, `meta.title`은 `core/biz-ui/CalendarDayStatus`. 어두운 판(`bg-blue-700`) 위에 깝니다.
+
+| 스토리 | 보는 것 |
+| --- | --- |
+| `Default` | 컨트롤 패널. 칸 하나를 48 폭에 |
+| `Statuses` | `dayOnly` · `dayDate` × 4상태. Figma 세트의 dark 8칸과 같은 배치 |
+| `WeeklyOrder` | 340 폭 7칸. 앱 시안 MW2(마감 지남)와 같은 데이터 |
+| `FixedOrder` | 요일만 7칸. 앱 시안 MF1 |
 
 ---
 

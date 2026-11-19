@@ -275,6 +275,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-335 biz-ui > OrderBox SKU 세로 목록으로 교체
 - [ ] DOTOLI-336 biz-ui > OrderDateInfo 배송 정보를 마감 표기로 교체
 - [x] DOTOLI-339 biz-ui > CtaButton xl 사이즈 · 높이 조절 추가
+- [x] DOTOLI-340 biz-ui > CalendarDayButton 어두운 배경 · 주문 상태 표시 추가
 
 소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다.
 
@@ -375,6 +376,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 | DOTOLI-334 | `Tab`(탭 바) · `TabPanel` 추가, 탭 하나(`TabItem`)는 비공개. `items`를 DS가 그리는 제어 전용 컴포넌트이고 `variant` 2종(`line` 밑줄 · `filled` 회색 트랙 세그먼트, internal-ui `Tab`과 같은 이름). `line`은 주문 관리 상단 탭(BP-130), `filled`는 주문 등록 3-1 주 선택(일정 미정)이 소비처. 패널은 컨텍스트 없이 `tabId` · `value`로 `{id}-tab-{value}` · `{id}-panel-{value}` 규칙에 연결. 선택된 탭 재클릭엔 `onChange`를 부르지 않음. 키보드는 기본 탭 순서(방향키 없음). 출처는 디자인 아티팩트(Q1 · Q2 · E3 · E4) | [components/tab.md](./components/tab.md) |
 | DOTOLI-335 | OrderBox를 SKU 세로 목록(왼쪽 품목명 · 오른쪽 수량, `<dl>`)으로 **교체**. variant 추가가 아니라 아티팩트 Q1의 상태만 남겨 `variant` 축(`noBg` · `default` · `past` · `inverse`)이 통째로 없어지고 DOTOLI-317 `inverse`도 정리됨. `OrderBoxCell`은 지우고 비공개 `OrderBoxRow`로, `boxes`는 `quantity`로 개명. 하루 전체 0은 `emptyLabel` 한 줄, 일부 SKU만 0은 소비 앱이 「주문 없음」 문자열을 넘김. **파괴적 변경**이라 332~334를 먼저 따로 배포했고, 소비 앱은 `OrderDayCard` · `FixedOrderDayItem` · `getOrderBoxItems`를 고쳐야 버전을 올릴 수 있음. 다른 문서의 낡은 OrderBox 인용도 정리 | [components/order.md](./components/order.md) |
 | DOTOLI-339 | CtaButton `xl` 사이즈 추가(Figma `11:4337` xl 심볼 96개). 높이를 고정하지 않아 혼자 두면 79.2이고, 부모 grid 칸이나 `className`(`flex-1` · `h-full`)으로 늘어남. 높이 prop은 만들지 않음. 보조 문구 `description`은 xl에서만 받도록 **`size`와 짝지은 유니온**(컴포넌트 props로는 두 DS 첫 판별 유니온, `CtaButtonProps` · `LinkCtaButtonProps`가 `type`이 됨). xl `text`는 Figma대로 패딩이 있고, 아이콘은 34로 라벨(28)과 따로 지정. 라벨 묶음은 비공개 `CtaButtonLabel`로 `LinkCtaButton`과 공유. 색은 기존 맵 그대로라 비파괴 | [components/button.md](./components/button.md) |
+| DOTOLI-340 | 어두운 배경 위 표시 전용 날짜 칸 `CalendarDayStatus` 추가(Figma `106:419`의 `theme=dark` 심볼 8개). Figma는 `CalendarDayButton`의 축으로 그렸지만 정책상 누를 수 없는 표시라 **`<button>`이 아닌 별도 컴포넌트**(`disabled`로 흉내 내는 안은 「사용할 수 없는 버튼」으로 읽혀 버림). `status` 4종(`done` · `urgent` · `empty` · `unavailable`), 폭은 부모 grid가 정하고 높이 48. `urgent` 배경 흰색 16%는 픽셀로 잼. 점선은 폭이 유동이라 CSS `border-dashed`. 스크린 리더 문장의 상태 문구는 `statusLabel`로 소비 앱이 넘김(`unavailable` 한 모양이 정책 상태 셋이라 DS가 못 정함). `OrderWeekStatus`는 쓰지 않게 됐지만 남겨 둠. 비파괴 | [components/calendar.md](./components/calendar.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

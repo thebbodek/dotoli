@@ -493,6 +493,8 @@ Figma 심볼은 9개(`type` 3 × `isOpen` 2 × `useDetail` 2 중 `isOpen=false·
 
 주문 메인 상단 상태 카드에 들어가는 7칸입니다(정책 「주문(new)」 2-1 「날짜 칸 규칙」). 주간 카드는 날짜 숫자 · 요일 · 표시를, 고정주문 카드는 요일 · 표시만 씁니다. 소비처는 biz-customer-app BP-124(주간) · BP-125(고정)입니다.
 
+**11/18 시안에서 이 7칸이 [`CalendarDayStatus`](./calendar.md#calendardaystatus)(DOTOLI-340)로 바뀌어 지금은 쓰는 곳이 없습니다.** 지우지 않고 남겨 두기로 했습니다(11/19). 아래 기록은 0.0.68 배포 당시 기준입니다.
+
 출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)입니다. 주간 MW1~MW5, 고정 MF1~MF3, 배너가 있을 때 MB1~MB4, 중지 MS1을 봤습니다(원칙은 문서 머리말).
 
 ### Variant 축
