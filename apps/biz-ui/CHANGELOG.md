@@ -1,5 +1,12 @@
 # @bbodek/biz-ui
 
+## 0.0.70
+
+### Patch Changes
+
+- abfb7de: DOTOLI-340 biz-ui > CalendarDayButton 어두운 배경 · 주문 상태 표시 추가
+- abfb7de: DOTOLI-339 biz-ui > CtaButton xl 사이즈 · 높이 조절 추가
+
 ## 0.0.69
 
 ### Patch Changes
