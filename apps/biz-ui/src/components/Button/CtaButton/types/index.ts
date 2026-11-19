@@ -34,9 +34,12 @@ export interface GenerateCtaButtonStyleProps
 }
 
 export interface GenerateCtaButtonIconStyleProps
-  extends Pick<CtaButtonProps, 'variant' | 'theme' | 'disabled'> {}
+  extends Pick<CtaButtonProps, 'variant' | 'theme' | 'size' | 'disabled'> {}
 
-export interface CtaButtonProps
+export interface CtaButtonLabelProps
+  extends Pick<CtaButtonProps, 'label' | 'description' | 'useUnderline'> {}
+
+export interface CtaButtonBaseProps
   extends Pick<
       ButtonHTMLAttributes<HTMLButtonElement>,
       'className' | 'disabled' | 'onClick' | 'type'
@@ -45,9 +48,24 @@ export interface CtaButtonProps
   label: string;
   variant?: CtaButtonVariant;
   theme?: CtaButtonTheme;
-  size?: CtaButtonSize;
   iconPosition?: ButtonIconPosition;
   iconOption?: ButtonIconOption;
   isPending?: boolean;
   useUnderline?: boolean;
 }
+
+export interface CtaButtonFixedHeightSizeProps {
+  size?: Exclude<CtaButtonSize, typeof CTA_BUTTON_SIZES.XL>;
+  description?: never;
+}
+
+export interface CtaButtonXlSizeProps {
+  size: typeof CTA_BUTTON_SIZES.XL;
+  description?: string;
+}
+
+export type CtaButtonSizeProps =
+  | CtaButtonFixedHeightSizeProps
+  | CtaButtonXlSizeProps;
+
+export type CtaButtonProps = CtaButtonBaseProps & CtaButtonSizeProps;

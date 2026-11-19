@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 
 import {
+  CTA_BUTTON_ICON_SIZE_STYLES,
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
-  CTA_BUTTON_UNDERLINE_STYLE,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton/constants';
+import CtaButtonLabel from '@/components/Button/CtaButton/CtaButtonLabel';
 import { CtaButtonProps } from '@/components/Button/CtaButton/types';
 import {
   generateCtaButtonIconStyle,
@@ -19,6 +20,7 @@ import {
 
 const CtaButton = ({
   label,
+  description,
   variant = CTA_BUTTON_VARIANTS.FILLED,
   theme = CTA_BUTTON_THEMES.PRIMARY,
   size = CTA_BUTTON_SIZES.LG,
@@ -38,6 +40,7 @@ const CtaButton = ({
   const iconStyle = generateCtaButtonIconStyle({
     variant,
     theme,
+    size,
     disabled: isDisabled,
   });
 
@@ -62,7 +65,7 @@ const CtaButton = ({
     >
       {isPending ? (
         <ButtonIcon
-          className='animate-spin'
+          className={clsx('animate-spin', CTA_BUTTON_ICON_SIZE_STYLES[size])}
           iconKey={BUTTON_PENDING_ICON_KEY}
         />
       ) : (
@@ -70,9 +73,11 @@ const CtaButton = ({
           <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
         )
       )}
-      <span className={useUnderline ? CTA_BUTTON_UNDERLINE_STYLE : undefined}>
-        {label}
-      </span>
+      <CtaButtonLabel
+        description={description}
+        label={label}
+        useUnderline={useUnderline}
+      />
     </button>
   );
 };

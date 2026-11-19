@@ -34,12 +34,10 @@ export const generateCtaButtonStyle = ({
     'flex-h-stack-center relative transition-colors',
     iconPosition === BUTTON_ICON_POSITIONS.RIGHT && 'flex-row-reverse',
     hasIcon && CTA_BUTTON_GAP_STYLES[variant][size],
+    sizeStyle.PADDING,
     sizeStyle.ROUNDED,
     sizeStyle.TYPOGRAPHY,
-    !isText && [
-      CTA_BUTTON_SIZE_STYLES[size].HEIGHT,
-      CTA_BUTTON_SIZE_STYLES[size].PADDING,
-    ],
+    !isText && CTA_BUTTON_SIZE_STYLES[size].HEIGHT,
     shouldExpandTouchTarget && TOUCH_TARGET_STYLE,
     variant === CTA_BUTTON_VARIANTS.OUTLINED && 'inset-ring',
     disabled

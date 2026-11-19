@@ -19,9 +19,9 @@ const THEME_BACKDROPS: Partial<Record<CtaButtonTheme, string>> = {
   [CTA_BUTTON_THEMES.WHITE]: 'bg-blue-700 rounded-6 p-3',
 };
 
-// CtaButton과 같은 이유로 iconKey를 최상위로 편다
+// CtaButton과 같은 이유로 iconKey를 최상위로 편다. description은 Description 스토리에서만 본다
 export interface LinkCtaButtonArgs
-  extends Omit<LinkCtaButtonProps, 'iconOption'> {
+  extends Omit<LinkCtaButtonProps, 'iconOption' | 'description'> {
   iconKey: NonNullable<LinkCtaButtonProps['iconOption']>['iconKey'];
 }
 
@@ -109,6 +109,25 @@ export const Sizes: Story = {
           key={buttonSize}
           label={label}
           size={buttonSize}
+        />
+      ))}
+    </Flex>
+  ),
+};
+
+export const Description: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ href }) => (
+    <Flex align={{ items: 'center' }} gap='8' wrap='wrap'>
+      {Object.values(CTA_BUTTON_VARIANTS).map((buttonVariant) => (
+        <LinkCtaButton
+          description='특정 날짜 수량만 변경'
+          href={href}
+          iconOption={{ iconKey: 'calendar-plus' }}
+          key={buttonVariant}
+          label='이번만 변경'
+          size={CTA_BUTTON_SIZES.XL}
+          variant={buttonVariant}
         />
       ))}
     </Flex>

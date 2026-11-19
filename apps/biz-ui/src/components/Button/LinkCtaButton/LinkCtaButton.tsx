@@ -4,9 +4,9 @@ import Link from 'next/link';
 import {
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
-  CTA_BUTTON_UNDERLINE_STYLE,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton/constants';
+import CtaButtonLabel from '@/components/Button/CtaButton/CtaButtonLabel';
 import {
   generateCtaButtonIconStyle,
   generateCtaButtonStyle,
@@ -18,6 +18,7 @@ import { generateLinkButtonClickHandler } from '@/components/Button/shared/utils
 
 const LinkCtaButton = ({
   label,
+  description,
   variant = CTA_BUTTON_VARIANTS.FILLED,
   theme = CTA_BUTTON_THEMES.PRIMARY,
   size = CTA_BUTTON_SIZES.LG,
@@ -34,6 +35,7 @@ const LinkCtaButton = ({
   const iconStyle = generateCtaButtonIconStyle({
     variant,
     theme,
+    size,
     disabled: isDisabled,
   });
 
@@ -59,9 +61,11 @@ const LinkCtaButton = ({
       {!!iconKey && (
         <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
       )}
-      <span className={useUnderline ? CTA_BUTTON_UNDERLINE_STYLE : undefined}>
-        {label}
-      </span>
+      <CtaButtonLabel
+        description={description}
+        label={label}
+        useUnderline={useUnderline}
+      />
     </Link>
   );
 };

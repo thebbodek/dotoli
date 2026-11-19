@@ -27,9 +27,14 @@ const ICON_COLOR_STATES = [
   CTA_BUTTON_STATES.DISABLED,
 ];
 
-// 점 표기 argType('iconOption.iconKey')은 타입이 깨져서 iconKey를 최상위로 편다
-export interface CtaButtonArgs extends Omit<CtaButtonProps, 'iconOption'> {
+const FILL_HEIGHT_BOARD_STYLE = 'h-[480px] w-[340px] rounded-16 bg-gray-50 p-3';
+
+// 점 표기 argType('iconOption.iconKey')은 타입이 깨져서 iconKey를 최상위로 편다.
+// description은 size='xl'일 때만 받는 유니온이라 args에서는 따로 열고 render에서 좁힌다
+export interface CtaButtonArgs
+  extends Omit<CtaButtonProps, 'iconOption' | 'description'> {
   iconKey: NonNullable<CtaButtonProps['iconOption']>['iconKey'];
+  description?: string;
 }
 
 const meta = {
@@ -96,6 +101,10 @@ const meta = {
       type: { name: 'string', required: false },
       table: { subcategory: 'iconOption' },
     },
+    description: {
+      control: 'text',
+      if: { arg: 'size', eq: CTA_BUTTON_SIZES.XL },
+    },
     isPending: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -119,9 +128,115 @@ export default meta;
 type Story = StoryObj<CtaButtonArgs>;
 
 export const Default: Story = {
-  render: ({ iconKey, theme = CTA_BUTTON_THEMES.PRIMARY, ...args }) => (
+  render: ({
+    iconKey,
+    theme = CTA_BUTTON_THEMES.PRIMARY,
+    size,
+    description,
+    ...args
+  }) => (
     <Flex className={THEME_BACKDROPS[theme]}>
-      <CtaButton {...args} iconOption={{ iconKey }} theme={theme} />
+      {size === CTA_BUTTON_SIZES.XL ? (
+        <CtaButton
+          {...args}
+          description={description}
+          iconOption={{ iconKey }}
+          size={size}
+          theme={theme}
+        />
+      ) : (
+        <CtaButton
+          {...args}
+          iconOption={{ iconKey }}
+          size={size}
+          theme={theme}
+        />
+      )}
+    </Flex>
+  ),
+};
+
+export const Description: Story = {
+  parameters: { controls: { disable: true } },
+  args: { size: CTA_BUTTON_SIZES.XL, description: '특정 날짜 수량만 변경' },
+  render: ({ label, description }) => (
+    <Flex direction='column' gap='24'>
+      {Object.values(CTA_BUTTON_THEMES).map((theme) => (
+        <Flex direction='column' gap='12' key={theme}>
+          <Typography color='gray-500' variant='label-bold'>
+            theme = {theme}
+          </Typography>
+          <Flex
+            align={{ items: 'center' }}
+            className={THEME_BACKDROPS[theme]}
+            gap='8'
+            wrap='wrap'
+          >
+            {Object.values(CTA_BUTTON_VARIANTS).map((variant) => (
+              <CtaButton
+                description={description}
+                iconOption={{ iconKey: 'plus' }}
+                key={variant}
+                label={label}
+                size={CTA_BUTTON_SIZES.XL}
+                theme={theme}
+                variant={variant}
+              />
+            ))}
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
+  ),
+};
+
+export const FillHeight: Story = {
+  parameters: { controls: { disable: true } },
+  args: { size: CTA_BUTTON_SIZES.XL, description: '특정 날짜 수량만 변경' },
+  render: ({ description }) => (
+    <Flex gap='24' wrap='wrap'>
+      <Flex direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          부모 grid
+        </Typography>
+        <div className={FILL_HEIGHT_BOARD_STYLE}>
+          <div className='grid h-full grid-rows-[repeat(2,minmax(112px,180px))] gap-3'>
+            <CtaButton
+              description={description}
+              iconOption={{ iconKey: 'calendar-plus' }}
+              label='주문하기'
+              size={CTA_BUTTON_SIZES.XL}
+            />
+            <CtaButton
+              iconOption={{ iconKey: 'clipboard-text' }}
+              label='주문 관리'
+              size={CTA_BUTTON_SIZES.XL}
+              variant={CTA_BUTTON_VARIANTS.OUTLINED}
+            />
+          </div>
+        </div>
+      </Flex>
+      <Flex direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
+          className
+        </Typography>
+        <Flex className={FILL_HEIGHT_BOARD_STYLE} direction='column' gap='12'>
+          <CtaButton
+            className='flex-1'
+            description={description}
+            iconOption={{ iconKey: 'calendar-plus' }}
+            label='주문하기'
+            size={CTA_BUTTON_SIZES.XL}
+          />
+          <CtaButton
+            className='flex-1'
+            iconOption={{ iconKey: 'clipboard-text' }}
+            label='주문 관리'
+            size={CTA_BUTTON_SIZES.XL}
+            variant={CTA_BUTTON_VARIANTS.OUTLINED}
+          />
+        </Flex>
+      </Flex>
     </Flex>
   ),
 };

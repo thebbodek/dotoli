@@ -19,6 +19,7 @@ export const CTA_BUTTON_THEMES = {
 } as const;
 
 export const CTA_BUTTON_SIZES = {
+  XL: 'xl',
   LG: 'lg',
   MD: 'md',
   SM: 'sm',
@@ -31,10 +32,22 @@ export const CTA_BUTTON_STATES = {
   DISABLED: 'disabled',
 } as const;
 
+const CTA_BUTTON_XL_PADDING = 'px-[30px] py-[20px]';
+
+const CTA_BUTTON_XL_ROUNDED = 'rounded-16';
+
+const CTA_BUTTON_XL_TYPOGRAPHY = 'text-heading-2-bold';
+
 export const CTA_BUTTON_SIZE_STYLES: Record<
   CtaButtonSize,
   Record<'HEIGHT' | 'PADDING' | 'ROUNDED' | 'TYPOGRAPHY', string>
 > = {
+  [CTA_BUTTON_SIZES.XL]: {
+    HEIGHT: '',
+    PADDING: CTA_BUTTON_XL_PADDING,
+    ROUNDED: CTA_BUTTON_XL_ROUNDED,
+    TYPOGRAPHY: CTA_BUTTON_XL_TYPOGRAPHY,
+  },
   [CTA_BUTTON_SIZES.LG]: {
     HEIGHT: 'h-[52px]',
     PADDING: 'px-[30px] py-[12px]',
@@ -57,17 +70,25 @@ export const CTA_BUTTON_SIZE_STYLES: Record<
 
 export const CTA_BUTTON_TEXT_SIZE_STYLES: Record<
   CtaButtonSize,
-  Record<'ROUNDED' | 'TYPOGRAPHY', string>
+  Record<'PADDING' | 'ROUNDED' | 'TYPOGRAPHY', string>
 > = {
+  [CTA_BUTTON_SIZES.XL]: {
+    PADDING: CTA_BUTTON_XL_PADDING,
+    ROUNDED: CTA_BUTTON_XL_ROUNDED,
+    TYPOGRAPHY: CTA_BUTTON_XL_TYPOGRAPHY,
+  },
   [CTA_BUTTON_SIZES.LG]: {
+    PADDING: '',
     ROUNDED: 'rounded-8',
     TYPOGRAPHY: 'text-heading-5',
   },
   [CTA_BUTTON_SIZES.MD]: {
+    PADDING: '',
     ROUNDED: 'rounded-6',
     TYPOGRAPHY: 'text-body-semibold',
   },
   [CTA_BUTTON_SIZES.SM]: {
+    PADDING: '',
     ROUNDED: 'rounded-6',
     TYPOGRAPHY: 'text-label-bold',
   },
@@ -78,25 +99,36 @@ export const CTA_BUTTON_GAP_STYLES: Record<
   Record<CtaButtonSize, string>
 > = {
   [CTA_BUTTON_VARIANTS.FILLED]: {
+    [CTA_BUTTON_SIZES.XL]: 'gap-4',
     [CTA_BUTTON_SIZES.LG]: 'gap-1',
     [CTA_BUTTON_SIZES.MD]: 'gap-1',
     [CTA_BUTTON_SIZES.SM]: 'gap-1',
   },
   [CTA_BUTTON_VARIANTS.OUTLINED]: {
+    [CTA_BUTTON_SIZES.XL]: 'gap-4',
     [CTA_BUTTON_SIZES.LG]: 'gap-1',
     [CTA_BUTTON_SIZES.MD]: 'gap-1',
     [CTA_BUTTON_SIZES.SM]: 'gap-0.5',
   },
   [CTA_BUTTON_VARIANTS.TONAL]: {
+    [CTA_BUTTON_SIZES.XL]: 'gap-4',
     [CTA_BUTTON_SIZES.LG]: 'gap-1',
     [CTA_BUTTON_SIZES.MD]: 'gap-1',
     [CTA_BUTTON_SIZES.SM]: 'gap-1',
   },
   [CTA_BUTTON_VARIANTS.TEXT]: {
+    [CTA_BUTTON_SIZES.XL]: 'gap-4',
     [CTA_BUTTON_SIZES.LG]: 'gap-1',
     [CTA_BUTTON_SIZES.MD]: 'gap-1',
     [CTA_BUTTON_SIZES.SM]: 'gap-0.5',
   },
+};
+
+export const CTA_BUTTON_ICON_SIZE_STYLES: Record<CtaButtonSize, string> = {
+  [CTA_BUTTON_SIZES.XL]: 'text-[34px]',
+  [CTA_BUTTON_SIZES.LG]: '',
+  [CTA_BUTTON_SIZES.MD]: '',
+  [CTA_BUTTON_SIZES.SM]: '',
 };
 
 const CTA_BUTTON_PRIMARY_ICON_STYLES: Record<CtaButtonVariant, string> = {
@@ -203,3 +235,6 @@ export const CTA_BUTTON_STYLES: Record<
 };
 
 export const CTA_BUTTON_UNDERLINE_STYLE = 'underline underline-offset-3';
+
+export const CTA_BUTTON_LABEL_STACK_STYLE =
+  'flex-v-stack items-start gap-0.5 text-left';
