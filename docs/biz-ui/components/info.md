@@ -204,13 +204,15 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 ### Variant 축
 
-축 3개의 완전 조합이라 심볼이 20개입니다.
+심볼은 40개이고 완전 조합이 아닙니다. 축 3개(`theme` · `isSticky` · `useAction`)의 완전 조합 20개에, 인라인에만 있는 `title=true` 10개(DOTOLI-296)와 고정 띠지에만 있는 `hasBorder=false` 10개(DOTOLI-341)가 붙습니다.
 
 | 축          | Figma 값                                        | 구현                          |
 | ----------- | ----------------------------------------------- | ----------------------------- |
 | `theme`     | `primary` · `yellow` · `green` · `red` · `gray` | 그대로                        |
 | `isSticky`  | `false` · `true`                                | 그대로                        |
 | `useAction` | `false` · `true`                                | **`onClick` 유무로 흡수**     |
+| `title`     | `false` · `true` (`true`는 인라인만)             | `title` 문자열 유무로 흡수. 고정 띠지에서도 막지 않음 |
+| `hasBorder` | `true` · `false` (`false`는 고정 띠지만)          | 그대로. 인라인에서도 막지 않음 |
 
 `hover` · `pressed` · `disabled`는 정의가 없습니다.
 
@@ -234,7 +236,9 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `false`    | 4면 1px       | `6`    | 33        |
 | `true`     | **하단 1px만** | 없음   | 34        |
 
-**높이는 `useAction`과 무관합니다** — 세트 `346:1300`의 심볼 20개가 전부 33(`isSticky=false`) · 34(`true`)입니다.
+`hasBorder={false}`면 테두리 열만 「없음」이 되고 radius와 높이는 그대로입니다(DOTOLI-341).
+
+**높이는 `useAction` · `hasBorder`와 무관합니다.** 세트 `346:1300`에서 `title=false` 심볼 30개가 전부 33(`isSticky=false`) · 34(`true`)이고, 그중 `hasBorder=false` 10개도 34입니다.
 
 테마별로 갈리는 것은 배경 · 테두리 · 아이콘 3색이고 **바인딩된 hex가 기존 토큰과 전부 일치해 신규 토큰이 없습니다.**
 
@@ -330,6 +334,22 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 - **한 줄 배너는 회귀가 없습니다.** 종전 `items-center`에서 아이콘 위 여백이 `(20.3 − 15) / 2 = 2.65`, 바꾼 뒤가 `(20 − 15) / 2 = 2.5`로 0.15px 차이입니다. 아이콘 박스(20)가 문구 행(20.3)보다 낮아 배너 높이도 그대로입니다. `biz-customer-app` 주문 메인의 수정 안내 배너가 한 줄이라 확인이 필요했던 부분입니다.
 
+### DOTOLI-341 · `hasBorder`(테두리 없는 띠지)
+
+계기는 주문 메인 시안의 수정 마감 안내 띠지(`241:21528`, 「모레(목) 18시까지 수정할 수 있어요」)입니다. 380 × 34에 radius가 없어 고정 띠지 모양인데 하단 선도 없습니다. DS 세트 `346:1300`에 `hasBorder` 축이 생겼고, `false` 심볼 10개(`1205:2573` ~ `1205:2605`)는 전부 `isSticky=true`입니다. 테두리를 뺀 것 말고는 `346:1297`과 같습니다(배경 · padding · gap · 아이콘 · 캐럿 · 높이 34).
+
+- **인라인에서도 막지 않았습니다. Figma와 다릅니다.** Figma에는 `isSticky=false` + `hasBorder=false` 심볼이 없지만, `hasBorder`를 `isSticky`와 상관없는 prop으로 열었습니다. 인라인에서 끄면 `inset-ring`만 빠지고 배경과 radius 6은 남습니다.
+
+  근거는 둘입니다. 이 컴포넌트가 이미 Figma에 없는 조합을 막지 않고 있습니다. `title`은 인라인 심볼뿐인데 고정 띠지에서도 받습니다(DOTOLI-296). 그리고 테두리를 빼는 것 말고 DS가 새로 정하는 값이 없습니다. [StatusAlertBanner](./status-alert-banner.md)도 Figma에 없던 「액션만 있음」을 막지 않았고, 나중 시안에서 그 조합이 실제로 추가됐습니다.
+
+  판별 유니온으로 `isSticky: true`일 때만 받게 하는 안(DOTOLI-339 `CtaButton` `size` · `description` 선례)도 봤습니다. Figma 조합과 정확히 맞지만 `InfoBannerProps`가 `interface`에서 유니온 `type`이 되고, 막아서 얻는 것은 디자인에 없는 모양 하나를 못 만들게 하는 것뿐입니다. 그 모양은 「디자인 확인 필요」에 올렸습니다.
+
+- **`hasBorder`는 테두리만 끕니다. radius는 계속 `isSticky`가 정합니다.** 그래서 `INFO_BANNER_INLINE_STYLE`(`rounded-6 inset-ring`)에서 ring 두께 `inset-ring`을 빼 테마 맵의 `RING`에 합쳤습니다(`inset-ring inset-ring-blue-200`). 두께와 색이 따로 있으면 색만 빠졌을 때 `inset-ring`이 `currentColor`로 남아 문구 색 테두리가 그려집니다. 한 값으로 묶으면 `hasBorder`가 끄는 대상이 테마별 값 하나가 되고, 두께와 색을 한 문자열에 담은 `STICKY_RING`과 모양도 같아집니다(`Badge`의 `BADGE_STYLES` 선례). `INFO_BANNER_INLINE_STYLE` · `INFO_BANNER_STYLES`의 값이 바뀌었지만 `biz-customer-app` · `biz-ui-playground`에서 import하는 곳은 0건입니다.
+
+- **기본값은 `true`이고 비파괴입니다.** Figma 세트 기본값도 `true`입니다. 이름은 Figma 축 그대로이고, 존재 여부라 `has` 접두어가 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) boolean 규칙에도 맞습니다.
+
+- **높이가 바뀌지 않습니다.** 고정 띠지의 하단 선이 box-shadow라 레이아웃을 차지하지 않았고, 빼도 32.3 그대로입니다. Figma도 34 → 34입니다.
+
 ### API
 
 | prop        | 필수 | 기본값    | 비고                                     |
@@ -338,6 +358,7 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `description` | ✅   | —         | 안내 문구. 접히고 말줄임하지 않음. **`\n`으로 줄바꿈** |
 | `theme`     |      | `primary` | 5종                                       |
 | `isSticky`  |      | `false`   | 모양만 바꿈. 고정은 소비 앱이 함          |
+| `hasBorder` |      | `true`    | `false`면 테두리 없음. Figma는 고정 띠지에만 있고 인라인도 막지 않음 |
 | `onClick`   |      | —         | 주면 배너 전체가 `<button>` + 화살표 노출 |
 | `className` |      | —         | `sticky top-0` 등 배치를 얹는 자리        |
 
@@ -351,12 +372,13 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `base/white`    | 세트 변수에 있는데 쓰이는 자리를 못 찾았습니다. `IconButton` 배경으로 추정                          |
 | 스티키 전환 임계값 | 스펙이 [미확정]으로 남겨 둔 항목입니다. 소비 앱이 정해야 합니다                                  |
 | 여러 줄일 때 아이콘 정렬 | Figma `2863:17016`은 가운데, 구현은 첫 줄입니다(DOTOLI-318). 가운데가 의도라면 InfoItem과 함께 다시 봅니다 |
+| 인라인 테두리 없음 | `isSticky=false` + `hasBorder=false` 심볼이 없습니다. 구현은 막지 않고 배경 + radius 6만 남깁니다(DOTOLI-341). 쓰지 않을 조합이면 알려 주세요 |
 
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/InfoBanner.stories.tsx`, `meta.title`은 `core/biz-ui/Info/InfoBanner`. 데코레이터로 화면 폭과 같은 `w-[380px]`을 걸고, 인라인 스토리는 소비 앱의 좌우 마진 20을 재현합니다.
 
-스토리 6종입니다.
+스토리 7종입니다.
 
 | 스토리   | 보는 것                                                        |
 | -------- | -------------------------------------------------------------- |
@@ -364,6 +386,7 @@ Figma: [InfoBanner 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `Themes` | 5종 배경 · 테두리 · 아이콘 색                                   |
 | `Action` | `onClick` 유무로 화살표와 엘리먼트가 갈리는 것                  |
 | `Sticky` | 스크롤 컨테이너 안에서 `className='sticky top-0'`로 실제 고정 — **배치가 소비 앱 몫이라는 계약이 눈에 보이는 자리** |
+| `StickyBorder` | 고정 띠지의 테두리 있음 · 없음 · 없음 + 액션(DOTOLI-341) |
 | `WithTitle` | `LGN-201` 재현 — **굵은 첫 줄 + `\n`으로 끊은 본문 2줄**. 액션 유무 둘 다 |
 | `LongText` | 문구가 접혀도 잘리지 않고 높이가 늘어나는 것. **아이콘이 첫 줄에 남고 캐럿이 가운데에 있는지**도 여기서 봅니다(DOTOLI-318) |
 
@@ -392,3 +415,5 @@ Storybook 렌더의 계산값으로 대조했습니다.
 **DOTOLI-296 검증** — `WithTitle`에서 `title`이 `<strong>` · 14px · weight 700, 본문이 14px · weight 500이고 **색이 둘 다 `rgb(51,60,81)`(`gray/800`)로 같은 것**을 확인했습니다. 래퍼의 `white-space: pre-line`이 두 줄에 모두 상속되고 본문이 `\n`에서 2줄로 갈리며, 배너 높이 `72.890625 = 6 + 3 × 20.296875 + 6`으로 심볼 72와 맞습니다. **회귀도 확인했습니다** — `title`이 없을 때 높이가 `32.296875`로 종전과 같고(래퍼가 높이를 더하지 않음), `flex-1`이 래퍼로 옮겨간 뒤에도 문구 폭이 293(액션 있으면 265)으로 유지됩니다.
 
 **DOTOLI-318 검증** — Storybook 렌더에서 아이콘 박스는 15 × 20이고, 아이콘 세로 중심이 1줄 · 2줄 · 3줄 · `title` 있음 모두 **배너 top에서 16**으로 같습니다(= `6 + 20 / 2`, 문구 첫 줄 중심 `6 + 20.3 / 2 = 16.15`). 캐럿 중심은 1줄 16.15, 2줄 26.3, 3줄 36.45로 매번 배너 높이의 절반과 같아 가운데를 유지합니다. 1줄 배너의 높이는 32.3으로 종전과 같고, 테마 5종과 `Sticky`에서도 같은 값이 나옵니다. 2줄은 스토리가 없어서 `LongText`의 문구를 바꿔 쟀습니다.
+
+**DOTOLI-341 검증.** `StickyBorder`에서 테두리 있는 띠지는 box-shadow `inset 0 -1px 0 0 rgb(209,227,255)`(`blue/200`)이고, `hasBorder={false}` 두 개(액션 없음 `<div>` · 있음 `<button>`)는 `none`입니다. 셋 다 380 × 32.296875 · radius `0px` · 배경 `rgb(235,243,255)` · padding `6px 14px`로 같습니다. 인라인 `hasBorder={false}`(`Default`, `gray`)는 클래스에 `inset-ring`이 없고 box-shadow `none` · radius `6px` · 높이 32.296875로, 켠 쪽(`inset 0 0 0 1px rgb(227,230,238)`)과 높이가 같습니다. 회귀는 `Themes`에서 확인했습니다. 인라인 5테마 모두 `inset 0 0 0 1px` 테마 색 · radius 6 · 32.296875로 종전과 같습니다.

@@ -53,12 +53,17 @@ const meta = {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
+    hasBorder: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'true' } },
+    },
     onClick: { action: 'click' },
   },
   args: {
     description: VAT_EXCLUDED_DESCRIPTION,
     theme: INFO_BANNER_THEMES.PRIMARY,
     isSticky: false,
+    hasBorder: true,
   },
 } satisfies Meta<InfoBannerProps>;
 
@@ -112,6 +117,28 @@ export const Sticky: Story = {
       />
       <div className='h-[600px] bg-gray-50' />
     </div>
+  ),
+};
+
+export const StickyBorder: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ description, theme, onClick }) => (
+    <Flex direction='column' gap='10'>
+      <InfoBanner description={description} theme={theme} isSticky />
+      <InfoBanner
+        description={description}
+        hasBorder={false}
+        theme={theme}
+        isSticky
+      />
+      <InfoBanner
+        description={description}
+        hasBorder={false}
+        theme={theme}
+        isSticky
+        onClick={onClick}
+      />
+    </Flex>
   ),
 };
 

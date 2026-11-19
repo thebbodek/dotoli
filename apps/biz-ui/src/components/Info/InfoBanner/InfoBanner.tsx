@@ -23,6 +23,7 @@ const InfoBanner = ({
   description,
   theme = INFO_BANNER_THEMES.PRIMARY,
   isSticky = false,
+  hasBorder = true,
   className,
   onClick,
 }: InfoBannerProps) => {
@@ -32,7 +33,8 @@ const InfoBanner = ({
     className,
     INFO_BANNER_BASE_STYLE,
     BACKGROUND,
-    isSticky ? STICKY_RING : [INFO_BANNER_INLINE_STYLE, RING],
+    !isSticky && INFO_BANNER_INLINE_STYLE,
+    hasBorder && (isSticky ? STICKY_RING : RING),
     !!onClick && INFO_BANNER_ACTION_STYLE,
   );
 

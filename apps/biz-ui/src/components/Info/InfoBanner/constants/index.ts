@@ -22,7 +22,7 @@ export const INFO_BANNER_ACTION_ICON_KEY: IconProps['iconKey'] = 'caret-right';
 export const INFO_BANNER_BASE_STYLE =
   'flex-h-stack w-full items-start gap-[4px] px-[14px] py-[6px]';
 
-export const INFO_BANNER_INLINE_STYLE = 'rounded-6 inset-ring';
+export const INFO_BANNER_INLINE_STYLE = 'rounded-6';
 
 export const INFO_BANNER_ACTION_STYLE = clsx(
   'relative cursor-pointer',
@@ -52,31 +52,31 @@ export const INFO_BANNER_STYLES: Record<
 > = {
   [INFO_BANNER_THEMES.PRIMARY]: {
     BACKGROUND: 'bg-blue-100',
-    RING: 'inset-ring-blue-200',
+    RING: 'inset-ring inset-ring-blue-200',
     STICKY_RING: 'shadow-[inset_0_-1px_0_0_var(--color-blue-200)]',
     ICON: 'text-blue-300',
   },
   [INFO_BANNER_THEMES.YELLOW]: {
     BACKGROUND: 'bg-yellow-50',
-    RING: 'inset-ring-yellow-100',
+    RING: 'inset-ring inset-ring-yellow-100',
     STICKY_RING: 'shadow-[inset_0_-1px_0_0_var(--color-yellow-100)]',
     ICON: 'text-yellow-300',
   },
   [INFO_BANNER_THEMES.GREEN]: {
     BACKGROUND: 'bg-green-50',
-    RING: 'inset-ring-green-100',
+    RING: 'inset-ring inset-ring-green-100',
     STICKY_RING: 'shadow-[inset_0_-1px_0_0_var(--color-green-100)]',
     ICON: 'text-green-300',
   },
   [INFO_BANNER_THEMES.RED]: {
     BACKGROUND: 'bg-red-50',
-    RING: 'inset-ring-red-100',
+    RING: 'inset-ring inset-ring-red-100',
     STICKY_RING: 'shadow-[inset_0_-1px_0_0_var(--color-red-100)]',
     ICON: 'text-red-300',
   },
   [INFO_BANNER_THEMES.GRAY]: {
     BACKGROUND: 'bg-gray-100',
-    RING: 'inset-ring-gray-200',
+    RING: 'inset-ring inset-ring-gray-200',
     STICKY_RING: 'shadow-[inset_0_-1px_0_0_var(--color-gray-200)]',
     ICON: 'text-gray-300',
   },

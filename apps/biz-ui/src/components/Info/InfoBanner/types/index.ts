@@ -19,4 +19,5 @@ export interface InfoBannerProps
   description: string;
   theme?: InfoBannerTheme;
   isSticky?: boolean;
+  hasBorder?: boolean;
 }
