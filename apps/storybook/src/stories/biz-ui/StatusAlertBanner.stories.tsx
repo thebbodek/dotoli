@@ -95,6 +95,16 @@ export const Combinations: Story = {
       </Flex>
       <Flex align={{ items: 'start' }} direction='column' gap='8'>
         <Typography color='gray-500' variant='label-bold'>
+          onAction
+        </Typography>
+        <StatusAlertBanner
+          message={message}
+          theme={theme}
+          onAction={onAction}
+        />
+      </Flex>
+      <Flex align={{ items: 'start' }} direction='column' gap='8'>
+        <Typography color='gray-500' variant='label-bold'>
           onDismiss
         </Typography>
         <StatusAlertBanner

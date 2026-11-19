@@ -277,12 +277,12 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-339 biz-ui > CtaButton xl 사이즈 · 높이 조절 추가
 - [x] DOTOLI-340 biz-ui > CalendarDayButton 어두운 배경 · 주문 상태 표시 추가
 - [x] DOTOLI-341 biz-ui > InfoBanner 고정 띠지 테두리 제거 옵션 추가
-- [ ] DOTOLI-342 biz-ui > StatusAlertBanner 회색 테마 추가
+- [x] DOTOLI-342 biz-ui > StatusAlertBanner 회색 테마 추가
 - [ ] DOTOLI-343 biz-ui > NotificationCard 설명 · 부제 글자 크기 확대
 - [ ] DOTOLI-344 biz-ui > InfoItem 여러 줄일 때 아이콘 첫 줄 가운데 정렬
 - [ ] DOTOLI-345 biz-ui > Calendar 월요일 시작 옵션 추가
 
-소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 342~345의 범위는 아래 「태스크 상세」에 있습니다.
+소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 343~345의 범위는 아래 「태스크 상세」에 있습니다.
 
 ---
 
@@ -291,12 +291,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 **출처를 따로 적지 않았으면 문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
-
-### DOTOLI-342 · StatusAlertBanner 회색 테마 추가
-
-Figma 컴포넌트 세트 `269:1060`에 `theme=gray` 심볼 4개(`1210:2628` · `1210:2637` · `1210:2645` · `1210:2696`)가 들어왔습니다. 아이콘은 Pause입니다. `STATUS_ALERT_BANNER_THEMES`에 `GRAY`를 넣고 `STATUS_ALERT_BANNER_STYLES`의 아이콘 키와 색을 심볼에서 실측합니다. 「테마가 바꾸는 것은 아이콘 하나뿐」이라는 기존 실측이 gray에도 맞는지 확인합니다.
-
-같은 시안에 `useAction=true, useDismiss=false` 심볼 5개(`1210:2652` · `1210:2663` · `1210:2674` · `1210:2685` · `1210:2696`)도 추가됐습니다. 폭 259는 기존 285에서 닫기 14와 gap 12를 뺀 값이고 라벨 「보기」와 색도 같아서, `onDismiss`를 생략한 지금 렌더와 일치합니다(스크린샷 대조). 그래서 티켓명에서 뺐고 코드는 고치지 않습니다. [components/status-alert-banner.md](./components/status-alert-banner.md)의 Variant 축 표(조합 3 → 4, 심볼 12 → 20), 「결정」의 「액션만 있고 닫기 없음」 항목, 「디자인 확인 필요」, 「`gray`가 없습니다」 문장을 정리하고 스토리에 액션 전용 형태를 추가합니다.
 
 ### DOTOLI-343 · NotificationCard 설명 · 부제 글자 크기 확대
 
@@ -410,6 +404,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-339 | CtaButton `xl` 사이즈 추가(Figma `11:4337` xl 심볼 96개). 높이를 고정하지 않아 혼자 두면 79.2이고, 부모 grid 칸이나 `className`(`flex-1` · `h-full`)으로 늘어남. 높이 prop은 만들지 않음. 보조 문구 `description`은 xl에서만 받도록 **`size`와 짝지은 유니온**(컴포넌트 props로는 두 DS 첫 판별 유니온, `CtaButtonProps` · `LinkCtaButtonProps`가 `type`이 됨). xl `text`는 Figma대로 패딩이 있고, 아이콘은 34로 라벨(28)과 따로 지정. 라벨 묶음은 비공개 `CtaButtonLabel`로 `LinkCtaButton`과 공유. 색은 기존 맵 그대로라 비파괴 | [components/button.md](./components/button.md) |
 | DOTOLI-340 | 어두운 배경 위 표시 전용 날짜 칸 `CalendarDayStatus` 추가(Figma `106:419`의 `theme=dark` 심볼 8개). Figma는 `CalendarDayButton`의 축으로 그렸지만 정책상 누를 수 없는 표시라 **`<button>`이 아닌 별도 컴포넌트**(`disabled`로 흉내 내는 안은 「사용할 수 없는 버튼」으로 읽혀 버림). `status` 4종(`done` · `urgent` · `empty` · `unavailable`), 폭은 부모 grid가 정하고 높이 48. `urgent` 배경 흰색 16%는 픽셀로 잼. 점선은 폭이 유동이라 CSS `border-dashed`. 스크린 리더 문장의 상태 문구는 `statusLabel`로 소비 앱이 넘김(`unavailable` 한 모양이 정책 상태 셋이라 DS가 못 정함). `OrderWeekStatus`는 쓰지 않게 됐지만 남겨 둠. 비파괴 | [components/calendar.md](./components/calendar.md) |
 | DOTOLI-341 | InfoBanner `hasBorder` 추가(Figma `346:1300`의 새 축 그대로, 기본 `true`라 비파괴). Figma는 `hasBorder=false`가 고정 띠지에만 있지만 **인라인도 막지 않음**: `title`을 고정 띠지에서 막지 않은 DOTOLI-296과 같은 판단이고, 인라인 테두리 없음은 디자인 확인 필요에 올림. 색만 끄면 `inset-ring`이 `currentColor` 테두리로 남아서 ring 두께를 radius 상수에서 빼 테마 맵 `RING`에 합침(`STICKY_RING`과 같은 모양, 두 상수 값 변경은 실사용 0건). 하단 선이 box-shadow라 높이 변화 없음 | [components/info.md](./components/info.md) |
+| DOTOLI-342 | StatusAlertBanner `gray` 테마 추가(아이콘 `pause` · `fill` · `gray/300`, 나머지는 4테마와 같음). weight는 렌더가 아니라 Figma 에셋 path의 서브패스 수(속 채움 2개 = `pause-fill`)로 판정. 같은 시안의 「액션만 있음」 심볼 5개는 DOTOLI-261 때부터 막지 않았던 조합이고 폭 259가 지금 렌더와 같아 **코드 변경 없이** 문서(축 2×2 · 디자인 확인 필요 해소)와 `Combinations` 스토리만 정리. 아이콘 색 스케일은 `primary` · `gray` 300, 나머지 200으로 InfoBanner 배경 · 테두리와 같은 쌍. 비파괴 | [components/status-alert-banner.md](./components/status-alert-banner.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

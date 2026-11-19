@@ -12,6 +12,7 @@ export const STATUS_ALERT_BANNER_THEMES = {
   YELLOW: 'yellow',
   RED: 'red',
   GREEN: 'green',
+  GRAY: 'gray',
 } as const;
 
 export const STATUS_ALERT_BANNER_ICON_WEIGHT = ICON_WEIGHTS.FILL;
@@ -70,5 +71,9 @@ export const STATUS_ALERT_BANNER_STYLES: Record<
   [STATUS_ALERT_BANNER_THEMES.GREEN]: {
     ICON_KEY: 'check-circle',
     ICON: 'text-green-200',
+  },
+  [STATUS_ALERT_BANNER_THEMES.GRAY]: {
+    ICON_KEY: 'pause',
+    ICON: 'text-gray-300',
   },
 };
