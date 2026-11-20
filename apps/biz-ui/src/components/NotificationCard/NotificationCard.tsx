@@ -60,7 +60,7 @@ const NotificationCard = ({
               {!!subText && (
                 <Typography
                   color={NOTIFICATION_CARD_COLORS.SUB_TEXT}
-                  variant={TYPOGRAPHY_VARIANTS.BODY}
+                  variant={TYPOGRAPHY_VARIANTS.BODY_LG}
                 >
                   {subText}
                 </Typography>
@@ -69,7 +69,7 @@ const NotificationCard = ({
                 <div className={NOTIFICATION_CARD_META_STYLE}>
                   <Typography
                     color={NOTIFICATION_CARD_COLORS.META_TEXT}
-                    variant={TYPOGRAPHY_VARIANTS.LABEL}
+                    variant={TYPOGRAPHY_VARIANTS.BODY}
                   >
                     {meta.text}
                   </Typography>
@@ -81,7 +81,7 @@ const NotificationCard = ({
                       />
                       <Typography
                         color={NOTIFICATION_CARD_COLORS.META_EXTRA_TEXT}
-                        variant={TYPOGRAPHY_VARIANTS.LABEL}
+                        variant={TYPOGRAPHY_VARIANTS.BODY}
                       >
                         {meta.extraText}
                       </Typography>
@@ -96,7 +96,7 @@ const NotificationCard = ({
       {!!period && (
         <Typography
           color={NOTIFICATION_CARD_COLORS.PERIOD}
-          variant={TYPOGRAPHY_VARIANTS.LABEL}
+          variant={TYPOGRAPHY_VARIANTS.BODY}
         >
           {period}
         </Typography>

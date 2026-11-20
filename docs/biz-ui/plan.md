@@ -278,11 +278,11 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-340 biz-ui > CalendarDayButton 어두운 배경 · 주문 상태 표시 추가
 - [x] DOTOLI-341 biz-ui > InfoBanner 고정 띠지 테두리 제거 옵션 추가
 - [x] DOTOLI-342 biz-ui > StatusAlertBanner 회색 테마 추가
-- [ ] DOTOLI-343 biz-ui > NotificationCard 설명 · 부제 글자 크기 확대
+- [x] DOTOLI-343 biz-ui > NotificationCard 설명 · 부제 글자 크기 확대
 - [ ] DOTOLI-344 biz-ui > InfoItem 여러 줄일 때 아이콘 첫 줄 가운데 정렬
 - [ ] DOTOLI-345 biz-ui > Calendar 월요일 시작 옵션 추가
 
-소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 343~345의 범위는 아래 「태스크 상세」에 있습니다.
+소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 344~345의 범위는 아래 「태스크 상세」에 있습니다.
 
 ---
 
@@ -291,10 +291,6 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 **완료된 티켓은 상세를 걷어내고 링크만 둡니다.** 착수 전 계획과 실제 구현은 반드시 갈리는데, 그때 진실은 구현 기록 쪽입니다. 계획을 그대로 두면 볼 때마다 어느 쪽이 맞는지 대조해야 하고 파일만 단조 증가합니다. 유지 규칙은 [`apps/biz-ui/CLAUDE.md`](../../apps/biz-ui/CLAUDE.md) 「문서 유지」를 따릅니다.
 
 아래 값은 **출처를 따로 적지 않았으면 문서 프레임에서 눈으로 읽은 것**이라 착수 시 심볼에서 다시 실측합니다 (CLAUDE.md 「작성 전 절차」 4).
-
-### DOTOLI-343 · NotificationCard 설명 · 부제 글자 크기 확대
-
-현재 `subText`는 `body`, `meta` · `period`는 `label`입니다. 설명은 `subText`로 보이고, 부제가 `meta`와 `period` 중 어느 쪽인지는 착수 때 새 심볼에서 확인합니다. 새 크기는 기존 타이포 토큰 중에서 고르고, 토큰에 없는 값이면 토큰을 추가할지 먼저 정합니다.
 
 ### DOTOLI-344 · InfoItem 여러 줄일 때 아이콘 첫 줄 가운데 정렬
 
@@ -405,6 +401,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-340 | 어두운 배경 위 표시 전용 날짜 칸 `CalendarDayStatus` 추가(Figma `106:419`의 `theme=dark` 심볼 8개). Figma는 `CalendarDayButton`의 축으로 그렸지만 정책상 누를 수 없는 표시라 **`<button>`이 아닌 별도 컴포넌트**(`disabled`로 흉내 내는 안은 「사용할 수 없는 버튼」으로 읽혀 버림). `status` 4종(`done` · `urgent` · `empty` · `unavailable`), 폭은 부모 grid가 정하고 높이 48. `urgent` 배경 흰색 16%는 픽셀로 잼. 점선은 폭이 유동이라 CSS `border-dashed`. 스크린 리더 문장의 상태 문구는 `statusLabel`로 소비 앱이 넘김(`unavailable` 한 모양이 정책 상태 셋이라 DS가 못 정함). `OrderWeekStatus`는 쓰지 않게 됐지만 남겨 둠. 비파괴 | [components/calendar.md](./components/calendar.md) |
 | DOTOLI-341 | InfoBanner `hasBorder` 추가(Figma `346:1300`의 새 축 그대로, 기본 `true`라 비파괴). Figma는 `hasBorder=false`가 고정 띠지에만 있지만 **인라인도 막지 않음**: `title`을 고정 띠지에서 막지 않은 DOTOLI-296과 같은 판단이고, 인라인 테두리 없음은 디자인 확인 필요에 올림. 색만 끄면 `inset-ring`이 `currentColor` 테두리로 남아서 ring 두께를 radius 상수에서 빼 테마 맵 `RING`에 합침(`STICKY_RING`과 같은 모양, 두 상수 값 변경은 실사용 0건). 하단 선이 box-shadow라 높이 변화 없음 | [components/info.md](./components/info.md) |
 | DOTOLI-342 | StatusAlertBanner `gray` 테마 추가(아이콘 `pause` · `fill` · `gray/300`, 나머지는 4테마와 같음). weight는 렌더가 아니라 Figma 에셋 path의 서브패스 수(속 채움 2개 = `pause-fill`)로 판정. 같은 시안의 「액션만 있음」 심볼 5개는 DOTOLI-261 때부터 막지 않았던 조합이고 폭 259가 지금 렌더와 같아 **코드 변경 없이** 문서(축 2×2 · 디자인 확인 필요 해소)와 `Combinations` 스토리만 정리. 아이콘 색 스케일은 `primary` · `gray` 300, 나머지 200으로 InfoBanner 배경 · 테두리와 같은 쌍. 비파괴 | [components/status-alert-banner.md](./components/status-alert-banner.md) |
+| DOTOLI-343 | NotificationCard 글자 크기 확대. 심볼 `607:3148` 실측대로 `subText` `body` → `body-lg`, `meta` 두 조각 · `period` `label` → `body`. 티켓명에 없는 기간도 심볼에서 같이 커져 포함. 토큰 신규 없음, 색 · gap · 구분선 12는 그대로. API는 그대로지만 **시각 변경**이라 소비 앱 6곳(오류 카드 2 · 주문 메인 공지 1 · 주문 메인 주차 목록 카드 3)에서 카드가 커짐. 텍스트 상자당 약 2.9px(보조 텍스트는 줄마다)이라 전부 한 줄이면 최대 약 9px, 새로 접히는 줄이 생기면 더 커짐. 기간 `blue/400` 대비 미달(3.31:1)도 디자인 확인 필요에 추가. 렌더 16조합 높이가 Figma와 행높이 반올림 차이(≤0.49)로 일치 | [components/notification-card.md](./components/notification-card.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
