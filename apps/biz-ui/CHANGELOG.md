@@ -1,5 +1,13 @@
 # @bbodek/biz-ui
 
+## 0.0.71
+
+### Patch Changes
+
+- 1ea8e76: DOTOLI-343 biz-ui > NotificationCard 설명 · 부제 글자 크기 확대
+- 1ea8e76: DOTOLI-342 biz-ui > StatusAlertBanner 회색 테마 추가
+- 1ea8e76: DOTOLI-341 biz-ui > InfoBanner 고정 띠지 테두리 제거 옵션 추가
+
 ## 0.0.70
 
 ### Patch Changes
