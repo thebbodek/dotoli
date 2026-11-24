@@ -1,5 +1,13 @@
 # @bbodek/biz-ui
 
+## 0.0.72
+
+### Patch Changes
+
+- 68d103d: DOTOLI-346 biz-ui > OrderInputCard 마감 보조줄 · 사유 배지 추가
+- 68d103d: DOTOLI-348 biz-ui > 쓰지 않는 CtaButton white 테마 · OrderWeekStatus · Tab filled 변형 제거
+- 68d103d: DOTOLI-347 biz-ui > QuantityStepper 경고 안내 추가
+
 ## 0.0.71
 
 ### Patch Changes
