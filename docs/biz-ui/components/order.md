@@ -4,7 +4,7 @@
 
 Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=203-847&m=dev) (`203:847`). 섹션 안의 `302:1434`(OrderBoxCell) · `302:1451`(OrderBox) · `302:1631`(OrderDateInfo) · `302:1573`(QuantityStepper) · `302:1204`(OrderInputCard)는 전부 문서용 프레임이고, 실제 값은 각 컴포넌트 세트에서 실측합니다.
 
-**OrderBox(DOTOLI-335 이후) · OrderDateInfo(DOTOLI-336 이후) · OrderWeekStatus는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)가 출처입니다.** 그래서 위 Figma 프레임 중 `302:1434` · `302:1451` · `302:1631`은 지금 구현과 맞지 않습니다. 아티팩트는 목업이지만 「개선안」이라 기존 Figma 값보다 우선하고, 맞는 토큰이 없거나 의미가 너무 벗어날 때만 가장 가까운 토큰으로 옮깁니다. 색은 가장 비슷한 토큰을 쓰고, 차이는 각 절 「디자인 확인 필요」에 남깁니다(11/16 사용자 확인). 각 절에는 어느 보드를 봤는지만 적습니다.
+**OrderBox(DOTOLI-335 이후) · OrderDateInfo(DOTOLI-336 이후)는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)가 출처입니다.** 그래서 위 Figma 프레임 중 `302:1434` · `302:1451` · `302:1631`은 지금 구현과 맞지 않습니다. 아티팩트는 목업이지만 「개선안」이라 기존 Figma 값보다 우선하고, 맞는 토큰이 없거나 의미가 너무 벗어날 때만 가장 가까운 토큰으로 옮깁니다. 색은 가장 비슷한 토큰을 쓰고, 차이는 각 절 「디자인 확인 필요」에 남깁니다(11/16 사용자 확인). 각 절에는 어느 보드를 봤는지만 적습니다.
 
 ## 구현 현황
 
@@ -15,7 +15,6 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
 | `OrderNotiCollapse` | DOTOLI-264 | `type` 4종 × `isOpen`. **헤더만** 그리고 접히는 내용은 소비 앱이 형제로 둠 |
-| `OrderWeekStatus` | DOTOLI-333 | 주간 날짜 상태 7칸. 상태 5종 × `size` 2종. 표시 전용이고 어두운 카드 위 전용 |
 
 `OrderNotiCollapse`만 Order 섹션 밖([`205:4063`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=205-4063&m=dev))에 있습니다.
 
@@ -23,7 +22,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **`shared/`에는 계열이 함께 쓰는 문구만 있습니다.** 착수 시점에는 열지 않았습니다 — 당시 OrderBox가 `OrderBoxCell`(DOTOLI-335에서 제거)을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 같이 움직여야 하는 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
 
-  **DOTOLI-336 이후로는 이렇습니다.** OrderDateInfo가 접미어를 쓰지 않게 돼 휴일 상수는 `OrderInputCard`만 씁니다. 그래도 `Order/shared`에 그대로 둡니다. 아티팩트 E3(주문하기)가 「휴일」을 다시 쓰고 있어, ORD-REG에서 그 표기를 정하면 다른 컴포넌트와 다시 공유될 수 있기 때문입니다. 대신 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)이 새로 들어와 `OrderDateInfo` · `OrderInputCard` · `OrderWeekStatus` 셋이 함께 씁니다. 정책 2-3이 이 라벨을 「3-2 입력 불가 라벨과 통일」로 묶어 둔 결합입니다.
+  **DOTOLI-336 이후로는 이렇습니다.** OrderDateInfo가 접미어를 쓰지 않게 돼 휴일 상수는 `OrderInputCard`만 씁니다. 그래도 `Order/shared`에 그대로 둡니다. 아티팩트 E3(주문하기)가 「휴일」을 다시 쓰고 있어, ORD-REG에서 그 표기를 정하면 다른 컴포넌트와 다시 공유될 수 있기 때문입니다. 대신 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)이 새로 들어와 `OrderDateInfo` · `OrderInputCard` 둘이 함께 씁니다(`OrderWeekStatus`도 썼지만 DOTOLI-348에서 지움). 정책 2-3이 이 라벨을 「3-2 입력 불가 라벨과 통일」로 묶어 둔 결합입니다.
 
 ---
 
@@ -141,7 +140,7 @@ DOTOLI-335 전의 가로 3열 OrderBox · `OrderBoxCell` 결정입니다. 코드
 - **배송 정보를 마감 표기로 바꿨습니다.** 정책 1-9가 사용자 앱의 날짜를 사용일 하나로 표기하고 배송일 · 배송 상태를 빼기로 해서, `deliveryInfo`와 「배송없음」이 없어졌습니다.
 - **한 줄 구조이고 버튼 자리를 DS가 갖습니다(11/13 확인).** 아티팩트에서 마감 문구가 버튼 바로 옆에 붙어 있어, 두 줄 구조(날짜 아래 마감 문구, 버튼은 소비 앱이 행 오른쪽에)로는 배치가 맞지 않았습니다. 소비 앱의 `OrderDayCard`가 직접 그리던 버튼 · 「배송 준비중」 라벨이 이 컴포넌트로 들어옵니다.
 - **버튼은 `action`(`label` · `onClick`)만 받고 모양은 DS가 정합니다.** `Toast`의 `action`(`ToastAction`)과 `ConfirmModal`의 `confirm` · `cancel`이 같은 형태입니다. `CtaButton` `tonal` · `gray` · `sm`이 아티팩트 버튼과 값이 그대로 맞습니다. 아무 노드나 받는 슬롯(`ReactNode`)으로 열면 버튼 모양을 소비 앱이 정하게 되고, biz-ui의 `ReactNode` prop(`Toast` `message` · `NotificationCard` `title`)은 문장 강조용이라 버튼 슬롯 선례도 아닙니다.
-- **마감 여부는 `isDeadlinePassed`입니다.** 이름 근거는 [OrderWeekStatus](#orderweekstatus) 상태 이름 표의 `deadlinePassed`와 같습니다. 이것만 boolean prop인 이유는 값 유무로 파생하면 「날짜만」(마감 전인데 문구 · 버튼이 없음)과 구분되지 않아서입니다. 마감 뒤에 같이 넘어온 `deadlineLabel` · `action`을 무시하는 것은 `Toast`의 `status='loading'` + `action`과 같은 처리입니다([toast.md](./toast.md)).
+- **마감 여부는 `isDeadlinePassed`입니다.** 이름 근거는 아래 「OrderWeekStatus」 제거 기록의 상태 이름 `deadlinePassed`입니다. 이것만 boolean prop인 이유는 값 유무로 파생하면 「날짜만」(마감 전인데 문구 · 버튼이 없음)과 구분되지 않아서입니다. 마감 뒤에 같이 넘어온 `deadlineLabel` · `action`을 무시하는 것은 `Toast`의 `status='loading'` + `action`과 같은 처리입니다([toast.md](./toast.md)).
 - **「주문마감」 문구는 `Order/shared`의 `ORDER_DEADLINE_PASSED_LABEL`입니다.** 함께 쓰는 곳과 근거는 위 「계열 공통 결정」에 있습니다. 소비 앱이 마감 뒤에 그리던 「배송 준비중」 자리를 이 배지가 대신합니다. 마감이 지났지만 배송 전인 날(`requiresUrgentOrder`)을 어떻게 넘길지는 BP-132에서 정합니다.
 - **마감 문구는 소비 앱이 조립합니다.** 「목 18시 마감」(정책 2-3)과 「오늘 18시 마감」(아티팩트 Q1의 상대 표현) 중 무엇을 쓸지는 소비 앱 결정으로 넘겼고(11/13), DS는 완성된 문자열을 받습니다.
 - **「· 휴일」 접미어를 붙이지 않습니다(11/13 확인).** Q1이 휴일을 날짜 색으로만 보여 줘서 뺐습니다. 정책 1-6은 「N일 · 휴일」 형식을 적고 있어 디자인과 다릅니다. 접미어 상수(`ORDER_HOLIDAY_*`)는 `OrderInputCard`가 아직 써서 `Order/shared`에 그대로 둡니다. 아티팩트 E3(주문하기)은 「21일(토) 휴일」처럼 가운뎃점 없는 빨간 「휴일」을 두는데, 그쪽 표기는 ORD-REG에서 정합니다.
@@ -515,98 +514,9 @@ Figma 심볼은 9개(`type` 3 × `isOpen` 2 × `useDetail` 2 중 `isOpen=false·
 
 ---
 
-## OrderWeekStatus
+## OrderWeekStatus (DOTOLI-348에서 제거)
 
-주문 메인 상단 상태 카드에 들어가는 7칸입니다(정책 「주문(new)」 2-1 「날짜 칸 규칙」). 주간 카드는 날짜 숫자 · 요일 · 표시를, 고정주문 카드는 요일 · 표시만 씁니다. 소비처는 biz-customer-app BP-124(주간) · BP-125(고정)입니다.
+DOTOLI-333에서 주문 메인 상태 카드의 7칸으로 만들었고, 11/18 시안에서 그 자리가 [`CalendarDayStatus`](./calendar.md#calendardaystatus)(DOTOLI-340)로 바뀌어 DOTOLI-348에서 지웠습니다. 소비 앱 사용처는 0건이었습니다. 다른 문서가 인용하는 결정만 남기고, 상세는 git 이력(DOTOLI-347 시점 이 파일)에 있습니다.
 
-**11/18 시안에서 이 7칸이 [`CalendarDayStatus`](./calendar.md#calendardaystatus)(DOTOLI-340)로 바뀌어 지금은 쓰는 곳이 없습니다.** 지우지 않고 남겨 두기로 했습니다(11/19). 아래 기록은 0.0.68 배포 당시 기준입니다.
-
-출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)입니다. 주간 MW1~MW5, 고정 MF1~MF3, 배너가 있을 때 MB1~MB4, 중지 MS1을 봤습니다(원칙은 문서 머리말).
-
-### Variant 축
-
-| 축 | 값 |
-| --- | --- |
-| 칸 상태(`status`) | `ordered`(입력함) · `unordered`(비어 있음) · `deadlinePassed`(주문마감) · `suspended`(중지됨) · `noOrder`(주문 없음) |
-| `size` | `lg`(원 30px) · `sm`(원 26px, 예고 배너가 있을 때) |
-
-### 실측 스펙
-
-7칸 `grid` · gap 4px, 칸은 세로로 날짜 숫자 → 요일 → 표시를 gap 3px로 쌓습니다.
-
-| 상태 | 표시 | 구현 |
-| --- | --- | --- |
-| 입력함 | 흰 원 + 체크 | `bg-white` 원 + `check` bold 14px `blue-700`(목업 `rgb(26,95,196)`과 같은 값) |
-| 비어 있음 | 노란 점선 원, 요일도 노랑 | SVG 점선 `stroke-yellow-200`, 요일 `yellow-200` |
-| 주문마감 | 회색 점선 원 | SVG 점선 `stroke-white/35` |
-| 중지됨 | 회색 원 + 사선 | SVG 원 `fill-white/18` + 사선 `stroke-white/70`(지름의 1/3 → 2/3, 둥근 끝) |
-| 주문 없음 | 「–」 | 원 자리에 `heading-5` 「–」, 흰색 + `opacity-60` |
-
-공통으로 날짜 숫자는 `caption` 흰색 + `opacity-70`, 요일은 `label-bold` `blue-200`입니다. 선 두께는 2px입니다.
-
-### 결정
-
-- **표시 전용입니다.** 버튼이 아니고 눌러도 아무 일도 없습니다(정책 2-1, 11/12). 그래서 포커스 · `cursor` · hover · pressed가 없습니다. 기간 선택 상태를 가진 48px `<button>`인 `CalendarDayButton`을 넓히지 않고 Order 계열에 새로 만들었습니다.
-- **상태 이름은 bbodek-internal · 소비 앱이 이미 쓰는 말에 맞췄습니다(11/16 확인).** 처음엔 `OrderInputCard`의 `orderStatus` 값(`completed` · `inputRequired` · `inputClosed`)을 그대로 썼는데, `input` 접두어는 주문 입력 카드의 말이라 표시 전용 칸에는 뜻이 맞지 않았습니다.
-
-  | 상태 | 맞춘 기존 용어 |
-  | --- | --- |
-  | `ordered` | 기존 용어 없음. `unordered`와 짝. `completed`는 internal에서 해지 「완료」 뜻 |
-  | `unordered` | internal 「미주문」(`ORDER_HISTORY_UNORDERED_LABEL`) |
-  | `deadlinePassed` | internal `DELIVERY_DATE_PASSED` · `ORDER_DEADLINE_HOUR`, 소비 앱 `DEADLINE_PASSED_*`. `closed`는 internal에서 「종결」 뜻이라 피함 |
-  | `suspended` | internal `ORDER_SUSPENDED` · `OPERATION_SUSPENDED`, 소비 앱 `isSuspended` |
-  | `noOrder` | 정책 「주문 없음(0 저장)」 |
-
-  `unordered`(빈칸)와 `noOrder`(0)는 이름이 비슷하지만 정책이 「미주문」과 「주문 없음」을 구분하는 그대로입니다. 이름이 `OrderInputCard`와 갈라져 같은 상태 값을 두 컴포넌트에 그대로 넘길 수는 없습니다. 소비 앱은 어차피 서버 필드(`isOrderable` · 수량 등)에서 상태를 만들고, `OrderInputCard`는 따로 개편할 후보라 손해가 작다고 봤습니다.
-- **요일은 문자열(`dayLabel`), 날짜는 숫자(`date: number`)로 받습니다.** 계열의 `dateLabel`(`OrderDateInfo` `3일(수)`, `OrderInputCard` `29일`)은 「일」까지 붙은 문자열인데, 여기 화면에는 숫자만 보입니다. 같은 이름으로 숫자만 받으면 소비 앱이 다른 컴포넌트와 같은 값을 넘길 때 화면에 「16일」이 찍히고 스크린 리더는 「16일일」로 읽는데, 타입으로 못 막습니다. 그래서 이름과 타입을 바꿔 `CalendarDayButton`(`date: number` + 「일」 접미어)과 맞췄습니다. 「일」은 스크린 리더 문장에서만 DS가 붙입니다. 요일은 계열 관례대로 소비처가 조립한 문자열입니다.
-- **날짜 숫자는 `lg`이면서 `date`가 있을 때만 그립니다.** 배너가 있을 때 디자인(MB1 · MB2 · MB4)이 주간 카드에서도 숫자를 빼서, `sm`은 `date`를 받아도 그리지 않습니다(11/13 확인). 디자인에 없는 「축소 + 숫자」 조합이 나오지 않게 막은 것입니다.
-- **칸은 7개(월~일)입니다.** 정책 2-1이 「주 7일을 한 줄 7칸」으로 정해 `grid-cols-7`로 고정하고, 요일이 한 번씩만 나오므로 `key`도 `dayLabel`입니다.
-- **중지됨은 상태를 직접 비교해 가르고, 점선 두 상태는 `Record`로 받습니다.** 입력함 · 주문 없음을 먼저 돌려보낸 뒤 `status === SUSPENDED`로 사선 원을 그리고, 남은 두 상태만 키로 가진 `ORDER_WEEK_STATUS_DASHED_STROKE_STYLES`(`Record<OrderWeekStatusDashedStatus, …>`)에서 색을 고릅니다. 상태가 하나 늘면 그 마지막 인덱싱이 타입 에러를 내서, 새 상태가 조용히 엉뚱한 모양으로 그려지지 않습니다.
-- **`ORDER_WEEK_STATUS_MARK_SPECS`는 같은 치수의 두 표기를 한 레코드에 둡니다.** Tailwind는 완성된 클래스(`BOX: 'size-[30px]'`)가, SVG는 숫자(`DIAMETER: 30`)가 필요합니다. 한 행에 붙여 둬야 둘이 어긋나지 않습니다. OrderNotiCollapse의 「한 레코드에 텍스트 · 클래스 · 토큰을 섞지 않는다」는 서로 다른 것을 섞지 말라는 뜻이라 여기에 해당하지 않습니다.
-- **축소 크기의 요일은 14px(`label-bold`)입니다.** 아티팩트는 13px인데 DS에 13px 타이포 토큰이 없어 14px로 뒀습니다(11/13 확인). `caption`(12px)으로 내리면 굵기가 700에서 600으로 바뀝니다. 원만 30 → 26px로 줄어듭니다.
-- **흰 반투명 글자는 `opacity-*`로 냅니다.** 목업의 날짜 숫자(`rgba(255,255,255,0.7)`)와 「–」(`0.6`)는 CLAUDE.md 「`text-*`에 `/` 수식어 금지」에 걸려 `text-white/70`으로 쓸 수 없습니다. 가까운 단색 토큰으로 바꾸면 그라데이션 위치마다 어색해져서, `text-white`에 `opacity-70` · `opacity-60`을 걸어 목업과 같은 모양을 냈습니다. 요일(`#dbe7ff`)과 노랑(`#ffd98a`)은 단색이라 `blue-200` · `yellow-200`으로 옮겼습니다.
-- **점선 원과 사선은 인라인 SVG로 그립니다.** biz-ui 컴포넌트에 인라인 SVG가 들어간 첫 사례입니다(아이콘은 전부 아이콘 폰트).
-  - 둥근 `border-dashed`는 안드로이드(Chromium)와 iOS(WebKit) WebView가 점선을 다르게 나누고, 둘레가 점선 간격으로 딱 나눠지지 않으면 이음매에서 점선이 뭉칩니다. SVG는 둘레를 계산해 `stroke-dasharray`로 같은 길이 12개(점선 + 간격 24칸)로 나눠, 두 엔진에서 똑같이 나옵니다. `pathLength`는 WebKit 지원이 늦어 쓰지 않고 둘레를 직접 계산합니다(`generateOrderWeekStatusMarkGeometry`).
-  - 12개는 목업의 CSS 점선(크롬 렌더)과 나란히 놓고 맞춘 값입니다. 디자인에 정해진 값이 아니라 「디자인 확인 필요」에 올립니다.
-  - 선은 박스 안쪽에 그립니다(반지름 = 지름/2 − 선 두께/2). `border`를 쓰지 않으니 「테두리는 `inset-ring`」 규칙과 부딪치지 않습니다.
-  - 색은 `stroke-*` · `fill-*` 토큰 클래스로 줍니다. `/` 투명도를 어디에 써도 되는지는 CLAUDE.md 「스타일 규칙」을 따릅니다.
-- **칸 위 구분선과 위 여백(기본 16px, 축소 12px)은 카드(소비 앱) 몫입니다.** 정책 2-1이 카드 구성을 「구분선 → 날짜 칸」으로 나눠 두었습니다.
-- **토 · 일 · 휴일 강조는 없습니다.** 어느 보드에도 없습니다.
-- **칸 높이는 목업보다 큽니다.** DS 행간(1.45 · 1.5) 때문에 `lg` 74.3px(목업 약 67), `sm` 49.3px(목업 약 45)입니다. 카드가 높이 고정 · 아래 정렬이라 BP-124 · BP-128에서 카드 쪽이 맞출 범위로 봤습니다.
-
-### 접근성
-
-`ul` / `li` 목록이고 `ul`에 `role='list'`를 명시합니다. Tailwind preflight가 `ul`에 `list-style: none`을 거는데, WebKit은 그런 목록을 VoiceOver에 목록으로 넘기지 않는 경우가 있어 iOS WebView에서 목록 구조와 목록 이름이 빠질 수 있습니다. `jsx-a11y/no-redundant-roles`가 이 `role`을 중복으로 막아서 `eslint-disable-next-line`으로 끕니다. 코드에는 지시어만 두고 사유는 이 문단이 맡습니다. 칸의 보이는 부분(숫자 · 요일 · 표시)은 감싸개 하나에 `aria-hidden`을 걸고, 칸마다 `sr-only` 문장 하나를 둡니다(「16일 월요일 입력함」). 숫자와 요일을 따로 읽히면 「16 월」이 「16월」로 들리고, 표시는 상태를 색과 모양으로만 전하기 때문입니다. `Typography`가 `aria-hidden`을 받지 않아 감싸개를 둡니다. 축소 크기에서 숫자가 안 보여도 문장에는 날짜가 남습니다. 목록 이름(`aria-label`, 예: 「16일부터 22일까지 주문 현황」)은 소비 앱이 붙입니다. 선례는 `Input/shared/InputMessage`의 조건 목록(`li` + 표시 숨김 + `sr-only` 상태 문구)입니다.
-
-### API
-
-| prop | 필수 | 기본값 | 비고 |
-| --- | --- | --- | --- |
-| `days` | ✅ | — | `OrderWeekStatusDayItem[]`. 7개(월~일) |
-| `size` | | `'lg'` | `sm`은 예고 배너가 있을 때 |
-| `aria-label` | | — | 목록 이름 |
-| `className` | | — | |
-
-`OrderWeekStatusDayItem`은 `{ dayLabel: string; date?: number; status }`입니다. `dayLabel`은 `월`, `date`는 `16`처럼 「일」 없는 숫자입니다. 칸(`OrderWeekStatusDay`)과 표시(`OrderWeekStatusMark`)는 비공개입니다. 칸만 따로 쓰는 화면이 없어 묶음만 공개했습니다.
-
-### 디자인 확인 필요
-
-| 항목 | 내용 |
-| --- | --- |
-| Figma 심볼 | 컴포넌트 세트 추가 필요. 지금 출처는 디자인 아티팩트 |
-| 점선 개수 | 12개(점선 + 간격 같은 길이). 목업 CSS 점선에 맞춘 값 |
-| 축소 요일 크기 | 아티팩트 13px → DS 토큰이 없어 14px |
-| 색 매핑 | 요일 `#dbe7ff` → `blue-200`, 노랑 `#ffd98a` → `yellow-200` |
-| 칸 높이 | DS 행간 때문에 목업보다 `lg` 약 7px, `sm` 약 4px 큼 |
-
-### Storybook
-
-`apps/storybook/src/stories/biz-ui/OrderWeekStatus.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderWeekStatus`. 어두운 카드 위 전용이라 모든 스토리를 `bg-blue-700` 판 위에 깔고, 폭은 카드 안쪽에 가까운 300px입니다.
-
-| 스토리 | 보는 것 |
-| --- | --- |
-| `Default` | 컨트롤 패널. 주간 카드 평소(MW1) |
-| `Statuses` | 다섯 상태를 한 줄에 |
-| `Fixed` | 고정주문 카드(MF1). 요일만 |
-| `Sizes` | `lg` ↔ `sm`. `sm`에서 날짜 숫자가 빠지는 것 |
-| `Suspended` | 주문 중지 중(MS1) |
+- **상태 이름은 bbodek-internal · 소비 앱 용어를 따랐습니다** (`ordered` · `unordered` · `deadlinePassed` · `suspended` · `noOrder`). `OrderDateInfo`의 `isDeadlinePassed`가 이 이름을 따릅니다.
+- **둥근 점선을 SVG로 그렸습니다.** 둥근 `border-dashed`는 Android · iOS WebView가 점선을 다르게 나누고 이음매에서 뭉쳐서, 둘레를 계산해 12개로 균등 분할했습니다.

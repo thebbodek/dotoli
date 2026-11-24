@@ -27,7 +27,6 @@ const CtaButton = ({
   iconPosition = BUTTON_ICON_POSITIONS.LEFT,
   iconOption,
   isPending = false,
-  useUnderline = false,
   disabled = false,
   type = 'button',
   className,
@@ -73,11 +72,7 @@ const CtaButton = ({
           <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
         )
       )}
-      <CtaButtonLabel
-        description={description}
-        label={label}
-        useUnderline={useUnderline}
-      />
+      <CtaButtonLabel description={description} label={label} />
     </button>
   );
 };

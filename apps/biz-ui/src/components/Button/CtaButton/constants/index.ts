@@ -15,7 +15,6 @@ export const CTA_BUTTON_VARIANTS = {
 export const CTA_BUTTON_THEMES = {
   PRIMARY: 'primary',
   GRAY: 'gray',
-  WHITE: 'white',
 } as const;
 
 export const CTA_BUTTON_SIZES = {
@@ -131,65 +130,57 @@ export const CTA_BUTTON_ICON_SIZE_STYLES: Record<CtaButtonSize, string> = {
   [CTA_BUTTON_SIZES.SM]: '',
 };
 
-const CTA_BUTTON_PRIMARY_ICON_STYLES: Record<CtaButtonVariant, string> = {
-  [CTA_BUTTON_VARIANTS.FILLED]: 'text-white',
-  [CTA_BUTTON_VARIANTS.OUTLINED]: 'text-blue-500',
-  [CTA_BUTTON_VARIANTS.TONAL]: 'text-blue-500',
-  [CTA_BUTTON_VARIANTS.TEXT]: 'text-blue-500',
-};
-
 export const CTA_BUTTON_ICON_STYLES: Record<
   CtaButtonTheme,
   Record<CtaButtonVariant, string>
 > = {
-  [CTA_BUTTON_THEMES.PRIMARY]: CTA_BUTTON_PRIMARY_ICON_STYLES,
+  [CTA_BUTTON_THEMES.PRIMARY]: {
+    [CTA_BUTTON_VARIANTS.FILLED]: 'text-white',
+    [CTA_BUTTON_VARIANTS.OUTLINED]: 'text-blue-500',
+    [CTA_BUTTON_VARIANTS.TONAL]: 'text-blue-500',
+    [CTA_BUTTON_VARIANTS.TEXT]: 'text-blue-500',
+  },
   [CTA_BUTTON_THEMES.GRAY]: {
     [CTA_BUTTON_VARIANTS.FILLED]: 'text-white',
     [CTA_BUTTON_VARIANTS.OUTLINED]: 'text-gray-500',
     [CTA_BUTTON_VARIANTS.TONAL]: 'text-gray-500',
     [CTA_BUTTON_VARIANTS.TEXT]: 'text-gray-500',
   },
-  [CTA_BUTTON_THEMES.WHITE]: {
-    ...CTA_BUTTON_PRIMARY_ICON_STYLES,
-    [CTA_BUTTON_VARIANTS.FILLED]: 'text-gray-900',
-    [CTA_BUTTON_VARIANTS.TEXT]: 'text-white',
-  },
 };
 
 export const CTA_BUTTON_DISABLED_ICON_STYLE = 'text-gray-300';
-
-const CTA_BUTTON_PRIMARY_STYLES: Record<CtaButtonVariant, CtaButtonStyles> = {
-  [CTA_BUTTON_VARIANTS.FILLED]: {
-    [CTA_BUTTON_STATES.DEFAULT]: 'bg-blue-500 text-white',
-    [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-600',
-    [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-700',
-    [CTA_BUTTON_STATES.DISABLED]: 'bg-gray-100 text-gray-400',
-  },
-  [CTA_BUTTON_VARIANTS.OUTLINED]: {
-    [CTA_BUTTON_STATES.DEFAULT]: 'inset-ring-blue-400 bg-white text-blue-600',
-    [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-50',
-    [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-100',
-    [CTA_BUTTON_STATES.DISABLED]: 'inset-ring-gray-100 bg-white text-gray-400',
-  },
-  [CTA_BUTTON_VARIANTS.TONAL]: {
-    [CTA_BUTTON_STATES.DEFAULT]: 'bg-blue-100 text-blue-600',
-    [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-200',
-    [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-200',
-    [CTA_BUTTON_STATES.DISABLED]: 'bg-gray-100 text-gray-400',
-  },
-  [CTA_BUTTON_VARIANTS.TEXT]: {
-    [CTA_BUTTON_STATES.DEFAULT]: 'text-blue-600',
-    [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-50',
-    [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-100',
-    [CTA_BUTTON_STATES.DISABLED]: 'text-gray-400',
-  },
-};
 
 export const CTA_BUTTON_STYLES: Record<
   CtaButtonTheme,
   Record<CtaButtonVariant, CtaButtonStyles>
 > = {
-  [CTA_BUTTON_THEMES.PRIMARY]: CTA_BUTTON_PRIMARY_STYLES,
+  [CTA_BUTTON_THEMES.PRIMARY]: {
+    [CTA_BUTTON_VARIANTS.FILLED]: {
+      [CTA_BUTTON_STATES.DEFAULT]: 'bg-blue-500 text-white',
+      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-600',
+      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-700',
+      [CTA_BUTTON_STATES.DISABLED]: 'bg-gray-100 text-gray-400',
+    },
+    [CTA_BUTTON_VARIANTS.OUTLINED]: {
+      [CTA_BUTTON_STATES.DEFAULT]: 'inset-ring-blue-400 bg-white text-blue-600',
+      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-50',
+      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-100',
+      [CTA_BUTTON_STATES.DISABLED]:
+        'inset-ring-gray-100 bg-white text-gray-400',
+    },
+    [CTA_BUTTON_VARIANTS.TONAL]: {
+      [CTA_BUTTON_STATES.DEFAULT]: 'bg-blue-100 text-blue-600',
+      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-200',
+      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-200',
+      [CTA_BUTTON_STATES.DISABLED]: 'bg-gray-100 text-gray-400',
+    },
+    [CTA_BUTTON_VARIANTS.TEXT]: {
+      [CTA_BUTTON_STATES.DEFAULT]: 'text-blue-600',
+      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-blue-50',
+      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-blue-100',
+      [CTA_BUTTON_STATES.DISABLED]: 'text-gray-400',
+    },
+  },
   [CTA_BUTTON_THEMES.GRAY]: {
     [CTA_BUTTON_VARIANTS.FILLED]: {
       [CTA_BUTTON_STATES.DEFAULT]: 'bg-gray-800 text-white',
@@ -217,24 +208,7 @@ export const CTA_BUTTON_STYLES: Record<
       [CTA_BUTTON_STATES.DISABLED]: 'text-gray-500',
     },
   },
-  [CTA_BUTTON_THEMES.WHITE]: {
-    ...CTA_BUTTON_PRIMARY_STYLES,
-    [CTA_BUTTON_VARIANTS.FILLED]: {
-      [CTA_BUTTON_STATES.DEFAULT]: 'bg-white text-gray-900',
-      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-gray-50',
-      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-gray-100',
-      [CTA_BUTTON_STATES.DISABLED]: 'bg-gray-200 text-gray-400',
-    },
-    [CTA_BUTTON_VARIANTS.TEXT]: {
-      [CTA_BUTTON_STATES.DEFAULT]: 'text-white',
-      [CTA_BUTTON_STATES.HOVER]: 'hover:bg-white/10',
-      [CTA_BUTTON_STATES.PRESSED]: 'active:bg-white/20',
-      [CTA_BUTTON_STATES.DISABLED]: 'text-gray-400',
-    },
-  },
 };
-
-export const CTA_BUTTON_UNDERLINE_STYLE = 'underline underline-offset-3';
 
 export const CTA_BUTTON_LABEL_STACK_STYLE =
   'flex-v-stack items-start gap-0.5 text-left';

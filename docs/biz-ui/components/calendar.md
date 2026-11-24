@@ -232,8 +232,8 @@ Storybook 실측(`WeeklyOrder`, 340 폭 7칸)은 칸 45.14 × 48, 글자 14/500 
 - **`CalendarDayButton`을 넓히지 않고 컴포넌트를 따로 만들었습니다.** Figma는 같은 세트의 `theme=dark` 축으로 그렸지만, 정책상 누를 수 없는 표시라 `<button>`이 아닙니다. 버튼 안에서 요소를 바꾸면 dark에서 `onClick` · `disabled` · `selectedType` · `isHoliday`가 전부 의미를 잃습니다. 막으려면 유니온이 필요한데, 이 컴포넌트는 유니온이 Storybook `render` 추론을 깨서 되돌린 기록이 있습니다(위 「결정」). 「요소가 다르면 컴포넌트를 하나 더 만든다」는 `LinkCtaButton` 선례(button.md 「Link 계열」)와 같은 판단입니다. **Figma 심볼명을 따르는 원칙의 예외**라 이름은 Figma에 없습니다.
 - **`disabled`로 표시 전용을 흉내 내는 방안도 검토했고 버렸습니다.** `<input>`이 `readOnly`와 `disabled`를 나누는 것은 둘이 다른 뜻이기 때문입니다(`readOnly`는 값을 보여 주고 포커스 · 복사가 되고, `disabled`는 지금 못 쓴다는 뜻). `<button>`에는 `readOnly`가 없고, `disabled` 버튼은 스크린 리더가 「버튼, 사용할 수 없음」으로 일곱 번 읽습니다. 「입력함」 칸이 「못 누르는 버튼」으로 들리는 셈입니다. 이 컴포넌트의 `disabled`는 이미 COM-009 「비활성 날짜」(과거 · 마감 경과 · 중지 기간)라는 뜻과 `gray/400` 시각을 갖고 있어 겹치기도 합니다.
 - **폭을 고정하지 않습니다.** 시안이 칸을 45.14로 줄여 써서 48 고정이면 7칸이 340에 안 들어갑니다. 루트가 블록 수준 flex라 부모 grid 칸(`grid-cols-7 gap-1`)을 채우고, 높이만 48로 고정합니다. 7칸을 묶는 줄은 소비 앱이 만듭니다.
-- **목록 구조와 목록 이름도 소비 앱 몫이 됐습니다.** `OrderWeekStatus`는 7칸 전체를 그려서 `<ul role='list'>`와 목록 이름(`aria-label`)을 컴포넌트 안에서 챙겼습니다(order.md). 칸 하나짜리로 바뀌면서 그 일이 소비 앱으로 넘어왔고, 이유도 그대로입니다. preflight의 `list-style: none` 때문에 WebKit이 목록을 VoiceOver에 넘기지 않을 수 있어 `role='list'`를 명시하고, `jsx-a11y/no-redundant-roles`는 그 줄만 끕니다. 아래 「API」 예시가 그 형태입니다.
-- **점선은 CSS `border-dashed`입니다.** `OrderWeekStatus`는 둥근 점선이 WebView 엔진마다 달라 SVG로 둘레를 균등하게 나눴는데(order.md), 여기는 폭이 부모에 따라 달라 둘레를 미리 계산할 수 없습니다. 원과 달리 직선 네 변이라 이음매에서 점선이 뭉치는 문제도 한 곳에 몰리지 않습니다. 칸 크기가 부모와 높이로 정해져 `border`가 박스를 키우지 않으므로 「테두리는 `inset-ring`」 규칙과 부딪치지 않습니다. 실선(`urgent`)은 규칙대로 `inset-ring`입니다.
+- **목록 구조와 목록 이름도 소비 앱 몫이 됐습니다.** `OrderWeekStatus`는 7칸 전체를 그려서 `<ul role='list'>`와 목록 이름(`aria-label`)을 컴포넌트 안에서 챙겼습니다(order.md 「OrderWeekStatus」). 칸 하나짜리로 바뀌면서 그 일이 소비 앱으로 넘어왔고, 이유도 그대로입니다. preflight의 `list-style: none` 때문에 WebKit이 목록을 VoiceOver에 넘기지 않을 수 있어 `role='list'`를 명시하고, `jsx-a11y/no-redundant-roles`는 그 줄만 끕니다. 아래 「API」 예시가 그 형태입니다.
+- **점선은 CSS `border-dashed`입니다.** `OrderWeekStatus`는 둥근 점선을 SVG로 그렸는데(order.md 「OrderWeekStatus」), 여기는 폭이 부모에 따라 달라 둘레를 미리 계산할 수 없습니다. 원과 달리 직선 네 변이라 이음매에서 점선이 뭉치는 문제도 한 곳에 몰리지 않습니다. 칸 크기가 부모와 높이로 정해져 `border`가 박스를 키우지 않으므로 「테두리는 `inset-ring`」 규칙과 부딪치지 않습니다. 실선(`urgent`)은 규칙대로 `inset-ring`입니다.
 - **스크린 리더 문장은 DS가 조립하고 상태 문구는 소비 앱이 넘깁니다(`statusLabel` 필수).** 보이는 글자에는 `aria-hidden`을 걸고 `sr-only` 문장 하나(「17일 화요일 비어 있음, 오늘 마감」)를 둡니다. `OrderWeekStatus`와 같은 방식이고, 「일」 · 「요일」은 DS가 붙입니다.
 
   문구를 DS가 정하지 못하는 이유는 시각 상태와 정책 상태가 1:1이 아니어서입니다. 앱 시안 7칸을 화면별로 뽑아 정책 2-1의 다섯 상태와 맞춰 보면 이렇습니다.
@@ -247,7 +247,7 @@ Storybook 실측(`WeeklyOrder`, 340 폭 7칸)은 칸 45.14 × 48, 글자 14/500 
 
   `unavailable` 한 모양이 정책 상태 셋을 함께 그리므로 상태 키만으로는 문구를 고를 수 없습니다. 소비 앱은 서버 상태에서 칸 모양과 문구를 함께 만듭니다.
 - **배지 위치는 칸 밖으로 나갑니다(top -4 · right -3).** 부모가 `overflow: hidden`이면 잘립니다.
-- **`OrderWeekStatus`는 남겨 둡니다.** 같은 자리의 디자인이 이것으로 바뀌어 주문 메인에서는 쓰지 않지만, 아직 지우지 않기로 했습니다(11/19). 삭제는 따로 정합니다.
+- **`OrderWeekStatus`를 대체합니다.** 같은 자리의 디자인이 이것으로 바뀌어 11/19에는 남겨 뒀고, DOTOLI-348에서 지웠습니다.
 
 ### API
 

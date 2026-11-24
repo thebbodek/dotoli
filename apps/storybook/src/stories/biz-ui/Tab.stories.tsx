@@ -14,8 +14,6 @@ import { generateArgTypeSummary } from '@/utils/generateArgTypeSummary';
 
 const SCREEN_WIDTH_STYLE = 'w-[380px]';
 
-const PAGE_CONTENT_STYLE = 'w-[380px] px-[20px]';
-
 const PANEL_STYLE = 'px-[20px] py-[16px]';
 
 const TAB_ID = 'orderManagement';
@@ -34,18 +32,6 @@ const TWO_TABS: TabItemOption[] = [
 const THREE_TABS: TabItemOption[] = [
   { value: ORDER_MANAGEMENT_TABS.FIXED_ORDER, label: '고정주문' },
   ...TWO_TABS,
-];
-
-const WEEK_TABS = {
-  THIS_WEEK: 'thisWeek',
-  NEXT_WEEK: 'nextWeek',
-  WEEK_AFTER_NEXT: 'weekAfterNext',
-} as const;
-
-const WEEK_TAB_ITEMS: TabItemOption[] = [
-  { value: WEEK_TABS.THIS_WEEK, label: '이번 주' },
-  { value: WEEK_TABS.NEXT_WEEK, label: '다음 주' },
-  { value: WEEK_TABS.WEEK_AFTER_NEXT, label: '다다음 주' },
 ];
 
 const meta = {
@@ -121,26 +107,6 @@ export const ThreeTabs: Story = {
     items: THREE_TABS,
     value: ORDER_MANAGEMENT_TABS.FIXED_ORDER,
   },
-};
-
-export const Filled: Story = {
-  argTypes: {
-    value: {
-      options: WEEK_TAB_ITEMS.map(({ value }) => value),
-    },
-  },
-  args: {
-    id: 'orderWeek',
-    items: WEEK_TAB_ITEMS,
-    value: WEEK_TABS.NEXT_WEEK,
-    variant: TAB_VARIANTS.FILLED,
-    'aria-label': '주문할 주',
-  },
-  render: (args) => (
-    <Flex className={PAGE_CONTENT_STYLE}>
-      <Tab {...args} />
-    </Flex>
-  ),
 };
 
 export const Interactive: Story = {

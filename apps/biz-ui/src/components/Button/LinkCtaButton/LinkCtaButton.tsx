@@ -25,7 +25,6 @@ const LinkCtaButton = ({
   iconPosition = BUTTON_ICON_POSITIONS.LEFT,
   iconOption,
   isDisabled = false,
-  useUnderline = false,
   className,
   ref,
   onClick,
@@ -61,11 +60,7 @@ const LinkCtaButton = ({
       {!!iconKey && (
         <ButtonIcon className={iconStyle} iconKey={iconKey} weight={weight} />
       )}
-      <CtaButtonLabel
-        description={description}
-        label={label}
-        useUnderline={useUnderline}
-      />
+      <CtaButtonLabel description={description} label={label} />
     </Link>
   );
 };

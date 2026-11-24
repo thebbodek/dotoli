@@ -73,7 +73,7 @@ export interface ResolveCheckboxStateProps
 | 항목              | internal-ui                                 | biz-ui                                                                     |
 | ----------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
 | `size` 스케일     | `xs \| sm \| md \| lg`                      | CtaButton은 `sm \| md \| lg` — `xs` 없음                                    |
-| `theme` 값        | Button은 `primary \| gray \| red \| green \| yellow` | CtaButton은 `primary \| gray \| white` 3종                          |
+| `theme` 값        | Button은 `primary \| gray \| red \| green \| yellow` | CtaButton은 `primary \| gray` 2종                                  |
 | 상호작용 상태     | `hover` 중심                                | Figma가 `hover`·`pressed` 모두 정의. 터치 기기에선 `pressed`(`:active`)가 주력 |
 | `responsive` prop | `mobile / tablet / desktop`                 | 모바일 단일 타깃이라 넣지 않음                                              |
 | radius 토큰       | `--radius-in-*` 스케일                      | 새로 만들지 않음. Figma 8px/6px가 `rounded-lg`/`rounded-md`와 일치          |
@@ -85,7 +85,7 @@ export interface ResolveCheckboxStateProps
 
 **서드파티가 정한 prop 이름은 그대로 통과시킵니다** — `BottomTab`의 `replace`가 `next/link`의 것이라 `isReplace`로 바꾸지 않습니다. 개명하면 소비자가 원본 문서와 대조할 수 없고 「네이티브 통로」라는 성격 자체가 깨집니다. **DS가 새로 만든 boolean에만 접두어 규칙이 적용됩니다** (`LinkCtaButton`의 `isDisabled`가 그쪽 — `<a>`에 없는 속성을 DS가 만든 것이라 접두어를 붙였습니다).
 
-**`theme` union은 컴포넌트별로 정의합니다.** 값이 컴포넌트마다 달라서입니다 — CtaButton은 `primary | gray | white`, internal-ui IconButton은 `hover-gray | hover-white | bg-white | white | dark`. internal-ui도 같은 방식이라 biz-ui만의 차이는 아닙니다. 버튼 계열 `shared`에는 `variant`·`theme`·`size`를 두지 않습니다.
+**`theme` union은 컴포넌트별로 정의합니다.** 값이 컴포넌트마다 달라서입니다 — CtaButton은 `primary | gray`, internal-ui IconButton은 `hover-gray | hover-white | bg-white | white | dark`. internal-ui도 같은 방식이라 biz-ui만의 차이는 아닙니다. 버튼 계열 `shared`에는 `variant`·`theme`·`size`를 두지 않습니다.
 
 ### `theme='primary'` ↔ 컬러 토큰 `blue`
 
@@ -152,7 +152,7 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 - **토큰에 프리픽스를 붙이지 않습니다.** `--color-blue-500` · `text-body` · `safe-area-top`. internal-ui의 `in-`은 그쪽이 다른 DS와 한 앱에서 공존하느라 붙인 것이라 따라가지 않습니다.
 - **컬러·타이포 이름은 Figma 명명을 그대로** 씁니다. `blue`를 `primary`로 개명하지 않습니다.
-- **`text-*`에 `/` 수식어를 쓰지 않습니다.** 컬러(`text-blue-500/50`=투명도)와 타이포(`text-body/50`=line-height)에서 뜻이 다르고, 타이포 쪽은 `font-weight`·`letter-spacing`이 사라집니다. 경고 없이 컴파일되므로 규칙으로 막습니다. 반투명 글자가 꼭 필요하면 색은 토큰 그대로 두고 `opacity-*`를 겁니다(`OrderWeekStatus`의 날짜 숫자). `bg-*` · `border-*` · `stroke-*` · `fill-*`의 `/`는 이 규칙 대상이 아닙니다.
+- **`text-*`에 `/` 수식어를 쓰지 않습니다.** 컬러(`text-blue-500/50`=투명도)와 타이포(`text-body/50`=line-height)에서 뜻이 다르고, 타이포 쪽은 `font-weight`·`letter-spacing`이 사라집니다. 경고 없이 컴파일되므로 규칙으로 막습니다. 반투명 글자가 꼭 필요하면 색은 토큰 그대로 두고 `opacity-*`를 겁니다. `bg-*` · `border-*` · `stroke-*` · `fill-*`의 `/`는 이 규칙 대상이 아닙니다.
 - **`Icon`의 `weight`는 `regular` · `bold` · `fill` 3종뿐입니다.** `globals.css`가 이 3종 웹폰트만 import 하므로 나머지를 넘기면 렌더되지 않습니다. `ICON_WEIGHTS`로 타입에서 막혀 있습니다.
 - **테두리는 `border`가 아니라 `inset-ring`으로 그립니다** (Tailwind v4 유틸 = `box-shadow: inset 0 0 0 Npx`). Figma stroke는 안쪽으로 그려져 박스를 안 키우는데 CSS `border`는 키웁니다. **두께가 상태별로 바뀌든(Input 1px↔2px) variant별로 있고 없든(Badge `tonal`만) 결과는 같습니다** — 콘텐츠가 밀리고 Figma 실측 크기가 어긋납니다. `filled`에 투명 `border`를 넣는 흔한 우회법은 시프트만 없앨 뿐 크기는 여전히 틀리고, `box-sizing: content-box`는 내용에 맞춰 늘어나는 요소에선 아예 무효입니다. `outline`도 레이아웃 영향은 없지만 포커스 링과 용도가 겹쳐 피합니다. box-shadow 기반이라 `forced-colors` 모드에서 사라지는 것은 모바일 WebView 타깃이라 감수합니다.
 

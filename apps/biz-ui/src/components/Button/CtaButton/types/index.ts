@@ -37,7 +37,7 @@ export interface GenerateCtaButtonIconStyleProps
   extends Pick<CtaButtonProps, 'variant' | 'theme' | 'size' | 'disabled'> {}
 
 export interface CtaButtonLabelProps
-  extends Pick<CtaButtonProps, 'label' | 'description' | 'useUnderline'> {}
+  extends Pick<CtaButtonProps, 'label' | 'description'> {}
 
 export interface CtaButtonBaseProps
   extends Pick<
@@ -51,7 +51,6 @@ export interface CtaButtonBaseProps
   iconPosition?: ButtonIconPosition;
   iconOption?: ButtonIconOption;
   isPending?: boolean;
-  useUnderline?: boolean;
 }
 
 export interface CtaButtonFixedHeightSizeProps {

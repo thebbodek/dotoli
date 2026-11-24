@@ -8,7 +8,7 @@ Figma: [Button 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desi
 
 | 컴포넌트     | 티켓       | 설명                                                                                                                    |
 | ------------ | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `CtaButton`  | DOTOLI-219 · 256 · 332 · 339 | `theme` 3 × `variant` 4 × `size` 4. `primary` · `gray`는 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측. **아이콘 색은 라벨과 따로 정의돼 있어 DOTOLI-256에서 32칸을 다시 실측해 분리**했습니다. `white`는 DOTOLI-332에서 디자인 아티팩트 기준으로, `xl`과 보조 문구는 DOTOLI-339에서 추가했습니다 |
+| `CtaButton`  | DOTOLI-219 · 256 · 339 · 348 | `theme` 2 × `variant` 4 × `size` 4. `primary` · `gray`는 색상 32조합(theme 2 × variant 4 × state 4) 전수 실측. **아이콘 색은 라벨과 따로 정의돼 있어 DOTOLI-256에서 32칸을 다시 실측해 분리**했습니다. `xl`과 보조 문구는 DOTOLI-339에서 추가했습니다. |
 | `ButtonIcon` | DOTOLI-219 | 버튼 계열 공통 아이콘 래퍼. Phosphor는 아이콘 폰트라 글리프 크기가 `font-size`를 따르므로 크기를 따로 지정하지 않습니다 |
 | `Filter`     | DOTOLI-222 | `state` 2 × 아이콘 유무. 사이즈 축 없는 단일 칩                                                                          |
 | `FloatingPill` | DOTOLI-223 | `variant` 2(navigate·scrollToTop). biz-ui 첫 shadow 토큰(`--shadow-20`) 사용                                          |
@@ -34,12 +34,11 @@ Figma Button 섹션에 정의된 컴포넌트는 전부 구현했습니다. **`C
 
 | 축             | 값                                               |
 | -------------- | ------------------------------------------------ |
-| `theme`        | `primary` · `gray` · `white`                     |
+| `theme`        | `primary` · `gray`                               |
 | `variant`      | `filled` · `outlined` · `tonal` · `text`         |
 | `size`         | `xl`(높이 고정 없음, 기본 79.2px) · `lg`(52px) · `md`(40px) · `sm`(32px) |
 | `iconPosition` | `left` · `right` (Figma 축은 `left`/`right`/`none` 3값. `none`은 `iconOption` 미전달로 표현) |
 | 상태           | `hover` · `pressed` · `disabled` (+ `isPending`) |
-| `useUnderline` | 라벨 밑줄 on/off. 기본 `false` (DOTOLI-332)       |
 | `description`  | 라벨 아래 보조 문구. **`size='xl'`일 때만** 받음 (DOTOLI-339, Figma `showDescription` · `description`) |
 
 internal-ui의 `xs` 사이즈와 `red`/`green`/`yellow` 테마는 Figma에 없어 넣지 않았습니다.
@@ -95,10 +94,7 @@ primary / filled / default / lg 기준 (`11:4121`).
 - **히트 영역은 `text`와 `sm`만 넓힙니다** (Figma 주석 `337:3538`). 대상 지정 원칙은 CLAUDE.md [히트 영역 확장] 참고.
 - **`isPending`은 Figma에 심볼이 없어** internal-ui와 같은 `circle-notch` 스피너로 맞췄습니다. `aria-busy`를 함께 겁니다.
 - **`outlined`의 테두리는 `border`가 아니라 `inset-ring`입니다 (DOTOLI-301).** 네 variant 중 `outlined`에만 테두리가 있어 「variant별로 있고 없는」 경우이고, `border`로 두면 같은 라벨·사이즈에서 `filled`보다 **가로폭이 2px 큽니다.** 높이는 사이즈별 `HEIGHT`가 `box-sizing: border-box`로 잡아 주지만 폭은 hug라 그대로 드러납니다. `Badge`의 `tonal`이 같은 상황에서 이미 `inset-ring`이었고 여기만 갈려 있었습니다. 기준은 [CLAUDE.md](../../../apps/biz-ui/CLAUDE.md) 「스타일 규칙」.
-- **밑줄은 테마가 아니라 `useUnderline` prop입니다 (DOTOLI-332).** 디자인 아티팩트의 링크 두 곳이 같은 밑줄(오프셋 3px)을 쓰는데 테마가 다릅니다. 어두운 배경의 「주문 중지 등록」(MW6 · MF4)은 `white`, 밝은 배경의 「주문 관리 › 고정주문」(E4)은 `primary`입니다. 그래서 테마에 묶지 않고 소비자가 켜는 옵션으로 열었습니다.
-  - **라벨 `<span>`에 겁니다.** 버튼에 `underline`을 걸면 flex 항목인 아이콘 글리프(Phosphor 아이콘 폰트)에도 밑줄이 그어지고, 전파된 밑줄은 자식에서 `no-underline`으로 걷어낼 수 없습니다(스토리북에서 확인). 그래서 `CtaButton` · `LinkCtaButton` 모두 라벨을 `<span>`으로 감쌌습니다. 밑줄을 안 켜면 클래스 없는 `<span>`이고, flex 항목이 익명 상자에서 `<span>`으로 바뀐 것이라 크기는 그대로입니다.
-  - **variant를 가리지 않고 켜집니다.** 디자인은 `text`에만 있지만 `text`가 아닐 때 조용히 무시하면, prop을 넘겼는데 아무 일도 안 일어나는 함정이 됩니다. CLAUDE.md가 `[&_strong]:` 사례로 경고하는 「에러도 경고도 없이 안 된 것처럼 보이는」 종류라, 넘긴 대로 그리고 쓰임새는 문서로 둡니다.
-  - `LinkCtaButton`은 나머지 props를 `<Link>`에 펼치므로 `useUnderline`을 구조 분해에서 꺼내 둡니다. 안 꺼내면 DOM 속성으로 샙니다.
+- **`white` 테마와 `useUnderline`은 DOTOLI-348에서 지웠습니다.** 둘 다 DOTOLI-332에서 주문 메인 디자인 아티팩트의 어두운 배경 버튼 · 밑줄 링크를 위해 열었는데, 11/18 이후 시안에서 쓰는 곳이 없어졌고 소비 앱 사용처도 0건이었습니다. 라벨을 `<span>`으로 감싼 것도 밑줄이 아이콘에 번지지 않게 하려던 것이라 함께 걷었습니다(보조 문구가 있을 때만 묶음 `<span>`). 당시 결정(테마 이름 · 상태 색 · 밑줄 위치)은 git 이력의 DOTOLI-347 시점 이 파일에 있습니다.
 
 ### `xl` 사이즈 (DOTOLI-339)
 
@@ -145,33 +141,15 @@ primary / filled / default / left 기준(`1185:2479`).
   export type CtaButtonProps = CtaButtonBaseProps & CtaButtonSizeProps;
   ```
 
-  **컴포넌트 props로는 두 DS 통틀어 첫 판별 유니온입니다** (biz-ui `toast` 큐의 `kind` 유니온이 먼저 있지만 props가 아닙니다). 「특정 축 값에서만 받는 prop」은 internal-ui `Badge`가 제네릭 조건부 타입(`BadgeProps<T>`)으로 먼저 풀었는데, 그 방식은 구현부에서 `(props as BadgeFilledIconKeyProps)` 캐스트가 필요하고 `Pick` 소비처가 제네릭 인자를 알아야 합니다. 유니온은 둘 다 필요 없어서 이쪽을 골랐습니다. `useUnderline`은 반대로 모든 variant에서 그리고 문서로 둔 선례인데(위 「구현 결정」), 그쪽은 다른 variant에 켜도 모양이 낯설 뿐 깨지지 않습니다. 여기는 레이아웃이 깨지므로 넘긴 대로 그리는 대신 컴파일 단계에서 막았습니다. `<CtaButton size='lg' description='…' />`와 `size` 생략 + `description`은 타입 에러입니다.
+  **컴포넌트 props로는 두 DS 통틀어 첫 판별 유니온입니다** (biz-ui `toast` 큐의 `kind` 유니온이 먼저 있지만 props가 아닙니다). 「특정 축 값에서만 받는 prop」은 internal-ui `Badge`가 제네릭 조건부 타입(`BadgeProps<T>`)으로 먼저 풀었는데, 그 방식은 구현부에서 `(props as BadgeFilledIconKeyProps)` 캐스트가 필요하고 `Pick` 소비처가 제네릭 인자를 알아야 합니다. 유니온은 둘 다 필요 없어서 이쪽을 골랐습니다. 넘겨도 레이아웃이 깨지므로 넘긴 대로 그리는 대신 컴파일 단계에서 막았습니다. `<CtaButton size='lg' description='…' />`와 `size` 생략 + `description`은 타입 에러입니다.
 
   비용은 셋입니다. `CtaButtonProps`가 `interface`에서 `type` 교차로 바뀌었고(`interface`로는 유니온을 표현할 수 없음), `LinkCtaButtonProps`도 같은 모양이 됐습니다(아래 「Link 계열」). 그리고 유니온에 `Omit`을 걸면 짝이 풀리므로, 스토리 args처럼 `size`를 변수로 다루는 곳은 `size === CTA_BUTTON_SIZES.XL`로 좁혀서 넘깁니다(`CtaButton` `Default` 스토리). `Pick<CtaButtonProps, …>`은 그대로 동작해서 `Notification` · `BottomActionBar` · `OrderInputCard` 등 기존 소비처는 바뀌지 않았습니다.
 
 - **xl의 `text` variant에는 패딩이 있습니다.** 다른 사이즈의 `text`는 높이 · 패딩이 없지만(위 「구현 결정」), xl `text`는 Figma에서 filled와 같은 박스(패딩 30/20, 폭 213)입니다. 그래서 `CTA_BUTTON_TEXT_SIZE_STYLES`에 `PADDING` 키를 더했고 lg 이하는 빈 값입니다. 히트 영역 확장은 「`text`는 일괄」이라는 Figma 주석(`337:3538`)대로 xl `text`에도 걸립니다.
 - **아이콘 크기를 따로 지정합니다.** `ButtonIcon`은 「아이콘 = 라벨 글자 크기」를 전제로 크기를 안 정하는데, xl은 아이콘(34)이 라벨(28)보다 큽니다. `CTA_BUTTON_ICON_SIZE_STYLES`에 xl만 값을 두고 `generateCtaButtonIconStyle`이 색과 함께 붙입니다. 줄 높이는 따로 안 잡아도 됩니다. Phosphor의 `.ph` 클래스가 `line-height: 1`을 걸어서 아이콘 상자가 34 × 34로 서고, 라벨(39.2)보다 작아 버튼 높이에 영향이 없습니다(Storybook 실측). 스피너(`isPending`)도 같은 크기를 씁니다.
-- **라벨 묶음을 비공개 `CtaButtonLabel`로 뺐습니다.** 라벨 · 밑줄 · 보조 문구를 `CtaButton`과 `LinkCtaButton`이 똑같이 그려야 해서 한 곳에 뒀습니다. `Tab`의 `TabItem`처럼 폴더 안에만 있고 배럴에서 내보내지 않습니다. 보조 문구가 없으면 기존과 같은 `<span>` 하나라 lg 이하의 DOM은 그대로입니다. 보조 문구는 `MenuItem`처럼 바깥 묶음만 `<span>`이고 줄은 `Typography`로 그립니다. 색을 넘기지 않아 `text-inherit`가 붙으므로 hover · disabled에서도 라벨과 같은 색을 따라갑니다.
-- **`Pick<CtaButtonProps, 'size'>`를 쓰는 컴포넌트도 xl을 고를 수 있게 됐습니다** (`Notification` 액션, `BottomActionBar` 액션). `white` 테마를 추가했을 때와 같은 상황이라 막지 않았습니다.
+- **라벨 묶음을 비공개 `CtaButtonLabel`로 뺐습니다.** 라벨 · 보조 문구를 `CtaButton`과 `LinkCtaButton`이 똑같이 그려야 해서 한 곳에 뒀습니다. `Tab`의 `TabItem`처럼 폴더 안에만 있고 배럴에서 내보내지 않습니다. 보조 문구가 없으면 라벨 문자열만 돌려줘 lg 이하의 DOM은 DOTOLI-332 전과 같습니다. 보조 문구는 `MenuItem`처럼 바깥 묶음만 `<span>`이고 줄은 `Typography`로 그립니다. 색을 넘기지 않아 `text-inherit`가 붙으므로 hover · disabled에서도 라벨과 같은 색을 따라갑니다.
+- **`Pick<CtaButtonProps, 'size'>`를 쓰는 컴포넌트도 xl을 고를 수 있게 됐습니다** (`Notification` 액션, `BottomActionBar` 액션). 막지 않았습니다.
 - 소비 앱 plan.md에 적힌 「높이 80.25 · 줄 높이 40.25 · 폰트 임시 메모」는 착수 시점 Figma와 다릅니다. 지금 라벨은 `heading-2-bold`에 바인딩돼 있어 그 값을 따랐습니다.
-
-### `white` 테마 (DOTOLI-332)
-
-어두운 배경(주문 메인의 파란 그라데이션) 위에 놓이는 테마입니다. 출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)의 MS1 · MS2 · MS4(상태 카드 버튼 「중지 기간 보기」 · 「고객센터 문의」)와 MW6 · MF4(「주문 중지 등록」 링크)입니다. 아티팩트는 목업이라 색은 DS 토큰으로 옮기고 구조와 상태만 따랐습니다.
-
-| variant | default | hover | pressed | disabled | 아이콘 |
-| ------- | ------- | ----- | ------- | -------- | ------ |
-| `filled` | `bg-white text-gray-900` | `bg-gray-50` | `bg-gray-100` | `bg-gray-200 text-gray-400` | `text-gray-900` |
-| `text` | `text-white` | `bg-white/10` | `bg-white/20` | `text-gray-400` | `text-white` |
-
-- **디자인이 쓰는 것은 `filled` · `text`뿐이고, `outlined` · `tonal`은 primary 값을 그대로 씁니다.** `CTA_BUTTON_PRIMARY_STYLES` · `CTA_BUTTON_PRIMARY_ICON_STYLES`를 스프레드해 물려받고 두 칸만 덮었습니다. internal-ui에는 두 방식이 다 있습니다. `Button`은 `BUTTON_STYLES`를 `Partial`로 비워 두고 디자인 없는 조합이면 `useButtonRenderErrorEffect`가 렌더 중에 던지고, `Badge`는 비공개 기본 상수(`BADGE_OUTLINED_THEME_DEFAULT_STYLES`)를 여러 칸에 물려 씁니다. 여기서는 `Badge` 쪽을 골랐습니다. 소비 앱 화면을 렌더 에러로 깨뜨릴 이유가 없고, DOTOLI-317 OrderBox가 세운 「디자인이 있는 조합만 값을 갖고 나머지는 기존 값을 쓴다」와도 맞습니다(그 OrderBox는 DOTOLI-335에서 교체됐고 기준은 [order.md 「OrderBox」 이력](./order.md#이력)에 남아 있습니다).
-- **이름은 `white`입니다.** CtaButton의 `theme`은 버튼 자신의 색(`primary`는 파랑, `gray`는 회색)이고, `filled`가 흰 버튼이 됩니다. internal-ui `IconButton`도 같은 논리로 어두운 면 위의 흰 컨트롤을 `white`, 바탕이 어두운 버튼을 `dark`(`bg-in-gray-09`)로 부릅니다. 같은 계열 [IconButton](#iconbutton)의 `dark`는 배경 없이 흰 아이콘만 있는 테마라 이름이 바탕을 가리키는데, CtaButton에서 그 이름을 따르면 흰 버튼의 테마 이름이 `dark`가 됩니다.
-- 아이콘 색은 DOTOLI-256 규칙을 그대로 따릅니다. `filled`는 라벨과 같은 색(`gray-900`), 나머지는 테마 색(`white`)입니다.
-- hover · pressed · disabled는 아티팩트에 없어 DS가 정했습니다. `filled`는 흰 바탕인 gray `outlined`의 단계를 따랐고, `text`는 흰색 알파 배경입니다. disabled 글자를 `text-white/50`으로 쓰지 않은 것은 CLAUDE.md 「`text-*`에 `/` 수식어 금지」 때문입니다.
-- 「주문 중지 등록」 링크의 밑줄은 `useUnderline`으로 켭니다(위 「구현 결정」).
-- 링크 앞 문구 「한동안 식기를 안 쓰시나요?」는 소비 앱이 `Typography`로 둡니다. `label`을 `ReactNode`로 열거나 앞 문구 prop을 만들지 않았고, 누르는 영역은 「주문 중지 등록」뿐입니다.
-- 아티팩트의 버튼 높이 44px은 DS 사이즈에 없어 옮기지 않았습니다. 카드 버튼은 `md`(40) · `lg`(52) 중에서 소비 앱이 고르고, 링크는 `text`입니다.
-- 스토리북은 `white`를 `bg-blue-700` 판 위에 깔아 보여 줍니다. `OrderWeekStatus` 스토리의 판과 같은 처리입니다.
 
 ### 디자인 확인 필요
 
@@ -183,15 +161,6 @@ primary / filled / default / left 기준(`1185:2479`).
 | `disabled` 색 불일치 | primary는 `gray-100`/`text-gray-400`, gray는 `gray-200`. gray 안에서도 filled만 `text-gray-400`, 나머지는 `text-gray-500` |
 
 `text`/`lg` 타이포와 `sm`의 variant별 gap은 확인 완료되어 「구현 결정」으로 옮겼습니다.
-
-**`white` 테마 (DOTOLI-332)** 는 Figma 심볼이 없어 위 표와 성격이 다릅니다. DS가 정한 값이라 디자이너가 되돌릴 여지를 남깁니다.
-
-| 항목 | 내용 |
-| ---- | ---- |
-| Figma 심볼 | 컴포넌트 세트에 `white` 테마 심볼 추가 필요. 지금 출처는 디자인 아티팩트 |
-| 상태 색 | hover · pressed · disabled를 DS가 정함 |
-| `outlined` · `tonal` | 디자인 없음. primary 값을 그대로 씀 |
-| 밑줄 | `useUnderline`(오프셋 3px). 아티팩트에는 `text` 링크에만 있고, 다른 variant에 켠 모양은 디자인 없음 |
 
 **`xl` (DOTOLI-339)**
 
@@ -350,7 +319,7 @@ Figma 문서 프레임 `298:1024` → 심볼 스트립 `81:210`. 착수 시점�
 | `size`  | `lg`(40px) · `sm`(24px)       |
 | 상태    | `hover` · `pressed` · `disabled` (+ `isPending`) |
 
-`theme` 값이 CtaButton(`primary` · `gray` · `white`)과 하나도 겹치지 않습니다. CtaButton `white`와 뜻은 같은데 이름이 다른 이유는 CtaButton 「`white` 테마」에 적었습니다. `dark`는 배경이 어두운 게 아니라 **어두운 면 위에 얹는** 테마입니다 — 세 상태 모두 배경이 없고 아이콘만 흰색 계열입니다.
+`theme` 값이 CtaButton(`primary` · `gray`)과 하나도 겹치지 않습니다. `dark`는 배경이 어두운 게 아니라 **어두운 면 위에 얹는** 테마입니다 — 세 상태 모두 배경이 없고 아이콘만 흰색 계열입니다.
 
 ### 실측 스펙
 
@@ -457,7 +426,7 @@ apps/storybook/src/stories/biz-ui/
 └── LinkIconButton.stories.tsx          # core/biz-ui/Button/LinkIconButton, 스토리 4종
 ```
 
-CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. `white` 행은 그 프레임에 없어 대조 대상이 아닙니다(출처는 디자인 아티팩트). `xl` 열은 같은 프레임에 심볼이 있어 대조 대상입니다(DOTOLI-339). Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
+CtaButton은 `Matrix` 스토리가 theme × variant × size 전량을 깔아 Figma 문서 프레임(`294:1138`)과 대조용으로 씁니다. `xl` 열은 같은 프레임에 심볼이 있어 대조 대상입니다(DOTOLI-339). Filter는 `States`, FloatingPill은 `Variants` 스토리 하나로 대조합니다.
 
 **`Description` · `FillHeight`는 DOTOLI-339에서 추가했습니다.** `Description`은 Figma `1190:2543`과 같은 배치이고, `FillHeight`는 xl을 부모 grid 칸과 `className='flex-1'`로 늘린 두 경우를 나란히 깝니다. 두 스토리는 args에 `size: 'xl'`을 넣어 둡니다. `description` argType에 `if: { arg: 'size', eq: 'xl' }`을 걸었는데, **Storybook은 조건이 거짓인 arg를 컨트롤에서 숨기는 데 그치지 않고 스토리에 넘기지도 않습니다.** `size`를 안 넣으면 `description`이 `undefined`로 들어와 보조 문구가 안 그려집니다.
 
