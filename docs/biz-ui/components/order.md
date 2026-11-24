@@ -197,51 +197,54 @@ DOTOLI-336 전의 두 줄 OrderDateInfo 결정입니다. 다른 문서가 인용
 
 ## QuantityStepper
 
-Figma: 컴포넌트 세트 `199:823`. 심볼은 `199:822`(empty) · `199:821`(filled)입니다.
+Figma: 컴포넌트 세트 `199:823`. 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error) · `1244:2615`(warning)입니다.
 
-상품 이미지 · 상품명 · 수량 증감 행 · 총계 pill로 이뤄집니다. **Order 계열에서 처음으로 상호작용이 있는 컴포넌트**이고, 선행은 기구현 `IconButton`뿐입니다.
+상품명 · 수량 증감 묶음이 한 줄이고, 그 아래 오른쪽에 총계와 안내 문구가 붙습니다. **DOTOLI-347에서 세트가 다시 그려진 것을 따라 세로형(이미지 · 가운데 상품명 · 꽉 찬 증감 행 · 총계 pill)에서 가로형으로 바꿨습니다.** **Order 계열에서 처음으로 상호작용이 있는 컴포넌트**이고, 선행은 기구현 `IconButton`뿐입니다.
 
 ### Variant 축
 
 | 축      | 값                          |
 | ------- | --------------------------- |
-| `state` | `empty` · `filled` · `error` |
+| `state` | `empty` · `filled` · `error` · `warning` |
 
-Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이름은 `state3`)입니다.
+Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이름은 `state3`) · `1244:2615`(warning, DOTOLI-347)입니다.
 
-**`state`를 prop으로 열지 않습니다.** `error`는 `value > max`, `filled`는 `value > 0`에서 파생합니다. 우선순위는 `error` > `filled` > `empty`이고, 판정은 `resolveQuantityStepperState`가 합니다 — `Input/shared`의 `resolveInputState`와 같은 형태입니다.
+**`state`를 prop으로 열지 않습니다.** `empty`는 `value === null`, `error`는 `value > max`, `warning`은 `warningMessage`가 있을 때입니다. 우선순위는 `empty` > `error` > `warning` > `filled`이고, 판정은 `resolveQuantityStepperState`가 합니다 — `Input/shared`의 `resolveInputState`와 같은 형태입니다.
 
 ### 실측 스펙
 
+DOTOLI-347 기준(세트 `199:823` 재실측).
+
 | 영역             | 값                                                                       |
 | ---------------- | ------------------------------------------------------------------------ |
-| 루트             | `flex-v-stack` · gap 12px. 폭은 선언하지 않음 (문서 프레임 312px, 실제 fill) |
-| 상품 블록        | `flex-v-stack items-center` · gap 2px · `w-full`                         |
-| 상품 이미지      | `h-[80px] w-full rounded-8 object-contain`                               |
-| 상품명           | `body-semibold` · `gray/800` · 가운데 정렬                               |
-| 컨트롤 블록      | `flex-v-stack items-center` · gap 11px · `w-full`                        |
-| 증감 행          | `flex-h-stack items-center` · gap 6px · `w-full`                         |
-| 감소 · 증가 버튼 | `IconButton` 기본값(`lg` 40px · `default`) + `minus` · `plus` 아이콘 24px |
-| 값 인풋          | `flex-1` · `h-[47px]` · `bg-gray-50` · `rounded-6` · `px-[18px]` · 가운데 정렬 |
-| 값 텍스트        | `heading-5` — 값 `gray/900` / 플레이스홀더 `gray/300`                    |
-| 총계 pill        | `rounded-full` · `px-[12px] py-[2px]` · `label-semibold` · `총 {value × unitsPerBox}개` |
-| 에러 메시지      | `caption` · `red/400` · pill 아래 같은 컬럼(gap 11px)                     |
+| 루트             | `flex-v-stack` · gap 8px · `py-[12px]`. 폭은 선언하지 않음 (문서 프레임 312px, 실제 fill) |
+| 본문             | `flex-v-stack items-end` · gap 4px · `w-full`                            |
+| 상품 행          | `flex-h-stack items-center` · gap 12px                                   |
+| 상품명           | `body-lg-semibold` · `gray/800` · `flex-1 min-w-0`                       |
+| 증감 묶음        | gap 6px                                                                  |
+| 감소 · 증가 버튼 | `IconButton` `lg` 40px + `inset-ring` 1px `gray/200`                     |
+| 값 인풋          | `w-[72px]` · `h-[40px]` · `bg-gray-50` · `rounded-6` · `px-[13px]` · 가운데 정렬 |
+| 값 텍스트        | `heading-5` — 값 `gray/900` / 플레이스홀더 `0` `gray/300`               |
+| 총계             | `label-semibold` · 배경 없음 · 오른쪽                                     |
+| 안내 문구        | `caption` · 오른쪽 정렬 · 넘치면 줄바꿈                                    |
 
-| state    | `value`         | 인풋 링                        | pill 배경  | pill 글자  |
-| -------- | --------------- | ------------------------------ | ---------- | ---------- |
-| `empty`  | `null` (미주문) | `inset-ring` 1px `gray/200`    | `gray/50`  | `gray/300` |
-| `filled` | `0` ~ `max`     | `inset-ring` 1px `gray/200`    | `blue/50`  | `blue/500` |
-| `error`  | `> max`         | `inset-ring-2` `red/400`       | `red/50`   | `red/500`  |
-
-312px에서 감소 버튼 `x=0`, 값 박스 `x=46 w=220`, 증가 버튼 `x=272`입니다 (심볼은 46.33 / 219.33 / 272).
+| state     | `value`         | 인풋 링                       | 총계       | 문구       |
+| --------- | --------------- | ----------------------------- | ---------- | ---------- |
+| `empty`   | `null` (미주문) | `inset-ring` 1px `gray/200`   | `gray/300` | —          |
+| `filled`  | `0` ~ `max`     | `inset-ring` 1px `gray/200`   | `blue/500` | —          |
+| `error`   | `> max`         | `inset-ring-2` `red/400`      | `red/500`  | `red/400` `errorMessage` |
+| `warning` | `warningMessage` 있음 | `inset-ring-2` `yellow/400` | `yellow/600` | `yellow/600` `warningMessage` |
 
 ### 결정
 
-- **값 박스의 소수점 실측치를 반올림했습니다.** 심볼은 높이 `46.668px` · 테두리 `0.667px` · 좌우 padding `18.334px`인데, 세 값 모두 ×1.5 하면 `70` · `1` · `27.5`로 떨어집니다 — 블록 하나가 2/3로 축소된 스케일 아티팩트입니다. 각각 `h-[47px]` · `inset-ring`(1px) · `px-[18px]`로 갑니다. **소수점 px는 쓰지 않습니다.** 테두리를 `inset-ring`으로 그리는 것 자체는 CLAUDE.md [스타일 규칙].
+- **세로형에서 가로형으로 바꿨습니다(DOTOLI-347).** 티켓은 경고 안내 추가였지만 세트가 이미 가로형으로 다시 그려져 있었고, 11/23 주간주문 시안(W22 `241:22382`)도 새 심볼을 그대로 썼습니다. 경고만 세로형에 붙이면 소비 앱 수량 시트(BP-247)가 시안을 그릴 수 없어 함께 맞췄습니다. 당시 소비 앱 사용처는 0건이었고 상품 이미지(`imageUrl`)는 지웠습니다(아래 「결정」).
+- **값 박스 높이는 40입니다.** 심볼은 정상 41 · error/warning 40인데, 정상 쪽은 1px stroke와 안쪽 0.5px 투명 테두리가 레이아웃에 들어간 값입니다. `inset-ring`이라 두 상태 모두 40이고 버튼(40)과 높이가 맞습니다. 폭은 Figma `min-w-[72px]`(내용 hug)인데 `<input>`은 내용에 맞춰 늘지 않아 `w-[72px]`로 고정했습니다. 세 자리(`100`)까지 들어갑니다. 테두리를 `inset-ring`으로 그리는 것 자체는 CLAUDE.md [스타일 규칙].
+- **경고는 `warningMessage` 하나로 켭니다(DOTOLI-347).** 「평소보다 많다」의 기준(평소 수량 · 배수)은 소비 앱 정책이라 DS가 받지 않고, 문구가 있으면 경고입니다. 저장을 막지 않는 안내라 `aria-invalid`는 걸지 않고 `aria-describedby`만 겁니다. 초과(`error`)와 겹치면 error가 이깁니다 — 막는 쪽 안내가 먼저입니다.
+- **empty 표시는 플레이스홀더 `0`입니다(DOTOLI-347).** 새 심볼이 empty에서 회색 `0`을 보여 줘서 `placeholder` 기본값을 「얼마나 시킬까요」에서 `0`으로 바꿨습니다. 의도적 `0`은 진한 글자 · 파란 총계라 미주문과 계속 갈립니다. prop은 남겨 두어 다른 문구가 필요하면 넘깁니다.
 - **루트에 폭을 선언하지 않습니다.** 심볼의 312px은 문서 값이고 실제로는 fill입니다. 루트에 `w-full`을 넣었더니 소비처가 `className`으로 준 `w-[312px]`과 충돌해 폭이 240px로 줄었습니다 — 이 레포는 `clsx`만 쓰고 tailwind-merge가 없어서 두 클래스가 동시에 나오면 CSS 순서에 맡겨집니다. 안쪽 블록들만 `w-full`을 갖습니다.
 - **값 박스는 `<input>`이고 정수만 받습니다.** 버튼으로도, 키보드로도 조절합니다. `type='text'` + `inputMode='numeric'`이고(모바일 숫자 키패드, `type='number'`의 스피너·`e`·`-` 허용 문제 회피) `parseQuantityInput`이 `\D`를 전부 걷어냅니다 — 소수점도 걸러지므로 **소수 입력이 불가능**합니다. 빈 문자열은 `null`로 정규화해 플레이스홀더로 돌아갑니다.
 
-- **미주문(`null`)과 의도적 `0` 주문을 구분합니다 (DOTOLI-284).** 소비 도메인이 「주문을 등록하지 않은 상태」와 「수량을 0으로 정한 상태」를 다르게 다뤄야 해서 `value`를 `number | null`로 엽니다. `null`은 `empty`(회색 pill · 플레이스홀더), `0`은 `filled`(파란 pill · 숫자 `0`)입니다 — 둘 다 감소 버튼은 비활성이지만 pill 색과 인풋 표시로 갈립니다.
+- **미주문(`null`)과 의도적 `0` 주문을 구분합니다 (DOTOLI-284).** 소비 도메인이 「주문을 등록하지 않은 상태」와 「수량을 0으로 정한 상태」를 다르게 다뤄야 해서 `value`를 `number | null`로 엽니다. `null`은 `empty`(회색 총계 · 플레이스홀더), `0`은 `filled`(파란 총계 · 진한 숫자 `0`)입니다 — 둘 다 감소 버튼은 비활성이지만 총계 색과 인풋 글자 색으로 갈립니다. DOTOLI-347 전에는 총계가 색 pill이었습니다.
 
   **전에는 `0`과 미주문이 같은 것이었습니다.** `parseQuantityInput`이 빈 입력을 `0`으로 내리고 인풋을 `value > 0`일 때만 렌더해서, `0`을 치면 빈칸으로 튕겨 미주문과 구분이 불가능했습니다. 파서를 `null` 반환으로, 인풋 표시를 `value !== null`로 바꿔 `0`이 살아남게 했습니다. **`0`의 시각은 Figma에 심볼이 없어 `filled`로 정했습니다** — pill 색이 「이 행에 결정이 있다」는 신호라 미주문(회색)과 갈려야 합니다. 아래 「디자인 확인 필요」에 올렸습니다.
 
@@ -249,41 +252,46 @@ Figma 심볼은 `199:822`(empty) · `199:821`(filled) · `534:1727`(error, 이�
 - **입력 파서는 internal-ui `Filter/utils/parseNumericInput`의 축소판입니다.** 거기서 `isDecimal=false`일 때 하는 `\D` 제거가 필요한 전부입니다. 정수만 쓰므로 소수 분기를 두지 않았고, biz-ui는 internal-ui에 의존하지 않으므로 코드를 가져오지 않고 `QuantityStepper/utils/`에 따로 뒀습니다.
 - **입력값을 상한으로 절단하지 않습니다.** `parseNumericInput`은 `max` 초과 시 `max`로 잘라내는데, 그렇게 하면 초과 상태가 만들어지지 않아 **에러 심볼(`534:1727`)이 영원히 렌더되지 않습니다.** 초과를 표현할 UI가 생겼으므로 값은 그대로 통과시키고 소비처가 `errorMessage`로 알립니다.
 - **감소 버튼은 `value`가 `null`이거나 `0`일 때 비활성합니다.** 둘 다 「더 내릴 곳이 없는」 상태입니다 — `0` 아래로는 못 가고 `null`은 아직 값이 없습니다. Figma 주석 `337:3554`(「빈박스 수량이 0 일때 - 버튼 비활성화」)가 근거인데, **미주문(`null`)이 새 상태로 갈라지면서 주석 문구가 이 둘을 함께 가리키지 못하게 됐습니다** — 아래 「디자인 확인 필요」. `IconButton`의 `disabled`가 `gray/300`으로 빠지는 것이 `empty` 심볼의 흐린 `Minus`와 일치합니다(활성은 `gray/500`).
-- **에러 링을 `inset-ring-2`로 그려서 높이가 안 변합니다.** Figma는 정상 1px / 에러 2px인데 심볼 높이가 47 → 46으로 어긋납니다(stroke가 레이아웃에 포함된 값). `inset-ring`은 레이아웃을 차지하지 않아 두 상태 모두 47px로 유지되고, 에러가 떴다 사라져도 행이 튀지 않습니다 — CLAUDE.md [스타일 규칙]이 `Input` 1px↔2px 사례로 든 바로 그 상황입니다.
+- **error · warning 링을 `inset-ring-2`로 그려서 높이가 안 변합니다.** Figma는 정상 1px / error · warning 2px인데 심볼 높이가 41 → 40으로 어긋납니다(stroke가 레이아웃에 포함된 값). `inset-ring`은 레이아웃을 차지하지 않아 모든 상태가 40px로 유지되고, 에러가 떴다 사라져도 행이 튀지 않습니다 — CLAUDE.md [스타일 규칙]이 `Input` 1px↔2px 사례로 든 바로 그 상황입니다.
 - **에러 메시지 문구는 소비처가 넘깁니다.** Figma 텍스트가 `에러 메시지가 표시됩니다`라는 자리표시자이고, 실제 문구는 재고·마감 등 도메인 사유마다 달라집니다. `aria-invalid`와 `aria-describedby`도 함께 겁니다 (`InputField`와 같은 처리).
 - **`max`는 「몇 개부터 에러인지」를 정합니다.** 기본값 `100`. `value > max`면 에러 상태가 되고, 절단하거나 버튼을 막지 않습니다. 상한 장치를 `max`와 `errorMessage` 둘로 나누면 판정 기준이 두 군데로 흩어지므로 **기준은 `max` 하나, 문구만 `errorMessage`**로 갈랐습니다.
 - **증가 버튼은 비활성하지 않습니다.** 에러 심볼 `534:1727`은 이미 초과 상태인데도 `Plus`가 활성(`gray/500`)이고, 주석 `337:3554`도 감소 버튼만 언급합니다. 버튼으로도 상한을 넘길 수 있고 넘기면 에러로 알립니다.
 - **총계는 `unitsPerBox`를 받아 컴포넌트가 곱합니다.** 상자당 갯수는 상품명과 무관하게 API로 따로 내려옵니다 — 이름의 `10입` · `20개`는 표시용 문자열일 뿐이라 파싱 대상이 아닙니다. `총 {value × unitsPerBox}개` 조립까지 DS가 하는 이유는 곱셈이 포맷이 아니라 계산이고, 단위 `개`가 심볼 3종에서 모두 고정이기 때문입니다 — OrderBox의 `quantity`(「5박스 · 125개」)처럼 단위와 표기가 도메인마다 달라지는 경우와 다릅니다.
 - **인풋 라벨은 `aria-labelledby`로 상품명을 가리킵니다.** 보이는 라벨이 없고, 한 화면에 스테퍼가 여러 개 놓이면 `aria-label='수량'`으로는 어느 상품인지 구분되지 않습니다. `useId`로 상품명에 id를 붙여 연결합니다.
-- **이미지는 `<img>`로 직접 그립니다.** biz-ui에 이미지 프리미티브가 없고 이 컴포넌트만 쓰므로 새로 만들지 않았습니다. `alt`은 `name`입니다.
-- **상품명에 `whitespace-nowrap`을 넣지 않았습니다.** 심볼 CSS에는 있지만 Figma의 hug 표현이고, 품목명이 길면 312px를 넘칩니다. 가운데 정렬한 채 줄바꿈되게 뒀습니다.
+- **상품 이미지를 그리지 않습니다(DOTOLI-347).** 새 세트에 `showImage` 축(기본 꺼짐)이 남아 있지만 쓰지 않기로 해서 `imageUrl` prop을 지웠습니다. Figma 축은 구현하지 않은 채로 둡니다.
+- **상품명은 `flex-1 min-w-0`이라 길면 줄바꿈됩니다.** 증감 묶음은 `shrink-0`이라 줄어들지 않습니다.
+- **증감 버튼 테두리는 스테퍼가 `className`으로 얹습니다.** `IconButton`에 테두리 테마가 없고, 이 모양을 쓰는 곳이 아직 여기뿐이라 `IconButton`을 넓히지 않았습니다. 아이콘 크기 차이는 아래 「디자인 확인 필요」.
 
 ### API
 
 | prop           | 필수 | 기본값            | 비고                                                    |
 | -------------- | ---- | ----------------- | ------------------------------------------------------- |
-| `name`         | ✅   | —                 | 상품명 · 이미지 `alt`. `10입` 같은 표기는 표시용         |
-| `imageUrl`     | ✅   | —                 | 상품 이미지                                             |
+| `name`         | ✅   | —                 | 상품명. `10입` 같은 표기는 표시용                        |
 | `value`        | ✅   | —                 | 박스 수량 `number \| null`. `null`=미주문(empty), `0`=의도적 0 주문(filled) |
 | `unitsPerBox`  | ✅   | —                 | 상자당 갯수. 총계 = `value × unitsPerBox`               |
 | `onChange`     | ✅   | —                 | `(value: number \| null) => void`. 버튼·입력 모두 이걸로 올라옴. 비우면 `null` |
-| `errorMessage` |      | —                 | 초과했을 때 pill 아래에 띄울 문구                       |
+| `errorMessage` |      | —                 | 초과했을 때 총계 아래에 띄울 빨간 문구                  |
+| `warningMessage` |    | —                 | 있으면 경고 상태. 총계 아래 노란 문구. error가 우선      |
 | `max`          |      | `100`             | 넘으면 에러 상태. 절단도 버튼 잠금도 하지 않음          |
-| `placeholder`  |      | `얼마나 시킬까요` | 값이 `null`일 때 문구                                   |
+| `placeholder`  |      | `0`               | 값이 `null`일 때 문구                                   |
 | `className`    |      | —                 | 담는 쪽의 폭 지정용                                     |
 
 ### 디자인 확인 필요
 
 | 항목 | 내용 |
 | --- | --- |
-| `0` 주문의 시각 | Figma에 「의도적 0 주문」 심볼이 없습니다. `filled`(파란 pill + 숫자 `0`)로 정해 미주문(`null`·회색)과 갈랐습니다 (DOTOLI-284). 별도 시각을 원하면 심볼 필요 |
+| `0` 주문의 시각 | Figma에 「의도적 0 주문」 심볼이 없습니다. `filled`(파란 총계 + 진한 숫자 `0`)로 정해 미주문(`null`·회색)과 갈랐습니다 (DOTOLI-284). 별도 시각을 원하면 심볼 필요 |
+| 경고 색 대비 | warning 총계 · 문구 `yellow/600`(#ce9f1d)이 흰 바탕에서 약 2.4:1로 AA(4.5:1) 미달. error 문구 `red/400`도 약 3.6:1. Figma 값 그대로 둠 (DOTOLI-347) |
+| 네 자리 수량 | 값 칸이 `w-[72px]`(내용 46px)라 `heading-5` 세 자리까지 들어감. `max`를 절단하지 않아 네 자리 이상도 입력되고 그때는 칸 안에서 잘림 |
+| 문구 알림 | 안내 문구에 `role` · `aria-live`가 없어 나타날 때 스크린 리더가 바로 읽지 않음(`aria-describedby`로 인풋 포커스 때 읽힘). `InputMessage`는 error에 `role='alert'`. 경고는 저장을 막지 않아 `alert`가 과하다고 보고 error와 함께 그대로 둠 |
+| 증감 아이콘 크기 | 새 심볼은 아이콘 20px인데 `IconButton` `lg`는 24px. 테두리만 `className`으로 맞추고 아이콘은 24로 둠 (DOTOLI-347). 맞추려면 `IconButton` 크기 축을 함께 봄 |
 | 주석 `337:3554` 문구 | 「빈박스 수량이 0 일때 - 버튼 비활성화」가 이제 `null`·`0` 두 상태를 함께 가리킵니다. 감소 버튼은 둘 다 비활성이라 동작은 맞지만 문구 갱신이 필요합니다 |
 
 ### Storybook
 
 `apps/storybook/src/stories/biz-ui/QuantityStepper.stories.tsx`, `meta.title`은 `core/biz-ui/Order/QuantityStepper`. 스토리 3종 (`Default` · `States` · `UnitsPerBox`).
 
-**controlled 컴포넌트라 스토리마다 상태를 들려 줍니다.** `value`를 arg로 고정해 두면 버튼과 입력이 아무 반응도 없어 컴포넌트가 고장난 것처럼 보입니다. 파일 안의 `StatefulStepper`가 `useState`로 값을 들고, `Default`는 `key={args.value}`로 remount 해서 `value` 컨트롤을 바꿨을 때 다시 seed 되게 합니다. `States`는 재고 20개(`max=20`)를 가정하고 `null`(미주문) · `0`(의도적 0) · `2` · `21`(초과)로 네 state를 나열하며 — **`null`과 `0`이 갈리는 자리** — `UnitsPerBox`는 상자당 갯수 `10` · `20` · `30`에서 총계가 각각 달라지는 것을 봅니다.
+**controlled 컴포넌트라 스토리마다 상태를 들려 줍니다.** `value`를 arg로 고정해 두면 버튼과 입력이 아무 반응도 없어 컴포넌트가 고장난 것처럼 보입니다. 파일 안의 `StatefulStepper`가 `useState`로 값을 들고, `Default`는 `key={args.value}`로 remount 해서 `value` 컨트롤을 바꿨을 때 다시 seed 되게 합니다. `States`는 재고 20개(`max=20`)를 가정하고 `null`(미주문) · `0`(의도적 0) · `2` · `8`(warning) · `21`(초과, warning 문구도 넘겨 error 우선을 확인)을 나열하며 — **`null`과 `0`이 갈리는 자리** — `UnitsPerBox`는 상자당 갯수 `10` · `20` · `30`에서 총계가 각각 달라지는 것을 봅니다.
 
 ---
 

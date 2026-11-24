@@ -6,12 +6,10 @@ import { ColorVariants } from '@/variants';
 export type QuantityStepperState =
   (typeof QUANTITY_STEPPER_STATES)[keyof typeof QUANTITY_STEPPER_STATES];
 
-export type QuantityStepperStyles = Record<'NAME' | 'MESSAGE', ColorVariants>;
-
 export interface QuantityStepperStateStyles {
   INPUT: string;
-  TOTAL: string;
-  TOTAL_LABEL: ColorVariants;
+  TOTAL: ColorVariants;
+  MESSAGE?: ColorVariants;
 }
 
 export interface ParseQuantityInputParams {
@@ -21,18 +19,23 @@ export interface ParseQuantityInputParams {
 export interface QuantityStepperProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   name: string;
-  imageUrl: string;
   value: number | null;
   unitsPerBox: number;
   onChange: (value: number | null) => void;
   errorMessage?: string;
+  warningMessage?: string;
   max?: number;
   placeholder?: string;
 }
 
 export interface ResolveQuantityStepperStateProps
-  extends Pick<QuantityStepperProps, 'value'>,
+  extends Pick<QuantityStepperProps, 'value' | 'warningMessage'>,
     Required<Pick<QuantityStepperProps, 'max'>> {}
+
+export interface ResolveQuantityStepperMessageProps
+  extends Pick<QuantityStepperProps, 'errorMessage' | 'warningMessage'> {
+  state: QuantityStepperState;
+}
 
 export interface GenerateQuantityStepperTotalLabelProps
   extends Pick<QuantityStepperProps, 'value' | 'unitsPerBox'> {}

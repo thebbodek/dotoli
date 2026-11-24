@@ -1,6 +1,7 @@
 import {
   Flex,
   QUANTITY_STEPPER_MAX,
+  QUANTITY_STEPPER_PLACEHOLDER,
   QuantityStepper,
   QuantityStepperProps,
   Typography,
@@ -10,7 +11,6 @@ import { useState } from 'react';
 
 const PRODUCT = {
   name: '빈박스 (10입)',
-  imageUrl: 'https://image.thebbodek.com/logo/logo-color-symbol-bg.png',
   unitsPerBox: 10,
 };
 
@@ -18,13 +18,26 @@ const STOCK = 20;
 
 const ERROR_MESSAGE = `주문 가능 수량은 ${STOCK}개입니다`;
 
+const WARNING_MESSAGE = '평소 4박스보다 많아요. 수량을 한 번 더 확인해주세요';
+
 const STEPPER_WIDTH_STYLE = 'w-[312px]';
 
-const STATE_CASES: { label: string; value: number | null }[] = [
+const STATE_CASES: (Pick<QuantityStepperProps, 'value' | 'warningMessage'> & {
+  label: string;
+})[] = [
   { label: 'null (미주문)', value: null },
   { label: '0 (의도적 0 주문)', value: 0 },
   { label: '2 (주문)', value: 2 },
-  { label: `${STOCK + 1} (초과 · error)`, value: STOCK + 1 },
+  {
+    label: '8 (평소보다 많음 · warning)',
+    value: 8,
+    warningMessage: WARNING_MESSAGE,
+  },
+  {
+    label: `${STOCK + 1} (초과 · error가 warning보다 우선)`,
+    value: STOCK + 1,
+    warningMessage: WARNING_MESSAGE,
+  },
 ];
 
 const StatefulStepper = ({
@@ -54,20 +67,23 @@ const meta = {
   component: QuantityStepper,
   argTypes: {
     name: { control: 'text', type: { name: 'string', required: true } },
-    imageUrl: { control: 'text', type: { name: 'string', required: true } },
     value: { control: 'number', type: { name: 'number', required: true } },
     unitsPerBox: {
       control: 'number',
       type: { name: 'number', required: true },
     },
     errorMessage: { control: 'text', table: { type: { summary: 'string' } } },
+    warningMessage: {
+      control: 'text',
+      table: { type: { summary: 'string' } },
+    },
     max: {
       control: 'number',
       table: { defaultValue: { summary: `${QUANTITY_STEPPER_MAX}` } },
     },
     placeholder: {
       control: 'text',
-      table: { defaultValue: { summary: '얼마나 시킬까요' } },
+      table: { defaultValue: { summary: QUANTITY_STEPPER_PLACEHOLDER } },
     },
     onChange: { action: 'change' },
   },
@@ -91,8 +107,8 @@ export const Default: Story = {
 export const States: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: (args) => (
-    <Flex align={{ items: 'start' }} gap='40'>
-      {STATE_CASES.map(({ label, value }) => (
+    <Flex align={{ items: 'start' }} direction='column' gap='24'>
+      {STATE_CASES.map(({ label, value, warningMessage }) => (
         <Flex
           align={{ items: 'start' }}
           direction='column'
@@ -102,7 +118,11 @@ export const States: Story = {
           <Typography color='gray-500' variant='label-bold'>
             {label}
           </Typography>
-          <StatefulStepper {...args} value={value} />
+          <StatefulStepper
+            {...args}
+            value={value}
+            warningMessage={warningMessage}
+          />
         </Flex>
       ))}
     </Flex>

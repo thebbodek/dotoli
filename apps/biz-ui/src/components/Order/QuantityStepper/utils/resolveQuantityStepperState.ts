@@ -4,10 +4,13 @@ import { ResolveQuantityStepperStateProps } from '@/components/Order/QuantitySte
 export const resolveQuantityStepperState = ({
   value,
   max,
+  warningMessage,
 }: ResolveQuantityStepperStateProps) => {
   if (value === null) return QUANTITY_STEPPER_STATES.EMPTY;
 
   if (value > max) return QUANTITY_STEPPER_STATES.ERROR;
+
+  if (warningMessage) return QUANTITY_STEPPER_STATES.WARNING;
 
   return QUANTITY_STEPPER_STATES.FILLED;
 };

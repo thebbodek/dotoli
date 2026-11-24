@@ -287,7 +287,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 ### biz-ui 주간주문 시안 반영
 
 - [x] DOTOLI-346 biz-ui > OrderInputCard 마감 보조줄 · 사유 배지 추가
-- [ ] DOTOLI-347 biz-ui > QuantityStepper 경고 안내 추가
+- [x] DOTOLI-347 biz-ui > QuantityStepper 경고 안내 추가
 - [ ] DOTOLI-348 biz-ui > 쓰지 않는 CtaButton white 테마 · OrderWeekStatus · Tab filled 변형 제거
 
 소비 앱 주문 등록(ORD-REG)의 11/23 주간주문 시안(`1XFNe18voQAN71SyqCl4qV` `241-22108`)에서 나온 작업입니다. 티켓별 범위는 `biz-customer-app`의 `docs/order/registration/plan.md` DS1 · 5 절과 `docs/order/main/plan.md` DS1~DS3 절에 있습니다.
@@ -411,6 +411,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-342 | StatusAlertBanner `gray` 테마 추가(아이콘 `pause` · `fill` · `gray/300`, 나머지는 4테마와 같음). weight는 렌더가 아니라 Figma 에셋 path의 서브패스 수(속 채움 2개 = `pause-fill`)로 판정. 같은 시안의 「액션만 있음」 심볼 5개는 DOTOLI-261 때부터 막지 않았던 조합이고 폭 259가 지금 렌더와 같아 **코드 변경 없이** 문서(축 2×2 · 디자인 확인 필요 해소)와 `Combinations` 스토리만 정리. 아이콘 색 스케일은 `primary` · `gray` 300, 나머지 200으로 InfoBanner 배경 · 테두리와 같은 쌍. 비파괴 | [components/status-alert-banner.md](./components/status-alert-banner.md) |
 | DOTOLI-343 | NotificationCard 글자 크기 확대. 심볼 `607:3148` 실측대로 `subText` `body` → `body-lg`, `meta` 두 조각 · `period` `label` → `body`. 티켓명에 없는 기간도 심볼에서 같이 커져 포함. 토큰 신규 없음, 색 · gap · 구분선 12는 그대로. API는 그대로지만 **시각 변경**이라 소비 앱 6곳(오류 카드 2 · 주문 메인 공지 1 · 주문 메인 주차 목록 카드 3)에서 카드가 커짐. 텍스트 상자당 약 2.9px(보조 텍스트는 줄마다)이라 전부 한 줄이면 최대 약 9px, 새로 접히는 줄이 생기면 더 커짐. 기간 `blue/400` 대비 미달(3.31:1)도 디자인 확인 필요에 추가. 렌더 16조합 높이가 Figma와 행높이 반올림 차이(≤0.49)로 일치 | [components/notification-card.md](./components/notification-card.md) |
 | DOTOLI-346 | OrderInputCard에 `statusLabel`(날짜 아래 줄) · `badgeLabel` · `badgeTheme`(`red` · `gray`) 추가, 품목에 `quantityLabel` 추가. 출처는 11/23 주간주문 시안 `241-22108`. 마감 문구 · 사유 문구 · 「4박스 (80개)」는 소비 앱이 조립하고 DS는 자리 · 색만 가짐. 사유 카드는 `orderStatus`를 늘리지 않고 `inputClosed` + 회색 배지. **동작 변경 둘**: `inputClosed` 기본 보조줄 「주문마감」 제거(사유 카드에서 끌 방법이 없어서), 기본 문구 띄어쓰기(「주문 입력」 · 「주문 수정」 · 「입력 필요」 · 「주문 없음」). 소비 앱 사용처 0건 | [components/order.md](./components/order.md) |
+| DOTOLI-347 | QuantityStepper `warning` 상태 · `warningMessage` 추가(심볼 `1244:2615`). 저장을 막지 않는 안내라 `aria-invalid` 없이 `aria-describedby`만, error와 겹치면 error 우선. **범위가 넓어짐**: 세트 `199:823`이 가로형(상품명 왼쪽 18 · 증감 묶음 오른쪽 · 값 칸 72 · 테두리 버튼 · 배경 없는 총계)으로 다시 그려져 있어 함께 맞춤. `imageUrl` 제거(Figma `showImage` 축은 쓰지 않음), `placeholder` 기본값 `0`. 아이콘 20 ↔ `IconButton` 24는 디자인 확인 필요. 소비 앱 사용처 0건 | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
