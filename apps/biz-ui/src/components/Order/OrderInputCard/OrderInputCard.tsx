@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 
-import { Badge, BADGE_THEMES, BADGE_VARIANTS } from '@/components/Badge';
+import { Badge, BADGE_VARIANTS } from '@/components/Badge';
 import { CTA_BUTTON_SIZES, CtaButton } from '@/components/Button/CtaButton';
 import {
   ORDER_INPUT_CARD_ACTION_LABELS,
+  ORDER_INPUT_CARD_BADGE_THEMES,
   ORDER_INPUT_CARD_BASE_STYLE,
   ORDER_INPUT_CARD_BUTTON_STYLES,
   ORDER_INPUT_CARD_DAY_STYLE,
@@ -29,6 +30,9 @@ const OrderInputCard = ({
   dayLabel,
   dateLabel,
   isHoliday = false,
+  statusLabel,
+  badgeLabel,
+  badgeTheme = ORDER_INPUT_CARD_BADGE_THEMES.RED,
   items,
   onAction,
   className,
@@ -41,7 +45,7 @@ const OrderInputCard = ({
 
   const actionLabel = ORDER_INPUT_CARD_ACTION_LABELS[orderStatus];
   const buttonStyle = ORDER_INPUT_CARD_BUTTON_STYLES[orderStatus];
-  const statusLabel = ORDER_INPUT_CARD_STATUS_LABELS[orderStatus];
+  const status = statusLabel ?? ORDER_INPUT_CARD_STATUS_LABELS[orderStatus];
   const date = generateOrderInputCardDateLabel({ dateLabel, isHoliday });
   const hasItems =
     orderStatus === ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED &&
@@ -65,12 +69,12 @@ const OrderInputCard = ({
                 {date}
               </Typography>
             )}
-            {!!statusLabel && (
+            {!!status && (
               <Typography
                 color={ORDER_INPUT_CARD_STATUS_LABEL_COLOR}
                 variant={TYPOGRAPHY_VARIANTS.LABEL}
               >
-                {statusLabel}
+                {status}
               </Typography>
             )}
           </div>
@@ -85,8 +89,8 @@ const OrderInputCard = ({
           />
         ) : (
           <Badge
-            label={actionLabel}
-            theme={BADGE_THEMES.RED}
+            label={badgeLabel ?? actionLabel}
+            theme={badgeTheme}
             variant={BADGE_VARIANTS.TONAL}
           />
         )}

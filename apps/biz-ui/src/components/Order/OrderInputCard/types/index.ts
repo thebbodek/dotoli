@@ -1,11 +1,18 @@
 import { HTMLAttributes } from 'react';
 
+import { BadgeProps } from '@/components/Badge';
 import { CtaButtonProps } from '@/components/Button/CtaButton';
-import { ORDER_INPUT_CARD_ORDER_STATUSES } from '@/components/Order/OrderInputCard/constants';
+import {
+  ORDER_INPUT_CARD_BADGE_THEMES,
+  ORDER_INPUT_CARD_ORDER_STATUSES,
+} from '@/components/Order/OrderInputCard/constants';
 import { ColorVariants } from '@/variants';
 
 export type OrderInputCardOrderStatus =
   (typeof ORDER_INPUT_CARD_ORDER_STATUSES)[keyof typeof ORDER_INPUT_CARD_ORDER_STATUSES];
+
+export type OrderInputCardBadgeTheme =
+  (typeof ORDER_INPUT_CARD_BADGE_THEMES)[keyof typeof ORDER_INPUT_CARD_BADGE_THEMES];
 
 export interface OrderInputCardDayStyles {
   CONTAINER: string;
@@ -29,6 +36,7 @@ export type OrderInputCardItemStyles = Record<
 export interface OrderInputCardItem {
   name: string;
   quantity: number;
+  quantityLabel?: string;
 }
 
 export interface OrderInputCardProps
@@ -37,6 +45,9 @@ export interface OrderInputCardProps
   dayLabel: string;
   dateLabel?: string;
   isHoliday?: boolean;
+  statusLabel?: string;
+  badgeLabel?: BadgeProps['label'];
+  badgeTheme?: OrderInputCardBadgeTheme;
   items?: OrderInputCardItem[];
   onAction?: CtaButtonProps['onClick'];
 }
@@ -49,3 +60,6 @@ export interface ResolveOrderInputCardDayStyleProps
 
 export interface GenerateOrderInputCardDateLabelProps
   extends Pick<OrderInputCardProps, 'dateLabel' | 'isHoliday'> {}
+
+export interface GenerateOrderInputCardQuantityLabelProps
+  extends Pick<OrderInputCardItem, 'quantity' | 'quantityLabel'> {}

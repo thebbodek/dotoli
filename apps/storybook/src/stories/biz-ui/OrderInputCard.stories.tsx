@@ -1,14 +1,17 @@
 import {
   Flex,
+  ORDER_INPUT_CARD_ACTION_LABELS,
+  ORDER_INPUT_CARD_BADGE_THEMES,
   ORDER_INPUT_CARD_ORDER_STATUSES,
   OrderInputCard,
   OrderInputCardItem,
+  OrderInputCardProps,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
 const ITEMS: OrderInputCardItem[] = [
-  { name: '4찬 식판 A형 (20입)', quantity: 3 },
+  { name: '4찬 식판 A형 (20입)', quantity: 4, quantityLabel: '4박스 (80개)' },
   { name: '빈박스 (1입)', quantity: 0 },
   { name: '검은 빈박스 (1입)', quantity: 0 },
 ];
@@ -16,6 +19,43 @@ const ITEMS: OrderInputCardItem[] = [
 const CARD_WIDTH_STYLE = 'w-[340px]';
 
 const ORDER_STATUSES = Object.values(ORDER_INPUT_CARD_ORDER_STATUSES);
+
+const BADGE_THEME_OPTIONS = Object.values(ORDER_INPUT_CARD_BADGE_THEMES);
+
+const CLOSED_CARDS: Pick<
+  OrderInputCardProps,
+  | 'dayLabel'
+  | 'dateLabel'
+  | 'isHoliday'
+  | 'statusLabel'
+  | 'badgeLabel'
+  | 'badgeTheme'
+>[] = [
+  {
+    dayLabel: '월',
+    dateLabel: '9일',
+    statusLabel: '주문이 마감된 날이에요',
+  },
+  {
+    dayLabel: '수',
+    dateLabel: '18일',
+    badgeLabel: '주문중지',
+    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
+  },
+  {
+    dayLabel: '토',
+    dateLabel: '21일',
+    isHoliday: true,
+    badgeLabel: '이용 전',
+    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
+  },
+  {
+    dayLabel: '금',
+    dateLabel: '20일',
+    badgeLabel: '서비스 해지',
+    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
+  },
+];
 
 const meta = {
   title: 'core/biz-ui/Order/OrderInputCard',
@@ -31,6 +71,23 @@ const meta = {
     isHoliday: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
+    },
+    statusLabel: { control: 'text', table: { type: { summary: 'string' } } },
+    badgeLabel: {
+      control: 'text',
+      table: {
+        defaultValue: {
+          summary:
+            ORDER_INPUT_CARD_ACTION_LABELS[
+              ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED
+            ],
+        },
+      },
+    },
+    badgeTheme: {
+      control: 'inline-radio',
+      options: BADGE_THEME_OPTIONS,
+      table: { defaultValue: { summary: ORDER_INPUT_CARD_BADGE_THEMES.RED } },
     },
     items: {
       control: 'object',
@@ -90,6 +147,45 @@ export const Matrix: Story = {
           </Flex>
         )),
       )}
+    </Flex>
+  ),
+};
+
+export const StatusLabel: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Flex direction='column' gap='12'>
+      <OrderInputCard
+        className={CARD_WIDTH_STYLE}
+        dateLabel='12일'
+        dayLabel='목'
+        orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED}
+        statusLabel='오늘 18시 마감 · 입력 필요'
+      />
+      <OrderInputCard
+        className={CARD_WIDTH_STYLE}
+        dateLabel='21일'
+        dayLabel='토'
+        orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED}
+        statusLabel='목 18시 마감 · 입력 필요'
+        isHoliday
+      />
+    </Flex>
+  ),
+};
+
+export const ClosedBadge: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <Flex direction='column' gap='12'>
+      {CLOSED_CARDS.map((card) => (
+        <OrderInputCard
+          {...card}
+          className={CARD_WIDTH_STYLE}
+          key={card.dateLabel}
+          orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED}
+        />
+      ))}
     </Flex>
   ),
 };
