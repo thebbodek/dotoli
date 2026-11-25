@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.74
+
+### Patch Changes
+
+- dd48890: DOTOLI-353 biz-ui > QuantityStepper 증감 아이콘 20px 축소
+
 ## 0.0.73
 
 ### Patch Changes
