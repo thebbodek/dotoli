@@ -1,7 +1,6 @@
 import {
   Flex,
   ORDER_BOX_EMPTY_LABEL,
-  ORDER_BOX_VARIANTS,
   OrderBox,
   OrderBoxItem,
   OrderBoxProps,
@@ -9,47 +8,38 @@ import {
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
-const ORDER_BOX_WIDTH_STYLE = 'w-[306px]';
-
-const ORDER_BOX_BOX_WIDTH_STYLE = 'w-[338px]';
-
-const VARIANT_OPTIONS = Object.values(ORDER_BOX_VARIANTS);
+const ORDER_BOX_WIDTH_STYLE = 'w-[338px]';
 
 const CLOSED_EMPTY_LABEL = '주문이 마감된 날이에요';
 
-const EMPTY_LABEL = '휴무일';
-
 const ITEMS: OrderBoxItem[] = [
-  { itemName: '식판', quantity: '5박스 · 125개' },
-  { itemName: '국그릇', quantity: '2박스 · 60개' },
-  { itemName: '수저', quantity: '1박스 · 50개' },
+  { packageName: '4찬 식판', boxCount: 4, unitCount: 80 },
+  { packageName: '국그릇', boxCount: 2, unitCount: 60 },
+  { packageName: '수저', boxCount: 1, unitCount: 50 },
 ];
 
 const PARTIAL_ZERO_ITEMS: OrderBoxItem[] = [
-  { itemName: '식판', quantity: '5박스 · 125개' },
-  { itemName: '국그릇', quantity: '주문 없음' },
-  { itemName: '수저', quantity: '1박스 · 50개' },
+  { packageName: '4찬 식판', boxCount: 4, unitCount: 80 },
+  { packageName: '국그릇', boxCount: 0, unitCount: 0 },
+  { packageName: '수저', boxCount: 0, unitCount: 0 },
 ];
 
 const LONG_NAME_ITEMS: OrderBoxItem[] = [
-  { itemName: '4찬 식판 A형 스테인리스 뚜껑 포함', quantity: '12박스 · 240개' },
-  { itemName: '국그릇', quantity: '2박스 · 60개' },
+  {
+    packageName: '4찬 식판 A형 스테인리스 뚜껑 포함',
+    boxCount: 12,
+    unitCount: 240,
+  },
+  { packageName: '국그릇', boxCount: 2, unitCount: 60 },
 ];
 
-const BOX_ITEMS: OrderBoxItem[] = [
-  { itemName: '4찬 식판', quantity: '4박스 · 80개' },
-  { itemName: '국그릇', quantity: '주문없음', isNoOrder: true },
-  { itemName: '수저', quantity: '주문없음', isNoOrder: true },
-];
-
-interface BoxCase extends Pick<OrderBoxProps, 'items' | 'emptyLabel'> {
+interface EmptyCase extends Pick<OrderBoxProps, 'emptyLabel'> {
   title: string;
 }
 
-const BOX_CASES: BoxCase[] = [
-  { title: '품목 있음 · 0인 줄 회색', items: BOX_ITEMS },
-  { title: '빈 상자 · 기본값', items: [] },
-  { title: '빈 상자 · 마감', items: [], emptyLabel: CLOSED_EMPTY_LABEL },
+const EMPTY_CASES: EmptyCase[] = [
+  { title: '기본값' },
+  { title: 'emptyLabel 지정', emptyLabel: CLOSED_EMPTY_LABEL },
 ];
 
 const meta = {
@@ -71,11 +61,6 @@ const meta = {
       control: 'text',
       table: { defaultValue: { summary: ORDER_BOX_EMPTY_LABEL } },
     },
-    variant: {
-      control: 'inline-radio',
-      options: VARIANT_OPTIONS,
-      table: { defaultValue: { summary: ORDER_BOX_VARIANTS.LIST } },
-    },
   },
   args: {
     items: ITEMS,
@@ -93,30 +78,6 @@ type Story = StoryObj<typeof OrderBox>;
 
 export const Default: Story = {};
 
-export const Empty: Story = {
-  parameters: { controls: { disable: true }, layout: 'padded' },
-  render: () => (
-    <Flex align={{ items: 'start' }} gap='24'>
-      <Flex align={{ items: 'start' }} direction='column' gap='12'>
-        <Typography color='gray-500' variant='label-bold'>
-          기본값
-        </Typography>
-        <Flex className={ORDER_BOX_WIDTH_STYLE}>
-          <OrderBox items={[]} />
-        </Flex>
-      </Flex>
-      <Flex align={{ items: 'start' }} direction='column' gap='12'>
-        <Typography color='gray-500' variant='label-bold'>
-          emptyLabel 지정
-        </Typography>
-        <Flex className={ORDER_BOX_WIDTH_STYLE}>
-          <OrderBox emptyLabel={EMPTY_LABEL} items={[]} />
-        </Flex>
-      </Flex>
-    </Flex>
-  ),
-};
-
 export const PartialZero: Story = {
   args: {
     items: PARTIAL_ZERO_ITEMS,
@@ -129,11 +90,11 @@ export const LongName: Story = {
   },
 };
 
-export const Box: Story = {
+export const Empty: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: () => (
     <Flex direction='column' gap='24'>
-      {BOX_CASES.map(({ title, items, emptyLabel }) => (
+      {EMPTY_CASES.map(({ title, emptyLabel }) => (
         <Flex
           align={{ items: 'start' }}
           direction='column'
@@ -143,12 +104,8 @@ export const Box: Story = {
           <Typography color='gray-500' variant='label-bold'>
             {title}
           </Typography>
-          <Flex className={ORDER_BOX_BOX_WIDTH_STYLE}>
-            <OrderBox
-              emptyLabel={emptyLabel}
-              items={items}
-              variant={ORDER_BOX_VARIANTS.BOX}
-            />
+          <Flex className={ORDER_BOX_WIDTH_STYLE}>
+            <OrderBox emptyLabel={emptyLabel} items={[]} />
           </Flex>
         </Flex>
       ))}

@@ -302,6 +302,16 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 소비 앱 주문 확인 · 완료 화면(BP-250)을 11/23 시안(`1XFNe18voQAN71SyqCl4qV` W8 `241:22514` · W21 `241:22567` · W9 `241:22610`)과 DS Figma에 대조하다 나온 작업입니다(11/24 발행, 에픽 DOTOLI-212 · Sprint 13).
 
+### biz-ui DS Figma 11/25~26 개편 반영
+
+- [x] DOTOLI-355 biz-ui > OrderBoxCell 수량 줄 복원 · OrderBox 상자형 정리
+- [ ] DOTOLI-356 biz-ui > OrderDateInfo 제목 · 설명 글자 묶음으로 교체
+- [ ] DOTOLI-357 biz-ui > OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
+- [ ] DOTOLI-358 biz-ui > Tab 라벨 글자 14px 로 축소
+- [ ] DOTOLI-359 biz-ui > BottomActionBar 세로 배치 추가
+
+biz-customer-app 주문 메인 신규 시안(Claude Design 캔버스 Q1~Q5)을 Figma로 옮기면서 DS Figma(`IGi6n6Cz0bB54WWlhivIOH`)를 코드와 맞춰 고쳤고(11/25~26 publish), 그 변경을 코드에 반영합니다(11/26 발행, 에픽 DOTOLI-212 · Sprint 13). 357은 355 · 356 뒤에 갑니다. 기존 시안(①)은 대상이 아니고 신규 시안만 맞춥니다. 범위는 아래 「태스크 상세」에 있습니다.
+
 ---
 
 ## 태스크 상세
@@ -326,6 +336,22 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | 요일 헤더 | `StickyCalendar`의 `STICKY_CALENDAR_WEEKDAYS`(일~토 고정 배열) |
 
 조립 컴포넌트 `CalendarBottomSheet` · `DateBottomSheet`도 옵션을 내려줘야 합니다. 주말 판정(`CALENDAR_WEEKEND_DAYS`, `day()` 기준)과 헤더 색(일 · 토 `RED_400`)은 시작 요일이 바뀌어도 요일을 따라가야 합니다. prop 형태(boolean으로 둘지, 시작 요일 값으로 둘지)는 착수 때 정합니다.
+
+### DOTOLI-356 · OrderDateInfo 제목 · 설명 글자 묶음으로 교체
+
+DS `203:872`가 한 줄 날짜 행(오른쪽 마감 문구 · 버튼 · 배지)에서 제목 + 설명 글자 묶음으로 바뀌었습니다. `theme`(default `gray-700` · muted `gray-400` · red `red-600`) × `size`(md body-semibold 16 · lg body-lg-semibold 18) × `dayType`(weekday · weekend 「· 휴일」 · publicHoliday 「· 공휴일」), 설명은 label `gray-400`. 버튼 · 배지는 쓰는 쪽이 조합합니다. 소비 앱 `OrderDayCard` · `OrderConfirmRow`의 `isHoliday`를 옮겨야 합니다.
+
+### DOTOLI-357 · OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
+
+DS `309:1965` 실측. `orderStatus` unset(미주문) · zero(수량 0) · ordered, `isLocked`(이유 무관 입력 불가, 이유는 설명으로), `isHoliday`. 요약 줄은 요일 원 + OrderDateInfo md, 잠기면 버튼이 없고 카드가 `gray-50`, 날짜는 muted. ordered는 아래 수량 패널(잠기면 `gray-100` + OrderBoxCell muted). `statusLabel` · `badgeLabel` · `badgeTheme`을 지우고 `description` 하나로 둡니다. 소비 앱 사용처 0건.
+
+### DOTOLI-358 · Tab 라벨 글자 14px 로 축소
+
+DS `1371:55` 라벨이 label-semibold / label-bold(14)로 바뀌었습니다. 높이 48 · 밑줄은 그대로입니다.
+
+### DOTOLI-359 · BottomActionBar 세로 배치 추가
+
+DS `154:513`에 `actions=stacked`(`1379:827` · `1379:838`)가 생겼습니다. 위 보조 버튼(gray outlined lg, 왼쪽 아이콘) · 아래 주 버튼(primary filled lg), 둘 다 전체 폭, 간격 8, 여백은 기존과 같습니다. 지금은 가로 배치만 있어 세로 배치 prop을 엽니다.
 
 ### 완료된 티켓
 
@@ -428,6 +454,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-354 | OrderBox 글자 목록을 비공개 `OrderBoxList`로 뽑고 `OrderInputCard` 주문내역 패널이 `OrderInputCardItems` 대신 함께 씀. 상자형(DOTOLI-351)을 만들다 두 목록의 줄 구조가 같아진 것을 보고 따로 발행한 선행 작업. 글자 묶음은 `OrderBoxListStyles` 상수 레코드로 쓰는 쪽이 넘기고, 0인 줄은 `OrderBoxItem.isNoOrder`(선택값)로 칠함. 목록형은 0인 줄 색이 없어 그대로. 한 줄 품목은 시각 변경 없음. `OrderInputCard` 마크업이 `dl`로 바뀌고 줄 정렬이 `items-start`가 돼 품목명이 두 줄일 때만 수량이 위로 붙음. 공개 상수 · 타입 이름 변경은 소비 앱 사용처 0건(11/25) | [components/order.md](./components/order.md) |
 | DOTOLI-351 | OrderBox에 `variant` 추가(`list` 기본 · `box`). `box`는 DS Figma `169:688`의 `default` · `empty` 실측: 흰 바탕 `gray-100` 테두리 r16 padding 17/15, 글자 16 · 500 / 16 · 700 `gray-800`, 0인 줄(`isNoOrder`) `gray-400`, 빈 상자는 `gray-100` 바탕 `gray-300` 테두리 가운데 정렬 label `gray-400`. 354의 `OrderBoxList`에 감싸는 클래스와 글자 묶음만 바꿔 넘김. 목록형은 그대로. DS `noBg`(16px)와 목록형(14px) 차이는 디자인 확인 필요로 남김. 빈 상자 글자 굵기는 DOTOLI-352 몫 | [components/order.md](./components/order.md) |
 | DOTOLI-353 | `IconButton` `lg` 아이콘 24 → 20px. 스테퍼에만 덮어쓰려다 DS `lg` 마스터(`81:202`) 자체가 20px인 것을 확인해 상수 한 줄을 바꿈. `LinkIconButton` 기본도 함께 20px(SearchInput · Toast · InputField는 `sm`이라 그대로). API는 그대로인 **시각 변경**이고, 소비 앱(origin/dev)은 `IconButton` · `LinkIconButton` 직접 사용 0건이라 보이는 변화 없음(11/25) | [components/button.md](./components/button.md) · [order.md](./components/order.md) |
+| DOTOLI-355 | DS Figma 개편(11/25~26) 반영. OrderBox `variant`(`list` · `box`)를 지우고 상자형만 남김(11/26 사용자 결정). 한 줄을 비공개 `OrderBoxCell`로 되돌리고(`OrderBoxRow` 개명), `OrderBoxItem`을 `{ packageName, boxCount, unitCount }` 숫자로 바꿔 「4박스 (80개)」 · 0이면 「주문 없음」 `gray-400`을 DS가 조립. 잠긴 패널용 `muted`(`gray-500`)는 비공개 `isMuted`. `OrderBoxListStyles` 글자 묶음 레코드 제거. **파괴적 변경**: 소비 앱 `getOrderBoxItems` · `OrderConfirm/types.ts`가 깨지고 `OrderDayCard` · `OrderConfirmRow` · `FixedOrderDayItem`의 글자 목록이 상자로 바뀜 | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

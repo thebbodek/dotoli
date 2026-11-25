@@ -78,7 +78,7 @@ const CASES: OrderDateInfoCase[] = [
 const ORDER_DAYS: OrderDayCase[] = [
   {
     props: { dateLabel: '10일(화)', isDeadlinePassed: true },
-    items: [{ itemName: '식판', quantity: '5박스 · 125개' }],
+    items: [{ packageName: '식판', boxCount: 5, unitCount: 125 }],
   },
   {
     props: {
@@ -86,7 +86,7 @@ const ORDER_DAYS: OrderDayCase[] = [
       deadlineLabel: '오늘 18시 마감',
       action: EDIT_ACTION,
     },
-    items: [{ itemName: '식판', quantity: '5박스 · 125개' }],
+    items: [{ packageName: '식판', boxCount: 5, unitCount: 125 }],
   },
   {
     props: {
@@ -95,9 +95,9 @@ const ORDER_DAYS: OrderDayCase[] = [
       action: EDIT_ACTION,
     },
     items: [
-      { itemName: '식판', quantity: '4박스 · 100개' },
-      { itemName: '국그릇', quantity: '주문 없음' },
-      { itemName: '수저', quantity: '1박스 · 50개' },
+      { packageName: '식판', boxCount: 4, unitCount: 100 },
+      { packageName: '국그릇', boxCount: 0, unitCount: 0 },
+      { packageName: '수저', boxCount: 1, unitCount: 50 },
     ],
   },
   {

@@ -10,7 +10,6 @@ import {
   ORDER_INPUT_CARD_BUTTON_STYLES,
   ORDER_INPUT_CARD_DAY_STYLE,
   ORDER_INPUT_CARD_ITEMS_STYLE,
-  ORDER_INPUT_CARD_ITEMS_STYLES,
   ORDER_INPUT_CARD_ORDER_STATUSES,
   ORDER_INPUT_CARD_ROW_STYLE,
   ORDER_INPUT_CARD_STATUS_LABEL_COLOR,
@@ -22,7 +21,6 @@ import {
 import { OrderInputCardProps } from '@/components/Order/OrderInputCard/types';
 import {
   generateOrderInputCardDateLabel,
-  generateOrderInputCardItems,
   resolveOrderInputCardDayStyle,
 } from '@/components/Order/OrderInputCard/utils';
 import { Typography } from '@/components/Typography';
@@ -99,11 +97,7 @@ const OrderInputCard = ({
         )}
       </div>
       {hasItems && (
-        <OrderBoxList
-          className={ORDER_INPUT_CARD_ITEMS_STYLE}
-          items={generateOrderInputCardItems({ items })}
-          styles={ORDER_INPUT_CARD_ITEMS_STYLES}
-        />
+        <OrderBoxList className={ORDER_INPUT_CARD_ITEMS_STYLE} items={items} />
       )}
     </div>
   );

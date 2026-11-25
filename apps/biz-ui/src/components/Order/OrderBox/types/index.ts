@@ -1,47 +1,33 @@
 import { HTMLAttributes } from 'react';
 
-import { ORDER_BOX_VARIANTS } from '@/components/Order/OrderBox/constants';
-import { ColorVariants, TypographyVariants } from '@/variants';
+import { ORDER_BOX_CELL_STATES } from '@/components/Order/OrderBox/constants';
 
-export type OrderBoxVariant =
-  (typeof ORDER_BOX_VARIANTS)[keyof typeof ORDER_BOX_VARIANTS];
+export type OrderBoxCellState =
+  (typeof ORDER_BOX_CELL_STATES)[keyof typeof ORDER_BOX_CELL_STATES];
 
 export interface OrderBoxItem {
-  itemName: string;
-  quantity: string;
-  isNoOrder?: boolean;
+  packageName: string;
+  boxCount: number;
+  unitCount: number;
 }
 
 export interface OrderBoxProps
   extends Pick<HTMLAttributes<HTMLElement>, 'className'> {
   items: OrderBoxItem[];
   emptyLabel?: string;
-  variant?: OrderBoxVariant;
-}
-
-export interface OrderBoxTextStyle {
-  VARIANT: TypographyVariants;
-  COLOR: ColorVariants;
-}
-
-export interface OrderBoxListStyles {
-  ITEM_NAME: OrderBoxTextStyle;
-  QUANTITY: OrderBoxTextStyle;
-  NO_ORDER_COLOR?: ColorVariants;
-}
-
-export interface OrderBoxVariantStyles {
-  CONTAINER: string;
-  EMPTY: string;
-  LIST: OrderBoxListStyles;
-  EMPTY_LABEL: OrderBoxTextStyle;
 }
 
 export interface OrderBoxListProps
   extends Pick<OrderBoxProps, 'items' | 'className'> {
-  styles: OrderBoxListStyles;
+  isMuted?: boolean;
 }
 
-export interface OrderBoxRowProps
+export interface OrderBoxCellProps
   extends OrderBoxItem,
-    Pick<OrderBoxListProps, 'styles'> {}
+    Pick<OrderBoxListProps, 'isMuted'> {}
+
+export interface ResolveOrderBoxCellStateProps
+  extends Pick<OrderBoxCellProps, 'boxCount' | 'isMuted'> {}
+
+export interface GenerateOrderBoxQuantityLabelProps
+  extends Pick<OrderBoxItem, 'boxCount' | 'unitCount'> {}

@@ -3,7 +3,6 @@ import {
   CTA_BUTTON_THEMES,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton';
-import { OrderBoxListStyles } from '@/components/Order/OrderBox';
 import {
   OrderInputCardButtonStyles,
   OrderInputCardDayStyles,
@@ -11,7 +10,7 @@ import {
   OrderInputCardStatusStyles,
 } from '@/components/Order/OrderInputCard/types';
 import { ORDER_DEADLINE_PASSED_LABEL } from '@/components/Order/shared/constants';
-import { COLOR_VARIANTS, TYPOGRAPHY_VARIANTS } from '@/variants';
+import { COLOR_VARIANTS } from '@/variants';
 
 export const ORDER_INPUT_CARD_ORDER_STATUSES = {
   INPUT_REQUIRED: 'inputRequired',
@@ -42,8 +41,6 @@ export const ORDER_INPUT_CARD_TEXT_STYLE = 'flex-v-stack justify-center';
 export const ORDER_INPUT_CARD_ITEMS_STYLE =
   'rounded-10 bg-blue-50 px-[16px] py-[14px]';
 
-export const ORDER_INPUT_CARD_QUANTITY_UNIT = '개';
-
 export const ORDER_INPUT_CARD_EMPTY_ITEM_LABEL = '주문 없음';
 
 export const ORDER_INPUT_CARD_STATUS_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
@@ -51,18 +48,6 @@ export const ORDER_INPUT_CARD_STATUS_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
 export const ORDER_INPUT_CARD_HOLIDAY_DAY_STYLE: OrderInputCardDayStyles = {
   CONTAINER: 'bg-red-50',
   LABEL: COLOR_VARIANTS.RED_400,
-};
-
-export const ORDER_INPUT_CARD_ITEMS_STYLES: OrderBoxListStyles = {
-  ITEM_NAME: {
-    VARIANT: TYPOGRAPHY_VARIANTS.BODY,
-    COLOR: COLOR_VARIANTS.GRAY_800,
-  },
-  QUANTITY: {
-    VARIANT: TYPOGRAPHY_VARIANTS.BODY_BOLD,
-    COLOR: COLOR_VARIANTS.GRAY_800,
-  },
-  NO_ORDER_COLOR: COLOR_VARIANTS.BLUE_200,
 };
 
 export const ORDER_INPUT_CARD_STATUS_LABELS: Partial<

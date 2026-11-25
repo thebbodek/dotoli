@@ -3,17 +3,17 @@ import {
   ORDER_INPUT_CARD_ACTION_LABELS,
   ORDER_INPUT_CARD_BADGE_THEMES,
   ORDER_INPUT_CARD_ORDER_STATUSES,
+  OrderBoxItem,
   OrderInputCard,
-  OrderInputCardItem,
   OrderInputCardProps,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
-const ITEMS: OrderInputCardItem[] = [
-  { name: '4찬 식판 A형 (20입)', quantity: 4, quantityLabel: '4박스 (80개)' },
-  { name: '빈박스 (1입)', quantity: 0 },
-  { name: '검은 빈박스 (1입)', quantity: 0 },
+const ITEMS: OrderBoxItem[] = [
+  { packageName: '4찬 식판', boxCount: 4, unitCount: 80 },
+  { packageName: '국그릇', boxCount: 0, unitCount: 0 },
+  { packageName: '수저', boxCount: 0, unitCount: 0 },
 ];
 
 const CARD_WIDTH_STYLE = 'w-[340px]';
