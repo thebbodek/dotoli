@@ -14,6 +14,7 @@ import {
   ORDER_DATE_INFO_TRAILING_STYLE,
 } from '@/components/Order/OrderDateInfo/constants';
 import { OrderDateInfoProps } from '@/components/Order/OrderDateInfo/types';
+import { generateOrderDateInfoDateLabel } from '@/components/Order/OrderDateInfo/utils';
 import { ORDER_DEADLINE_PASSED_LABEL } from '@/components/Order/shared';
 import { Typography } from '@/components/Typography';
 import { TYPOGRAPHY_VARIANTS } from '@/variants';
@@ -28,15 +29,16 @@ const OrderDateInfo = ({
 }: OrderDateInfoProps) => {
   const { DATE, HOLIDAY_DATE, DEADLINE } = ORDER_DATE_INFO_STYLES;
   const hasTrailing = isDeadlinePassed || !!deadlineLabel || !!action;
+  const date = generateOrderDateInfoDateLabel({ dateLabel, isHoliday });
 
   return (
     <div className={clsx(className, ORDER_DATE_INFO_BASE_STYLE)}>
       <Typography
         className={ORDER_DATE_INFO_DATE_STYLE}
         color={isHoliday ? HOLIDAY_DATE : DATE}
-        variant={TYPOGRAPHY_VARIANTS.HEADING_5}
+        variant={TYPOGRAPHY_VARIANTS.BODY_LG_SEMIBOLD}
       >
-        {dateLabel}
+        {date}
       </Typography>
       {hasTrailing && (
         <div className={ORDER_DATE_INFO_TRAILING_STYLE}>

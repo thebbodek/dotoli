@@ -19,3 +19,6 @@ export interface OrderDateInfoProps
   action?: OrderDateInfoAction;
   isDeadlinePassed?: boolean;
 }
+
+export interface GenerateOrderDateInfoDateLabelProps
+  extends Pick<OrderDateInfoProps, 'dateLabel' | 'isHoliday'> {}

@@ -295,6 +295,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 ### biz-ui 주문 확인 · 완료 시안 반영
 
 - [x] DOTOLI-349 biz-ui > Badge 라벨 글자 크기 14px 로 확대
+- [x] DOTOLI-350 biz-ui > OrderDateInfo 날짜 글자 Figma 값으로 복원
 
 소비 앱 주문 확인 · 완료 화면(BP-250)을 11/23 시안(`1XFNe18voQAN71SyqCl4qV` W8 `241:22514` · W21 `241:22567` · W9 `241:22610`)과 DS Figma에 대조하다 나온 작업입니다(11/24 발행, 에픽 DOTOLI-212 · Sprint 13).
 
@@ -420,6 +421,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-347 | QuantityStepper `warning` 상태 · `warningMessage` 추가(심볼 `1244:2615`). 저장을 막지 않는 안내라 `aria-invalid` 없이 `aria-describedby`만, error와 겹치면 error 우선. **범위가 넓어짐**: 세트 `199:823`이 가로형(상품명 왼쪽 18 · 증감 묶음 오른쪽 · 값 칸 72 · 테두리 버튼 · 배경 없는 총계)으로 다시 그려져 있어 함께 맞춤. `imageUrl` 제거(Figma `showImage` 축은 쓰지 않음), `placeholder` 기본값 `0`. 아이콘 20 ↔ `IconButton` 24는 디자인 확인 필요. 소비 앱 사용처 0건 | [components/order.md](./components/order.md) |
 | DOTOLI-348 | 11/18 · 11/23 시안 변경으로 쓸 곳이 없어진 공개 API 제거: CtaButton `white` 테마(332), `OrderWeekStatus`(333, 자리는 `CalendarDayStatus`가 대체), `Tab` `filled`(334, 주 선택이 주차 버튼 + 달력 시트로 바뀜). **티켓명에 없는 `useUnderline`(332)도 같이 지움**: 앱 사용처 0건이고 밑줄 링크 둘(white · primary)이 시안에서 빠짐. 라벨 `<span>` 래핑도 걷음. `Tab` `variant` 축은 `line` 하나로 남김. 앱 origin/dev · 로컬 워크트리 사용처 0건(11/24). 레포 관례대로 patch | [components/button.md](./components/button.md) · [order.md](./components/order.md) · [tab.md](./components/tab.md) · [calendar.md](./components/calendar.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 | DOTOLI-349 | DS Figma Badge 세트(`75:4728`) 라벨이 14 · 600 · lh 1.45로 바뀌어 `caption` → `label-semibold`. 10심볼 모두 64 × 26이라 크기 축 없이 전체 적용. 높이 24 → 26. 소비 앱 사용처는 `OrderStatusCard` 헤더 한 곳(origin/dev `02d1891`), 코드 변경 불필요 | [components/badge.md](./components/badge.md) · [order.md](./components/order.md) |
+| DOTOLI-350 | OrderDateInfo 날짜 글자를 Figma로 되돌림. DS `203:872` · 11/23 시안 파일의 기존 시안 · 신규 시안 세 곳이 같은 값(평일 `body-lg-semibold` `gray-700`, 휴일 `red-600` + 「· 휴일」)이라 336의 아티팩트 값(`heading-5` `gray-900`, 휴일 `red-400`, 꼬리말 없음)을 걷음. 휴일 대비 3.41:1 → 6.15:1. 꼬리말은 `OrderInputCard`와 같은 `ORDER_HOLIDAY_SUFFIX`를 DS가 붙임. 평일 글자까지 되돌린 것은 11/25 사용자 결정. API는 그대로인 **시각 변경**이라 소비 앱이 `dateLabel`에 「휴일」을 직접 붙였다면 빼야 함 | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
