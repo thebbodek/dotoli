@@ -326,7 +326,7 @@ Figma 문서 프레임 `298:1024` → 심볼 스트립 `81:210`. 착수 시점�
 | 항목      | `lg`               | `sm`               |
 | --------- | ------------------ | ------------------ |
 | 버튼 크기 | 40 × 40            | 24 × 24            |
-| 아이콘    | 24px               | 16px               |
+| 아이콘    | 20px               | 16px               |
 | radius    | 6px → `rounded-md` | 6px → `rounded-md` |
 
 theme × state 전수 (심볼 `81:202`~`81:209` · `444:1095`~`444:1116`).
@@ -351,11 +351,12 @@ theme × state 전수 (심볼 `81:202`~`81:209` · `444:1095`~`444:1116`).
 
 ### 구현 결정
 
-- **`ButtonIcon`은 손대지 않았습니다.** 착수 전에는 "라벨이 없어 아이콘 크기를 IconButton이 직접 넘겨야 한다"고 봤는데, 사이즈 클래스(`text-[24px]` · `text-[16px]`)를 **버튼에** 걸면 Phosphor 아이콘 폰트가 `font-size`를 상속받습니다. `ButtonIcon`의 "버튼이 사이즈를 물고 있으므로 아이콘 크기를 지정하지 않는다"는 전제가 그대로 성립합니다.
+- **`ButtonIcon`은 손대지 않았습니다.** 착수 전에는 "라벨이 없어 아이콘 크기를 IconButton이 직접 넘겨야 한다"고 봤는데, 사이즈 클래스(`text-[20px]` · `text-[16px]`)를 **버튼에** 걸면 Phosphor 아이콘 폰트가 `font-size`를 상속받습니다. `ButtonIcon`의 "버튼이 사이즈를 물고 있으므로 아이콘 크기를 지정하지 않는다"는 전제가 그대로 성립합니다.
 - **`state`를 prop으로 노출하지 않습니다.** `hover`·`pressed`는 CSS 상태, `disabled`는 HTML 속성, `loading`은 `isPending` boolean입니다. Figma의 `state` 축은 문서용 표현이라 union prop으로 열지 않았습니다 (CtaButton·Filter와 동일).
 - **`aria-label`을 필수 prop으로 받습니다.** 아이콘 전용이라 접근 가능한 이름이 없습니다. `Required<Pick<ButtonHTMLAttributes, 'aria-label'>>`로 강제합니다.
 - **`isPending`은 `disabled` 스타일을 탑니다.** `disabled || isPending`으로 묶어 `generateIconButtonStyle`에 넘기므로 `filled`의 pending도 흰 배경이 사라집니다. CtaButton과 같은 처리이고, Figma에 `filled`·`dark`의 loading 심볼이 없어 외삽한 부분입니다.
 - **히트 영역을 전 사이즈에 넓힙니다** (Figma 주석 `337:3548`). `TOUCH_TARGET_STYLE` + `relative`로 `lg` 40→52px, `sm` 24→36px. 시각 크기는 Figma 값 그대로입니다. **상수는 DOTOLI-241에서 `Button/shared` → `components/shared`로 옮겼습니다** — `Checkbox`가 세 번째 소비처가 되면서 버튼 계열 전용이 아니게 됐고, 이름도 `BUTTON_TOUCH_TARGET_STYLE` → `TOUCH_TARGET_STYLE`입니다. 옮기면서 **공개 API에서 빠졌습니다**(`components/shared`는 루트 배럴에 없음) — 자세한 건 [checkbox.md](./checkbox.md) 「결정」.
+- **`lg` 아이콘은 20px입니다(DOTOLI-353).** DOTOLI-224 때는 24px로 실측했는데, 11/25 다시 보니 `lg` 마스터(`81:202`)의 아이콘이 40 버튼 안 20 × 20이었습니다. QuantityStepper 증감 버튼(`199:799`)도 이 마스터를 그대로 씁니다. `ICON_BUTTON_SIZE_STYLES`의 `lg`만 바꿔 `LinkIconButton` 기본도 함께 20px가 됐습니다. SearchInput · Toast · InputField는 `sm`이라 영향이 없습니다.
 - **아이콘 웨이트 기본값은 `bold`입니다.** 주석 `444:1136` "icon: outline - bold / fill 사용"에 맞춰 `Icon`의 기본값(`bold`)을 그대로 쓰고 `weight` prop으로 `fill`을 열어 둡니다.
 
 ### 디자인 확인 필요
@@ -614,7 +615,7 @@ Storybook 렌더의 계산값입니다.
 | 요소 | `<a>` | `A` (버튼판은 `BUTTON`) |
 | class 문자열 | `CtaButton`과 동일 | **완전 일치** — `flex-h-stack-center relative transition-colors rounded-8 text-body-bold h-[52px] px-[30px] py-[12px] bg-blue-500 text-white hover:bg-blue-600 active:bg-blue-700 cursor-pointer` |
 | `LinkCtaButton` 기본 | 52px · `px-[30px] py-[12px]` · `#3182f6` · radius 8 · 16px/700 | 전부 일치 |
-| `LinkIconButton` 기본 | 40 × 40 · radius 6 · 아이콘 24px `gray/500` · weight `bold` | 40×40 · 6px · 24px `rgb(138,147,168)` · `Phosphor-Bold` |
+| `LinkIconButton` 기본 | 40 × 40 · radius 6 · 아이콘 24px `gray/500` · weight `bold` (DOTOLI-303 당시. 353부터 20px) | 40×40 · 6px · 24px `rgb(138,147,168)` · `Phosphor-Bold` |
 | 히트 영역 | `TOUCH_TARGET_STYLE` 상속 | `before:-inset-1.5` 적용됨 |
 | `isDisabled` | `aria-disabled` · `tabIndex=-1` · `gray/100` 배경 | 4개 variant 전수 일치 |
 | `isDisabled` 클릭 | 이동하지 않음 | 클릭 후 URL 불변 |

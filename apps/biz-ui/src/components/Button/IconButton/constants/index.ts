@@ -28,7 +28,7 @@ export const ICON_BUTTON_SIZE_STYLES: Record<
 > = {
   [ICON_BUTTON_SIZES.LG]: {
     SIZE: 'size-[40px]',
-    ICON: 'text-[24px]',
+    ICON: 'text-[20px]',
     ROUNDED: 'rounded-6',
   },
   [ICON_BUTTON_SIZES.SM]: {
