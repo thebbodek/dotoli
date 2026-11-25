@@ -2,7 +2,7 @@
 
 `apps/biz-ui/src/components/Tab` 구현 기록입니다. 공통 개발 규칙은 [`apps/biz-ui/CLAUDE.md`](../../../apps/biz-ui/CLAUDE.md)를 따르고, 여기에는 이 컴포넌트 고유 사실만 둡니다.
 
-출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)입니다. 아티팩트는 목업이라 색은 DS 토큰으로 옮기고 구조와 상태만 따랐습니다.
+처음 출처는 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)였고, 11/25~26 DS 개편에서 DS Figma에 세트 `Tab`(`1371:68`) · `TabItem`(`1371:55`)이 생겼습니다. DOTOLI-358부터 DS Figma가 출처입니다. Figma 설명이 이 구현의 `line`과 같다고 적어 두었고, 라벨 글자만 달라 맞췄습니다.
 
 | variant | 보드 | 소비처 | 정책 |
 | --- | --- | --- | --- |
@@ -12,8 +12,8 @@
 
 | 컴포넌트   | 티켓       | 공개 | 설명                                              |
 | ---------- | ---------- | ---- | ------------------------------------------------- |
-| `Tab`      | DOTOLI-334 · 348 | ✅   | 탭 바. `variant`는 `line`(밑줄) 하나. `role="tablist"`. 탭은 `items`로 받음 |
-| `TabItem`  | DOTOLI-334 | ❌   | 탭 하나. `<button role="tab">`                    |
+| `Tab`      | DOTOLI-334 · 348 · 358 | ✅   | 탭 바. `variant`는 `line`(밑줄) 하나. `role="tablist"`. 탭은 `items`로 받음 |
+| `TabItem`  | DOTOLI-334 · 358 | ❌   | 탭 하나. `<button role="tab">`                    |
 | `TabPanel` | DOTOLI-334 | ✅   | `role="tabpanel"`. 탭과 id로 연결                 |
 
 ## Variant 축
@@ -27,18 +27,19 @@
 
 ### `line`
 
-| 요소 | 아티팩트 | 구현 |
+| 요소 | 아티팩트 · DS Figma | 구현 |
 | --- | --- | --- |
 | 바 | 흰 바탕, 아래 1px `rgb(227,230,238)`, 좌우 padding 20 | `bg-white` `border-b border-gray-200`(값이 같음) `px-[20px]` |
 | 칸 나누기 | 같은 폭 | `grid w-full grid-flow-col auto-cols-fr`. `w-full`은 가로 flex 안에서 바가 내용 폭으로 줄어들지 않게 함(`BottomTab` · `PageBody` · `HeaderBar`와 같음) |
-| 탭 | 높이 48, 글자 16 | `h-[48px]` |
-| 선택 | `rgb(26,34,51)` · 700 · 아래 2px | `text-body-bold` `text-gray-900`(값이 같음) + `shadow-[inset_0_-2px_0_0_var(--color-gray-900)]` |
-| 비선택 | `rgb(139,149,170)` · 600 | `text-body-semibold` `text-gray-500`(`#8a93a8`) |
+| 탭 | 높이 48. 글자는 아티팩트 16 → DS Figma 14(DOTOLI-358) | `h-[48px]` |
+| 선택 | `label-bold`(14 · 700) `gray/900` · 아래 2px | `text-label-bold` `text-gray-900` + `shadow-[inset_0_-2px_0_0_var(--color-gray-900)]` |
+| 비선택 | `label-semibold`(14 · 600) `gray/500` | `text-label-semibold` `text-gray-500` |
 
 hover · pressed · 포커스 표시는 아티팩트에 없습니다.
 
 ## 결정
 
+- **라벨 글자는 14입니다(DOTOLI-358).** DS 개편에서 탭 글자를 헤더 제목(`body-bold` 16)보다 한 단계 작게 두기로 했습니다(Figma `TabItem` 설명). 높이 48과 밑줄은 그대로라 바 높이는 같고 글자만 작아집니다. API는 그대로인 **시각 변경**이고 소비 앱 사용처는 0건입니다(stage, 11/26).
 - **밑줄 탭이고 `Chip`(알약)을 쓰지 않습니다.** `Chip`은 필터와 같은 층으로 보이고 radio 의미라서 주문 관리 상단 탭으로는 새로 두기로 했습니다(소비 앱 plan.md DS3).
 - **탭 목록을 DS가 그립니다(`items`).** 탭이 2~3개이고 탭마다 다른 모양이 없어 children 조립형(compound + context)을 열지 않았습니다. `BottomTab`이 목록을 DS가 갖는 것과 같은 방식입니다.
 - **이름은 바가 `Tab`, 탭 하나가 비공개 `TabItem`입니다.** 티켓 제목과 `BottomTab` · `BottomTabItem`의 명명을 따랐습니다. internal-ui는 묶음이 `Tabs`, 하나가 `Tab`입니다.
@@ -52,7 +53,7 @@ hover · pressed · 포커스 표시는 아티팩트에 없습니다.
 - **바 아래 선은 `border-b`, 선택 밑줄은 inset shadow입니다.** 아래 선은 구획을 가르는 선이라 CLAUDE.md 테두리 표대로 `border-b`이고, 선택 밑줄은 한 방향 선이라 `InfoBanner`의 `isSticky`처럼 `shadow-[inset_0_-2px_0_0_…]`로 그립니다. 아티팩트는 버튼의 `border-bottom` 2px라 라벨이 위로 1px 올라가 있는데, inset shadow는 박스를 줄이지 않아 라벨이 48px 가운데에 옵니다. 1px 차이입니다.
 - **밑줄이 미끄러지는 애니메이션은 없습니다.** internal-ui `TabIndicator`는 탭 위치를 재서 `transform`으로 옮기지만 아티팩트에 모션이 없습니다. 색은 계열 관례대로 `transition-colors`를 걸고, `box-shadow`인 밑줄은 즉시 바뀝니다.
 - **`line`의 좌우 padding 20은 DS가 갖습니다.** 흰 바탕과 아래 선은 화면 끝까지 가고 탭만 안쪽에 둡니다. 소비 앱이 바깥에 padding을 주면 선이 잘립니다.
-- **sticky는 붙이지 않습니다.** 스크롤 컨테이너 구조에 따라 BP-130이 정합니다.
+- **sticky는 붙이지 않습니다.** 스크롤 컨테이너 구조에 따라 소비 앱이 `className`으로 정합니다(BP-130). DS Figma 설명도 같습니다.
 - **탭이 1개일 때 바를 그리지 않는 판단은 소비 앱 몫입니다.** 운영 중지 · 해지에서는 변경 이력 하나만 남아 정책 2-3대로 바 없이 보여 줍니다(아티팩트 Q4).
 
 ## 접근성

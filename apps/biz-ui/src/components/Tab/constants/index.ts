@@ -26,9 +26,9 @@ export const TAB_VARIANT_STYLES: Record<TabVariant, TabVariantStyles> = {
     LIST: 'border-b border-gray-200 bg-white px-[20px]',
     ITEM: 'h-[48px]',
     STATES: {
-      [TAB_ITEM_STATES.DEFAULT]: 'text-body-semibold text-gray-500',
+      [TAB_ITEM_STATES.DEFAULT]: 'text-label-semibold text-gray-500',
       [TAB_ITEM_STATES.SELECTED]:
-        'text-body-bold text-gray-900 shadow-[inset_0_-2px_0_0_var(--color-gray-900)]',
+        'text-label-bold text-gray-900 shadow-[inset_0_-2px_0_0_var(--color-gray-900)]',
     },
   },
 };
