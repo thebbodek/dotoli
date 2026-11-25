@@ -1,5 +1,14 @@
 # @bbodek/biz-ui
 
+## 0.0.73
+
+### Patch Changes
+
+- 2d536ab: DOTOLI-354 biz-ui > OrderBox · OrderInputCard 품목 목록 공통화
+- 717643f: DOTOLI-349 biz-ui > Badge 라벨 글자 크기 14px 로 확대
+- 528ac30: DOTOLI-351 biz-ui > OrderBox 테두리 상자 변형 · 빈 상자 표시 추가
+- a68acb3: DOTOLI-350 biz-ui > OrderDateInfo 날짜 글자 Figma 값으로 복원
+
 ## 0.0.72
 
 ### Patch Changes
