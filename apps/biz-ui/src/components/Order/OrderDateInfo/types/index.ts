@@ -1,24 +1,25 @@
 import { HTMLAttributes } from 'react';
 
-import { CtaButtonProps } from '@/components/Button/CtaButton/types';
-import { ColorVariants } from '@/variants';
+import {
+  ORDER_DATE_INFO_DAY_TYPES,
+  ORDER_DATE_INFO_SIZES,
+  ORDER_DATE_INFO_THEMES,
+} from '@/components/Order/OrderDateInfo/constants';
 
-export type OrderDateInfoStyles = Record<
-  'DATE' | 'HOLIDAY_DATE' | 'DEADLINE',
-  ColorVariants
->;
+export type OrderDateInfoTheme =
+  (typeof ORDER_DATE_INFO_THEMES)[keyof typeof ORDER_DATE_INFO_THEMES];
 
-export interface OrderDateInfoAction
-  extends Required<Pick<CtaButtonProps, 'label' | 'onClick'>> {}
+export type OrderDateInfoSize =
+  (typeof ORDER_DATE_INFO_SIZES)[keyof typeof ORDER_DATE_INFO_SIZES];
+
+export type OrderDateInfoDayType =
+  (typeof ORDER_DATE_INFO_DAY_TYPES)[keyof typeof ORDER_DATE_INFO_DAY_TYPES];
 
 export interface OrderDateInfoProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
-  dateLabel: string;
-  isHoliday?: boolean;
-  deadlineLabel?: string;
-  action?: OrderDateInfoAction;
-  isDeadlinePassed?: boolean;
+  title?: string;
+  description?: string;
+  theme?: OrderDateInfoTheme;
+  size?: OrderDateInfoSize;
+  dayType?: OrderDateInfoDayType;
 }
-
-export interface GenerateOrderDateInfoDateLabelProps
-  extends Pick<OrderDateInfoProps, 'dateLabel' | 'isHoliday'> {}

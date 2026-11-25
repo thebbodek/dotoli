@@ -1,72 +1,55 @@
 import clsx from 'clsx';
 
-import { Badge, BADGE_THEMES, BADGE_VARIANTS } from '@/components/Badge';
-import {
-  CTA_BUTTON_SIZES,
-  CTA_BUTTON_THEMES,
-  CTA_BUTTON_VARIANTS,
-  CtaButton,
-} from '@/components/Button/CtaButton';
 import {
   ORDER_DATE_INFO_BASE_STYLE,
-  ORDER_DATE_INFO_DATE_STYLE,
-  ORDER_DATE_INFO_STYLES,
-  ORDER_DATE_INFO_TRAILING_STYLE,
+  ORDER_DATE_INFO_DAY_TYPE_SUFFIXES,
+  ORDER_DATE_INFO_DAY_TYPES,
+  ORDER_DATE_INFO_DESCRIPTION_COLOR,
+  ORDER_DATE_INFO_SIZES,
+  ORDER_DATE_INFO_THEMES,
+  ORDER_DATE_INFO_TITLE_COLORS,
+  ORDER_DATE_INFO_TITLE_STYLE,
+  ORDER_DATE_INFO_TITLE_VARIANTS,
+  ORDER_DATE_INFO_TITLE_WITH_DESCRIPTION_STYLE,
 } from '@/components/Order/OrderDateInfo/constants';
 import { OrderDateInfoProps } from '@/components/Order/OrderDateInfo/types';
-import { generateOrderDateInfoDateLabel } from '@/components/Order/OrderDateInfo/utils';
-import { ORDER_DEADLINE_PASSED_LABEL } from '@/components/Order/shared';
-import { Typography } from '@/components/Typography';
+import { Typography, TYPOGRAPHY_ELEMENTS } from '@/components/Typography';
 import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const OrderDateInfo = ({
-  dateLabel,
-  isHoliday = false,
-  deadlineLabel,
-  action,
-  isDeadlinePassed = false,
+  title,
+  description,
+  theme = ORDER_DATE_INFO_THEMES.DEFAULT,
+  size = ORDER_DATE_INFO_SIZES.MD,
+  dayType = ORDER_DATE_INFO_DAY_TYPES.WEEKDAY,
   className,
 }: OrderDateInfoProps) => {
-  const { DATE, HOLIDAY_DATE, DEADLINE } = ORDER_DATE_INFO_STYLES;
-  const hasTrailing = isDeadlinePassed || !!deadlineLabel || !!action;
-  const date = generateOrderDateInfoDateLabel({ dateLabel, isHoliday });
+  const suffix = ORDER_DATE_INFO_DAY_TYPE_SUFFIXES[dayType];
 
   return (
     <div className={clsx(className, ORDER_DATE_INFO_BASE_STYLE)}>
-      <Typography
-        className={ORDER_DATE_INFO_DATE_STYLE}
-        color={isHoliday ? HOLIDAY_DATE : DATE}
-        variant={TYPOGRAPHY_VARIANTS.BODY_LG_SEMIBOLD}
-      >
-        {date}
-      </Typography>
-      {hasTrailing && (
-        <div className={ORDER_DATE_INFO_TRAILING_STYLE}>
-          {isDeadlinePassed && (
-            <Badge
-              label={ORDER_DEADLINE_PASSED_LABEL}
-              theme={BADGE_THEMES.GRAY}
-              variant={BADGE_VARIANTS.TONAL}
-            />
+      {!!title && (
+        <Typography
+          className={clsx(
+            ORDER_DATE_INFO_TITLE_STYLE,
+            !!description && ORDER_DATE_INFO_TITLE_WITH_DESCRIPTION_STYLE,
           )}
-          {!isDeadlinePassed && !!deadlineLabel && (
-            <Typography
-              color={DEADLINE}
-              variant={TYPOGRAPHY_VARIANTS.LABEL_SEMIBOLD}
-            >
-              {deadlineLabel}
-            </Typography>
-          )}
-          {!isDeadlinePassed && !!action && (
-            <CtaButton
-              label={action.label}
-              size={CTA_BUTTON_SIZES.SM}
-              theme={CTA_BUTTON_THEMES.GRAY}
-              variant={CTA_BUTTON_VARIANTS.TONAL}
-              onClick={action.onClick}
-            />
-          )}
-        </div>
+          as={TYPOGRAPHY_ELEMENTS.P}
+          color={ORDER_DATE_INFO_TITLE_COLORS[theme]}
+          variant={ORDER_DATE_INFO_TITLE_VARIANTS[size]}
+        >
+          <span>{title}</span>
+          {!!suffix && <span>{suffix}</span>}
+        </Typography>
+      )}
+      {!!description && (
+        <Typography
+          as={TYPOGRAPHY_ELEMENTS.P}
+          color={ORDER_DATE_INFO_DESCRIPTION_COLOR}
+          variant={TYPOGRAPHY_VARIANTS.LABEL}
+        >
+          {description}
+        </Typography>
       )}
     </div>
   );

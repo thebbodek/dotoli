@@ -4,14 +4,14 @@
 
 Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=203-847&m=dev) (`203:847`). 섹션 안의 `302:1434`(OrderBoxCell) · `302:1451`(OrderBox) · `302:1631`(OrderDateInfo) · `302:1573`(QuantityStepper) · `302:1204`(OrderInputCard)는 전부 문서용 프레임이고, 실제 값은 각 컴포넌트 세트에서 실측합니다.
 
-**OrderDateInfo(DOTOLI-336 이후)는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)가 출처입니다.** 그래서 위 Figma 프레임 중 `302:1631`은 지금 구현과 맞지 않습니다. OrderBox도 DOTOLI-335~351 동안 아티팩트가 출처였다가 DOTOLI-355에서 DS Figma로 돌아왔습니다(11/25~26 DS 개편). 예외로 OrderDateInfo의 날짜 글자는 DOTOLI-350에서 Figma로 되돌렸습니다(그 절 「결정」). 아티팩트는 목업이지만 「개선안」이라 기존 Figma 값보다 우선하고, 맞는 토큰이 없거나 의미가 너무 벗어날 때만 가장 가까운 토큰으로 옮깁니다. 색은 가장 비슷한 토큰을 쓰고, 차이는 각 절 「디자인 확인 필요」에 남깁니다(11/16 사용자 확인). 각 절에는 어느 보드를 봤는지만 적습니다.
+**OrderBox(DOTOLI-335~351) · OrderDateInfo(DOTOLI-336~350)는 한동안 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)가 출처였고, 11/25~26 DS 개편 뒤 DOTOLI-355 · 356에서 DS Figma로 돌아왔습니다.** 아티팩트를 따르던 동안의 원칙은 이랬습니다. 아티팩트는 목업이지만 「개선안」이라 기존 Figma 값보다 우선하고, 맞는 토큰이 없거나 의미가 너무 벗어날 때만 가장 가까운 토큰으로 옮깁니다. 색은 가장 비슷한 토큰을 쓰고, 차이는 각 절 「디자인 확인 필요」에 남깁니다(11/16 사용자 확인). 각 절에는 어느 보드를 봤는지만 적습니다.
 
 ## 구현 현황
 
 | 컴포넌트          | 티켓       | 설명                                                        |
 | ----------------- | ---------- | ----------------------------------------------------------- |
 | `OrderBox`        | DOTOLI-230 · 335 · 354 · 351 · 355 | 패키지별 수량 상자. 355에서 DS Figma 상자형만 남기고, 한 줄을 비공개 `OrderBoxCell`로 되돌리고, 수량을 숫자로 받아 DS가 조립 |
-| `OrderDateInfo`   | DOTOLI-231 · 336 · 350 | 날짜 행 한 줄. 오른쪽에 마감 문구 + 버튼, 마감 뒤엔 「주문마감」 배지. 336에서 배송 정보 2행을 교체, 350에서 날짜 글자를 Figma로 되돌림 |
+| `OrderDateInfo`   | DOTOLI-231 · 336 · 350 · 356 | 날짜 제목 + 설명 글자 묶음. `theme` × `size` × `dayType`. 356에서 한 줄 날짜 행(버튼 · 배지 포함)을 교체 |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
 | `OrderNotiCollapse` | DOTOLI-264 | `type` 4종 × `isOpen`. **헤더만** 그리고 접히는 내용은 소비 앱이 형제로 둠 |
@@ -22,7 +22,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 - **`shared/`에는 계열이 함께 쓰는 문구만 있습니다.** 착수 시점에는 열지 않았습니다 — 당시 OrderBox가 `OrderBoxCell`(DOTOLI-335에서 지웠다가 355에서 비공개로 되돌림)을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 같이 움직여야 하는 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
 
-  DOTOLI-336에서 OrderDateInfo가 접미어를 뺐다가 DOTOLI-350에서 다시 붙여, 지금은 두 컴포넌트가 `ORDER_HOLIDAY_SUFFIX`를 함께 씁니다. 여기에 더해 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)이 새로 들어와 `OrderDateInfo` · `OrderInputCard` 둘이 함께 씁니다(`OrderWeekStatus`도 썼지만 DOTOLI-348에서 지움). 정책 2-3이 이 라벨을 「3-2 입력 불가 라벨과 통일」로 묶어 둔 결합입니다.
+  DOTOLI-336에서 OrderDateInfo가 접미어를 뺐다가 DOTOLI-350에서 다시 붙여, 지금은 두 컴포넌트가 `ORDER_HOLIDAY_SUFFIX`를 함께 씁니다. DOTOLI-356에서 「· 공휴일」(`ORDER_PUBLIC_HOLIDAY_SUFFIX`)이 더해졌습니다. 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)은 `OrderDateInfo` · `OrderInputCard`가 함께 쓰다가(`OrderWeekStatus`도 썼지만 DOTOLI-348에서 지움) 356에서 `OrderDateInfo`가 배지를 빼면서 `OrderInputCard`만 씁니다. 정책 2-3이 이 라벨을 「3-2 입력 불가 라벨과 통일」로 묶어 둔 결합입니다.
 
 ---
 
@@ -105,91 +105,77 @@ DOTOLI-355 전의 결정입니다. 코드는 없어졌지만 다른 문서가 �
 
 ## OrderDateInfo
 
-주문 목록의 날짜 행입니다. 왼쪽에 날짜, 오른쪽에 마감 문구 + 「주문 수정」 버튼이 오고, 마감이 지나면 오른쪽이 「주문마감」 배지로 바뀝니다(정책 「주문(new)」 1-9 · 2-3 「주문 목록」). DOTOLI-336에서 날짜 / 배송 정보 2행을 이 한 줄로 **교체**했고, 지난 결정은 아래 「이력」에 있습니다.
-
-출처는 Figma가 아니라 주문 메인 개편 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)의 Q1(주문 관리 · 주문 목록)입니다(원칙은 문서 머리말). 소비처는 biz-customer-app BP-132(주문 관리 마감 표기)입니다.
+날짜 제목과 설명 한 줄을 위아래로 쌓는 글자 묶음입니다. 버튼 · 배지는 갖지 않고 쓰는 쪽이 옆에 조합합니다. DOTOLI-356에서 DS Figma 세트 `203:872`(문서 `302:1631`)가 다시 출처가 됐고, 한 줄 날짜 행(DOTOLI-336, 아티팩트 Q1)을 **교체**했습니다. 지난 결정은 아래 「이력」에 있습니다.
 
 ### Variant 축
 
-| 축 | 값 |
-| --- | --- |
-| `isDeadlinePassed` | boolean. 오른쪽을 마감 표기와 「주문마감」 배지 중 무엇으로 그릴지 |
-| `isHoliday` | boolean. 날짜가 `red-600`이 되고 「· 휴일」이 붙음 |
-
-| 상태 | 조건 | 오른쪽 |
+| 축 | 값 | 바뀌는 것 |
 | --- | --- | --- |
-| 마감 전 | `isDeadlinePassed` 아님 | `deadlineLabel`(있으면) + `action` 버튼(있으면) |
-| 마감 뒤 | `isDeadlinePassed` | 「주문마감」 배지만. `deadlineLabel` · `action`은 무시 |
-| 날짜만 | 마감 전이고 `deadlineLabel` · `action`이 없음 | 없음 |
+| `theme` | `default`(기본) · `muted` · `red` | 제목 색 `gray-700` · `gray-400` · `red-600` |
+| `size` | `md`(기본) · `lg` | 제목 `body-semibold`(16) · `body-lg-semibold`(18) |
+| `dayType` | `weekday`(기본) · `weekend` · `publicHoliday` | 제목 뒤 꼬리말 없음 · 「· 휴일」 · 「· 공휴일」 |
+| `hasTitle` · `hasDescription` | boolean | **prop이 아니라 `title` · `description` 유무로 파생** |
+
+Figma 18개 심볼(3 × 2 × 3)이 전부 있습니다.
 
 ### 실측 스펙
 
-| 요소 | 아티팩트 Q1 | 구현 |
+| 요소 | Figma | 구현 |
 | --- | --- | --- |
-| 줄 | 양끝 정렬, gap 8, 최소 높이 32 | `flex-h-stack` `justify-between` `gap-[8px]` `min-h-[32px]` `w-full` |
-| 날짜 | 17px · 700 · `rgb(26,34,51)` | Figma 값 `body-lg-semibold`(18 · 600) `gray-700`(DOTOLI-350) |
-| 휴일 날짜 | `rgb(229,72,77)`, 꼬리말 없음 | Figma 값 `red-600` + 「· 휴일」(DOTOLI-350) |
-| 마감 문구 | 13px · 600 · `rgb(105,115,140)` | `label-semibold`(14 · 600) `gray-600`(색이 같음) |
-| 버튼 | 높이 32, padding 0 12, radius 8, `gray-100` 바탕, `gray-800` 14 · 700 | `CtaButton` `tonal` · `gray` · `sm`(radius 6만 다름) |
-| 마감 뒤 | 높이 26 알약, padding 0 9, `gray-100` 바탕, `gray-600` 13 · 600 | `Badge` `tonal` · `gray`(아래 「디자인 확인 필요」) |
+| 묶음 | 세로 쌓기, 왼쪽 정렬, 폭 hug | `flex-v-stack items-start` |
+| 제목 줄 | 제목 + 꼬리말, 사이 4, 아래 여백 -2 | `flex-h-stack items-center gap-[4px]`, 설명이 있을 때만 `-mb-0.5` |
+| 설명 | label 14 · 500 `gray-400`(theme와 무관) | `Typography` `label` |
+
+심볼 높이는 md 제목만 23, lg 제목만 26입니다.
 
 ### 결정
 
-- **배송 정보를 마감 표기로 바꿨습니다.** 정책 1-9가 사용자 앱의 날짜를 사용일 하나로 표기하고 배송일 · 배송 상태를 빼기로 해서, `deliveryInfo`와 「배송없음」이 없어졌습니다.
-- **한 줄 구조이고 버튼 자리를 DS가 갖습니다(11/13 확인).** 아티팩트에서 마감 문구가 버튼 바로 옆에 붙어 있어, 두 줄 구조(날짜 아래 마감 문구, 버튼은 소비 앱이 행 오른쪽에)로는 배치가 맞지 않았습니다. 소비 앱의 `OrderDayCard`가 직접 그리던 버튼 · 「배송 준비중」 라벨이 이 컴포넌트로 들어옵니다.
-- **버튼은 `action`(`label` · `onClick`)만 받고 모양은 DS가 정합니다.** `Toast`의 `action`(`ToastAction`)과 `ConfirmModal`의 `confirm` · `cancel`이 같은 형태입니다. `CtaButton` `tonal` · `gray` · `sm`이 아티팩트 버튼과 값이 그대로 맞습니다. 아무 노드나 받는 슬롯(`ReactNode`)으로 열면 버튼 모양을 소비 앱이 정하게 되고, biz-ui의 `ReactNode` prop(`Toast` `message` · `NotificationCard` `title`)은 문장 강조용이라 버튼 슬롯 선례도 아닙니다.
-- **마감 여부는 `isDeadlinePassed`입니다.** 이름 근거는 아래 「OrderWeekStatus」 제거 기록의 상태 이름 `deadlinePassed`입니다. 이것만 boolean prop인 이유는 값 유무로 파생하면 「날짜만」(마감 전인데 문구 · 버튼이 없음)과 구분되지 않아서입니다. 마감 뒤에 같이 넘어온 `deadlineLabel` · `action`을 무시하는 것은 `Toast`의 `status='loading'` + `action`과 같은 처리입니다([toast.md](./toast.md)).
-- **「주문마감」 문구는 `Order/shared`의 `ORDER_DEADLINE_PASSED_LABEL`입니다.** 함께 쓰는 곳과 근거는 위 「계열 공통 결정」에 있습니다. 소비 앱이 마감 뒤에 그리던 「배송 준비중」 자리를 이 배지가 대신합니다. 마감이 지났지만 배송 전인 날(`requiresUrgentOrder`)을 어떻게 넘길지는 BP-132에서 정합니다.
-- **마감 문구는 소비 앱이 조립합니다.** 「목 18시 마감」(정책 2-3)과 「오늘 18시 마감」(아티팩트 Q1의 상대 표현) 중 무엇을 쓸지는 소비 앱 결정으로 넘겼고(11/13), DS는 완성된 문자열을 받습니다.
-- **날짜 글자는 아티팩트가 아니라 Figma를 따릅니다(DOTOLI-350, 11/25 사용자 결정).** DS Figma 세트 `203:872`, 11/23 시안 파일 `1XFNe18voQAN71SyqCl4qV`의 기존 시안(① `241:23200` · `241:23218`)과 신규 시안(② W8 `241:22526` · `241:22551`)이 모두 평일 `body-lg-semibold`(18 · 600) `gray-700`, 휴일 `red-600` + 「· 휴일」로 같았습니다. 336에서 아티팩트를 따라 바꿨던 세 가지(평일 `heading-5` `gray-900`, 휴일 `red-400`, 꼬리말 없음)를 이 값으로 되돌렸습니다. 날짜 행 오른쪽(마감 문구 · 버튼 · 배지)은 아티팩트 그대로입니다.
-- **휴일 빨강은 `red-600`입니다.** 18px 600은 큰 글씨 기준(18.66px 굵게)에 들지 않아 흰 바탕 대비 4.5:1이 필요합니다. 336의 `red-400`(3.41:1)과 아티팩트 원색(3.91:1)은 못 미쳤고, `red-600`은 6.15:1입니다.
-- **「· 휴일」은 DS가 붙입니다.** `generateOrderDateInfoDateLabel`이 `isHoliday`일 때 `Order/shared`의 `ORDER_HOLIDAY_SUFFIX`를 붙이고, 소비 앱은 `dateLabel`에 날짜만 넘깁니다. 정책 1-6의 「N일 · 휴일」과도 맞습니다. 기존 시안의 「· 공휴일」은 옛 표기라 따르지 않았습니다. `OrderInputCard`와 달리 `dateLabel`이 필수라 날짜 없이 「휴일」만 그리는 분기는 없습니다.
-- **`ORDER_DATE_INFO_STYLES`의 `DATE` · `HOLIDAY_DATE` 키는 남겼습니다.** 소비 앱 `FixedOrderDayItem`(BP-133까지)이 날짜 색을 빌려 씁니다. 336에서 진해졌던 그 화면 날짜는 350에서 원래 색(`gray-700` · `red-600`)으로 돌아갑니다.
-- **날짜가 길면 줄을 바꾸고 오른쪽은 줄어들지 않습니다.** 날짜에 `min-w-0`, 오른쪽 묶음에 `shrink-0`을 걸었습니다. 배지도 이 묶음 안에 들어가 따로 클래스를 넘기지 않습니다.
-- **버튼 · 배지 모양은 상수 객체로 묶지 않고 JSX에 바로 넘깁니다.** `OrderInputCard`(`CTA_BUTTON_SIZES.SM` · `BADGE_THEMES.RED`)와 같은 방식입니다. biz-ui에서 단수 `_STYLE`은 className 문자열이라, props 묶음 객체에 그 이름을 붙이지 않습니다.
-- **「주문 수정」 버튼 이름이 날짜마다 같습니다.** 스크린 리더로는 어느 날짜의 버튼인지 이름만으로 구분되지 않고, `action`에 `aria-label` 통로도 없습니다. `OrderInputCard`도 같은 상태라 고친다면 계열 전체를 함께 봅니다.
-- **배지는 기존 `Badge`를 그대로 씁니다(11/16).** 모양은 DS Figma Badge 세트를 따릅니다.
+- **버튼 · 배지 · 마감 문구를 뺐습니다.** DS 개편(11/25~26)에서 「오른쪽에 있으면 버튼」이라는 규칙을 세우면서, 날짜 행 오른쪽을 비우고 버튼은 쓰는 쪽(`OrderInputCard` · 소비 앱 카드)이 두기로 했습니다. 마감 배지 자리는 비우고, 마감 같은 이유는 `description`으로 씁니다.
+- **`theme`과 `dayType`을 묶지 않았습니다.** Figma에 평일 + red, 휴일 + default 조합이 전부 심볼로 있습니다. 휴일을 빨갛게 그릴지는 화면마다 다르고(`OrderInputCard`는 휴일이어도 날짜는 `gray-700`이고 요일 원만 빨갛다) DS가 정할 수 없어서입니다.
+- **휴일 꼬리말은 두 가지입니다.** 「· 휴일」(`weekend`)과 「· 공휴일」(`publicHoliday`)이고, 문구는 `Order/shared`의 `ORDER_HOLIDAY_SUFFIX` · `ORDER_PUBLIC_HOLIDAY_SUFFIX`입니다. DOTOLI-350에서 「· 공휴일」을 옛 표기로 보고 따르지 않았던 것을 뒤집었습니다. DS 개편에서 둘을 구분하기로 해서입니다.
+- **꼬리말은 제목과 다른 `span`입니다.** Figma가 두 글자 사이를 공백이 아니라 간격 4로 띄웠습니다. 종전처럼 문자열로 이어 붙이면(`16일 · 휴일`) 간격이 글꼴 공백 폭에 달립니다.
+- **`hasTitle` · `hasDescription`은 값 유무로 파생합니다.** 계열의 「값 유무로 상태 파생」 기준(DOTOLI-231 `hasDelivery`)과 같습니다.
+- **제목 아래 -2는 설명이 있을 때만 겁니다.** CSS에서 마지막 자식의 음수 margin은 묶음 높이를 줄여, 제목만 있을 때 Figma(23)보다 2 작아집니다.
+- **`whitespace-nowrap`은 걸지 않았습니다.** Figma의 hug 표현이고, 담는 쪽이 좁으면 줄을 바꾸는 편이 넘치는 것보다 낫습니다(QuantityStepper 상품명과 같은 판단).
+- **기본 `size`는 Figma 기본값 `md`입니다.** 종전 날짜 행은 18(`lg`)이었으니, 소비 앱이 같은 크기를 유지하려면 `size="lg"`를 넘겨야 합니다.
 
 ### API
 
 | prop | 필수 | 기본값 | 비고 |
 | --- | --- | --- | --- |
-| `dateLabel` | ✅ | — | `12일(목)`. 소비 앱이 포맷 |
-| `isHoliday` | | `false` | 날짜를 `red-600`으로 그리고 「· 휴일」을 붙임 |
-| `deadlineLabel` | | — | `목 18시 마감` · `오늘 18시 마감`. 소비 앱이 조립 |
-| `action` | | — | `OrderDateInfoAction`(`{ label, onClick }`). `CtaButton` tonal · gray · sm |
-| `isDeadlinePassed` | | `false` | 「주문마감」 배지만 그림 |
+| `title` | | — | `16일` · `12일(목)`. 소비 앱이 포맷. 없으면 제목 줄을 그리지 않음 |
+| `description` | | — | 마감 시각 · 입력 상태 · 잠긴 이유 등. 소비 앱이 조립 |
+| `theme` | | `'default'` | `ORDER_DATE_INFO_THEMES` |
+| `size` | | `'md'` | `ORDER_DATE_INFO_SIZES` |
+| `dayType` | | `'weekday'` | `ORDER_DATE_INFO_DAY_TYPES` |
 | `className` | | — | |
 
-**DOTOLI-336은 파괴적 변경입니다.** 없어진 것은 `deliveryInfo` · `ORDER_DATE_INFO_NO_DELIVERY_LABEL` · `ORDER_DATE_INFO_STYLES`의 `DELIVERY` · `NO_DELIVERY` 키입니다. `ORDER_DATE_INFO_BASE_STYLE`과 `ORDER_DATE_INFO_STYLES`의 `DATE` · `HOLIDAY_DATE` 값이 바뀌었습니다. 새로 공개된 것은 `ORDER_DATE_INFO_DATE_STYLE` · `ORDER_DATE_INFO_TRAILING_STYLE`, `ORDER_DATE_INFO_STYLES`의 `DEADLINE` 키, `OrderDateInfoAction` 타입, `Order/shared`의 `ORDER_DEADLINE_PASSED_LABEL`입니다. 소비 앱에서 버전을 올리면 `OrderDayCard`(`deliveryInfo`)가 깨지고, 오른쪽에 직접 그리던 버튼 · 라벨을 `action` · `isDeadlinePassed`로 옮겨야 합니다(BP-132). 날짜 색을 빌려 쓰는 `FixedOrderDayItem` · `OrderDeliveryUsageDayItem`은 깨지지 않고 색만 바뀝니다.
+**DOTOLI-356은 파괴적 변경입니다.** 소비 앱에서 버전을 올리면 아래가 깨집니다.
 
-**DOTOLI-350은 API를 바꾸지 않는 시각 변경입니다.** 날짜가 연해지고(700 `gray-900` → 600 `gray-700`), 휴일은 `red-600`에 「· 휴일」이 붙습니다. 소비 앱이 `dateLabel`에 「휴일」을 직접 붙이고 있다면 두 번 나오므로 빼야 합니다. `ORDER_DATE_INFO_STYLES`의 `DATE` · `HOLIDAY_DATE` 값도 바뀌었습니다.
-
-### 디자인 확인 필요
-
-| 항목 | 내용 |
+| 소비 앱 위치 | 바꿀 것 |
 | --- | --- |
-| Figma 심볼 | 한 줄 심볼이 없음. 기존 세트 `203:872`는 두 줄(배송 정보) 모양 |
-| 날짜 글자 | 아티팩트(17 · 700 · `rgb(26,34,51)`, 휴일 `rgb(229,72,77)` · 꼬리말 없음)와 다름. DOTOLI-350에서 Figma 세 곳(DS · 기존 시안 · 신규 시안)을 따름 |
-| 배지 색 · 여백 | 같은 「주문마감」을 `OrderInputCard`는 red tonal, 여기는 gray tonal로 그림(정책 2-3은 문구 통일만 말함). 좌우 여백 아티팩트 9 → `Badge` 8 |
-| 버튼 모서리 | 아티팩트 8 → `CtaButton` `sm` 6 |
-| 글자 크기 | 마감 문구 13 → 14(토큰 없음) |
+| `OrderDayCard` | `dateLabel` → `title`, `isHoliday` → `theme="red"` + `dayType="weekend"`, `size="lg"`(종전 크기 유지) |
+| `OrderConfirmRow` | 위와 같음. 지금 `dateLabel`에 `ORDER_HOLIDAY_SUFFIX`를 직접 붙이고 있어 빼야 함(안 빼면 「· 휴일」이 두 번) |
+
+없어진 공개 이름은 `dateLabel` · `isHoliday` · `deadlineLabel` · `action` · `isDeadlinePassed`, `OrderDateInfoAction` · `OrderDateInfoStyles` · `ORDER_DATE_INFO_STYLES` · `ORDER_DATE_INFO_DATE_STYLE` · `ORDER_DATE_INFO_TRAILING_STYLE`, `GenerateOrderDateInfoDateLabelProps`입니다. `ORDER_DATE_INFO_BASE_STYLE`은 값이 바뀌었습니다. 새로 생긴 것은 `ORDER_DATE_INFO_THEMES` · `ORDER_DATE_INFO_SIZES` · `ORDER_DATE_INFO_DAY_TYPES`와 각 타입, `ORDER_DATE_INFO_TITLE_COLORS` · `ORDER_DATE_INFO_TITLE_VARIANTS` · `ORDER_DATE_INFO_DAY_TYPE_SUFFIXES` · `ORDER_DATE_INFO_DESCRIPTION_COLOR` · `ORDER_DATE_INFO_TITLE_STYLE` · `ORDER_DATE_INFO_TITLE_WITH_DESCRIPTION_STYLE`, `Order/shared`의 `ORDER_PUBLIC_HOLIDAY_LABEL` · `ORDER_PUBLIC_HOLIDAY_SUFFIX`입니다. 소비 앱이 상수 · 타입을 import하는 곳은 0건입니다(stage, 11/26).
 
 ### Storybook
 
-`apps/storybook/src/stories/biz-ui/OrderDateInfo.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderDateInfo`. 한 줄 스토리의 폭은 Q1 카드 안쪽과 같은 306px입니다. `InCard`의 카드는 테두리를 `inset-ring`으로 그려(CLAUDE.md 「스타일 규칙」) 테두리가 자리를 차지하지 않으므로 안쪽이 308px로, 아티팩트(CSS `border` 1px)보다 2px 넓습니다.
+`apps/storybook/src/stories/biz-ui/OrderDateInfo.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderDateInfo`.
 
 | 스토리 | 보는 것 |
 | --- | --- |
-| `Default` | 컨트롤 패널. 오늘 마감 + 버튼 |
-| `States` | 마감 전 · 오늘 마감 · 주문마감 · 휴일 · 날짜만 · 긴 날짜(줄바꿈) |
-| `InCard` | Q1처럼 흰 카드 안에 OrderDateInfo + [OrderBox](#orderbox)를 함께 놓은 조립. 카드는 스토리가 그리고, 소비 앱 `OrderDayCard`가 할 일을 미리 보여 줌 |
+| `Default` | 컨트롤 패널. 제목 + 설명 |
+| `Matrix` | `theme` × `size` × `dayType` 18조합. Figma 세트와 같은 배치 |
+| `WithDescription` | 제목 + 설명 · 휴일 + 설명 · 흐림 + 설명 · 설명만 |
+| `WithOrderBox` | 쓰는 쪽 조합 예. `lg` 제목 옆에 `CtaButton`, 아래 [OrderBox](#orderbox). 카드는 스토리가 그림 |
 
-### 이력 (두 줄 시절)
+### 이력
 
-DOTOLI-336 전의 두 줄 OrderDateInfo 결정입니다. 다른 문서가 인용하는 것만 남깁니다. 상세는 git 이력(이 파일의 DOTOLI-335 시점)에 있습니다.
+DOTOLI-356 전의 결정입니다. 다른 문서가 인용하는 것만 남깁니다. 상세는 git 이력(이 파일의 DOTOLI-335 시점)에 있습니다.
 
 - **DOTOLI-231 (Figma 실측, `203:872`).** 1행 날짜(`body-lg-semibold` `gray-700`, 휴일 `red-600` + 「· 휴일」), 2행 배송 정보(`body` `blue-400`, 없으면 「배송없음」 `gray-400`), 행 간격 `-mb-0.5`였습니다. **`hasDelivery`를 prop으로 열지 않고 `deliveryInfo` 유무로 파생**시킨 것이 계열의 「값 유무로 상태 파생」 선례로 여러 문서에 인용됩니다. 「· 휴일」 접미어를 DS가 붙인 것이 `Order/shared`를 연 근거 중 하나였습니다.
+- **DOTOLI-336 · 350 (아티팩트 Q1, 한 줄 날짜 행).** 배송 정보 2행을 날짜 + 오른쪽(마감 문구 · `action` 버튼 · 마감 뒤 「주문마감」 배지) 한 줄로 바꿨고, 350에서 날짜 글자만 Figma(18 · 600 `gray-700`, 휴일 `red-600` + 「· 휴일」)로 되돌렸습니다. 휴일 빨강을 `red-600`으로 고른 근거(18px 600은 큰 글씨 기준에 들지 않아 4.5:1 필요, `red-600` 6.15:1)는 지금도 그대로입니다.
 
 ---
 

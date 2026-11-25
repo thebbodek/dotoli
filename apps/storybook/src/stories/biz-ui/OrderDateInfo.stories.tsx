@@ -1,27 +1,39 @@
 import {
+  CTA_BUTTON_SIZES,
+  CTA_BUTTON_THEMES,
+  CTA_BUTTON_VARIANTS,
+  CtaButton,
   Flex,
+  ORDER_DATE_INFO_DAY_TYPES,
+  ORDER_DATE_INFO_SIZES,
+  ORDER_DATE_INFO_THEMES,
   OrderBox,
   OrderBoxItem,
   OrderDateInfo,
-  OrderDateInfoAction,
   OrderDateInfoProps,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
-const ROW_WIDTH_STYLE = 'w-[306px]';
+const THEME_OPTIONS = Object.values(ORDER_DATE_INFO_THEMES);
+
+const SIZE_OPTIONS = Object.values(ORDER_DATE_INFO_SIZES);
+
+const DAY_TYPE_OPTIONS = Object.values(ORDER_DATE_INFO_DAY_TYPES);
+
+const MATRIX_CELL_STYLE = 'w-[120px]';
 
 const PAGE_STYLE = 'flex-v-stack w-[380px] gap-[8px] bg-gray-50 p-[20px]';
 
-const CARD_STYLE =
-  'flex-v-stack w-full gap-[6px] rounded-16 bg-white px-[16px] py-[12px] inset-ring inset-ring-gray-200';
+const CARD_STYLE = 'flex-v-stack w-full gap-[10px]';
 
-const EDIT_ACTION: OrderDateInfoAction = {
-  label: '주문 수정',
-  onClick: () => {},
-};
+const CARD_HEADING_STYLE = 'flex-h-stack w-full items-center justify-between';
 
-interface OrderDateInfoCase {
+const EDIT_LABEL = '주문 수정';
+
+const DESCRIPTION = '오늘 18시 마감 · 입력 필요';
+
+interface DescriptionCase {
   caseLabel: string;
   props: OrderDateInfoProps;
 }
@@ -31,81 +43,46 @@ interface OrderDayCase {
   items: OrderBoxItem[];
 }
 
-const CASES: OrderDateInfoCase[] = [
+const DESCRIPTION_CASES: DescriptionCase[] = [
   {
-    caseLabel: '마감 전',
+    caseLabel: '제목 + 설명',
+    props: { title: '16일', description: DESCRIPTION },
+  },
+  {
+    caseLabel: '휴일 + 설명',
     props: {
-      dateLabel: '13일(금)',
-      deadlineLabel: '수 18시 마감',
-      action: EDIT_ACTION,
+      title: '16일',
+      description: DESCRIPTION,
+      dayType: ORDER_DATE_INFO_DAY_TYPES.WEEKEND,
     },
   },
   {
-    caseLabel: '오늘 마감',
+    caseLabel: '흐림 + 설명',
     props: {
-      dateLabel: '12일(목)',
-      deadlineLabel: '오늘 18시 마감',
-      action: EDIT_ACTION,
+      title: '16일',
+      description: '주문이 마감된 날이에요',
+      theme: ORDER_DATE_INFO_THEMES.MUTED,
     },
   },
   {
-    caseLabel: '주문마감',
-    props: { dateLabel: '10일(화)', isDeadlinePassed: true },
-  },
-  {
-    caseLabel: '휴일',
-    props: {
-      dateLabel: '14일(토)',
-      isHoliday: true,
-      deadlineLabel: '목 18시 마감',
-      action: EDIT_ACTION,
-    },
-  },
-  {
-    caseLabel: '날짜만',
-    props: { dateLabel: '15일(일)', isHoliday: true },
-  },
-  {
-    caseLabel: '긴 날짜',
-    props: {
-      dateLabel: '2026년 11월 12일(목) 사용분',
-      deadlineLabel: '오늘 18시 마감',
-      action: EDIT_ACTION,
-    },
+    caseLabel: '설명만',
+    props: { description: DESCRIPTION },
   },
 ];
 
 const ORDER_DAYS: OrderDayCase[] = [
   {
-    props: { dateLabel: '10일(화)', isDeadlinePassed: true },
-    items: [{ packageName: '식판', boxCount: 5, unitCount: 125 }],
-  },
-  {
-    props: {
-      dateLabel: '12일(목)',
-      deadlineLabel: '오늘 18시 마감',
-      action: EDIT_ACTION,
-    },
-    items: [{ packageName: '식판', boxCount: 5, unitCount: 125 }],
-  },
-  {
-    props: {
-      dateLabel: '13일(금)',
-      deadlineLabel: '수 18시 마감',
-      action: EDIT_ACTION,
-    },
+    props: { title: '12일(목)' },
     items: [
-      { packageName: '식판', boxCount: 4, unitCount: 100 },
+      { packageName: '4찬 식판', boxCount: 4, unitCount: 80 },
       { packageName: '국그릇', boxCount: 0, unitCount: 0 },
-      { packageName: '수저', boxCount: 1, unitCount: 50 },
     ],
   },
   {
     props: {
-      dateLabel: '14일(토)',
-      isHoliday: true,
-      deadlineLabel: '목 18시 마감',
-      action: EDIT_ACTION,
+      title: '14일(토)',
+      theme: ORDER_DATE_INFO_THEMES.RED,
+      dayType: ORDER_DATE_INFO_DAY_TYPES.WEEKEND,
     },
     items: [],
   },
@@ -115,37 +92,28 @@ const meta = {
   title: 'core/biz-ui/Order/OrderDateInfo',
   component: OrderDateInfo,
   argTypes: {
-    dateLabel: {
-      control: 'text',
-      type: { name: 'string', required: true },
+    title: { control: 'text' },
+    description: { control: 'text' },
+    theme: {
+      control: 'inline-radio',
+      options: THEME_OPTIONS,
+      table: { defaultValue: { summary: ORDER_DATE_INFO_THEMES.DEFAULT } },
     },
-    isHoliday: {
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+    size: {
+      control: 'inline-radio',
+      options: SIZE_OPTIONS,
+      table: { defaultValue: { summary: ORDER_DATE_INFO_SIZES.MD } },
     },
-    deadlineLabel: {
-      control: 'text',
-      table: { type: { summary: 'string' } },
-    },
-    action: {
-      control: 'object',
-      table: { type: { summary: 'OrderDateInfoAction' } },
-    },
-    isDeadlinePassed: {
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
+    dayType: {
+      control: 'inline-radio',
+      options: DAY_TYPE_OPTIONS,
+      table: { defaultValue: { summary: ORDER_DATE_INFO_DAY_TYPES.WEEKDAY } },
     },
   },
   args: {
-    dateLabel: '12일(목)',
-    deadlineLabel: '오늘 18시 마감',
-    action: EDIT_ACTION,
+    title: '16일',
+    description: DESCRIPTION,
   },
-  render: (args) => (
-    <Flex className={ROW_WIDTH_STYLE}>
-      <OrderDateInfo {...args} />
-    </Flex>
-  ),
 } satisfies Meta<typeof OrderDateInfo>;
 
 export default meta;
@@ -154,31 +122,68 @@ type Story = StoryObj<typeof OrderDateInfo>;
 
 export const Default: Story = {};
 
-export const States: Story = {
+export const Matrix: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: () => (
     <Flex direction='column' gap='16'>
-      {CASES.map(({ caseLabel, props }) => (
+      {THEME_OPTIONS.map((theme) =>
+        SIZE_OPTIONS.map((size) => (
+          <Flex align={{ items: 'center' }} gap='16' key={`${theme}-${size}`}>
+            <Typography
+              className={MATRIX_CELL_STYLE}
+              color='gray-500'
+              variant='label-bold'
+            >
+              {`${theme} · ${size}`}
+            </Typography>
+            {DAY_TYPE_OPTIONS.map((dayType) => (
+              <OrderDateInfo
+                className={MATRIX_CELL_STYLE}
+                dayType={dayType}
+                key={dayType}
+                size={size}
+                theme={theme}
+                title='16일'
+              />
+            ))}
+          </Flex>
+        )),
+      )}
+    </Flex>
+  ),
+};
+
+export const WithDescription: Story = {
+  parameters: { controls: { disable: true }, layout: 'padded' },
+  render: () => (
+    <Flex direction='column' gap='16'>
+      {DESCRIPTION_CASES.map(({ caseLabel, props }) => (
         <Flex direction='column' gap='8' key={caseLabel}>
           <Typography color='gray-500' variant='label-bold'>
             {caseLabel}
           </Typography>
-          <Flex className={ROW_WIDTH_STYLE}>
-            <OrderDateInfo {...props} />
-          </Flex>
+          <OrderDateInfo {...props} />
         </Flex>
       ))}
     </Flex>
   ),
 };
 
-export const InCard: Story = {
+export const WithOrderBox: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <ul className={PAGE_STYLE}>
       {ORDER_DAYS.map(({ props, items }) => (
-        <li className={CARD_STYLE} key={props.dateLabel}>
-          <OrderDateInfo {...props} />
+        <li className={CARD_STYLE} key={props.title}>
+          <div className={CARD_HEADING_STYLE}>
+            <OrderDateInfo {...props} size={ORDER_DATE_INFO_SIZES.LG} />
+            <CtaButton
+              label={EDIT_LABEL}
+              size={CTA_BUTTON_SIZES.SM}
+              theme={CTA_BUTTON_THEMES.PRIMARY}
+              variant={CTA_BUTTON_VARIANTS.TONAL}
+            />
+          </div>
           <OrderBox items={items} />
         </li>
       ))}
