@@ -10,13 +10,18 @@ permissions:
   pages: write
   id-token: write
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
+jobs:
+  # 업로드와 배포를 한 job에서 이어 붙이면 deploy-pages가 업로드 직후 아티팩트 목록을 조회해
+  # 아직 반영되지 않은 목록(0개)을 받고 실패한다(11/24 · 11/25). job을 나눠 그 사이 시간을 둔다.
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
@@ -29,10 +34,24 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Build and publish Storybook to GitHub Pages
-        uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
+      - name: Install dependencies
+        run: pnpm storybook:install
+
+      - name: Build Storybook
+        run: pnpm build && pnpm sb build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          install_command: pnpm storybook:install
-          build_command: pnpm build && pnpm sb build
           path: apps/storybook/storybook-static
-          checkout: true
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
