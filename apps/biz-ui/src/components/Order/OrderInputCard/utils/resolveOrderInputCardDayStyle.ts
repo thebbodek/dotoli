@@ -1,18 +1,19 @@
+import { ORDER_DATE_INFO_DAY_TYPES } from '@/components/Order/OrderDateInfo/constants';
 import {
+  ORDER_INPUT_CARD_APPEARANCES,
   ORDER_INPUT_CARD_HOLIDAY_DAY_STYLE,
-  ORDER_INPUT_CARD_ORDER_STATUSES,
   ORDER_INPUT_CARD_STYLES,
 } from '@/components/Order/OrderInputCard/constants';
 import { ResolveOrderInputCardDayStyleProps } from '@/components/Order/OrderInputCard/types';
 
 export const resolveOrderInputCardDayStyle = ({
-  orderStatus,
-  isHoliday,
+  appearance,
+  dayType,
 }: ResolveOrderInputCardDayStyleProps) => {
-  const isInputRequired =
-    orderStatus === ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED;
+  const isMuted = appearance === ORDER_INPUT_CARD_APPEARANCES.MUTED;
+  const isHoliday = !!dayType && dayType !== ORDER_DATE_INFO_DAY_TYPES.WEEKDAY;
 
-  if (isHoliday && isInputRequired) return ORDER_INPUT_CARD_HOLIDAY_DAY_STYLE;
+  if (isHoliday && !isMuted) return ORDER_INPUT_CARD_HOLIDAY_DAY_STYLE;
 
-  return ORDER_INPUT_CARD_STYLES[orderStatus].DAY;
+  return ORDER_INPUT_CARD_STYLES[appearance].DAY;
 };

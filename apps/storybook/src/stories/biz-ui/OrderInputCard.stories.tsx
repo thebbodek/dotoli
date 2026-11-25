@@ -1,10 +1,11 @@
 import {
   Flex,
-  ORDER_INPUT_CARD_ACTION_LABELS,
-  ORDER_INPUT_CARD_BADGE_THEMES,
+  ORDER_DATE_INFO_DAY_TYPES,
   ORDER_INPUT_CARD_ORDER_STATUSES,
   OrderBoxItem,
+  OrderDateInfoDayType,
   OrderInputCard,
+  OrderInputCardOrderStatus,
   OrderInputCardProps,
   Typography,
 } from '@bbodek/biz-ui';
@@ -20,41 +21,39 @@ const CARD_WIDTH_STYLE = 'w-[340px]';
 
 const ORDER_STATUSES = Object.values(ORDER_INPUT_CARD_ORDER_STATUSES);
 
-const BADGE_THEME_OPTIONS = Object.values(ORDER_INPUT_CARD_BADGE_THEMES);
+const DAY_TYPE_OPTIONS = Object.values(ORDER_DATE_INFO_DAY_TYPES);
 
-const CLOSED_CARDS: Pick<
+const DAY_TYPE_LABELS: Record<OrderDateInfoDayType, string> = {
+  [ORDER_DATE_INFO_DAY_TYPES.WEEKDAY]: '평일',
+  [ORDER_DATE_INFO_DAY_TYPES.WEEKEND]: '휴일',
+  [ORDER_DATE_INFO_DAY_TYPES.PUBLIC_HOLIDAY]: '공휴일',
+};
+
+const LOCKED_DESCRIPTION = '주문이 마감된 날이에요';
+
+const DESCRIPTIONS: Partial<Record<OrderInputCardOrderStatus, string>> = {
+  [ORDER_INPUT_CARD_ORDER_STATUSES.UNSET]: '오늘 18시 마감 · 입력 필요',
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ZERO]: '주문 없음',
+};
+
+const DAY_LABELS: Record<OrderInputCardOrderStatus, string> = {
+  [ORDER_INPUT_CARD_ORDER_STATUSES.UNSET]: '수',
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ZERO]: '토',
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED]: '월',
+};
+
+const LOCKED_CARDS: Pick<
   OrderInputCardProps,
-  | 'dayLabel'
-  | 'dateLabel'
-  | 'isHoliday'
-  | 'statusLabel'
-  | 'badgeLabel'
-  | 'badgeTheme'
+  'dayLabel' | 'dateLabel' | 'dayType' | 'description'
 >[] = [
-  {
-    dayLabel: '월',
-    dateLabel: '9일',
-    statusLabel: '주문이 마감된 날이에요',
-  },
-  {
-    dayLabel: '수',
-    dateLabel: '18일',
-    badgeLabel: '주문중지',
-    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
-  },
+  { dayLabel: '수', dateLabel: '18일', description: '주문중지' },
   {
     dayLabel: '토',
     dateLabel: '21일',
-    isHoliday: true,
-    badgeLabel: '이용 전',
-    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
+    description: '이용 전',
+    dayType: ORDER_DATE_INFO_DAY_TYPES.WEEKEND,
   },
-  {
-    dayLabel: '금',
-    dateLabel: '20일',
-    badgeLabel: '서비스 해지',
-    badgeTheme: ORDER_INPUT_CARD_BADGE_THEMES.GRAY,
-  },
+  { dayLabel: '금', dateLabel: '20일', description: '서비스 해지' },
 ];
 
 const meta = {
@@ -68,37 +67,26 @@ const meta = {
     },
     dayLabel: { control: 'text', type: { name: 'string', required: true } },
     dateLabel: { control: 'text', table: { type: { summary: 'string' } } },
-    isHoliday: {
+    description: { control: 'text', table: { type: { summary: 'string' } } },
+    isLocked: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
     },
-    statusLabel: { control: 'text', table: { type: { summary: 'string' } } },
-    badgeLabel: {
-      control: 'text',
-      table: {
-        defaultValue: {
-          summary:
-            ORDER_INPUT_CARD_ACTION_LABELS[
-              ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED
-            ],
-        },
-      },
-    },
-    badgeTheme: {
+    dayType: {
       control: 'inline-radio',
-      options: BADGE_THEME_OPTIONS,
-      table: { defaultValue: { summary: ORDER_INPUT_CARD_BADGE_THEMES.RED } },
+      options: DAY_TYPE_OPTIONS,
+      table: { defaultValue: { summary: ORDER_DATE_INFO_DAY_TYPES.WEEKDAY } },
     },
     items: {
       control: 'object',
-      table: { type: { summary: 'OrderInputCardItem[]' } },
+      table: { type: { summary: 'OrderBoxItem[]' } },
     },
     onAction: { action: 'action' },
   },
   args: {
-    orderStatus: ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED,
+    orderStatus: ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED,
     dayLabel: '월',
-    dateLabel: '29일',
+    dateLabel: '16일',
     items: ITEMS,
   },
 } satisfies Meta<typeof OrderInputCard>;
@@ -115,12 +103,12 @@ export const Matrix: Story = {
   parameters: { controls: { disable: true }, layout: 'padded' },
   render: ({ items, onAction }) => (
     <Flex direction='column' gap='24'>
-      {[false, true].map((isHoliday) =>
-        [true, false].map((hasDate) => (
+      {[false, true].map((isLocked) =>
+        DAY_TYPE_OPTIONS.map((dayType) => (
           <Flex
             align={{ items: 'start' }}
             gap='16'
-            key={`${isHoliday}-${hasDate}`}
+            key={`${isLocked}-${dayType}`}
           >
             {ORDER_STATUSES.map((orderStatus) => (
               <Flex
@@ -130,14 +118,22 @@ export const Matrix: Story = {
                 key={orderStatus}
               >
                 <Typography color='gray-500' variant='label-bold'>
-                  {orderStatus} · {isHoliday ? '휴일' : '평일'} ·{' '}
-                  {hasDate ? '날짜' : '날짜없음'}
+                  {orderStatus} · {DAY_TYPE_LABELS[dayType]} ·{' '}
+                  {isLocked ? '잠김' : '열림'}
                 </Typography>
                 <OrderInputCard
+                  dayLabel={
+                    dayType === ORDER_DATE_INFO_DAY_TYPES.WEEKDAY
+                      ? DAY_LABELS[orderStatus]
+                      : '일'
+                  }
+                  description={
+                    isLocked ? LOCKED_DESCRIPTION : DESCRIPTIONS[orderStatus]
+                  }
                   className={CARD_WIDTH_STYLE}
-                  dateLabel={hasDate ? '29일' : undefined}
-                  dayLabel={isHoliday ? '일' : '수'}
-                  isHoliday={isHoliday}
+                  dateLabel='16일'
+                  dayType={dayType}
+                  isLocked={isLocked}
                   items={items}
                   orderStatus={orderStatus}
                   onAction={onAction}
@@ -151,39 +147,17 @@ export const Matrix: Story = {
   ),
 };
 
-export const StatusLabel: Story = {
+export const LockedReasons: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <Flex direction='column' gap='12'>
-      <OrderInputCard
-        className={CARD_WIDTH_STYLE}
-        dateLabel='12일'
-        dayLabel='목'
-        orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED}
-        statusLabel='오늘 18시 마감 · 입력 필요'
-      />
-      <OrderInputCard
-        className={CARD_WIDTH_STYLE}
-        dateLabel='21일'
-        dayLabel='토'
-        orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED}
-        statusLabel='목 18시 마감 · 입력 필요'
-        isHoliday
-      />
-    </Flex>
-  ),
-};
-
-export const ClosedBadge: Story = {
-  parameters: { controls: { disable: true } },
-  render: () => (
-    <Flex direction='column' gap='12'>
-      {CLOSED_CARDS.map((card) => (
+      {LOCKED_CARDS.map((card) => (
         <OrderInputCard
           {...card}
           className={CARD_WIDTH_STYLE}
           key={card.dateLabel}
-          orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED}
+          orderStatus={ORDER_INPUT_CARD_ORDER_STATUSES.UNSET}
+          isLocked
         />
       ))}
     </Flex>

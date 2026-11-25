@@ -1,27 +1,27 @@
-import { BADGE_THEMES } from '@/components/Badge';
 import {
   CTA_BUTTON_THEMES,
   CTA_BUTTON_VARIANTS,
 } from '@/components/Button/CtaButton';
+import { ORDER_DATE_INFO_THEMES } from '@/components/Order/OrderDateInfo/constants';
 import {
+  OrderInputCardAppearance,
+  OrderInputCardAppearanceStyles,
   OrderInputCardButtonStyles,
   OrderInputCardDayStyles,
   OrderInputCardOrderStatus,
-  OrderInputCardStatusStyles,
 } from '@/components/Order/OrderInputCard/types';
-import { ORDER_DEADLINE_PASSED_LABEL } from '@/components/Order/shared/constants';
 import { COLOR_VARIANTS } from '@/variants';
 
 export const ORDER_INPUT_CARD_ORDER_STATUSES = {
-  INPUT_REQUIRED: 'inputRequired',
-  COMPLETED: 'completed',
-  NO_ORDER: 'noOrder',
-  INPUT_CLOSED: 'inputClosed',
+  UNSET: 'unset',
+  ZERO: 'zero',
+  ORDERED: 'ordered',
 } as const;
 
-export const ORDER_INPUT_CARD_BADGE_THEMES = {
-  RED: BADGE_THEMES.RED,
-  GRAY: BADGE_THEMES.GRAY,
+export const ORDER_INPUT_CARD_APPEARANCES = {
+  UNSET: ORDER_INPUT_CARD_ORDER_STATUSES.UNSET,
+  ORDERED: ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED,
+  MUTED: 'muted',
 } as const;
 
 export const ORDER_INPUT_CARD_BASE_STYLE =
@@ -36,76 +36,64 @@ export const ORDER_INPUT_CARD_SUMMARY_STYLE =
 export const ORDER_INPUT_CARD_DAY_STYLE =
   'flex-v-stack-center size-[40px] shrink-0 rounded-full';
 
-export const ORDER_INPUT_CARD_TEXT_STYLE = 'flex-v-stack justify-center';
+export const ORDER_INPUT_CARD_DATE_INFO_STYLE = 'min-w-0';
 
-export const ORDER_INPUT_CARD_ITEMS_STYLE =
-  'rounded-10 bg-blue-50 px-[16px] py-[14px]';
+export const ORDER_INPUT_CARD_ITEMS_STYLE = 'rounded-10 px-[16px] py-[14px]';
 
-export const ORDER_INPUT_CARD_EMPTY_ITEM_LABEL = '주문 없음';
-
-export const ORDER_INPUT_CARD_STATUS_LABEL_COLOR = COLOR_VARIANTS.GRAY_400;
+export const ORDER_INPUT_CARD_ITEMS_BACKGROUNDS = {
+  DEFAULT: 'bg-blue-50',
+  LOCKED: 'bg-gray-100',
+} as const;
 
 export const ORDER_INPUT_CARD_HOLIDAY_DAY_STYLE: OrderInputCardDayStyles = {
   CONTAINER: 'bg-red-50',
   LABEL: COLOR_VARIANTS.RED_400,
 };
 
-export const ORDER_INPUT_CARD_STATUS_LABELS: Partial<
-  Record<OrderInputCardOrderStatus, string>
-> = {
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED]: '입력 필요',
-  [ORDER_INPUT_CARD_ORDER_STATUSES.NO_ORDER]: ORDER_INPUT_CARD_EMPTY_ITEM_LABEL,
-};
-
 export const ORDER_INPUT_CARD_ACTION_LABELS: Record<
   OrderInputCardOrderStatus,
   string
 > = {
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED]: '주문 입력',
-  [ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED]: '주문 수정',
-  [ORDER_INPUT_CARD_ORDER_STATUSES.NO_ORDER]: '주문 수정',
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED]: ORDER_DEADLINE_PASSED_LABEL,
+  [ORDER_INPUT_CARD_ORDER_STATUSES.UNSET]: '주문 입력',
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ZERO]: '주문 수정',
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED]: '주문 수정',
 };
 
-export const ORDER_INPUT_CARD_BUTTON_STYLES: Partial<
-  Record<OrderInputCardOrderStatus, OrderInputCardButtonStyles>
+export const ORDER_INPUT_CARD_BUTTON_STYLES: Record<
+  OrderInputCardOrderStatus,
+  OrderInputCardButtonStyles
 > = {
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED]: {
+  [ORDER_INPUT_CARD_ORDER_STATUSES.UNSET]: {
     theme: CTA_BUTTON_THEMES.PRIMARY,
     variant: CTA_BUTTON_VARIANTS.FILLED,
   },
-  [ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED]: {
-    theme: CTA_BUTTON_THEMES.PRIMARY,
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ZERO]: {
+    theme: CTA_BUTTON_THEMES.GRAY,
     variant: CTA_BUTTON_VARIANTS.OUTLINED,
   },
-  [ORDER_INPUT_CARD_ORDER_STATUSES.NO_ORDER]: {
-    theme: CTA_BUTTON_THEMES.GRAY,
+  [ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED]: {
+    theme: CTA_BUTTON_THEMES.PRIMARY,
     variant: CTA_BUTTON_VARIANTS.OUTLINED,
   },
 };
 
 export const ORDER_INPUT_CARD_STYLES: Record<
-  OrderInputCardOrderStatus,
-  OrderInputCardStatusStyles
+  OrderInputCardAppearance,
+  OrderInputCardAppearanceStyles
 > = {
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_REQUIRED]: {
+  [ORDER_INPUT_CARD_APPEARANCES.UNSET]: {
     CARD: 'bg-white inset-ring-gray-100',
     DAY: { CONTAINER: 'bg-gray-50', LABEL: COLOR_VARIANTS.GRAY_700 },
-    DATE: COLOR_VARIANTS.GRAY_800,
+    DATE_INFO_THEME: ORDER_DATE_INFO_THEMES.DEFAULT,
   },
-  [ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED]: {
+  [ORDER_INPUT_CARD_APPEARANCES.ORDERED]: {
     CARD: 'bg-white inset-ring-blue-300',
     DAY: { CONTAINER: 'bg-blue-50', LABEL: COLOR_VARIANTS.BLUE_500 },
-    DATE: COLOR_VARIANTS.GRAY_800,
+    DATE_INFO_THEME: ORDER_DATE_INFO_THEMES.DEFAULT,
   },
-  [ORDER_INPUT_CARD_ORDER_STATUSES.NO_ORDER]: {
+  [ORDER_INPUT_CARD_APPEARANCES.MUTED]: {
     CARD: 'bg-gray-50 inset-ring-gray-100',
     DAY: { CONTAINER: 'bg-gray-300', LABEL: COLOR_VARIANTS.GRAY_50 },
-    DATE: COLOR_VARIANTS.GRAY_400,
-  },
-  [ORDER_INPUT_CARD_ORDER_STATUSES.INPUT_CLOSED]: {
-    CARD: 'bg-gray-50 inset-ring-gray-100',
-    DAY: { CONTAINER: 'bg-gray-300', LABEL: COLOR_VARIANTS.GRAY_50 },
-    DATE: COLOR_VARIANTS.GRAY_400,
+    DATE_INFO_THEME: ORDER_DATE_INFO_THEMES.MUTED,
   },
 };

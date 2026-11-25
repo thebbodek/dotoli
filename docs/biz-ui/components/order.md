@@ -13,16 +13,18 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 | `OrderBox`        | DOTOLI-230 · 335 · 354 · 351 · 355 | 패키지별 수량 상자. 355에서 DS Figma 상자형만 남기고, 한 줄을 비공개 `OrderBoxCell`로 되돌리고, 수량을 숫자로 받아 DS가 조립 |
 | `OrderDateInfo`   | DOTOLI-231 · 336 · 350 · 356 | 날짜 제목 + 설명 글자 묶음. `theme` × `size` × `dayType`. 356에서 한 줄 날짜 행(버튼 · 배지 포함)을 교체 |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
-| `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
+| `OrderInputCard`  | DOTOLI-233 · 346 · 357 | `orderStatus` 3종(`unset` · `zero` · `ordered`) × `isLocked` × `dayType`. 357에서 상태 이름을 바꾸고 마감을 `isLocked`로 분리 |
 | `OrderNotiCollapse` | DOTOLI-264 | `type` 4종 × `isOpen`. **헤더만** 그리고 접히는 내용은 소비 앱이 형제로 둠 |
 
 `OrderNotiCollapse`만 Order 섹션 밖([`205:4063`](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=205-4063&m=dev))에 있습니다.
 
 ## 계열 공통 결정
 
-- **`shared/`에는 계열이 함께 쓰는 문구만 있습니다.** 착수 시점에는 열지 않았습니다 — 당시 OrderBox가 `OrderBoxCell`(DOTOLI-335에서 지웠다가 355에서 비공개로 되돌림)을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 같이 움직여야 하는 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
+- **`shared/`를 DOTOLI-357에서 닫았습니다.** 함께 쓰는 곳이 하나만 남아서입니다. 열고 닫은 경위는 이렇습니다. 착수 시점에는 열지 않았습니다 — 당시 OrderBox가 `OrderBoxCell`(DOTOLI-335에서 지웠다가 355에서 비공개로 되돌림)을 **인스턴스로** 쓰는 관계라 공통 조각이 아니라 조합이었고, 나머지도 겹치는 것이 없었습니다. DOTOLI-233에서 `OrderDateInfo`와 `OrderInputCard`가 **둘 다 `· 휴일`을 붙이는 것**이 확인돼 그때 열었습니다(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX`). 디자이너가 이 표기를 바꾸면 같이 움직여야 하는 실제 결합입니다 (CLAUDE.md [코드 규칙] 1).
 
-  DOTOLI-336에서 OrderDateInfo가 접미어를 뺐다가 DOTOLI-350에서 다시 붙여, 지금은 두 컴포넌트가 `ORDER_HOLIDAY_SUFFIX`를 함께 씁니다. DOTOLI-356에서 「· 공휴일」(`ORDER_PUBLIC_HOLIDAY_SUFFIX`)이 더해졌습니다. 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)은 `OrderDateInfo` · `OrderInputCard`가 함께 쓰다가(`OrderWeekStatus`도 썼지만 DOTOLI-348에서 지움) 356에서 `OrderDateInfo`가 배지를 빼면서 `OrderInputCard`만 씁니다. 정책 2-3이 이 라벨을 「3-2 입력 불가 라벨과 통일」로 묶어 둔 결합입니다.
+  DOTOLI-336에서 OrderDateInfo가 접미어를 뺐다가 DOTOLI-350에서 다시 붙여 두 컴포넌트가 `ORDER_HOLIDAY_SUFFIX`를 함께 썼고, DOTOLI-356에서 「· 공휴일」(`ORDER_PUBLIC_HOLIDAY_SUFFIX`)이 더해졌습니다. 「주문마감」(`ORDER_DEADLINE_PASSED_LABEL`)도 `OrderDateInfo` · `OrderInputCard`가 함께 쓰다가(`OrderWeekStatus`도 썼지만 DOTOLI-348에서 지움) 356 · 357에서 두 컴포넌트가 마감 배지를 빼면서 지웠습니다.
+
+  **357에서 `OrderInputCard`가 꼬리말을 직접 붙이지 않고 OrderDateInfo에 `dayType`만 넘기게 되면서, 휴일 문구를 쓰는 곳이 OrderDateInfo 하나만 남았습니다.** 「진짜 공통인 것만 둔다」는 기준(CLAUDE.md [코드 규칙] 1)에 맞지 않아 네 상수(`ORDER_HOLIDAY_LABEL` · `ORDER_HOLIDAY_SUFFIX` · `ORDER_PUBLIC_HOLIDAY_LABEL` · `ORDER_PUBLIC_HOLIDAY_SUFFIX`)를 `OrderDateInfo/constants`로 옮기고 `Order/shared`를 지웠습니다. 이름은 그대로라 `@bbodek/biz-ui`에서 import하던 코드(소비 앱 `OrderConfirmRow`의 `ORDER_HOLIDAY_SUFFIX`)는 깨지지 않습니다. 다시 둘 이상이 함께 쓰게 되면 그때 엽니다.
 
 ---
 
@@ -132,7 +134,7 @@ Figma 18개 심볼(3 × 2 × 3)이 전부 있습니다.
 
 - **버튼 · 배지 · 마감 문구를 뺐습니다.** DS 개편(11/25~26)에서 「오른쪽에 있으면 버튼」이라는 규칙을 세우면서, 날짜 행 오른쪽을 비우고 버튼은 쓰는 쪽(`OrderInputCard` · 소비 앱 카드)이 두기로 했습니다. 마감 배지 자리는 비우고, 마감 같은 이유는 `description`으로 씁니다.
 - **`theme`과 `dayType`을 묶지 않았습니다.** Figma에 평일 + red, 휴일 + default 조합이 전부 심볼로 있습니다. 휴일을 빨갛게 그릴지는 화면마다 다르고(`OrderInputCard`는 휴일이어도 날짜는 `gray-700`이고 요일 원만 빨갛다) DS가 정할 수 없어서입니다.
-- **휴일 꼬리말은 두 가지입니다.** 「· 휴일」(`weekend`)과 「· 공휴일」(`publicHoliday`)이고, 문구는 `Order/shared`의 `ORDER_HOLIDAY_SUFFIX` · `ORDER_PUBLIC_HOLIDAY_SUFFIX`입니다. DOTOLI-350에서 「· 공휴일」을 옛 표기로 보고 따르지 않았던 것을 뒤집었습니다. DS 개편에서 둘을 구분하기로 해서입니다.
+- **휴일 꼬리말은 두 가지입니다.** 「· 휴일」(`weekend`)과 「· 공휴일」(`publicHoliday`)이고, 문구는 `ORDER_HOLIDAY_SUFFIX` · `ORDER_PUBLIC_HOLIDAY_SUFFIX`입니다(356에서는 `Order/shared`, 357부터 이 컴포넌트의 `constants`). DOTOLI-350에서 「· 공휴일」을 옛 표기로 보고 따르지 않았던 것을 뒤집었습니다. DS 개편에서 둘을 구분하기로 해서입니다.
 - **꼬리말은 제목과 다른 `span`입니다.** Figma가 두 글자 사이를 공백이 아니라 간격 4로 띄웠습니다. 종전처럼 문자열로 이어 붙이면(`16일 · 휴일`) 간격이 글꼴 공백 폭에 달립니다.
 - **`hasTitle` · `hasDescription`은 값 유무로 파생합니다.** 계열의 「값 유무로 상태 파생」 기준(DOTOLI-231 `hasDelivery`)과 같습니다.
 - **제목 아래 -2는 설명이 있을 때만 겁니다.** CSS에서 마지막 자식의 음수 margin은 묶음 높이를 줄여, 제목만 있을 때 Figma(23)보다 2 작아집니다.
@@ -280,100 +282,95 @@ DOTOLI-347 기준(세트 `199:823` 재실측).
 
 ## OrderInputCard
 
-Figma: 컴포넌트 세트 `309:1965`. 심볼 10개가 있고 이름은 `orderStatus, isHoliday, date` 조합입니다.
+Figma: 컴포넌트 세트 `309:1965`(문서 `302:1204`). 심볼 12개이고 이름은 `orderStatus, isLocked, isHoliday` 조합입니다(3 × 2 × 2 전부 있음). 구현은 `isHoliday` 대신 `dayType`을 받습니다(아래 「결정」).
 
-날짜 · 상태를 왼쪽에, 액션을 오른쪽에 두는 카드입니다. `completed`만 아래에 주문내역 패널이 붙습니다. **Order 계열에서 가장 크고, `Badge`(DOTOLI-228) · `CtaButton`(DOTOLI-219)을 물어 씁니다.**
+요일 원 · 날짜를 왼쪽에, 버튼을 오른쪽에 두는 주문 입력 카드입니다. `ordered`만 아래에 수량 패널이 붙습니다. DOTOLI-357에서 DS 개편(11/25~26)을 반영해 상태 이름과 구조를 바꿨습니다. 왼쪽 글자는 [OrderDateInfo](#orderdateinfo) `md`, 수량 패널은 [OrderBox](#orderbox)의 비공개 `OrderBoxList`, 버튼은 `CtaButton`입니다.
 
 ### Variant 축
 
-| 축            | 값                                                        |
-| ------------- | ---------------------------------------------------------- |
-| `orderStatus` | `inputRequired` · `completed` · `noOrder` · `inputClosed`  |
-| `isHoliday`   | boolean                                                    |
-| 날짜 노출     | `dateLabel` 유무 (Figma `date` = `none` · `visible`)       |
-
-**4×2×2 = 16 중 심볼은 10개뿐이라 축을 독립으로 구현했습니다.** 그려지지 않은 6조합(`noOrder`+평일 2 · `completed`+휴일 2 · `inputClosed`+날짜없음 2)도 자동으로 나옵니다.
-
-| 축            | 담당하는 것                                    |
-| ------------- | ------------------------------------------------ |
-| `orderStatus` | 카드 배경 · 테두리 · 요일 뱃지 · 날짜 색 · 액션 |
-| `isHoliday`   | 날짜 `· 휴일` 접미어 · `inputRequired` 뱃지 색  |
-| `dateLabel`   | 날짜 문구 노출                                  |
-| `statusLabel` | 날짜 아래 줄 문구 (DOTOLI-346)                  |
-| `badgeLabel` · `badgeTheme` | `inputClosed` 배지 문구 · 색 (DOTOLI-346) |
+| 축 | 값 | 뜻 |
+| --- | --- | --- |
+| `orderStatus` | `unset` · `zero` · `ordered` | 미주문 · 수량 0으로 주문 · 수량 1 이상 |
+| `isLocked` | boolean | 이유와 상관없이 입력할 수 없음(마감 · 운영중지 · 이용 전 등). 이유는 `description` |
+| `dayType` | `weekday`(기본) · `weekend` · `publicHoliday` | 요일 원 색과 날짜 꼬리말 「· 휴일」 · 「· 공휴일」. Figma `isHoliday`를 OrderDateInfo와 같은 축으로 넓힘 |
 
 ### 실측 스펙
 
-| 항목        | 값                                                    |
-| ----------- | ------------------------------------------------------ |
-| 카드        | `rounded-16` · `px-[20px] py-[14px]` · `inset-ring` 1px |
-| 헤더 행     | `flex-h-stack items-center` · gap 5px                  |
-| 요약 블록   | `flex-1 min-w-0 items-center` · gap 8px                |
-| 요일 뱃지   | `size-[40px] rounded-full` · `body-bold`               |
-| 날짜        | `body-semibold`                                        |
-| 상태 문구   | `label` · `gray/400` 고정                              |
-| 주문내역 패널 | `rounded-10` · `bg-blue-50` · `px-[16px] py-[14px]` · 카드와 gap 10px |
-| 패널 행     | [OrderBoxList](#orderbox) · 품목명 `body` / 수량 `body-bold` · 행 간 gap 2px · `items-start` |
+| 항목 | 값 |
+| --- | --- |
+| 카드 | `rounded-16` · `px-[20px] py-[14px]` · `inset-ring` 1px · 폭 340(문서 값, 실제 fill) |
+| 요약 줄 | `flex-h-stack items-center` · gap 5 |
+| 요약 블록 | `flex-1 min-w-0` · gap 8. 요일 원 + OrderDateInfo `md` |
+| 요일 원 | `size-[40px] rounded-full` · `body-bold` |
+| 버튼 | `CtaButton` `sm`(높이 32) |
+| 수량 패널 | `rounded-10` · `px-[16px] py-[14px]` · 카드와 gap 10 · 줄은 OrderBoxCell(16 · 500 / 16 · 700, 줄 사이 2) |
 
-| `orderStatus`   | 카드 배경 · 테두리     | 요일 뱃지            | 날짜 색    | 액션                          |
-| --------------- | ---------------------- | -------------------- | ---------- | ----------------------------- |
-| `inputRequired` | `white` · `gray/100`   | `gray/50` + `gray/700` | `gray/800` | `CtaButton` primary/filled/sm — 주문입력 |
-| `completed`     | `white` · `blue/300`   | `blue/50` + `blue/500` | `gray/800` | `CtaButton` primary/outlined/sm — 주문수정 |
-| `noOrder`       | `gray/50` · `gray/100` | `gray/300` + `gray/50` | `gray/400` | `CtaButton` gray/outlined/sm — 주문수정 |
-| `inputClosed`   | `gray/50` · `gray/100` | `gray/300` + `gray/50` | `gray/400` | `Badge` tonal — 기본 red 「주문마감」, `badgeTheme='gray'`면 gray |
+모양은 「흐린 카드」(`zero`이거나 잠김)인지에 따라 먼저 갈리고, 나머지는 `orderStatus`를 따릅니다.
 
-`inputRequired` + 휴일일 때만 요일 뱃지가 `red/50` + `red/400`으로 바뀝니다. 패널 품목 색은 주문한 행 `gray/800`, `주문없음` 행 `blue/200`입니다.
+| 모양 | 조건 | 카드 | 요일 원 | 날짜(OrderDateInfo `theme`) |
+| --- | --- | --- | --- | --- |
+| `unset` | 미주문 · 열림 | `white` · `gray/100` | `gray/50` + `gray/700` | `default`(`gray/700`) |
+| `ordered` | 주문 · 열림 | `white` · `blue/300` | `blue/50` + `blue/500` | `default` |
+| `muted` | `zero` 또는 잠김 | `gray/50` · `gray/100` | `gray/300` + `gray/50` | `muted`(`gray/400`) |
 
-**`CtaButton` · `Badge` 기구현이 hex까지 그대로 맞아 신규 스타일이 없습니다.**
+휴일(`weekend` · `publicHoliday`)은 흰 카드(`unset` · `ordered`)일 때만 요일 원을 `red/50` + `red/400`으로 바꾸고, 흐린 카드는 휴일이어도 `gray/300` + `gray/50`입니다. 날짜 꼬리말은 모양과 상관없이 붙습니다.
+
+| `orderStatus` | 버튼(열림) | 수량 패널 |
+| --- | --- | --- |
+| `unset` | primary filled 「주문 입력」 | 없음 |
+| `zero` | gray outlined 「주문 수정」 | 없음 |
+| `ordered` | primary outlined 「주문 수정」 | 열림 `blue/50`, 잠김 `gray/100` + 줄 `muted`(`gray/500`) |
+
+잠기면 버튼이 없습니다. 0인 줄은 잠김과 상관없이 OrderBoxCell `empty`(`gray/400`, 「주문 없음」)입니다.
 
 ### 결정
 
-- **축을 독립으로 구현하고 요일 뱃지만 2축 매퍼를 씁니다.** 한 Record에 10조합을 나열하면 결손 6조합이 구멍이 됩니다. `resolveOrderInputCardDayStyle`이 `inputRequired` + 휴일일 때만 빨강을 돌려주고 나머지는 `orderStatus` 맵을 그대로 씁니다.
-- **심볼에 없는 6조합은 축 조합으로 자동 처리됩니다.** `noOrder` + 평일은 `noOrder` 스타일에 평일 요일만 들어가면 되고, 나머지 넷(`completed` + 휴일 2 · `inputClosed` + 날짜없음 2)은 **실제로 발생하지 않는 조합임을 확인했습니다.** 축을 나눠 둔 덕에 별도 케이스를 만들지 않아도 렌더는 됩니다.
-- **비활성 카드(`noOrder` · `inputClosed`)에서는 휴일이 뱃지 색에 반영되지 않습니다.** 이미 회색으로 죽은 카드에 빨강을 얹지 않는다는 뜻이고, 디자이너에게 확인받은 동작입니다. 날짜의 `· 휴일` 접미어는 그대로 붙습니다.
-- **Figma `date` 축을 `dateLabel` 유무로 파생시켰습니다.** 계열 전체(`OrderBox`의 `items`, `OrderDateInfo`의 `deadlineLabel` · `action`(DOTOLI-336 전에는 `deliveryInfo`), `QuantityStepper`의 `errorMessage`)와 같은 판단입니다. **날짜가 없고 휴일이면 `휴일`만** 뜹니다 — `generateOrderInputCardDateLabel`이 세 경우를 다룹니다.
-- **주문내역 패널은 `completed` 전용입니다.** `items`를 넘겨도 다른 `orderStatus`에서는 그리지 않습니다. 처음엔 `items` 유무만 봤다가 전 status에 패널이 붙는 것을 Storybook에서 발견해 status 조건을 되살렸습니다.
-- **`inputClosed`만 버튼이 아니라 `Badge`입니다.** `ORDER_INPUT_CARD_BUTTON_STYLES`에 `inputClosed` 항목을 두지 않고, 항목이 없으면 `Badge`를 그리는 것으로 분기합니다 — 없는 값을 `null`로 채워 넣는 것보다 「이 상태엔 버튼이 없다」가 그대로 드러납니다. 정책 카드 [COM-017](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-system--BIZpartner?node-id=524-14&m=dev) (`524:14`)의 「주문입력 · 주문수정 버튼 모두 미노출, 탭 액션 없음」과 맞습니다 — 그 자리가 뱃지라 눌리는 대상 자체가 없습니다. COM-017의 나머지 두 항목(「일괄 적용 날짜 칩 비활성」 · 「완료 판정 시 입력 대상 제외」)은 각각 다른 컴포넌트와 화면 로직이라 이 컴포넌트 밖입니다.
-- **`orderStatus` 4종을 데이터에서 파생시키지 않고 그대로 받습니다.** COM-017이 `inputRequired`=미주문(주문 자체가 생성되지 않음) · `noOrder`=주문 수량 0(사용자가 주문없음 선택) · `completed`=수량 1 이상 · `inputClosed`=마감 경과로 정의하고, **「미주문과 주문 수량 0은 서로 다른 상태이며 서버에서도 구분되어야 한다」**고 못박았습니다. 수량만으로는 앞의 두 상태를 가를 수 없으므로 union 4종을 유지합니다.
-- **액션 라벨은 DS가 고정하고, 날짜 아래 줄은 소비 앱이 덮어쓸 수 있습니다(DOTOLI-346).** 버튼 `주문 입력` · `주문 수정`은 주문 입력 카드라 이 둘로 고정입니다. 날짜 아래 줄은 기본값이 `입력 필요` · `주문 없음`이고, 11/23 주간주문 시안(`241-22108`)이 이 자리에 「목 18시 마감 · 입력 필요」 · 「주문이 마감된 날이에요」 같은 마감 문구를 넣어 `statusLabel`로 열었습니다. 마감 요일 · 시각은 서버 값이라 DS가 조립하지 않습니다. 넘기면 상태와 상관없이 그 문자열을 그리고, 기본값이 없는 상태(`completed` · `inputClosed`)는 넘기지 않으면 줄이 없습니다. 빈 문자열을 넘기면 기본값까지 끄고 줄을 그리지 않습니다.
-- **`inputClosed`의 기본 보조줄 「주문마감」을 없앴습니다(DOTOLI-346).** 같은 시안의 사유 카드(주문중지 · 이용 전 · 서비스 해지)는 보조줄이 없는데 기본값이 있으면 소비 앱이 끌 방법이 없고, 배지와 같은 말이 두 번 나오던 것도 시안에서 사라졌습니다. 당시 소비 앱 사용처는 0건이었습니다.
-- **입력 불가 사유는 배지 문구 · 색으로 받습니다(DOTOLI-346).** 시안이 사유 카드를 `inputClosed`와 같은 회색 카드로 그리고 배지만 바꿔서, `orderStatus`를 늘리지 않고 `badgeLabel`(기본 `주문마감`) · `badgeTheme`(`red` 기본 · `gray`)을 열었습니다. `badgeTheme`은 `BADGE_THEMES` 전체가 아니라 시안에 있는 두 색만 `ORDER_INPUT_CARD_BADGE_THEMES`로 좁혔습니다. 사유 문구는 정책이 늘릴 수 있어 union으로 묶지 않고 문자열로 받습니다. 다른 상태에서는 버튼을 그리므로 두 prop을 쓰지 않습니다.
-- **기본 문구를 띄어 씁니다(DOTOLI-346).** 시안과 소비 앱 plan이 「주문 입력」 · 「주문 수정」 · 「입력 필요」 · 「주문 없음」으로 띄어 써서 맞췄습니다. 배지 「주문마감」은 시안대로 붙여 씁니다.
-- **수량은 `quantity: number`이고 키를 생략할 수 없습니다.** `1` 이상이면 `{n}개` + `gray/800`, `0`이면 `주문 없음` + `blue/200`입니다. `{n}개` 조립은 `QuantityStepper`의 `unitsPerBox`와 같은 기준 — 단위 `개`가 심볼 전체에서 고정입니다.
-- **표기는 `quantityLabel`로 덮어쓸 수 있습니다(DOTOLI-346).** 11/23 시안이 「4박스 (80개)」로 박스 · 개수 두 단위를 써서, `OrderBox`처럼 소비 앱이 조립한 문자열을 받습니다. `quantity`는 그대로 필수라 `0` 판정(「주문 없음」 · 연한 색)은 DS가 계속 맡고, `quantityLabel`은 `1` 이상일 때만 씁니다.
-- **품목 수량에는 「미주문」이 없습니다.** 처음엔 `quantity?: number`로 뒀다가 키 생략과 `0`이 타입상 구분되지 않아 required로 바꿨고, 이어서 COM-017의 미주문/수량 0 구분을 따라 `number | null`까지 갔다가 되돌렸습니다. **COM-017의 그 구분은 `orderStatus` 대응표, 즉 카드 레벨**이고 이미 `inputRequired`/`noOrder`로 갈라져 있습니다. 이 패널은 완료된 주문의 결과만 보여주고 입력 단계에서 부분 미발주를 막으므로 품목은 `0` 아니면 `1` 이상뿐입니다 — 도달할 수 없는 `null`을 타입에 남기지 않습니다.
-- **주문내역 패널은 OrderBox의 `OrderBoxList`를 씁니다(DOTOLI-354).** 예전 `OrderInputCardItems`를 지웠습니다. 패널 모양(`ORDER_INPUT_CARD_ITEMS_STYLE`)과 글자 묶음(`ORDER_INPUT_CARD_ITEMS_STYLES`)만 이쪽에 있고, `items`는 `generateOrderInputCardItems`가 `OrderBoxItem`으로 바꿔 넘깁니다. 바뀐 것은 둘입니다. 마크업이 `div`에서 `dl` · `dt` · `dd`가 됐고, 줄 정렬이 `items-center`에서 `items-start`가 됐습니다(품목명 `min-w-0`, 수량 `nowrap`). 한 줄짜리 품목은 똑같이 보이고, 품목명이 두 줄로 넘어갈 때만 수량이 위로 붙습니다.
-- **`· 휴일` 접미어를 `Order/shared/`로 옮겼습니다.** `OrderDateInfo`와 같은 문자열을 쓰는 첫 사례라 계열 「공통 결정」의 조건이 충족됐습니다. 날짜가 없을 때 쓰는 `ORDER_HOLIDAY_LABEL`(`휴일`)과 접미어 형태 `ORDER_HOLIDAY_SUFFIX`(`· 휴일`)를 함께 둡니다.
-- **카드가 심볼보다 2px 낮습니다** (71 vs 73). 테두리를 `inset-ring`으로 그려 레이아웃을 차지하지 않기 때문이고, `QuantityStepper` 값 박스와 같은 이유입니다.
+- **상태 이름을 `unset` · `zero` · `ordered`로 바꿨습니다(DS 개편 결정).** COM-017이 「미주문과 주문 수량 0은 서로 다른 상태이며 서버에서도 구분되어야 한다」고 정한 구분을 이름에 그대로 드러냅니다. 종전 `inputRequired` · `noOrder` · `completed`는 화면 문구에 가까워 수량 0(`noOrder`)과 미주문이 이름으로 갈리지 않았습니다.
+- **`inputClosed`를 상태에서 빼고 `isLocked`로 나눴습니다.** 마감 · 운영중지 · 이용 전처럼 입력할 수 없는 이유는 여러 가지인데 카드 모양은 같고, 잠긴 날에도 이미 들어간 주문(`ordered`)은 보여야 합니다. 상태 하나로 묶으면 「잠긴 주문」을 그릴 수 없어서 축을 나눴습니다. 이유는 `description` 문자열로 받습니다(정책이 늘릴 수 있어 union으로 묶지 않음).
+- **잠기면 오른쪽을 비웁니다.** DS 개편에서 「오른쪽에 있으면 버튼」 규칙을 세워 마감 배지(DOTOLI-346의 `badgeLabel` · `badgeTheme`)를 없앴습니다. COM-017의 「주문입력 · 주문수정 버튼 모두 미노출, 탭 액션 없음」과 맞습니다.
+- **날짜 아래 줄은 `description` 하나입니다.** DOTOLI-346의 `statusLabel`(기본 「입력 필요」 · 「주문 없음」)을 지우고, 기본 문구 없이 소비 앱이 넘깁니다. 시안이 이 자리에 「오늘 18시 마감 · 입력 필요」 · 「주문 없음」 · 「주문이 마감된 날이에요」처럼 마감 시각과 상태를 섞어 쓰는데, 마감 시각은 서버 값이라 DS가 조립할 수 없고 기본값이 있으면 소비 앱이 끌 방법이 따로 필요해집니다.
+- **휴일은 `isHoliday`가 아니라 `dayType`으로 받습니다(11/26 사용자 결정).** Figma 카드 세트는 `isHoliday` boolean이라 안쪽 OrderDateInfo가 늘 `weekend`(「· 휴일」)인데, 카드에서도 「· 공휴일」을 그릴 수 있어야 해서 OrderDateInfo의 `dayType`을 그대로 받아 내려 줍니다(`Pick<OrderDateInfoProps, 'dayType'>`). 요일 원은 `weekend` · `publicHoliday` 둘 다 빨강이라 Figma `isHoliday=true`와 같고, 꼬리말만 갈립니다.
+- **모양은 `resolveOrderInputCardAppearance`가 먼저 셋으로 줄입니다.** 12 심볼을 한 레코드에 펼치면 같은 값이 반복되고, 실제로 다른 값은 「흐린 카드인가」와 `orderStatus`뿐이라 `unset` · `ordered` · `muted` 세 모양(`ORDER_INPUT_CARD_STYLES`)과 휴일 요일 원 하나로 다 그려집니다.
+- **흐린 카드에는 휴일 빨강을 얹지 않습니다.** 종전 결정(디자이너 확인)과 같고, DS 개편 Figma도 그렇게 그렸습니다. 종전에는 `inputRequired`일 때만 빨강이었는데 이제 `ordered`(열림)도 빨강입니다.
+- **날짜 색은 `gray/700`입니다.** 종전 `gray/800`에서 OrderDateInfo `default`로 맞췄습니다(DS 개편에서 날짜 기본색을 `gray/700`으로 통일).
+- **잠긴 `ordered` 패널은 줄을 흐리게(`muted`) 그립니다.** 패널 바탕이 `gray/100`으로 바뀌고 수량 있는 줄이 `gray/500`이 됩니다. 0인 줄은 원래 `gray/400`이라 그대로입니다. OrderBoxList에 비공개 `isMuted`로 넘깁니다.
+- **수량 패널은 `ordered` 전용입니다.** `items`를 넘겨도 다른 상태에서는 그리지 않습니다(종전과 같음).
+- **수량은 [OrderBox](#orderbox)와 같은 `OrderBoxItem`(`{ packageName, boxCount, unitCount }`)입니다.** DOTOLI-355에서 OrderBox가 숫자를 받아 「4박스 (80개)」를 조립하게 되면서 종전 `OrderInputCardItem`(`name` · `quantity` · `quantityLabel`)을 지웠습니다. 표기 규칙이 한 곳(`generateOrderBoxQuantityLabel`)에만 있습니다.
+- **카드가 심볼보다 2px 낮습니다.** 테두리를 `inset-ring`으로 그려 레이아웃을 차지하지 않아서입니다(종전과 같음).
 - **루트에 폭을 선언하지 않습니다.** 심볼 340px은 문서 값이고 실제로는 fill입니다.
 
 ### API
 
-| prop          | 필수 | 기본값  | 비고                                              |
-| ------------- | ---- | ------- | ------------------------------------------------- |
-| `orderStatus` | ✅   | —       | 4종                                               |
-| `dayLabel`    | ✅   | —       | 요일 한 글자. `월` · `일`                         |
-| `dateLabel`   |      | —       | `29일`. 없으면 날짜 줄을 그리지 않음              |
-| `isHoliday`   |      | `false` | `· 휴일` 접미어 + `inputRequired` 뱃지 색         |
-| `statusLabel` |      | 상태별  | 날짜 아래 줄. 기본 `inputRequired` `입력 필요` · `noOrder` `주문 없음` |
-| `badgeLabel`  |      | `주문마감` | `inputClosed` 배지 문구                        |
-| `badgeTheme`  |      | `red`   | `inputClosed` 배지 색. `red` · `gray`             |
-| `items`       |      | —       | `completed` 전용 주문내역. `quantity`가 `0`이면 `주문 없음`, `quantityLabel`이 있으면 그 문자열 |
-| `onAction`    |      | —       | 주문입력 · 주문수정 클릭. `inputClosed`는 버튼이 없어 호출되지 않음 |
-| `className`   |      | —       | 담는 쪽의 폭 지정용                               |
+| prop | 필수 | 기본값 | 비고 |
+| --- | --- | --- | --- |
+| `orderStatus` | ✅ | — | `ORDER_INPUT_CARD_ORDER_STATUSES` 3종 |
+| `dayLabel` | ✅ | — | 요일 한 글자. `월` · `일` |
+| `dateLabel` | | — | `16일`. OrderDateInfo `title`. 없으면 날짜 줄을 그리지 않음 |
+| `description` | | — | 날짜 아래 줄. 마감 시각 · 입력 상태 · 잠긴 이유 |
+| `isLocked` | | `false` | 버튼을 숨기고 흐린 카드 |
+| `dayType` | | `'weekday'` | `ORDER_DATE_INFO_DAY_TYPES`. 휴일 둘은 요일 원 빨강(흰 카드일 때) + 「· 휴일」 · 「· 공휴일」 |
+| `items` | | — | `ordered` 전용 `OrderBoxItem[]` |
+| `onAction` | | — | 주문 입력 · 주문 수정 클릭. 잠기면 버튼이 없어 호출되지 않음 |
+| `className` | | — | 담는 쪽의 폭 지정용 |
 
-### Storybook
+**DOTOLI-357은 파괴적 변경이지만 소비 앱 사용처는 0건입니다(stage, 11/26).** `orderStatus` 값이 바뀌었고(`inputRequired` → `unset`, `noOrder` → `zero`, `completed` → `ordered`, `inputClosed` → `isLocked`), `isHoliday`가 `dayType`으로 바뀌었고, `statusLabel` · `badgeLabel` · `badgeTheme`, `ORDER_INPUT_CARD_BADGE_THEMES` · `OrderInputCardBadgeTheme` · `ORDER_INPUT_CARD_STATUS_LABELS` · `ORDER_INPUT_CARD_STATUS_LABEL_COLOR` · `ORDER_INPUT_CARD_EMPTY_ITEM_LABEL` · `ORDER_INPUT_CARD_TEXT_STYLE` · `OrderInputCardStatusStyles` · `GenerateOrderInputCardDateLabelProps`, `Order/shared`의 `ORDER_DEADLINE_PASSED_LABEL`이 없어졌습니다. `Order/shared` 폴더도 지웠고, 남은 휴일 문구 네 개는 같은 이름으로 `OrderDateInfo/constants`에서 내보냅니다(공개 이름은 그대로). 새로 생긴 것은 `isLocked` · `description` · `dayType`, `ORDER_INPUT_CARD_APPEARANCES` · `OrderInputCardAppearance` · `OrderInputCardAppearanceStyles` · `ORDER_INPUT_CARD_DATE_INFO_STYLE` · `ORDER_INPUT_CARD_ITEMS_BACKGROUNDS` · `ResolveOrderInputCardAppearanceProps`이고, `ORDER_INPUT_CARD_STYLES`는 키가 모양 3종으로 바뀌었습니다. `ORDER_INPUT_CARD_ITEMS_STYLE`에서 `bg-blue-50`이 빠졌습니다.
 
 ### 디자인 확인 필요
 
 | 항목 | 내용 |
 | --- | --- |
-| 마감 보조줄 굵기 | 11/23 시안에서 「주문이 마감된 날이에요」만 `label-bold`, 나머지 보조줄은 `label`. 문구를 소비 앱이 넘기므로 `label` 하나로 통일함 (DOTOLI-346) |
+| 버튼 문구 띄어쓰기 | Figma 심볼은 「주문입력」 · 「주문수정」(붙임)인데 DOTOLI-346에서 시안 · 소비 앱 plan을 따라 띄어 쓴 「주문 입력」 · 「주문 수정」을 유지함 |
 | 카드 탭 | 시안 인스턴스는 카드 전체가 `<a>` · `<button>`이지만 DS는 버튼만 눌림. 바꾸면 버튼과 카드가 중첩 인터랙티브가 되어 함께 정해야 함 |
 
 ### Storybook
 
-`apps/storybook/src/stories/biz-ui/OrderInputCard.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderInputCard`. 스토리 4종 (`Default` · `Matrix` · `StatusLabel` · `ClosedBadge`). `StatusLabel`은 마감 보조줄, `ClosedBadge`는 마감 지남 · 사유 배지 카드를 시안 순서대로 깝니다. `Matrix`는 `orderStatus` 4 × 휴일 2 × 날짜 유무 2 = **16조합을 전부 깔아** Figma에 없는 6조합까지 눈으로 확인합니다.
+`apps/storybook/src/stories/biz-ui/OrderInputCard.stories.tsx`, `meta.title`은 `core/biz-ui/Order/OrderInputCard`. 폭은 Figma 심볼과 같은 340px입니다.
+
+| 스토리 | 보는 것 |
+| --- | --- |
+| `Default` | 컨트롤 패널. `ordered` + 수량 패널 |
+| `Matrix` | `orderStatus` 3 × `dayType` 3 × 잠김 2 = 18조합. Figma 12조합에 공휴일 행을 더함 |
+| `LockedReasons` | 잠긴 이유(주문중지 · 이용 전 · 서비스 해지)를 `description`으로 넘긴 카드 |
 
 ---
 

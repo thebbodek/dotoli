@@ -306,7 +306,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 - [x] DOTOLI-355 biz-ui > OrderBoxCell 수량 줄 복원 · OrderBox 상자형 정리
 - [x] DOTOLI-356 biz-ui > OrderDateInfo 제목 · 설명 글자 묶음으로 교체
-- [ ] DOTOLI-357 biz-ui > OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
+- [x] DOTOLI-357 biz-ui > OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
 - [ ] DOTOLI-358 biz-ui > Tab 라벨 글자 14px 로 축소
 - [ ] DOTOLI-359 biz-ui > BottomActionBar 세로 배치 추가
 
@@ -336,10 +336,6 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | 요일 헤더 | `StickyCalendar`의 `STICKY_CALENDAR_WEEKDAYS`(일~토 고정 배열) |
 
 조립 컴포넌트 `CalendarBottomSheet` · `DateBottomSheet`도 옵션을 내려줘야 합니다. 주말 판정(`CALENDAR_WEEKEND_DAYS`, `day()` 기준)과 헤더 색(일 · 토 `RED_400`)은 시작 요일이 바뀌어도 요일을 따라가야 합니다. prop 형태(boolean으로 둘지, 시작 요일 값으로 둘지)는 착수 때 정합니다.
-
-### DOTOLI-357 · OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
-
-DS `309:1965` 실측. `orderStatus` unset(미주문) · zero(수량 0) · ordered, `isLocked`(이유 무관 입력 불가, 이유는 설명으로), `isHoliday`. 요약 줄은 요일 원 + OrderDateInfo md, 잠기면 버튼이 없고 카드가 `gray-50`, 날짜는 muted. ordered는 아래 수량 패널(잠기면 `gray-100` + OrderBoxCell muted). `statusLabel` · `badgeLabel` · `badgeTheme`을 지우고 `description` 하나로 둡니다. 소비 앱 사용처 0건.
 
 ### DOTOLI-358 · Tab 라벨 글자 14px 로 축소
 
@@ -452,6 +448,7 @@ DS `154:513`에 `actions=stacked`(`1379:827` · `1379:838`)가 생겼습니다. 
 | DOTOLI-353 | `IconButton` `lg` 아이콘 24 → 20px. 스테퍼에만 덮어쓰려다 DS `lg` 마스터(`81:202`) 자체가 20px인 것을 확인해 상수 한 줄을 바꿈. `LinkIconButton` 기본도 함께 20px(SearchInput · Toast · InputField는 `sm`이라 그대로). API는 그대로인 **시각 변경**이고, 소비 앱(origin/dev)은 `IconButton` · `LinkIconButton` 직접 사용 0건이라 보이는 변화 없음(11/25) | [components/button.md](./components/button.md) · [order.md](./components/order.md) |
 | DOTOLI-355 | DS Figma 개편(11/25~26) 반영. OrderBox `variant`(`list` · `box`)를 지우고 상자형만 남김(11/26 사용자 결정). 한 줄을 비공개 `OrderBoxCell`로 되돌리고(`OrderBoxRow` 개명), `OrderBoxItem`을 `{ packageName, boxCount, unitCount }` 숫자로 바꿔 「4박스 (80개)」 · 0이면 「주문 없음」 `gray-400`을 DS가 조립. 잠긴 패널용 `muted`(`gray-500`)는 비공개 `isMuted`. `OrderBoxListStyles` 글자 묶음 레코드 제거. **파괴적 변경**: 소비 앱 `getOrderBoxItems` · `OrderConfirm/types.ts`가 깨지고 `OrderDayCard` · `OrderConfirmRow` · `FixedOrderDayItem`의 글자 목록이 상자로 바뀜 | [components/order.md](./components/order.md) |
 | DOTOLI-356 | DS Figma `203:872` 개편 반영. 한 줄 날짜 행(마감 문구 · `action` 버튼 · 「주문마감」 배지)을 제목 + 설명 글자 묶음으로 교체. `theme`(default · muted · red) × `size`(md 기본 · lg) × `dayType`(weekday · weekend 「· 휴일」 · publicHoliday 「· 공휴일」), `hasTitle` · `hasDescription`은 `title` · `description` 유무로 파생. 버튼 · 배지는 쓰는 쪽이 조합. **파괴적 변경**: 소비 앱 `OrderDayCard` · `OrderConfirmRow`가 `dateLabel` · `isHoliday`를 `title` · `theme` · `dayType` · `size="lg"`로 옮겨야 함 | [components/order.md](./components/order.md) |
+| DOTOLI-357 | DS Figma `309:1965` 개편 반영. `orderStatus`를 `unset` · `zero` · `ordered`로 바꾸고 `inputClosed`를 `isLocked`로 분리(잠긴 주문도 그림). 잠기면 버튼 없음 · 흐린 카드, 마감 배지 · `statusLabel` · `badgeLabel` · `badgeTheme`을 `description` 하나로. 왼쪽 글자는 OrderDateInfo `md`, 수량 패널은 OrderBoxList (잠기면 `gray-100` + 줄 `muted`). 휴일은 Figma `isHoliday` 대신 OrderDateInfo와 같은 `dayType`으로 받아 「· 공휴일」도 그림(11/26 사용자 결정). 휴일 요일 원은 흰 카드(`unset` · `ordered`)일 때만 빨강, 날짜 기본색 `gray-700`. `ORDER_DEADLINE_PASSED_LABEL` 제거. 파괴적 변경이나 소비 앱 사용처 0건(stage, 11/26) | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

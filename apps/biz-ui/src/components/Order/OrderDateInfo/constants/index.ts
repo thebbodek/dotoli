@@ -4,15 +4,19 @@ import {
   OrderDateInfoTheme,
 } from '@/components/Order/OrderDateInfo/types';
 import {
-  ORDER_HOLIDAY_SUFFIX,
-  ORDER_PUBLIC_HOLIDAY_SUFFIX,
-} from '@/components/Order/shared/constants';
-import {
   COLOR_VARIANTS,
   ColorVariants,
   TYPOGRAPHY_VARIANTS,
   TypographyVariants,
 } from '@/variants';
+
+export const ORDER_HOLIDAY_LABEL = '휴일';
+
+export const ORDER_HOLIDAY_SUFFIX = `· ${ORDER_HOLIDAY_LABEL}`;
+
+export const ORDER_PUBLIC_HOLIDAY_LABEL = '공휴일';
+
+export const ORDER_PUBLIC_HOLIDAY_SUFFIX = `· ${ORDER_PUBLIC_HOLIDAY_LABEL}`;
 
 export const ORDER_DATE_INFO_THEMES = {
   DEFAULT: 'default',

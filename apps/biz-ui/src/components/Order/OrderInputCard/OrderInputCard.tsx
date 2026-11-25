@@ -1,26 +1,27 @@
 import clsx from 'clsx';
 
-import { Badge, BADGE_VARIANTS } from '@/components/Badge';
 import { CTA_BUTTON_SIZES, CtaButton } from '@/components/Button/CtaButton';
 import OrderBoxList from '@/components/Order/OrderBox/OrderBoxList';
 import {
+  ORDER_DATE_INFO_DAY_TYPES,
+  OrderDateInfo,
+} from '@/components/Order/OrderDateInfo';
+import {
   ORDER_INPUT_CARD_ACTION_LABELS,
-  ORDER_INPUT_CARD_BADGE_THEMES,
   ORDER_INPUT_CARD_BASE_STYLE,
   ORDER_INPUT_CARD_BUTTON_STYLES,
+  ORDER_INPUT_CARD_DATE_INFO_STYLE,
   ORDER_INPUT_CARD_DAY_STYLE,
+  ORDER_INPUT_CARD_ITEMS_BACKGROUNDS,
   ORDER_INPUT_CARD_ITEMS_STYLE,
   ORDER_INPUT_CARD_ORDER_STATUSES,
   ORDER_INPUT_CARD_ROW_STYLE,
-  ORDER_INPUT_CARD_STATUS_LABEL_COLOR,
-  ORDER_INPUT_CARD_STATUS_LABELS,
   ORDER_INPUT_CARD_STYLES,
   ORDER_INPUT_CARD_SUMMARY_STYLE,
-  ORDER_INPUT_CARD_TEXT_STYLE,
 } from '@/components/Order/OrderInputCard/constants';
 import { OrderInputCardProps } from '@/components/Order/OrderInputCard/types';
 import {
-  generateOrderInputCardDateLabel,
+  resolveOrderInputCardAppearance,
   resolveOrderInputCardDayStyle,
 } from '@/components/Order/OrderInputCard/utils';
 import { Typography } from '@/components/Typography';
@@ -30,27 +31,25 @@ const OrderInputCard = ({
   orderStatus,
   dayLabel,
   dateLabel,
-  isHoliday = false,
-  statusLabel,
-  badgeLabel,
-  badgeTheme = ORDER_INPUT_CARD_BADGE_THEMES.RED,
+  description,
+  isLocked = false,
+  dayType = ORDER_DATE_INFO_DAY_TYPES.WEEKDAY,
   items,
   onAction,
   className,
 }: OrderInputCardProps) => {
-  const { CARD, DATE } = ORDER_INPUT_CARD_STYLES[orderStatus];
-  const { CONTAINER, LABEL } = resolveOrderInputCardDayStyle({
+  const appearance = resolveOrderInputCardAppearance({
     orderStatus,
-    isHoliday,
+    isLocked,
   });
-
-  const actionLabel = ORDER_INPUT_CARD_ACTION_LABELS[orderStatus];
+  const { CARD, DATE_INFO_THEME } = ORDER_INPUT_CARD_STYLES[appearance];
+  const { CONTAINER, LABEL } = resolveOrderInputCardDayStyle({
+    appearance,
+    dayType,
+  });
   const buttonStyle = ORDER_INPUT_CARD_BUTTON_STYLES[orderStatus];
-  const status = statusLabel ?? ORDER_INPUT_CARD_STATUS_LABELS[orderStatus];
-  const date = generateOrderInputCardDateLabel({ dateLabel, isHoliday });
   const hasItems =
-    orderStatus === ORDER_INPUT_CARD_ORDER_STATUSES.COMPLETED &&
-    !!items?.length;
+    orderStatus === ORDER_INPUT_CARD_ORDER_STATUSES.ORDERED && !!items?.length;
 
   return (
     <div className={clsx(className, ORDER_INPUT_CARD_BASE_STYLE, CARD)}>
@@ -61,43 +60,35 @@ const OrderInputCard = ({
               {dayLabel}
             </Typography>
           </span>
-          <div className={ORDER_INPUT_CARD_TEXT_STYLE}>
-            {!!date && (
-              <Typography
-                color={DATE}
-                variant={TYPOGRAPHY_VARIANTS.BODY_SEMIBOLD}
-              >
-                {date}
-              </Typography>
-            )}
-            {!!status && (
-              <Typography
-                color={ORDER_INPUT_CARD_STATUS_LABEL_COLOR}
-                variant={TYPOGRAPHY_VARIANTS.LABEL}
-              >
-                {status}
-              </Typography>
-            )}
-          </div>
+          <OrderDateInfo
+            className={ORDER_INPUT_CARD_DATE_INFO_STYLE}
+            dayType={dayType}
+            description={description}
+            theme={DATE_INFO_THEME}
+            title={dateLabel}
+          />
         </div>
-        {buttonStyle ? (
+        {!isLocked && (
           <CtaButton
-            label={actionLabel}
+            label={ORDER_INPUT_CARD_ACTION_LABELS[orderStatus]}
             size={CTA_BUTTON_SIZES.SM}
             theme={buttonStyle.theme}
             variant={buttonStyle.variant}
             onClick={onAction}
           />
-        ) : (
-          <Badge
-            label={badgeLabel ?? actionLabel}
-            theme={badgeTheme}
-            variant={BADGE_VARIANTS.TONAL}
-          />
         )}
       </div>
       {hasItems && (
-        <OrderBoxList className={ORDER_INPUT_CARD_ITEMS_STYLE} items={items} />
+        <OrderBoxList
+          className={clsx(
+            ORDER_INPUT_CARD_ITEMS_STYLE,
+            isLocked
+              ? ORDER_INPUT_CARD_ITEMS_BACKGROUNDS.LOCKED
+              : ORDER_INPUT_CARD_ITEMS_BACKGROUNDS.DEFAULT,
+          )}
+          isMuted={isLocked}
+          items={items}
+        />
       )}
     </div>
   );

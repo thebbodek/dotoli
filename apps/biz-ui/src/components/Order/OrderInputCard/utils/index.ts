@@ -1,2 +1,2 @@
-export * from './generateOrderInputCardDateLabel';
+export * from './resolveOrderInputCardAppearance';
 export * from './resolveOrderInputCardDayStyle';
