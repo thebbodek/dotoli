@@ -22,6 +22,8 @@ const LINK_LABEL = '전체 거래명세서 보기';
 
 const LINK_ICON_KEY = 'receipt';
 
+const STACKED_SUB_ACTION_ICON_KEY = 'plus';
+
 const SCREEN_WIDTH_STYLE = 'w-[380px] outline outline-gray-200';
 
 const GROUP_STYLE = 'flex-v-stack w-[380px] gap-[8px]';
@@ -51,6 +53,10 @@ const meta = {
       table: { type: { summary: 'BottomActionBarAction' } },
     },
     info: { control: 'text' },
+    isStacked: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
     variant: {
       control: 'inline-radio',
       options: Object.values(BOTTOM_ACTION_BAR_VARIANTS),
@@ -114,6 +120,33 @@ export const Actions: Story = {
           <BottomActionBar action={action} info={INFO} variant={variant} />
         </div>
       </div>
+    </div>
+  ),
+};
+
+export const Stacked: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ action }) => (
+    <div className={LIST_STYLE}>
+      {Object.values(BOTTOM_ACTION_BAR_VARIANTS).map((variant) => (
+        <div className={GROUP_STYLE} key={variant}>
+          <Typography color='gray-500' variant='label-bold'>
+            {`stacked · ${variant}`}
+          </Typography>
+          <div className={SCREEN_WIDTH_STYLE}>
+            <BottomActionBar
+              subAction={{
+                label: SUB_ACTION_LABEL,
+                onClick: () => {},
+                iconOption: { iconKey: STACKED_SUB_ACTION_ICON_KEY },
+              }}
+              action={action}
+              variant={variant}
+              isStacked
+            />
+          </div>
+        </div>
+      ))}
     </div>
   ),
 };

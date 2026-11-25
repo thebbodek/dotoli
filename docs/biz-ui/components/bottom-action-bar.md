@@ -10,22 +10,22 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
 | 컴포넌트          | 티켓       | 설명                                                       |
 | ----------------- | ---------- | ---------------------------------------------------------- |
-| `BottomActionBar` | DOTOLI-269 | `variant` 2종. `actions` 축을 `subAction` · `info` 유무로 파생 |
+| `BottomActionBar` | DOTOLI-269 · 359 | `variant` 2종. `actions` 축을 `subAction` · `info` 유무로 파생, `stacked`만 `isStacked` |
 
 ## Variant 축
 
 | 축        | Figma 값                        | 구현                                   |
 | --------- | ------------------------------- | -------------------------------------- |
 | `variant` | `floating`(기본) · `solid`      | 그대로 prop                            |
-| `actions` | `single` · `two` · `withInfo`   | **`subAction` · `info` 유무로 흡수**      |
+| `actions` | `single` · `two` · `withInfo` · `stacked` | **`subAction` · `info` 유무로 흡수**. `stacked`만 `isStacked`(DOTOLI-359) |
 | 버튼 모양 | 심볼마다 인스턴스로 갈아 끼움    | DOTOLI-277에서 `variant`·`theme`·`size`·아이콘을 `action`·`subAction`에 엶 |
 
-심볼은 5개뿐입니다 — **`actions=withInfo, variant=solid`가 없습니다.**
+심볼은 7개입니다 — **`actions=withInfo, variant=solid`가 없습니다.** `stacked`는 DS 개편(11/25~26)에서 더해졌습니다.
 
-| | `single` | `two` | `withInfo` |
-| --- | --- | --- | --- |
-| `floating` | `154:505` | `154:491` | `197:757` |
-| `solid` | `154:509` | `154:498` | **없음** |
+| | `single` | `two` | `withInfo` | `stacked` |
+| --- | --- | --- | --- | --- |
+| `floating` | `154:505` | `154:491` | `197:757` | `1379:827` |
+| `solid` | `154:509` | `154:498` | **없음** | `1379:838` |
 
 ## 실측 스펙
 
@@ -185,6 +185,18 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 
   **나머지 미개방 컴포넌트까지 일반화하지는 않았습니다.** `className`만 열고 `ref`가 없는 것이 아직 30개인데, 실측 수요가 확인된 것은 이 둘뿐입니다. 공개는 되돌리기 비대칭이라 필요가 확인될 때 여는 순서로 갑니다. 세 번째 사례가 나오면 그때 CLAUDE.md 쪽 기준을 손보는 편이 맞습니다.
 
+### DOTOLI-359 · 세로 배치(`stacked`)를 엽니다
+
+- **Figma `actions=stacked`(`1379:827` · `1379:838`)는 위 보조 버튼 · 아래 주 버튼을 세로로 쌓습니다.** 둘 다 전체 폭 340 · 높이 52(`CtaButton lg`), 간격 8, 바 여백은 다른 심볼과 같은 12/20/28/20이라 심볼 높이 152 = 12 + 52 + 8 + 52 + 28입니다. 보조 버튼은 gray outlined에 왼쪽 아이콘(`plus` 16)이고 주 버튼은 primary filled입니다.
+- **`isStacked` boolean으로 열었습니다.** `single` · `two` · `withInfo`는 `subAction` · `info` 유무에서 나오지만, 버튼 둘을 가로로 둘지 세로로 둘지는 **같은 데이터로 두 모양이 다 되므로** 파생할 수 없습니다. `variant`와 같은 처리입니다. 축 값이 둘이라 union 대신 boolean이고, 상태를 나타내 `is` 접두어를 붙였습니다(CLAUDE.md 「Boolean prop」).
+- **DOM 순서는 그대로 `subAction` → `action`입니다.** 가로일 때 왼쪽이던 보조 버튼이 세로에서는 위로 갑니다. 「아래(또는 오른쪽)가 주 액션」이라는 위계가 두 배치에서 같고, 읽는 순서도 화면 순서와 맞습니다.
+- **세로일 때 `subAction` 기본 모양은 gray outlined입니다.** 가로(`tonal`)와 다른 기본값을 `BOTTOM_ACTION_BAR_ACTION_DEFAULTS.STACKED_SUB_ACTION`에 따로 뒀습니다. 기본값을 한 곳에 모은다는 DOTOLI-277 결정을 그대로 따른 것이고, 넘기면 덮어씁니다.
+- **아이콘은 기본값으로 넣지 않았습니다.** 심볼의 `plus`는 「취소」 라벨 옆 자리표시자로 보이고 화면마다 다른 아이콘이 들어갈 자리라, 기존 `iconOption`으로 소비자가 넘깁니다.
+- **버튼 폭은 `w-full`입니다.** 가로에서 쓰던 `min-w-0 flex-1`을 세로 flex에 걸면 높이 방향으로 늘어나므로, `resolveBottomActionBarAction`이 `isStacked`면 `variant`와 상관없이 `w-full`을 돌려줍니다.
+- **간격은 `isStacked`가 먼저입니다.** `resolveBottomActionBarGap`이 세로 8 → `info` 14 → 기본 10 순으로 고릅니다. 세로 + `info` 조합은 Figma에 없고 `subAction` · `info` 배타와 같은 계약으로 둡니다.
+- **그라디언트는 그대로 위에서 12.71px입니다.** Figma는 `stacked`에도 `86.184%`를 그대로 붙여 152 높이에서 페이드가 21px이 되지만, 페이드가 맡는 것은 상단 여백 12라 바 높이와 상관없는 길이로 둔 DOTOLI-331 결정을 따릅니다.
+- **`BOTTOM_ACTION_BAR_BASE_STYLE`에서 `flex-h-stack items-center`가 빠졌습니다.** 방향이 갈려 `BOTTOM_ACTION_BAR_LAYOUT_STYLES`(`INLINE` · `STACKED`)로 옮겼습니다. 배럴로 나가는 값이지만 레포 안 · 소비 앱(stage, 11/26) 모두 컴포넌트 밖에서 쓰는 곳이 0건입니다. `isStacked`는 optional이라 기존 소비처는 그대로입니다.
+
 ## API
 
 | prop        | 필수 | 기본값       | 비고                                        |
@@ -193,6 +205,7 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `subAction`  |      | —            | 주면 **좌측**에 추가되고 `actions=two`가 됨. 기본 `tonal`/`gray`/`lg`. `info`와 **배타** |
 | `info`      |      | —            | 주면 **좌측**에 텍스트. `\n`으로 줄바꿈. `subAction`과 **배타** |
 | `variant`   |      | `'floating'` | `'floating'`은 `sticky` + 그라디언트         |
+| `isStacked` |      | `false`      | 버튼을 세로로 쌓음(`actions=stacked`). `subAction` 기본이 gray outlined로 바뀜 |
 | `className` |      | —            | 바에 적용                                    |
 | `ref`       |      | —            | 바 루트에 연결. 높이 실측용                   |
 
@@ -235,6 +248,7 @@ Figma: [BottomSeet 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-
 | `Actions`  | `single` · `two` · `withInfo` 세로 비교                           |
 | `TextAction` | 월 시트 하단(`687:2475`) 재현 — **text CTA가 hug, filled가 나머지**를 먹는 것 |
 | `Pending`  | `action`에 `isPending` — 스피너 + 잠김. `two`는 **제출 중에도 `subAction`이 눌리는 것**을 보는 자리 |
+| `Stacked`  | 세로 배치 `floating` · `solid`. 보조 버튼 왼쪽 아이콘 |
 | `Variants` | `floating` ↔ `solid` — **스크롤 컨테이너 안**이라 그라디언트와 `sticky`가 실제로 드러난다 |
 
 **`Variants`를 스크롤 컨테이너 안에 둡니다** (DOTOLI-287). 정지 화면에 놓으면 **두 variant가 똑같이 보입니다** — `floating`의 그라디언트가 「흰색 → 투명한 흰색」이라 흰 배경과 구분되지 않고, `sticky`도 스크롤이 없으면 아무 일도 하지 않습니다. CSS는 실제로 갈리지만(`position` · `background-image`) 화면에서 확인할 수 없어 **축을 보여준다는 목적을 못 지킵니다.**

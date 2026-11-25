@@ -16,7 +16,8 @@ export interface BottomActionBarAction
 export interface BottomActionBarActionDefault
   extends Required<Pick<CtaButtonProps, 'variant' | 'theme' | 'size'>> {}
 
-export interface ResolveBottomActionBarActionProps {
+export interface ResolveBottomActionBarActionProps
+  extends Pick<BottomActionBarProps, 'isStacked'> {
   action: BottomActionBarAction;
   defaultOption: BottomActionBarActionDefault;
 }
@@ -28,4 +29,8 @@ export interface BottomActionBarProps
   subAction?: BottomActionBarAction;
   info?: string;
   variant?: BottomActionBarVariant;
+  isStacked?: boolean;
 }
+
+export interface ResolveBottomActionBarGapProps
+  extends Pick<BottomActionBarProps, 'isStacked' | 'info'> {}

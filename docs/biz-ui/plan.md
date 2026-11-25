@@ -308,7 +308,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-356 biz-ui > OrderDateInfo 제목 · 설명 글자 묶음으로 교체
 - [x] DOTOLI-357 biz-ui > OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
 - [x] DOTOLI-358 biz-ui > Tab 라벨 글자 14px 로 축소
-- [ ] DOTOLI-359 biz-ui > BottomActionBar 세로 배치 추가
+- [x] DOTOLI-359 biz-ui > BottomActionBar 세로 배치 추가
 
 biz-customer-app 주문 메인 신규 시안(Claude Design 캔버스 Q1~Q5)을 Figma로 옮기면서 DS Figma(`IGi6n6Cz0bB54WWlhivIOH`)를 코드와 맞춰 고쳤고(11/25~26 publish), 그 변경을 코드에 반영합니다(11/26 발행, 에픽 DOTOLI-212 · Sprint 13). 357은 355 · 356 뒤에 갑니다. 기존 시안(①)은 대상이 아니고 신규 시안만 맞춥니다. 범위는 아래 「태스크 상세」에 있습니다.
 
@@ -336,10 +336,6 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | 요일 헤더 | `StickyCalendar`의 `STICKY_CALENDAR_WEEKDAYS`(일~토 고정 배열) |
 
 조립 컴포넌트 `CalendarBottomSheet` · `DateBottomSheet`도 옵션을 내려줘야 합니다. 주말 판정(`CALENDAR_WEEKEND_DAYS`, `day()` 기준)과 헤더 색(일 · 토 `RED_400`)은 시작 요일이 바뀌어도 요일을 따라가야 합니다. prop 형태(boolean으로 둘지, 시작 요일 값으로 둘지)는 착수 때 정합니다.
-
-### DOTOLI-359 · BottomActionBar 세로 배치 추가
-
-DS `154:513`에 `actions=stacked`(`1379:827` · `1379:838`)가 생겼습니다. 위 보조 버튼(gray outlined lg, 왼쪽 아이콘) · 아래 주 버튼(primary filled lg), 둘 다 전체 폭, 간격 8, 여백은 기존과 같습니다. 지금은 가로 배치만 있어 세로 배치 prop을 엽니다.
 
 ### 완료된 티켓
 
@@ -446,6 +442,7 @@ DS `154:513`에 `actions=stacked`(`1379:827` · `1379:838`)가 생겼습니다. 
 | DOTOLI-356 | DS Figma `203:872` 개편 반영. 한 줄 날짜 행(마감 문구 · `action` 버튼 · 「주문마감」 배지)을 제목 + 설명 글자 묶음으로 교체. `theme`(default · muted · red) × `size`(md 기본 · lg) × `dayType`(weekday · weekend 「· 휴일」 · publicHoliday 「· 공휴일」), `hasTitle` · `hasDescription`은 `title` · `description` 유무로 파생. 버튼 · 배지는 쓰는 쪽이 조합. **파괴적 변경**: 소비 앱 `OrderDayCard` · `OrderConfirmRow`가 `dateLabel` · `isHoliday`를 `title` · `theme` · `dayType` · `size="lg"`로 옮겨야 함 | [components/order.md](./components/order.md) |
 | DOTOLI-357 | DS Figma `309:1965` 개편 반영. `orderStatus`를 `unset` · `zero` · `ordered`로 바꾸고 `inputClosed`를 `isLocked`로 분리(잠긴 주문도 그림). 잠기면 버튼 없음 · 흐린 카드, 마감 배지 · `statusLabel` · `badgeLabel` · `badgeTheme`을 `description` 하나로. 왼쪽 글자는 OrderDateInfo `md`, 수량 패널은 OrderBoxList (잠기면 `gray-100` + 줄 `muted`). 휴일은 Figma `isHoliday` 대신 OrderDateInfo와 같은 `dayType`으로 받아 「· 공휴일」도 그림(11/26 사용자 결정). 휴일 요일 원은 흰 카드(`unset` · `ordered`)일 때만 빨강, 날짜 기본색 `gray-700`. `ORDER_DEADLINE_PASSED_LABEL` 제거. 파괴적 변경이나 소비 앱 사용처 0건(stage, 11/26) | [components/order.md](./components/order.md) |
 | DOTOLI-358 | DS Figma `Tab`(`1371:68`) · `TabItem`(`1371:55`) 신설에 맞춰 라벨을 `body-semibold` / `body-bold`(16)에서 `label-semibold` / `label-bold`(14)로. 높이 48 · 밑줄 그대로. API 그대로인 시각 변경, 소비 앱 사용처 0건 | [components/tab.md](./components/tab.md) |
+| DOTOLI-359 | DS Figma `actions=stacked`(`1379:827` · `1379:838`) 반영. `isStacked`(boolean)로 버튼을 세로로 쌓음 (위 `subAction` · 아래 `action`, 둘 다 `w-full`, 간격 8). 세로일 때 `subAction` 기본은 gray outlined(`STACKED_SUB_ACTION`), 아이콘은 `iconOption`으로. 방향 클래스를 `BOTTOM_ACTION_BAR_LAYOUT_STYLES`로 빼서 `BOTTOM_ACTION_BAR_BASE_STYLE` 값이 바뀜(외부 사용처 0건). optional이라 비파괴 | [components/bottom-action-bar.md](./components/bottom-action-bar.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

@@ -14,7 +14,12 @@ export const BOTTOM_ACTION_BAR_VARIANTS = {
 } as const;
 
 export const BOTTOM_ACTION_BAR_BASE_STYLE =
-  'flex-h-stack w-full items-center px-[20px] pt-[12px] pb-[calc(28px+env(safe-area-inset-bottom))]';
+  'w-full px-[20px] pt-[12px] pb-[calc(28px+env(safe-area-inset-bottom))]';
+
+export const BOTTOM_ACTION_BAR_LAYOUT_STYLES = {
+  INLINE: 'flex-h-stack items-center',
+  STACKED: 'flex-v-stack',
+} as const;
 
 export const BOTTOM_ACTION_BAR_VARIANT_STYLES: Record<
   BottomActionBarVariant,
@@ -28,12 +33,13 @@ export const BOTTOM_ACTION_BAR_VARIANT_STYLES: Record<
 export const BOTTOM_ACTION_BAR_GAP_STYLES = {
   DEFAULT: 'gap-[10px]',
   INFO: 'gap-[14px]',
+  STACKED: 'gap-[8px]',
 } as const;
 
 export const BOTTOM_ACTION_BAR_INFO_STYLE = 'shrink-0 whitespace-pre-line';
 
 export const BOTTOM_ACTION_BAR_ACTION_DEFAULTS: Record<
-  'ACTION' | 'SUB_ACTION',
+  'ACTION' | 'SUB_ACTION' | 'STACKED_SUB_ACTION',
   BottomActionBarActionDefault
 > = {
   ACTION: {
@@ -46,9 +52,15 @@ export const BOTTOM_ACTION_BAR_ACTION_DEFAULTS: Record<
     theme: CTA_BUTTON_THEMES.GRAY,
     size: CTA_BUTTON_SIZES.LG,
   },
+  STACKED_SUB_ACTION: {
+    variant: CTA_BUTTON_VARIANTS.OUTLINED,
+    theme: CTA_BUTTON_THEMES.GRAY,
+    size: CTA_BUTTON_SIZES.LG,
+  },
 };
 
 export const BOTTOM_ACTION_BAR_BUTTON_STYLES = {
   FILL: 'min-w-0 flex-1',
   HUG: 'shrink-0',
+  FULL: 'w-full',
 } as const;
