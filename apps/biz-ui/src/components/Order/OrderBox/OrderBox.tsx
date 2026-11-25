@@ -1,27 +1,25 @@
-import clsx from 'clsx';
-
 import {
-  ORDER_BOX_BASE_STYLE,
   ORDER_BOX_EMPTY_LABEL,
-  ORDER_BOX_EMPTY_LABEL_COLOR,
+  ORDER_BOX_LIST_STYLES,
 } from '@/components/Order/OrderBox/constants';
-import OrderBoxRow from '@/components/Order/OrderBox/OrderBoxRow';
+import OrderBoxList from '@/components/Order/OrderBox/OrderBoxList';
 import { OrderBoxProps } from '@/components/Order/OrderBox/types';
 import { Typography, TYPOGRAPHY_ELEMENTS } from '@/components/Typography';
-import { TYPOGRAPHY_VARIANTS } from '@/variants';
 
 const OrderBox = ({
   items,
   emptyLabel = ORDER_BOX_EMPTY_LABEL,
   className,
 }: OrderBoxProps) => {
+  const { ITEM_NAME } = ORDER_BOX_LIST_STYLES;
+
   if (!items.length) {
     return (
       <Typography
         as={TYPOGRAPHY_ELEMENTS.P}
         className={className}
-        color={ORDER_BOX_EMPTY_LABEL_COLOR}
-        variant={TYPOGRAPHY_VARIANTS.LABEL_SEMIBOLD}
+        color={ITEM_NAME.COLOR}
+        variant={ITEM_NAME.VARIANT}
       >
         {emptyLabel}
       </Typography>
@@ -29,11 +27,11 @@ const OrderBox = ({
   }
 
   return (
-    <dl className={clsx(className, ORDER_BOX_BASE_STYLE)}>
-      {items.map(({ itemName, quantity }) => (
-        <OrderBoxRow itemName={itemName} key={itemName} quantity={quantity} />
-      ))}
-    </dl>
+    <OrderBoxList
+      className={className}
+      items={items}
+      styles={ORDER_BOX_LIST_STYLES}
+    />
   );
 };
 

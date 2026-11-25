@@ -10,7 +10,7 @@ Figma: [Order 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Desig
 
 | 컴포넌트          | 티켓       | 설명                                                        |
 | ----------------- | ---------- | ----------------------------------------------------------- |
-| `OrderBox`        | DOTOLI-230 · 335 | SKU 세로 목록(품목명 · 수량). 335에서 가로 3열을 교체하고 `OrderBoxCell`을 지움 |
+| `OrderBox`        | DOTOLI-230 · 335 · 354 | SKU 세로 목록(품목명 · 수량). 335에서 가로 3열을 교체하고 `OrderBoxCell`을 지움. 354에서 목록을 `OrderInputCard`와 함께 쓰는 비공개 `OrderBoxList`로 뽑음 |
 | `OrderDateInfo`   | DOTOLI-231 · 336 · 350 | 날짜 행 한 줄. 오른쪽에 마감 문구 + 버튼, 마감 뒤엔 「주문마감」 배지. 336에서 배송 정보 2행을 교체, 350에서 날짜 글자를 Figma로 되돌림 |
 | `QuantityStepper` | DOTOLI-232 | 상품 + 수량 증감 + 총계. Order 계열 첫 상호작용 컴포넌트    |
 | `OrderInputCard`  | DOTOLI-233 | `orderStatus` 4종 × 휴일 × 날짜 유무. 계열에서 가장 큼      |
@@ -44,19 +44,21 @@ SKU를 한 줄에 하나씩 세로로 적는 목록입니다. 왼쪽 품목명, 
 | 품목명 | `rgb(26,34,51)` · 600 | `label-semibold` `gray-900`(값이 같음) |
 | 수량 | `rgb(74,84,104)` · 400 | `label` `gray-700`(`#4c566e`, 가장 가까운 토큰). 굵기는 500(14px 토큰은 500 · 600 · 700뿐) |
 | 하루 전체 0 | 품목명 자리에 굵은 「주문 없음」 한 줄 | `emptyLabel`을 품목명과 같은 글자(`label-semibold` `gray-900`)로 |
-| 줄 사이 | 디자인에 SKU가 하나뿐이라 값 없음 | `gap-[2px]`(`OrderInputCardItems` 선례) |
+| 줄 사이 | 디자인에 SKU가 하나뿐이라 값 없음 | `gap-[2px]`(옛 `OrderInputCardItems` 선례) |
 
 바탕 · 테두리 · padding은 없습니다. 날짜 행과 SKU 행을 담는 흰 카드(Q1의 `.row`)는 소비 앱이 그립니다.
 
 ### 결정
 
 - **variant 추가가 아니라 교체입니다.** 소비 앱이 가로 3열을 쓰는 화면이 더는 없어 옵션으로 남기지 않았습니다(소비 앱 plan.md DS4). 그래서 `variant` 축(`noBg` · `default` · `past` · `inverse`)이 통째로 없어졌고, DOTOLI-317의 `inverse`도 함께 정리됐습니다. 남긴 것은 아티팩트에 있는 상태(채워짐 · 하루 전체 0)뿐입니다.
-- **`OrderBoxCell`을 지우고 비공개 `OrderBoxRow`로 바꿨습니다.** 세로 한 줄이라 「Cell」이 맞지 않고, 소비 앱이 import하는 곳이 0건이었습니다. 한 줄은 OrderBox 안에서만 쓰는 조각이라 `OrderInputCardItems`처럼 같은 폴더의 비공개 컴포넌트로 뒀습니다.
+- **`OrderBoxCell`을 지우고 비공개 `OrderBoxRow`로 바꿨습니다.** 세로 한 줄이라 「Cell」이 맞지 않고, 소비 앱이 import하는 곳이 0건이었습니다. 한 줄은 OrderBox 안에서만 쓰는 조각이라 같은 폴더의 비공개 컴포넌트로 뒀습니다.
+- **글자 목록은 비공개 `OrderBoxList`이고 `OrderInputCard`도 이걸 씁니다(DOTOLI-354).** `OrderInputCard`의 주문내역 패널이 따로 그리던 `OrderInputCardItems`와 줄 구조(왼쪽 품목명 · 오른쪽 수량 · 줄 사이 2 · 0이면 연한 색)가 같아 하나로 합쳤습니다. `OrderBoxList`는 `<dl>`만 그리고 바탕 · 테두리 · padding은 갖지 않습니다. 감싸는 모양은 쓰는 쪽이 `className`으로 얹습니다(`OrderInputCard`는 파란 패널). 글자 크기 · 색은 `OrderBoxListStyles`(품목 · 수량 각각 타이포 + 색, 0인 줄 색)로 받고, 쓰는 쪽이 상수 레코드로 넘깁니다(`ORDER_BOX_LIST_STYLES` · `ORDER_INPUT_CARD_ITEMS_STYLES`). 배럴에서 내보내지 않고 `OrderInputCard`가 파일 경로로 import합니다. 소비 앱 진입점은 완성된 컴포넌트뿐이라는 원칙(`apps/biz-ui/CLAUDE.md` 코드 규칙 1)을 따랐습니다.
+- **0인 줄은 `isNoOrder`로 표시합니다(DOTOLI-354).** `OrderBoxItem.isNoOrder`가 `true`이고 그 목록 스타일에 `NO_ORDER_COLOR`가 있으면 품목명과 수량을 그 색으로 칠합니다. 목록형(`ORDER_BOX_LIST_STYLES`)에는 `NO_ORDER_COLOR`가 없어 지금은 아무것도 바뀌지 않습니다. 아티팩트 Q1에 일부 SKU만 0인 행의 색 구분이 없어서입니다.
 - **`boxes`를 `quantity`로 바꿨습니다.** 값이 「5박스」에서 「5박스 · 125개」가 되어 이름이 맞지 않습니다. 소비 앱은 `getOrderBoxItems` 한 곳만 고치면 됩니다.
 - **문자열은 소비 앱이 조립합니다.** 「5박스 · 125개」의 단위 · 구분자, 일부 SKU만 0인 행의 「주문 없음」(디자인에 없는 경우)은 도메인 규칙이라 DS가 만들지 않습니다. DS가 0을 알아서 표기하려면 숫자를 받아야 해서 이 원칙이 바뀝니다.
 
-  **같은 계열 `OrderInputCardItems`와는 반대입니다.** 그쪽은 수량을 `number`로 받아 0이면 DS가 「주문없음」을 연한 색(`blue-200`)으로 그립니다. 그쪽은 단위가 「개」 하나로 고정된 입력 화면 요약이라 DS가 숫자에서 문구를 만들 수 있고, 여기는 「박스 · 개수」 두 단위를 소비 앱이 조립하는 표기라 0만 따로 DS가 맡으면 표기 규칙이 두 곳으로 갈립니다. 일부 SKU만 0인 행의 색 구분은 디자인에 없어 두지 않았습니다.
-- **`emptyLabel`과 기본값 `주문 없음`은 그대로입니다(DOTOLI-288).** 빈 상태 모양만 회색 박스 가운데 정렬에서 품목명 자리의 한 줄로 바뀌었습니다. 글자는 품목명과 같아서 `ORDER_BOX_EMPTY_LABEL_COLOR`를 `ORDER_BOX_ITEM_NAME_COLOR`로 묶어 두었습니다. 품목명 색이 바뀌면 빈 상태도 따라갑니다.
+  **같은 목록을 쓰는 `OrderInputCard`와는 반대입니다.** 그쪽은 수량을 `number`로 받아 0이면 DS가 「주문 없음」 문구와 `isNoOrder`를 만들어 `OrderBoxList`에 넘깁니다(`generateOrderInputCardItems`). 그쪽은 단위가 「개」 하나로 고정된 입력 화면 요약이라 DS가 숫자에서 문구를 만들 수 있고, 여기는 「박스 · 개수」 두 단위를 소비 앱이 조립하는 표기라 0만 따로 DS가 맡으면 표기 규칙이 두 곳으로 갈립니다. 그래서 OrderBox에서는 문구와 `isNoOrder`를 둘 다 소비 앱이 넘깁니다.
+- **`emptyLabel`과 기본값 `주문 없음`은 그대로입니다(DOTOLI-288).** 빈 상태 모양만 회색 박스 가운데 정렬에서 품목명 자리의 한 줄로 바뀌었습니다. 글자는 품목명과 같아서 `ORDER_BOX_LIST_STYLES.ITEM_NAME`의 타이포 · 색을 그대로 씁니다. 품목명이 바뀌면 빈 상태도 따라갑니다.
 - **마크업은 `<dl>`입니다.** 줄마다 `<div><dt>품목</dt><dd>수량</dd></div>`이고, 품목과 수량이 반복되는 라벨-값 쌍이라서입니다. [info.md](./info.md) 「InfoField」가 정리한 기준(`<dl>`은 묶음을 소유한 쪽이 둠)에 맞고, 여기서는 OrderBox가 묶음을 소유합니다. 빈 상태 한 줄은 `<dl>` 밖 단독 `<p>`입니다. `Typography`가 `dt` · `dd` · `p`를 `as`로 받습니다.
 - **품목명은 줄을 바꾸고 수량은 바꾸지 않습니다.** 품목명에 `min-w-0`, 수량에 `shrink-0` `whitespace-nowrap`를 걸었습니다. 수량이 두 줄로 깨지면 「박스 · 개수」를 한눈에 읽을 수 없어서입니다.
 - **`w-full`입니다.** 폭은 담는 카드가 정합니다.
@@ -67,11 +69,13 @@ SKU를 한 줄에 하나씩 세로로 적는 목록입니다. 왼쪽 품목명, 
 
 | prop | 필수 | 기본값 | 비고 |
 | --- | --- | --- | --- |
-| `items` | ✅ | — | `OrderBoxItem[]`(`{ itemName, quantity }`). 빈 배열이면 `emptyLabel` 한 줄 |
+| `items` | ✅ | — | `OrderBoxItem[]`(`{ itemName, quantity, isNoOrder? }`). 빈 배열이면 `emptyLabel` 한 줄. `isNoOrder`는 목록형에서 쓰지 않음 |
 | `emptyLabel` | | `'주문 없음'` | 기본값은 `ORDER_BOX_EMPTY_LABEL` |
 | `className` | | — | 비어 있으면 `<p>`, 아니면 `<dl>`에 붙음 |
 
 **DOTOLI-335는 파괴적 변경입니다.** 없어진 것은 `variant` · `ORDER_BOX_VARIANTS` · `ORDER_BOX_STYLES` · `OrderBoxVariant` · `OrderBoxVariantStyles` · `ORDER_BOX_ITEMS_STYLE` · `ORDER_BOX_EMPTY_STYLE`, `OrderBoxCell`과 그 상수 · 타입 전부(`ORDER_BOX_CELL_*` · `OrderBoxCellProps` · `OrderBoxCellTone` · `OrderBoxCellToneStyles`), `OrderBoxItem.boxes`입니다. 남은 공개 상수 중 `ORDER_BOX_BASE_STYLE`(grid → 세로 flex)과 `ORDER_BOX_EMPTY_LABEL_COLOR`(`gray-400` → `gray-900`)는 값이 바뀌었고, `ORDER_BOX_ROW_STYLE` · `ORDER_BOX_ITEM_NAME_STYLE` · `ORDER_BOX_QUANTITY_STYLE` · `ORDER_BOX_ITEM_NAME_COLOR` · `ORDER_BOX_QUANTITY_COLOR`와 `OrderBoxRowProps`가 새로 공개됐습니다. 두 상수를 소비 앱이 import하는 곳은 없습니다. 소비 앱에서 버전을 올리면 `OrderDayCard` · `FixedOrderDayItem`(`ORDER_BOX_VARIANTS` · `variant`)과 `getOrderBoxItems`(`boxes`)가 깨지고, 삭제 예정인 `OrderDelivery` · `OrderTodayUsage` · `OrderDeliveryUsageDayItem`은 BP-120 · 123이 먼저 지워야 합니다. 332~334는 이 변경 전에 따로 배포했습니다.
+
+**DOTOLI-354는 공개 상수 · 타입을 바꿉니다.** 한 줄짜리 품목은 화면이 그대로이고, 줄바꿈이 생길 때 달라지는 점은 아래 [OrderInputCard](#orderinputcard) 「결정」에 있습니다. OrderBox에서 `ORDER_BOX_BASE_STYLE`(→ `ORDER_BOX_LIST_BASE_STYLE`) · `ORDER_BOX_ITEM_NAME_COLOR` · `ORDER_BOX_QUANTITY_COLOR` · `ORDER_BOX_EMPTY_LABEL_COLOR`(→ `ORDER_BOX_LIST_STYLES`)가 없어졌고, `OrderBoxTextStyle` · `OrderBoxListStyles` · `OrderBoxListProps`가 생겼고, `OrderBoxRowProps`에 `styles`가 붙었습니다. `OrderInputCard`에서는 `ORDER_INPUT_CARD_ITEM_STYLE` · `ORDER_INPUT_CARD_ITEM_STYLES` · `OrderInputCardItemStyles` · `OrderInputCardItemsProps`가 없어지고, `ORDER_INPUT_CARD_ITEMS_STYLES`가 생기고, `ORDER_INPUT_CARD_ITEMS_STYLE`은 패널 모양(`rounded-10 bg-blue-50 px-[16px] py-[14px]`)만 남았습니다. `OrderBoxItem.isNoOrder`는 선택값이라 소비 앱 `getOrderBoxItems`는 그대로 됩니다. 없어진 이름을 소비 앱이 import하는 곳은 0건입니다(origin/dev, 11/25).
 
 ### 디자인 확인 필요
 
@@ -330,7 +334,7 @@ Figma: 컴포넌트 세트 `309:1965`. 심볼 10개가 있고 이름은 `orderSt
 | 날짜        | `body-semibold`                                        |
 | 상태 문구   | `label` · `gray/400` 고정                              |
 | 주문내역 패널 | `rounded-10` · `bg-blue-50` · `px-[16px] py-[14px]` · 카드와 gap 10px |
-| 패널 행     | `justify-between` · 품목명 `body` / 수량 `body-bold` · 행 간 gap 2px |
+| 패널 행     | [OrderBoxList](#orderbox) · 품목명 `body` / 수량 `body-bold` · 행 간 gap 2px · `items-start` |
 
 | `orderStatus`   | 카드 배경 · 테두리     | 요일 뱃지            | 날짜 색    | 액션                          |
 | --------------- | ---------------------- | -------------------- | ---------- | ----------------------------- |
@@ -359,6 +363,7 @@ Figma: 컴포넌트 세트 `309:1965`. 심볼 10개가 있고 이름은 `orderSt
 - **수량은 `quantity: number`이고 키를 생략할 수 없습니다.** `1` 이상이면 `{n}개` + `gray/800`, `0`이면 `주문 없음` + `blue/200`입니다. `{n}개` 조립은 `QuantityStepper`의 `unitsPerBox`와 같은 기준 — 단위 `개`가 심볼 전체에서 고정입니다.
 - **표기는 `quantityLabel`로 덮어쓸 수 있습니다(DOTOLI-346).** 11/23 시안이 「4박스 (80개)」로 박스 · 개수 두 단위를 써서, `OrderBox`처럼 소비 앱이 조립한 문자열을 받습니다. `quantity`는 그대로 필수라 `0` 판정(「주문 없음」 · 연한 색)은 DS가 계속 맡고, `quantityLabel`은 `1` 이상일 때만 씁니다.
 - **품목 수량에는 「미주문」이 없습니다.** 처음엔 `quantity?: number`로 뒀다가 키 생략과 `0`이 타입상 구분되지 않아 required로 바꿨고, 이어서 COM-017의 미주문/수량 0 구분을 따라 `number | null`까지 갔다가 되돌렸습니다. **COM-017의 그 구분은 `orderStatus` 대응표, 즉 카드 레벨**이고 이미 `inputRequired`/`noOrder`로 갈라져 있습니다. 이 패널은 완료된 주문의 결과만 보여주고 입력 단계에서 부분 미발주를 막으므로 품목은 `0` 아니면 `1` 이상뿐입니다 — 도달할 수 없는 `null`을 타입에 남기지 않습니다.
+- **주문내역 패널은 OrderBox의 `OrderBoxList`를 씁니다(DOTOLI-354).** 예전 `OrderInputCardItems`를 지웠습니다. 패널 모양(`ORDER_INPUT_CARD_ITEMS_STYLE`)과 글자 묶음(`ORDER_INPUT_CARD_ITEMS_STYLES`)만 이쪽에 있고, `items`는 `generateOrderInputCardItems`가 `OrderBoxItem`으로 바꿔 넘깁니다. 바뀐 것은 둘입니다. 마크업이 `div`에서 `dl` · `dt` · `dd`가 됐고, 줄 정렬이 `items-center`에서 `items-start`가 됐습니다(품목명 `min-w-0`, 수량 `nowrap`). 한 줄짜리 품목은 똑같이 보이고, 품목명이 두 줄로 넘어갈 때만 수량이 위로 붙습니다.
 - **`· 휴일` 접미어를 `Order/shared/`로 옮겼습니다.** `OrderDateInfo`와 같은 문자열을 쓰는 첫 사례라 계열 「공통 결정」의 조건이 충족됐습니다. 날짜가 없을 때 쓰는 `ORDER_HOLIDAY_LABEL`(`휴일`)과 접미어 형태 `ORDER_HOLIDAY_SUFFIX`(`· 휴일`)를 함께 둡니다.
 - **카드가 심볼보다 2px 낮습니다** (71 vs 73). 테두리를 `inset-ring`으로 그려 레이아웃을 차지하지 않기 때문이고, `QuantityStepper` 값 박스와 같은 이유입니다.
 - **루트에 폭을 선언하지 않습니다.** 심볼 340px은 문서 값이고 실제로는 fill입니다.

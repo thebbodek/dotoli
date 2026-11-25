@@ -28,11 +28,6 @@ export interface OrderInputCardStatusStyles {
 export interface OrderInputCardButtonStyles
   extends Required<Pick<CtaButtonProps, 'theme' | 'variant'>> {}
 
-export type OrderInputCardItemStyles = Record<
-  'ORDERED' | 'EMPTY',
-  ColorVariants
->;
-
 export interface OrderInputCardItem {
   name: string;
   quantity: number;
@@ -52,7 +47,7 @@ export interface OrderInputCardProps
   onAction?: CtaButtonProps['onClick'];
 }
 
-export interface OrderInputCardItemsProps
+export interface GenerateOrderInputCardItemsProps
   extends Required<Pick<OrderInputCardProps, 'items'>> {}
 
 export interface ResolveOrderInputCardDayStyleProps

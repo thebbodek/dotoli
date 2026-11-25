@@ -1,8 +1,11 @@
 import { HTMLAttributes } from 'react';
 
+import { ColorVariants, TypographyVariants } from '@/variants';
+
 export interface OrderBoxItem {
   itemName: string;
   quantity: string;
+  isNoOrder?: boolean;
 }
 
 export interface OrderBoxProps
@@ -11,4 +14,22 @@ export interface OrderBoxProps
   emptyLabel?: string;
 }
 
-export interface OrderBoxRowProps extends OrderBoxItem {}
+export interface OrderBoxTextStyle {
+  VARIANT: TypographyVariants;
+  COLOR: ColorVariants;
+}
+
+export interface OrderBoxListStyles {
+  ITEM_NAME: OrderBoxTextStyle;
+  QUANTITY: OrderBoxTextStyle;
+  NO_ORDER_COLOR?: ColorVariants;
+}
+
+export interface OrderBoxListProps
+  extends Pick<OrderBoxProps, 'items' | 'className'> {
+  styles: OrderBoxListStyles;
+}
+
+export interface OrderBoxRowProps
+  extends OrderBoxItem,
+    Pick<OrderBoxListProps, 'styles'> {}

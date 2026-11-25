@@ -2,12 +2,15 @@ import clsx from 'clsx';
 
 import { Badge, BADGE_VARIANTS } from '@/components/Badge';
 import { CTA_BUTTON_SIZES, CtaButton } from '@/components/Button/CtaButton';
+import OrderBoxList from '@/components/Order/OrderBox/OrderBoxList';
 import {
   ORDER_INPUT_CARD_ACTION_LABELS,
   ORDER_INPUT_CARD_BADGE_THEMES,
   ORDER_INPUT_CARD_BASE_STYLE,
   ORDER_INPUT_CARD_BUTTON_STYLES,
   ORDER_INPUT_CARD_DAY_STYLE,
+  ORDER_INPUT_CARD_ITEMS_STYLE,
+  ORDER_INPUT_CARD_ITEMS_STYLES,
   ORDER_INPUT_CARD_ORDER_STATUSES,
   ORDER_INPUT_CARD_ROW_STYLE,
   ORDER_INPUT_CARD_STATUS_LABEL_COLOR,
@@ -16,10 +19,10 @@ import {
   ORDER_INPUT_CARD_SUMMARY_STYLE,
   ORDER_INPUT_CARD_TEXT_STYLE,
 } from '@/components/Order/OrderInputCard/constants';
-import OrderInputCardItems from '@/components/Order/OrderInputCard/OrderInputCardItems';
 import { OrderInputCardProps } from '@/components/Order/OrderInputCard/types';
 import {
   generateOrderInputCardDateLabel,
+  generateOrderInputCardItems,
   resolveOrderInputCardDayStyle,
 } from '@/components/Order/OrderInputCard/utils';
 import { Typography } from '@/components/Typography';
@@ -95,7 +98,13 @@ const OrderInputCard = ({
           />
         )}
       </div>
-      {hasItems && <OrderInputCardItems items={items} />}
+      {hasItems && (
+        <OrderBoxList
+          className={ORDER_INPUT_CARD_ITEMS_STYLE}
+          items={generateOrderInputCardItems({ items })}
+          styles={ORDER_INPUT_CARD_ITEMS_STYLES}
+        />
+      )}
     </div>
   );
 };
