@@ -63,7 +63,7 @@ Figma의 배지가 `Badge` 컴포넌트 인스턴스(`533:1676`)이고, `variant
 | 항목    | Figma                        | `BADGE_STYLES.filled.primary` |
 | ------- | ---------------------------- | ----------------------------- |
 | 배경    | `blue/600` (`#2372dc`)       | `bg-blue-600`                 |
-| 라벨    | `caption` · `base/white`     | `caption` · `COLOR_VARIANTS.WHITE` |
+| 라벨    | `label-semibold` · `base/white` | `label-semibold` · `COLOR_VARIANTS.WHITE` (DOTOLI-349) |
 | padding | `px-[8px] py-[3px]`          | `BADGE_BASE_STYLE`            |
 | radius  | 6                            | `rounded-6`                   |
 
@@ -190,9 +190,9 @@ Storybook 렌더의 계산값으로 대조했습니다.
 | 테두리    | `selected`만 1px `blue/300`                 | `rgb(151,190,250) 0 0 0 1px inset` · `default`는 `none`                    |
 | 배경      | `white` ↔ `blue/100`                       | `rgb(255,255,255)` ↔ `rgb(235,243,255)`                                  |
 | 라벨      | `body-lg` · `gray/900`                      | 18px / 500 · 행높이 26.1 · 자간 -0.54px · `rgb(26,34,51)`                  |
-| 배지      | `filled` · `primary` · `caption`            | 46.76 × 24 · `rgb(35,114,220)` 배경 · 라벨 12px / 600 흰색                 |
+| 배지      | `filled` · `primary` · `label-semibold`     | 51.0 × 26.3 · `rgb(35,114,220)` 배경 · 라벨 14px / 600 흰색 (DOTOLI-349) |
 | 단일 선택 | 같은 `name`에서 하나만 · `FormData` 1건     | `stores` 그룹에서 1번 → 3번으로 이동 · `FormData` **1건**                  |
-| 넘침      | 카드 높이 유지 · 라벨만 말줄임              | `LongLabel` 라벨 292 / 235.24(배지 46.76 + gap 10만큼 좁음) · 둘 다 말줄임 · 높이 **56 유지** |
+| 넘침      | 카드 높이 유지 · 라벨만 말줄임              | `LongLabel` 라벨 292 / 230.96(배지 51.04 + gap 10만큼 좁음) · 둘 다 말줄임 · 높이 **56 유지** |
 
 **`h-[56px]`이 계열에서 처음 나온 클래스인데 실행 중이던 서버에 그대로 먹었습니다.** CLAUDE.md 「검증」의 재시작 함정에 안 걸린 사례입니다.
 

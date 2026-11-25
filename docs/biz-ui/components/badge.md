@@ -9,6 +9,7 @@ Figma: [Badge](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-Design-syste
 | 컴포넌트 | 티켓       | 설명                                                     |
 | -------- | ---------- | -------------------------------------------------------- |
 | `Badge`  | DOTOLI-228 | `theme` 5 × `variant` 2. 10조합 전수 실측. 상태 축 없음 |
+| `Badge`  | DOTOLI-349 | 라벨 `caption`(12) → `label-semibold`(14). 크기 축 없이 전체 적용 |
 
 Order 섹션(DOTOLI-229~233)보다 먼저 넣었습니다. OrderInputCard(DOTOLI-233)의 `inputClosed`가 `red`/`tonal` Badge를 인스턴스로 물고 있어서입니다.
 
@@ -25,13 +26,15 @@ Order 섹션(DOTOLI-229~233)보다 먼저 넣었습니다. OrderInputCard(DOTOLI
 
 | 항목    | 값                                              |
 | ------- | ----------------------------------------------- |
-| 크기    | 58 × 24 (내용에 따라 가변)                      |
+| 크기    | 64 × 26 (내용에 따라 가변)                      |
 | padding | `px-[8px] py-[3px]`                             |
 | radius  | 6px → `rounded-6`                               |
-| 라벨    | `caption` (SemiBold 12px / lh 1.5 / ls -0.12px) |
+| 라벨    | `label-semibold` (SemiBold 14px / lh 1.45 / ls -0.42px) |
 | 테두리  | `tonal`만 1px. `filled`는 없음                  |
 
-`caption` 토큰은 `--text-caption: 0.75rem` / lh 1.5 / fw 600 / ls `-0.01em`이라 12px 기준 `-0.12px`으로 Figma와 정확히 맞습니다.
+`label-semibold` 토큰은 `--text-label-semibold: 0.875rem` / lh 1.45 / fw 600 / ls `-0.03em`이라 14px 기준 `-0.42px`으로 Figma와 정확히 맞습니다. 높이는 20.3 + 패딩 6 = 약 26.3px이고 Figma는 26으로 반올림해 표시합니다.
+
+**DOTOLI-349 (11/24 실측).** DOTOLI-228 때는 라벨이 `caption`(12 · 600 · lh 1.5)이고 58 × 24였는데, DS Figma 세트가 14 · 600 · lh 1.45로 바뀌었습니다. 세트 10심볼이 전부 64 × 26이고 다른 크기 심볼이 없어 **크기 축을 두지 않고 전체를 14로 바꿨습니다.** 패딩 · radius · 색은 그대로입니다. 높이가 2px 커지는 사용처는 DS 안 `OrderDateInfo`(줄 `min-h-[32px]`이라 줄 높이 불변) · `OrderInputCard` `inputClosed`(같은 자리 `CtaButton` `sm` 32px보다 낮음) · `SelectionItem` 「선택중」, 소비 앱 `OrderStatusCard` 헤더 배지 한 곳입니다(origin/dev `02d1891`).
 
 ### 색 매트릭스
 
@@ -52,16 +55,16 @@ Order 섹션(DOTOLI-229~233)보다 먼저 넣었습니다. OrderInputCard(DOTOLI
 - **라벨은 `Typography`로 그리고 스타일을 `CONTAINER`/`LABEL`로 쪼갰습니다.** 처음엔 "서브 컴포넌트가 없으니 라벨 색을 루트에 걸어 상속시키면 된다"고 판단해 조합당 문자열 하나로 뒀는데, internal-ui가 콘텐츠 텍스트를 일관되게 `Typography`로 그리고 있어(`BadgeLabel` 포함) 맞췄습니다. `CONTAINER`는 배경·테두리 클래스 문자열, `LABEL`은 `ColorVariants` 값입니다.
 - **컨트롤 라벨과 콘텐츠 텍스트의 경계** — internal-ui는 `Chip`·`Filter`·`Tab`처럼 인터랙티브 컨트롤의 라벨은 raw 텍스트로 두고, `Alert`·`Toast`·`FileInfo`·`BadgeLabel` 같은 표시 텍스트는 `Typography`로 그립니다. Badge는 후자입니다. biz-ui의 CtaButton·Filter·FloatingPill이 raw인 것은 전자여서고 갈라진 게 아닙니다.
 - **`<span>` + `inline-flex`입니다.** 상호작용 요소가 아니라 `hover`·`pressed`·`disabled`를 두지 않았습니다(Figma에도 상태 축이 없습니다). `flex-h-stack-center` 유틸은 `display: flex`라 블록 레벨이 되어 쓰지 않았습니다 — 뱃지는 텍스트 흐름 안에 놓일 수 있어야 합니다.
-- **테두리를 `border`가 아니라 `inset-ring`으로 그립니다.** 처음엔 "두께가 상태별로 안 바뀌니 `border`로 충분하다"고 판단했는데 틀렸습니다. 문제는 두께 변화가 아니라 **`tonal`에만 테두리가 있다는 것**입니다 — `border`를 쓰면 `tonal`이 사방 1px씩 커져 24px이어야 할 높이가 26px이 되고, Storybook에서 `variant`를 토글할 때 레이아웃이 튑니다. Figma는 inside stroke라 두 variant가 모두 58×24입니다.
+- **테두리를 `border`가 아니라 `inset-ring`으로 그립니다.** 처음엔 "두께가 상태별로 안 바뀌니 `border`로 충분하다"고 판단했는데 틀렸습니다. 문제는 두께 변화가 아니라 **`tonal`에만 테두리가 있다는 것**입니다 — `border`를 쓰면 `tonal`만 사방 1px씩 커져 `filled`보다 높이가 2px 커지고, Storybook에서 `variant`를 토글할 때 레이아웃이 튑니다. Figma는 inside stroke라 두 variant의 크기가 같습니다(DOTOLI-349 이후 64×26).
 
-  | 방법                        | 레이아웃 시프트 | Figma 24px 재현 |
+  | 방법                        | 레이아웃 시프트 | Figma 높이 재현 |
   | --------------------------- | --------------- | --------------- |
-  | `border`                    | 있음            | ❌ tonal 26px   |
-  | `filled`에 투명 `border`    | 없음            | ❌ 둘 다 26px   |
+  | `border`                    | 있음            | ❌ tonal +2px   |
+  | `filled`에 투명 `border`    | 없음            | ❌ 둘 다 +2px   |
   | `box-sizing: content-box`   | 있음            | ❌              |
   | `inset-ring` (채택)         | 없음            | ✅              |
 
-  `content-box`는 이 경우 무효입니다 — `box-sizing`은 `width`/`height`가 명시됐을 때만 의미가 있고, Badge처럼 내용에 맞춰 늘어나는 요소는 어느 쪽이든 바깥 크기가 `내용 + 패딩 + 테두리`로 같습니다. 범용 웹에서는 「투명 보더」가 가장 흔한 해법이지만, 그건 Figma 값(24px)을 못 맞춥니다.
+  `content-box`는 이 경우 무효입니다 — `box-sizing`은 `width`/`height`가 명시됐을 때만 의미가 있고, Badge처럼 내용에 맞춰 늘어나는 요소는 어느 쪽이든 바깥 크기가 `내용 + 패딩 + 테두리`로 같습니다. 범용 웹에서는 「투명 보더」가 가장 흔한 해법이지만, 그건 Figma 높이보다 2px 커집니다.
 - **`Badge/` 아래 폴더 승격 없이 평면 구조입니다.** 서브 컴포넌트도 계열도 없어 `Icon`·`Typography`·`Flex`와 같은 배치입니다. internal-ui는 `Badge/Badge` · `Badge/InfoBadge` · `Badge/shared`로 나뉘어 있지만 그건 뱃지가 2종이라서고, biz-ui Figma에는 1종뿐입니다.
 
 ## API

@@ -20,7 +20,7 @@ const Badge = ({
 
   return (
     <span className={clsx(className, BADGE_BASE_STYLE, CONTAINER)}>
-      <Typography color={LABEL} variant={TYPOGRAPHY_VARIANTS.CAPTION}>
+      <Typography color={LABEL} variant={TYPOGRAPHY_VARIANTS.LABEL_SEMIBOLD}>
         {label}
       </Typography>
     </span>
