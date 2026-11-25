@@ -1,13 +1,21 @@
 import {
   Flex,
   ORDER_BOX_EMPTY_LABEL,
+  ORDER_BOX_VARIANTS,
   OrderBox,
   OrderBoxItem,
+  OrderBoxProps,
   Typography,
 } from '@bbodek/biz-ui';
 import { Meta, StoryObj } from '@storybook/react';
 
 const ORDER_BOX_WIDTH_STYLE = 'w-[306px]';
+
+const ORDER_BOX_BOX_WIDTH_STYLE = 'w-[338px]';
+
+const VARIANT_OPTIONS = Object.values(ORDER_BOX_VARIANTS);
+
+const CLOSED_EMPTY_LABEL = '주문이 마감된 날이에요';
 
 const EMPTY_LABEL = '휴무일';
 
@@ -28,6 +36,22 @@ const LONG_NAME_ITEMS: OrderBoxItem[] = [
   { itemName: '국그릇', quantity: '2박스 · 60개' },
 ];
 
+const BOX_ITEMS: OrderBoxItem[] = [
+  { itemName: '4찬 식판', quantity: '4박스 · 80개' },
+  { itemName: '국그릇', quantity: '주문없음', isNoOrder: true },
+  { itemName: '수저', quantity: '주문없음', isNoOrder: true },
+];
+
+interface BoxCase extends Pick<OrderBoxProps, 'items' | 'emptyLabel'> {
+  title: string;
+}
+
+const BOX_CASES: BoxCase[] = [
+  { title: '품목 있음 · 0인 줄 회색', items: BOX_ITEMS },
+  { title: '빈 상자 · 기본값', items: [] },
+  { title: '빈 상자 · 마감', items: [], emptyLabel: CLOSED_EMPTY_LABEL },
+];
+
 const meta = {
   title: 'core/biz-ui/Order/OrderBox',
   component: OrderBox,
@@ -46,6 +70,11 @@ const meta = {
     emptyLabel: {
       control: 'text',
       table: { defaultValue: { summary: ORDER_BOX_EMPTY_LABEL } },
+    },
+    variant: {
+      control: 'inline-radio',
+      options: VARIANT_OPTIONS,
+      table: { defaultValue: { summary: ORDER_BOX_VARIANTS.LIST } },
     },
   },
   args: {
@@ -98,4 +127,31 @@ export const LongName: Story = {
   args: {
     items: LONG_NAME_ITEMS,
   },
+};
+
+export const Box: Story = {
+  parameters: { controls: { disable: true }, layout: 'padded' },
+  render: () => (
+    <Flex direction='column' gap='24'>
+      {BOX_CASES.map(({ title, items, emptyLabel }) => (
+        <Flex
+          align={{ items: 'start' }}
+          direction='column'
+          gap='12'
+          key={title}
+        >
+          <Typography color='gray-500' variant='label-bold'>
+            {title}
+          </Typography>
+          <Flex className={ORDER_BOX_BOX_WIDTH_STYLE}>
+            <OrderBox
+              emptyLabel={emptyLabel}
+              items={items}
+              variant={ORDER_BOX_VARIANTS.BOX}
+            />
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
+  ),
 };

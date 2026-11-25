@@ -1,6 +1,9 @@
+import clsx from 'clsx';
+
 import {
   ORDER_BOX_EMPTY_LABEL,
-  ORDER_BOX_LIST_STYLES,
+  ORDER_BOX_VARIANT_STYLES,
+  ORDER_BOX_VARIANTS,
 } from '@/components/Order/OrderBox/constants';
 import OrderBoxList from '@/components/Order/OrderBox/OrderBoxList';
 import { OrderBoxProps } from '@/components/Order/OrderBox/types';
@@ -9,17 +12,19 @@ import { Typography, TYPOGRAPHY_ELEMENTS } from '@/components/Typography';
 const OrderBox = ({
   items,
   emptyLabel = ORDER_BOX_EMPTY_LABEL,
+  variant = ORDER_BOX_VARIANTS.LIST,
   className,
 }: OrderBoxProps) => {
-  const { ITEM_NAME } = ORDER_BOX_LIST_STYLES;
+  const { CONTAINER, EMPTY, LIST, EMPTY_LABEL } =
+    ORDER_BOX_VARIANT_STYLES[variant];
 
   if (!items.length) {
     return (
       <Typography
         as={TYPOGRAPHY_ELEMENTS.P}
-        className={className}
-        color={ITEM_NAME.COLOR}
-        variant={ITEM_NAME.VARIANT}
+        className={clsx(className, EMPTY)}
+        color={EMPTY_LABEL.COLOR}
+        variant={EMPTY_LABEL.VARIANT}
       >
         {emptyLabel}
       </Typography>
@@ -28,9 +33,9 @@ const OrderBox = ({
 
   return (
     <OrderBoxList
-      className={className}
+      className={clsx(className, CONTAINER)}
       items={items}
-      styles={ORDER_BOX_LIST_STYLES}
+      styles={LIST}
     />
   );
 };

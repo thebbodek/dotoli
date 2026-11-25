@@ -297,6 +297,7 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-349 biz-ui > Badge 라벨 글자 크기 14px 로 확대
 - [x] DOTOLI-350 biz-ui > OrderDateInfo 날짜 글자 Figma 값으로 복원
 - [x] DOTOLI-354 biz-ui > OrderBox · OrderInputCard 품목 목록 공통화
+- [x] DOTOLI-351 biz-ui > OrderBox 테두리 상자 변형 · 빈 상자 표시 추가
 
 소비 앱 주문 확인 · 완료 화면(BP-250)을 11/23 시안(`1XFNe18voQAN71SyqCl4qV` W8 `241:22514` · W21 `241:22567` · W9 `241:22610`)과 DS Figma에 대조하다 나온 작업입니다(11/24 발행, 에픽 DOTOLI-212 · Sprint 13).
 
@@ -424,6 +425,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-349 | DS Figma Badge 세트(`75:4728`) 라벨이 14 · 600 · lh 1.45로 바뀌어 `caption` → `label-semibold`. 10심볼 모두 64 × 26이라 크기 축 없이 전체 적용. 높이 24 → 26. 소비 앱 사용처는 `OrderStatusCard` 헤더 한 곳(origin/dev `02d1891`), 코드 변경 불필요 | [components/badge.md](./components/badge.md) · [order.md](./components/order.md) |
 | DOTOLI-350 | OrderDateInfo 날짜 글자를 Figma로 되돌림. DS `203:872` · 11/23 시안 파일의 기존 시안 · 신규 시안 세 곳이 같은 값(평일 `body-lg-semibold` `gray-700`, 휴일 `red-600` + 「· 휴일」)이라 336의 아티팩트 값(`heading-5` `gray-900`, 휴일 `red-400`, 꼬리말 없음)을 걷음. 휴일 대비 3.41:1 → 6.15:1. 꼬리말은 `OrderInputCard`와 같은 `ORDER_HOLIDAY_SUFFIX`를 DS가 붙임. 평일 글자까지 되돌린 것은 11/25 사용자 결정. API는 그대로인 **시각 변경**이라 소비 앱이 `dateLabel`에 「휴일」을 직접 붙였다면 빼야 함 | [components/order.md](./components/order.md) |
 | DOTOLI-354 | OrderBox 글자 목록을 비공개 `OrderBoxList`로 뽑고 `OrderInputCard` 주문내역 패널이 `OrderInputCardItems` 대신 함께 씀. 상자형(DOTOLI-351)을 만들다 두 목록의 줄 구조가 같아진 것을 보고 따로 발행한 선행 작업. 글자 묶음은 `OrderBoxListStyles` 상수 레코드로 쓰는 쪽이 넘기고, 0인 줄은 `OrderBoxItem.isNoOrder`(선택값)로 칠함. 목록형은 0인 줄 색이 없어 그대로. 한 줄 품목은 시각 변경 없음. `OrderInputCard` 마크업이 `dl`로 바뀌고 줄 정렬이 `items-start`가 돼 품목명이 두 줄일 때만 수량이 위로 붙음. 공개 상수 · 타입 이름 변경은 소비 앱 사용처 0건(11/25) | [components/order.md](./components/order.md) |
+| DOTOLI-351 | OrderBox에 `variant` 추가(`list` 기본 · `box`). `box`는 DS Figma `169:688`의 `default` · `empty` 실측: 흰 바탕 `gray-100` 테두리 r16 padding 17/15, 글자 16 · 500 / 16 · 700 `gray-800`, 0인 줄(`isNoOrder`) `gray-400`, 빈 상자는 `gray-100` 바탕 `gray-300` 테두리 가운데 정렬 label `gray-400`. 354의 `OrderBoxList`에 감싸는 클래스와 글자 묶음만 바꿔 넘김. 목록형은 그대로. DS `noBg`(16px)와 목록형(14px) 차이는 디자인 확인 필요로 남김. 빈 상자 글자 굵기는 DOTOLI-352 몫 | [components/order.md](./components/order.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 
