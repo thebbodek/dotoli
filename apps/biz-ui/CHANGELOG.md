@@ -1,5 +1,15 @@
 # @bbodek/biz-ui
 
+## 0.0.75
+
+### Patch Changes
+
+- df30fc3: DOTOLI-356 biz-ui > OrderDateInfo 제목 · 설명 글자 묶음으로 교체
+- df30fc3: DOTOLI-358 biz-ui > Tab 라벨 글자 14px 로 축소
+- df30fc3: DOTOLI-359 biz-ui > BottomActionBar 세로 배치 추가
+- df30fc3: DOTOLI-357 biz-ui > OrderInputCard 주문 상태 unset · zero · ordered 와 잠금 상태로 교체
+- df30fc3: DOTOLI-355 biz-ui > OrderBoxCell 수량 줄 복원 · OrderBox 상자형 정리
+
 ## 0.0.74
 
 ### Patch Changes
