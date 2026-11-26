@@ -35,7 +35,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 **계열 폴더 `components/Calendar/`를 DOTOLI-271이 열었고, 계열 공통 `Calendar/shared/`를 DOTOLI-273이 열었습니다.** **계열 5종이 이 티켓으로 끝났습니다.** DOTOLI-275는 [`CalendarDayButton`](#calendardaybutton)의 `aria-label` 누락도 함께 고쳤습니다 — 아래 「후속 수정」.
 
-`Calendar/shared/`에는 **계열 안에서 두 번 이상 쓰이는 것만** 둡니다. 지금은 연도 2자리 표기(`formatCalendarYear` — `StickyCalendar`의 `26년`과 `Calendar`의 `26년 6월`이 함께 씁니다)와 날짜 포맷 · 요일 수 상수입니다. CLAUDE.md 「코드 규칙 1」의 표대로 `<Group>/shared/`라 **공개**입니다.
+`Calendar/shared/`에는 **계열 안에서 두 번 이상 쓰이는 것만** 둡니다. 지금은 연도 2자리 표기(`formatCalendarYear` — `StickyCalendar`의 `26년`과 `Calendar`의 `26년 6월`이 함께 씁니다)와 날짜 포맷 · 요일 수 상수, 그리고 시작 요일 값(`CALENDAR_WEEK_START_DAYS`)과 그 인덱스 매핑입니다(DOTOLI-345, `Calendar` · `StickyCalendar`가 함께 씀). CLAUDE.md 「코드 규칙 1」의 표대로 `<Group>/shared/`라 **공개**입니다.
 
 ## 정책
 
@@ -357,7 +357,7 @@ return (
 
 - **`useDateSelect` 축을 `dateSelectOption` 유무로 흡수했습니다.** 연도 값과 핸들러 3개가 축과 항상 같이 움직입니다 — [`HeaderBar`](./header-bar.md)의 `progressOption`이 정확히 같은 모양이고, 그쪽도 `{isNavigation && !!progressOption && <HeaderBarProgress {...progressOption} />}`로 씁니다.
 
-- **`useWeekday`는 흡수하지 않았습니다.** **딸린 데이터가 없어서** 흡수할 대상이 없습니다 — 요일 7개는 고정 상수입니다. 이름은 Figma 축 그대로이고 CLAUDE.md의 「`use`(기능 on/off)」 규칙과도 맞습니다. 같은 컴포넌트에서 한 축은 흡수하고 한 축은 prop으로 두는 것이 비대칭으로 보이지만, **기준은 「값이 함께 움직이는가」 하나**라 갈리는 게 맞습니다.
+- **`useWeekday`는 흡수하지 않았습니다.** **딸린 데이터가 없어서** 흡수할 대상이 없습니다 — 요일 7개는 고정 상수이고 순서만 `weekStartDay`가 정합니다. 이름은 Figma 축 그대로이고 CLAUDE.md의 「`use`(기능 on/off)」 규칙과도 맞습니다. 같은 컴포넌트에서 한 축은 흡수하고 한 축은 prop으로 두는 것이 비대칭으로 보이지만, **기준은 「값이 함께 움직이는가」 하나**라 갈리는 게 맞습니다.
 
 - **`shrink-0`이 `sticky`와 한 짝입니다.** 붙는 자리가 **컬럼 flex 스크롤 컨테이너**인데(`scroll-y flex-v-stack`, [`BottomSheet`](./bottom-sheet.md)의 바디가 정확히 그 모양입니다) 콘텐츠가 컨테이너 높이를 넘기는 순간 flex가 자식들을 줄입니다. 기본값 `flex-shrink: 1`이면 **바가 82 → 16으로 찌그러진 채 상단에 붙어 있어** 붙긴 붙었는데 아무것도 안 보입니다. `position`을 고쳐도 안 풀리고 `shrink-0`이라야 풀립니다 — [`IconCircle`](./icon-circle.md)이 같은 이유로 `shrink-0`을 단 선례이고, 거기와 달리 **여기는 스크롤이 생겨야만 드러나서** 한 달치 격자만 깐 스토리에서는 보이지 않았습니다.
 
@@ -377,6 +377,8 @@ return (
 
 - **요일 줄에 표 시맨틱을 넣지 않았습니다.** `<th scope='col'>`이 맞으려면 날짜 격자까지 한 `<table>` 안에 있어야 하는데 **격자를 만드는 것은 이 컴포넌트가 아닙니다.** `CalendarDayButton`에서 `role='gridcell'`을 미룬 것과 같은 이유이고, 둘을 함께 감싸는 `CalendarBottomSheet` 티켓이 판단할 자리입니다.
 
+- **요일 헤더 순서는 `weekStartDay`로 돌립니다** (DOTOLI-345). `STICKY_CALENDAR_WEEKDAYS`는 일~토 순서 그대로 두고 `rotateStickyCalendarWeekdays`가 시작 인덱스만큼 잘라 이어 붙입니다. 색이 라벨 객체에 붙어 있어서 월요일 시작이면 「월 … 토 일」이 되고 토 · 일의 `red/400`이 자리를 따라갑니다. 값 설명은 [`Calendar`](#calendar) 「결정」에 있습니다.
+
 - **폴더는 계열 안입니다.** `components/Calendar/StickyCalendar/`. 연도 줄은 서브 컴포넌트(`StickyCalendarDateSelect`)로 갈랐습니다 — `HeaderBar`가 `HeaderBarProgress` · `HeaderBarHomeTitle`로 가른 것과 같은 층입니다.
 
 ### API
@@ -385,6 +387,7 @@ return (
 | ------------------ | ---- | ------ | -------------------------------------------------------- |
 | `dateSelectOption` |      | —      | `{ year, onPrevYear, onNextYear, onYearClick }` + 선택 `isPrevYearDisabled` · `isNextYearDisabled`. 주면 연도 줄이 생김 |
 | `useWeekday`       |      | `true` | 요일 헤더 줄                                              |
+| `weekStartDay`     |      | `'sunday'` | 요일 헤더 시작 요일. `CALENDAR_WEEK_START_DAYS`          |
 | `className`        |      | —      | 바에 적용                                                 |
 
 ```tsx
@@ -409,7 +412,6 @@ return (
 | 항목             | 내용                                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------ |
 | 요일색 ↔ 휴일색  | 헤더 일 · 토는 `red/400`, `CalendarDayButton`의 휴일은 `red/600`입니다. 한 단계 차이가 의도인지                |
-| 주 시작 요일     | 일요일 시작으로 고정했습니다. 월요일 시작이 필요한 화면이 생길 수 있는지                                      |
 | 둘 다 `false`    | 심볼이 없습니다. 구현은 빈 바(높이 16)가 렌더됩니다 — 막아야 하는지                                            |
 | 연도 표기 자릿수 | `26년`이라 2자리로 줄였습니다. 2100년이 `00년`이 되는데 서비스 수명상 무시해도 되는지                          |
 | 상호작용         | `hover` · `pressed`는 `CtaButton`이 갖고 있고, 바 자체의 그림자 · 경계는 정의가 없습니다 (스크롤 시 격자와 맞닿음) |
@@ -420,10 +422,9 @@ return (
 
 | 스토리         | 보는 것                                                              |
 | -------------- | -------------------------------------------------------------------- |
-| `Default`      | 컨트롤로 `useWeekday`를 끄고 켠다. 작년 · 내년이 실제로 연도를 바꾼다  |
+| `Default`      | 컨트롤로 `useWeekday` · `weekStartDay`를 바꾼다. 작년 · 내년이 실제로 연도를 바꾼다  |
 | `Combinations` | 그려져 있는 세 조합                                                   |
 | `YearLimit`    | `isPrevYearDisabled` · `isNextYearDisabled` · 둘 다 — `CtaButton`의 비활성 시각 |
-| `YearLimit`    | `isPrevYearDisabled` · `isNextYearDisabled` — 끝에 닿았을 때 `CtaButton`의 비활성 시각 |
 | `Sticky`       | 밑에 **실제 `Calendar`를 3개월치** 깔고 **바가 상단에 붙어 있는지** — `sticky` · `z-10` · `shrink-0`이 드러나는 유일한 자리. 한 달치로는 420px 컨테이너를 못 넘겨 스크롤 자체가 안 생깁니다. DOTOLI-273 전에는 손으로 그린 격자였고 273에서 실물로 바꿨습니다 |
 
 ---
@@ -482,7 +483,17 @@ return (
 
 - **`months`를 소비자가 넘깁니다.** internal-ui는 `year` 하나로 12개월을 통째로 만드는데, biz-ui는 사용 예시가 전부 **몇 달치만 이어 붙인 연속 스크롤**입니다(`205:4115`는 6 · 7 · 8 · 9월). 어디부터 어디까지 보여줄지는 COM-009의 「1년 초과 미래」 같은 정책이 정하므로 소비 앱이 넘깁니다.
 
-- **빈 칸을 `<div>`로 둡니다.** 앞뒤 달 날짜를 회색으로 그리지 않는 것이 Figma이고(6월 격자 첫 줄이 한 칸 비어 있습니다), 버튼이 아니라 자리만 차지하면 되므로 `CalendarDayButton`을 쓰지 않습니다. internal-ui도 `CalendarEmptyDay`로 갈라 뒀습니다.
+- **빈 칸을 `<div>`로 둡니다.** 앞뒤 달 날짜를 회색으로 그리지 않는 것이 Figma이고(6월 격자 첫 줄이 한 칸 비어 있습니다), 버튼이 아니라 자리만 차지하면 되므로 `CalendarDayButton`을 쓰지 않습니다. internal-ui도 `CalendarEmptyDay`로 갈라 뒀습니다. 읽을 내용이 없어 `aria-hidden`을 겁니다 (DOTOLI-345에서 CLAUDE.md 「장식 요소와 상태 요소」에 맞춤).
+
+- **시작 요일은 `weekStartDay` 값으로 받습니다** (DOTOLI-345). 주문 메인 개편 시안이 월요일 시작으로 그려졌는데 DS Figma에는 시작 요일 축이 없어(StickyCalendar 세트는 `useDateSelect` · `useWeekday`뿐) 코드에만 둔 옵션입니다.
+
+  | 결정 | 이유 |
+  | --- | --- |
+  | boolean(`isMondayStart`) 대신 값 | 상태가 아니라 「어느 요일부터」라는 값이고, 값 객체면 다른 요일이 필요할 때 키만 늘립니다 |
+  | 값은 `sunday` · `monday` 둘 | 쓰는 화면이 있는 것만 엽니다. `CALENDAR_WEEK_START_DAY_INDEXES`가 `dayjs().day()` 인덱스로 바꿉니다 |
+  | 기본값 `sunday` | 기존 소비처가 그대로 동작합니다 |
+
+  **바뀌는 것은 앞 빈 칸 수 하나입니다.** `(1일의 day() − 시작 인덱스 + 7) % 7`이고, 주말 판정(`isWeekend`)은 원래 `day()`로 날짜에서 정하므로 열 위치와 상관없이 맞습니다. 머리글 순서는 [`StickyCalendar`](#stickycalendar)가 같은 값을 받아 돌립니다. 둘을 같이 쓰는 [`CalendarBottomSheet`](#calendarbottomsheet)는 값을 한 번만 받아 양쪽에 내립니다.
 
 - **격자 시맨틱(`role='grid'`)을 아직 넣지 않았습니다.** [`CalendarDayButton`](#calendardaybutton)에서 미룬 자리인데, **여기서도 넣지 않았습니다** — `role='grid'`는 `row` · `gridcell`과 함께 가야 하고 그러면 `CalendarDayButton`의 `aria-pressed`를 `aria-selected`로 바꿔야 합니다. 요일 헤더를 가진 [`StickyCalendar`](#stickycalendar)까지 한 격자에 들어와야 열 머리가 성립하는데 **그 셋을 함께 감싸는 것은 `CalendarBottomSheet`(DOTOLI-274)**라, 거기서 세 컴포넌트를 한 번에 보고 정합니다.
 
@@ -493,6 +504,7 @@ return (
 | `months`        | ✅   | —       | `[{ year, month }]`. `month`는 **1-indexed**. 배열 순서가 표시 순서 |
 | `selectedDates` |      | —       | `'YYYY-MM-DD'` 배열                                          |
 | `useRange`      |      | `false` | `true`면 최소~최대를 범위로 이음                             |
+| `weekStartDay`  |      | `'sunday'` | 주 시작 요일. `CALENDAR_WEEK_START_DAYS`. 앞 빈 칸 수가 바뀜 |
 | `holidays`      |      | —       | `'YYYY-MM-DD'` 배열. **평일 공휴일만** — 주말은 컴포넌트가 스스로 칠함 |
 | `disabledDates` |      | —       | `'YYYY-MM-DD'` 배열                                          |
 | `onDateClick`   |      | —       | `({ dateString }) => void`                                   |
@@ -534,6 +546,7 @@ return (
 | `Default`            | 컨트롤로 `months` · `selectedDates` · `holidays` · `disabledDates`를 직접 넣어 본다 |
 | `Range`              | 같은 `selectedDates`에 `useRange`만 켜고 끈다 — **띠가 이어지는 자리**   |
 | `WithStickyCalendar` | `StickyCalendar` 아래 월이 이어 스크롤되고, 탭으로 다중 선택이 쌓인다     |
+| `WeekStartDay`       | `sunday` · `monday`를 나란히. 6월(월요일 시작)과 11월(일요일 시작)로 빈 칸 0 ↔ 6이 갈리고, 머리글 순서와 주말 색이 함께 따라오는지 본다 |
 
 ---
 
@@ -565,6 +578,8 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 - **`BottomSheet`의 `actionBarOption`을 그대로 통과시킵니다.** DOTOLI-270이 액션 바를 시트가 소유하도록 정했으므로 여기서 다시 그리지 않습니다. `variant`도 `BottomActionBarProps`에 딸려 와서 `floating`(기본)이면 Figma대로 바닥에 붙고 `solid`면 콘텐츠 끝에 붙습니다.
 
 - **`calendarOption`으로 `CalendarProps`를 통째로 받습니다.** 필드를 다시 나열하면 `Calendar`에 축이 늘 때마다 두 곳을 고쳐야 합니다 — 「타입 중복 금지」이고, `BottomSheet`가 `BottomActionBarProps`를 통째로 받는 것과 같은 형태입니다.
+
+  **`weekStartDay`만 예외로 최상위에 둡니다** (DOTOLI-345). 요일 머리글(`StickyCalendar`)과 격자(`Calendar`)가 같은 값을 받아야 열이 맞는데, `calendarOption` 안에 두면 머리글 쪽으로 따로 넘겨야 해서 둘이 갈릴 수 있습니다. 그래서 `calendarOption` 타입에서 `Omit`으로 빼고 시트가 한 값을 양쪽에 내립니다. `DateBottomSheet`는 `useWeekday={false}` 고정이고 날짜 격자도 없어 이 옵션을 받지 않습니다.
 
 - **`dateSelectOption`이 필수입니다.** 연도 이동은 앱 상태(현재 연도 · 이동 핸들러 · 연도 시트 열기)가 있어야 성립하고, Figma 인스턴스도 항상 켜져 있습니다. `useWeekday`는 기본 `true`로 두되 열어 뒀습니다.
 
@@ -602,6 +617,7 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 | `actionBarOption`     |      | —             | `BottomActionBarProps` 그대로. 없으면 액션 바를 안 그림      |
 | `title`            |      | `'날짜 선택'` | 헤더 제목이자 시트의 접근성 이름                             |
 | `useWeekday`       |      | `true`        | 요일 헤더 줄                                                 |
+| `weekStartDay`     |      | `'sunday'`    | 머리글과 격자에 함께 내림. `calendarOption`에는 넣을 수 없음  |
 | `isDimmed`         |      | `true`        | `BottomSheet` 기본값                                         |
 | `onClose`          |      | —             | 헤더 닫기 · 배경 탭 · ESC 공통                               |
 | `target`           |      | `'portal'`    | `Portal`로 전달                                              |
@@ -638,11 +654,12 @@ Figma는 `StickyCalendar`를 `middleBody`와 **형제로 두고 위에 겹쳐** 
 
 | 스토리          | 보는 것                                                            |
 | --------------- | ------------------------------------------------------------------ |
-| `Default`       | 단일 선택. 컨트롤로 `title` · `useWeekday` · `isDimmed`를 바꾼다     |
+| `Default`       | 단일 선택. 컨트롤로 `title` · `useWeekday` · `weekStartDay` · `isDimmed`를 바꾼다 |
+| `MondayStart`   | `weekStartDay='monday'` — 머리글 「월 … 일」과 격자 열이 맞는지        |
 | `Range`         | `useRange` — 두 날짜를 고르면 사이가 이어지고, 셋째를 고르면 다시 시작 |
 | `WithoutAction` | `actionBarOption` 없이 — 액션 바가 빠졌을 때 바디 하단                 |
 
-세 스토리 모두 트리거 버튼으로 엽니다 (`confirm-modal.md` 「Storybook」과 같은 이유).
+네 스토리 모두 트리거 버튼으로 엽니다 (`confirm-modal.md` 「Storybook」과 같은 이유).
 
 ---
 

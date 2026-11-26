@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react';
 
+import { CalendarWeekStartDay } from '@/components/Calendar/shared';
 import { ColorVariants } from '@/variants';
 
 export interface StickyCalendarWeekday {
@@ -20,4 +21,8 @@ export interface StickyCalendarProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   dateSelectOption?: StickyCalendarDateSelectOption;
   useWeekday?: boolean;
+  weekStartDay?: CalendarWeekStartDay;
 }
+
+export interface RotateStickyCalendarWeekdaysProps
+  extends Required<Pick<StickyCalendarProps, 'weekStartDay'>> {}

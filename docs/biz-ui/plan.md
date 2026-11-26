@@ -280,9 +280,9 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 - [x] DOTOLI-342 biz-ui > StatusAlertBanner 회색 테마 추가
 - [x] DOTOLI-343 biz-ui > NotificationCard 설명 · 부제 글자 크기 확대
 - [ ] DOTOLI-344 biz-ui > InfoItem 여러 줄일 때 아이콘 첫 줄 가운데 정렬
-- [ ] DOTOLI-345 biz-ui > Calendar 월요일 시작 옵션 추가
+- [x] DOTOLI-345 biz-ui > Calendar 월요일 시작 옵션 추가
 
-소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 344~345의 범위는 아래 「태스크 상세」에 있습니다.
+소비 앱의 주문 메인 개편(ORD-MAIN)에 필요한 DS 작업입니다. 티켓별 범위와 이 작업을 기다리는 소비 앱 티켓은 `biz-customer-app`의 `docs/order/main/plan.md` 「선행 DS(dotoli)」 · 「태스크 상세」의 DS 절에 있어 여기 옮기지 않습니다. 332~336은 디자인 출처가 Figma가 아니라 디자인 아티팩트(`claude.ai/artifact/BNjNgpDeuFY8x6EhkBtdUJ`)라, 색은 DS 토큰을 따르고 구조와 상태만 옮겼습니다. 339부터는 11/18 결정으로 DS Figma에 추가된 심볼이 출처입니다. 341~344도 같은 시안에서 나왔고, 345는 Figma 변경 없이 코드에 빠져 있던 옵션입니다. 344의 범위는 아래 「태스크 상세」에 있습니다.
 
 ### biz-ui 주간주문 시안 반영
 
@@ -325,17 +325,6 @@ biz-customer-app 주문 메인 신규 시안(Claude Design 캔버스 Q1~Q5)을 F
 현재 루트는 `items-start`, 아이콘 박스는 `h-[23px] w-[16px]`(`body` 행높이)입니다. 여러 줄일 때 아이콘이 첫 줄 높이 안에서 세로 가운데에 오도록 맞춥니다. 글리프가 박스 안에서 실제로 어디에 놓이는지 렌더로 실측한 뒤 고칩니다.
 
 DOTOLI-318에서 `InfoBanner`가 이 컴포넌트의 결정에 맞춰 첫 줄 정렬(`items-start` + 아이콘 `h-[20px]`)로 바뀌었습니다. InfoItem 기준이 바뀌면 InfoBanner도 같이 맞출지 이 티켓에서 판단합니다.
-
-### DOTOLI-345 · Calendar 월요일 시작 옵션 추가
-
-Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 곳을 같은 옵션으로 돌려야 합니다.
-
-| 위치 | 현재 |
-| --- | --- |
-| 격자 | `Calendar/utils/generateCalendarMonthWeeks`가 `firstDate.day()`로 앞쪽 빈 칸 수를 셈 |
-| 요일 헤더 | `StickyCalendar`의 `STICKY_CALENDAR_WEEKDAYS`(일~토 고정 배열) |
-
-조립 컴포넌트 `CalendarBottomSheet` · `DateBottomSheet`도 옵션을 내려줘야 합니다. 주말 판정(`CALENDAR_WEEKEND_DAYS`, `day()` 기준)과 헤더 색(일 · 토 `RED_400`)은 시작 요일이 바뀌어도 요일을 따라가야 합니다. prop 형태(boolean으로 둘지, 시작 요일 값으로 둘지)는 착수 때 정합니다.
 
 ### 완료된 티켓
 
@@ -443,6 +432,7 @@ Figma 변경은 없습니다. 지금은 일요일 시작이 고정이고, 두 �
 | DOTOLI-357 | DS Figma `309:1965` 개편 반영. `orderStatus`를 `unset` · `zero` · `ordered`로 바꾸고 `inputClosed`를 `isLocked`로 분리(잠긴 주문도 그림). 잠기면 버튼 없음 · 흐린 카드, 마감 배지 · `statusLabel` · `badgeLabel` · `badgeTheme`을 `description` 하나로. 왼쪽 글자는 OrderDateInfo `md`, 수량 패널은 OrderBoxList (잠기면 `gray-100` + 줄 `muted`). 휴일은 Figma `isHoliday` 대신 OrderDateInfo와 같은 `dayType`으로 받아 「· 공휴일」도 그림(11/26 사용자 결정). 휴일 요일 원은 흰 카드(`unset` · `ordered`)일 때만 빨강, 날짜 기본색 `gray-700`. `ORDER_DEADLINE_PASSED_LABEL` 제거. 파괴적 변경이나 소비 앱 사용처 0건(stage, 11/26) | [components/order.md](./components/order.md) |
 | DOTOLI-358 | DS Figma `Tab`(`1371:68`) · `TabItem`(`1371:55`) 신설에 맞춰 라벨을 `body-semibold` / `body-bold`(16)에서 `label-semibold` / `label-bold`(14)로. 높이 48 · 밑줄 그대로. API 그대로인 시각 변경, 소비 앱 사용처 0건 | [components/tab.md](./components/tab.md) |
 | DOTOLI-359 | DS Figma `actions=stacked`(`1379:827` · `1379:838`) 반영. `isStacked`(boolean)로 버튼을 세로로 쌓음 (위 `subAction` · 아래 `action`, 둘 다 `w-full`, 간격 8). 세로일 때 `subAction` 기본은 gray outlined(`STACKED_SUB_ACTION`), 아이콘은 `iconOption`으로. 방향 클래스를 `BOTTOM_ACTION_BAR_LAYOUT_STYLES`로 빼서 `BOTTOM_ACTION_BAR_BASE_STYLE` 값이 바뀜(외부 사용처 0건). optional이라 비파괴 | [components/bottom-action-bar.md](./components/bottom-action-bar.md) |
+| DOTOLI-345 | `Calendar` · `StickyCalendar` · `CalendarBottomSheet`에 `weekStartDay`(`sunday` 기본 · `monday`) 추가. 격자는 앞 빈 칸 수만 바뀌고 주말 판정은 그대로 `day()` 기준, 머리글은 `STICKY_CALENDAR_WEEKDAYS`를 돌려 색이 요일을 따라감. 시트는 최상위 prop 하나를 양쪽에 내리고 `calendarOption`에서는 `Omit`. `DateBottomSheet`는 머리글 · 격자가 없어 제외. DS Figma에 시작 요일 축 없음(코드 전용 옵션). 빈 날짜 칸 `aria-hidden`도 함께 맞춤. 기본값이 기존 동작이라 소비 앱 영향 없음 | [components/calendar.md](./components/calendar.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

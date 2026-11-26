@@ -122,7 +122,7 @@ Tailwind v4의 `hover:`는 이미 `@media (hover: hover)`로 감싸져 나오므
 
 **시각 전용 빈 요소에는 `aria-hidden`을 붙입니다.** 말풍선 꼬리(`StatusAlertBanner`) · 구분 점(`NotificationCard`) · 백드롭(`Overlay`)처럼 읽을 내용이 없는 것들입니다. 조상이 이미 `aria-hidden`이거나(`ToggleTrack`) 부모 `role`이 children presentational이면(`HeaderBarProgress`) 트리에서 이미 빠지므로 더 붙이지 않습니다.
 
-**이 항목은 이후 작성분부터 적용합니다** — `Divider`의 선 3개와 `CalendarMonth`의 빈 날짜 칸이 아직 빠져 있고, 그 계열을 손대는 티켓에서 함께 맞춥니다.
+**이 항목은 이후 작성분부터 적용합니다** — `Divider`의 선 3개가 아직 빠져 있고, 그 계열을 손대는 티켓에서 함께 맞춥니다. `CalendarMonth`의 빈 날짜 칸은 DOTOLI-345에서 맞췄습니다.
 
 **상태를 나타내는 시각 요소는 반대입니다 — 숨긴 채로 두지 말고 그 컨트롤의 접근성 이름에 싣습니다.** `aria-label`이 붙은 버튼은 **자식 콘텐츠가 이름 계산에서 통째로 무시되므로**, 안쪽에 `sr-only` 텍스트를 더하거나 표시 요소의 `aria-hidden`을 빼는 방식은 **아무 변화도 만들지 않습니다.** `aria-label` 자체를 상태에 따라 갈라야 합니다 — `HeaderBar`의 미읽음 알림 점이 그 사례입니다([header-bar.md](../../docs/biz-ui/components/header-bar.md) 「구현 결정」). 표시 요소 자체의 `aria-hidden`은 그대로 둡니다.
 

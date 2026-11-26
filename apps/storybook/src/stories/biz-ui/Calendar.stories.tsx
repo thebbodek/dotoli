@@ -1,5 +1,6 @@
 import {
   Calendar,
+  CALENDAR_WEEK_START_DAYS,
   CalendarProps,
   StickyCalendar,
   Typography,
@@ -30,6 +31,15 @@ const SCROLL_BODY_STYLE = 'shrink-0 px-[20px]';
 
 const LIST_STYLE = 'flex-v-stack gap-[20px]';
 
+const WEEK_START_PAGE_STYLE =
+  'flex-v-stack w-[380px] bg-white outline outline-gray-200';
+
+// 6월은 월요일, 11월은 일요일로 시작해 앞 빈 칸이 0개 · 6개로 갈린다
+const WEEK_START_MONTHS = [
+  { year: 2026, month: 6 },
+  { year: 2026, month: 11 },
+];
+
 const GROUP_STYLE = 'flex-v-stack gap-[8px]';
 
 const meta = {
@@ -49,6 +59,11 @@ const meta = {
     holidays: { control: 'object' },
     disabledDates: { control: 'object' },
     useRange: { control: 'boolean' },
+    weekStartDay: {
+      control: 'inline-radio',
+      options: Object.values(CALENDAR_WEEK_START_DAYS),
+      table: { defaultValue: { summary: CALENDAR_WEEK_START_DAYS.SUNDAY } },
+    },
     onDateClick: { action: 'dateClick' },
   },
   args: {
@@ -57,6 +72,7 @@ const meta = {
     disabledDates: DISABLED_DATES,
     selectedDates: SINGLE,
     useRange: false,
+    weekStartDay: CALENDAR_WEEK_START_DAYS.SUNDAY,
   },
 } satisfies Meta<CalendarProps>;
 
@@ -145,4 +161,31 @@ export const WithStickyCalendar: Story = {
       </div>
     );
   },
+};
+
+// 시작 요일만 바꿔 나란히 둔다 — 빈 칸 수 · 요일 헤더 순서 · 주말 색이 함께 따라오는지 본다
+export const WeekStartDay: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ holidays, disabledDates }) => (
+    <div className={LIST_STYLE}>
+      {Object.values(CALENDAR_WEEK_START_DAYS).map((weekStartDay) => (
+        <div className={GROUP_STYLE} key={weekStartDay}>
+          <Typography color='gray-500' variant='label-bold'>
+            {`weekStartDay=${weekStartDay}`}
+          </Typography>
+          <div className={WEEK_START_PAGE_STYLE}>
+            <StickyCalendar weekStartDay={weekStartDay} useWeekday />
+            <div className={SCROLL_BODY_STYLE}>
+              <Calendar
+                disabledDates={disabledDates}
+                holidays={holidays}
+                months={WEEK_START_MONTHS}
+                weekStartDay={weekStartDay}
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  ),
 };

@@ -1,5 +1,6 @@
 import {
   Calendar,
+  CALENDAR_WEEK_START_DAYS,
   StickyCalendar,
   StickyCalendarProps,
   Typography,
@@ -52,9 +53,15 @@ const meta = {
       table: { defaultValue: { summary: 'true' } },
     },
     dateSelectOption: { control: false },
+    weekStartDay: {
+      control: 'inline-radio',
+      options: Object.values(CALENDAR_WEEK_START_DAYS),
+      table: { defaultValue: { summary: CALENDAR_WEEK_START_DAYS.SUNDAY } },
+    },
   },
   args: {
     useWeekday: true,
+    weekStartDay: CALENDAR_WEEK_START_DAYS.SUNDAY,
   },
 } satisfies Meta<StickyCalendarProps>;
 
@@ -74,7 +81,7 @@ const useYear = () => {
 };
 
 export const Default: Story = {
-  render: ({ useWeekday }) => {
+  render: ({ useWeekday, weekStartDay }) => {
     const dateSelectOption = useYear();
 
     return (
@@ -82,6 +89,7 @@ export const Default: Story = {
         <StickyCalendar
           dateSelectOption={dateSelectOption}
           useWeekday={useWeekday}
+          weekStartDay={weekStartDay}
         />
       </div>
     );

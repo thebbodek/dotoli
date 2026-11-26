@@ -26,9 +26,10 @@ const CalendarMonth = ({
   holidaySet,
   disabledSet,
   useRange,
+  weekStartDay,
   onDateClick,
 }: CalendarMonthProps) => {
-  const weeks = generateCalendarMonthWeeks({ year, month });
+  const weeks = generateCalendarMonthWeeks({ year, month, weekStartDay });
 
   return (
     <div className={CALENDAR_MONTH_STYLE}>
@@ -61,7 +62,11 @@ const CalendarMonth = ({
                   onClick={() => onDateClick?.({ dateString: cell.dateString })}
                 />
               ) : (
-                <div className={CALENDAR_EMPTY_DAY_STYLE} key={cellIndex} />
+                <div
+                  className={CALENDAR_EMPTY_DAY_STYLE}
+                  key={cellIndex}
+                  aria-hidden
+                />
               ),
             )}
           </div>

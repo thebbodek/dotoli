@@ -1,6 +1,9 @@
 import { HTMLAttributes } from 'react';
 
-import { CalendarMonthValue } from '@/components/Calendar/shared';
+import {
+  CalendarMonthValue,
+  CalendarWeekStartDay,
+} from '@/components/Calendar/shared';
 
 export interface CalendarDateClickProps {
   dateString: string;
@@ -13,17 +16,21 @@ export interface CalendarProps
   holidays?: readonly string[];
   disabledDates?: readonly string[];
   useRange?: boolean;
+  weekStartDay?: CalendarWeekStartDay;
   onDateClick?: (props: CalendarDateClickProps) => void;
 }
 
 export interface CalendarMonthProps
   extends CalendarMonthValue,
-    Pick<CalendarProps, 'selectedDates' | 'useRange' | 'onDateClick'> {
+    Pick<CalendarProps, 'selectedDates' | 'useRange' | 'onDateClick'>,
+    Required<Pick<CalendarProps, 'weekStartDay'>> {
   holidaySet: ReadonlySet<string>;
   disabledSet: ReadonlySet<string>;
 }
 
-export interface GenerateCalendarMonthWeeksProps extends CalendarMonthValue {}
+export interface GenerateCalendarMonthWeeksProps
+  extends CalendarMonthValue,
+    Required<Pick<CalendarProps, 'weekStartDay'>> {}
 
 export interface ResolveCalendarSelectedTypeProps
   extends Pick<CalendarProps, 'selectedDates' | 'useRange'>,

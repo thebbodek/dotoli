@@ -1,4 +1,5 @@
 import {
+  CALENDAR_WEEK_START_DAYS,
   CalendarBottomSheet,
   CalendarBottomSheetProps,
   CtaButton,
@@ -36,6 +37,11 @@ const meta = {
   argTypes: {
     title: { control: 'text' },
     useWeekday: { control: 'boolean' },
+    weekStartDay: {
+      control: 'inline-radio',
+      options: Object.values(CALENDAR_WEEK_START_DAYS),
+      table: { defaultValue: { summary: CALENDAR_WEEK_START_DAYS.SUNDAY } },
+    },
     isDimmed: { control: 'boolean' },
     calendarOption: {
       control: false,
@@ -47,6 +53,7 @@ const meta = {
   },
   args: {
     useWeekday: true,
+    weekStartDay: CALENDAR_WEEK_START_DAYS.SUNDAY,
     isDimmed: true,
   },
 } satisfies Meta<CalendarBottomSheetProps>;
@@ -95,7 +102,7 @@ const useCalendarBottomSheet = ({ useRange }: { useRange: boolean }) => {
 };
 
 export const Default: Story = {
-  render: ({ title, useWeekday, isDimmed }) => {
+  render: ({ title, useWeekday, weekStartDay, isDimmed }) => {
     const { isOpen, open, close, dateSelectOption, calendarOption } =
       useCalendarBottomSheet({ useRange: false });
 
@@ -110,6 +117,30 @@ export const Default: Story = {
           isOpen={isOpen}
           title={title}
           useWeekday={useWeekday}
+          weekStartDay={weekStartDay}
+          onClose={close}
+        />
+      </div>
+    );
+  },
+};
+
+// 월요일 시작 — 요일 헤더와 날짜 격자가 같은 값을 받는다
+export const MondayStart: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => {
+    const { isOpen, open, close, dateSelectOption, calendarOption } =
+      useCalendarBottomSheet({ useRange: false });
+
+    return (
+      <div className={PAGE_STYLE}>
+        <CtaButton label={TRIGGER_LABEL} onClick={open} />
+        <CalendarBottomSheet
+          actionBarOption={{ action: { label: CONFIRM_LABEL, onClick: close } }}
+          calendarOption={calendarOption}
+          dateSelectOption={dateSelectOption}
+          isOpen={isOpen}
+          weekStartDay={CALENDAR_WEEK_START_DAYS.MONDAY}
           onClose={close}
         />
       </div>

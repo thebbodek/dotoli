@@ -9,7 +9,10 @@ export interface CalendarBottomSheetProps
       'isOpen' | 'isDimmed' | 'target' | 'className' | 'onClose'
     >,
     Partial<Pick<BottomSheetProps, 'title'>>,
-    Pick<StickyCalendarProps, 'dateSelectOption' | 'useWeekday'> {
-  calendarOption: CalendarProps;
+    Pick<
+      StickyCalendarProps,
+      'dateSelectOption' | 'useWeekday' | 'weekStartDay'
+    > {
+  calendarOption: Omit<CalendarProps, 'weekStartDay'>;
   actionBarOption?: BottomActionBarProps;
 }

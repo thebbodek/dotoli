@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import CalendarMonth from '@/components/Calendar/Calendar/CalendarMonth';
 import { CALENDAR_BASE_STYLE } from '@/components/Calendar/Calendar/constants';
 import { CalendarProps } from '@/components/Calendar/Calendar/types';
+import { CALENDAR_WEEK_START_DAYS } from '@/components/Calendar/shared';
 
 const Calendar = ({
   months,
@@ -10,6 +11,7 @@ const Calendar = ({
   holidays,
   disabledDates,
   useRange = false,
+  weekStartDay = CALENDAR_WEEK_START_DAYS.SUNDAY,
   className,
   onDateClick,
 }: CalendarProps) => {
@@ -26,6 +28,7 @@ const Calendar = ({
           month={month}
           selectedDates={selectedDates}
           useRange={useRange}
+          weekStartDay={weekStartDay}
           year={year}
           onDateClick={onDateClick}
         />

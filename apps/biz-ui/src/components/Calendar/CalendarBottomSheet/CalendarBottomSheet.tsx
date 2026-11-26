@@ -14,6 +14,7 @@ const CalendarBottomSheet = ({
   dateSelectOption,
   actionBarOption,
   useWeekday = true,
+  weekStartDay,
   isDimmed,
   target,
   className,
@@ -32,9 +33,10 @@ const CalendarBottomSheet = ({
       <StickyCalendar
         dateSelectOption={dateSelectOption}
         useWeekday={useWeekday}
+        weekStartDay={weekStartDay}
       />
       <div className={CALENDAR_BOTTOM_SHEET_BODY_STYLE}>
-        <Calendar {...calendarOption} />
+        <Calendar {...calendarOption} weekStartDay={weekStartDay} />
       </div>
     </BottomSheet>
   );

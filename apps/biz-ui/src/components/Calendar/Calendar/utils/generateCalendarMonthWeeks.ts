@@ -4,6 +4,7 @@ import { GenerateCalendarMonthWeeksProps } from '@/components/Calendar/Calendar/
 import {
   CALENDAR_DATE_FORMAT,
   CALENDAR_MONTH_INDEX_OFFSET,
+  CALENDAR_WEEK_START_DAY_INDEXES,
   CALENDAR_WEEKDAY_COUNT,
   CALENDAR_WEEKEND_DAYS,
 } from '@/components/Calendar/shared';
@@ -11,11 +12,16 @@ import {
 export const generateCalendarMonthWeeks = ({
   year,
   month,
+  weekStartDay,
 }: GenerateCalendarMonthWeeksProps) => {
   const firstDate = dayjs(
     new Date(year, month - CALENDAR_MONTH_INDEX_OFFSET, 1),
   );
-  const leadingCount = firstDate.day();
+  const leadingCount =
+    (firstDate.day() -
+      CALENDAR_WEEK_START_DAY_INDEXES[weekStartDay] +
+      CALENDAR_WEEKDAY_COUNT) %
+    CALENDAR_WEEKDAY_COUNT;
   const dateCount = firstDate.daysInMonth();
 
   const cells = [
