@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.77
+
+### Patch Changes
+
+- d1ca133: DOTOLI-361 biz-ui > HeaderBar 제목 로딩 표시 추가
+
 ## 0.0.76
 
 ### Patch Changes
