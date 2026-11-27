@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.79
+
+### Patch Changes
+
+- b815694: DOTOLI-362 biz-ui > OrderDateInfo 설명 노드 허용
+
 ## 0.0.78
 
 ### Patch Changes
