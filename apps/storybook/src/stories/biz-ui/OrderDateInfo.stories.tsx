@@ -1,4 +1,5 @@
 import {
+  COLOR_VARIANTS,
   CTA_BUTTON_SIZES,
   CTA_BUTTON_THEMES,
   CTA_BUTTON_VARIANTS,
@@ -32,6 +33,13 @@ const CARD_HEADING_STYLE = 'flex-h-stack w-full items-center justify-between';
 const EDIT_LABEL = '주문 수정';
 
 const DESCRIPTION = '오늘 18시 마감 · 입력 필요';
+
+const HIGHLIGHTED_DESCRIPTION = (
+  <>
+    월 18시 마감 ·{' '}
+    <Typography color={COLOR_VARIANTS.YELLOW_600}>이번만 변경</Typography>
+  </>
+);
 
 interface DescriptionCase {
   caseLabel: string;
@@ -167,6 +175,15 @@ export const WithDescription: Story = {
       ))}
     </Flex>
   ),
+};
+
+// description 은 ReactNode 라 부분 강조 색은 쓰는 쪽이 정한다
+export const WithHighlightedDescription: Story = {
+  args: {
+    title: '16일',
+    description: HIGHLIGHTED_DESCRIPTION,
+  },
+  parameters: { controls: { disable: true }, layout: 'padded' },
 };
 
 export const WithOrderBox: Story = {

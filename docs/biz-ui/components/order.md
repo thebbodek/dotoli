@@ -146,7 +146,7 @@ Figma 18개 심볼(3 × 2 × 3)이 전부 있습니다.
 | prop | 필수 | 기본값 | 비고 |
 | --- | --- | --- | --- |
 | `title` | | — | `16일` · `12일(목)`. 소비 앱이 포맷. 없으면 제목 줄을 그리지 않음 |
-| `description` | | — | 마감 시각 · 입력 상태 · 잠긴 이유 등. 소비 앱이 조립 |
+| `description` | | — | 마감 시각 · 입력 상태 · 잠긴 이유 등. 소비 앱이 조립. `ReactNode`라 일부만 다른 색으로 칠할 수 있음 |
 | `theme` | | `'default'` | `ORDER_DATE_INFO_THEMES` |
 | `size` | | `'md'` | `ORDER_DATE_INFO_SIZES` |
 | `dayType` | | `'weekday'` | `ORDER_DATE_INFO_DAY_TYPES` |
@@ -170,6 +170,7 @@ Figma 18개 심볼(3 × 2 × 3)이 전부 있습니다.
 | `Default` | 컨트롤 패널. 제목 + 설명 |
 | `Matrix` | `theme` × `size` × `dayType` 18조합. Figma 세트와 같은 배치 |
 | `WithDescription` | 제목 + 설명 · 휴일 + 설명 · 흐림 + 설명 · 설명만 |
+| `WithHighlightedDescription` | `description`에 노드를 넘겨 「이번만 변경」만 `yellow-600`으로 칠한 예. 강조 색은 쓰는 쪽이 정함 |
 | `WithOrderBox` | 쓰는 쪽 조합 예. `lg` 제목 옆에 `CtaButton`, 아래 [OrderBox](#orderbox). 카드는 스토리가 그림 |
 
 ### 이력

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import {
   ORDER_DATE_INFO_DAY_TYPES,
@@ -18,7 +18,7 @@ export type OrderDateInfoDayType =
 export interface OrderDateInfoProps
   extends Pick<HTMLAttributes<HTMLDivElement>, 'className'> {
   title?: string;
-  description?: string;
+  description?: ReactNode;
   theme?: OrderDateInfoTheme;
   size?: OrderDateInfoSize;
   dayType?: OrderDateInfoDayType;
