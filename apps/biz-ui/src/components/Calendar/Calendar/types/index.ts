@@ -18,11 +18,16 @@ export interface CalendarProps
   useRange?: boolean;
   weekStartDay?: CalendarWeekStartDay;
   onDateClick?: (props: CalendarDateClickProps) => void;
+  /** `disabledDates` 칸을 탭했을 때. 넘기지 않으면 비활성 칸은 탭을 받지 않는다 */
+  onDisabledDateClick?: (props: CalendarDateClickProps) => void;
 }
 
 export interface CalendarMonthProps
   extends CalendarMonthValue,
-    Pick<CalendarProps, 'selectedDates' | 'useRange' | 'onDateClick'>,
+    Pick<
+      CalendarProps,
+      'selectedDates' | 'useRange' | 'onDateClick' | 'onDisabledDateClick'
+    >,
     Required<Pick<CalendarProps, 'weekStartDay'>> {
   holidaySet: ReadonlySet<string>;
   disabledSet: ReadonlySet<string>;

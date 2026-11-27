@@ -138,6 +138,8 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 
 - **크기를 `size-[48px]`로 고정했습니다.** 380 폭에서 7열이면 `48 × 7 = 336`이라 좌우 20 여백(340)에 들어맞습니다. [`StickyCalendar`](#stickycalendar)의 요일 셀도 같은 48이라 열이 맞습니다.
 
+- **비활성 칸의 탭은 `onDisabledClick`으로 받습니다 (DOTOLI-360).** 주문 앱이 고를 수 없는 날을 탭하면 사유 토스트를 띄우기로 했는데, 네이티브 `disabled`는 클릭 이벤트 자체를 막습니다. 비활성 색도 `disabled`에서만 나와 소비 앱이 스타일로 흉내 낼 수 없습니다. 그래서 `onDisabledClick`을 넘긴 경우에만 네이티브 `disabled`를 빼고 `aria-disabled="true"`로 그립니다. 이때 클릭은 `onDisabledClick`만 부르고 `onClick`은 부르지 않습니다. 색과 `cursor-not-allowed`는 그대로 `disabled` 기준입니다. 넘기지 않으면 예전처럼 네이티브 `disabled`라 기존 사용처는 바뀌지 않습니다. `LinkCtaButton` · `LinkIconButton`의 `aria-disabled` 선례를 따랐고, 비활성 칸에도 포커스가 가서 키보드 Enter로도 같은 콜백이 불립니다.
+
 ### API
 
 | prop           | 필수 | 기본값     | 비고                                                    |
@@ -148,6 +150,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `isHoliday`    |      | `false`    | **서버 판정 결과**를 그대로 받습니다 (COM-009)          |
 | `disabled`     |      | `false`    | 마감 · 중지 기간 등. 판정은 소비 앱                      |
 | `onClick`      |      | —          |                                                          |
+| `onDisabledClick` |   | —          | 비활성 칸 탭. 넘기면 `aria-disabled`로 그림 (DOTOLI-360) |
 | `className`    |      | —          | 버튼에 적용                                              |
 
 ```tsx
@@ -187,6 +190,7 @@ Figma: [CalendarDayButton 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlh
 | `Types`   | `day` · `date` 유무가 만드는 세 모양 × (`none` · `selected`)             |
 | `States`  | `selectedType` 5행 × (비활성 · 휴일) 4열. **비활성 + 휴일이 타입마다 갈리는 자리** |
 | `Range`   | 7일을 붙여 놓고 **`start`~`end` 띠가 끊기지 않는지** — `middle`만 각진 이유 |
+| `DisabledClick` | 같은 비활성 칸에 `onDisabledClick` 유무만 바꿔, 색은 같고 탭만 받는지 |
 
 ---
 
@@ -508,6 +512,7 @@ return (
 | `holidays`      |      | —       | `'YYYY-MM-DD'` 배열. **평일 공휴일만** — 주말은 컴포넌트가 스스로 칠함 |
 | `disabledDates` |      | —       | `'YYYY-MM-DD'` 배열                                          |
 | `onDateClick`   |      | —       | `({ dateString }) => void`                                   |
+| `onDisabledDateClick` | | —     | `disabledDates` 칸 탭. `({ dateString }) => void`. 없으면 비활성 칸은 탭을 안 받음 (DOTOLI-360) |
 | `className`     |      | —       | 바깥 스택에 적용                                              |
 
 ```tsx
@@ -547,6 +552,7 @@ return (
 | `Range`              | 같은 `selectedDates`에 `useRange`만 켜고 끈다 — **띠가 이어지는 자리**   |
 | `WithStickyCalendar` | `StickyCalendar` 아래 월이 이어 스크롤되고, 탭으로 다중 선택이 쌓인다     |
 | `WeekStartDay`       | `sunday` · `monday`를 나란히. 6월(월요일 시작)과 11월(일요일 시작)로 빈 칸 0 ↔ 6이 갈리고, 머리글 순서와 주말 색이 함께 따라오는지 본다 |
+| `DisabledDateClick`  | 비활성 날짜를 탭하면 `onDisabledDateClick`이 그 날짜를 돌려준다           |
 
 ---
 

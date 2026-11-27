@@ -65,6 +65,7 @@ const meta = {
       table: { defaultValue: { summary: CALENDAR_WEEK_START_DAYS.SUNDAY } },
     },
     onDateClick: { action: 'dateClick' },
+    onDisabledDateClick: { action: 'disabledDateClick' },
   },
   args: {
     months: MONTHS,
@@ -122,6 +123,32 @@ export const Range: Story = {
       </div>
     </div>
   ),
+};
+
+// onDisabledDateClick을 넘기면 disabledDates 칸도 탭을 받는다. 사유 토스트는 소비 앱이 띄운다
+export const DisabledDateClick: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ months, holidays, disabledDates }) => {
+    const [tappedDate, setTappedDate] = useState<string>();
+
+    return (
+      <div className={GROUP_STYLE}>
+        <Typography color='gray-500' variant='label-bold'>
+          {tappedDate
+            ? `${tappedDate} 는 고를 수 없는 날`
+            : '6/1 ~ 6/3 을 탭해 보세요'}
+        </Typography>
+        <div className={SCREEN_STYLE}>
+          <Calendar
+            disabledDates={disabledDates}
+            holidays={holidays}
+            months={months}
+            onDisabledDateClick={({ dateString }) => setTappedDate(dateString)}
+          />
+        </div>
+      </div>
+    );
+  },
 };
 
 // 실제 조합 — StickyCalendar가 위에 붙고 월이 이어서 스크롤된다

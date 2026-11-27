@@ -14,6 +14,7 @@ const Calendar = ({
   weekStartDay = CALENDAR_WEEK_START_DAYS.SUNDAY,
   className,
   onDateClick,
+  onDisabledDateClick,
 }: CalendarProps) => {
   const holidaySet = new Set(holidays);
   const disabledSet = new Set(disabledDates);
@@ -31,6 +32,7 @@ const Calendar = ({
           weekStartDay={weekStartDay}
           year={year}
           onDateClick={onDateClick}
+          onDisabledDateClick={onDisabledDateClick}
         />
       ))}
     </div>

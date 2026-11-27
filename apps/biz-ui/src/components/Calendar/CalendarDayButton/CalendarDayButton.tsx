@@ -23,7 +23,10 @@ const CalendarDayButton = ({
   className,
   'aria-label': ariaLabel,
   onClick,
+  onDisabledClick,
 }: CalendarDayButtonProps) => {
+  // 네이티브 `disabled` 는 클릭 이벤트를 막는다. 비활성 탭을 받아야 할 때만 `aria-disabled` 로 바꾼다
+  const isDisabledClickable = disabled && !!onDisabledClick;
   const hasDay = !!day;
   const hasDate = date !== undefined;
   const state = resolveCalendarDayButtonState({
@@ -48,11 +51,12 @@ const CalendarDayButton = ({
           ? CALENDAR_DAY_BUTTON_CURSOR_STYLES.DISABLED
           : CALENDAR_DAY_BUTTON_CURSOR_STYLES.ENABLED,
       )}
+      aria-disabled={isDisabledClickable || undefined}
       aria-label={ariaLabel}
       aria-pressed={selectedType !== CALENDAR_DAY_SELECTED_TYPES.NONE}
-      disabled={disabled}
+      disabled={disabled && !isDisabledClickable}
       type='button'
-      onClick={onClick}
+      onClick={disabled ? onDisabledClick : onClick}
     >
       {hasDay && (
         <Typography

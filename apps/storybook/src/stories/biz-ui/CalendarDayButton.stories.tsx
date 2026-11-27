@@ -72,6 +72,7 @@ const meta = {
     isHoliday: { control: 'boolean' },
     disabled: { control: 'boolean' },
     onClick: { action: 'click' },
+    onDisabledClick: { action: 'disabledClick' },
   },
   args: {
     day: DAY,
@@ -181,6 +182,33 @@ export const States: Story = {
           </div>
         </div>
       ))}
+    </div>
+  ),
+};
+
+// onDisabledClick이 있으면 네이티브 disabled 대신 aria-disabled로 그려 탭을 받는다. 색은 disabled 그대로다
+export const DisabledClick: Story = {
+  parameters: { controls: { disable: true } },
+  render: ({ onClick, onDisabledClick }) => (
+    <div className={ROW_STYLE}>
+      <div className={CELL_STYLE}>
+        <CalendarDayButton date={DATE} day={DAY} disabled onClick={onClick} />
+        <Typography color='gray-400' variant='caption'>
+          disabled
+        </Typography>
+      </div>
+      <div className={CELL_STYLE}>
+        <CalendarDayButton
+          date={DATE}
+          day={DAY}
+          disabled
+          onClick={onClick}
+          onDisabledClick={onDisabledClick}
+        />
+        <Typography color='gray-400' variant='caption'>
+          disabled + onDisabledClick
+        </Typography>
+      </div>
     </div>
   ),
 };

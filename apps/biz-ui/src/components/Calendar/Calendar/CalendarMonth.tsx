@@ -28,6 +28,7 @@ const CalendarMonth = ({
   useRange,
   weekStartDay,
   onDateClick,
+  onDisabledDateClick,
 }: CalendarMonthProps) => {
   const weeks = generateCalendarMonthWeeks({ year, month, weekStartDay });
 
@@ -59,6 +60,12 @@ const CalendarMonth = ({
                   disabled={disabledSet.has(cell.dateString)}
                   isHoliday={cell.isWeekend || holidaySet.has(cell.dateString)}
                   key={cell.dateString}
+                  onDisabledClick={
+                    onDisabledDateClick
+                      ? () =>
+                          onDisabledDateClick({ dateString: cell.dateString })
+                      : undefined
+                  }
                   onClick={() => onDateClick?.({ dateString: cell.dateString })}
                 />
               ) : (

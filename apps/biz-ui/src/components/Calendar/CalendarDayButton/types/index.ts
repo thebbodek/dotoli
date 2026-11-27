@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
 
 import {
   CALENDAR_DAY_BUTTON_STATES,
@@ -20,6 +20,8 @@ export interface CalendarDayButtonProps
   date?: number;
   selectedType?: CalendarDaySelectedType;
   isHoliday?: boolean;
+  /** 넘기면 비활성 칸도 탭을 받는다. 네이티브 `disabled` 대신 `aria-disabled` 로 그린다 */
+  onDisabledClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export interface ResolveCalendarDayButtonStateProps
