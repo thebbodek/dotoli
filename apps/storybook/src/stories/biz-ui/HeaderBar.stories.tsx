@@ -83,6 +83,10 @@ const meta = {
       },
     },
     isTitleExpanded: { control: 'boolean' },
+    isTitleLoading: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
     hasUnreadNotification: {
       control: 'boolean',
       table: { defaultValue: { summary: 'false' } },
@@ -225,6 +229,34 @@ export const Progress: Story = {
             title={NAVIGATION_TITLE}
             type={HEADER_BAR_TYPES.NAVIGATION}
           />
+        </Flex>
+      ))}
+    </Flex>
+  ),
+};
+
+// type=home 에만 쓴다. 막대 자리에는 제목 · 화살표가 없어 눌러도 아무 일이 없다
+export const TitleLoading: Story = {
+  parameters: { controls: { disable: true } },
+  render: (args) => (
+    <Flex className={DOCUMENT_FRAME_WIDTH} direction='column' gap='24'>
+      {Object.values(HEADER_BAR_THEMES).map((theme) => (
+        <Flex direction='column' gap='8' key={theme}>
+          <Typography color='gray-500' variant='label-bold'>
+            isTitleLoading · theme = {theme}
+          </Typography>
+          <Flex
+            className={
+              theme === HEADER_BAR_THEMES.DARK ? DARK_THEME_BACKDROP : undefined
+            }
+          >
+            <HeaderBar
+              {...args}
+              theme={theme}
+              type={HEADER_BAR_TYPES.HOME}
+              isTitleLoading
+            />
+          </Flex>
         </Flex>
       ))}
     </Flex>

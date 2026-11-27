@@ -312,6 +312,12 @@ DOTOLI-238 다음은 오버레이 계열입니다. 껍데기는 DOTOLI-239가 �
 
 biz-customer-app 주문 메인 신규 시안(Claude Design 캔버스 Q1~Q5)을 Figma로 옮기면서 DS Figma(`IGi6n6Cz0bB54WWlhivIOH`)를 코드와 맞춰 고쳤고(11/25~26 publish), 그 변경을 코드에 반영합니다(11/26 발행, 에픽 DOTOLI-212 · Sprint 13). 357은 355 · 356 뒤에 갑니다. 기존 시안(①)은 대상이 아니고 신규 시안만 맞춥니다. 범위는 아래 「태스크 상세」에 있습니다.
 
+### biz-ui 로딩 스켈레톤 시안 반영
+
+- [x] DOTOLI-361 biz-ui > HeaderBar 제목 로딩 표시 추가
+
+소비 앱 주문 메인 첫 로딩 시안 SK1(`1XFNe18voQAN71SyqCl4qV` `619:35`)이 헤더 업체명 자리를 스켈레톤 막대로 그리면서 나온 작업입니다(11/27 발행, 에픽 DOTOLI-212 · Sprint 13). 소비 앱 쪽은 BP-270입니다.
+
 ---
 
 ## 태스크 상세
@@ -433,6 +439,7 @@ DOTOLI-318에서 `InfoBanner`가 이 컴포넌트의 결정에 맞춰 첫 줄 �
 | DOTOLI-358 | DS Figma `Tab`(`1371:68`) · `TabItem`(`1371:55`) 신설에 맞춰 라벨을 `body-semibold` / `body-bold`(16)에서 `label-semibold` / `label-bold`(14)로. 높이 48 · 밑줄 그대로. API 그대로인 시각 변경, 소비 앱 사용처 0건 | [components/tab.md](./components/tab.md) |
 | DOTOLI-359 | DS Figma `actions=stacked`(`1379:827` · `1379:838`) 반영. `isStacked`(boolean)로 버튼을 세로로 쌓음 (위 `subAction` · 아래 `action`, 둘 다 `w-full`, 간격 8). 세로일 때 `subAction` 기본은 gray outlined(`STACKED_SUB_ACTION`), 아이콘은 `iconOption`으로. 방향 클래스를 `BOTTOM_ACTION_BAR_LAYOUT_STYLES`로 빼서 `BOTTOM_ACTION_BAR_BASE_STYLE` 값이 바뀜(외부 사용처 0건). optional이라 비파괴 | [components/bottom-action-bar.md](./components/bottom-action-bar.md) |
 | DOTOLI-345 | `Calendar` · `StickyCalendar` · `CalendarBottomSheet`에 `weekStartDay`(`sunday` 기본 · `monday`) 추가. 격자는 앞 빈 칸 수만 바뀌고 주말 판정은 그대로 `day()` 기준, 머리글은 `STICKY_CALENDAR_WEEKDAYS`를 돌려 색이 요일을 따라감. 시트는 최상위 prop 하나를 양쪽에 내리고 `calendarOption`에서는 `Omit`. `DateBottomSheet`는 머리글 · 격자가 없어 제외. DS Figma에 시작 요일 축 없음(코드 전용 옵션). 빈 날짜 칸 `aria-hidden`도 함께 맞춤. 기본값이 기존 동작이라 소비 앱 영향 없음 | [components/calendar.md](./components/calendar.md) · [CLAUDE.md](../../apps/biz-ui/CLAUDE.md) |
+| DOTOLI-361 | DS Figma `HeaderBar` 세트에 `isTitleLoading` 축과 `type=home` 로딩 심볼 2개(`1415:814` light · `1415:825` dark)를 추가하고 코드에 `isTitleLoading`을 넣음. 켜면 제목 · 화살표 · 버튼 없이 `body-bold` 한 줄 높이에 막대(114×16 · `gray-200` · `rounded-6` · pulse)만 그림. optional이라 비파괴 | [components/header-bar.md](./components/header-bar.md) |
 
 계획 단계에서만 의미가 있던 것(사전 점검 표 · 생성 파일 목록 · API 초안)은 실물 코드가 대신하므로 남기지 않았습니다.
 

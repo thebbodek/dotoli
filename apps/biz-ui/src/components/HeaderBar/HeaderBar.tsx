@@ -30,6 +30,7 @@ const HeaderBar = ({
   type = HEADER_BAR_TYPES.HOME,
   theme = HEADER_BAR_THEMES.LIGHT,
   isTitleExpanded,
+  isTitleLoading = false,
   hasUnreadNotification = false,
   notificationHref,
   progressOption,
@@ -63,6 +64,7 @@ const HeaderBar = ({
         {isHome ? (
           <HeaderBarHomeTitle
             isTitleExpanded={isTitleExpanded}
+            isTitleLoading={isTitleLoading}
             theme={theme}
             title={title}
             titleAs={titleAs}

@@ -23,8 +23,9 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | `type`        | `home` · `navigation` · `bottomSheet`   | Figma 축 |
 | `theme`       | `light` · `dark`                        | Figma 축 |
 | `useProgress` | `false` · `true`                        | Figma 축 |
+| `isTitleLoading` | `false` · `true`                     | Figma 축 (DOTOLI-361) |
 
-**축은 3개지만 심볼은 5개뿐입니다.** 조합 12개 중 정의된 것만 있습니다.
+**축은 4개지만 심볼은 7개뿐입니다.** 정의된 조합만 있습니다. 아래 표에 없는 심볼은 전부 `isTitleLoading=false`입니다.
 
 | 심볼      | `type`        | `theme` | `useProgress` |
 | --------- | ------------- | ------- | ------------- |
@@ -33,8 +34,10 @@ Figma: [HeaderBar 섹션](https://www.figma.com/design/IGi6n6Cz0bB54WWlhivIOH/-D
 | `108:471` | `navigation`  | `light` | `false`       |
 | `108:474` | `navigation`  | `light` | `true`        |
 | `146:638` | `bottomSheet` | `light` | `false`       |
+| `1415:814` | `home` (`isTitleLoading=true`) | `light` | `false` |
+| `1415:825` | `home` (`isTitleLoading=true`) | `dark`  | `false` |
 
-즉 **`dark`는 `home`에만, 진행 바는 `navigation`에만** 정의돼 있습니다.
+즉 **`dark`는 `home`에만, 진행 바는 `navigation`에만, 제목 로딩은 `home`에만** 정의돼 있습니다.
 
 ## 실측 스펙
 
@@ -204,9 +207,14 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 
 **단일 화면이거나 단계 구분이 없으면 넣지 않습니다** (`progressOption` 미전달).
 
+- **제목 로딩은 `isTitleLoading` 하나로 켭니다** (DOTOLI-361). 소비 앱이 업체 목록을 받기 전에는 제목을 모르는데, `title`이 `string`이라 막대를 넣을 방법이 없었습니다. 켜면 `HeaderBarHomeTitle`이 제목 · 화살표 · 버튼을 그리지 않고 막대만 그려서 **눌러도 업체 선택이 열리지 않습니다.** 막대는 `body-bold` 한 줄 높이(`h-[1lh]`, 23.2) 안에서 가운데라 로딩이 끝나도 헤더 안 자리가 그대로입니다. 심볼(`1415:814`) 실측은 114 × 16 · radius 6 · `gray/200` · x 20 · 세로 가운데 27이고, Storybook 계산값이 같습니다.
+- **로딩 중 `title`은 무시됩니다.** `title`이 필수라 소비 앱은 모르는 동안 빈 문자열을 넘기면 됩니다. `type=home`이 아니면 `isTitleLoading`은 아무 일도 하지 않습니다 — 로딩 심볼이 `home`에만 있습니다.
+- **로딩 중에는 `titleAs`를 쓰지 않습니다.** 막대는 `aria-hidden` 장식이라 `h1`으로 감싸면 빈 제목 태그가 남습니다. 로딩 안내(`aria-busy` · live region)는 화면을 바꾸는 소비 앱이 맡습니다.
+- **막대에 pulse 모션을 겁니다 — CLAUDE.md 「폼 컨트롤 공통」 7의 예외입니다** (DOTOLI-361, 11/27 사용자 결정). Figma에 모션 정의가 없지만, 같은 화면의 본문 스켈레톤(소비 앱 `core/components/Skeleton`)이 전부 `animate-pulse`라 헤더 막대만 멈춰 있으면 로딩 화면이 어긋납니다. 막대가 DS 내부 `span`이라 소비 앱이 `className`으로 모션을 걸 수 없어서 DS가 맡았습니다 — DOTOLI-321 `transition-colors`와 같은 이유입니다. `motion-reduce:animate-none`을 함께 걸고 아래 「디자인 확인 필요」에 올렸습니다.
+
 ## 디자인 확인 필요
 
-실측 중 발견한 Figma 자체의 불일치와 미정의 항목입니다. 전부 **Figma 값 그대로** 옮겼고 임의로 보정하지 않았습니다.
+실측 중 발견한 Figma 자체의 불일치와 미정의 항목입니다. **Figma 값 그대로** 옮기는 게 원칙이고, 예외로 DS가 정한 값(테마 전환 모션 · 제목 로딩 pulse · 히트 영역)은 각 행에 근거를 적었습니다.
 
 | 항목                    | 내용                                                                                                                     |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -221,4 +229,5 @@ Figma 주석에 적힌 것을 그대로 옮깁니다. **구현이 아니라 소�
 | 포커스 링 미정의         | 포커스 가능한 요소 3종(뒤로 · 닫기 버튼, **알림 링크**) 전부 포커스 시각이 없습니다 (CLAUDE.md 「폼 컨트롤 공통」 7과 같은 상황) |
 | safe-area 미정의         | 화면 최상단에 붙는 컴포넌트인데 노치 여백 처리가 심볼에 없습니다. `safe-area-top`을 넣지 않았고, 필요하면 소비 앱이 `className`으로 겁니다 |
 | 타이틀 버튼 히트 영역     | 23.2px로 WCAG 2.5.8 미달이라 주석 없이 DS가 4px을 얹었습니다 (위 「구현 결정」)                                            |
+| 제목 로딩 막대 폭 · 모션 | 막대 폭이 114 고정입니다(시안 업체명 폭). pulse는 Figma 정의 없이 소비 앱 스켈레톤에 맞췄습니다 (DOTOLI-361) |
 | 진행 바 3px의 위치       | Figma는 y=54 · height 0인 LINE이라 stroke가 경계에 **걸칩니다**(52.5~55.5). 헤더를 54px로 유지하려면 안쪽·바깥 중 하나여야 해서 **안쪽(51~54)**으로 넣었습니다 — 바깥은 소비 앱 본문 첫 3px과 겹칩니다. 주석 없이 DS가 정한 값입니다 |

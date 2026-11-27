@@ -77,6 +77,12 @@ export const HEADER_BAR_CARET_STYLE = clsx(
 
 export const HEADER_BAR_TITLE_POPUP_ROLE = 'dialog';
 
+export const HEADER_BAR_TITLE_LOADING_STYLE =
+  'flex-h-stack h-[1lh] items-center';
+
+export const HEADER_BAR_TITLE_SKELETON_STYLE =
+  'block h-[16px] w-[114px] animate-pulse rounded-6 bg-gray-200 motion-reduce:animate-none';
+
 export const HEADER_BAR_NOTIFICATION_ICON_KEY = 'bell';
 
 export const HEADER_BAR_NOTIFICATION_ICON_WEIGHT = ICON_WEIGHTS.REGULAR;

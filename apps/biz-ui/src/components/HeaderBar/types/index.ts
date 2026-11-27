@@ -40,6 +40,7 @@ export interface HeaderBarProps
   type?: HeaderBarType;
   theme?: HeaderBarTheme;
   isTitleExpanded?: boolean;
+  isTitleLoading?: boolean;
   hasUnreadNotification?: boolean;
   notificationHref?: LinkProps['href'];
   progressOption?: HeaderBarProgressOption;
@@ -49,7 +50,10 @@ export interface HeaderBarProps
 }
 
 export interface HeaderBarHomeTitleProps
-  extends Pick<HeaderBarProps, 'title' | 'isTitleExpanded' | 'onTitleClick'>,
+  extends Pick<
+      HeaderBarProps,
+      'title' | 'isTitleExpanded' | 'isTitleLoading' | 'onTitleClick'
+    >,
     Required<Pick<HeaderBarProps, 'theme' | 'titleAs'>> {}
 
 export interface HeaderBarNotificationLinkProps

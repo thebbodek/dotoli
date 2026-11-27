@@ -8,7 +8,9 @@ import {
   HEADER_BAR_HOME_TITLE_WRAPPER_STYLE,
   HEADER_BAR_THEME_STYLES,
   HEADER_BAR_THEMED_TITLE_STYLE,
+  HEADER_BAR_TITLE_LOADING_STYLE,
   HEADER_BAR_TITLE_POPUP_ROLE,
+  HEADER_BAR_TITLE_SKELETON_STYLE,
   HEADER_BAR_TITLE_STYLE,
 } from '@/components/HeaderBar/constants';
 import { HeaderBarHomeTitleProps } from '@/components/HeaderBar/types';
@@ -21,9 +23,22 @@ const HeaderBarHomeTitle = ({
   titleAs,
   theme,
   isTitleExpanded,
+  isTitleLoading,
   onTitleClick,
 }: HeaderBarHomeTitleProps) => {
   const { TITLE, CARET } = HEADER_BAR_THEME_STYLES[theme];
+
+  // 빈 제목 태그가 남지 않게 titleAs 를 쓰지 않는다 (docs/biz-ui/components/header-bar.md)
+  if (isTitleLoading) {
+    return (
+      <Typography
+        className={HEADER_BAR_TITLE_LOADING_STYLE}
+        variant={TYPOGRAPHY_VARIANTS.BODY_BOLD}
+      >
+        <span className={HEADER_BAR_TITLE_SKELETON_STYLE} aria-hidden />
+      </Typography>
+    );
+  }
 
   if (!onTitleClick) {
     return (
