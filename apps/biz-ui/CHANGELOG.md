@@ -1,5 +1,11 @@
 # @bbodek/biz-ui
 
+## 0.0.78
+
+### Patch Changes
+
+- 58b8579: DOTOLI-360 biz-ui > CalendarDayButton 비활성 날짜 클릭 콜백 추가
+
 ## 0.0.77
 
 ### Patch Changes
